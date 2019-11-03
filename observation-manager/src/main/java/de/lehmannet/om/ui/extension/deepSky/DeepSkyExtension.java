@@ -1,0 +1,329 @@
+package de.lehmannet.om.ui.extension.deepSky;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.swing.JMenu;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+
+import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
+import de.lehmannet.om.extension.deepSky.DeepSkyFindingDS;
+import de.lehmannet.om.extension.deepSky.DeepSkyFindingOC;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetAS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetCG;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetDN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetDS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGC;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGX;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetMS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetNA;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetOC;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetPN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
+import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.extension.PopupMenuExtension;
+import de.lehmannet.om.ui.extension.deepSky.catalog.CaldwellCatalog;
+import de.lehmannet.om.ui.extension.deepSky.catalog.DeepSkyTableModel;
+import de.lehmannet.om.ui.extension.deepSky.catalog.ICCatalog;
+import de.lehmannet.om.ui.extension.deepSky.catalog.MessierCatalog;
+import de.lehmannet.om.ui.extension.deepSky.catalog.NGCCatalog;
+import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.util.SchemaElementConstants;
+
+public class DeepSkyExtension implements IExtension {
+
+	private static final String NAME = "DeepSky";
+	private static final float VERSION = 0.91f;
+	private static URL UPDATE_URL = null;
+	static {
+		try {
+			DeepSkyExtension.UPDATE_URL = new URL("http://observation.sourceforge.net/extension/deepSky/update");
+		} catch( MalformedURLException m_url ) {
+			// Do nothing
+		}
+	}
+	
+	protected HashMap findingPanels = new HashMap();
+	protected HashMap targetPanels = new HashMap();
+	protected HashMap targetDialogs = new HashMap();
+	
+	protected String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
+	
+	private PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
+	
+	public DeepSkyExtension() {
+				
+		//super.OAL_EXTENSION_FILE = "./extensions/ext_DeepSky.xsd";
+		
+		this.initFindingPanels();
+		this.initTargetPanels();
+		this.initTargetDialogs();
+		
+	}
+	
+	public String getName() {
+		
+		return DeepSkyExtension.NAME;
+		
+	}
+	
+	public float getVersion() {
+		
+		return DeepSkyExtension.VERSION;
+		
+	}
+	
+	public URL getUpdateInformationURL() {
+		
+		return DeepSkyExtension.UPDATE_URL;
+		
+	}
+	
+	public void reloadLanguage() {
+		
+		this.bundle = (PropertyResourceBundle)ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
+		DeepSkyTableModel.reloadLanguage();
+		
+	}
+	
+	public JMenu getMenu() {
+		
+		// No menu for DeepSky
+		return null;
+		
+	}
+	
+	public ICatalog[] getCatalogs(File catalogDir) {
+		
+		IListableCatalog messier = new MessierCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/messier"));
+		IListableCatalog ngc = new NGCCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/NGC2009"));
+		IListableCatalog ic = new ICCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/IC2009"));
+		// @since 0.81: Replaced with NGC/IC2009 by Wolfgang Steinicke
+		// IListableCatalog hcngc = new HCNGCCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/HCNGC"));	
+		IListableCatalog caldwell = new CaldwellCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/caldwell"));
+	
+		return new ICatalog[] {messier, ngc, ic, caldwell};
+		
+	}
+
+	public PreferencesPanel getPreferencesPanel() {
+		
+		// No preferences from DeepSky
+		return null;
+		
+	}
+	
+	public Set getSupportedXSITypes(int schemaElementConstant) {
+		
+		Set result = null;
+		if( SchemaElementConstants.TARGET == schemaElementConstant ) {			
+			result = this.getSupportedTargetXSITypes();
+		} else if( SchemaElementConstants.FINDING == schemaElementConstant ) {
+			result = this.getSupportedFindingXSITypes();
+		}
+		
+		return result;
+		
+	}
+	
+	private Set getSupportedTargetXSITypes() {
+		
+		HashSet result = new HashSet();
+		result.add(DeepSkyTargetDN.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetDS.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetGC.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetGN.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetGX.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetOC.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetPN.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetQS.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetNA.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetAS.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetSC.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetMS.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyTargetCG.XML_XSI_TYPE_VALUE);
+		
+		return result;
+		
+	}
+	
+	private Set getSupportedFindingXSITypes() {
+		
+		HashSet result = new HashSet();
+		result.add(DeepSkyFinding.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyFindingOC.XML_XSI_TYPE_VALUE);
+		result.add(DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
+		
+		return result;
+		
+	}
+	
+	public String getDisplayNameForXSIType(String xsiType) {
+				
+		try {
+			return this.bundle.getString(xsiType);	
+		} catch( MissingResourceException mre ) {	// XSIType not found
+			return null;
+		}
+				
+	}
+	
+	public boolean isCreationAllowed(String xsiType) {
+		
+		// All elements are allowed for creation of new instances 
+		return true;
+		
+	}
+
+	private void initFindingPanels() {
+		
+		this.findingPanels.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
+		this.findingPanels.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel");
+		this.findingPanels.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel");
+		this.findingPanels.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
+		this.findingPanels.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyFinding.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+		this.findingPanels.put(DeepSkyFindingOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel");
+		this.findingPanels.put(DeepSkyFindingDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel");			
+		
+	}
+	
+	private void initTargetPanels() {
+		
+
+		this.targetPanels.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDNPanel");
+		this.targetPanels.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDSPanel");
+		this.targetPanels.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGCPanel");
+		this.targetPanels.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGNPanel");
+		this.targetPanels.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGXPanel");
+		this.targetPanels.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetOCPanel");
+		this.targetPanels.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetPNPanel");
+		this.targetPanels.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetQSPanel");
+		this.targetPanels.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetNAPanel");
+		this.targetPanels.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetASPanel");
+		this.targetPanels.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetSCPanel");
+		this.targetPanels.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetMSPanel");
+		this.targetPanels.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetCGPanel");
+		
+	}
+	
+	private void initTargetDialogs() {
+		
+		this.targetDialogs.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetDNDialog");
+		this.targetDialogs.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetDSDialog");
+		this.targetDialogs.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGCDialog");
+		this.targetDialogs.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGNDialog");
+		this.targetDialogs.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGXDialog");
+		this.targetDialogs.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetOCDialog");
+		this.targetDialogs.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetPNDialog");
+		this.targetDialogs.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetQSDialog");
+		this.targetDialogs.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetNADialog");
+		this.targetDialogs.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetASDialog");
+		this.targetDialogs.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetSCDialog");
+		this.targetDialogs.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetMSDialog");
+		this.targetDialogs.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetCGDialog");
+		
+	}
+
+	public Set getAllSupportedXSITypes() {
+		
+		// Return all XSI types which are supported by this extension
+		HashSet result = new HashSet();
+		result.addAll(this.getSupportedFindingXSITypes());
+		result.addAll(this.getSupportedTargetXSITypes());
+		
+		return result;
+		
+	}
+	
+	public String getPanelForXSIType(String xsiType, int schemaElementConstants) {
+		
+		if( SchemaElementConstants.FINDING == schemaElementConstants ) {
+			return (String)this.findingPanels.get(xsiType);			
+		} else if( SchemaElementConstants.TARGET == schemaElementConstants ) {
+			return (String)this.targetPanels.get(xsiType);
+		}
+		
+		return null;
+		
+	}
+	
+	public String getDialogForXSIType(String xsiType, int schemaElementConstants) {
+		
+		if( SchemaElementConstants.TARGET == schemaElementConstants ) {
+			return (String)this.targetDialogs.get(xsiType);		
+		}
+		
+		return null;
+		
+	}
+
+	public boolean equals(Object o) {
+		
+		if( o instanceof IExtension ) {
+			IExtension ext = (IExtension)o;
+			if( ext.getName().equals(this.getName()) ) {
+				if( ext.getVersion() == this.getVersion() ) {
+					return true;
+				}				
+			}
+		} 
+		
+		return false;
+		
+	}
+
+	public boolean addOALExtensionElement(Element docElement) {
+			
+		// Check if include is already in place
+		NodeList list = docElement.getElementsByTagName("xsd:include");
+		NamedNodeMap attributes = null;
+		for(int i=0; i < list.getLength(); i++) {
+			attributes = list.item(i).getAttributes();
+			if( this.OAL_EXTENSION_FILE.equals(attributes.getNamedItem("schemaLocation").getNodeValue()) ) {
+				return true;
+			}
+		}
+		
+		Document doc = docElement.getOwnerDocument();
+		
+		Element e = doc.createElement("xsd:include");
+		e.setAttribute("schemaLocation", this.OAL_EXTENSION_FILE);
+		
+		docElement.appendChild(e);
+		
+		return true;
+		
+	}
+	
+	public PopupMenuExtension getPopupMenu() { 
+	
+		return null;
+		
+	}
+	
+}
