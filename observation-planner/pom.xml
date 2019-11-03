@@ -7,11 +7,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>observation-planner</name>
 	<description>observation-planner</description>
+	<properties>
+		<observation.planner.api.version>0.0.1-SNAPSHOT</observation.planner.api.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>de.lehmannet.com</groupId>
 			<artifactId>observation-planner-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${observation.planner.api.version}</version>
 		</dependency>
 	</dependencies>
 </project>
