@@ -1,6 +1,6 @@
 /* ====================================================================
  * /EquPositionReferenceFrame.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
  * values are valid.<br>
  * This class should be used by all instances of de.lehmannet.om.IPosition to
  * describe in which position reference frame their position values are valid.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -64,7 +64,7 @@ public class EquPositionReferenceFrame {
     // -------------------------------------------------------------------
     /**
      * Creates an instance of an EquPositionReferenceFrame.<br>
-     * 
+     *
      * @param origin  The origin of the position reference frame. All valid values
      *                can be accessed by this classes constants.
      * @param equinox A equinox date. Should be formed like e.g.
@@ -99,7 +99,7 @@ public class EquPositionReferenceFrame {
      * <code>
      * Topocentric J2000.0
      * </code>
-     * 
+     *
      * @return A string representing the position reference frame
      * @see java.lang.Object
      */
@@ -123,7 +123,7 @@ public class EquPositionReferenceFrame {
      * given object is equal with this EquPositionReferenceFrame, if its an instance
      * from class EquPositionReferenceFrame and its equinox date and the position
      * origin are equal with this instances values.
-     * 
+     *
      * @param obj The Object to compare this EquPositionReferenceFrame with.
      * @return <code>true</code> if the given Object is an instance of
      *         EquPositionReferenceFrame and its equinox date and origin are equal
@@ -148,6 +148,18 @@ public class EquPositionReferenceFrame {
 
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((equinox == null) ? 0 : equinox.hashCode());
+        result = prime * result + ((origin == null) ? 0 : origin.hashCode());
+        return result;
+    }
+
+
+
+
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
@@ -157,7 +169,7 @@ public class EquPositionReferenceFrame {
      * Adds this EquPositionReferenceFrame to an given parent XML DOM Element. The
      * EquPositionReferenceFrame Element will be set as a child element of the
      * passed Element.
-     * 
+     *
      * @param parent The parent element for this EquPositionReferenceFrame
      * @return Returns the Element given as parameter with this
      *         EquPositionReferenceFrame as child Element.<br>
@@ -188,10 +200,12 @@ public class EquPositionReferenceFrame {
 
     }
 
+
+
     // -------------------------------------------------------------------
     /**
      * Returns the equinox date of this position reference frame.
-     * 
+     *
      * @return The equinox date of this position reference frame
      */
     public String getEquinox() {
@@ -203,7 +217,7 @@ public class EquPositionReferenceFrame {
     // -------------------------------------------------------------------
     /**
      * Returns the origin of this position reference frame.
-     * 
+     *
      * @return The origin of this position reference frame
      */
     public String getOrigin() {
@@ -216,7 +230,7 @@ public class EquPositionReferenceFrame {
     /**
      * Sets the equinox date of this position reference frame.<br>
      * String should be formed like <code>J2000.0</code>
-     * 
+     *
      * @param equinox The equinox date to set
      * @throws IllegalArgumentException if equinox was <code>null</code>
      */
@@ -234,7 +248,7 @@ public class EquPositionReferenceFrame {
     /**
      * Sets the origin of this position reference frame.<br>
      * All valid origin values can be accessed by this classes constants.
-     * 
+     *
      * @param origin The new origin of this position reference frame
      * @throws IllegalArgumentException if origin was <code>null</code> or did not
      *                                  have valid value.

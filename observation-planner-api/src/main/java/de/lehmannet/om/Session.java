@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Session.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -30,7 +30,7 @@ import de.lehmannet.om.util.SchemaException;
  * place. Therefore an Session requires two mandatory fields: a start date and
  * an end date. All observations of the session should have a start date that is
  * inbetween the sessions start and end date.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -83,7 +83,7 @@ public class Session extends SchemaElement implements ISession {
      * of IObservers to check whether the <coObserver> elements link to existing
      * <Obsever>s. If a Session Node has no <coObserver> elements, the second
      * parameter can be <code>null</code>
-     * 
+     *
      * @param session   the XML Schema Node that represents this Session object
      * @param observers Needed if the Session Node has <coObserver> elements.
      * @throws IllegalArgumentException if parameter session is <code>null</code> or
@@ -103,10 +103,6 @@ public class Session extends SchemaElement implements ISession {
         // Cast to element as we need some methods from it
         Element sessionElement = (Element) session;
 
-        // Helper classes
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
         // First mandatory stuff and down below optional data
 
@@ -117,185 +113,29 @@ public class Session extends SchemaElement implements ISession {
         }
         super.setID(ID);
 
-        // Get mandatory begin date
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_BEGIN);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Session must have exact one begin date. ");
-        }
-        child = (Element) children.item(0);
-        Calendar begin = null;
-        if (child == null) {
-            throw new SchemaException("Session must have begin date. ");
-        } else {
-            String ISO8601Begin = null;
-            if (child.getFirstChild() != null) {
-                ISO8601Begin = child.getFirstChild().getNodeValue();
-            } else {
-                throw new SchemaException("Session cannot have an empty begin date. ");
-            }
-            try {
-                begin = DateConverter.toDate(ISO8601Begin);
-                this.setBegin(begin);
-            } catch (NumberFormatException nfe) {
-                throw new SchemaException("Begin date is malformed. ", nfe);
-            }
-        }
+        getBeginDate(sessionElement);
 
-        // Get mandatory end date
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_END);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Session must have exact one end date. ");
-        }
-        child = (Element) children.item(0);
-        Calendar end = null;
-        if (child == null) {
-            throw new SchemaException("Session must have end date. ");
-        } else {
-            String ISO8601End = child.getFirstChild().getNodeValue();
-            try {
-                end = DateConverter.toDate(ISO8601End);
-                this.setEnd(end);
-            } catch (NumberFormatException nfe) {
-                throw new SchemaException("End date is malformed. ", nfe);
-            }
-        }
+        getEndDate(sessionElement);
 
-        // Get mandatory site
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_SITE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Session must have exact one site. ");
-        }
-        child = (Element) children.item(0);
-        if (child == null) {
-            throw new SchemaException("Session must have a site. ");
-        } else {
-            String siteID = child.getFirstChild().getNodeValue();
-            if ((sites != null) || (sites.length > 0)) {
-                boolean found = false;
-                for (int j = 0; j < sites.length; j++) {
-                    if (sites[j].getID().equals(siteID)) {
-                        found = true;
-                        this.setSite(sites[j]);
-                        break;
-                    }
-                }
-                if (found == false) {
-                    throw new SchemaException("Sessions site links to not existing observer element. ");
-                }
-            } else {
-                throw new IllegalArgumentException("Parameter ISite array is NULL or empty. ");
-            }
-        }
+        getSite(sites, sessionElement);
 
-        // Get optional coObserver link
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_COOBSERVER);
-        if (children != null) {
-            for (int x = 0; x < children.getLength(); x++) {
-                child = (Element) children.item(x);
-                if (child != null) {
-                    String coObserverID = child.getFirstChild().getNodeValue();
-                    if ((observers != null) || (observers.length > 0)) {
-                        boolean found = false;
-                        for (int j = 0; j < observers.length; j++) {
-                            if (observers[j].getID().equals(coObserverID)) {
-                                found = true;
-                                this.addCoObserver(observers[j]);
-                                break;
-                            }
-                        }
-                        if (found == false) {
-                            throw new SchemaException("Sessions coobserver links to not existing observer element. ");
-                        }
-                    } else {
-                        throw new IllegalArgumentException("Parameter IObserver array is NULL or empty. ");
-                    }
-                } else {
-                    throw new SchemaException("Problem retrieving coObserver from session. ");
-                }
-            }
-        }
+        getObserverLink(observers, sessionElement);
 
-        // Get optional weather
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_WEATHER);
-        String weather = "";
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            weather = weather + textElements.item(te).getNodeValue();
-                        }
-                        // weather = child.getFirstChild().getNodeValue();
-                        this.setWeather(weather);
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving weather from session. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Session can have only one weather entry. ");
-            }
-        }
+        getWeather(sessionElement);
 
-        // Get optional equipment
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_EQUIPMENT);
-        String equipment = "";
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            equipment = equipment + textElements.item(te).getNodeValue();
-                        }
-                        // equipment = child.getFirstChild().getNodeValue();
-                        this.setEquipment(equipment);
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving equipment from session. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Session can have only one equipment entry. ");
-            }
-        }
+        getEquipment(sessionElement);
 
-        // Get optional comments
-        child = null;
-        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_COMMENTS);
-        String comments = "";
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    // comments = child.getFirstChild().getNodeValue();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            comments = comments + textElements.item(te).getNodeValue();
-                        }
-                        this.setComments(comments);
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving comment from session. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Session can have only one comment entry. ");
-            }
-        }
+        getComments(sessionElement);
 
-        // Get optional language
-        String language = sessionElement.getAttribute(ISession.XML_ELEMENT_ATTRIBUTE_LANGUAGE);
-        if ((language != null) && !("".equals(language.trim()))) {
-            this.setLanguage(language);
-        }
+        getLanguage(sessionElement);
 
+        getImages(sessionElement);
+
+    }
+
+    private void getImages(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
         // Get optional images
         child = null;
         children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_IMAGE);
@@ -322,13 +162,221 @@ public class Session extends SchemaElement implements ISession {
                 }
             }
         }
+    }
 
+    private void getLanguage(Element sessionElement) {
+        // Get optional language
+        String language = sessionElement.getAttribute(ISession.XML_ELEMENT_ATTRIBUTE_LANGUAGE);
+        if ((language != null) && !("".equals(language.trim()))) {
+            this.setLanguage(language);
+        }
+    }
+
+    private void getComments(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get optional comments
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_COMMENTS);
+        String comments = "";
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
+                if (child != null) {
+                    // comments = child.getFirstChild().getNodeValue();
+                    NodeList textElements = child.getChildNodes();
+                    if ((textElements != null) && (textElements.getLength() > 0)) {
+                        for (int te = 0; te < textElements.getLength(); te++) {
+                            comments = comments + textElements.item(te).getNodeValue();
+                        }
+                        this.setComments(comments);
+                    }
+                } else {
+                    throw new SchemaException("Problem while retrieving comment from session. ");
+                }
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("Session can have only one comment entry. ");
+            }
+        }
+    }
+
+    private void getEquipment(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get optional equipment
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_EQUIPMENT);
+        String equipment = "";
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
+                if (child != null) {
+                    NodeList textElements = child.getChildNodes();
+                    if ((textElements != null) && (textElements.getLength() > 0)) {
+                        for (int te = 0; te < textElements.getLength(); te++) {
+                            equipment = equipment + textElements.item(te).getNodeValue();
+                        }
+                        // equipment = child.getFirstChild().getNodeValue();
+                        this.setEquipment(equipment);
+                    }
+                } else {
+                    throw new SchemaException("Problem while retrieving equipment from session. ");
+                }
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("Session can have only one equipment entry. ");
+            }
+        }
+    }
+
+    private void getWeather(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get optional weather
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_WEATHER);
+        String weather = "";
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
+                if (child != null) {
+                    NodeList textElements = child.getChildNodes();
+                    if ((textElements != null) && (textElements.getLength() > 0)) {
+                        for (int te = 0; te < textElements.getLength(); te++) {
+                            weather = weather + textElements.item(te).getNodeValue();
+                        }
+                        // weather = child.getFirstChild().getNodeValue();
+                        this.setWeather(weather);
+                    }
+                } else {
+                    throw new SchemaException("Problem while retrieving weather from session. ");
+                }
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("Session can have only one weather entry. ");
+            }
+        }
+    }
+
+    private void getObserverLink(IObserver[] observers, Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get optional coObserver link
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_COOBSERVER);
+        if (children != null) {
+            for (int x = 0; x < children.getLength(); x++) {
+                child = (Element) children.item(x);
+                if (child != null) {
+                    String coObserverID = child.getFirstChild().getNodeValue();
+                    if (observers != null && observers.length > 0) {
+                        boolean found = false;
+                        for (int j = 0; j < observers.length; j++) {
+                            if (observers[j].getID().equals(coObserverID)) {
+                                found = true;
+                                this.addCoObserver(observers[j]);
+                                break;
+                            }
+                        }
+                        if (found == false) {
+                            throw new SchemaException("Sessions coobserver links to not existing observer element. ");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Parameter IObserver array is NULL or empty. ");
+                    }
+                } else {
+                    throw new SchemaException("Problem retrieving coObserver from session. ");
+                }
+            }
+        }
+    }
+
+    private void getSite(ISite[] sites, Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get mandatory site
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_SITE);
+        if ((children == null) || (children.getLength() != 1)) {
+            throw new SchemaException("Session must have exact one site. ");
+        }
+        child = (Element) children.item(0);
+        if (child == null) {
+            throw new SchemaException("Session must have a site. ");
+        } else {
+            String siteID = child.getFirstChild().getNodeValue();
+            if (sites != null && sites.length > 0) {
+                boolean found = false;
+                for (int j = 0; j < sites.length; j++) {
+                    if (sites[j].getID().equals(siteID)) {
+                        found = true;
+                        this.setSite(sites[j]);
+                        break;
+                    }
+                }
+                if (found == false) {
+                    throw new SchemaException("Sessions site links to not existing observer element. ");
+                }
+            } else {
+                throw new IllegalArgumentException("Parameter ISite array is NULL or empty. ");
+            }
+        }
+    }
+
+    private void getEndDate(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get mandatory end date
+        child = null;
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_END);
+        if ((children == null) || (children.getLength() != 1)) {
+            throw new SchemaException("Session must have exact one end date. ");
+        }
+        child = (Element) children.item(0);
+        Calendar end = null;
+        if (child == null) {
+            throw new SchemaException("Session must have end date. ");
+        } else {
+            String ISO8601End = child.getFirstChild().getNodeValue();
+            try {
+                end = DateConverter.toDate(ISO8601End);
+                this.setEnd(end);
+            } catch (NumberFormatException nfe) {
+                throw new SchemaException("End date is malformed. ", nfe);
+            }
+        }
+    }
+
+    private void getBeginDate(Element sessionElement) throws SchemaException {
+        Element child;
+        NodeList children;
+        // Get mandatory begin date
+        children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_BEGIN);
+        if ((children == null) || (children.getLength() != 1)) {
+            throw new SchemaException("Session must have exact one begin date. ");
+        }
+        child = (Element) children.item(0);
+        Calendar begin = null;
+        if (child == null) {
+            throw new SchemaException("Session must have begin date. ");
+        } else {
+            String ISO8601Begin = null;
+            if (child.getFirstChild() != null) {
+                ISO8601Begin = child.getFirstChild().getNodeValue();
+            } else {
+                throw new SchemaException("Session cannot have an empty begin date. ");
+            }
+            try {
+                begin = DateConverter.toDate(ISO8601Begin);
+                this.setBegin(begin);
+            } catch (NumberFormatException nfe) {
+                throw new SchemaException("Begin date is malformed. ", nfe);
+            }
+        }
     }
 
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a Session.
-     * 
+     *
      * @param begin The start date of the session
      * @param end   The end date of the session
      * @param end   The site of the session
@@ -355,7 +403,7 @@ public class Session extends SchemaElement implements ISession {
      * spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in
      * e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
@@ -381,7 +429,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this Session.
-     * 
+     *
      * @return This Sessions field values
      * @see java.lang.Object
      */
@@ -439,7 +487,7 @@ public class Session extends SchemaElement implements ISession {
      * Checks if this Session and the given Object are equal. The given object is
      * equal with this Session, if it derives from ISession and if its start and end
      * date equals this Sessions start and end date.<br>
-     * 
+     *
      * @param obj The Object to compare this Session with.
      * @return <code>true</code> if the given Object is an instance of ISession and
      *         its start and end date equals this Sessions start and end date.<br>
@@ -447,19 +495,19 @@ public class Session extends SchemaElement implements ISession {
      */
     /*
      * public boolean equals(Object obj) {
-     * 
+     *
      * if( obj == null || !(obj instanceof ISession) ) { return false; }
-     * 
+     *
      * ISession session = (ISession)obj;
-     * 
+     *
      * if( !begin.equals(session.getBegin()) ) { return false; }
-     * 
+     *
      * if( !end.equals(session.getEnd()) ) { return false; }
-     * 
+     *
      * if( !site.equals(session.getSite()) ) { return false; }
-     * 
+     *
      * return false;
-     * 
+     *
      * }
      */
 
@@ -471,7 +519,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Adds this Session to a given parent XML DOM Element. The Session element will
      * be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Session
      * @return Returns the element given as parameter with this Session as child
      *         element.<br>
@@ -593,7 +641,7 @@ public class Session extends SchemaElement implements ISession {
      * <b>&lt;/session&gt;</b><br>
      * <b>&lt;/sessionContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element               The element under which the the Session link is
      *                              created
      * @param addElementToContainer if <code>true</code> it's ensured that the
@@ -661,7 +709,7 @@ public class Session extends SchemaElement implements ISession {
      * <b>&lt;sessionLink&gt;123&lt;/sessionLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element The element under which the the session link is created
      * @return Returns the Element given as parameter with a additional session link
      *         Might return <code>null</code> if element was <code>null</code>.
@@ -676,7 +724,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns the start date of the session.<br>
-     * 
+     *
      * @return Returns the start date of the session
      */
     public Calendar getBegin() {
@@ -689,7 +737,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Returns a comment about this session.<br>
      * Might return <code>null</code> if no comment was set to this session.
-     * 
+     *
      * @return Returns a comment about this session or <code>null</code> if no
      *         comment was set at all.
      */
@@ -702,7 +750,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns the end date of the session.<br>
-     * 
+     *
      * @return Returns the end date of the session
      */
     public Calendar getEnd() {
@@ -714,7 +762,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns the site of the session.<br>
-     * 
+     *
      * @return Returns the site of the session
      */
     public ISite getSite() {
@@ -729,7 +777,7 @@ public class Session extends SchemaElement implements ISession {
      * Typically one should add non optical equipment here like "Radio and a warm
      * bottle of Tea."<br>
      * Might return <code>null</code> if no equipment was set to this session.
-     * 
+     *
      * @return Returns string describing some equipment which was used during the
      *         session or <code>null</code> if no additional equipment was used at
      *         all.
@@ -745,7 +793,7 @@ public class Session extends SchemaElement implements ISession {
      * Returns a describtion of the weather conditions during the session.<br>
      * Might return <code>null</code> if no weather conditions were added to this
      * session.
-     * 
+     *
      * @return Returns a describtion of the weather conditions during the session or
      *         <code>null</code> if no weather conditions were added at all.
      */
@@ -760,7 +808,7 @@ public class Session extends SchemaElement implements ISession {
      * Returns the language in which this session is described as ISO language
      * string. E.g. de=German, fr=French, ...<br>
      * Might return <code>null</code> if no language was set for this session.
-     * 
+     *
      * @return Returns a ISO language code that represents the sessions describtion
      *         language or <code>null</code> if no language was set at all.
      * @since 1.5
@@ -775,7 +823,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Returns a list of images (relativ path to images), taken at this session.
      * Might return <code>null</code> if images were set.
-     * 
+     *
      * @return List of images or <code>null</code> if no images were set.
      */
     public List getImages() {
@@ -791,7 +839,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets the start date of the session.<br>
-     * 
+     *
      * @param begin The new start date of the session.
      * @throws IllegalArgumentException if new start date is <code>null</code>
      */
@@ -809,7 +857,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Sets a comment to the session.<br>
      * The old comment will be overwritten.
-     * 
+     *
      * @param comments A new comment for the session
      */
     public void setComments(String comments) {
@@ -826,7 +874,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets the end date of the session.<br>
-     * 
+     *
      * @param end The new end date of the session.
      * @throws IllegalArgumentException if new end date is <code>null</code>
      */
@@ -846,7 +894,7 @@ public class Session extends SchemaElement implements ISession {
      * Typically non optical equipment will should be stored here, e.g. "Red LED
      * light and bottle of hot tea."<br>
      * The old equipment will be overwritten.
-     * 
+     *
      * @param equipment The new equipment of the session
      */
     public void setEquipment(String equipment) {
@@ -864,7 +912,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Sets a site (location) where the session took place.<br>
      * A session can only took place at one site.
-     * 
+     *
      * @param site The site where the session took place.
      * @throws IllegalArgumentException if site is <code>null</code>
      */
@@ -884,7 +932,7 @@ public class Session extends SchemaElement implements ISession {
      * The old List of coobservers will be overwritten. If you want to add one ore
      * more coobservers to the existing list use addCoObservers(java.util.List) or
      * addCoObserver(IObserver) instead.
-     * 
+     *
      * @param coObservers The new List of coobservers of the session
      * @return <b>true</b> if the list could be set successfully, <b>false</b> if
      *         the operation fails, because e.g. one of the lists elements does not
@@ -921,7 +969,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Adds a List of coobservers to this session.<br>
      * The old List of coobservers will be extended by the new List of coobservers.
-     * 
+     *
      * @param coObservers A List of coobservers which will be added to the existing
      *                    List of coobservers which is stored in the session
      * @return <b>true</b> if the list could be added to the existing list,
@@ -955,7 +1003,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Adds a single coobserver to this session.<br>
-     * 
+     *
      * @param coObserver A new coobserver who will be addded to the List of
      *                   coobservers
      * @return <b>true</b> if the new coobserver could be added, <b>false</b> if the
@@ -977,7 +1025,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Returns a List of coobservers who joined this session.<br>
      * Might return <code>null</code> if no coobservers were added to this session.
-     * 
+     *
      * @return Returns a List of coobserver or <code>null</code> if coobservers were
      *         never added.
      */
@@ -993,7 +1041,7 @@ public class Session extends SchemaElement implements ISession {
      * The weather conditions string should explain in some short sentences, how the
      * weather conditions were like during the session. E.g. "Small clouds at the
      * first hour but then totally clear and cool, at about 4\u00b0C."
-     * 
+     *
      * @param weather A string describing the weather conditions during the session
      */
     public void setWeather(String weather) {
@@ -1011,7 +1059,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Sets the language in which this session is described. String must be given as
      * ISO language string. E.g. de=German, fr=French, ...<br>
-     * 
+     *
      * @param language ISO language string
      * @since 1.5
      */
@@ -1035,7 +1083,7 @@ public class Session extends SchemaElement implements ISession {
      * If the new list of images was successfully added to the old images list, the
      * method will return <b>true</b>. If the list is empty or <code>null</code>,
      * the old result list will remain unchanged.
-     * 
+     *
      * @param images A list (containing Strings) with additional images (path) for
      *               this session
      * @return <b>true</b> if the given list was successfully added to this session
@@ -1069,7 +1117,7 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Adds a new image (path) to this session.<br>
-     * 
+     *
      * @param imagePath A new image for this session
      */
     public void addImage(String imagePath) {
@@ -1092,7 +1140,7 @@ public class Session extends SchemaElement implements ISession {
      * method will return <b>true</b>. If one of the elements in the list isn't a
      * java.lang.String object <b>false</b> is returned.<br>
      * If the new list is <code>null</code>, an IllegalArgumentException is thrown.
-     * 
+     *
      * @param imagesList The new (String) list of images for this session
      * @return <b>true</b> if the given list was successfully set to this session.
      *         <b>false</b> if one of the lists elements wasn't a String

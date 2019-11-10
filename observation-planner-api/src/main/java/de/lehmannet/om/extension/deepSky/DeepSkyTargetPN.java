@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetPN.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -19,7 +19,7 @@ import de.lehmannet.om.util.SchemaException;
  * DeepSkyTargetPN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
  * class.<br>
  * Its specialised for planetary nebulaes.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -55,7 +55,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
      * Please mind that Target has to have a <observer> element, or a <datasource>
      * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers     Array of IObserver that might be linked from this
      *                      observation, can be <code>NULL</code> if datasource
      *                      element is set
@@ -75,7 +75,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
 
         // Get optional magnitude
         children = target.getElementsByTagName(DeepSkyTargetPN.XML_ELEMENT_MAGCENTRALSTAR);
-        double magnitude = Double.NaN;
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -91,7 +90,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetPN.
-     * 
+     *
      * @param name       The name of the planetary nebulae
      * @param datasource The datasource of the planetary nebulae
      */
@@ -104,7 +103,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetPN.
-     * 
+     *
      * @param name     The name of the planetary nebulae
      * @param observer The observer who is the originator of the planetary nebulae
      */
@@ -122,7 +121,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will
      * be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Target
      * @return Returns the element given as parameter with this Target as child
      *         element.<br>
@@ -167,7 +166,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -184,7 +183,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Returns the magnitude of the central star
-     * 
+     *
      * @return The magnitude of the central star The returned value might be
      *         <code>Double.NaN</code> if the value was never set
      */
@@ -197,7 +196,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Sets the magnitude of the central star
-     * 
+     *
      * @param newMagnitude The new magnitude of the central star
      */
     public void setCentralStarMagnitude(double newMagnitude) {

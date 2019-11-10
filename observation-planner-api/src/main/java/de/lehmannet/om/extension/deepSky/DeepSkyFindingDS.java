@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyFindingDS.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -42,7 +42,7 @@ import de.lehmannet.om.util.SchemaException;
  * <td>Object not sighted</td>
  * </tr>
  * </table>
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.5
  */
@@ -175,7 +175,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyFindingDS.
-     * 
+     *
      * @param description The description of the finding
      * @param rating      The rating of the finding
      * @throws IllegalArgumentException if description was <code>null</code> or
@@ -195,7 +195,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFindingDS.
-     * 
+     *
      * @return This DeepSkyFindingDS field values
      * @see java.lang.Object
      */
@@ -231,37 +231,44 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this DeepSkyFindingDS and the given Object are equal. Two
-     * DeepSkyFindingDSs are equal if both return the same string from their
-     * toString() method and their XSI type is equal.<br>
-     * 
-     * @param obj The Object to compare this DeepSkyFindingDS with.
-     * @return <code>true</code> if both Objects are instances from class
-     *         DeepSkyFindingDS, both XSI types are equal and their fields contain
-     *         the same values. (Can be checked with calling and comparing both
-     *         objects toString() method)
-     * @see java.lang.Object
-     */
+
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((colorCompanion == null) ? 0 : colorCompanion.hashCode());
+        result = prime * result + ((colorMain == null) ? 0 : colorMain.hashCode());
+        result = prime * result + equalBrightness;
+        result = prime * result + niceSurrounding;
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj) {
-
-        if (obj == null || !(obj instanceof DeepSkyFindingDS)) {
-            return false;
-        }
-
-        // As we overwritte the toString() method and access all fields there,
-        // two DeepSkyFindingDSs are equal, if both objects return the same string
-        // from their toString() method.
-        if ((this.toString().equals(obj.toString()))
-                && (this.getXSIType().equals(((DeepSkyFindingDS) obj).getXSIType()))) {
+        if (this == obj)
             return true;
-        }
-
-        return false;
-
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeepSkyFindingDS other = (DeepSkyFindingDS) obj;
+        if (colorCompanion == null) {
+            if (other.colorCompanion != null)
+                return false;
+        } else if (!colorCompanion.equals(other.colorCompanion))
+            return false;
+        if (colorMain == null) {
+            if (other.colorMain != null)
+                return false;
+        } else if (!colorMain.equals(other.colorMain))
+            return false;
+        if (equalBrightness != other.equalBrightness)
+            return false;
+        if (niceSurrounding != other.niceSurrounding)
+            return false;
+        return true;
     }
 
     // ------------------------
@@ -274,7 +281,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -288,12 +295,14 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // Finding -----------------------------------------------------------
     // -------
 
+
+
     // -------------------------------------------------------------------
     /**
      * Adds this DeepSkyFindingDS to an given parent XML DOM Element. The
      * DeepSkyFindingDS Element will be set as a child element of the passed
      * Element.
-     * 
+     *
      * @param parent The parent element for this DeepSkyFindingDS
      * @return Returns the Element given as parameter with this DeepSkyFindingDS as
      *         child Element.<br>
@@ -352,7 +361,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Returns the equalBrightness value of this DeepSkyFindingDS.<br>
      * Describes if both stars have an equal brightness.
-     * 
+     *
      * @return <code>true</code> if both stars have an equal brightness
      * @throws IllegalStateException if equalBrightness was not set by the user so
      *                               the class cannot return <b>true</b> or
@@ -376,7 +385,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Returns the niceSurrounding value of this DeepSkyFindingDS.<br>
      * Describes if the double star has a nice surrounding.
-     * 
+     *
      * @return <code>true</code> if the observed object has a nice surrounding.
      * @throws IllegalStateException if niceSurrounding was not set by the user so
      *                               the class cannot return <b>true</b> or
@@ -400,7 +409,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Returns the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
-     * 
+     *
      * @return A string describing the color of the main star or <code>null</code>
      *         if the value was never set
      */
@@ -414,7 +423,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Returns the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
-     * 
+     *
      * @return A string describing the color of the companion star or
      *         <code>null</code> if the value was never set
      */
@@ -428,7 +437,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Sets the equalBrightness value of this DeepSkyFindingDS.<br>
      * Describes if both stars have an equal brightness.
-     * 
+     *
      * @param equalBrightness The equalBrightness value to set for this
      *                        DeepSkyFindingDS or <code>NULL</code> if the value
      *                        should be not set at all.
@@ -452,7 +461,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Sets the niceSurrounding value of this DeepSkyFindingDS.<br>
      * Describes if the observed object has a nice surrounding.
-     * 
+     *
      * @param niceSurrounding The niceSurrounding value to set for this
      *                        DeepSkyFindingDS or <code>NULL</code> if the value
      *                        should be not set at all.
@@ -476,7 +485,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Sets the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
-     * 
+     *
      * @param color The color value to set for this DeepSkyFindingDS or
      *              <code>NULL</code> if the value should be not set at all.
      * @throws IllegalArgumentException if the given color value is invalid
@@ -502,7 +511,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Sets the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
-     * 
+     *
      * @param color The color value to set for this DeepSkyFindingDS or
      *              <code>NULL</code> if the value should be not set at all.
      * @throws IllegalArgumentException if the given color value is invalid

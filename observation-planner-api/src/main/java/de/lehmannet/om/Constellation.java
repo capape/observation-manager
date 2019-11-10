@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Constellation.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 /**
  * Constellation class represents all 88 IAU constellations. The constellation
  * name (and abbreviation) used in this class is in latin.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
@@ -181,7 +181,7 @@ public class Constellation {
             return Constellation.AQUARIUS;
         } else if ((name.equals("aquila")) || (name.equals("aql"))) {
             return Constellation.AQUILA;
-        } else if ((name.equals("ara")) || (name.equals("ara"))) {
+        } else if (name.equals("ara"))  {
             return Constellation.ARA;
         } else if ((name.equals("aries")) || (name.equals("ari"))) {
             return Constellation.ARIES;
@@ -261,7 +261,7 @@ public class Constellation {
             return Constellation.INDUS;
         } else if ((name.equals("lacerta")) || (name.equals("lac"))) {
             return Constellation.LACERTA;
-        } else if ((name.equals("leo")) || (name.equals("leo"))) {
+        } else if (name.equals("leo")) {
             return Constellation.LEO;
         } else if ((name.equals("leo minor")) || (name.equals("lmi"))) {
             return Constellation.LEO_MINOR;
@@ -339,7 +339,7 @@ public class Constellation {
             return Constellation.URSA_MAIOR;
         } else if ((name.equals("ursa minor")) || (name.equals("umi"))) {
             return Constellation.URSA_MINOR;
-        } else if ((name.equals("vela")) || (name.equals("vela"))) {
+        } else if (name.equals("vela")) {
             return Constellation.VELA;
         } else if ((name.equals("virgo")) || (name.equals("vir"))) {
             return Constellation.VIRGO;

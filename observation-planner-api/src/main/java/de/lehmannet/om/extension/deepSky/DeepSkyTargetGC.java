@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetGC.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -19,7 +19,7 @@ import de.lehmannet.om.util.SchemaException;
  * DeepSkyTargetGC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
  * class.<br>
  * Its specialised for globular clusters.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -60,7 +60,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
      * Please mind that Target has to have a <observer> element, or a <datasource>
      * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers     Array of IObserver that might be linked from this
      *                      observation, can be <code>NULL</code> if datasource
      *                      element is set
@@ -80,7 +80,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
         // Get optional magnitude
         children = target.getElementsByTagName(DeepSkyTargetGC.XML_ELEMENT_MAGSTARS);
-        double magnitude = Double.NaN;
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -115,7 +114,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetGC.
-     * 
+     *
      * @param name       The name of the galactic cluster
      * @param datasource The datasource of the galactic cluster
      */
@@ -128,7 +127,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetGC.
-     * 
+     *
      * @param name     The name of the galactic cluster
      * @param observer The observer who is the originator of the galactic cluster
      */
@@ -146,7 +145,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will
      * be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Target
      * @return Returns the element given as parameter with this Target as child
      *         element.<br>
@@ -199,7 +198,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -216,7 +215,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Returns the concentration of the stars in the galactic cluster.
-     * 
+     *
      * @return Description of the concentration of the galactic cluster
      */
     public String getConcentration() {
@@ -228,7 +227,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Returns the magnitude of the stars in the galactic cluster.
-     * 
+     *
      * @return The magnitude of the stars in the galactic cluster. The returned
      *         value might be <code>Double.NaN</code> if the value was never set
      */
@@ -241,7 +240,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Sets the concentration of the galactic cluster.
-     * 
+     *
      * @param newConcentration The new concentration of the stars in the galactic
      *                         cluster
      */
@@ -259,7 +258,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // -------------------------------------------------------------------
     /**
      * Sets the magnitude of the stars in the galactic cluster
-     * 
+     *
      * @param newMagnitude The new magnitude of the stars in the galactic cluster
      */
     public void setMagnitude(double newMagnitude) {

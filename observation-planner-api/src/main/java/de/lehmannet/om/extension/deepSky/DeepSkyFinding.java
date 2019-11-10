@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyFinding.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -47,7 +47,7 @@ import de.lehmannet.om.util.SchemaException;
  * <td>unknown</td>
  * </tr>
  * </table>
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -208,7 +208,7 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyFinding.
-     * 
+     *
      * @param description The description of the finding
      * @param rating      The rating of the finding
      * @throws IllegalArgumentException if description was <code>null</code> or
@@ -234,7 +234,7 @@ public class DeepSkyFinding extends Finding {
      * spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in
      * e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
@@ -253,7 +253,7 @@ public class DeepSkyFinding extends Finding {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFinding.
-     * 
+     *
      * @return This DeepSkyValue field values
      * @see java.lang.Object
      */
@@ -300,42 +300,56 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this DeepSkyFinding and the given Object are equal. Two
-     * DeepSkyFindings are equal if both return the same string from their
-     * toString() method and their XSI type is equal.<br>
-     * 
-     * @param obj The Object to compare this DeepSkyFinding with.
-     * @return <code>true</code> if both Objects are instances from class
-     *         DeepSkyFinding, both XSI types are equal and their fields contain the
-     *         same values. (Can be checked with calling and comparing both objects
-     *         toString() method)
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == null || !(obj instanceof DeepSkyFinding)) {
-            return false;
-        }
-
-        // As we overwritte the toString() method and access all fields there,
-        // two DeepSkyFindings are equal, if both objects return the same string
-        // from their toString() method.
-        if ((this.toString().equals(obj.toString()))
-                && (this.getXSIType().equals(((DeepSkyFinding) obj).getXSIType()))) {
-            return true;
-        }
-
-        return false;
-
-    }
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + extended;
+        result = prime * result + ((largeDiameter == null) ? 0 : largeDiameter.hashCode());
+        result = prime * result + mottled;
+        result = prime * result + rating;
+        result = prime * result + resolved;
+        result = prime * result + ((smallDiameter == null) ? 0 : smallDiameter.hashCode());
+        result = prime * result + stellar;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeepSkyFinding other = (DeepSkyFinding) obj;
+        if (extended != other.extended)
+            return false;
+        if (largeDiameter == null) {
+            if (other.largeDiameter != null)
+                return false;
+        } else if (!largeDiameter.equals(other.largeDiameter))
+            return false;
+        if (mottled != other.mottled)
+            return false;
+        if (rating != other.rating)
+            return false;
+        if (resolved != other.resolved)
+            return false;
+        if (smallDiameter == null) {
+            if (other.smallDiameter != null)
+                return false;
+        } else if (!smallDiameter.equals(other.smallDiameter))
+            return false;
+        if (stellar != other.stellar)
+            return false;
+        return true;
+    }
 
     // -------------------------------------------------------------------
     /**
@@ -343,7 +357,7 @@ public class DeepSkyFinding extends Finding {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     public String getXSIType() {
@@ -360,7 +374,7 @@ public class DeepSkyFinding extends Finding {
     /**
      * Adds this DeepSkyFinding to an given parent XML DOM Element. The
      * DeepSkyFinding Element will be set as a child element of the passed Element.
-     * 
+     *
      * @param parent The parent element for this DeepSkyFinding
      * @return Returns the Element given as parameter with this DeepSkyFinding as
      *         child Element.<br>
@@ -389,7 +403,7 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Returns the large visible diameter of the observed object.
-     * 
+     *
      * @return The large visible diameter of the object as Angle.<br>
      *         Might return <code>null</code> if large diameter was never set.
      * @see de.lehmannet.om.Angle
@@ -405,7 +419,7 @@ public class DeepSkyFinding extends Finding {
      * Returns the mottled value of this DeepSkyFinding.<br>
      * A observed object is mottled when it can be seen with at least some
      * structures.
-     * 
+     *
      * @return <code>true</code> if the observed object could be seen with
      *         structures
      * @throws IllegalStateException if mottled was not set by the user so the class
@@ -431,7 +445,7 @@ public class DeepSkyFinding extends Finding {
      * The rating scale is described at <a href="http://www.naa.net/deepsky/">VdS -
      * DeepSky Group</a>. A valid rating value is an integer between 1 and 7 or 99
      * if the value was unknown, for e.g. historical reasons.
-     * 
+     *
      * @return The rating that was given to the DeepSkyFinding during observation
      */
     public int getRating() {
@@ -444,7 +458,7 @@ public class DeepSkyFinding extends Finding {
     /**
      * Returns <code>true</code> if the observed object could be seen resolved
      * during observation.<br>
-     * 
+     *
      * @return <code>true</code> if the observed object could be seen resolved
      * @throws IllegalStateException if resolved was not set by the user so the
      *                               class cannot return <b>true</b> or <b>false</b>
@@ -466,7 +480,7 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Returns the small visible diameter of the observed object.
-     * 
+     *
      * @return The small visible diameter of the object as Angle Might return
      *         <code>null</code> if large diameter was never set.
      * @see de.lehmannet.om.Angle
@@ -481,7 +495,7 @@ public class DeepSkyFinding extends Finding {
     /**
      * Returns <code>true</code> if the observed object appeard stellar during
      * observation.
-     * 
+     *
      * @return <code>true</code> if the observed object appeard stellar
      * @throws IllegalStateException if stellar was not set by the user, so the
      *                               class cannot return <b>true</b> or <b>false</b>
@@ -504,7 +518,7 @@ public class DeepSkyFinding extends Finding {
     /**
      * Returns <code>true</code> if the observed object appeard extended during
      * observation.
-     * 
+     *
      * @return <code>true</code> if the observed object appeard extended
      * @throws IllegalStateException if extended was not set by the user, so the
      *                               class cannot return <b>true</b> or <b>false</b>
@@ -528,7 +542,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the large visible diameter of the observed object. The passed Angle
      * needs to have a positiv value. If the Angles value is negativ, the large
      * diameter will not be set and the method returns <code>false</code>.
-     * 
+     *
      * @param largeDiameter The large diameters (positiv) angle
      * @return <code>true</code> if the angle was set successfully. If
      *         <code>false</code> is returned the angles value might have been
@@ -555,7 +569,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the mottled value of this DeepSkyFinding.<br>
      * A observed object is mottled when it can be seen with at least some
      * structures.
-     * 
+     *
      * @param mottled The mottled value to set for this DeepSkyFinding or
      *                <code>NULL</code> if the value should be not set at all.
      */
@@ -603,7 +617,7 @@ public class DeepSkyFinding extends Finding {
      * <td>unknown</td>
      * </tr>
      * </table>
-     * 
+     *
      * @param rating The rating value to set for this DeepSkyFinding. A valid rating
      *               value is an integer between 1 and 7 or 99 for unknown
      * @throws IllegalArgumentException if rating > 7 or < 1 and also not 99
@@ -632,7 +646,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the resolved value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could be seen
      * resolved during observation.
-     * 
+     *
      * @param resolved The resolved value for this DeepSkyFinding or
      *                 <code>NULL</code> if the value should be not set at all.
      */
@@ -656,7 +670,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the small visible diameter of the observed object. The passed Angle
      * needs to have a positiv value. If the Angles value is negativ, the small
      * diameter will not be set and the method returns <code>false</code>.
-     * 
+     *
      * @param smallDiameter The small diameters (positiv) angle
      * @return <code>true</code> if the angle was set successfully. If
      *         <code>false</code> is returned the angles value might have been
@@ -683,7 +697,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the stellar value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could only be
      * seen stellar during observation.
-     * 
+     *
      * @param stellar The stellar value to set for this DeepkSkyFinding or
      *                <code>NULL</code> if the value should be not set at all.
      */
@@ -707,7 +721,7 @@ public class DeepSkyFinding extends Finding {
      * Sets the extended value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could be seen
      * extended during observation.
-     * 
+     *
      * @param extended The extended value to set for this DeepkSkyFinding or
      *                 <code>NULL</code> if the value should be not set at all.
      */
