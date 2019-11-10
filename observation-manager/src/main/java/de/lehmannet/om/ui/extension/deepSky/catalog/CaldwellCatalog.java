@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/catalog/CaldwellCatalog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -185,44 +185,45 @@ public class CaldwellCatalog implements IListableCatalog {
                     aliasNames.add(tokenizer.nextToken());
                 }
 
-                target.setConstellation(constellation);
+                if (target != null) {
+                    target.setConstellation(constellation);
 
-                target.setPosition(new EquPosition(ra, dec));
+                    target.setPosition(new EquPosition(ra, dec));
 
-                if (size.indexOf('x') != -1) {
-                    double large = Double.parseDouble(size.substring(0, size.indexOf('x')));
-                    double small = Double.parseDouble(size.substring(size.indexOf('x') + 1, size.length()));
-                    if (small > large) {
-                        double x = small;
-                        small = large;
-                        large = x;
+                    if (size.indexOf('x') != -1) {
+                        double large = Double.parseDouble(size.substring(0, size.indexOf('x')));
+                        double small = Double.parseDouble(size.substring(size.indexOf('x') + 1, size.length()));
+                        if (small > large) {
+                            double x = small;
+                            small = large;
+                            large = x;
+                        }
+                        target.setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
+                        target.setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
+                    } else {
+                        target.setLargeDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
+                        target.setSmallDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
                     }
-                    target.setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
-                    target.setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
-                } else {
-                    target.setLargeDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
-                    target.setSmallDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
-                }
 
-                if ((mag != null) && !("".equals(mag.trim()))) {
-                    target.setVisibleMagnitude(FloatUtil.parseFloat(mag));
-                }
-
-                if (!"".equals(ngc.trim())) {
-                    target.addAliasName(ngc);
-                }
-
-                Iterator iterator = aliasNames.iterator();
-                String nextEntry = null;
-                while (iterator.hasNext()) {
-                    nextEntry = (String) iterator.next();
-                    if (!"".equals(nextEntry.trim())) {
-                        target.addAliasName(nextEntry);
+                    if ((mag != null) && !("".equals(mag.trim()))) {
+                        target.setVisibleMagnitude(FloatUtil.parseFloat(mag));
                     }
+
+                    if (!"".equals(ngc.trim())) {
+                        target.addAliasName(ngc);
+                    }
+
+                    Iterator iterator = aliasNames.iterator();
+                    String nextEntry = null;
+                    while (iterator.hasNext()) {
+                        nextEntry = (String) iterator.next();
+                        if (!"".equals(nextEntry.trim())) {
+                            target.addAliasName(nextEntry);
+                        }
+                    }
+
+                    this.map.put(caldwellNumber, target);
                 }
-
-                this.map.put(caldwellNumber, target);
-
             }
 
         } catch (IOException ioe) {

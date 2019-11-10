@@ -1,6 +1,6 @@
 /* ====================================================================
  * /dialog/UpdateInfoDialog
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -25,7 +25,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -203,13 +202,6 @@ class DownloadTask implements Worker {
     }
 
     @Override
-    public String getReturnMessage() {
-
-        return null;
-
-    }
-
-    @Override
     public byte getReturnType() {
 
         return this.returnValue;
@@ -265,6 +257,12 @@ class DownloadTask implements Worker {
 
         this.returnValue = Worker.RETURN_TYPE_OK;
 
+    }
+
+    @Override
+    public String getReturnMessage() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

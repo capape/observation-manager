@@ -707,8 +707,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Draw y axis segments
         for (int x = 1; x <= yAxisSegmentNumber; x++) {
-            g2d.drawLine(Math.round(0 - (lengthOfSegmentLines / 2)), Math.round(-yAxisSegmentSize * x),
-                    Math.round(0 + (lengthOfSegmentLines / 2)), Math.round(-yAxisSegmentSize * x));
+            g2d.drawLine(0 - (lengthOfSegmentLines / 2), Math.round(-yAxisSegmentSize * x),
+                    0 + (lengthOfSegmentLines / 2), Math.round(-yAxisSegmentSize * x));
         }
 
         // Draw y axis labels (values)

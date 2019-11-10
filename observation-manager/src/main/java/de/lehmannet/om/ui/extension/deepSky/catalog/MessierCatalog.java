@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/catalog/MessierCatalog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -301,32 +301,34 @@ public class MessierCatalog implements IListableCatalog {
                     aliasNames.add(tokenizer.nextToken());
                 }
 
-                target.setConstellation(constellation);
-                target.setPosition(new EquPosition(ra, dec));
+                if (target != null) {
+                    target.setConstellation(constellation);
+                    target.setPosition(new EquPosition(ra, dec));
 
-                if (size.indexOf('x') != -1) {
-                    double large = Double.parseDouble(size.substring(0, size.indexOf('x')));
-                    double small = Double.parseDouble(size.substring(size.indexOf('x') + 1, size.length()));
-                    if (small > large) {
-                        double x = small;
-                        small = large;
-                        large = x;
+                    if (size.indexOf('x') != -1) {
+                        double large = Double.parseDouble(size.substring(0, size.indexOf('x')));
+                        double small = Double.parseDouble(size.substring(size.indexOf('x') + 1, size.length()));
+                        if (small > large) {
+                            double x = small;
+                            small = large;
+                            large = x;
+                        }
+                        target.setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
+                        target.setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
+                    } else {
+                        target.setLargeDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
+                        target.setSmallDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
                     }
-                    target.setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
-                    target.setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
-                } else {
-                    target.setLargeDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
-                    target.setSmallDiameter(new Angle(Double.parseDouble(size), Angle.ARCMINUTE));
-                }
 
-                target.setVisibleMagnitude(FloatUtil.parseFloat(mag));
-                target.addAliasName(ngc);
-                Iterator iterator = aliasNames.iterator();
-                while (iterator.hasNext()) {
-                    target.addAliasName((String) iterator.next());
-                }
+                    target.setVisibleMagnitude(FloatUtil.parseFloat(mag));
+                    target.addAliasName(ngc);
+                    Iterator iterator = aliasNames.iterator();
+                    while (iterator.hasNext()) {
+                        target.addAliasName((String) iterator.next());
+                    }
 
-                this.map.put(messierNumber, target);
+                    this.map.put(messierNumber, target);
+                }
 
             }
 

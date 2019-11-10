@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/catalog/HCNGCCatalog
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -307,8 +307,6 @@ public class HCNGCCatalog implements IListableCatalog {
                 aliasNames = aliasNames.replaceAll(" ", "");
                 aliasNames = aliasNames.toUpperCase();
 
-                target.setConstellation(constellation);
-
                 // Hack! Cut off decimal point at seconds
                 ra = ra.substring(0, ra.lastIndexOf("."));
                 ra = ra + "s";
@@ -325,46 +323,52 @@ public class HCNGCCatalog implements IListableCatalog {
                 }
                 dec = dec.replace('.', '\''); // Sometimes ' is given as . (HCNGC467)
 
-                target.setPosition(new EquPosition(ra, dec));
+                if (target != null) {
+                    target.setConstellation(constellation);
 
-                if (target instanceof DeepSkyTarget) { // In case of single star target is not an DeepSkyTarget instance
-                    size = size.replaceAll("\'", "");
-                    size = size.replaceAll("\"", "");
-                    size = size.replaceAll("\u00b0", "");
-                    size = size.replaceAll("O", "0"); // Sometimes 0 is given as 'O' (HCNGC7308)
-                    size = size.toUpperCase(); // Sometimes the x is lower case :-(
-                    if (size.indexOf('&') != -1) { // HCNGC6991 has two size entries divided by &
-                        size = size.substring(0, size.indexOf('&') - 1);
-                    }
-                    if ((size != null) && !("".equals(size.trim()))) {
-                        if (size.indexOf('X') != -1) { // No (valid) entry (e.g. HCNGC1554)
-                            String s_large = size.substring(0, size.indexOf('X'));
-                            String s_small = size.substring(size.indexOf('X') + 1, size.length());
-                            if (!("".equals(s_large.trim()) && ("".equals(s_small.trim())))) { // In case of e.g.
-                                                                                               // HCNGC501 size is empty
-                                double large = Double.parseDouble(s_large);
-                                double small = Double.parseDouble(s_small);
-                                if (small > large) {
-                                    double x = small;
-                                    small = large;
-                                    large = x;
+                    target.setPosition(new EquPosition(ra, dec));
+
+                    if (target instanceof DeepSkyTarget) { // In case of single star target is not an DeepSkyTarget
+                                                           // instance
+                        size = size.replaceAll("\'", "");
+                        size = size.replaceAll("\"", "");
+                        size = size.replaceAll("\u00b0", "");
+                        size = size.replaceAll("O", "0"); // Sometimes 0 is given as 'O' (HCNGC7308)
+                        size = size.toUpperCase(); // Sometimes the x is lower case :-(
+                        if (size.indexOf('&') != -1) { // HCNGC6991 has two size entries divided by &
+                            size = size.substring(0, size.indexOf('&') - 1);
+                        }
+                        if ((size != null) && !("".equals(size.trim()))) {
+                            if (size.indexOf('X') != -1) { // No (valid) entry (e.g. HCNGC1554)
+                                String s_large = size.substring(0, size.indexOf('X'));
+                                String s_small = size.substring(size.indexOf('X') + 1, size.length());
+                                if (!("".equals(s_large.trim()) && ("".equals(s_small.trim())))) { // In case of e.g.
+                                                                                                   // HCNGC501 size is
+                                                                                                   // empty
+                                    double large = Double.parseDouble(s_large);
+                                    double small = Double.parseDouble(s_small);
+                                    if (small > large) {
+                                        double x = small;
+                                        small = large;
+                                        large = x;
+                                    }
+                                    ((DeepSkyTarget) target).setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
+                                    ((DeepSkyTarget) target).setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
                                 }
-                                ((DeepSkyTarget) target).setLargeDiameter(new Angle(large, Angle.ARCMINUTE));
-                                ((DeepSkyTarget) target).setSmallDiameter(new Angle(small, Angle.ARCMINUTE));
                             }
+                        }
+
+                        if ((vMag != null) && !("".equals(vMag.trim()))) {
+                            ((DeepSkyTarget) target).setVisibleMagnitude(FloatUtil.parseFloat(vMag));
                         }
                     }
 
-                    if ((vMag != null) && !("".equals(vMag.trim()))) {
-                        ((DeepSkyTarget) target).setVisibleMagnitude(FloatUtil.parseFloat(vMag));
-                    }
+                    String an[] = aliasNames.split(",");
+                    target.setAliasNames(an);
+
+                    // Add target to map and increment counter
+                    this.map.put(hcngcNumber, target);
                 }
-
-                String an[] = aliasNames.split(",");
-                target.setAliasNames(an);
-
-                // Add target to map and increment counter
-                this.map.put(hcngcNumber, target);
                 counter++;
 
             }

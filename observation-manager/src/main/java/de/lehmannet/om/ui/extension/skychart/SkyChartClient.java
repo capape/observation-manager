@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/skychart/SkyChartClient.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -481,6 +481,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                         } catch (IllegalMonitorStateException isme) {
                             // Ignore. This comes from the p.wait() call, when
                             // skychart is already launched
+                            System.err.println("Ingnoring \n " + isme);
                         } catch (Exception e) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
                             System.err.println("Failed to start Skychart application (" + applicationPath + ").\n" + e);
@@ -497,7 +498,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     @Override
                     public byte getReturnType() {
 
-                        return (p.exitValue() == 0) ? Worker.RETURN_TYPE_OK : Worker.RETURN_TYPE_ERROR;
+                        return (p != null && p.exitValue() == 0) ? Worker.RETURN_TYPE_OK : Worker.RETURN_TYPE_ERROR;
 
                     }
 
@@ -853,7 +854,7 @@ class StarchartSocket extends Socket {
             }
             response = response + r;
             index++;
-        } while (((r.indexOf(StarchartSocket.SERVER_RESPONSE_OK) == -1)
+        } while ((r != null && (r.indexOf(StarchartSocket.SERVER_RESPONSE_OK) == -1)
                 && (r.indexOf(StarchartSocket.SERVER_RESPONSE_NOTFOUND) == -1)
                 && (r.indexOf(StarchartSocket.SERVER_RESPONSE_FAILED) == -1)) && (index <= 3) // Wait for 3 responses
                                                                                               // for a OK or Failure

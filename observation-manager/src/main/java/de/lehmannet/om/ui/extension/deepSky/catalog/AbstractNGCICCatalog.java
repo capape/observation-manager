@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/catalog/AbstractNGCICCatalog
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -274,7 +274,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                     || type.startsWith("I1") || type.startsWith("I2") || type.startsWith("I3") || type.startsWith("II1")
                     || type.startsWith("II2") || type.startsWith("II3") || type.startsWith("III1")
                     || type.startsWith("III2") || type.startsWith("III3") || type.startsWith("IV1")
-                    || type.startsWith("IV2") || type.startsWith("IV2") || type.startsWith("IV3")) {
+                    || type.startsWith("IV2") || type.startsWith("IV3")) {
 
                 target = new DeepSkyTargetOC(catalogNumber, this.getName());
                 if (type.startsWith("I1") // Truempler classification

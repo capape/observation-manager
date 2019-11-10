@@ -73,7 +73,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.xalan.processor.TransformerFactoryImpl;
 import org.w3c.dom.Document;
 
 import de.lehmannet.om.IEyepiece;
@@ -2972,11 +2971,11 @@ public class ObservationManager extends JFrame implements ActionListener {
                 // Get XSL Template
                 if (xsl == null) { // Cannot load XSL file. Error message was
                                    // already given
-                    if (xsl == null) {
-                        returnValue = Worker.RETURN_TYPE_ERROR;
-                        message = ObservationManager.bundle.getString("error.transformation");
-                        return;
-                    }
+
+                    returnValue = Worker.RETURN_TYPE_ERROR;
+                    message = ObservationManager.bundle.getString("error.transformation");
+                    return;
+
                 }
                 StreamSource xslSource = new StreamSource(xsl);
 

@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/catalog/DeepSkyTableModel.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -77,7 +77,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         }
         case 1: {
             String[] aliasNames = target.getAliasNames();
-            if ((aliasNames == null) || ("".equals(aliasNames))) {
+            if ((aliasNames == null) || aliasNames.length == 0) {
                 value = "";
                 break;
             }

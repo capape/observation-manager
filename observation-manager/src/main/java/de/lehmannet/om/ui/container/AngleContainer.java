@@ -1,6 +1,6 @@
 /* ====================================================================
  * /container/AngleContainer.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -117,8 +117,8 @@ public class AngleContainer extends Container {
                 if ((this.arcSecValue.getText() != null) && !("".equals(this.arcSecValue.getText().trim()))) {
                     try {
                         String secString = this.arcSecValue.getText();
-                        secString.replace('.', ' ');
-                        secString.replace(',', ' ');
+                        secString = secString.replace('.', ' ');
+                        secString = secString.replace(',', ' ');
                         sec = Integer.parseInt(secString);
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException(

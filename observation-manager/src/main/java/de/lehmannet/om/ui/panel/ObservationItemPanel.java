@@ -1,6 +1,6 @@
 /* ====================================================================
  * /panel/ObservationItemPanel.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -325,8 +325,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.begin);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 8, 1);
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.end"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.end"),
+                SwingConstants.RIGHT, false);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
         this.add(Lend);
@@ -373,8 +373,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.seeing);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 8, 1);
-        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.sqm"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.sqm"),
+                SwingConstants.RIGHT, false);
         Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.sqm"));
         gridbag.setConstraints(Lsqm, constraints);
         this.add(Lsqm);
@@ -413,8 +413,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.session);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 8, 1);
-        OMLabel Lsite = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.site"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lsite = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.site"),
+                SwingConstants.RIGHT, false);
         Lsite.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.site"));
         gridbag.setConstraints(Lsite, constraints);
         this.add(Lsite);
@@ -548,20 +548,22 @@ public class ObservationItemPanel extends AbstractPanel {
         gridbag.setConstraints(this.target, constraints);
         this.add(this.target);
 
-        EquPosition pos = this.observation.getTarget().getPosition();
-        if (pos == null) { // Try to calculate position
-            pos = Ephemerides.getPosition(Ephemerides.planetKey(this.observation.getTarget().getName()),
-                    this.observation.getBegin());
-        }
-        if ((pos != null) && (this.observation.getSite() != null)) {
-            ConstraintsBuilder.buildConstraints(constraints, 7, 6, 1, 2, 1, 1);
-            constraints.fill = GridBagConstraints.BOTH;
-            constraints.anchor = GridBagConstraints.EAST;
-            HorizontalSkymap skyMap = new HorizontalSkymap(pos, this.observation.getBegin(),
-                    this.observation.getSite());
-            skyMap.setHorizontalAlignment(SwingConstants.RIGHT);
-            gridbag.setConstraints(skyMap, constraints);
-            this.add(skyMap);
+        if (this.observation != null) {
+            EquPosition pos = this.observation.getTarget().getPosition();
+            if (pos == null) { // Try to calculate position
+                pos = Ephemerides.getPosition(Ephemerides.planetKey(this.observation.getTarget().getName()),
+                        this.observation.getBegin());
+            }
+            if ((pos != null) && (this.observation.getSite() != null)) {
+                ConstraintsBuilder.buildConstraints(constraints, 7, 6, 1, 2, 1, 1);
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.anchor = GridBagConstraints.EAST;
+                HorizontalSkymap skyMap = new HorizontalSkymap(pos, this.observation.getBegin(),
+                        this.observation.getSite());
+                skyMap.setHorizontalAlignment(SwingConstants.RIGHT);
+                gridbag.setConstraints(skyMap, constraints);
+                this.add(skyMap);
+            }
         }
 
         ConstraintsBuilder.buildConstraints(constraints, 7, 9, 1, 4, 1, 1);
@@ -625,7 +627,7 @@ public class ObservationItemPanel extends AbstractPanel {
          * constraints); this.add(this.images);
          */
 
-        if (this.observation.getImages() != null) {
+        if (this.observation != null && this.observation.getImages() != null) {
             ConstraintsBuilder.buildConstraints(constraints, 0, 16, 1, 1, 99, 1);
             OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"),
                     false);

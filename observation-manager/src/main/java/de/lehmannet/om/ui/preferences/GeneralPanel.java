@@ -230,17 +230,22 @@ public class GeneralPanel extends PreferencesPanel {
 
             }
         });
-
-        for (int i = 0; i < directories.length; i++) {
-            this.xslTemplate.addItem(directories[i]);
-        }
-
-        if (directories.length > 0) {
-            this.xslTemplate.setSelectedItem(
-                    this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE, directories[0]));
-        } else {
+        if (directories == null) {
             this.xslTemplate
                     .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
+
+        } else {
+            for (int i = 0; i < directories.length; i++) {
+                this.xslTemplate.addItem(directories[i]);
+            }
+
+            if (directories.length > 0) {
+                this.xslTemplate.setSelectedItem(
+                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE, directories[0]));
+            } else {
+                this.xslTemplate
+                        .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
+            }
         }
 
     }

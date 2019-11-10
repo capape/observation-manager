@@ -1,6 +1,6 @@
 /* ====================================================================
  * /statistics/StatisticsDetailsDialog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -336,7 +336,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             }
         } else {
             super.observationManager.createWarning(calculation.getReturnMessage());
-        }
+    }
 
     }
 
@@ -584,7 +584,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
          * df.format(o.getBegin().getTime()); if( i.hasNext() ) { text = text + "; "; }
          * } cr.setText(text); } else { cr.setText(""); } if( isSelected ) {
          * cr.setBackground(Color.LIGHT_GRAY); }
-         * 
+         *
          * return cr; } } );
          */
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

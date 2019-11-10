@@ -1,6 +1,6 @@
 /* ====================================================================
  * /project/CatalogLoader.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -401,6 +401,7 @@ class WaitPopup extends OMDialog {
                 System.err.println("Interrupted while waiting for ThreadGroup.\n" + ie);
             } catch (IllegalMonitorStateException imse) {
                 // Ignore this
+                System.err.println("Ingnoring \n " + imse);
             }
         }
         this.dispose();

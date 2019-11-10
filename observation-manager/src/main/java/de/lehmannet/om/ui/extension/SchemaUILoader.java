@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/SchemaUILoader.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -300,6 +300,7 @@ public class SchemaUILoader {
 
         if (currentClass == null) {
             System.err.println("Class not found for " + classname);
+            return null;
         }
 
         // Get constructors for class

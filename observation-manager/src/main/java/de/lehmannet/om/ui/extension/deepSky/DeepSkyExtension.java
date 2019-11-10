@@ -340,21 +340,22 @@ public class DeepSkyExtension implements IExtension {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
+//    @Override
+//    public boolean equals(Object o) {
+//
+//        if (o instanceof IExtension) {
+//            IExtension ext = (IExtension) o;
+//            if (ext.getName().equals(this.getName())) {
+//                if (ext.getVersion() == this.getVersion()) {
+//                    return true;
+//                }
+//            }
+//        }
+//
+//        return false;
+//
+//    }
 
-        if (o instanceof IExtension) {
-            IExtension ext = (IExtension) o;
-            if (ext.getName().equals(this.getName())) {
-                if (ext.getVersion() == this.getVersion()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-
-    }
 
     @Override
     public boolean addOALExtensionElement(Element docElement) {
@@ -378,6 +379,49 @@ public class DeepSkyExtension implements IExtension {
 
         return true;
 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((OAL_EXTENSION_FILE == null) ? 0 : OAL_EXTENSION_FILE.hashCode());
+        result = prime * result + ((findingPanels == null) ? 0 : findingPanels.hashCode());
+        result = prime * result + ((targetDialogs == null) ? 0 : targetDialogs.hashCode());
+        result = prime * result + ((targetPanels == null) ? 0 : targetPanels.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeepSkyExtension other = (DeepSkyExtension) obj;
+        if (OAL_EXTENSION_FILE == null) {
+            if (other.OAL_EXTENSION_FILE != null)
+                return false;
+        } else if (!OAL_EXTENSION_FILE.equals(other.OAL_EXTENSION_FILE))
+            return false;
+           if (findingPanels == null) {
+            if (other.findingPanels != null)
+                return false;
+        } else if (!findingPanels.equals(other.findingPanels))
+            return false;
+        if (targetDialogs == null) {
+            if (other.targetDialogs != null)
+                return false;
+        } else if (!targetDialogs.equals(other.targetDialogs))
+            return false;
+        if (targetPanels == null) {
+            if (other.targetPanels != null)
+                return false;
+        } else if (!targetPanels.equals(other.targetPanels))
+            return false;
+        return true;
     }
 
     @Override

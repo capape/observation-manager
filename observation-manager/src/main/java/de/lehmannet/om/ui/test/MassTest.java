@@ -33,7 +33,7 @@ public class MassTest {
     File origXMLFile = null;
     File xsdFile = null;
     File newXMLFile = null;
-    CatalogLoader cl = null;
+    CatalogLoader cl;
 
     /**
      * @param args
@@ -96,7 +96,12 @@ public class MassTest {
         ISession session = null;
         ISite site = null;
         Random randomGenerator = new Random();
-        String[] catalogs = this.cl.getListableCatalogNames();
+        String[] catalogs;
+        if (this.cl == null) {
+            catalogs = new String[0];
+        } else {
+            catalogs = this.cl.getListableCatalogNames();
+        }
         IObservation newObs = null;
         for (int i = 0; i < number; i++) {
             int Reyepiece = randomGenerator.nextInt(eyepieces.length);

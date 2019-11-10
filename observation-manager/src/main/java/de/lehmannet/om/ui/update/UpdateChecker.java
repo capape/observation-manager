@@ -135,8 +135,12 @@ public class UpdateChecker implements Runnable {
                 System.err.println("Error during update check for URL: " + checkURL + "\nNested exception was: " + ioe);
             }
 
-            conn.disconnect();
+
             throw new ConnectException("Unable to connect to host for update");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
 
     }

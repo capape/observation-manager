@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/variableStars/catalog/GCVS4Catalog
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -476,7 +476,9 @@ public class GCVS4Catalog implements ICatalog {
 
         // Close file in case an exception was thrown
         try {
-            raf.close();
+            if (raf != null) {
+                raf.close();
+            }
         } catch (IOException ioe) {
             System.err.println("Unable to close data stream. " + this.catalogFile + " (SeqS) \n" + ioe);
         }
@@ -558,7 +560,9 @@ public class GCVS4Catalog implements ICatalog {
 
         // Close file
         try {
-            raf.close();
+            if (raf != null) {
+                raf.close();
+            }
         } catch (IOException ioe) {
             System.err.println("Unable to close data stream. " + this.catalogFile + "\n" + ioe);
         }
@@ -725,7 +729,9 @@ public class GCVS4Catalog implements ICatalog {
 
         // Close file
         try {
-            raf.close();
+            if (raf != null) {
+                raf.close();
+            }
         } catch (IOException ioe) {
             System.err.println("Unable to close data stream. " + this.catalogFile + "\n" + ioe);
         }

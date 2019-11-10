@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/deepSky/panel/DeepSkyFindingDSPanel.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -415,7 +415,7 @@ class BoxItem {
     @Override
     public boolean equals(Object o) {
 
-        if (o instanceof String) {
+        if (o instanceof BoxItem) {
             if (o.equals(color)) {
                 return true;
             }
