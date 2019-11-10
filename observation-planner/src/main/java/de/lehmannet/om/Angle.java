@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Angle.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -16,7 +16,7 @@ import de.lehmannet.om.util.SchemaException;
  * Angle is a wrapper class for angles used in the XML Schema definition. It
  * stores an angle as double value along with the unit of the angle. All
  * possible units for angles can be accessed by this objects constants.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -102,11 +102,11 @@ public class Angle {
     // -------------------------------------------------------------------
     /*
      * Creates a new Angle instace.
-     * 
+     *
      * @param value The angles value
-     * 
+     *
      * @param unit Format of the value
-     * 
+     *
      * @throws IllegalArgumentException if unit parameter has unknwon type. Allowed
      * types can be accessed by public constants.<br>
      */
@@ -134,7 +134,7 @@ public class Angle {
      * Returns the value of this Angle followed by its unit.<br>
      * Example:<br>
      * 42.0 DEGREE
-     * 
+     *
      * @return The angle value followed by its unit
      * @see java.lang.Object
      */
@@ -155,7 +155,7 @@ public class Angle {
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this Angle and the given Object are equal. Two Angles are equal if
      * both have the same value when represented as degree based angle.<br>
-     * 
+     *
      * @param obj The Object to compare this Angle with.
      * @return <code>true</code> if both Objects are instances from class Angle and
      *         their values in degrees is equal.
@@ -164,7 +164,7 @@ public class Angle {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof Angle)) {
+        if ( !(obj instanceof Angle)) {
             return false;
         }
 
@@ -176,14 +176,20 @@ public class Angle {
 
         double degree = angle.toDegree();
 
-        if (degree == value) {
-            return true;
-        } else {
-            return false;
-        }
+        return Double.valueOf(degree).equals(value);
+
 
     }
-
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(value);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
@@ -195,7 +201,7 @@ public class Angle {
      * be set as the Elements attribute.<br>
      * Example:<br>
      * &lt;element unit="degree"&gt;40.3&lt;/element&gt;
-     * 
+     *
      * @param element The XML DOM Element this Angle belongs to
      * @return Returns the element given as parameter with this Angles value as
      *         element value and this Angles unit as attribute
@@ -220,7 +226,7 @@ public class Angle {
      * Returns the unit of the angles value.<br>
      * The returned value may be any valid Angle unit, which can be accessed by
      * Angles constants.
-     * 
+     *
      * @return This angles value unit.
      */
     public String getUnit() {
@@ -233,7 +239,7 @@ public class Angle {
     /**
      * Returns the value of this angle.<br>
      * The returned value may be any double value (positiv or negativ).
-     * 
+     *
      * @return This angles value
      */
     public double getValue() {
@@ -247,7 +253,7 @@ public class Angle {
      * Converts and sets this Angles value and unit to an Angle given in
      * degrees.<br>
      * If the Angle is already given in degree, the Angle will not change.
-     * 
+     *
      * @return This Angles new value based on degree units.
      */
     public double toDegree() {
@@ -279,7 +285,7 @@ public class Angle {
      * Converts and sets this Angles value and unit to an Angle given in
      * arcminutes.<br>
      * If the Angle is already given in arcminutes, the Angle will not change.
-     * 
+     *
      * @return This Angles new value based on arcminute units.
      */
     public double toArcMin() {
@@ -311,7 +317,7 @@ public class Angle {
      * Converts and sets this Angles value and unit to an Angle given in
      * arcseconds.<br>
      * If the Angle is already given in arcseconds, the Angle will not change.
-     * 
+     *
      * @return This Angles new value based on arcsecond units.
      */
     public double toArcSec() {
@@ -343,7 +349,7 @@ public class Angle {
      * Converts and sets this Angles value and unit to an Angle given in
      * radiant.<br>
      * If the Angle is already given in radiants, the Angle will not change.
-     * 
+     *
      * @return This Angles new value based on radiant units.
      */
     public double toRadiant() {
@@ -379,7 +385,7 @@ public class Angle {
      * Checks if a given String is a valid Angle unit.<br>
      * Means, if the given string is equal to Angle.DEGREE, Angle.RADIANT,
      * Angle.ARCMINUTE, Angle.ARCSECOND
-     * 
+     *
      * @param unit A String which represents an angle unit
      * @return true if the given string is a valid Angle unit
      */

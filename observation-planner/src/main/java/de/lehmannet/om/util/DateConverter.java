@@ -84,7 +84,7 @@ public class DateConverter {
                                         // leap
                                         // years
         if (gregorianCalendar.after(gregStartDate)) {
-            leapYear = 2 - (Math.round(year / 100)) + Math.round((Math.round(year / 100)) / 4);
+            leapYear = (double) (2 - (year / 100) + (year / 400));
         }
         Calendar gregBeginDate = Calendar.getInstance();
         gregBeginDate.set(1583, 9, 4); // 04.10.1583 last day before gregorian calendar reformation
@@ -107,7 +107,7 @@ public class DateConverter {
 
         /*
          * double julianDate = c + d + hourAndMinutes + leapYear - 1524.5;
-         * 
+         *
          * if( (month == 5) || (month == 7) || (month == 10) || (month == 12) ) { //
          * Those month have 31 days julianDate = julianDate-1; }
          */
@@ -158,8 +158,8 @@ public class DateConverter {
      * @return A gregorian date
      */
     public static Calendar toGregorianDate(double julianDate, TimeZone zone) {
-        if ((julianDate == Double.NaN) || (julianDate == Double.NEGATIVE_INFINITY)
-                || (julianDate == Double.POSITIVE_INFINITY)) {
+        final Double doubleJulianDate = Double.valueOf(julianDate);
+        if (doubleJulianDate.isNaN() || doubleJulianDate.isInfinite()) {
             throw new IllegalArgumentException("Julian Date has illegal value. (Value=" + julianDate + ")");
         }
         if (zone == null) {
@@ -337,7 +337,7 @@ public class DateConverter {
             hour = Integer.parseInt(h);
             minute = Integer.parseInt(m);
         } catch (NumberFormatException nfe) {
-            new NumberFormatException(
+            throw new NumberFormatException(
                     "Cannot generate ISO8601 date because timezones hour or minute value is malformed. ");
         }
         // Calculate Timezone Offset:

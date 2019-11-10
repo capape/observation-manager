@@ -1,12 +1,13 @@
 /* ====================================================================
  * extension/solarSystem/SolarSystemTarget.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
 
 package de.lehmannet.om.extension.solarSystem;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -31,7 +32,7 @@ import de.lehmannet.om.util.SchemaException;
  * object inside our solar system.<br>
  * This class exists more due to extension reasons as this class does not add
  * new functions to de.lehmannet.om.Target
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.3
  */
@@ -76,7 +77,7 @@ public abstract class SolarSystemTarget extends Target {
      * <observer> element, or a <datasource> element. If a <observer> element is
      * set, a array with Observers must be passed to check, whether the <observer>
      * link is valid.
-     * 
+     *
      * @param observers     Array of IObserver that might be linked from this
      *                      observation, can be <code>NULL</code> if datasource
      *                      element is set
@@ -94,7 +95,7 @@ public abstract class SolarSystemTarget extends Target {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a SolarSystemTarget.
-     * 
+     *
      * @param name       The name of the astronomical object
      * @param datasource The datasource of the astronomical object
      */
@@ -108,7 +109,7 @@ public abstract class SolarSystemTarget extends Target {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a SolarSystemTarget.
-     * 
+     *
      * @param name     The name of the astronomical object
      * @param observer The observer who is the originator of the target
      */
@@ -122,7 +123,7 @@ public abstract class SolarSystemTarget extends Target {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a SolarSystemTarget.
-     * 
+     *
      * @param name       The name of the astronomical object
      * @param i18nName   Localized name of the target
      * @param datasource The datasource of the astronomical object
@@ -130,16 +131,16 @@ public abstract class SolarSystemTarget extends Target {
     /*
      * protected SolarSystemTarget(String name, String i18nName, String datasource)
      * {
-     * 
+     *
      * super(name, datasource); this.i18nName = i18nName;
-     * 
+     *
      * }
      */
 
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a SolarSystemTarget.
-     * 
+     *
      * @param name     The name of the astronomical object
      * @param i18nName Localized name of the target
      * @param observer The observer who is the originator of the target
@@ -147,9 +148,9 @@ public abstract class SolarSystemTarget extends Target {
     /*
      * protected SolarSystemTarget(String name, String i18nName, IObserver observer)
      * {
-     * 
+     *
      * super(name, observer); this.i18nName = i18nName;
-     * 
+     *
      * }
      */
 
@@ -160,9 +161,9 @@ public abstract class SolarSystemTarget extends Target {
     // -------------------------------------------------------------------
     /*
      * public String getI18NName() {
-     * 
+     *
      * return this.i18nName;
-     * 
+     *
      * }
      */
 
@@ -206,7 +207,7 @@ public abstract class SolarSystemTarget extends Target {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this SolarSystemTarget.
-     * 
+     *
      * @return This SolarSystemTarget field values
      * @see java.lang.Object
      */
@@ -219,7 +220,7 @@ public abstract class SolarSystemTarget extends Target {
 
         if ((super.getAliasNames() != null) && (super.getAliasNames().length > 0)) {
             buffer.append(" Alias names=");
-            buffer.append(super.getAliasNames());
+            buffer.append(Arrays.toString(super.getAliasNames()));
         }
 
         if (super.getPosition() != null) {
@@ -242,7 +243,7 @@ public abstract class SolarSystemTarget extends Target {
      * Checks if this Target and the given Object are equal. The given object is
      * equal with this Target, if it derives from ITarget, both XSI types are equal
      * and its name is equal to this Target name.<br>
-     * 
+     *
      * @param obj The Object to compare this Target with.
      * @return <code>true</code> if the given Object is an instance of ITarget, both
      *         XSI types are equal and its name is equal to this Target name.<br>
@@ -287,7 +288,7 @@ public abstract class SolarSystemTarget extends Target {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     public abstract String getXSIType();
@@ -300,7 +301,7 @@ public abstract class SolarSystemTarget extends Target {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will
      * be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Target
      * @return Returns the element given as parameter with this Target as child
      *         element.<br>
@@ -331,7 +332,7 @@ public abstract class SolarSystemTarget extends Target {
      * <b>&lt;/target&gt;</b><br>
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element The element under which the the target link is created
      * @param xsiType The XSI:Type identification of the child class
      * @return Returns a new created target Element that contains all data from a

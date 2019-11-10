@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyFindingOC.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -42,7 +42,7 @@ import de.lehmannet.om.util.SchemaException;
  * <td>Object not sighted</td>
  * </tr>
  * </table>
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.5
  */
@@ -157,7 +157,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyFindingOC.
-     * 
+     *
      * @param description The description of the finding
      * @param rating      The rating of the finding
      * @throws IllegalArgumentException if description was <code>null</code> or
@@ -177,7 +177,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFindingOC.
-     * 
+     *
      * @return This DeepSkyFindingOC field values
      * @see java.lang.Object
      */
@@ -219,7 +219,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Checks if this DeepSkyFindingoC and the given Object are equal. Two
      * DeepSkyFindingOCs are equal if both return the same string from their
      * toString() method and their XSI type is equal.<br>
-     * 
+     *
      * @param obj The Object to compare this DeepSkyFindingOC with.
      * @return <code>true</code> if both Objects are instances from class
      *         DeepSkyFindingOC, both XSI types are equal and their fields contain
@@ -227,28 +227,62 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      *         objects toString() method)
      * @see java.lang.Object
      */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == null || !(obj instanceof DeepSkyFindingOC)) {
-            return false;
-        }
-
-        // As we overwritte the toString() method and access all fields there,
-        // two DeepSkyFindingOCs are equal, if both objects return the same string
-        // from their toString() method.
-        if ((this.toString().equals(obj.toString()))
-                && (this.getXSIType().equals(((DeepSkyFindingOC) obj).getXSIType()))) {
-            return true;
-        }
-
-        return false;
-
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//
+//        if ( !(obj instanceof DeepSkyFindingOC)) {
+//            return false;
+//        }
+//
+//        // As we overwritte the toString() method and access all fields there,
+//        // two DeepSkyFindingOCs are equal, if both objects return the same string
+//        // from their toString() method.
+//        if ((this.toString().equals(obj.toString()))
+//                && (this.getXSIType().equals(((DeepSkyFindingOC) obj).getXSIType()))) {
+//            return true;
+//        }
+//
+//        return false;
+//
+//    }
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((character == null) ? 0 : character.hashCode());
+        result = prime * result + colorContrasts;
+        result = prime * result + partlyUnresolved;
+        result = prime * result + unusualShape;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeepSkyFindingOC other = (DeepSkyFindingOC) obj;
+        if (character == null) {
+            if (other.character != null)
+                return false;
+        } else if (!character.equals(other.character))
+            return false;
+        if (colorContrasts != other.colorContrasts)
+            return false;
+        if (partlyUnresolved != other.partlyUnresolved)
+            return false;
+        if (unusualShape != other.unusualShape)
+            return false;
+        return true;
+    }
 
     // -------------------------------------------------------------------
     /**
@@ -256,7 +290,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -275,7 +309,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The
      * DeepSkyFindingOC Element will be set as a child element of the passed
      * Element.
-     * 
+     *
      * @param parent The parent element for this DeepSkyFindingOC
      * @return Returns the Element given as parameter with this DeepSkyFindingOC as
      *         child Element.<br>
@@ -332,7 +366,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Returns the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusualShape.
-     * 
+     *
      * @return <code>true</code> if the observed object has an unusual Shape
      * @throws IllegalStateException if unusualShape was not set by the user so the
      *                               class cannot return <b>true</b> or <b>false</b>
@@ -355,7 +389,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Returns the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
-     * 
+     *
      * @return <code>true</code> if the observed object was partly unresolved
      * @throws IllegalStateException if partlyUnresolved was not set by the user so
      *                               the class cannot return <b>true</b> or
@@ -379,7 +413,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Returns the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
-     * 
+     *
      * @return <code>true</code> if the observed object showed some color contrasts
      * @throws IllegalStateException if colorContrasts was not set by the user so
      *                               the class cannot return <b>true</b> or
@@ -403,7 +437,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Returns the character of this DeepSkyFindingOC.<br>
      * See DeepSkyFindingOC constants for valid values.<br>
-     * 
+     *
      * @return A character describing the open cluster characteristics according to
      *         the german "Deep Sky Liste" or <code>null</code> if the value was
      *         never set
@@ -418,7 +452,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Sets the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusual shape.
-     * 
+     *
      * @param unusualShape The unusual shape value to set for this DeepSkyFindingOC
      *                     or <code>NULL</code> if the value should be not set at
      *                     all.
@@ -442,7 +476,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Sets the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
-     * 
+     *
      * @param partlyUnresolved The partlyUnresolved value to set for this
      *                         DeepSkyFindingOC or <code>NULL</code> if the value
      *                         should be not set at all.
@@ -466,7 +500,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
-     * 
+     *
      * @param colorContrasts The colorContrasts value to set for this
      *                       DeepSkyFindingOC or <code>NULL</code> if the value
      *                       should be not set at all.
@@ -490,7 +524,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
-     * 
+     *
      * @param c The colorContrasts value to set for this DeepSkyFindingOC or
      *          <code>NULL</code> if the value should be not set at all.
      * @throws IllegalArgumentException if the given character value is invalid

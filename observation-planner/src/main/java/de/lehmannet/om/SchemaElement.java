@@ -1,6 +1,6 @@
 /* ====================================================================
  * /SchemaElement.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -13,7 +13,7 @@ import de.lehmannet.om.util.IIDGenerator;
  * The SchemaElement represents the root class for all schema element classes.
  * It provides a simple implemantation of the ISchemaInterface, so that any
  * subclass inherits a unique ID.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -78,7 +78,7 @@ public abstract class SchemaElement implements ISchemaElement {
      * Constructs a new instance of a Schema Element with a given ID.<br>
      * Any instance of a Schema Element has a unique ID which identifies the
      * element, and which allows to link serveral elements.<br>
-     * 
+     *
      * @param ID This elements unique ID
      * @throws IllegalArgumentException if ID is <code>null</code> or contains empty
      *                                  string.
@@ -96,34 +96,6 @@ public abstract class SchemaElement implements ISchemaElement {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if the ID of this SchemaElement is equal to the given SchemaElement.
-     * If the given object is not derived from ISchemaElemnt, false is returned as
-     * well.
-     * 
-     * @param obj The Object to compare this SchemaElement with.
-     * @return <code>true</code> if the given Object is an instance of
-     *         ISchemaElement and its ID equals this SchemaElements ID.<br>
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == null || !(obj instanceof ISchemaElement)) {
-            return false;
-        }
-
-        ISchemaElement schemaElement = (ISchemaElement) obj;
-
-        if (this.getID().equals(schemaElement.getID())) {
-            return true;
-        }
-
-        return false;
-
-    }
 
     // --------------
     // ISchemaElement ----------------------------------------------------
@@ -133,7 +105,7 @@ public abstract class SchemaElement implements ISchemaElement {
     /**
      * Returns a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the schema.
-     * 
+     *
      * @return Returns a String representing a unique ID of this schema element.
      */
     public String getID() {
@@ -142,13 +114,38 @@ public abstract class SchemaElement implements ISchemaElement {
 
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((ID == null) ? 0 : ID.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SchemaElement other = (SchemaElement) obj;
+        if (ID == null) {
+            if (other.ID != null)
+                return false;
+        } else if (!ID.equals(other.ID))
+            return false;
+        return true;
+    }
+
     // -------------------------------------------------------------------
     /**
      * Sets a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the
      * schema.<br>
      * Call this method only, if your know what you're doing.
-     * 
+     *
      * @param newID The new unique ID for this object.
      */
     public void setID(String newID) {
@@ -165,7 +162,7 @@ public abstract class SchemaElement implements ISchemaElement {
      * spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in
      * e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */

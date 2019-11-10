@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Observation.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -39,7 +39,7 @@ import de.lehmannet.om.util.SchemaLoader;
  * <a href="http://observation.sourceforge.net/schema/doc/uml/root.html"> XML
  * Schema Doc</a>) Therefore the IObservation provides access to almost all
  * other XML Schema elements.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -118,7 +118,7 @@ public class Observation extends SchemaElement implements IObservation {
      * exists. If a Observation Node has no subelement of a specific type (cause its
      * optional by XML Schema specification), the according array parameter can be
      * empty or <code>null</code>.
-     * 
+     *
      * @param observation the XML Schema Node that represents this Observation
      *                    object
      * @param targets     Array of ITarget that might be linked from this
@@ -805,7 +805,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of an Observation.<br>
-     * 
+     *
      * @param begin         Start date of observation
      * @param end           End date of observation
      * @param faintestStar  Faintest star visible with the naked eye (in magnitude)
@@ -851,7 +851,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of an Observation.<br>
-     * 
+     *
      * @param begin         Start date of observation
      * @param end           End date of observation
      * @param faintestStar  Faintest star visible with the naked eye (in magnitude)
@@ -907,7 +907,7 @@ public class Observation extends SchemaElement implements IObservation {
      * spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in
      * e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
@@ -930,7 +930,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this Observation.
-     * 
+     *
      * @return This Observation field values
      * @see java.lang.Object
      */
@@ -1043,7 +1043,7 @@ public class Observation extends SchemaElement implements IObservation {
      * is equal with this Observation, if it derives from IObservation and if its
      * start date, target, observer and result list is equal to this
      * Observation.<br>
-     * 
+     *
      * @param obj The Object to compare this Observation with.
      * @return <code>true</code> if the given Object is an instance of IObservation
      *         and its start date, target, observer and result list is equal to this
@@ -1052,30 +1052,30 @@ public class Observation extends SchemaElement implements IObservation {
      */
     /*
      * public boolean equals(Object obj) {
-     * 
+     *
      * if( obj == null || !(obj instanceof IObservation) ) { return false; }
-     * 
+     *
      * IObservation observation = (IObservation)obj;
-     * 
+     *
      * if( !observation.getBegin().equals(begin) ) { return false; }
-     * 
+     *
      * if( !observation.getTarget().equals(target) ) { return false; }
-     * 
+     *
      * if( !observation.getObserver().equals(observer) ) { return false; }
-     * 
+     *
      * // Sort result list from given object List objectResults =
      * sortResultList(observation.getResults());
-     * 
+     *
      * // dublicate this RootElement results, that the original // result list stays
      * unchanged, while we sort and compare the results List resultList = new
      * LinkedList(results); // Sort internal result list resultList =
      * sortResultList(resultList);
-     * 
+     *
      * // Calls AbstractList.equals(Object) as both list should be sorted if(
      * !resultList.equals(objectResults) ) { return false; }
-     * 
+     *
      * return true;
-     * 
+     *
      * }
      */
 
@@ -1087,7 +1087,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Adds this Observation to a given parent XML DOM Element. The Observation
      * element will be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Observation
      * @return Returns the element given as parameter with this Observation as child
      *         element.<br>
@@ -1220,7 +1220,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the start date of the observation.<br>
-     * 
+     *
      * @return The start date of the observation
      */
     public Calendar getBegin() {
@@ -1233,7 +1233,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the accessories used for this observation.<br>
      * Might return <code>null</code> if no accessories have been used.
-     * 
+     *
      * @return Accessories used for this observation or <code>null</code> if no
      *         accessories were used
      */
@@ -1247,7 +1247,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the end date of the observation.<br>
      * Might return <code>null</code> if no end date was given.
-     * 
+     *
      * @return The end date of the observation or <code>null</code> if no end date
      *         was given
      */
@@ -1265,7 +1265,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the eyepiece with which the observation was made.<br>
      * Might return <code>null</code> if no eyepiece was used at all.
-     * 
+     *
      * @return The eyepiece used for the observation or <code>null</code> if no
      *         eyepiece was used.
      */
@@ -1279,7 +1279,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the lens with which the observation was made.<br>
      * Might return <code>null</code> if no lens was used at all.
-     * 
+     *
      * @return The lens used for the observation or <code>null</code> if no lens was
      *         used.
      */
@@ -1293,7 +1293,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the filter which was used for this observation<br>
      * Might return <code>null</code> if no filter was used at all.
-     * 
+     *
      * @return The filter used for the observation or <code>null</code> if no filter
      *         was used.
      * @since 1.5
@@ -1307,7 +1307,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the imager that was used for this observation.<br>
-     * 
+     *
      * @return The imager used at this observation.
      */
     public IImager getImager() {
@@ -1320,7 +1320,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the magnification used for this observation. Might return
      * <code>Float.NaN</code> if no value was set at all.
-     * 
+     *
      * @return The magnification or <code>Float.NaN</code> if no value was set.
      */
     public float getMagnification() {
@@ -1334,7 +1334,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the magnitude of the faintest star that could be seen during
      * observation time with the unaided eye. Might return <code>Float.NaN</code> if
      * no value was set at all.
-     * 
+     *
      * @return The magnitude of the faintest star as float value, or
      *         <code>Float.NaN</code> if no value was set.
      */
@@ -1348,7 +1348,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the sky quality meter value Might return <code>null</code> if no
      * value was set at all.
-     * 
+     *
      * @return The sky quality value, or <code>null</code> if no value was set.
      */
     public SurfaceBrightness getSkyQuality() {
@@ -1361,7 +1361,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns a list of images (relativ path to images), taken at this observation.
      * Might return <code>null</code> if images were set.
-     * 
+     *
      * @return List of images or <code>null</code> if no images were set.
      */
     public List getImages() {
@@ -1380,7 +1380,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst
      * seeing.<br>
      * Might return <code>-1</code> if no value was set at all.
-     * 
+     *
      * @return A int between 1-5 representing the seeing, or <code>-1</code> if no
      *         value was set for seeing.
      */
@@ -1393,7 +1393,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the observer who made the observation.<br>
-     * 
+     *
      * @return The observer who made this observation.
      */
     public IObserver getObserver() {
@@ -1412,7 +1412,7 @@ public class Observation extends SchemaElement implements IObservation {
      * method will return <b>true</b>. <br>
      * If the passed IFinding is <code>null</code>, an IllegalArgumentException is
      * thrown.
-     * 
+     *
      * @param results A new result for this observation
      * @return <b>true</b> if the given result was successfully attached to this
      *         observation, while the old result list was deleted.
@@ -1445,7 +1445,7 @@ public class Observation extends SchemaElement implements IObservation {
      * implement the IFinding interface <b>false</b> is returned.<br>
      * If the new list is empty or <code>null</code>, an IllegalArgumentException is
      * thrown.
-     * 
+     *
      * @param results The new list of results for this observation
      * @return <b>true</b> if the given list was successfully attached to this
      *         observation. <b>false</b> if one of the new result elements in the
@@ -1484,7 +1484,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the accessories used during the observation.<br>
      * If there was already an accessories list attached to this observation, the
      * old one will be replaced with the new one.
-     * 
+     *
      * @param accessories The accessories of the observation
      */
     public void setAccessories(String accessories) {
@@ -1508,7 +1508,7 @@ public class Observation extends SchemaElement implements IObservation {
      * method will return <b>true</b>. If one of the elements in the list isn't a
      * java.lang.String object <b>false</b> is returned.<br>
      * If the new list is <code>null</code>, an IllegalArgumentException is thrown.
-     * 
+     *
      * @param imagesList The new (String) list of images for this observation
      * @return <b>true</b> if the given list was successfully set to this
      *         observation. <b>false</b> if one of the lists elements wasn't a
@@ -1548,7 +1548,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets an imager used for this observation.<br>
-     * 
+     *
      * @param imager The imager used for this observation
      */
     public void setImager(IImager imager) {
@@ -1566,7 +1566,7 @@ public class Observation extends SchemaElement implements IObservation {
      * If the new list of results was successfully added to the old result list, the
      * method will return <b>true</b>. If the list is empty or <code>null</code>,
      * the old result list will remain unchanged.
-     * 
+     *
      * @param results A list with more results for this observation
      * @return <b>true</b> if the given list was successfully added to this
      *         observations result list. <b>false</b> if the new list could not be
@@ -1599,7 +1599,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Adds a new result to this observation.<br>
-     * 
+     *
      * @param result A new result for this observation
      */
     public void addResult(IFinding result) {
@@ -1621,7 +1621,7 @@ public class Observation extends SchemaElement implements IObservation {
      * If the new list of images was successfully added to the old images list, the
      * method will return <b>true</b>. If the list is empty or <code>null</code>,
      * the old result list will remain unchanged.
-     * 
+     *
      * @param images A list (containing Strings) with additional images (path) for
      *               this observation
      * @return <b>true</b> if the given list was successfully added to this
@@ -1655,7 +1655,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Adds a new image (path) to this observation.<br>
-     * 
+     *
      * @param imagePath A new image for this observation
      */
     public void addImage(String imagePath) {
@@ -1672,7 +1672,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns a List with one or more results of the observation.<br>
      * Every observation has at least one result.
-     * 
+     *
      * @return A List containing the results of the observation.
      */
     public List getResults() {
@@ -1686,7 +1686,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the scope that was used for the observation.<br>
      * Might return <code>null</code> if the observation was not made with any
      * scope.
-     * 
+     *
      * @return The scope which was used for the observation, or <code>null</code> if
      *         no scope was used at all.
      */
@@ -1701,7 +1701,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the session this observation belongs to.<br>
      * Might return <code>null</code> if the observation is not part of any
      * observation session.
-     * 
+     *
      * @return The session this observation belongs to, or <code>null</code> if the
      *         observation does not belong to any session.
      */
@@ -1714,7 +1714,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the site where the observation took place.<br>
-     * 
+     *
      * @return The site of the observation, or <code>null</code> if the observation
      *         has no site
      */
@@ -1727,7 +1727,7 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the target which was observed.<br>
-     * 
+     *
      * @return The target which was observed.
      */
     public ITarget getTarget() {
@@ -1740,7 +1740,7 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Sets the start date of the observation.<br>
      * The start date is a mandatory field, as the end date is not.
-     * 
+     *
      * @param begin The start date of the observation
      * @throws IllegalArgumentException if new begin date is <code>null</code>
      */
@@ -1759,7 +1759,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the end date of the observation.<br>
      * The end date is an optional field, as for example old observations might not
      * have an precise end date.
-     * 
+     *
      * @param end The end date of the observation
      */
     public void setEnd(Calendar end) {
@@ -1778,7 +1778,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the eyepiece of the observation.<br>
      * If there was already an eyepiece attached to this observation, the old one
      * will be replaced with the new one.
-     * 
+     *
      * @param eyepiece The eyepiece of the observation
      */
     public void setEyepiece(IEyepiece eyepiece) {
@@ -1792,7 +1792,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the lens of the observation.<br>
      * If there was already an lens attached to this observation, the old one will
      * be replaced with the new one.
-     * 
+     *
      * @param lens The lens of the observation
      */
     public void setLens(ILens lens) {
@@ -1806,7 +1806,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the filter used during this observation.<br>
      * If there was already an filter attached to this observation, the old one will
      * be replaced with the new one.
-     * 
+     *
      * @param filter The filter used during this observation
      * @since 1.5
      */
@@ -1822,7 +1822,7 @@ public class Observation extends SchemaElement implements IObservation {
      * unaided eye during the observation.<br>
      * If there was already a value set for this observation, the old one will be
      * replaced with the new one.
-     * 
+     *
      * @param faintestStar The faintestStar of the observation in magnitude
      */
     public void setFaintestStar(float faintestStar) {
@@ -1844,7 +1844,7 @@ public class Observation extends SchemaElement implements IObservation {
      * lens (barlow) used had a focal length factor of 2x<br>
      * Magnification set here must be:<br>
      * 1114*2/10 = 222,8
-     * 
+     *
      * @param magnification The magnification used at the observation
      */
     public void setMagnification(float magnification) {
@@ -1859,7 +1859,7 @@ public class Observation extends SchemaElement implements IObservation {
      * observation.<br>
      * If there was already a value set for this observation, the old one will be
      * replaced with the new one.
-     * 
+     *
      * @param sq The sky quality meter value
      */
     public void setSkyQuality(SurfaceBrightness sq) {
@@ -1873,7 +1873,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the seeing during this observation.<br>
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst
      * seeing.<br>
-     * 
+     *
      * @param seeing A int between 1-5 representing the seeing
      */
     public void setSeeing(int seeing) throws IllegalArgumentException {
@@ -1897,7 +1897,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the observer of the observation.<br>
      * If there was already an observer attached to this observation, the old one
      * will be replaced with the new one.
-     * 
+     *
      * @param observer The observer of the observation
      * @throws IllegalArgumentException if new observer is <code>null</code>
      */
@@ -1916,7 +1916,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the scope of the observation.<br>
      * If there was already a scope attached to this observation, the old one will
      * be replaced with the new one.
-     * 
+     *
      * @param scope The scope of the observation
      */
     public void setScope(IScope scope) {
@@ -1932,7 +1932,7 @@ public class Observation extends SchemaElement implements IObservation {
      * date.<br>
      * If there was already a session attached to this observation, the old one will
      * be replaced with the new one.
-     * 
+     *
      * @param session The session this observation belongs to
      * @throws IllegalArgumentException if this observations start date is not
      *                                  between the session start and end date
@@ -1972,7 +1972,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the site where this observation took place.<br>
      * If there was already a site attached to this observation, the old one will be
      * replaced with the new one.
-     * 
+     *
      * @param site The site this observation took place
      */
     public void setSite(ISite site) {
@@ -1986,7 +1986,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the target of this observation.<br>
      * If there was already a target attached to this observation, the old one will
      * be replaced with the new one.
-     * 
+     *
      * @param target The target of this observation
      * @throws IllegalArgumentException if new Target is <code>null</code>
      */
@@ -2041,11 +2041,7 @@ public class Observation extends SchemaElement implements IObservation {
 
             }
 
-            @Override
-            public boolean equals(Object obj) {
-                // implementation not needed for our usage
-                return false;
-            }
+
         });
 
         return results;

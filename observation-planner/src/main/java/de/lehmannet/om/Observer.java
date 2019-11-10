@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Observer.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -29,7 +29,7 @@ import de.lehmannet.om.util.SchemaException;
  * An Observer describes person, who does astronomical observations.<br>
  * The Observer class provides access to at least the name and surname of the
  * person. Additionally address informations may be stored here.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -76,7 +76,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Constructs a new Observer instance from a given XML Schema Node. Normally
      * this constructor is only used by de.lehmannet.om.util.SchemaLoader
-     * 
+     *
      * @param observer The XML Schema Node that represents this Observer object
      * @throws IllegalArgumentException if the given parameter is <code>null</code>
      * @throws SchemaException          if the given Node does not match the XML
@@ -249,7 +249,7 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of an Observer.
-     * 
+     *
      * @param name    The observers name
      * @param surname The observers surname
      * @throws IllegalArgumentException if one of the given parameters is
@@ -281,7 +281,7 @@ public class Observer extends SchemaElement implements IObserver {
      * spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in
      * e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
@@ -300,7 +300,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the name, surname and contact informations of this observer.
-     * 
+     *
      * @return This observers name, surname and contact informations
      * @see java.lang.Object
      */
@@ -355,7 +355,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Overwrittes hashCode() method from java.lang.Object.<br>
      * Returns a hashCode for the string returned from toString() method.
-     * 
+     *
      * @return a hashCode value
      * @see java.lang.Object
      */
@@ -372,7 +372,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Checks if this Observer and the given Object are equal. The given object is
      * equal with this Observer, if it implements the IObserver interface and if its
      * name, surname and contact informations equals this Observers data.<br>
-     * 
+     *
      * @param obj The Object to compare this Observer with.
      * @return <code>true</code> if the given Object is an instance of IObserver and
      *         its name, surname and contact informations are equal to this
@@ -382,30 +382,30 @@ public class Observer extends SchemaElement implements IObserver {
      */
     /*
      * public boolean equals(Object obj) {
-     * 
+     *
      * if( obj == null || !(obj instanceof IObserver) ) { return false; }
-     * 
+     *
      * IObserver observer = (IObserver)obj;
-     * 
+     *
      * if( !observer.getName().toLowerCase().equals(name.toLowerCase()) ) { return
      * false; }
-     * 
+     *
      * if( !observer.getSurname().toLowerCase().equals(surname.toLowerCase()) ) {
      * return false; }
-     * 
+     *
      * // Sort contact list from given object List objectContacts =
      * sortContactList(observer.getContacts());
-     * 
+     *
      * // dublicate this Observers contacts, that the original // contact list stays
      * unchanged, while we sort and compare the results List contactList = new
      * LinkedList(contacts); // Sort internal contact list contactList =
      * sortContactList(contactList);
-     * 
+     *
      * // Calls AbstractList.equals(Object) as both list should be sorted if(
      * !contactList.equals(objectContacts) ) { return false; }
-     * 
+     *
      * return true;
-     * 
+     *
      * }
      */
 
@@ -417,7 +417,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Adds this Observer to a given parent XML DOM Element. The Observer element
      * will be set as a child element of the passed element.
-     * 
+     *
      * @param parent The parent element for this Observer
      * @return Returns the element given as parameter with this Observer as child
      *         element.<br>
@@ -528,7 +528,7 @@ public class Observer extends SchemaElement implements IObserver {
      * <b>&lt;/observer&gt;</b><br>
      * <b>&lt;/observerContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element               The element at which the Observer link will be
      *                              created.
      * @param nameOfLinkElement     The name of the link element, which is set under
@@ -588,7 +588,7 @@ public class Observer extends SchemaElement implements IObserver {
      * <b>&lt;observerLink&gt;123&lt;/observerLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element           The element under which the the observer link is
      *                          created
      * @param NameOfLinkElement The name of the link element, which is set under the
@@ -611,7 +611,7 @@ public class Observer extends SchemaElement implements IObserver {
      * should/may contain, or in which order the elements are placed.<br>
      * If no contact informations where given, the method might return
      * <code>null</code>
-     * 
+     *
      * @return a List with contact information of the observer, or <code>null</code>
      *         if not informations are given.
      */
@@ -624,7 +624,7 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Adds a new contact information to the observer.<br>
-     * 
+     *
      * @param newContact the additional contact information
      * @return <b>true</b> if the new contact information could be added
      *         successfully. <b>false</b> if the new contact information could not
@@ -647,7 +647,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Sets the contact information to the observer.<br>
      * All current contacts will be deleted!<br>
      * If you want to add a contact use addContact(String)<br>
-     * 
+     *
      * @param newContacts new list of contact informations
      * @return <b>true</b> if the new contact information could be set successfully.
      *         <b>false</b> if the new contact information could not be set.
@@ -669,7 +669,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Returns the name of the observer<br>
      * The name (and the surname) are the only mandatory fields this interface
      * requires.
-     * 
+     *
      * @return the name of the observer
      */
     public String getName() {
@@ -682,7 +682,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Returns the DeepSkyList (DSL) Code of the observer<br>
      * Might return <code>NULL</code> if observer has no DSL code
-     * 
+     *
      * @return the DeepSkyList (DSL) Code of the observer, or <code>NULL</code> if
      *         DSL was never set
      * @deprecated Use getUsernameForAccount(String accountName) instead
@@ -699,7 +699,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Returns the surname of the observer<br>
      * The surname (and the name) are the only mandatory fields this interface
      * requires.
-     * 
+     *
      * @return the surname of the observer
      */
     public String getSurname() {
@@ -711,7 +711,7 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Sets the DeepSkyList (DSL) Code of the observer<br>
-     * 
+     *
      * @param DSLCode the DeepSkyList (DSL) Code of the observer
      * @deprecated Use addAccount(String accountName, String username) instead
      */
@@ -726,7 +726,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Sets a new name to the observer.<br>
      * As the name is mandatory it cannot be <code>null</code>
-     * 
+     *
      * @param name the new name of the observer
      * @throws IllegalArgumentException if the given name is <code>null</code>
      */
@@ -744,7 +744,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Sets a new surname to the observer.<br>
      * As the surname is mandatory it cannot be <code>null</code>
-     * 
+     *
      * @param surname the new surname of the observer
      * @throws IllegalArgumentException if the given surname is <code>null</code>
      */
@@ -766,7 +766,7 @@ public class Observer extends SchemaElement implements IObserver {
      * membernumbers, etc. identifing this oberver on an external
      * site/service/organisation. If no additional account informations where given,
      * the method might return <code>null</code>
-     * 
+     *
      * @return a Map with additional account information of the observer, or
      *         <code>null</code> if no informations are given.
      * @since 2.0
@@ -782,7 +782,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Adds a new account information to the observer.<br>
      * If the account name does already exist, the existing value gets overwritten
      * with the passed new value.<br>
-     * 
+     *
      * @param accountName the new account name (name of service, organisation,
      *                    website, ...)
      * @param username    the username/ID/User#/... to the new account
@@ -807,7 +807,7 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Removes an existing account information from the observer.<br>
-     * 
+     *
      * @param accountName the account name (name of service, organisation, website,
      *                    ...) to be removed
      * @return <b>true</b> if the accout information could be removed successfully.
@@ -827,7 +827,7 @@ public class Observer extends SchemaElement implements IObserver {
      * All current accounts will be deleted!<br>
      * If you want to add a single account use addAccount(String, String)<br>
      * If <code>NULL</code> is passed, the all current accounts will be deleted.
-     * 
+     *
      * @param newAccounts new list of account informations
      * @return <b>true</b> if the new account information could be set successfully.
      *         <b>false</b> if the new account information could not be set.
@@ -848,7 +848,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Returns the username/ID/User#/... belonging to the passed accountName, or
      * <code>NULL</code> if the accountName wasn't set for this observer.<br>
-     * 
+     *
      * @param accountName Name of service, organisation, website, ...
      * @return The username/ID/User#/... of this observer beloging to the passed
      *         accountName, or <code>NULL</code> if the accountName wasn't set for
@@ -865,7 +865,7 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Sets a new fst offset to the observer.<br>
      * Float.NaN will clear the current set value.
-     * 
+     *
      * @param fstOffset the new faintest star offset of the observer
      */
     public void setFSTOffset(float fstOffset) {
@@ -892,7 +892,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Schaefer: fst = 5*(1.586-log(10^((21.568-BSB)/5)+1)) where BSB is the sky
      * quality (or background surface brightness) given in magnitudes per square
      * arcsecond
-     * 
+     *
      * @return the fst Offset of the Observer or <code>Float.NaN</code> if the value
      *         was never set.
      * @since 2.0
@@ -920,11 +920,7 @@ public class Observer extends SchemaElement implements IObserver {
 
             }
 
-            @Override
-            public boolean equals(Object obj) {
-                // implementation not needed for our usage
-                return false;
-            }
+
         });
 
         return contacts;

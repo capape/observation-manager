@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/SchemaLoader.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -59,7 +59,7 @@ import de.lehmannet.om.Site;
  * The SchemaLoader provides loading facilities to load (parse) a XML Schema
  * file.<br>
  * You can see this as a Factory of the Schema Objects.
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
@@ -123,7 +123,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
-     * 
+     *
      * @param xsiType     The unique xsi:Type that identifies the object/element
      * @param currentNode The XML Node that represents the object e.g.
      *                    <target>...</target>
@@ -144,7 +144,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Gets a IFinding object (e.g. DeepSkyFinding) from a given xsiType.
-     * 
+     *
      * @param xsiType     The unique xsi:Type that identifies the object/element
      * @param currentNode The XML Node that represents the object e.g.
      *                    <result>...</result>
@@ -161,7 +161,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Gets a IImager object (e.g. CCDImager) from a given xsiType.
-     * 
+     *
      * @param xsiType     The unique xsi:Type that identifies the object/element
      * @param currentNode The XML Node that represents the object e.g.
      *                    <imager>...</imager>
@@ -252,7 +252,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Loads/parses a XML File
-     * 
+     *
      * @param schemaPath The path to the XML Schemas
      * @throws OALException    if schema File cannot be accessed
      * @throws SchemaException if XML File is not valid
@@ -303,7 +303,7 @@ public class SchemaLoader {
      * Adds a new classloader to the SchemaLoader.<br>
      * Additional classloaders will be used in case a requested class cannot be
      * found on the default classloaders search path.
-     * 
+     *
      * @param classloader A new classloader
      */
     public static void addClassloader(ClassLoader classloader) {
@@ -317,7 +317,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Loads/parses a XML Document
-     * 
+     *
      * @param doc The XML Document which should be parsed
      * @throws OALException    if doc is <code>NULL</code> or empty
      * @throws SchemaException if XML File is not valid
@@ -439,7 +439,7 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Loads objects for a given xsiType via reflection
-     * 
+     *
      * @param xsiType     The xsiType that specifies the Object
      * @param currentNode The XML node that represents the Object e.g.
      *                    <target>...</target>
@@ -457,6 +457,10 @@ public class SchemaLoader {
             } else { // TARGETs and all other extenable schemaElements can be found in Targetable of
                      // ConfigLoader
                 classname = ConfigLoader.getTargetClassnameFromType(xsiType);
+            }
+
+            if (classname == null) {
+                throw new SchemaException("Unable to get classname from xsi:type.\n" + xsiType);
             }
         } catch (ConfigException ce) {
             throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage());
@@ -479,9 +483,10 @@ public class SchemaLoader {
                         // Do nothing...just try next classLoader
                     }
                 }
-                if (currentClass == null) {
-                    throw new SchemaException("Unable to load class for classname:" + classname);
-                }
+            }
+        } finally {
+            if (currentClass == null) {
+                throw new SchemaException("Unable to load class for classname:" + classname);
             }
         }
 

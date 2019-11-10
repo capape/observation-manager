@@ -1,6 +1,6 @@
 /* ====================================================================
  * /SurfaceBrightness.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -16,7 +16,7 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * Surface Brightness represents the value and the unit of a celestial objects
  * surface brightness
- * 
+ *
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
@@ -88,14 +88,14 @@ public class SurfaceBrightness {
     // -------------------------------------------------------------------
     /*
      * Creates a new Surface Brightness instance.
-     * 
+     *
      * @param value The surface brightness value
-     * 
+     *
      * @param unit Surface brightness unit (use SurfaceBrightness constants)
-     * 
+     *
      * @throws IllegalArgumentException if unit parameter has unknown type. Allowed
      * types can be accessed by public constants.<br>
-     * 
+     *
      * @see de.lehmannet.om.SurfaceBrightness
      */
     public SurfaceBrightness(float value, String unit) throws IllegalArgumentException {
@@ -128,7 +128,7 @@ public class SurfaceBrightness {
      * Returns the value of this surface brightness followed by its unit.<br>
      * Example:<br>
      * 5.67 mags-per-squarearcsec
-     * 
+     *
      * @return The surface brightness value followed by its unit
      * @see java.lang.Object
      */
@@ -150,40 +150,69 @@ public class SurfaceBrightness {
      * Checks if this surface brightness and the given Object are equal. Two surface
      * brightness' are equal if both have the same value when represented as
      * mags-per-squarearcsec.<br>
-     * 
+     *
      * @param obj The Object to compare this surface brightness with.
      * @return <code>true</code> if both Objects are instances from class
      *         de.lehmannet.om.SurfaceBrightness and their values in
      *         mags-per-squarearcsec is equal.
      * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
+//     */
+//    @Override
+//    public boolean equals(Object obj) {
+//
+//        if (obj == null || !(obj instanceof SurfaceBrightness)) {
+//            return false;
+//        }
+//
+//        SurfaceBrightness foreign = (SurfaceBrightness) obj;
+//
+//        float foreignMagsPerSqrArcSec = foreign.getValueAs(SurfaceBrightness.MAGS_SQR_ARC_SEC);
+//
+//        float thisMagsPerSqrArcSec = this.value;
+//        if (!SurfaceBrightness.MAGS_SQR_ARC_SEC.equals(unit)) {
+//            thisMagsPerSqrArcSec = this.getValueAs(SurfaceBrightness.MAGS_SQR_ARC_SEC);
+//        }
+//
+//        if (thisMagsPerSqrArcSec == foreignMagsPerSqrArcSec) {
+//            return true;
+//        }
+//
+//        return false;
+//
+//    }
 
-        if (obj == null || !(obj instanceof SurfaceBrightness)) {
-            return false;
-        }
-
-        SurfaceBrightness foreign = (SurfaceBrightness) obj;
-
-        float foreignMagsPerSqrArcSec = foreign.getValueAs(SurfaceBrightness.MAGS_SQR_ARC_SEC);
-
-        float thisMagsPerSqrArcSec = this.value;
-        if (!SurfaceBrightness.MAGS_SQR_ARC_SEC.equals(unit)) {
-            thisMagsPerSqrArcSec = this.getValueAs(SurfaceBrightness.MAGS_SQR_ARC_SEC);
-        }
-
-        if (thisMagsPerSqrArcSec == foreignMagsPerSqrArcSec) {
-            return true;
-        }
-
-        return false;
-
-    }
 
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+        result = prime * result + Float.floatToIntBits(value);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SurfaceBrightness other = (SurfaceBrightness) obj;
+        if (unit == null) {
+            if (other.unit != null)
+                return false;
+        } else if (!unit.equals(other.unit))
+            return false;
+        if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value))
+            return false;
+        return true;
+    }
 
     // -------------------------------------------------------------------
     /**
@@ -193,7 +222,7 @@ public class SurfaceBrightness {
      * Example:<br>
      * &lt;surfaceBrightness
      * unit="mags-per-squarearcsec"&gt;20.3&lt;/surfaceBrightness&gt;
-     * 
+     *
      * @param element The XML DOM Element this SurfaceBrightness belongs to
      * @return Returns the element given as parameter with this SurfaceBrightness
      *         value as element value and this SurfaceBrightness unit as attribute
@@ -218,7 +247,7 @@ public class SurfaceBrightness {
      * Returns the unit of the SurfaceBrightness value.<br>
      * The returned value may be any valid SurfaceBrightness unit, which can be
      * accessed by SurfaceBrightness constants.
-     * 
+     *
      * @return This SurfaceBrightness value unit.
      */
     public String getUnit() {
@@ -231,7 +260,7 @@ public class SurfaceBrightness {
     /**
      * Returns the value of this SurfaceBrightness.<br>
      * The returned value may be any float value (positiv or negativ).
-     * 
+     *
      * @return This SurfaceBrightness value
      */
     public float getValue() {
@@ -245,7 +274,7 @@ public class SurfaceBrightness {
      * Returns the value of this SurfaceBrightness given in the passed unit.<br>
      * The returned value may be any float value (positiv or negativ). If the passed
      * unit is invalid, <code>Float.NaN</code> is returned.
-     * 
+     *
      * @return This SurfaceBrightness value or <code>Float.NaN</code> if the given
      *         unit parameter was invalid
      */
@@ -277,7 +306,7 @@ public class SurfaceBrightness {
      * Checks if a given String is a valid Surface Brightness unit.<br>
      * Means, if the given string is equal to SurfaceBrightness.MAGS_SQR_ARC_MIN or
      * SurfaceBrightness.MAGS_SQR_ARC_SEC
-     * 
+     *
      * @param unit A String which represents an Surface Brightness unit
      * @return true if the given string is a valid Surface Brightness unit
      */
