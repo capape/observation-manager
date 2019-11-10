@@ -5,7 +5,6 @@
  * ====================================================================
  */
 
-
 package de.lehmannet.om.ui.dialog;
 
 import de.lehmannet.om.ITarget;
@@ -15,7 +14,7 @@ import de.lehmannet.om.ITarget;
  * derive from. Make sure we can always call getTarget();
  */
 public interface ITargetDialog extends IDialog {
-	
-	public abstract ITarget getTarget();
-		
+
+    public abstract ITarget getTarget();
+
 }

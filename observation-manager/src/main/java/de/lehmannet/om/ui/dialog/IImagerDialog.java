@@ -5,7 +5,6 @@
  * ====================================================================
  */
 
-
 package de.lehmannet.om.ui.dialog;
 
 import de.lehmannet.om.IImager;
@@ -15,7 +14,7 @@ import de.lehmannet.om.IImager;
  * derive from. Make sure we can always call getImager();
  */
 public interface IImagerDialog {
-	
-	public abstract IImager getImager();
-		
+
+    public abstract IImager getImager();
+
 }

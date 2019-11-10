@@ -12,23 +12,22 @@ import java.util.Comparator;
 import de.lehmannet.om.ISite;
 
 public class SiteComparator implements Comparator {
-  													
-	public int compare(Object o1, Object o2) {
 
-		if(   (o1 instanceof ISite)
-		   && (o2 instanceof ISite)
-		   ) {
-			ISite s1 = (ISite)o1;
-			ISite s2 = (ISite)o2;																																		
-			
-			String s1Name = s1.getName().toLowerCase().trim();																	
-			
-			return s1Name.compareToIgnoreCase(s2.getName().trim());
-				
-		}
-			
-		return 0;
-			
-   }    		
+    @Override
+    public int compare(Object o1, Object o2) {
+
+        if ((o1 instanceof ISite) && (o2 instanceof ISite)) {
+            ISite s1 = (ISite) o1;
+            ISite s2 = (ISite) o2;
+
+            String s1Name = s1.getName().toLowerCase().trim();
+
+            return s1Name.compareToIgnoreCase(s2.getName().trim());
+
+        }
+
+        return 0;
+
+    }
 
 }

@@ -17,37 +17,37 @@ import de.lehmannet.om.ui.panel.TargetStarPanel;
 
 public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
 
-	private static final long serialVersionUID = -923728327119653756L;
-	private final PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("ObservationManager", Locale.getDefault());	
-	
-	public TargetStarDialog(ObservationManager om,
-                            ITarget editableTarget,
-                            Boolean editable
-                            ) {
-	
-		super(om, new TargetStarPanel(om, editableTarget, new Boolean(true)));
-		
-		if( editableTarget == null ) {
-			super.setTitle(this.bundle.getString("dialog.targetStar.title"));	
-		} else {
-			super.setTitle(this.bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
-		}				
-		
-		super.setSize(TargetStarDialog.serialVersionUID, 590, 313);
-		
-	//	super.pack();
-		super.setVisible(true);		
-	
-	}	
-	
-	public ITarget getTarget() {
-		
-		if( super.schemaElement != null ) {
-			return (ITarget)super.schemaElement;
-		}
-		
-		return null;
-		
-	}
+    private static final long serialVersionUID = -923728327119653756L;
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
+
+    public TargetStarDialog(ObservationManager om, ITarget editableTarget, Boolean editable) {
+
+        super(om, new TargetStarPanel(om, editableTarget, new Boolean(true)));
+
+        if (editableTarget == null) {
+            super.setTitle(this.bundle.getString("dialog.targetStar.title"));
+        } else {
+            super.setTitle(
+                    this.bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
+        }
+
+        super.setSize(TargetStarDialog.serialVersionUID, 590, 313);
+
+        // super.pack();
+        super.setVisible(true);
+
+    }
+
+    @Override
+    public ITarget getTarget() {
+
+        if (super.schemaElement != null) {
+            return (ITarget) super.schemaElement;
+        }
+
+        return null;
+
+    }
 
 }

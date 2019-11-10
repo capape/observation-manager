@@ -12,12 +12,12 @@ import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 
 public interface ICatalog {
 
-	public ITarget getTarget(String objectName);
+    public ITarget getTarget(String objectName);
 
-	public String getName();	
-	
-	public AbstractSearchPanel getSearchPanel();
-	
-	public String getAbbreviation();
-	
+    public String getName();
+
+    public AbstractSearchPanel getSearchPanel();
+
+    public String getAbbreviation();
+
 }

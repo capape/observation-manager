@@ -16,18 +16,16 @@ package de.lehmannet.om.util;
  */
 public class FloatUtil {
 
-	public static float parseFloat(String floatString) {
-		
-		if(   (floatString == null)
-		   || ("".equals(floatString.trim()))
-		   ) {
-			return Float.NaN;
-		}
-		
-		floatString = floatString.replace(',', '.');
-		
-		return Float.parseFloat(floatString);
-		
-	}
-	
+    public static float parseFloat(String floatString) {
+
+        if ((floatString == null) || ("".equals(floatString.trim()))) {
+            return Float.NaN;
+        }
+
+        floatString = floatString.replace(',', '.');
+
+        return Float.parseFloat(floatString);
+
+    }
+
 }

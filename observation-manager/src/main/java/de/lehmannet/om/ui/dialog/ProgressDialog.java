@@ -7,7 +7,6 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentEvent;
@@ -23,160 +22,162 @@ import de.lehmannet.om.ui.util.Worker;
 
 public class ProgressDialog extends OMDialog implements ComponentListener {
 
-	private static final long serialVersionUID = -6190690843181392987L;
-	
-	private JLabel information = null;
-	private JProgressBar progressBar = null;
-	
-	private Thread calculation = null;
-	private Thread watchdog = null;
-		
-	public ProgressDialog(ObservationManager om,
-						  String title,
-			   			  String information,
-			   			  Worker runnable) {
-		
-		super(om);
-		
-		super.setSize(ProgressDialog.serialVersionUID, 300, 100);
-		super.setTitle(title);
-		super.setLocationRelativeTo(om);
-		super.addComponentListener(this);
-		
-		this.initDialog(information);			
+    private static final long serialVersionUID = -6190690843181392987L;
 
-		// Start execution thread
-		// Will do the "long term" calculation of whatever
-		this.calculation = new Thread(runnable, "ProcessDialog: Calculation thread");
-		this.calculation.start();
-		
-		// Start watchdog
-		// Watchdog will call the close() method as soon as calculation thread 
-		// is done.
-		this.watchdog = new Thread(new Watchdog(this, calculation), "ProcessDialog: Watchdog thread");
-		this.watchdog.start();				
-		
-		// Show wait UI
-		this.pack();
+    private JLabel information = null;
+    private JProgressBar progressBar = null;
 
-		try {
-			this.setVisible(true);
-		} catch( ArrayIndexOutOfBoundsException aioobe ) {
-			System.out.println("Krach!");
-		}
-							
-	}
-	
+    private Thread calculation = null;
+    private Thread watchdog = null;
+
+    public ProgressDialog(ObservationManager om, String title, String information, Worker runnable) {
+
+        super(om);
+
+        super.setSize(ProgressDialog.serialVersionUID, 300, 100);
+        super.setTitle(title);
+        super.setLocationRelativeTo(om);
+        super.addComponentListener(this);
+
+        this.initDialog(information);
+
+        // Start execution thread
+        // Will do the "long term" calculation of whatever
+        this.calculation = new Thread(runnable, "ProcessDialog: Calculation thread");
+        this.calculation.start();
+
+        // Start watchdog
+        // Watchdog will call the close() method as soon as calculation thread
+        // is done.
+        this.watchdog = new Thread(new Watchdog(this, calculation), "ProcessDialog: Watchdog thread");
+        this.watchdog.start();
+
+        // Show wait UI
+        this.pack();
+
+        try {
+            this.setVisible(true);
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            System.out.println("Krach!");
+        }
+
+    }
+
     // ------
     // JFrame -----------------------------------------------------------------
-    // ------ 
-	
-    protected void processWindowEvent(WindowEvent e) {
-    	
-    	super.processWindowEvent(e);
-    
-    	// Catch window closing (via x Button)
-    	// and stop threads
-    	if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-    	
-    		this.watchdog.stop();
-    		this.calculation.stop();
-    		
-    		this.close();
-    		
-    	}    	    	     	
-    	
-    }	
-    
-	// -----------------
-	// ComponentListener ------------------------------------------------------
-	// -----------------	
-		
-    public void componentResized(ComponentEvent e) {
-        
-    	final int MIN_WIDTH = 300;
+    // ------
 
-    	int width = getWidth();
-        
-		//we check if the width is below minimum
-		boolean resize = false;
-		if (width < MIN_WIDTH) {
-			resize = true;
-	        width = MIN_WIDTH;
-		}
-		if (resize) {
-			setSize(width, this.getHeight());
-		}
-		
-     }
-    
-     public void componentMoved(ComponentEvent e) {
-    	 // Do nothing
-     }
-     
-     public void componentShown(ComponentEvent e) {
-    	 // Do nothing
-     }
-     
-     public void componentHidden(ComponentEvent e) {
-    	 // Do nothing
-     }
-	    
-	
-	public void close() {
-		
-		this.dispose();
-		
-	}
-	
-	private void initDialog(String information) {
-		
+    @Override
+    protected void processWindowEvent(WindowEvent e) {
+
+        super.processWindowEvent(e);
+
+        // Catch window closing (via x Button)
+        // and stop threads
+        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+
+            this.watchdog.stop();
+            this.calculation.stop();
+
+            this.close();
+
+        }
+
+    }
+
+    // -----------------
+    // ComponentListener ------------------------------------------------------
+    // -----------------
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+
+        final int MIN_WIDTH = 300;
+
+        int width = getWidth();
+
+        // we check if the width is below minimum
+        boolean resize = false;
+        if (width < MIN_WIDTH) {
+            resize = true;
+            width = MIN_WIDTH;
+        }
+        if (resize) {
+            setSize(width, this.getHeight());
+        }
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        // Do nothing
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        // Do nothing
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        // Do nothing
+    }
+
+    public void close() {
+
+        this.dispose();
+
+    }
+
+    private void initDialog(String information) {
+
         GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();        
+        GridBagConstraints constraints = new GridBagConstraints();
         super.getContentPane().setLayout(gridbag);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
         this.information = new JLabel(information);
         gridbag.setConstraints(this.information, constraints);
-        super.getContentPane().add(this.information);	
-		        
+        super.getContentPane().add(this.information);
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-		this.progressBar = new JProgressBar();
-		this.progressBar.setIndeterminate(true);
-		gridbag.setConstraints(this.progressBar, constraints);
-		super.getContentPane().add(this.progressBar);	
-	
-	}
-	
+        this.progressBar = new JProgressBar();
+        this.progressBar.setIndeterminate(true);
+        gridbag.setConstraints(this.progressBar, constraints);
+        super.getContentPane().add(this.progressBar);
+
+    }
+
 }
 
 class Watchdog implements Runnable {
-	
-	private ProgressDialog progress = null;
-	private Thread calculation = null;
-	
-	public Watchdog(ProgressDialog progress, Thread calculation) {
-		
-		this.progress = progress;
-		this.calculation = calculation;
-		
-	}
-	
-	public void run() {
-		
-		try {
-			this.calculation.join();
-		} catch(InterruptedException ie) {
-			// Can't do anything here
-		}
-		
-		// Close the wait/progress UI;
-		this.progress.close();
-		
-	}
-	
+
+    private ProgressDialog progress = null;
+    private Thread calculation = null;
+
+    public Watchdog(ProgressDialog progress, Thread calculation) {
+
+        this.progress = progress;
+        this.calculation = calculation;
+
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            this.calculation.join();
+        } catch (InterruptedException ie) {
+            // Can't do anything here
+        }
+
+        // Close the wait/progress UI;
+        this.progress.close();
+
+    }
+
 }

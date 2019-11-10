@@ -18,104 +18,117 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public abstract class AbstractExtension implements IExtension {
 
-	protected String OAL_EXTENSION_FILE = "noCorrectSetByExtension";
-	
-	// HashMap: 
-	//	Key: SchemaElementConstant	Value: HashMap of xsiTypes
-	// 	HashMap of xsiTypes:
-	//		Key: xsiType (String)	Value: Panel/Dialog classname as String
-	protected HashMap panels = new HashMap();
-	protected HashMap dialogs = new HashMap();
-	
-	public abstract String getName();
+    protected String OAL_EXTENSION_FILE = "noCorrectSetByExtension";
 
-	public abstract float getVersion();
+    // HashMap:
+    // Key: SchemaElementConstant Value: HashMap of xsiTypes
+    // HashMap of xsiTypes:
+    // Key: xsiType (String) Value: Panel/Dialog classname as String
+    protected HashMap panels = new HashMap();
+    protected HashMap dialogs = new HashMap();
 
-	public abstract JMenu getMenu();
+    @Override
+    public abstract String getName();
 
-	public abstract PreferencesPanel getPreferencesPanel();
-	
-	public abstract Set getSupportedXSITypes(int schemaElementConstant);
+    @Override
+    public abstract float getVersion();
 
-	public abstract boolean isCreationAllowed(String xsiType);
+    @Override
+    public abstract JMenu getMenu();
 
-	public abstract String getDisplayNameForXSIType(String xsiType);
+    @Override
+    public abstract PreferencesPanel getPreferencesPanel();
 
-	public abstract ICatalog[] getCatalogs(File catalogDir);
+    @Override
+    public abstract Set getSupportedXSITypes(int schemaElementConstant);
 
-	public Set getAllSupportedXSITypes() {
-		
-		// Return all XSI types which are supported by this extension
-		HashSet result = new HashSet();
-		result.addAll(this.getSupportedXSITypes(SchemaElementConstants.FINDING));
-		result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
-		
-		return result;
-		
-	}
-	
-	public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
-		
-		Object o = this.panels.get(new Integer(schemaElementConstant));
-		
-		if( o == null ) { // nothing found for this schema Element type
-			return null;
-		}
-		
-		HashMap hm = (HashMap)o;
-		return (String)hm.get(xsiType);	
-		
-	}
-	
-	public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
-		
-		Object o = this.dialogs.get(new Integer(schemaElementConstant));
-		
-		if( o == null ) { // nothing found for this schema Element type
-			return null;
-		}
-		
-		HashMap hm = (HashMap)o;
-		return (String)hm.get(xsiType);	
-		
-	}
+    @Override
+    public abstract boolean isCreationAllowed(String xsiType);
 
-	public boolean equals(Object o) {
-		
-		if( o instanceof IExtension ) {
-			IExtension ext = (IExtension)o;
-			if( ext.getName().equals(this.getName()) ) {
-				if( ext.getVersion() == this.getVersion() ) {
-					return true;
-				}				
-			}
-		} 
-		
-		return false;
-		
-	}
+    @Override
+    public abstract String getDisplayNameForXSIType(String xsiType);
 
-	public boolean addOALExtensionElement(Element docElement) {
-			
-		// Check if include is already in place
-		NodeList list = docElement.getElementsByTagName("xsd:include");
-		NamedNodeMap attributes = null;
-		for(int i=0; i < list.getLength(); i++) {
-			attributes = list.item(i).getAttributes();
-			if( this.OAL_EXTENSION_FILE.equals(attributes.getNamedItem("schemaLocation").getNodeValue()) ) {
-				return true;
-			}
-		}
-		
-		Document doc = docElement.getOwnerDocument();
-		
-		Element e = doc.createElement("xsd:include");
-		e.setAttribute("schemaLocation", this.OAL_EXTENSION_FILE);
-		
-		docElement.appendChild(e);
-		
-		return true;
-		
-	}
+    @Override
+    public abstract ICatalog[] getCatalogs(File catalogDir);
+
+    @Override
+    public Set getAllSupportedXSITypes() {
+
+        // Return all XSI types which are supported by this extension
+        HashSet result = new HashSet();
+        result.addAll(this.getSupportedXSITypes(SchemaElementConstants.FINDING));
+        result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
+
+        return result;
+
+    }
+
+    @Override
+    public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
+
+        Object o = this.panels.get(new Integer(schemaElementConstant));
+
+        if (o == null) { // nothing found for this schema Element type
+            return null;
+        }
+
+        HashMap hm = (HashMap) o;
+        return (String) hm.get(xsiType);
+
+    }
+
+    @Override
+    public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
+
+        Object o = this.dialogs.get(new Integer(schemaElementConstant));
+
+        if (o == null) { // nothing found for this schema Element type
+            return null;
+        }
+
+        HashMap hm = (HashMap) o;
+        return (String) hm.get(xsiType);
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof IExtension) {
+            IExtension ext = (IExtension) o;
+            if (ext.getName().equals(this.getName())) {
+                if (ext.getVersion() == this.getVersion()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public boolean addOALExtensionElement(Element docElement) {
+
+        // Check if include is already in place
+        NodeList list = docElement.getElementsByTagName("xsd:include");
+        NamedNodeMap attributes = null;
+        for (int i = 0; i < list.getLength(); i++) {
+            attributes = list.item(i).getAttributes();
+            if (this.OAL_EXTENSION_FILE.equals(attributes.getNamedItem("schemaLocation").getNodeValue())) {
+                return true;
+            }
+        }
+
+        Document doc = docElement.getOwnerDocument();
+
+        Element e = doc.createElement("xsd:include");
+        e.setAttribute("schemaLocation", this.OAL_EXTENSION_FILE);
+
+        docElement.appendChild(e);
+
+        return true;
+
+    }
 
 }

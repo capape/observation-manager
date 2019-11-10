@@ -30,65 +30,71 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 
 public class GeneralPanel extends PreferencesPanel {
-		
-	private static final long serialVersionUID = 7383101472997890151L;
 
-	private PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("ObservationManager", Locale.getDefault());
-	
-	private ObservationManager om = null;
-	
-	private JCheckBox loadLastFile = null;
-	private JCheckBox checkForUpdates = null;
-	private LanguageBox uiLanguage = null;
-	private JComboBox xslTemplate = null;
-	private JButton resetWindowSizes = null;
-		
-	public GeneralPanel(Configuration config, ObservationManager om) {
-		
-		super(config);
-		
-		this.om = om;		
-		this.createPanel();
-		
-	}
-	
-	public String getTabTitle() {
-		
-		return this.bundle.getString("dialog.preferences.generalTab.title");
-		
-	}
-	
-	public void writeConfig() {
-		
-		// Load last opened XML file on startup
-		super.configuration.setConfig(ObservationManager.CONFIG_OPENONSTARTUP, "" + this.loadLastFile.isSelected());
+    private static final long serialVersionUID = 7383101472997890151L;
 
-        // ------------------		
-		
-		// Load last opened XML file on startup
-		super.configuration.setConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "" + this.checkForUpdates.isSelected());
-		
-        // ------------------
-		
-		// Set UI Language
-		super.configuration.setConfig(ObservationManager.CONFIG_UILANGUAGE, "" + this.uiLanguage.getSelectedISOLanguage());
-		this.om.reloadLanguage();	
+    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+            Locale.getDefault());
+
+    private ObservationManager om = null;
+
+    private JCheckBox loadLastFile = null;
+    private JCheckBox checkForUpdates = null;
+    private LanguageBox uiLanguage = null;
+    private JComboBox xslTemplate = null;
+    private JButton resetWindowSizes = null;
+
+    public GeneralPanel(Configuration config, ObservationManager om) {
+
+        super(config);
+
+        this.om = om;
+        this.createPanel();
+
+    }
+
+    @Override
+    public String getTabTitle() {
+
+        return this.bundle.getString("dialog.preferences.generalTab.title");
+
+    }
+
+    @Override
+    public void writeConfig() {
+
+        // Load last opened XML file on startup
+        super.configuration.setConfig(ObservationManager.CONFIG_OPENONSTARTUP, "" + this.loadLastFile.isSelected());
 
         // ------------------
-		
-   		// Set default catalog
-   		if( this.xslTemplate.getSelectedItem() != null ) {
-   			super.configuration.setConfig(ObservationManager.CONFIG_XSL_TEMPLATE, "" + this.xslTemplate.getSelectedItem());
-   		}
-		
-	}
-	
-	private void createPanel() {
-		
+
+        // Load last opened XML file on startup
+        super.configuration.setConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP,
+                "" + this.checkForUpdates.isSelected());
+
+        // ------------------
+
+        // Set UI Language
+        super.configuration.setConfig(ObservationManager.CONFIG_UILANGUAGE,
+                "" + this.uiLanguage.getSelectedISOLanguage());
+        this.om.reloadLanguage();
+
+        // ------------------
+
+        // Set default catalog
+        if (this.xslTemplate.getSelectedItem() != null) {
+            super.configuration.setConfig(ObservationManager.CONFIG_XSL_TEMPLATE,
+                    "" + this.xslTemplate.getSelectedItem());
+        }
+
+    }
+
+    private void createPanel() {
+
         GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();          
+        GridBagConstraints constraints = new GridBagConstraints();
         super.setLayout(gridbag);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel loadLastXMLLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.loadLastXML"), true);
@@ -100,17 +106,20 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.loadLastFile = new JCheckBox();
-        this.loadLastFile.setSelected(Boolean.valueOf(super.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP)).booleanValue());
+        this.loadLastFile.setSelected(
+                Boolean.valueOf(super.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP)).booleanValue());
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
-        super.add(this.loadLastFile);        
-        
-        // ------------------  
-        
+        super.add(this.loadLastFile);
+
+        // ------------------
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel checkForUpdates = new OMLabel(this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
-        checkForUpdates.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        OMLabel checkForUpdates = new OMLabel(
+                this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
+        checkForUpdates
+                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(checkForUpdates, constraints);
         super.add(checkForUpdates);
 
@@ -118,13 +127,15 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
         this.checkForUpdates = new JCheckBox();
-        this.checkForUpdates.setSelected(Boolean.valueOf(super.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP)).booleanValue());
-        this.checkForUpdates.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        this.checkForUpdates.setSelected(Boolean
+                .valueOf(super.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP)).booleanValue());
+        this.checkForUpdates
+                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);
-        super.add(this.checkForUpdates);        
-        
-        // ------------------         
-        
+        super.add(this.checkForUpdates);
+
+        // ------------------
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel uiLanguageLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.uiLanguage"), true);
@@ -137,13 +148,13 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         List acceptedLanguages = this.getInstalledLanguages();
         this.uiLanguage = new LanguageBox(acceptedLanguages, Locale.getDefault().getLanguage(), false);
-        this.uiLanguage.setEnabled(true);        
+        this.uiLanguage.setEnabled(true);
         this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
         gridbag.setConstraints(this.uiLanguage, constraints);
-        super.add(this.uiLanguage);   
-                
-        // ------------------          
-        
+        super.add(this.uiLanguage);
+
+        // ------------------
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel LxslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
@@ -153,18 +164,19 @@ public class GeneralPanel extends PreferencesPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.WEST;        
+        constraints.anchor = GridBagConstraints.WEST;
         this.createXslTemplateBox();
-        this.xslTemplate.setEnabled(true);        
+        this.xslTemplate.setEnabled(true);
         this.xslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
         gridbag.setConstraints(this.xslTemplate, constraints);
-        super.add(this.xslTemplate);   
-        
-        // ------------------                  
-        
+        super.add(this.xslTemplate);
+
+        // ------------------
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LresetWindowsSizes = new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"), true);
+        OMLabel LresetWindowsSizes = new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"),
+                true);
         LresetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(LresetWindowsSizes, constraints);
         super.add(LresetWindowsSizes);
@@ -175,143 +187,142 @@ public class GeneralPanel extends PreferencesPanel {
         this.resetWindowSizes = new JButton(this.bundle.getString("dialog.preferences.button.resetWindowSizes"));
         this.resetWindowSizes.setActionCommand("ResetWindowSizes");
         this.resetWindowSizes.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
 
-				if( "ResetWindowSizes".equals(e.getActionCommand()) ) {
-					GeneralPanel.this.om.resetWindowSizes();	
-				}				
-				
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if ("ResetWindowSizes".equals(e.getActionCommand())) {
+                    GeneralPanel.this.om.resetWindowSizes();
+                }
+
+            }
+        });
         this.resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(this.resetWindowSizes, constraints);
-        super.add(this.resetWindowSizes);   
-        
-        // ------------------           
-        
+        super.add(this.resetWindowSizes);
+
+        // ------------------
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 100, 40);
-        constraints.fill = GridBagConstraints.BOTH;        
-        JLabel Lfill = new JLabel("");        
+        constraints.fill = GridBagConstraints.BOTH;
+        JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
-        super.add(Lfill);  
-		
-	}	
-	
-	private void createXslTemplateBox() {
-		
-		this.xslTemplate = new JComboBox();
-		
-		File path = new File(this.om.getInstallDir().getAbsolutePath() + File.separator + "xsl");
-		if( !path.exists() ) {			// Should never happen in a correct installation
-			return;
-		}	
-		
-		// Get all directories and add them to the JComboBox
-		String[] directories = path.list(new FilenameFilter() {
-																public boolean accept(File dir, String name) {
+        super.add(Lfill);
 
-													                File file = new File(dir.getAbsolutePath() + File.separator + name);
-													                return file.isDirectory() && !"CVS".equals(file.getName()); // For developers ;-)  
-												
-																}			                        
-		                               						   }
-		          						 );
-		
-		for(int i=0; i < directories.length; i++) {
-			this.xslTemplate.addItem(directories[i]);
-		}
-		
-		if( directories.length > 0 ) {
-			this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE, directories[0]));	
-		} else {
-			this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
-		}
-	
-	}
-	
-	// Installed languages get determined by accessing the observationManager.jar
-	// and getting all locales for ObservationManager_??.properties
-	private List getInstalledLanguages() {
-		
-		ArrayList result = new ArrayList();
-		
-		// Get JARs from classpath
-		String sep = System.getProperty("path.separator"); 
-		String path = System.getProperty("java.class.path");		
+    }
 
-		StringTokenizer tokenizer = new StringTokenizer(path, sep);
+    private void createXslTemplateBox() {
 
-		File token = null;
-		while (tokenizer.hasMoreTokens()) { 
-			token = new File(tokenizer.nextToken());
+        this.xslTemplate = new JComboBox();
 
-			if(   ( token.isFile() ) 
-		  	   && ( "observationManager.jar".equals(token.getName()) ) 
- 			   ){
-					result.addAll(scanJarFile(token));
-					return result;
-			}						
-		}
+        File path = new File(this.om.getInstallDir().getAbsolutePath() + File.separator + "xsl");
+        if (!path.exists()) { // Should never happen in a correct installation
+            return;
+        }
 
-		// Get JARs under extension path
-		String extPath = System.getProperty("java.ext.dirs");
-		File ext = new File(extPath);
-		if( ext.exists() ) {
-			File[] jars = ext.listFiles(new FilenameFilter() {
+        // Get all directories and add them to the JComboBox
+        String[] directories = path.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+
+                File file = new File(dir.getAbsolutePath() + File.separator + name);
+                return file.isDirectory() && !"CVS".equals(file.getName()); // For developers ;-)
+
+            }
+        });
+
+        for (int i = 0; i < directories.length; i++) {
+            this.xslTemplate.addItem(directories[i]);
+        }
+
+        if (directories.length > 0) {
+            this.xslTemplate.setSelectedItem(
+                    this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE, directories[0]));
+        } else {
+            this.xslTemplate
+                    .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
+        }
+
+    }
+
+    // Installed languages get determined by accessing the observationManager.jar
+    // and getting all locales for ObservationManager_??.properties
+    private List getInstalledLanguages() {
+
+        ArrayList result = new ArrayList();
+
+        // Get JARs from classpath
+        String sep = System.getProperty("path.separator");
+        String path = System.getProperty("java.class.path");
+
+        StringTokenizer tokenizer = new StringTokenizer(path, sep);
+
+        File token = null;
+        while (tokenizer.hasMoreTokens()) {
+            token = new File(tokenizer.nextToken());
+
+            if ((token.isFile()) && ("observationManager.jar".equals(token.getName()))) {
+                result.addAll(scanJarFile(token));
+                return result;
+            }
+        }
+
+        // Get JARs under extension path
+        String extPath = System.getProperty("java.ext.dirs");
+        File ext = new File(extPath);
+        if (ext.exists()) {
+            File[] jars = ext.listFiles(new FilenameFilter() {
+                @Override
                 public boolean accept(File dir, String name) {
-               	 
-               	 if( "observationManager.jar".equals(name) ) 
-               	   return true;
-               	 
-               	 return false;
+
+                    if ("observationManager.jar".equals(name))
+                        return true;
+
+                    return false;
                 }
             });
 
-			if( jars != null ) {
-				for(int i=0; i < jars.length; i++ ) {
-					result.addAll(scanJarFile(jars[i]));
-					return result;
-				}			
-			}			
-		}
-				
-		
-		return result;
-		
-	}
-	
-	private ArrayList scanJarFile(File jarFile) {
-		
-		ArrayList result = new ArrayList();
-		
-		ZipFile archive = null;
-		try {
-			archive = new ZipFile(jarFile);
-		} catch(ZipException zipEx) {
-			System.err.println("Error while accessing JAR file.\n" + zipEx);
-			return null;
-		} catch(IOException ioe) {
-			System.err.println("Error while accessing JAR file.\n" + ioe);
-			return null;
-		}
+            if (jars != null) {
+                for (int i = 0; i < jars.length; i++) {
+                    result.addAll(scanJarFile(jars[i]));
+                    return result;
+                }
+            }
+        }
 
-		Enumeration enu = archive.entries();
-		Locale l = null;
-		while( enu.hasMoreElements() ) {			
-			ZipEntry entry = (ZipEntry)enu.nextElement();
-			String name = entry.getName();		
+        return result;
 
-			if(   (name.startsWith("ObservationManager_"))
-			   && (name.endsWith(".properties"))
-			   ) {
-					l = new Locale(name.substring(name.indexOf("_") + 1,name.indexOf(".")));
-					result.add(l.getLanguage());
-			}
-		}
-		
-		return result;
-		
-	}
-	
+    }
+
+    private ArrayList scanJarFile(File jarFile) {
+
+        ArrayList result = new ArrayList();
+
+        ZipFile archive = null;
+        try {
+            archive = new ZipFile(jarFile);
+        } catch (ZipException zipEx) {
+            System.err.println("Error while accessing JAR file.\n" + zipEx);
+            return null;
+        } catch (IOException ioe) {
+            System.err.println("Error while accessing JAR file.\n" + ioe);
+            return null;
+        }
+
+        Enumeration enu = archive.entries();
+        Locale l = null;
+        while (enu.hasMoreElements()) {
+            ZipEntry entry = (ZipEntry) enu.nextElement();
+            String name = entry.getName();
+
+            if ((name.startsWith("ObservationManager_")) && (name.endsWith(".properties"))) {
+                l = new Locale(name.substring(name.indexOf("_") + 1, name.indexOf(".")));
+                result.add(l.getLanguage());
+            }
+        }
+
+        return result;
+
+    }
+
 }

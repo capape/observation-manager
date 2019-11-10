@@ -4,8 +4,7 @@
  * (c) by Dirk Lehmann
  * ====================================================================
  */
- 
- 
+
 package de.lehmannet.om.extension.deepSky;
 
 import org.w3c.dom.Document;
@@ -16,9 +15,9 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
-
 /**
- * DeepSkyTargetSC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * DeepSkyTargetSC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
+ * class.<br>
  * Its specialised for star clouds.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -34,150 +33,133 @@ public class DeepSkyTargetSC extends DeepSkyTarget {
     // class
     public static final String XML_XSI_TYPE_VALUE = "oal:deepSkySC";
 
-    
     // Constant for XML representation: position angle element name
     private static final String XML_ELEMENT_POSITIONANGLE = "pa";
-     
-
-
 
     // ------------------
     // Instance Variables ------------------------------------------------
     // ------------------
 
     // The position angle of the object (only positiv values allowed)
-    private int positionAngle = -1;   
-
-
-
+    private int positionAngle = -1;
 
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
-    
-    // ------------------------------------------------------------------- 
+
+    // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a DeepSkyTargetSC from a given DOM 
-     * target Element.<br>
+     * Constructs a new instance of a DeepSkyTargetSC from a given DOM target
+     * Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
      * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers
-     * must be passed to check, whether the <observer> link is valid.
-     *  
-     * @param observers Array of IObserver that might be linked from this observation,
-     * can be <code>NULL</code> if datasource element is set
-     * @param targetElement The origin XML DOM <target> Element 
+     * element. If a <observer> element is set, a array with Observers must be
+     * passed to check, whether the <observer> link is valid.
+     * 
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
      * @throws SchemaException if given targetElement was <code>null</code>
-     */ 
-    public DeepSkyTargetSC(Node targetElement, 
-                           IObserver[] observers)
-                           throws SchemaException {
-                               
+     */
+    public DeepSkyTargetSC(Node targetElement, IObserver[] observers) throws SchemaException {
+
         super(targetElement, observers);
-        
-        Element target = (Element)targetElement;
-        
+
+        Element target = (Element) targetElement;
+
         Element child = null;
         NodeList children = null;
-        
-                                        
-        // Getting data                     
-                    
+
+        // Getting data
+
         // Get optional position angle
         children = target.getElementsByTagName(DeepSkyTargetSC.XML_ELEMENT_POSITIONANGLE);
-        if( children != null ) {
-            if( children.getLength() == 1 ) {
-                child = (Element)children.item(0);
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
                 String value = child.getFirstChild().getNodeValue();
-                this.setPositionAngle(Integer.parseInt(value));                         
-            } else if( children.getLength() > 1 ) {
-                throw new SchemaException("DeepSkyTargetSC can only have one position angle entry. ");                        
+                this.setPositionAngle(Integer.parseInt(value));
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("DeepSkyTargetSC can only have one position angle entry. ");
             }
-        }                    
-        
-    }
+        }
 
+    }
 
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetSC.
      * 
-     * @param name The name of the star cloud
+     * @param name       The name of the star cloud
      * @param datasource The datasource of the star cloud
-     */ 
+     */
     public DeepSkyTargetSC(String name, String datasource) {
 
         super(name, datasource);
 
     }
 
-
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetSC.
      * 
-     * @param name The name of the star cloud
+     * @param name     The name of the star cloud
      * @param observer The observer who is the originator of the star cloud
-     */ 
+     */
     public DeepSkyTargetSC(String name, IObserver observer) {
-        
+
         super(name, observer);
-        
+
     }
-
-
-
 
     // ------
     // Target ------------------------------------------------------------
     // ------
 
     // -------------------------------------------------------------------
-	/**
-	 * Adds this Target to a given parent XML DOM Element.
-	 * The Target element will be set as a child element of
-	 * the passed element.
-	 * 
-	 * @param parent The parent element for this Target
-	 * @return Returns the element given as parameter with this 
-	 * Target as child element.<br>
-     * Might return <code>null</code> if parent was <code>null</code>.
-	 * @see org.w3c.dom.Element
-	 */    	
-	public Element addToXmlElement(Element element) {   
-		
-        if( element == null ) {
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
+     * 
+     * @param parent The parent element for this Target
+     * @return Returns the element given as parameter with this Target as child
+     *         element.<br>
+     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @see org.w3c.dom.Element
+     */
+    @Override
+    public Element addToXmlElement(Element element) {
+
+        if (element == null) {
             return null;
         }
-        
+
         Document ownerDoc = element.getOwnerDocument();
-        
+
         Element e_DSTarget = super.createXmlDeepSkyTargetElement(element, DeepSkyTargetSC.XML_XSI_TYPE_VALUE);
-        
+
         // Check if element already exists
-        if( e_DSTarget == null ) {
-        	return element;
-        }                       
-        
-        if( this.positionAngle != -1 ) {                                                   
+        if (e_DSTarget == null) {
+            return element;
+        }
+
+        if (this.positionAngle != -1) {
             Element e_PositionAngle = ownerDoc.createElement(DeepSkyTargetSC.XML_ELEMENT_POSITIONANGLE);
             Node n_PAText = ownerDoc.createTextNode(Integer.toString(this.positionAngle));
-            e_PositionAngle.appendChild(n_PAText);            
+            e_PositionAngle.appendChild(n_PAText);
 
-            e_DSTarget.appendChild(e_PositionAngle);            
-        }                  
-        
+            e_DSTarget.appendChild(e_PositionAngle);
+        }
+
         return element;
-		
-	} 
 
+    }
 
-
-	
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
-    
+
     // -------------------------------------------------------------------
     /**
      * Returns the XML schema instance type of the implementation.<br>
@@ -185,16 +167,14 @@ public class DeepSkyTargetSC extends DeepSkyTarget {
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
      * 
-     * @return The xsi:type value of this implementation 
-     */ 
+     * @return The xsi:type value of this implementation
+     */
+    @Override
     public String getXSIType() {
-    
+
         return DeepSkyTargetSC.XML_XSI_TYPE_VALUE;
-    
+
     }
-
-
-
 
     // --------------
     // Public methods ----------------------------------------------------
@@ -204,36 +184,31 @@ public class DeepSkyTargetSC extends DeepSkyTarget {
     /**
      * Returns the position angle of the star cloud in degree.
      * 
-     * @return The position angle of the astronomical object as integer
-     *         The returned value might be <code>-1</code> if the value was never set
+     * @return The position angle of the astronomical object as integer The returned
+     *         value might be <code>-1</code> if the value was never set
      */
     public int getPositionAngle() {
-        
+
         return this.positionAngle;
-        
+
     }
-   
-    
+
     // -------------------------------------------------------------------
     /**
-     * Sets the position angle of the star cloud in degree.
-     * If the given new position angle is < 0 or > 359 the position angle
-     * will be unset again. 
+     * Sets the position angle of the star cloud in degree. If the given new
+     * position angle is < 0 or > 359 the position angle will be unset again.
      * 
      * @param newPosAngle The new position angle of the star cloud.
      */
     public void setPositionAngle(int newPosAngle) {
-        
-        if(    ((newPosAngle > 359)
-           ||   (newPosAngle < 0)) 
-           ) {
-        	this.positionAngle = -1;
-        	return;
+
+        if (((newPosAngle > 359) || (newPosAngle < 0))) {
+            this.positionAngle = -1;
+            return;
         }
-        
+
         this.positionAngle = newPosAngle;
-        
+
     }
 
 }
-

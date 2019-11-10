@@ -12,24 +12,23 @@ import java.util.Comparator;
 import de.lehmannet.om.IFilter;
 
 public class FilterComparator implements Comparator {
-  													
-	public int compare(Object o1, Object o2) {
 
-		if(   (o1 instanceof IFilter)
-		   && (o2 instanceof IFilter)
-		   ) {
-			IFilter i1 = (IFilter)o1;
-			IFilter i2 = (IFilter)o2;																																		
-			
-			String i1m = i1.getModel().trim();
-			String i2m = i2.getModel().trim();
-			
-			return i1m.compareToIgnoreCase(i2m);
-				
-		}
-			
-		return 0;
-			
-   }    		
+    @Override
+    public int compare(Object o1, Object o2) {
+
+        if ((o1 instanceof IFilter) && (o2 instanceof IFilter)) {
+            IFilter i1 = (IFilter) o1;
+            IFilter i2 = (IFilter) o2;
+
+            String i1m = i1.getModel().trim();
+            String i2m = i2.getModel().trim();
+
+            return i1m.compareToIgnoreCase(i2m);
+
+        }
+
+        return 0;
+
+    }
 
 }

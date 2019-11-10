@@ -11,25 +11,27 @@ import java.io.File;
 
 public class NGCCatalog extends AbstractNGCICCatalog {
 
-	private static final String CATALOG_NAME = "Revised New General Catalogue";	
-	private static final String CATALOG_ABB = "NGC";	
+    private static final String CATALOG_NAME = "Revised New General Catalogue";
+    private static final String CATALOG_ABB = "NGC";
 
-	public NGCCatalog(File ngcCatalogFile) {
-		
-		super(ngcCatalogFile);
-		
-	}	
-	
-	public String getAbbreviation() {
+    public NGCCatalog(File ngcCatalogFile) {
 
-		return NGCCatalog.CATALOG_ABB;
-		
-	}
+        super(ngcCatalogFile);
 
-	public String getName() {
-		
-		return NGCCatalog.CATALOG_NAME;
-		
-	}
+    }
+
+    @Override
+    public String getAbbreviation() {
+
+        return NGCCatalog.CATALOG_ABB;
+
+    }
+
+    @Override
+    public String getName() {
+
+        return NGCCatalog.CATALOG_NAME;
+
+    }
 
 }
