@@ -6,49 +6,50 @@ import javax.swing.JLabel;
 
 public class OMLabel extends JLabel {
 
-  private static final long serialVersionUID = 6023705893875362065L;
+    private static final long serialVersionUID = 6023705893875362065L;
 
-  private boolean mandatoryField = false;
-  
-  public OMLabel() {
-    
-    super();
-    
-  }
-  
-  public OMLabel(boolean mandatoryField) {
-    
-    this.mandatoryField = mandatoryField;
-    
-  }  
-  
-  public OMLabel(String labelText, int horizontalAlignment, boolean mandatoryField) {
-    
-    this(labelText, mandatoryField);    
-    this.setHorizontalAlignment(horizontalAlignment);
-    
-  }
-  
-  public OMLabel(String labelText, boolean mandatoryField) {
-     
-     super();
-     
-     this.mandatoryField = mandatoryField;
-     
-     this.setText(labelText);
-          
-   }
-  
-  public void setText(String text) {
-    
-    if( this.mandatoryField ) {   // Underline mandatory fields
-      super.setFont(new Font("sansserif",Font.BOLD, 12));
-      super.setText("<html><u>" + text + "</u></html>");
-    } else {                 // Write optional field italic
-      super.setText(text);
-      super.setFont(new Font("sansserif",Font.ITALIC + Font.BOLD, 12));
+    private boolean mandatoryField = false;
+
+    public OMLabel() {
+
+        super();
+
     }
-    
-  }
-  
+
+    public OMLabel(boolean mandatoryField) {
+
+        this.mandatoryField = mandatoryField;
+
+    }
+
+    public OMLabel(String labelText, int horizontalAlignment, boolean mandatoryField) {
+
+        this(labelText, mandatoryField);
+        this.setHorizontalAlignment(horizontalAlignment);
+
+    }
+
+    public OMLabel(String labelText, boolean mandatoryField) {
+
+        super();
+
+        this.mandatoryField = mandatoryField;
+
+        this.setText(labelText);
+
+    }
+
+    @Override
+    public void setText(String text) {
+
+        if (this.mandatoryField) { // Underline mandatory fields
+            super.setFont(new Font("sansserif", Font.BOLD, 12));
+            super.setText("<html><u>" + text + "</u></html>");
+        } else { // Write optional field italic
+            super.setText(text);
+            super.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
+        }
+
+    }
+
 }

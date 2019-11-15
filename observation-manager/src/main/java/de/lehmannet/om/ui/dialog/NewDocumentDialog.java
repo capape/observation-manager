@@ -31,6 +31,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -54,1026 +55,985 @@ import de.lehmannet.om.util.SchemaElementConstants;
 // That's one nasty dialog with nasty helper classes
 // Better way then forwarding parent object references would be to use events, but anyway...it works :-)
 public class NewDocumentDialog extends JDialog implements ActionListener {
-		
-	// Result constants
-	public static final int CANCEL = -1;
-	public static final int OK_BLANK = 0;
-	public static final int OK_COPY = 1;
-	
-	// Constants used as ActionCommands
-	private static final String AC_BLANK = "blank";
-	private static final String AC_NEW = "new";
-	private static final String AC_OK = "ok";
-	private static final String AC_CANCEL = "cancel";
-	
-	final PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("ObservationManager", Locale.getDefault());
-	
-	private ObservationManager om = null;
-	private JTree tree = null;
-	private JScrollPane scrollPanel = null;
-	
-	private Boolean blank = null;
-	
-	// Result arrays
-	private IImager[] imagers = null;
-	private IEyepiece[] eyepieces = null;
-	private IFilter[] filters = null;
-	private ILens[] lenses = null;
-	private IObservation[] observations = null;
-	private IObserver[] observers = null;
-	private IScope[] scopes = null;
-	private ISession[] sessions = null;
-	private ISite[] sites = null;
-	private ITarget[] targets = null;
-		
-	public NewDocumentDialog(ObservationManager om) {
-		
-		super(om, true);							
-		
-		this.om = om;
-		
-		super.setTitle(this.bundle.getString("dialog.newDoc.title"));
-		super.setSize(480, 480);		
-		super.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		super.setLocationRelativeTo(om);						
-		
-		this.initTree();
-		
-		this.initDialog();
-					
-		this.setVisible(true);
-		this.pack();		
-		
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		
-		if( NewDocumentDialog.AC_BLANK.equals(e.getActionCommand()) ) {
-			this.tree.setEnabled(false);
-			this.blank = Boolean.TRUE;
-		} else if( NewDocumentDialog.AC_NEW.equals(e.getActionCommand()) ) {
-			this.tree.setEnabled(true);
-			this.blank = Boolean.FALSE;
-		} else if( NewDocumentDialog.AC_OK.equals(e.getActionCommand()) ) {
-			boolean success = this.prepareResult();
-			if(success) {
-				super.dispose();
-			}
-		} else {		
-			this.blank = null;	// Indicates cancel
-			
-			// Close window
-			super.dispose();
-		}
-		
-	}
+    // Result constants
+    public static final int CANCEL = -1;
+    public static final int OK_BLANK = 0;
+    public static final int OK_COPY = 1;
 
-	public int getResult() {
-		
-		if( this.blank == null ) {
-			return NewDocumentDialog.CANCEL;			// Cancel was pressed
-		} else {
-			if( this.blank.booleanValue() ) {
-				return NewDocumentDialog.OK_BLANK;		// OK was pressed and create blank document was selected 
-			} else {
-				return NewDocumentDialog.OK_COPY;		// OK was pressed and create new document was selected
-			}			
-		}
-		
-	}
-	
-	public ISchemaElement[] getSchemaElements(int schemaElementCode) {
-		
-		// Always return NULL if cancel was pressed or creation of blank document was requested
-		if(   (this.getResult() == NewDocumentDialog.CANCEL)
-		   || (this.getResult() == NewDocumentDialog.OK_BLANK)
-		   ) {
-				return null;		
-		} 
-		
-		switch(schemaElementCode) {
-			case SchemaElementConstants.IMAGER : {
-														return this.imagers;
-													  }		
-			case SchemaElementConstants.EYEPIECE : {
-														return this.eyepieces;
-													  }	
-			case SchemaElementConstants.FILTER : {
-														return this.filters;
-													  }	
-			case SchemaElementConstants.LENS : {
-														return this.lenses;
-													  }	
-			case SchemaElementConstants.OBSERVATION : {
-														return this.observations;
-													  }	
-			case SchemaElementConstants.OBSERVER : {
-														return this.observers;
-													  }	
-			case SchemaElementConstants.SCOPE : {
-														return this.scopes;
-													  }	
-			case SchemaElementConstants.SESSION : {
-														return this.sessions;
-													  }		
-			case SchemaElementConstants.SITE : {
-														return this.sites;
-													  }
-			case SchemaElementConstants.TARGET : {
-														return this.targets;
-													  }			
-		}
-		
-		return null;
-		
-	}
-	
-	JTree getTree() {
-		
-		return this.tree;
-		
-	}
-	
-	private boolean prepareResult() {
-	
-		TreeModel model = this.tree.getModel();
-		
-		Object current = model.getRoot();
-		Object node = null;
-		Object leaf = null;
-		for(int i=0; i < model.getChildCount(current); i++) {	// Iterate of all schema element type nodes
-			node = this.tree.getModel().getChild(current, i);
-			if( node instanceof DefaultMutableTreeNode ) {
-				if( ((DefaultMutableTreeNode)node).getUserObject() instanceof CheckBoxNode ) {				// Node is selected?
-					Object uo = ((DefaultMutableTreeNode)node).getUserObject();
-					if( ((CheckBoxNode)uo).isSelected() ) {
-						ArrayList resultList = new ArrayList();
-						for(int j=0; j < model.getChildCount(node); j++) {	// Iterate over all children
-							leaf = model.getChild(node, j);
-							if( leaf instanceof DefaultMutableTreeNode ) {
-								Object luo = ((DefaultMutableTreeNode)leaf).getUserObject();
-								if( luo instanceof SchemaElementLeaf ) {
-									SchemaElementLeaf sel = (SchemaElementLeaf)luo;
-									if( sel.isSelected() ) {					// Child is selected?								
-										ISchemaElement se = sel.getSchemaElement();
-										resultList.add(se);
-									}
-								}
-							}
-						}
-						// Now fill the arrays
-						if( !resultList.isEmpty() ) {
-							if( resultList.get(0) instanceof IImager ) {
-								this.imagers = (IImager[])resultList.toArray(new IImager[] {});
-							} else if( resultList.get(0) instanceof IEyepiece ) {
-								this.eyepieces = (IEyepiece[])resultList.toArray(new IEyepiece[] {});
-							} else if( resultList.get(0) instanceof IFilter ) {
-								this.filters = (IFilter[])resultList.toArray(new IFilter[] {});
-							} else if( resultList.get(0) instanceof ILens ) {
-								this.lenses = (ILens[])resultList.toArray(new ILens[] {});
-							} else if( resultList.get(0) instanceof IObservation ) {
-								this.observations = (IObservation[])resultList.toArray(new IObservation[] {});
-							} else if( resultList.get(0) instanceof IObserver ) {
-								this.observers = (IObserver[])resultList.toArray(new IObserver[] {});
-							} else if( resultList.get(0) instanceof IScope ) {
-								this.scopes = (IScope[])resultList.toArray(new IScope[] {});
-							} else if( resultList.get(0) instanceof ISession ) {
-								this.sessions = (ISession[])resultList.toArray(new ISession[] {});
-							} else if( resultList.get(0) instanceof ISite ) {
-								this.sites = (ISite[])resultList.toArray(new ISite[] {});
-							} else if( resultList.get(0) instanceof ITarget ) {
-								this.targets = (ITarget[])resultList.toArray(new ITarget[] {});
-							}						
-						}
-					}
-				}
-			}
-		}
-	
-		// Check dependencies	
-		boolean solvedDependencyProblem = false;
-		
-		if(   (this.observations != null)
-		   && (this.observations.length > 0)
-		   ) {		// Check dependencies of selected observations
-			for(int i=0; i < this.observations.length; i++) {
-				// --- Eyepiece
-				IEyepiece eyepiece = this.observations[i].getEyepiece();
-				if( eyepiece != null ) {
-					if(   (this.eyepieces != null) 
-					   && (this.eyepieces.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.eyepieces.length; j++) {
-							if( this.eyepieces[j].equals(eyepiece) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array							
-							this.eyepieces = (IEyepiece[])this.resizeArray(this.eyepieces, this.eyepieces.length + 1);
-							this.eyepieces[this.eyepieces.length - 1] = eyepiece;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.eyepieces = new IEyepiece[] { eyepiece };
-						solvedDependencyProblem = true;
-					}
-				}
-				// --- Filter
-				IFilter filter = this.observations[i].getFilter();
-				if( filter != null ) {
-					if(   (this.filters != null) 
-					   && (this.filters.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.filters.length; j++) {
-							if( this.filters[j].equals(filter) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.filters = (IFilter[])this.resizeArray(this.filters, this.filters.length + 1);
-							this.filters[this.filters.length - 1] = filter;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.filters = new IFilter[] { filter };
-						solvedDependencyProblem = true;
-					}
-				}
-				// --- Imager
-				IImager imager = this.observations[i].getImager();
-				if( imager != null ) {
-					if(   (this.imagers != null) 
-					   && (this.imagers.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.imagers.length; j++) {
-							if( this.imagers[j].equals(imager) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.imagers = (IImager[])this.resizeArray(this.imagers, this.imagers.length + 1);
-							this.imagers[this.imagers.length - 1] = imager;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.imagers = new IImager[] { imager };
-						solvedDependencyProblem = true;
-					}
-				}
-				// --- Lens
-				ILens lens = this.observations[i].getLens();
-				if( lens != null ) {
-					if(   (this.lenses != null) 
-					   && (this.lenses.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.lenses.length; j++) {
-							if( this.lenses[j].equals(lens) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.lenses = (ILens[])this.resizeArray(this.lenses, this.lenses.length + 1);
-							this.lenses[this.lenses.length - 1] = lens;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.lenses = new ILens[] { lens };
-						solvedDependencyProblem = true;
-					}
-				}
-				// --- Observer
-				IObserver observer = this.observations[i].getObserver();
-				if( observer != null ) {
-					if(   (this.observers != null) 
-					   && (this.observers.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.observers.length; j++) {
-							if( this.observers[j].equals(observer) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.observers = (IObserver[])this.resizeArray(this.observers, this.observers.length + 1);
-							this.observers[this.observers.length - 1] = observer;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.observers = new IObserver[] { observer };
-						solvedDependencyProblem = true;
-					}
-				}
-				// --- Scope
-				IScope scope = this.observations[i].getScope();
-				if( scope != null ) {
-					if(   (this.scopes != null) 
-					   && (this.scopes.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.scopes.length; j++) {
-							if( this.scopes[j].equals(scope) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.scopes = (IScope[])this.resizeArray(this.scopes, this.scopes.length + 1);
-							this.scopes[this.scopes.length - 1] = scope;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.scopes = new IScope[] { scope };
-						solvedDependencyProblem = true;
-					}
-				}
-				ISession session = this.observations[i].getSession();
-				if( session != null ) {
-					if(   (this.sessions != null) 
-					   && (this.sessions.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.sessions.length; j++) {
-							if( this.sessions[j].equals(session) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.sessions = (ISession[])this.resizeArray(this.sessions, this.sessions.length + 1);
-							this.sessions[this.sessions.length - 1] = session;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.sessions = new ISession[] { session };
-						solvedDependencyProblem = true;
-					}
-				}				
-				ISite site = this.observations[i].getSite();
-				if( site != null ) {
-					if(   (this.sites != null) 
-					   && (this.sites.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.sites.length; j++) {
-							if( this.sites[j].equals(site) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.sites = (ISite[])this.resizeArray(this.sites, this.sites.length + 1);
-							this.sites[this.sites.length - 1] = site;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.sites = new ISite[] { site };
-						solvedDependencyProblem = true;
-					}
-				}				
-				ITarget target = this.observations[i].getTarget();
-				if( target != null ) {
-					if(   (this.targets != null) 
-					   && (this.targets.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.targets.length; j++) {
-							if( this.targets[j].equals(target) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.targets = (ITarget[])this.resizeArray(this.targets, this.targets.length + 1);
-							this.targets[this.targets.length - 1] = target;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.targets = new ITarget[] { target };
-						solvedDependencyProblem = true;
-					}
-				}					
-			}
-		}
-		
-		if(	  (this.sessions != null) 
-		   && (this.sessions.length > 0)
-		   ) {			// Check dependencies of selected sessions
-			for(int i=0; i < this.sessions.length; i++) {
-				// -- Site
-				ISite site = this.sessions[i].getSite();
-				if( site != null ) {
-					if(   (this.sites != null) 
-					   && (this.sites.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.sites.length; j++) {
-							if( this.sites[j].equals(site) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.sites = (ISite[])this.resizeArray(this.sites, this.sites.length + 1);
-							this.sites[this.sites.length - 1] = site;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.sites = new ISite[] { site };
-						solvedDependencyProblem = true;
-					}
-				}	
-				// --- Observer
-				List coObservers = this.sessions[i].getCoObservers();
-				Iterator iterator = coObservers.iterator();
-				IObserver observer = null;
-				while( iterator.hasNext() ) {
-					observer = (IObserver)iterator.next();
-					if( observer != null ) {
-						if(   (this.observers != null) 
-						   && (this.observers.length > 0)
-						   ) {
-							boolean found = false;
-							for(int j=0; j < this.observers.length; j++) {
-								if( this.observers[j].equals(observer) ) {	// Element found
-									found = true;
-									break;
-								}
-							}
-							if( !found ) {			// Element was not found, add it to array
-								this.observers = (IObserver[])this.resizeArray(this.observers, this.observers.length + 1);
-								this.observers[this.observers.length - 1] = observer;
-								solvedDependencyProblem = true;
-							}
-						} else {
-							this.observers = new IObserver[] { observer };
-							solvedDependencyProblem = true;
-						}
-					}					
-				}
-			}		
-		}
-		
-		if(   (this.targets != null)
-		   && (this.targets.length > 0)
-		   ) {				// Check dependencies of selected targets
-			for(int i=0; i < this.targets.length; i++) {
-				// --- Observer
-				IObserver observer = this.targets[i].getObserver();
-				if( observer != null ) {
-					if(   (this.observers != null) 
-					   && (this.observers.length > 0)
-					   ) {
-						boolean found = false;
-						for(int j=0; j < this.observers.length; j++) {
-							if( this.observers[j].equals(observer) ) {	// Element found
-								found = true;
-								break;
-							}
-						}
-						if( !found ) {			// Element was not found, add it to array
-							this.observers = (IObserver[])this.resizeArray(this.observers, this.observers.length + 1);
-							this.observers[this.observers.length - 1] = observer;
-							solvedDependencyProblem = true;
-						}
-					} else {
-						this.observers = new IObserver[] { observer };
-						solvedDependencyProblem = true;
-					}
-				}
-			}
-		}
-		
-		if( solvedDependencyProblem ) {
-			this.om.createInfo(this.bundle.getString("dialog.newDoc.info.solvedDependencyProblem"));
-		}
-		
-		return true;
-		
-	}
-	
-	private void initDialog() {
-		
+    // Constants used as ActionCommands
+    private static final String AC_BLANK = "blank";
+    private static final String AC_NEW = "new";
+    private static final String AC_OK = "ok";
+    private static final String AC_CANCEL = "cancel";
+
+    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+            Locale.getDefault());
+
+    private ObservationManager om = null;
+    private JTree tree = null;
+    private JScrollPane scrollPanel = null;
+
+    private Boolean blank = null;
+
+    // Result arrays
+    private IImager[] imagers = null;
+    private IEyepiece[] eyepieces = null;
+    private IFilter[] filters = null;
+    private ILens[] lenses = null;
+    private IObservation[] observations = null;
+    private IObserver[] observers = null;
+    private IScope[] scopes = null;
+    private ISession[] sessions = null;
+    private ISite[] sites = null;
+    private ITarget[] targets = null;
+
+    public NewDocumentDialog(ObservationManager om) {
+
+        super(om, true);
+
+        this.om = om;
+
+        super.setTitle(this.bundle.getString("dialog.newDoc.title"));
+        super.setSize(480, 480);
+        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        super.setLocationRelativeTo(om);
+
+        this.initTree();
+
+        this.initDialog();
+
+        this.setVisible(true);
+        this.pack();
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (NewDocumentDialog.AC_BLANK.equals(e.getActionCommand())) {
+            this.tree.setEnabled(false);
+            this.blank = Boolean.TRUE;
+        } else if (NewDocumentDialog.AC_NEW.equals(e.getActionCommand())) {
+            this.tree.setEnabled(true);
+            this.blank = Boolean.FALSE;
+        } else if (NewDocumentDialog.AC_OK.equals(e.getActionCommand())) {
+            boolean success = this.prepareResult();
+            if (success) {
+                super.dispose();
+            }
+        } else {
+            this.blank = null; // Indicates cancel
+
+            // Close window
+            super.dispose();
+        }
+
+    }
+
+    public int getResult() {
+
+        if (this.blank == null) {
+            return NewDocumentDialog.CANCEL; // Cancel was pressed
+        } else {
+            if (this.blank.booleanValue()) {
+                return NewDocumentDialog.OK_BLANK; // OK was pressed and create blank document was selected
+            } else {
+                return NewDocumentDialog.OK_COPY; // OK was pressed and create new document was selected
+            }
+        }
+
+    }
+
+    public ISchemaElement[] getSchemaElements(int schemaElementCode) {
+
+        // Always return NULL if cancel was pressed or creation of blank document was
+        // requested
+        if ((this.getResult() == NewDocumentDialog.CANCEL) || (this.getResult() == NewDocumentDialog.OK_BLANK)) {
+            return null;
+        }
+
+        switch (schemaElementCode) {
+        case SchemaElementConstants.IMAGER: {
+            return this.imagers;
+        }
+        case SchemaElementConstants.EYEPIECE: {
+            return this.eyepieces;
+        }
+        case SchemaElementConstants.FILTER: {
+            return this.filters;
+        }
+        case SchemaElementConstants.LENS: {
+            return this.lenses;
+        }
+        case SchemaElementConstants.OBSERVATION: {
+            return this.observations;
+        }
+        case SchemaElementConstants.OBSERVER: {
+            return this.observers;
+        }
+        case SchemaElementConstants.SCOPE: {
+            return this.scopes;
+        }
+        case SchemaElementConstants.SESSION: {
+            return this.sessions;
+        }
+        case SchemaElementConstants.SITE: {
+            return this.sites;
+        }
+        case SchemaElementConstants.TARGET: {
+            return this.targets;
+        }
+        }
+
+        return null;
+
+    }
+
+    JTree getTree() {
+
+        return this.tree;
+
+    }
+
+    private boolean prepareResult() {
+
+        TreeModel model = this.tree.getModel();
+
+        Object current = model.getRoot();
+        Object node = null;
+        Object leaf = null;
+        for (int i = 0; i < model.getChildCount(current); i++) { // Iterate of all schema element type nodes
+            node = this.tree.getModel().getChild(current, i);
+            if (node instanceof DefaultMutableTreeNode) {
+                if (((DefaultMutableTreeNode) node).getUserObject() instanceof CheckBoxNode) { // Node is selected?
+                    Object uo = ((DefaultMutableTreeNode) node).getUserObject();
+                    if (((CheckBoxNode) uo).isSelected()) {
+                        ArrayList resultList = new ArrayList();
+                        for (int j = 0; j < model.getChildCount(node); j++) { // Iterate over all children
+                            leaf = model.getChild(node, j);
+                            if (leaf instanceof DefaultMutableTreeNode) {
+                                Object luo = ((DefaultMutableTreeNode) leaf).getUserObject();
+                                if (luo instanceof SchemaElementLeaf) {
+                                    SchemaElementLeaf sel = (SchemaElementLeaf) luo;
+                                    if (sel.isSelected()) { // Child is selected?
+                                        ISchemaElement se = sel.getSchemaElement();
+                                        resultList.add(se);
+                                    }
+                                }
+                            }
+                        }
+                        // Now fill the arrays
+                        if (!resultList.isEmpty()) {
+                            if (resultList.get(0) instanceof IImager) {
+                                this.imagers = (IImager[]) resultList.toArray(new IImager[] {});
+                            } else if (resultList.get(0) instanceof IEyepiece) {
+                                this.eyepieces = (IEyepiece[]) resultList.toArray(new IEyepiece[] {});
+                            } else if (resultList.get(0) instanceof IFilter) {
+                                this.filters = (IFilter[]) resultList.toArray(new IFilter[] {});
+                            } else if (resultList.get(0) instanceof ILens) {
+                                this.lenses = (ILens[]) resultList.toArray(new ILens[] {});
+                            } else if (resultList.get(0) instanceof IObservation) {
+                                this.observations = (IObservation[]) resultList.toArray(new IObservation[] {});
+                            } else if (resultList.get(0) instanceof IObserver) {
+                                this.observers = (IObserver[]) resultList.toArray(new IObserver[] {});
+                            } else if (resultList.get(0) instanceof IScope) {
+                                this.scopes = (IScope[]) resultList.toArray(new IScope[] {});
+                            } else if (resultList.get(0) instanceof ISession) {
+                                this.sessions = (ISession[]) resultList.toArray(new ISession[] {});
+                            } else if (resultList.get(0) instanceof ISite) {
+                                this.sites = (ISite[]) resultList.toArray(new ISite[] {});
+                            } else if (resultList.get(0) instanceof ITarget) {
+                                this.targets = (ITarget[]) resultList.toArray(new ITarget[] {});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check dependencies
+        boolean solvedDependencyProblem = false;
+
+        if ((this.observations != null) && (this.observations.length > 0)) { // Check dependencies of selected
+                                                                             // observations
+            for (int i = 0; i < this.observations.length; i++) {
+                // --- Eyepiece
+                IEyepiece eyepiece = this.observations[i].getEyepiece();
+                if (eyepiece != null) {
+                    if ((this.eyepieces != null) && (this.eyepieces.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.eyepieces.length; j++) {
+                            if (this.eyepieces[j].equals(eyepiece)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.eyepieces = (IEyepiece[]) this.resizeArray(this.eyepieces, this.eyepieces.length + 1);
+                            this.eyepieces[this.eyepieces.length - 1] = eyepiece;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.eyepieces = new IEyepiece[] { eyepiece };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Filter
+                IFilter filter = this.observations[i].getFilter();
+                if (filter != null) {
+                    if ((this.filters != null) && (this.filters.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.filters.length; j++) {
+                            if (this.filters[j].equals(filter)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.filters = (IFilter[]) this.resizeArray(this.filters, this.filters.length + 1);
+                            this.filters[this.filters.length - 1] = filter;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.filters = new IFilter[] { filter };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Imager
+                IImager imager = this.observations[i].getImager();
+                if (imager != null) {
+                    if ((this.imagers != null) && (this.imagers.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.imagers.length; j++) {
+                            if (this.imagers[j].equals(imager)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.imagers = (IImager[]) this.resizeArray(this.imagers, this.imagers.length + 1);
+                            this.imagers[this.imagers.length - 1] = imager;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.imagers = new IImager[] { imager };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Lens
+                ILens lens = this.observations[i].getLens();
+                if (lens != null) {
+                    if ((this.lenses != null) && (this.lenses.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.lenses.length; j++) {
+                            if (this.lenses[j].equals(lens)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.lenses = (ILens[]) this.resizeArray(this.lenses, this.lenses.length + 1);
+                            this.lenses[this.lenses.length - 1] = lens;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.lenses = new ILens[] { lens };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Observer
+                IObserver observer = this.observations[i].getObserver();
+                if (observer != null) {
+                    if ((this.observers != null) && (this.observers.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.observers.length; j++) {
+                            if (this.observers[j].equals(observer)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.observers = (IObserver[]) this.resizeArray(this.observers, this.observers.length + 1);
+                            this.observers[this.observers.length - 1] = observer;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.observers = new IObserver[] { observer };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Scope
+                IScope scope = this.observations[i].getScope();
+                if (scope != null) {
+                    if ((this.scopes != null) && (this.scopes.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.scopes.length; j++) {
+                            if (this.scopes[j].equals(scope)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.scopes = (IScope[]) this.resizeArray(this.scopes, this.scopes.length + 1);
+                            this.scopes[this.scopes.length - 1] = scope;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.scopes = new IScope[] { scope };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                ISession session = this.observations[i].getSession();
+                if (session != null) {
+                    if ((this.sessions != null) && (this.sessions.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.sessions.length; j++) {
+                            if (this.sessions[j].equals(session)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.sessions = (ISession[]) this.resizeArray(this.sessions, this.sessions.length + 1);
+                            this.sessions[this.sessions.length - 1] = session;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.sessions = new ISession[] { session };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                ISite site = this.observations[i].getSite();
+                if (site != null) {
+                    if ((this.sites != null) && (this.sites.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.sites.length; j++) {
+                            if (this.sites[j].equals(site)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.sites = (ISite[]) this.resizeArray(this.sites, this.sites.length + 1);
+                            this.sites[this.sites.length - 1] = site;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.sites = new ISite[] { site };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                ITarget target = this.observations[i].getTarget();
+                if (target != null) {
+                    if ((this.targets != null) && (this.targets.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.targets.length; j++) {
+                            if (this.targets[j].equals(target)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.targets = (ITarget[]) this.resizeArray(this.targets, this.targets.length + 1);
+                            this.targets[this.targets.length - 1] = target;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.targets = new ITarget[] { target };
+                        solvedDependencyProblem = true;
+                    }
+                }
+            }
+        }
+
+        if ((this.sessions != null) && (this.sessions.length > 0)) { // Check dependencies of selected sessions
+            for (int i = 0; i < this.sessions.length; i++) {
+                // -- Site
+                ISite site = this.sessions[i].getSite();
+                if (site != null) {
+                    if ((this.sites != null) && (this.sites.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.sites.length; j++) {
+                            if (this.sites[j].equals(site)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.sites = (ISite[]) this.resizeArray(this.sites, this.sites.length + 1);
+                            this.sites[this.sites.length - 1] = site;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.sites = new ISite[] { site };
+                        solvedDependencyProblem = true;
+                    }
+                }
+                // --- Observer
+                List coObservers = this.sessions[i].getCoObservers();
+                Iterator iterator = coObservers.iterator();
+                IObserver observer = null;
+                while (iterator.hasNext()) {
+                    observer = (IObserver) iterator.next();
+                    if (observer != null) {
+                        if ((this.observers != null) && (this.observers.length > 0)) {
+                            boolean found = false;
+                            for (int j = 0; j < this.observers.length; j++) {
+                                if (this.observers[j].equals(observer)) { // Element found
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) { // Element was not found, add it to array
+                                this.observers = (IObserver[]) this.resizeArray(this.observers,
+                                        this.observers.length + 1);
+                                this.observers[this.observers.length - 1] = observer;
+                                solvedDependencyProblem = true;
+                            }
+                        } else {
+                            this.observers = new IObserver[] { observer };
+                            solvedDependencyProblem = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((this.targets != null) && (this.targets.length > 0)) { // Check dependencies of selected targets
+            for (int i = 0; i < this.targets.length; i++) {
+                // --- Observer
+                IObserver observer = this.targets[i].getObserver();
+                if (observer != null) {
+                    if ((this.observers != null) && (this.observers.length > 0)) {
+                        boolean found = false;
+                        for (int j = 0; j < this.observers.length; j++) {
+                            if (this.observers[j].equals(observer)) { // Element found
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) { // Element was not found, add it to array
+                            this.observers = (IObserver[]) this.resizeArray(this.observers, this.observers.length + 1);
+                            this.observers[this.observers.length - 1] = observer;
+                            solvedDependencyProblem = true;
+                        }
+                    } else {
+                        this.observers = new IObserver[] { observer };
+                        solvedDependencyProblem = true;
+                    }
+                }
+            }
+        }
+
+        if (solvedDependencyProblem) {
+            this.om.createInfo(this.bundle.getString("dialog.newDoc.info.solvedDependencyProblem"));
+        }
+
+        return true;
+
+    }
+
+    private void initDialog() {
+
         GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();        
+        GridBagConstraints constraints = new GridBagConstraints();
         super.getContentPane().setLayout(gridbag);
-		        
+
         ButtonGroup buttonGroup = new ButtonGroup();
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 25, 2);
-        constraints.fill = GridBagConstraints.HORIZONTAL;   
-		JRadioButton newBlankDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.blank"));
-		newBlankDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.blank"));
-		newBlankDocument.setActionCommand(NewDocumentDialog.AC_BLANK);
-		newBlankDocument.addActionListener(this);
-		newBlankDocument.setSelected(true);
-		this.blank = Boolean.TRUE;
-		buttonGroup.add(newBlankDocument);
-		gridbag.setConstraints(newBlankDocument, constraints);
-		super.getContentPane().add(newBlankDocument);
-		
-		JRadioButton newDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.new"));
-		newDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.new"));
-		newDocument.setActionCommand(NewDocumentDialog.AC_NEW);
-		buttonGroup.add(newDocument);
-		newDocument.addActionListener(this);
-		ConstraintsBuilder.buildConstraints(constraints, 0, 1, 2, 1, 25, 2);
-		gridbag.setConstraints(newDocument, constraints);
-		super.getContentPane().add(newDocument);		
-				
-		this.tree.setEnabled(false);    // Disable as we've preselected new blank document
-		this.tree.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.tree"));
-	    this.scrollPanel = new JScrollPane(this.tree);
-	    this.scrollPanel.setBorder(BorderFactory.createTitledBorder(this.bundle.getString("dialog.newDoc.border.tree")));
-	    ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
-	    constraints.fill = GridBagConstraints.BOTH;  
-	    gridbag.setConstraints(scrollPanel, constraints);
-	    super.getContentPane().add(scrollPanel); 
-	    
-	    JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
-	    ok.setActionCommand(NewDocumentDialog.AC_OK);
-	    ok.addActionListener(this);
-	    ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 25, 4);
-	    constraints.fill = GridBagConstraints.HORIZONTAL;  
-	    gridbag.setConstraints(ok, constraints);
-	    super.getContentPane().add(ok); 
-	    
-	    JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
-	    cancel.setActionCommand(NewDocumentDialog.AC_CANCEL);
-	    cancel.addActionListener(this);
-	    ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 25, 4);
-	    constraints.fill = GridBagConstraints.HORIZONTAL;  
-	    gridbag.setConstraints(cancel, constraints);
-	    super.getContentPane().add(cancel); 	    
-		
-	}
-	
-	private void initTree() {
-		
-		String imagesDir = this.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images" + File.separatorChar;
-		Icon expanded = null;
-		Icon collapsed = null;
-		
-		// The root node
-		CheckBoxNode root = new CheckBoxNode(this, this.bundle.getString("treeRoot"), false, null, null, null);
-						
-		// Create all schema element nodes
-   		expanded = new ImageIcon(imagesDir + "observation_e.png");
-   		collapsed = new ImageIcon(imagesDir + "observation_c.png");
-		CheckBoxNode observations = new CheckBoxNode(this, this.bundle.getString("observations"), false, this.om.getXmlCache().getObservations(), expanded, collapsed);
-		root.add(observations);
-		
-   		expanded = new ImageIcon(imagesDir + "target_e.png");
-   		collapsed = new ImageIcon(imagesDir + "target_c.png");
-		CheckBoxNode targets = new CheckBoxNode(this, this.bundle.getString("targets"), false, this.om.getXmlCache().getTargets(), expanded, collapsed);
-		root.add(targets);
-		
-   		expanded = new ImageIcon(imagesDir + "scope_e.png");
-   		collapsed = new ImageIcon(imagesDir + "scope_c.png");
-		CheckBoxNode scopes = new CheckBoxNode(this, this.bundle.getString("scopes"), true, this.om.getXmlCache().getScopes(), expanded, collapsed);
-		root.add(scopes);
-		
-   		expanded = new ImageIcon(imagesDir + "imager_e.png");
-   		collapsed = new ImageIcon(imagesDir + "imager_c.png");
-		CheckBoxNode imagers = new CheckBoxNode(this, this.bundle.getString("imagers"), true, this.om.getXmlCache().getImagers(), expanded, collapsed);
-		root.add(imagers);
-		
-   		expanded = new ImageIcon(imagesDir + "filter_e.png");
-   		collapsed = new ImageIcon(imagesDir + "filter_c.png");
-		CheckBoxNode filters = new CheckBoxNode(this, this.bundle.getString("filters"), true, this.om.getXmlCache().getFilters(), expanded, collapsed);
-		root.add(filters);
-		
-   		expanded = new ImageIcon(imagesDir + "eyepiece_e.png");
-   		collapsed = new ImageIcon(imagesDir + "eyepiece_c.png");
-		CheckBoxNode eyepieces = new CheckBoxNode(this, this.bundle.getString("eyepieces"), true, this.om.getXmlCache().getEyepieces(), expanded, collapsed);
-		root.add(eyepieces);
-		
-   		expanded = new ImageIcon(imagesDir + "lens_e.png");
-   		collapsed = new ImageIcon(imagesDir + "lens_c.png");
-		CheckBoxNode lenses = new CheckBoxNode(this, this.bundle.getString("lenses"), true, this.om.getXmlCache().getLenses(), expanded, collapsed);
-		root.add(lenses);
-		
-   		expanded = new ImageIcon(imagesDir + "site_e.png");
-   		collapsed = new ImageIcon(imagesDir + "site_c.png");
-		CheckBoxNode sites = new CheckBoxNode(this, this.bundle.getString("sites"), true, this.om.getXmlCache().getSites(), expanded, collapsed);
-		root.add(sites);
-		
-   		expanded = new ImageIcon(imagesDir + "session_e.png");
-   		collapsed = new ImageIcon(imagesDir + "session_c.png");
-		CheckBoxNode sessions = new CheckBoxNode(this, this.bundle.getString("sessions"), false, this.om.getXmlCache().getSessions(), expanded, collapsed);
-		root.add(sessions);
-		
-   		expanded = new ImageIcon(imagesDir + "observer_e.png");
-   		collapsed = new ImageIcon(imagesDir + "observer_c.png");
-		CheckBoxNode observers = new CheckBoxNode(this, this.bundle.getString("observers"), true, this.om.getXmlCache().getObservers(), expanded, collapsed);
-		root.add(observers);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        JRadioButton newBlankDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.blank"));
+        newBlankDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.blank"));
+        newBlankDocument.setActionCommand(NewDocumentDialog.AC_BLANK);
+        newBlankDocument.addActionListener(this);
+        newBlankDocument.setSelected(true);
+        this.blank = Boolean.TRUE;
+        buttonGroup.add(newBlankDocument);
+        gridbag.setConstraints(newBlankDocument, constraints);
+        super.getContentPane().add(newBlankDocument);
 
-		this.tree = new JTree(root);
-		
-	    CheckBoxNodeRenderer renderer = new CheckBoxNodeRenderer();
-	    tree.setCellRenderer(renderer);
-	    
-	    tree.setCellEditor(new CheckBoxNodeEditor(tree, renderer));
-	    tree.setEditable(true);	    		  
-	    
-	}
-	
-	private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize) {
-		
-	   Class elementType = oldArray.getClass().getComponentType();
-	   ISchemaElement[] newArray = (ISchemaElement[])java.lang.reflect.Array.newInstance(elementType, newSize);
+        JRadioButton newDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.new"));
+        newDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.new"));
+        newDocument.setActionCommand(NewDocumentDialog.AC_NEW);
+        buttonGroup.add(newDocument);
+        newDocument.addActionListener(this);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 1, 2, 1, 25, 2);
+        gridbag.setConstraints(newDocument, constraints);
+        super.getContentPane().add(newDocument);
 
-	   System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
-		
-	   return newArray;
-		
-	}
-	
+        this.tree.setEnabled(false); // Disable as we've preselected new blank document
+        this.tree.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.tree"));
+        this.scrollPanel = new JScrollPane(this.tree);
+        this.scrollPanel
+                .setBorder(BorderFactory.createTitledBorder(this.bundle.getString("dialog.newDoc.border.tree")));
+        ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
+        constraints.fill = GridBagConstraints.BOTH;
+        gridbag.setConstraints(scrollPanel, constraints);
+        super.getContentPane().add(scrollPanel);
+
+        JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+        ok.setActionCommand(NewDocumentDialog.AC_OK);
+        ok.addActionListener(this);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 25, 4);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(ok, constraints);
+        super.getContentPane().add(ok);
+
+        JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+        cancel.setActionCommand(NewDocumentDialog.AC_CANCEL);
+        cancel.addActionListener(this);
+        ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 25, 4);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(cancel, constraints);
+        super.getContentPane().add(cancel);
+
+    }
+
+    private void initTree() {
+
+        String imagesDir = this.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images"
+                + File.separatorChar;
+        Icon expanded = null;
+        Icon collapsed = null;
+
+        // The root node
+        CheckBoxNode root = new CheckBoxNode(this, this.bundle.getString("treeRoot"), false, null, null, null);
+
+        // Create all schema element nodes
+        expanded = new ImageIcon(imagesDir + "observation_e.png");
+        collapsed = new ImageIcon(imagesDir + "observation_c.png");
+        CheckBoxNode observations = new CheckBoxNode(this, this.bundle.getString("observations"), false,
+                this.om.getXmlCache().getObservations(), expanded, collapsed);
+        root.add(observations);
+
+        expanded = new ImageIcon(imagesDir + "target_e.png");
+        collapsed = new ImageIcon(imagesDir + "target_c.png");
+        CheckBoxNode targets = new CheckBoxNode(this, this.bundle.getString("targets"), false,
+                this.om.getXmlCache().getTargets(), expanded, collapsed);
+        root.add(targets);
+
+        expanded = new ImageIcon(imagesDir + "scope_e.png");
+        collapsed = new ImageIcon(imagesDir + "scope_c.png");
+        CheckBoxNode scopes = new CheckBoxNode(this, this.bundle.getString("scopes"), true,
+                this.om.getXmlCache().getScopes(), expanded, collapsed);
+        root.add(scopes);
+
+        expanded = new ImageIcon(imagesDir + "imager_e.png");
+        collapsed = new ImageIcon(imagesDir + "imager_c.png");
+        CheckBoxNode imagers = new CheckBoxNode(this, this.bundle.getString("imagers"), true,
+                this.om.getXmlCache().getImagers(), expanded, collapsed);
+        root.add(imagers);
+
+        expanded = new ImageIcon(imagesDir + "filter_e.png");
+        collapsed = new ImageIcon(imagesDir + "filter_c.png");
+        CheckBoxNode filters = new CheckBoxNode(this, this.bundle.getString("filters"), true,
+                this.om.getXmlCache().getFilters(), expanded, collapsed);
+        root.add(filters);
+
+        expanded = new ImageIcon(imagesDir + "eyepiece_e.png");
+        collapsed = new ImageIcon(imagesDir + "eyepiece_c.png");
+        CheckBoxNode eyepieces = new CheckBoxNode(this, this.bundle.getString("eyepieces"), true,
+                this.om.getXmlCache().getEyepieces(), expanded, collapsed);
+        root.add(eyepieces);
+
+        expanded = new ImageIcon(imagesDir + "lens_e.png");
+        collapsed = new ImageIcon(imagesDir + "lens_c.png");
+        CheckBoxNode lenses = new CheckBoxNode(this, this.bundle.getString("lenses"), true,
+                this.om.getXmlCache().getLenses(), expanded, collapsed);
+        root.add(lenses);
+
+        expanded = new ImageIcon(imagesDir + "site_e.png");
+        collapsed = new ImageIcon(imagesDir + "site_c.png");
+        CheckBoxNode sites = new CheckBoxNode(this, this.bundle.getString("sites"), true,
+                this.om.getXmlCache().getSites(), expanded, collapsed);
+        root.add(sites);
+
+        expanded = new ImageIcon(imagesDir + "session_e.png");
+        collapsed = new ImageIcon(imagesDir + "session_c.png");
+        CheckBoxNode sessions = new CheckBoxNode(this, this.bundle.getString("sessions"), false,
+                this.om.getXmlCache().getSessions(), expanded, collapsed);
+        root.add(sessions);
+
+        expanded = new ImageIcon(imagesDir + "observer_e.png");
+        collapsed = new ImageIcon(imagesDir + "observer_c.png");
+        CheckBoxNode observers = new CheckBoxNode(this, this.bundle.getString("observers"), true,
+                this.om.getXmlCache().getObservers(), expanded, collapsed);
+        root.add(observers);
+
+        this.tree = new JTree(root);
+
+        CheckBoxNodeRenderer renderer = new CheckBoxNodeRenderer();
+        tree.setCellRenderer(renderer);
+
+        tree.setCellEditor(new CheckBoxNodeEditor(tree, renderer));
+        tree.setEditable(true);
+
+    }
+
+    private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize) {
+
+        Class elementType = oldArray.getClass().getComponentType();
+        ISchemaElement[] newArray = (ISchemaElement[]) java.lang.reflect.Array.newInstance(elementType, newSize);
+
+        System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
+
+        return newArray;
+
+    }
+
 }
 
-
 class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
-		
-	private Color selectionBorderColor, 
-	              selectionForeground, 
-	              selectionBackground,
-	              textForeground, 
-	              textBackground;	
-	private Font selectedTreeFont = null;
-	private Font unselectedTreeFont = null;
 
-	public CheckBoxNodeRenderer() {
-		
-		this.selectedTreeFont = UIManager.getFont("Tree.font");
-		this.selectedTreeFont = this.selectedTreeFont.deriveFont(Font.BOLD);
-		this.unselectedTreeFont = UIManager.getFont("Tree.font");
-		this.unselectedTreeFont = this.unselectedTreeFont.deriveFont(Font.PLAIN);
-		
-		selectionBorderColor = UIManager.getColor("Tree.selectionBorderColor");
-		selectionForeground = UIManager.getColor("Tree.selectionForeground");
-		selectionBackground = UIManager.getColor("Tree.selectionBackground");
-		textForeground = UIManager.getColor("Tree.textForeground");
-		textBackground = UIManager.getColor("Tree.textBackground");		
-						
-	}
+    private Color selectionBorderColor, selectionForeground, selectionBackground, textForeground, textBackground;
+    private Font selectedTreeFont = null;
+    private Font unselectedTreeFont = null;
 
-	public Component getTreeCellRendererComponent(JTree tree, 
-												  Object value,
-												  boolean selected, 
-												  boolean expanded, 
-												  boolean leaf, 
-												  int row,
-												  boolean hasFocus) {
+    public CheckBoxNodeRenderer() {
 
-		Component returnValue = null;
-		if (leaf) {
-			if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
-				Object userObject = ((DefaultMutableTreeNode)value).getUserObject();
-				if (userObject instanceof SchemaElementLeaf) {
-					SchemaElementLeaf sel = (SchemaElementLeaf)userObject;
-					
-					if (selected) {
-						sel.setForeground(selectionForeground);
-						sel.setBackground(selectionBackground);					
-					} else {
-						sel.setForeground(textForeground);
-						sel.setBackground(textBackground);						
-					}
-					if( sel.isSelected() ) {
-						sel.setFont(this.selectedTreeFont);
-					} else {
-						sel.setFont(this.unselectedTreeFont);
-					}
-					Boolean booleanValue = (Boolean)UIManager.get("Tree.drawsFocusBorderAroundIcon");
-					sel.setFocusPainted( (booleanValue != null) && (booleanValue.booleanValue()) );
-										
-					returnValue = sel;					
-				}
-			}
-		} else {
-			// Get folder icons
-			Icon icon = null;
-			CheckBoxNode cbn = null;
-			if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
-				DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode)value;
-				Object userObject = dmtn.getUserObject();
-				if (userObject instanceof CheckBoxNode) {
-					cbn = (CheckBoxNode)userObject;
-		        	if( expanded ) {
-		        		icon = ((CheckBoxNode)userObject).getExpandedIcon();
-		        	} else {
-		        		icon = ((CheckBoxNode)userObject).getCollapsedIcon();        		
-		        	}  			        	
-				}				
-			}
-			
-			DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
-			returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree,
-																	   value, 
-																	   selected, 
-																	   expanded, 
-																	   leaf, 
-																	   row, 
-																	   hasFocus);
-			
-			// Set folder icon
-			DefaultTreeCellRenderer dtcr = null;
-			if(   (icon != null)
-			   && (returnValue instanceof DefaultTreeCellRenderer)
-			   ) {
-				    dtcr = (DefaultTreeCellRenderer)returnValue;
-					if(   (cbn.isSelected())
-					   && (cbn.size() > 0  )
-					   ) {
-						dtcr.setFont(this.selectedTreeFont);
-					} else {
-						dtcr.setFont(this.unselectedTreeFont);
-					}
-					dtcr.setIcon(icon);		
-					dtcr.setDisabledIcon(icon);
-					dtcr.addMouseListener(new CheckBoxNodeRendererMouseListener(cbn));
-			}
-		}		
-		
-		return returnValue;
-		
-	}
-	
+        this.selectedTreeFont = UIManager.getFont("Tree.font");
+        this.selectedTreeFont = this.selectedTreeFont.deriveFont(Font.BOLD);
+        this.unselectedTreeFont = UIManager.getFont("Tree.font");
+        this.unselectedTreeFont = this.unselectedTreeFont.deriveFont(Font.PLAIN);
+
+        selectionBorderColor = UIManager.getColor("Tree.selectionBorderColor");
+        selectionForeground = UIManager.getColor("Tree.selectionForeground");
+        selectionBackground = UIManager.getColor("Tree.selectionBackground");
+        textForeground = UIManager.getColor("Tree.textForeground");
+        textBackground = UIManager.getColor("Tree.textBackground");
+
+    }
+
+    @Override
+    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+            boolean leaf, int row, boolean hasFocus) {
+
+        Component returnValue = null;
+        if (leaf) {
+            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+                Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
+                if (userObject instanceof SchemaElementLeaf) {
+                    SchemaElementLeaf sel = (SchemaElementLeaf) userObject;
+
+                    if (selected) {
+                        sel.setForeground(selectionForeground);
+                        sel.setBackground(selectionBackground);
+                    } else {
+                        sel.setForeground(textForeground);
+                        sel.setBackground(textBackground);
+                    }
+                    if (sel.isSelected()) {
+                        sel.setFont(this.selectedTreeFont);
+                    } else {
+                        sel.setFont(this.unselectedTreeFont);
+                    }
+                    Boolean booleanValue = (Boolean) UIManager.get("Tree.drawsFocusBorderAroundIcon");
+                    sel.setFocusPainted((booleanValue != null) && (booleanValue.booleanValue()));
+
+                    returnValue = sel;
+                }
+            }
+        } else {
+            // Get folder icons
+            Icon icon = null;
+            CheckBoxNode cbn = null;
+            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) value;
+                Object userObject = dmtn.getUserObject();
+                if (userObject instanceof CheckBoxNode) {
+                    cbn = (CheckBoxNode) userObject;
+                    if (expanded) {
+                        icon = ((CheckBoxNode) userObject).getExpandedIcon();
+                    } else {
+                        icon = ((CheckBoxNode) userObject).getCollapsedIcon();
+                    }
+                }
+            }
+
+            DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
+            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row,
+                    hasFocus);
+
+            // Set folder icon
+            DefaultTreeCellRenderer dtcr = null;
+            if ((icon != null) && (returnValue instanceof DefaultTreeCellRenderer)) {
+                dtcr = (DefaultTreeCellRenderer) returnValue;
+                if ((cbn.isSelected()) && (cbn.size() > 0)) {
+                    dtcr.setFont(this.selectedTreeFont);
+                } else {
+                    dtcr.setFont(this.unselectedTreeFont);
+                }
+                dtcr.setIcon(icon);
+                dtcr.setDisabledIcon(icon);
+                dtcr.addMouseListener(new CheckBoxNodeRendererMouseListener(cbn));
+            }
+        }
+
+        return returnValue;
+
+    }
+
 }
 
 class CheckBoxNodeRendererMouseListener implements MouseListener {
-	
-	private CheckBoxNode node = null;
-	
-	public CheckBoxNodeRendererMouseListener(CheckBoxNode checkBoxNode) {
-	
-		this.node = checkBoxNode;
-		
-	}
-	
-	public void mouseClicked(MouseEvent e) {
-		
-		if( node.isSelected() ) {
-			this.node.setSelected(false);			
-		} else {
-			this.node.setSelected(true);
-		}			
-		
-	}
 
-	public void mouseEntered(MouseEvent e) {
-		
-	}
+    private CheckBoxNode node = null;
 
-	public void mouseExited(MouseEvent e) {
-		
-	}
+    public CheckBoxNodeRendererMouseListener(CheckBoxNode checkBoxNode) {
 
-	public void mousePressed(MouseEvent e) {
-		
-	}
+        this.node = checkBoxNode;
 
-	public void mouseReleased(MouseEvent e) {
-		
-	}
-	
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        if (node.isSelected()) {
+            this.node.setSelected(false);
+        } else {
+            this.node.setSelected(true);
+        }
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
 }
-
 
 class CheckBoxNodeEditor extends DefaultTreeCellEditor {
 
-	public CheckBoxNodeEditor(JTree tree, DefaultTreeCellRenderer renderer) {
-		
-		super(tree, renderer);
-		
-	}
+    public CheckBoxNodeEditor(JTree tree, DefaultTreeCellRenderer renderer) {
 
-	public boolean isCellEditable(EventObject event) {
-		
-		return true;
-		
-	}
+        super(tree, renderer);
 
-	public Component getTreeCellEditorComponent(final JTree tree, 
-												Object value,
-												boolean selected, 
-												boolean expanded, 
-												boolean leaf, 
-												int row) {
+    }
 
-		Component editor = super.renderer.getTreeCellRendererComponent(tree, 
-																	   value,
-																	   true, 
-																	   expanded, 
-																	   leaf, 
-																	   row, 
-																	   true);
-				
-		return editor;
-		
-	}
-	
+    @Override
+    public boolean isCellEditable(EventObject event) {
+
+        return true;
+
+    }
+
+    @Override
+    public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
+            boolean leaf, int row) {
+
+        Component editor = super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
+
+        return editor;
+
+    }
+
 }
 
-
 class CheckBoxNode extends Vector {
-	
-	private String text = null;
-	private boolean selected = false;
-	
-	private Icon expandedIcon = null;
-	private Icon collapsedIcon = null;
-	
-	private NewDocumentDialog dialog = null;
-	
-	private int selectedChildren = 0;
-	
-	public CheckBoxNode(NewDocumentDialog dialog,
-			            String text, 
-			            boolean selected, 
-			            ISchemaElement elements[],
-			            Icon expanded,
-			            Icon collapsed) {
-		
-		this.dialog = dialog;		
-		this.text = text;
-		this.selected = selected;
-		this.expandedIcon = expanded;
-		this.collapsedIcon = collapsed;
-		
-		if( elements != null ) {
-			for(int i=0; i < elements.length; i++  ) {
-				super.add(new SchemaElementLeaf(this.dialog, this, elements[i], selected));
-			}
-			if( selected ) {
-				this.selectedChildren = elements.length;
-			}
-		}
-		
-	}
 
-	public boolean isSelected() {
-		
-		return selected;
-		
-	}
+    private String text = null;
+    private boolean selected = false;
 
-	public void setSelected(boolean newValue) {
-		
-		selected = newValue;
-		Iterator iterator = super.iterator();
-		while( iterator.hasNext() ) {
-			((SchemaElementLeaf)iterator.next()).setSelected(newValue);
-		}
-		
-		if( newValue ) {
-			this.selectedChildren = super.size();
-		} else {
-			this.selectedChildren = 0;
-		}
-		
-		// Update tree, if we've a reference to it
-		final JTree tree = this.dialog.getTree();
-		if( tree != null ) {
-			EventQueue.invokeLater(new Runnable() {
-														public void run() {
-															tree.updateUI();
-														}
-												   }
-			);				
-		}		
-		
-	}
+    private Icon expandedIcon = null;
+    private Icon collapsedIcon = null;
 
-	public String getText() {
-		
-		return text;
-		
-	}
+    private NewDocumentDialog dialog = null;
 
-	public void setText(String newValue) {
-		
-		text = newValue;
-		
-	}
+    private int selectedChildren = 0;
 
-	public String toString() {
-		
-		return this.text;
-		
-	}
-	
-	public Icon getExpandedIcon() {
-		
-		return this.expandedIcon;
-		
-	}
-	
-	public Icon getCollapsedIcon() {
-		
-		return this.collapsedIcon;
-		
-	}
-	
-	public void childChangedToSelected() {
-		
-		this.selectedChildren++;
-		
-		if( this.selectedChildren == 0 ) {
-			this.selected = false;
-		} else {
-			this.selected = true;
-		}
-		
-	}
-	
-	public void childChangedToUnselected() {
-		
-		this.selectedChildren--;
-		
-		if( this.selectedChildren == 0 ) {
-			this.selected = false;
-		} else {
-			this.selected = true;
-		}
-		
-	}	
-	
+    public CheckBoxNode(NewDocumentDialog dialog, String text, boolean selected, ISchemaElement elements[],
+            Icon expanded, Icon collapsed) {
+
+        this.dialog = dialog;
+        this.text = text;
+        this.selected = selected;
+        this.expandedIcon = expanded;
+        this.collapsedIcon = collapsed;
+
+        if (elements != null) {
+            for (int i = 0; i < elements.length; i++) {
+                super.add(new SchemaElementLeaf(this.dialog, this, elements[i], selected));
+            }
+            if (selected) {
+                this.selectedChildren = elements.length;
+            }
+        }
+
+    }
+
+    public boolean isSelected() {
+
+        return selected;
+
+    }
+
+    public void setSelected(boolean newValue) {
+
+        selected = newValue;
+        Iterator iterator = super.iterator();
+        while (iterator.hasNext()) {
+            ((SchemaElementLeaf) iterator.next()).setSelected(newValue);
+        }
+
+        if (newValue) {
+            this.selectedChildren = super.size();
+        } else {
+            this.selectedChildren = 0;
+        }
+
+        // Update tree, if we've a reference to it
+        final JTree tree = this.dialog.getTree();
+        if (tree != null) {
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    tree.updateUI();
+                }
+            });
+        }
+
+    }
+
+    public String getText() {
+
+        return text;
+
+    }
+
+    public void setText(String newValue) {
+
+        text = newValue;
+
+    }
+
+    @Override
+    public String toString() {
+
+        return this.text;
+
+    }
+
+    public Icon getExpandedIcon() {
+
+        return this.expandedIcon;
+
+    }
+
+    public Icon getCollapsedIcon() {
+
+        return this.collapsedIcon;
+
+    }
+
+    public void childChangedToSelected() {
+
+        this.selectedChildren++;
+
+        if (this.selectedChildren == 0) {
+            this.selected = false;
+        } else {
+            this.selected = true;
+        }
+
+    }
+
+    public void childChangedToUnselected() {
+
+        this.selectedChildren--;
+
+        if (this.selectedChildren == 0) {
+            this.selected = false;
+        } else {
+            this.selected = true;
+        }
+
+    }
+
 }
 
 class SchemaElementLeaf extends JCheckBox implements ActionListener {
-	
-	private ISchemaElement se = null;
-	private NewDocumentDialog dialog = null;
-	private CheckBoxNode parentNode = null;
 
-	public SchemaElementLeaf(NewDocumentDialog dialog,
-							 CheckBoxNode node,
-			                 ISchemaElement se, 
-			                 boolean selected) {
-		
-		this.dialog = dialog;
-		this.parentNode = node;
-		this.se = se;
-		super.setSelected(selected);
-		
-		super.addActionListener(this);
+    private ISchemaElement se = null;
+    private NewDocumentDialog dialog = null;
+    private CheckBoxNode parentNode = null;
 
-	}
+    public SchemaElementLeaf(NewDocumentDialog dialog, CheckBoxNode node, ISchemaElement se, boolean selected) {
 
-	public String toString() {
-		
-		if( se == null ) {
-			return "";
-		}
-		
-		return se.getDisplayName();
-		
-	}	
-	
-	public String getText() {
-		
-		return this.toString();
-		
-	}
-	
-	public ISchemaElement getSchemaElement() {
-		
-		return this.se;
-		
-	}
-	
-	public void actionPerformed(ActionEvent e) {
- 
-		if( e.getSource() != this ) {
-			return;
-		}
-		
-		if( super.isSelected() ) {
-			this.parentNode.childChangedToSelected();			
-		} else {
-			this.parentNode.childChangedToUnselected();
-		}
-		
-		// Update tree, if we've a reference to it
-		final JTree tree = this.dialog.getTree();
-		if( tree != null ) {
-			EventQueue.invokeLater(new Runnable() {
-														public void run() {
-															tree.updateUI();
-														}
-												   }
-			);				
-		}
-		
-	}
-	
+        this.dialog = dialog;
+        this.parentNode = node;
+        this.se = se;
+        super.setSelected(selected);
+
+        super.addActionListener(this);
+
+    }
+
+    @Override
+    public String toString() {
+
+        if (se == null) {
+            return "";
+        }
+
+        return se.getDisplayName();
+
+    }
+
+    @Override
+    public String getText() {
+
+        return this.toString();
+
+    }
+
+    public ISchemaElement getSchemaElement() {
+
+        return this.se;
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() != this) {
+            return;
+        }
+
+        if (super.isSelected()) {
+            this.parentNode.childChangedToSelected();
+        } else {
+            this.parentNode.childChangedToUnselected();
+        }
+
+        // Update tree, if we've a reference to it
+        final JTree tree = this.dialog.getTree();
+        if (tree != null) {
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    tree.updateUI();
+                }
+            });
+        }
+
+    }
+
 }

@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.panel;
 
-
 public interface IFindingPanel {
 
-	public String getXSIType();	
-	
+    public String getXSIType();
+
 }

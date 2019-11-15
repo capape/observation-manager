@@ -5,7 +5,6 @@
  * ====================================================================
  */
 
-
 package de.lehmannet.om.ui.preferences;
 
 import java.awt.GridBagConstraints;
@@ -19,6 +18,7 @@ import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
@@ -26,109 +26,109 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class PreferencesDialog extends OMDialog implements ActionListener {
 
-	private static final long serialVersionUID = -8289411368690909665L;
+    private static final long serialVersionUID = -8289411368690909665L;
 
-	private PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("ObservationManager", Locale.getDefault());	
-		
-	private ObservationManager om = null;	 
-	
-	private JTabbedPane tabbedPane = null;
-	
-	private PreferencesPanel genericPanel = null;
-	private PreferencesPanel behaviourPanel = null;
-	
-	private JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
-	private JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
-		
-	
-	public PreferencesDialog(ObservationManager om, PreferencesPanel[] additionalPanels) {
+    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+            Locale.getDefault());
 
-		super(om);							
-		
-		this.om = om;
+    private ObservationManager om = null;
 
-		super.setTitle(this.bundle.getString("dialog.preferences.title"));		
-		super.setSize(PreferencesDialog.serialVersionUID, 750, 267);
-		super.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		super.setLocationRelativeTo(om);		
-		
-		this.initDialog();	   		
-		
-		for(int i=0; i < additionalPanels.length; i++) {
-			this.addPreferencesTab(additionalPanels[i]);
-		}
-				
-		this.setVisible(true);		
+    private JTabbedPane tabbedPane = null;
 
-	}		
-	
-	
-	// --------------
-	// ActionListener ---------------------------------------------------------
-	// --------------
-	
-	public void actionPerformed(ActionEvent e) {
+    private PreferencesPanel genericPanel = null;
+    private PreferencesPanel behaviourPanel = null;
 
-		Object source = e.getSource();
-		if( source instanceof JButton ) {
-			if( source.equals(this.cancel) ) {								
-				this.dispose();
-			} else {
-				this.applySettings();
-				this.dispose();
-			}
-		}
-		
-	}	
-	
-	private void addPreferencesTab(PreferencesPanel panel) {
-		
-		if( panel != null ) {
-			this.tabbedPane.addTab(panel.getTabTitle(), panel);
-		}
-		
-	}
-	
-	private void applySettings() {					
-		
-		for(int i=0; i < this.tabbedPane.getTabCount(); i++) {
-			((PreferencesPanel)this.tabbedPane.getComponentAt(i)).writeConfig();
-		}
-		
-	}
-	
-	private void initDialog() {
-		
+    private JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+    private JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+
+    public PreferencesDialog(ObservationManager om, PreferencesPanel[] additionalPanels) {
+
+        super(om);
+
+        this.om = om;
+
+        super.setTitle(this.bundle.getString("dialog.preferences.title"));
+        super.setSize(PreferencesDialog.serialVersionUID, 750, 267);
+        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        super.setLocationRelativeTo(om);
+
+        this.initDialog();
+
+        for (int i = 0; i < additionalPanels.length; i++) {
+            this.addPreferencesTab(additionalPanels[i]);
+        }
+
+        this.setVisible(true);
+
+    }
+
+    // --------------
+    // ActionListener ---------------------------------------------------------
+    // --------------
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        Object source = e.getSource();
+        if (source instanceof JButton) {
+            if (source.equals(this.cancel)) {
+                this.dispose();
+            } else {
+                this.applySettings();
+                this.dispose();
+            }
+        }
+
+    }
+
+    private void addPreferencesTab(PreferencesPanel panel) {
+
+        if (panel != null) {
+            this.tabbedPane.addTab(panel.getTabTitle(), panel);
+        }
+
+    }
+
+    private void applySettings() {
+
+        for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+            ((PreferencesPanel) this.tabbedPane.getComponentAt(i)).writeConfig();
+        }
+
+    }
+
+    private void initDialog() {
+
         GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();        
+        GridBagConstraints constraints = new GridBagConstraints();
         super.getContentPane().setLayout(gridbag);
-        
-        this.tabbedPane = new JTabbedPane();   
-        
+
+        this.tabbedPane = new JTabbedPane();
+
         this.genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
-        this.behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om);        
+        this.behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om);
         this.tabbedPane.addTab(this.genericPanel.getTabTitle(), this.genericPanel);
         this.tabbedPane.addTab(this.behaviourPanel.getTabTitle(), this.behaviourPanel);
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 4, 33, 33);
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(this.tabbedPane, constraints); 
+        gridbag.setConstraints(this.tabbedPane, constraints);
         super.getContentPane().add(this.tabbedPane);
-                
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 33, 33);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.SOUTH;
-		this.ok.addActionListener(this);
-		gridbag.setConstraints(this.ok, constraints);
-		super.getContentPane().add(this.ok);			
+        this.ok.addActionListener(this);
+        gridbag.setConstraints(this.ok, constraints);
+        super.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 33, 33);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.SOUTH;
-		this.cancel.addActionListener(this);
-		gridbag.setConstraints(this.cancel, constraints);
-		super.getContentPane().add(this.cancel);		
-		
-	}
+        this.cancel.addActionListener(this);
+        gridbag.setConstraints(this.cancel, constraints);
+        super.getContentPane().add(this.cancel);
+
+    }
 
 }

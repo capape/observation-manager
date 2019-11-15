@@ -13,92 +13,97 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 
 public class ProjectCatalog implements IListableCatalog {
-	
-	private ITarget[] targets = null;
-	private String[] catalogIndex = null;
-	private String name = null;
-	
-	public ProjectCatalog(String name, 
-						  ITarget[] targets) {
-		
-		this.targets = targets;		
-		this.name = name;
-		this.catalogIndex = this.createCatalogIndex();
-		
-	}
-	
-	public String[] getCatalogIndex() {
 
-		return this.catalogIndex;
-		
-	}
+    private ITarget[] targets = null;
+    private String[] catalogIndex = null;
+    private String name = null;
 
-	public AbstractSchemaTableModel getTableModel() {
+    public ProjectCatalog(String name, ITarget[] targets) {
 
-		return null;
-		
-	}
+        this.targets = targets;
+        this.name = name;
+        this.catalogIndex = this.createCatalogIndex();
 
-	public ITarget[] getTargets() {
+    }
 
-		return this.targets;
-		
-	}
+    @Override
+    public String[] getCatalogIndex() {
 
-	public String getAbbreviation() {
-		
-		// Not implemented
-		// Currently only used by search function, which doesn't exist for ProjectCatalogs
-		return null;
-		
-	}
+        return this.catalogIndex;
 
-	public String getName() {
-		
-		return this.name;
-		
-	}
+    }
 
-	public AbstractSearchPanel getSearchPanel() {
+    @Override
+    public AbstractSchemaTableModel getTableModel() {
 
-		// Not implemented
-		// There is no search in ProjectCatalogs
-		return null;
-		
-	}
+        return null;
 
-	public ITarget getTarget(String objectName) {
+    }
 
-		if(   (objectName == null)
-		   || ("".equals(objectName.trim()))
-		   ) {
-			return null;
-		}
-		
-		// Do some formating to enhance the chances we find the entry
-		objectName = objectName.trim();
-		objectName = objectName.replaceAll(" ", "");
-		objectName = objectName.toUpperCase();
-		
-		for( int i=0; i < this.targets.length; i++ ) {
-			if( objectName.equals(targets[i].getName().toUpperCase()) ) {
-				return targets[i];
-			}
-		}
-		
-		return null;
-		
-	}	
-	
-	private String[] createCatalogIndex() {
-		
-		String[] result = new String[this.targets.length];
-		for( int i=0; i < result.length; i++ ) {
-			result[i] = "" + i;
-		}
-		
-		return result;
-		
-	}
-	
+    @Override
+    public ITarget[] getTargets() {
+
+        return this.targets;
+
+    }
+
+    @Override
+    public String getAbbreviation() {
+
+        // Not implemented
+        // Currently only used by search function, which doesn't exist for
+        // ProjectCatalogs
+        return null;
+
+    }
+
+    @Override
+    public String getName() {
+
+        return this.name;
+
+    }
+
+    @Override
+    public AbstractSearchPanel getSearchPanel() {
+
+        // Not implemented
+        // There is no search in ProjectCatalogs
+        return null;
+
+    }
+
+    @Override
+    public ITarget getTarget(String objectName) {
+
+        if ((objectName == null) || ("".equals(objectName.trim()))) {
+            return null;
+        }
+
+        // Do some formating to enhance the chances we find the entry
+        objectName = objectName.trim();
+        objectName = objectName.replaceAll(" ", "");
+        objectName = objectName.toUpperCase();
+
+        for (int i = 0; i < this.targets.length; i++) {
+            if (objectName.equals(targets[i].getName().toUpperCase())) {
+                return targets[i];
+            }
+        }
+
+        return null;
+
+    }
+
+    private String[] createCatalogIndex() {
+
+        String[] result = new String[this.targets.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = "" + i;
+        }
+
+        return result;
+
+    }
+
 }

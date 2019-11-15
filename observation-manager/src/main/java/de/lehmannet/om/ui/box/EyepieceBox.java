@@ -5,7 +5,6 @@
  * ====================================================================
  */
 
-
 package de.lehmannet.om.ui.box;
 
 import de.lehmannet.om.IEyepiece;
@@ -13,23 +12,25 @@ import de.lehmannet.om.ISchemaElement;
 
 public class EyepieceBox extends AbstractBox {
 
-	public void addItem(ISchemaElement element) {
-		
-		if( element == null ) {
-			return;
-		}		
-		
-		IEyepiece eyepiece = (IEyepiece)element;
-		String key = this.getKey(eyepiece);
-		
-		super.addItem(key, eyepiece);
-		
-	}
-	
-	public String getKey(ISchemaElement element) {
-		
-		return element.getDisplayName();
-		
-	}		
+    @Override
+    public void addItem(ISchemaElement element) {
+
+        if (element == null) {
+            return;
+        }
+
+        IEyepiece eyepiece = (IEyepiece) element;
+        String key = this.getKey(eyepiece);
+
+        super.addItem(key, eyepiece);
+
+    }
+
+    @Override
+    public String getKey(ISchemaElement element) {
+
+        return element.getDisplayName();
+
+    }
 
 }

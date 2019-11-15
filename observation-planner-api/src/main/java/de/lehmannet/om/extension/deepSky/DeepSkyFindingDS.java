@@ -1,10 +1,9 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyFindingDS.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
-
 
 package de.lehmannet.om.extension.deepSky;
 
@@ -13,18 +12,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyFindingDS extends the de.lehmannet.om.DeepSkyFinding class.
- * Its specialised for double star observations and their findings.
- * The class is mostly oriented after the recommondations of the
- * german "VdS - DeepSky" group 
+ * DeepSkyFindingDS extends the de.lehmannet.om.DeepSkyFinding class. Its
+ * specialised for double star observations and their findings. The class is
+ * mostly oriented after the recommondations of the german "VdS - DeepSky" group
  * (<a href="http://www.fachgruppe-deepsky.de/">Homepage</a>).<br>
- * The field rating is based on a seven step scale recommended
- * by "VDS - DeepSky" group. The scales value should be interpreted
- * as the following table explains:
+ * The field rating is based on a seven step scale recommended by "VDS -
+ * DeepSky" group. The scales value should be interpreted as the following table
+ * explains:
  * <table>
  * <tr>
  * <td>1</td>
@@ -42,523 +41,496 @@ import de.lehmannet.om.util.SchemaException;
  * <td>7</td>
  * <td>Object not sighted</td>
  * </tr>
- * </table> 
- * 
+ * </table>
+ *
  * @author doergn@users.sourceforge.net
  * @since 1.5
  */
 public class DeepSkyFindingDS extends DeepSkyFinding {
 
-	// ---------
-	// Constants ---------------------------------------------------------
-	// ---------
+    // ---------
+    // Constants ---------------------------------------------------------
+    // ---------
 
-	// XSML schema instance value. Enables class/schema loaders to identify this
-	// class
-	public static final String XML_XSI_TYPE_VALUE = "oal:findingsDeepSkyDSType";
+    // XSML schema instance value. Enables class/schema loaders to identify this
+    // class
+    public static final String XML_XSI_TYPE_VALUE = "oal:findingsDeepSkyDSType";
 
-	// Constant for XML representation: finding element character
-	public static final String XML_ELEMENT_COLORMAIN = "colorMain";
+    // Constant for XML representation: finding element character
+    public static final String XML_ELEMENT_COLORMAIN = "colorMain";
 
-	// Constant for XML representation: finding element character
-	public static final String XML_ELEMENT_COLORCOMPANION = "colorCompanion";	
-	
-	// Constant for XML representation: finding element attribute character
-	public static final String XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS = "equalBrightness";
-	
-	// Constant for XML representation: finding element attribute character
-	public static final String XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING = "niceSurrounding";	
-	
-	// Star color types
-	public static final String COLOR_WHITE = "white";
-	public static final String COLOR_RED = "red";
-	public static final String COLOR_ORANGE = "orange";
-	public static final String COLOR_YELLOW = "yellow";
-	public static final String COLOR_GREEN = "green";
-	public static final String COLOR_BLUE = "blue";
-	
-	
-	
-	
-	// ------------------
-	// Instance Variables ------------------------------------------------
-	// ------------------
+    // Constant for XML representation: finding element character
+    public static final String XML_ELEMENT_COLORCOMPANION = "colorCompanion";
 
-	// Main star color
-	private String colorMain = null;
+    // Constant for XML representation: finding element attribute character
+    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS = "equalBrightness";
 
-	// Companion star color
-	private String colorCompanion = null;	
-	
-	// 1 if both stars have an equal brightness
-	// 0 if both stars haven't an equal brightness
-	// -1 the value was not set
-	private int equalBrightness = -1;	
+    // Constant for XML representation: finding element attribute character
+    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING = "niceSurrounding";
 
-	// 1 if both stars have a nice surrounding
-	// 0 if both stars haven't a nice surrounding
-	// -1 the value was not set
-	private int niceSurrounding = -1;
-	
-	
-	
-	
-	// ------------
-	// Constructors ------------------------------------------------------
-	// ------------
+    // Star color types
+    public static final String COLOR_WHITE = "white";
+    public static final String COLOR_RED = "red";
+    public static final String COLOR_ORANGE = "orange";
+    public static final String COLOR_YELLOW = "yellow";
+    public static final String COLOR_GREEN = "green";
+    public static final String COLOR_BLUE = "blue";
 
-	public DeepSkyFindingDS(Node findingElement) throws SchemaException {
-	
-		super(findingElement);
+    // ------------------
+    // Instance Variables ------------------------------------------------
+    // ------------------
 
-		Element finding = (Element)findingElement;
-		Element child = null;
-		NodeList children = null;
+    // Main star color
+    private String colorMain = null;
 
-		// Getting data
+    // Companion star color
+    private String colorCompanion = null;
 
-		// Get optional equalBrightness attribute
-		String eqBr = finding.getAttribute(DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS);
-        if(   (eqBr != null)
-           && (!"".equals(eqBr.trim())) 
-            ) {
-			this.setEqualBrightness(new Boolean(eqBr));
-		}
+    // 1 if both stars have an equal brightness
+    // 0 if both stars haven't an equal brightness
+    // -1 the value was not set
+    private int equalBrightness = -1;
 
-		// Get optional niceSurrounding attribute
-		String niSu =
-			finding.getAttribute(
-				DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING);
-        if(   (niSu != null)
-           && (!"".equals(niSu.trim())) 
-            ) {
-			this.setNiceSurrounding(new Boolean(niSu));
-		}
+    // 1 if both stars have a nice surrounding
+    // 0 if both stars haven't a nice surrounding
+    // -1 the value was not set
+    private int niceSurrounding = -1;
 
-		// Get optional color of mainstar
-		child = null;
-		children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORMAIN);
-		String c = "";
-		if( children != null ) {
-			if( children.getLength() == 1 ) {                   
-				child = (Element)children.item(0);
-				if( child != null ) {
-		          	NodeList textElements = child.getChildNodes();
-		        	if(   (textElements != null)
-		        	   && (textElements.getLength() > 0) 
-		        	   ) {
-		        		for(int te=0; te < textElements.getLength(); te++) {
-		        			c = c + textElements.item(te).getNodeValue();
-		        		}
-		        	}  
-					//c = child.getFirstChild().getNodeValue();   
-					this.setMainStarColor(c);                                  
-		  	    } else {
-				    throw new SchemaException("Problem while retrieving main color from DeepSkyFindingDS. ");                                       
+    // ------------
+    // Constructors ------------------------------------------------------
+    // ------------
+
+    public DeepSkyFindingDS(Node findingElement) throws SchemaException {
+
+        super(findingElement);
+
+        Element finding = (Element) findingElement;
+        Element child = null;
+        NodeList children = null;
+
+        // Getting data
+
+        // Get optional equalBrightness attribute
+        String eqBr = finding.getAttribute(DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS);
+        if ((eqBr != null) && (!"".equals(eqBr.trim()))) {
+            this.setEqualBrightness(new Boolean(eqBr));
+        }
+
+        // Get optional niceSurrounding attribute
+        String niSu = finding.getAttribute(DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING);
+        if ((niSu != null) && (!"".equals(niSu.trim()))) {
+            this.setNiceSurrounding(new Boolean(niSu));
+        }
+
+        // Get optional color of mainstar
+        child = null;
+        children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORMAIN);
+        String c = "";
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
+                if (child != null) {
+                    NodeList textElements = child.getChildNodes();
+                    if ((textElements != null) && (textElements.getLength() > 0)) {
+                        for (int te = 0; te < textElements.getLength(); te++) {
+                            c = c + textElements.item(te).getNodeValue();
+                        }
+                    }
+                    // c = child.getFirstChild().getNodeValue();
+                    this.setMainStarColor(c);
+                } else {
+                    throw new SchemaException("Problem while retrieving main color from DeepSkyFindingDS. ");
                 }
-		    } else if( children.getLength() > 1 ) {
-                throw new SchemaException("DeepSkyFindingDS can have only one main star entry. ");                 
-            }               
-        }			
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("DeepSkyFindingDS can have only one main star entry. ");
+            }
+        }
 
-		// Get optional color of companionstar
-		child = null;
-		children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORCOMPANION);
-		c = "";
-		if( children != null ) {
-			if( children.getLength() == 1 ) {                   
-				child = (Element)children.item(0);
-				if( child != null ) {
-		          	NodeList textElements = child.getChildNodes();
-		        	if(   (textElements != null)
-		        	   && (textElements.getLength() > 0) 
-		        	   ) {
-		        		for(int te=0; te < textElements.getLength(); te++) {
-		        			c = c + textElements.item(te).getNodeValue();
-		        		}
-						//c = child.getFirstChild().getNodeValue();   
-						this.setCompanionStarColor(c);		        		
-		        	}                                    
-		  	    } else {
-				    throw new SchemaException("Problem while retrieving companion color from DeepSkyFindingDS. ");                                       
+        // Get optional color of companionstar
+        child = null;
+        children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORCOMPANION);
+        c = "";
+        if (children != null) {
+            if (children.getLength() == 1) {
+                child = (Element) children.item(0);
+                if (child != null) {
+                    NodeList textElements = child.getChildNodes();
+                    if ((textElements != null) && (textElements.getLength() > 0)) {
+                        for (int te = 0; te < textElements.getLength(); te++) {
+                            c = c + textElements.item(te).getNodeValue();
+                        }
+                        // c = child.getFirstChild().getNodeValue();
+                        this.setCompanionStarColor(c);
+                    }
+                } else {
+                    throw new SchemaException("Problem while retrieving companion color from DeepSkyFindingDS. ");
                 }
-		    } else if( children.getLength() > 1 ) {
-                throw new SchemaException("DeepSkyFindingDS can have only one companion star entry. ");                 
-            }               
-        }		
-		
-	}
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Constructs a new instance of a DeepSkyFindingDS.
-	 * 
-	 * @param description The description of the finding
-	 * @param rating The rating of the finding
-	 * @throws IllegalArgumentException if description was <code>null</code>
-	 * or rating had a illegal value.
-	 */
-	public DeepSkyFindingDS(String description, int rating)
-							throws IllegalArgumentException {
+            } else if (children.getLength() > 1) {
+                throw new SchemaException("DeepSkyFindingDS can have only one companion star entry. ");
+            }
+        }
 
-		super(description, rating);
+    }
 
-	}	
-	
-	
-	
-	
-	// ------
-	// Object ------------------------------------------------------------
-	// ------
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Overwrittes toString() method from java.lang.Object.<br>
-	 * Returns the field values of this DeepSkyFindingDS.
-	
-	 * @return This DeepSkyFindingDS field values
-	 * @see java.lang.Object
-	 */
-	public String toString() {
+    // -------------------------------------------------------------------
+    /**
+     * Constructs a new instance of a DeepSkyFindingDS.
+     *
+     * @param description The description of the finding
+     * @param rating      The rating of the finding
+     * @throws IllegalArgumentException if description was <code>null</code> or
+     *                                  rating had a illegal value.
+     */
+    public DeepSkyFindingDS(String description, int rating) throws IllegalArgumentException {
 
-		StringBuffer buffer = new StringBuffer(super.toString());
-		
-		if (equalBrightness != -1) {
-			buffer.append(" EqualBrightness=");
-			buffer.append(this.getEqualBrightness());
-		}
+        super(description, rating);
 
-		if (niceSurrounding != -1) {
-			buffer.append(" NiceSurrounding=");
-			buffer.append(this.getNiceSurrounding());
-		}
+    }
 
-		if (colorMain != null) {
-			buffer.append(" ColorMain=");
-			buffer.append(this.getColorMain());
-		}				
+    // ------
+    // Object ------------------------------------------------------------
+    // ------
 
-		if (colorCompanion != null) {
-			buffer.append(" ColorCompanion=");
-			buffer.append(this.getColorCompanion());
-		}						
-		
-		String result = buffer.toString();
-		result = result.replaceAll("DeepSkyFinding", "DeepSkyFindingDS");
+    // -------------------------------------------------------------------
+    /**
+     * Overwrittes toString() method from java.lang.Object.<br>
+     * Returns the field values of this DeepSkyFindingDS.
+     *
+     * @return This DeepSkyFindingDS field values
+     * @see java.lang.Object
+     */
+    @Override
+    public String toString() {
 
-		return result;
-		
-	}
+        StringBuffer buffer = new StringBuffer(super.toString());
 
-	// -------------------------------------------------------------------
-	/**
-	 * Overwrittes equals(Object) method from java.lang.Object.<br>
-	 * Checks if this DeepSkyFindingDS and the given Object are equal. Two DeepSkyFindingDSs
-	 * are equal if both return the same string from their toString() method and their
-	 * XSI type is equal.<br>
-	 * @param obj The Object to compare this DeepSkyFindingDS with.
-	 * @return <code>true</code> if both Objects are instances from class DeepSkyFindingDS,
-	 * both XSI types are equal and
-	 * their fields contain the same values. (Can be checked with calling and comparing 
-	 * both objects toString() method)
-	 * @see java.lang.Object
-	 */
-	public boolean equals(Object obj) {
+        if (equalBrightness != -1) {
+            buffer.append(" EqualBrightness=");
+            buffer.append(this.getEqualBrightness());
+        }
 
-		if (obj == null || !(obj instanceof DeepSkyFindingDS)) {
-			return false;
-		}
+        if (niceSurrounding != -1) {
+            buffer.append(" NiceSurrounding=");
+            buffer.append(this.getNiceSurrounding());
+        }
 
-		// As we overwritte the toString() method and access all fields there,
-		// two DeepSkyFindingDSs are equal, if both objects return the same string 
-		// from their toString() method.
-		if (   (this.toString().equals(obj.toString()))
-			&& (this.getXSIType().equals(((DeepSkyFindingDS)obj).getXSIType()))
-			) {
-			return true;
-		}
+        if (colorMain != null) {
+            buffer.append(" ColorMain=");
+            buffer.append(this.getColorMain());
+        }
 
-		return false;
+        if (colorCompanion != null) {
+            buffer.append(" ColorCompanion=");
+            buffer.append(this.getColorCompanion());
+        }
 
-	}	
-	
-	
-	
-	
-	// ------------------------
-	// IExtendableSchemaElement ------------------------------------------
-	// ------------------------
+        String result = buffer.toString();
+        result = result.replaceAll("DeepSkyFinding", "DeepSkyFindingDS");
 
-	// -------------------------------------------------------------------
-	/**
-	 * Returns the XML schema instance type of the implementation.<br>
-	 * Example:<br>
-	 * <target xsi:type="myOwnTarget"><br>
-	 * </target><br>
-	 * 
-	 * @return The xsi:type value of this implementation 
-	 */
-	public String getXSIType() {
+        return result;
 
-		return DeepSkyFindingDS.XML_XSI_TYPE_VALUE;
+    }
 
-	}
-	
-	
-	
-	
-	// -------
-	// Finding -----------------------------------------------------------
-	// -------
 
-	// -------------------------------------------------------------------
-	/**
-	 * Adds this DeepSkyFindingDS to an given parent XML DOM Element.
-	 * The DeepSkyFindingDS Element will be set as a child element of
-	 * the passed Element.
-	 * 
-	 * @param parent The parent element for this DeepSkyFindingDS
-	 * @return Returns the Element given as parameter with this 
-	 * DeepSkyFindingDS as child Element.<br>
-	 * Might return <code>null</code> if parent was <code>null</code>.
-	 * @see org.w3c.dom.Element
-	 */
-	public Element addToXmlElement(Element parent) {
 
-		if (parent == null) {
-			return null;
-		}
 
-		Document ownerDoc = parent.getOwnerDocument();
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((colorCompanion == null) ? 0 : colorCompanion.hashCode());
+        result = prime * result + ((colorMain == null) ? 0 : colorMain.hashCode());
+        result = prime * result + equalBrightness;
+        result = prime * result + niceSurrounding;
+        return result;
+    }
 
-		Element e_Finding = super.createXmlFindingElement(parent);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeepSkyFindingDS other = (DeepSkyFindingDS) obj;
+        if (colorCompanion == null) {
+            if (other.colorCompanion != null)
+                return false;
+        } else if (!colorCompanion.equals(other.colorCompanion))
+            return false;
+        if (colorMain == null) {
+            if (other.colorMain != null)
+                return false;
+        } else if (!colorMain.equals(other.colorMain))
+            return false;
+        if (equalBrightness != other.equalBrightness)
+            return false;
+        if (niceSurrounding != other.niceSurrounding)
+            return false;
+        return true;
+    }
 
-		// Set XSI:Type
-		e_Finding.setAttribute(IFinding.XML_XSI_TYPE,
-							   DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
-		
-		if (this.equalBrightness != -1) {
-			e_Finding.setAttribute(
-				XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS,
-				Boolean.toString(this.getEqualBrightness()));
-		}
+    // ------------------------
+    // IExtendableSchemaElement ------------------------------------------
+    // ------------------------
 
-		if (this.niceSurrounding != -1) {
-			e_Finding.setAttribute(
-				XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING,
-				Boolean.toString(this.getNiceSurrounding()));
-		}	
-		
-		if (this.colorMain != null) {
-			Element e_ColorMain = ownerDoc.createElement(XML_ELEMENT_COLORMAIN);        
-			Node n_ColorMainText = ownerDoc.createCDATASection(this.getColorMain().toString());
-			e_ColorMain.appendChild(n_ColorMainText);        
-	        e_Finding.appendChild(e_ColorMain);			
-		}		
+    // -------------------------------------------------------------------
+    /**
+     * Returns the XML schema instance type of the implementation.<br>
+     * Example:<br>
+     * <target xsi:type="myOwnTarget"><br>
+     * </target><br>
+     *
+     * @return The xsi:type value of this implementation
+     */
+    @Override
+    public String getXSIType() {
 
-		if (this.colorCompanion != null) {
-			Element e_ColorCompanion = ownerDoc.createElement(XML_ELEMENT_COLORCOMPANION);        
-			Node n_ColorCompanionText = ownerDoc.createCDATASection(this.getColorCompanion().toString());
-			e_ColorCompanion.appendChild(n_ColorCompanionText);        
-	        e_Finding.appendChild(e_ColorCompanion);						
-		}				
-		
-		parent.appendChild(e_Finding);
+        return DeepSkyFindingDS.XML_XSI_TYPE_VALUE;
 
-		return parent;
+    }
 
-	}	
-	
-	
-	
-	
-	// --------------
-	// Public methods ----------------------------------------------------
-	// --------------
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Returns the equalBrightness value of this DeepSkyFindingDS.<br>
-	 * Describes if both stars have an equal brightness.
-	 * 
-	 * @return <code>true</code> if both stars have an equal brightness
-	 * @throws IllegalStateException if equalBrightness was not set by the user
-	 * so the class cannot return <b>true</b> or <b>false</b>
-	 */
-	public boolean getEqualBrightness() throws IllegalStateException {
+    // -------
+    // Finding -----------------------------------------------------------
+    // -------
 
-		if (this.equalBrightness == -1) {
-			throw new IllegalStateException(
-				"EqualBrightness value was never set for: " + this);
-		}
 
-		if (equalBrightness == 1) {
-			return true;
-		} else {
-			return false;
-		}
 
-	}	
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Returns the niceSurrounding value of this DeepSkyFindingDS.<br>
-	 * Describes if the double star has a nice surrounding. 
-	 * 
-	 * @return <code>true</code> if the observed object has
-	 * a nice surrounding.
-	 * @throws IllegalStateException if niceSurrounding was not set by the user
-	 * so the class cannot return <b>true</b> or <b>false</b>
-	 */
-	public boolean getNiceSurrounding() throws IllegalStateException {
+    // -------------------------------------------------------------------
+    /**
+     * Adds this DeepSkyFindingDS to an given parent XML DOM Element. The
+     * DeepSkyFindingDS Element will be set as a child element of the passed
+     * Element.
+     *
+     * @param parent The parent element for this DeepSkyFindingDS
+     * @return Returns the Element given as parameter with this DeepSkyFindingDS as
+     *         child Element.<br>
+     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @see org.w3c.dom.Element
+     */
+    @Override
+    public Element addToXmlElement(Element parent) {
 
-		if (this.niceSurrounding == -1) {
-			throw new IllegalStateException(
-				"NiceSurrounding value was never set for: " + this);
-		}
+        if (parent == null) {
+            return null;
+        }
 
-		if (niceSurrounding == 1) {
-			return true;
-		} else {
-			return false;
-		}
+        Document ownerDoc = parent.getOwnerDocument();
 
-	}		
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Returns the color of the main star of this DeepSkyFindingDS.<br>
-	 * See DeepSkyFindingDS constants for valid color values.<br>
-	 * 
-	 * @return A string describing the color of the main star
-	 * or <code>null</code> if the value was never set
-	 */	
-	public String getColorMain() {
-		
-		return this.colorMain;
-		
-	}
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Returns the color of the companion star of this DeepSkyFindingDS.<br>
-	 * See DeepSkyFindingDS constants for valid color values.<br>
-	 * 
-	 * @return A string describing the color of the companion star
-	 * or <code>null</code> if the value was never set
-	 */	
-	public String getColorCompanion() {
-		
-		return this.colorCompanion;
-		
-	}	
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Sets the equalBrightness value of this DeepSkyFindingDS.<br>
-	 * Describes if both stars have an equal brightness.
-	 * 
-	 * @param equalBrightness The equalBrightness value to set for this DeepSkyFindingDS
-	 * or <code>NULL</code> if the value should be not set at all.
-	 */
-	public void setEqualBrightness(Boolean equalBrightness) {
+        Element e_Finding = super.createXmlFindingElement(parent);
 
-		if( equalBrightness == null ) {
-			this.equalBrightness = -1;
-			return;
-		}
-		
-		if (equalBrightness.booleanValue() == true) {
-			this.equalBrightness = 1;
-		} else {
-			this.equalBrightness = 0;
-		}
+        // Set XSI:Type
+        e_Finding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
 
-	}	
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Sets the niceSurrounding value of this DeepSkyFindingDS.<br>
-	 * Describes if the observed object has a nice surrounding.
-	 * 
-	 * @param niceSurrounding The niceSurrounding value to set for this DeepSkyFindingDS
-	 * or <code>NULL</code> if the value should be not set at all.
-	 */
-	public void setNiceSurrounding(Boolean niceSurrounding) {
+        if (this.equalBrightness != -1) {
+            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS,
+                    Boolean.toString(this.getEqualBrightness()));
+        }
 
-		if( niceSurrounding == null ) {
-			this.niceSurrounding = -1;
-			return;
-		}
-		
-		if (niceSurrounding.booleanValue() == true) {
-			this.niceSurrounding = 1;
-		} else {
-			this.niceSurrounding = 0;
-		}
+        if (this.niceSurrounding != -1) {
+            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING,
+                    Boolean.toString(this.getNiceSurrounding()));
+        }
 
-	}
-		
+        if (this.colorMain != null) {
+            Element e_ColorMain = ownerDoc.createElement(XML_ELEMENT_COLORMAIN);
+            Node n_ColorMainText = ownerDoc.createCDATASection(this.getColorMain().toString());
+            e_ColorMain.appendChild(n_ColorMainText);
+            e_Finding.appendChild(e_ColorMain);
+        }
 
-	// -------------------------------------------------------------------
-	/**
-	 * Sets the color of the main star of this DeepSkyFindingDS.<br>
-	 * See DeepSkyFindingDS constants for valid color values.<br>
-	 * 
-	 * @param color The color value to set for this DeepSkyFindingDS
-	 * or <code>NULL</code> if the value should be not set at all.
-	 * @throws IllegalArgumentException if the given color value is invalid
-	 */
-	public void setMainStarColor(String color) throws IllegalArgumentException {
-		
-		if( color == null  ) {
-			this.colorMain = null;
-			return;
-		}
-		
-		if(   DeepSkyFindingDS.COLOR_BLUE.equals(color)
-		   || DeepSkyFindingDS.COLOR_GREEN.equals(color)
-		   || DeepSkyFindingDS.COLOR_ORANGE.equals(color)
-		   || DeepSkyFindingDS.COLOR_RED.equals(color)
-		   || DeepSkyFindingDS.COLOR_WHITE.equals(color)
-		   || DeepSkyFindingDS.COLOR_YELLOW.equals(color)
-		   ) {
-			this.colorMain = color;	
-		} else {
-			throw new IllegalArgumentException("Main star color value is not valid.\n");
-		}
-		
-	}
-	
-	// -------------------------------------------------------------------
-	/**
-	 * Sets the color of the companion star of this DeepSkyFindingDS.<br>
-	 * See DeepSkyFindingDS constants for valid color values.<br>
-	 * 
-	 * @param color The color value to set for this DeepSkyFindingDS
-	 * or <code>NULL</code> if the value should be not set at all.
-	 * @throws IllegalArgumentException if the given color value is invalid
-	 */
-	public void setCompanionStarColor(String color) throws IllegalArgumentException {
-		
-		if( color == null  ) {
-			this.colorCompanion = null;
-			return;
-		}
-		
-		if(   DeepSkyFindingDS.COLOR_BLUE.equals(color)
-		   || DeepSkyFindingDS.COLOR_GREEN.equals(color)
-		   || DeepSkyFindingDS.COLOR_ORANGE.equals(color)
-		   || DeepSkyFindingDS.COLOR_RED.equals(color)
-		   || DeepSkyFindingDS.COLOR_WHITE.equals(color)
-		   || DeepSkyFindingDS.COLOR_YELLOW.equals(color)
-		   ) {
-			this.colorCompanion = color;	
-		} else {
-			throw new IllegalArgumentException("Companion star color value is not valid.\n");
-		}
-		
-	}	
-	
+        if (this.colorCompanion != null) {
+            Element e_ColorCompanion = ownerDoc.createElement(XML_ELEMENT_COLORCOMPANION);
+            Node n_ColorCompanionText = ownerDoc.createCDATASection(this.getColorCompanion().toString());
+            e_ColorCompanion.appendChild(n_ColorCompanionText);
+            e_Finding.appendChild(e_ColorCompanion);
+        }
+
+        parent.appendChild(e_Finding);
+
+        return parent;
+
+    }
+
+    // --------------
+    // Public methods ----------------------------------------------------
+    // --------------
+
+    // -------------------------------------------------------------------
+    /**
+     * Returns the equalBrightness value of this DeepSkyFindingDS.<br>
+     * Describes if both stars have an equal brightness.
+     *
+     * @return <code>true</code> if both stars have an equal brightness
+     * @throws IllegalStateException if equalBrightness was not set by the user so
+     *                               the class cannot return <b>true</b> or
+     *                               <b>false</b>
+     */
+    public boolean getEqualBrightness() throws IllegalStateException {
+
+        if (this.equalBrightness == -1) {
+            throw new IllegalStateException("EqualBrightness value was never set for: " + this);
+        }
+
+        if (equalBrightness == 1) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Returns the niceSurrounding value of this DeepSkyFindingDS.<br>
+     * Describes if the double star has a nice surrounding.
+     *
+     * @return <code>true</code> if the observed object has a nice surrounding.
+     * @throws IllegalStateException if niceSurrounding was not set by the user so
+     *                               the class cannot return <b>true</b> or
+     *                               <b>false</b>
+     */
+    public boolean getNiceSurrounding() throws IllegalStateException {
+
+        if (this.niceSurrounding == -1) {
+            throw new IllegalStateException("NiceSurrounding value was never set for: " + this);
+        }
+
+        if (niceSurrounding == 1) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Returns the color of the main star of this DeepSkyFindingDS.<br>
+     * See DeepSkyFindingDS constants for valid color values.<br>
+     *
+     * @return A string describing the color of the main star or <code>null</code>
+     *         if the value was never set
+     */
+    public String getColorMain() {
+
+        return this.colorMain;
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Returns the color of the companion star of this DeepSkyFindingDS.<br>
+     * See DeepSkyFindingDS constants for valid color values.<br>
+     *
+     * @return A string describing the color of the companion star or
+     *         <code>null</code> if the value was never set
+     */
+    public String getColorCompanion() {
+
+        return this.colorCompanion;
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Sets the equalBrightness value of this DeepSkyFindingDS.<br>
+     * Describes if both stars have an equal brightness.
+     *
+     * @param equalBrightness The equalBrightness value to set for this
+     *                        DeepSkyFindingDS or <code>NULL</code> if the value
+     *                        should be not set at all.
+     */
+    public void setEqualBrightness(Boolean equalBrightness) {
+
+        if (equalBrightness == null) {
+            this.equalBrightness = -1;
+            return;
+        }
+
+        if (equalBrightness.booleanValue() == true) {
+            this.equalBrightness = 1;
+        } else {
+            this.equalBrightness = 0;
+        }
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Sets the niceSurrounding value of this DeepSkyFindingDS.<br>
+     * Describes if the observed object has a nice surrounding.
+     *
+     * @param niceSurrounding The niceSurrounding value to set for this
+     *                        DeepSkyFindingDS or <code>NULL</code> if the value
+     *                        should be not set at all.
+     */
+    public void setNiceSurrounding(Boolean niceSurrounding) {
+
+        if (niceSurrounding == null) {
+            this.niceSurrounding = -1;
+            return;
+        }
+
+        if (niceSurrounding.booleanValue() == true) {
+            this.niceSurrounding = 1;
+        } else {
+            this.niceSurrounding = 0;
+        }
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Sets the color of the main star of this DeepSkyFindingDS.<br>
+     * See DeepSkyFindingDS constants for valid color values.<br>
+     *
+     * @param color The color value to set for this DeepSkyFindingDS or
+     *              <code>NULL</code> if the value should be not set at all.
+     * @throws IllegalArgumentException if the given color value is invalid
+     */
+    public void setMainStarColor(String color) throws IllegalArgumentException {
+
+        if (color == null) {
+            this.colorMain = null;
+            return;
+        }
+
+        if (DeepSkyFindingDS.COLOR_BLUE.equals(color) || DeepSkyFindingDS.COLOR_GREEN.equals(color)
+                || DeepSkyFindingDS.COLOR_ORANGE.equals(color) || DeepSkyFindingDS.COLOR_RED.equals(color)
+                || DeepSkyFindingDS.COLOR_WHITE.equals(color) || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
+            this.colorMain = color;
+        } else {
+            throw new IllegalArgumentException("Main star color value is not valid.\n");
+        }
+
+    }
+
+    // -------------------------------------------------------------------
+    /**
+     * Sets the color of the companion star of this DeepSkyFindingDS.<br>
+     * See DeepSkyFindingDS constants for valid color values.<br>
+     *
+     * @param color The color value to set for this DeepSkyFindingDS or
+     *              <code>NULL</code> if the value should be not set at all.
+     * @throws IllegalArgumentException if the given color value is invalid
+     */
+    public void setCompanionStarColor(String color) throws IllegalArgumentException {
+
+        if (color == null) {
+            this.colorCompanion = null;
+            return;
+        }
+
+        if (DeepSkyFindingDS.COLOR_BLUE.equals(color) || DeepSkyFindingDS.COLOR_GREEN.equals(color)
+                || DeepSkyFindingDS.COLOR_ORANGE.equals(color) || DeepSkyFindingDS.COLOR_RED.equals(color)
+                || DeepSkyFindingDS.COLOR_WHITE.equals(color) || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
+            this.colorCompanion = color;
+        } else {
+            throw new IllegalArgumentException("Companion star color value is not valid.\n");
+        }
+
+    }
+
 }

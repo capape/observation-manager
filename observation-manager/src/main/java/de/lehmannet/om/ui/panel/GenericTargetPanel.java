@@ -13,106 +13,102 @@ import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
-public class GenericTargetPanel extends AbstractPanel {	
+public class GenericTargetPanel extends AbstractPanel {
 
-  private static final long serialVersionUID = 9175024145109241504L;
-  
-  private ObservationManager observationManager = null;
-	private GenericTarget target = null;
-	
-	private TargetContainer targetContainer = null;	
-	
-    public GenericTargetPanel(ObservationManager om, 
-            				  ITarget target, 
-            				  Boolean editable) throws IllegalArgumentException {
+    private static final long serialVersionUID = 9175024145109241504L;
 
-    	super(editable);
+    private ObservationManager observationManager = null;
+    private GenericTarget target = null;
 
-    	if(    (target != null)
-           && !(target instanceof GenericTarget) 
-    	  ) {
-    			throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.GenericTarget\n");
-    	}
+    private TargetContainer targetContainer = null;
 
-    	this.target = (GenericTarget)target;
-    	this.observationManager = om;
+    public GenericTargetPanel(ObservationManager om, ITarget target, Boolean editable) throws IllegalArgumentException {
 
-    	this.createPanel();           
+        super(editable);
 
-    }  		
-	
-	
-	public ISchemaElement createSchemaElement() {
-		
-		String name = this.targetContainer.getName();
-		String datasource = this.targetContainer.getDatasource();
-		IObserver observer = this.targetContainer.getObserver();		
-		
-		// Make sure only datasource or observer is set
-		if( !this.targetContainer.checkOrigin(datasource, observer) ) {
-			return null;
-		}
-				
+        if ((target != null) && !(target instanceof GenericTarget)) {
+            throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.GenericTarget\n");
+        }
 
-		if( observer != null ) {
-			this.target = new GenericTarget(name, observer);	
-		} else {
-			this.target = new GenericTarget(name, datasource);	
-		}
+        this.target = (GenericTarget) target;
+        this.observationManager = om;
 
-		// Tell target container about newly created target
-		this.targetContainer.setTarget(this.target);
-		
-		// Set all other fields
-		this.updateSchemaElement();
-		
-		return this.target;
-		
-	}
+        this.createPanel();
 
+    }
 
-	public ISchemaElement getSchemaElement() {
+    @Override
+    public ISchemaElement createSchemaElement() {
 
-		return this.target;
-		
-	}
+        String name = this.targetContainer.getName();
+        String datasource = this.targetContainer.getDatasource();
+        IObserver observer = this.targetContainer.getObserver();
 
-	public ISchemaElement updateSchemaElement() {
-		
-    	if( this.target == null ) {
-    		return null;
-    	}
-    	    	
-		ITarget t = this.targetContainer.updateTarget();
-		if( t == null ) {
-			return null;
-		} else {
-			this.target = (GenericTarget)t;
-		}    	    	
-    	
-		return this.target;
-		
-	}
+        // Make sure only datasource or observer is set
+        if (!this.targetContainer.checkOrigin(datasource, observer)) {
+            return null;
+        }
 
-	private void createPanel() {	
-		
-		GridBagLayout gridbag = new GridBagLayout();
-	    GridBagConstraints constraints = new GridBagConstraints();
-	    constraints.anchor = GridBagConstraints.WEST;
-	    this.setLayout(gridbag);
-	
+        if (observer != null) {
+            this.target = new GenericTarget(name, observer);
+        } else {
+            this.target = new GenericTarget(name, datasource);
+        }
+
+        // Tell target container about newly created target
+        this.targetContainer.setTarget(this.target);
+
+        // Set all other fields
+        this.updateSchemaElement();
+
+        return this.target;
+
+    }
+
+    @Override
+    public ISchemaElement getSchemaElement() {
+
+        return this.target;
+
+    }
+
+    @Override
+    public ISchemaElement updateSchemaElement() {
+
+        if (this.target == null) {
+            return null;
+        }
+
+        ITarget t = this.targetContainer.updateTarget();
+        if (t == null) {
+            return null;
+        } else {
+            this.target = (GenericTarget) t;
+        }
+
+        return this.target;
+
+    }
+
+    private void createPanel() {
+
+        GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+        this.setLayout(gridbag);
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;        
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, super.isEditable(), false);        
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        this.targetContainer = new TargetContainer(this.observationManager, this.target, super.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
-        this.add(this.targetContainer);  
-        
+        this.add(this.targetContainer);
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
-        constraints.fill = GridBagConstraints.BOTH;        
-        JLabel Lfill = new JLabel("");        
+        constraints.fill = GridBagConstraints.BOTH;
+        JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);         
-        
-	}	
-	
+        this.add(Lfill);
+
+    }
+
 }

@@ -10,15 +10,16 @@ import java.io.OutputStream;
  */
 public interface ISerializer {
 
-	// --------------
-	// Public methods ---------------------------------------------------------
-	// --------------
-	
-	// ------------------------------------------------------------------------
-	/**
-	 * Serialize all observations to stream.
-	 * @return int value with the number of exported observations
-	 */
-	public int serialize(OutputStream stream) throws Exception;
-	
+    // --------------
+    // Public methods ---------------------------------------------------------
+    // --------------
+
+    // ------------------------------------------------------------------------
+    /**
+     * Serialize all observations to stream.
+     * 
+     * @return int value with the number of exported observations
+     */
+    public int serialize(OutputStream stream) throws Exception;
+
 }
