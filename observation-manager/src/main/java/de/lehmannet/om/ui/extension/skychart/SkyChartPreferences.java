@@ -135,7 +135,7 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         ip = ip.trim();
 
-        if (ip.indexOf(" ") != -1) {
+        if (ip.contains(" ")) {
             return SkyChartPreferences.SERVER_DEFAULT_IP;
         }
 

@@ -8,7 +8,7 @@ public abstract class PreferencesPanel extends JPanel {
 
     protected Configuration configuration = null;
 
-    public PreferencesPanel(Configuration config) {
+    protected PreferencesPanel(Configuration config) {
 
         this.configuration = config;
 

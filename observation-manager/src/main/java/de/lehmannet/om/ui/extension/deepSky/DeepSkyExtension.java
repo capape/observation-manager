@@ -3,13 +3,7 @@ package de.lehmannet.om.ui.extension.deepSky;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.JMenu;
 
@@ -59,11 +53,11 @@ public class DeepSkyExtension implements IExtension {
         }
     }
 
-    protected HashMap findingPanels = new HashMap();
-    protected HashMap targetPanels = new HashMap();
-    protected HashMap targetDialogs = new HashMap();
+    private final Map findingPanels = new HashMap();
+    private final Map targetPanels = new HashMap();
+    private final Map targetDialogs = new HashMap();
 
-    protected String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
+    private final String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
 
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
@@ -340,22 +334,21 @@ public class DeepSkyExtension implements IExtension {
 
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//
-//        if (o instanceof IExtension) {
-//            IExtension ext = (IExtension) o;
-//            if (ext.getName().equals(this.getName())) {
-//                if (ext.getVersion() == this.getVersion()) {
-//                    return true;
-//                }
-//            }
-//        }
-//
-//        return false;
-//
-//    }
-
+    // @Override
+    // public boolean equals(Object o) {
+    //
+    // if (o instanceof IExtension) {
+    // IExtension ext = (IExtension) o;
+    // if (ext.getName().equals(this.getName())) {
+    // if (ext.getVersion() == this.getVersion()) {
+    // return true;
+    // }
+    // }
+    // }
+    //
+    // return false;
+    //
+    // }
 
     @Override
     public boolean addOALExtensionElement(Element docElement) {
@@ -385,10 +378,10 @@ public class DeepSkyExtension implements IExtension {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((OAL_EXTENSION_FILE == null) ? 0 : OAL_EXTENSION_FILE.hashCode());
-        result = prime * result + ((findingPanels == null) ? 0 : findingPanels.hashCode());
-        result = prime * result + ((targetDialogs == null) ? 0 : targetDialogs.hashCode());
-        result = prime * result + ((targetPanels == null) ? 0 : targetPanels.hashCode());
+        result = prime * result + OAL_EXTENSION_FILE.hashCode();
+        result = prime * result + findingPanels.hashCode();
+        result = prime * result + targetDialogs.hashCode();
+        result = prime * result + targetPanels.hashCode();
         return result;
     }
 
@@ -401,27 +394,11 @@ public class DeepSkyExtension implements IExtension {
         if (getClass() != obj.getClass())
             return false;
         DeepSkyExtension other = (DeepSkyExtension) obj;
-        if (OAL_EXTENSION_FILE == null) {
-            if (other.OAL_EXTENSION_FILE != null)
-                return false;
-        } else if (!OAL_EXTENSION_FILE.equals(other.OAL_EXTENSION_FILE))
+        if (!findingPanels.equals(other.findingPanels))
             return false;
-           if (findingPanels == null) {
-            if (other.findingPanels != null)
-                return false;
-        } else if (!findingPanels.equals(other.findingPanels))
+        if (!targetDialogs.equals(other.targetDialogs))
             return false;
-        if (targetDialogs == null) {
-            if (other.targetDialogs != null)
-                return false;
-        } else if (!targetDialogs.equals(other.targetDialogs))
-            return false;
-        if (targetPanels == null) {
-            if (other.targetPanels != null)
-                return false;
-        } else if (!targetPanels.equals(other.targetPanels))
-            return false;
-        return true;
+        return targetPanels.equals(other.targetPanels);
     }
 
     @Override

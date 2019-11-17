@@ -16,7 +16,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
@@ -28,18 +27,15 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -8289411368690909665L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
     private JTabbedPane tabbedPane = null;
 
-    private PreferencesPanel genericPanel = null;
-    private PreferencesPanel behaviourPanel = null;
-
-    private JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
-    private JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+    private final JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+    private final JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
 
     public PreferencesDialog(ObservationManager om, PreferencesPanel[] additionalPanels) {
 
@@ -54,8 +50,8 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
 
-        for (int i = 0; i < additionalPanels.length; i++) {
-            this.addPreferencesTab(additionalPanels[i]);
+        for (PreferencesPanel additionalPanel : additionalPanels) {
+            this.addPreferencesTab(additionalPanel);
         }
 
         this.setVisible(true);
@@ -105,10 +101,10 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.tabbedPane = new JTabbedPane();
 
-        this.genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
-        this.behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om);
-        this.tabbedPane.addTab(this.genericPanel.getTabTitle(), this.genericPanel);
-        this.tabbedPane.addTab(this.behaviourPanel.getTabTitle(), this.behaviourPanel);
+        PreferencesPanel genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
+        PreferencesPanel behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om);
+        this.tabbedPane.addTab(genericPanel.getTabTitle(), genericPanel);
+        this.tabbedPane.addTab(behaviourPanel.getTabTitle(), behaviourPanel);
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 4, 33, 33);
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;

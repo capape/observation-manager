@@ -35,8 +35,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
     private static final long serialVersionUID = -304700875998209917L;
 
-    public final String XSI_TYPE = "oal:findingsDeepSkyOCType";
-
     private TristateCheckbox unusualShape = null;
     private TristateCheckbox partlyUnresolved = null;
     private TristateCheckbox colorContrasts = null;
@@ -57,7 +55,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
                 finding = super.finding;
 
                 try { // Might be old (< 1.5) DeepSkyFinding
-                    if (finding instanceof DeepSkyFinding) {
+                    if (finding != null) {
                         super.finding = new DeepSkyFindingOC(finding.getDescription(),
                                 ((DeepSkyFinding) finding).getRating());
                     } else { // Finding was something else. So recycle description and use 99 as default
@@ -102,7 +100,8 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     @Override
     public String getXSIType() {
 
-        return this.XSI_TYPE;
+        String XSI_TYPE = "oal:findingsDeepSkyOCType";
+        return XSI_TYPE;
 
     }
 
@@ -121,7 +120,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
                 this.character = traitDialog.getCharacter();
                 if (this.character != null) {
                     Image image = Toolkit.getDefaultToolkit()
-                            .getImage(this.imagePath + Character.toLowerCase(this.character.charValue()) + ".png");
+                            .getImage(this.imagePath + Character.toLowerCase(this.character) + ".png");
                     image = image.getScaledInstance(90, 90, Image.SCALE_FAST);
                     this.characterButton.setIcon(new ImageIcon(image));
                     this.characterButton.setText("   " + this.character + "   ");
@@ -157,31 +156,31 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         // Set optional OC elements
         finding.setCharacter(this.character);
 
-        if (!this.unusualShape.isNASelected()) {
+        if (this.unusualShape.isNASelected()) {
             if (this.unusualShape.isFalseSelected()) {
-                finding.setUnusualShape(new Boolean(false));
+                finding.setUnusualShape(Boolean.FALSE);
             } else {
-                finding.setUnusualShape(new Boolean(true));
+                finding.setUnusualShape(Boolean.TRUE);
             }
         } else {
             finding.setUnusualShape(null);
         }
 
-        if (!this.partlyUnresolved.isNASelected()) {
+        if (this.partlyUnresolved.isNASelected()) {
             if (this.partlyUnresolved.isFalseSelected()) {
-                finding.setPartlyUnresolved(new Boolean(false));
+                finding.setPartlyUnresolved(Boolean.FALSE);
             } else {
-                finding.setPartlyUnresolved(new Boolean(true));
+                finding.setPartlyUnresolved(Boolean.TRUE);
             }
         } else {
             finding.setPartlyUnresolved(null);
         }
 
-        if (!this.colorContrasts.isNASelected()) {
+        if (this.colorContrasts.isNASelected()) {
             if (this.colorContrasts.isFalseSelected()) {
-                finding.setColorContrasts(new Boolean(false));
+                finding.setColorContrasts(Boolean.FALSE);
             } else {
-                finding.setColorContrasts(new Boolean(true));
+                finding.setColorContrasts(Boolean.TRUE);
             }
         } else {
             finding.setColorContrasts(null);
@@ -205,9 +204,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         super.finding = new DeepSkyFindingOC(super.findingContainer.getDescription(), rating);
 
         // Something went wrong. Maybe entered values were malformed...
-        if (super.finding == null) {
-            return null;
-        }
 
         // Set all other fields
         super.finding = (DeepSkyFinding) this.updateSchemaElement();
@@ -281,8 +277,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         this.characterButton.addActionListener(this);
         if ((this.finding != null) && (((DeepSkyFindingOC) this.finding).getCharacter() != null)) {
             Character c = ((DeepSkyFindingOC) this.finding).getCharacter();
-            Image image = Toolkit.getDefaultToolkit()
-                    .getImage(this.imagePath + Character.toLowerCase(c.charValue()) + ".png");
+            Image image = Toolkit.getDefaultToolkit().getImage(this.imagePath + Character.toLowerCase(c) + ".png");
             image = image.getScaledInstance(90, 90, Image.SCALE_FAST);
             ImageIcon icon = new ImageIcon(image);
             this.characterButton.setIcon(icon);
@@ -306,7 +301,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
     }
 
-    void loadSchemaElementOC() {
+    private void loadSchemaElementOC() {
 
         super.loadSchemaElement();
 

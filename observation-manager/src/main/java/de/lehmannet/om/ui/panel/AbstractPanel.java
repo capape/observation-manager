@@ -31,7 +31,7 @@ public abstract class AbstractPanel extends JPanel {
 
     protected AbstractPanel(Boolean editable) {
 
-        this.editable = editable.booleanValue();
+        this.editable = editable;
 
     }
 

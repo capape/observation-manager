@@ -11,11 +11,9 @@ import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -41,10 +39,10 @@ public class ProjectLoader {
 
     private ObservationManager observationManager = null;
 
-    private List projectList = new ArrayList();
+    private final List projectList = new ArrayList();
 
     // Used to load projects in parallel
-    ThreadGroup loadProjects = new ThreadGroup("Load all projects");
+    private final ThreadGroup loadProjects = new ThreadGroup("Load all projects");
 
     public ProjectLoader(ObservationManager om) {
 
@@ -80,14 +78,11 @@ public class ProjectLoader {
         }
 
         // Get all project files
-        String[] projects = path.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
+        String[] projects = path.list((dir, name) -> {
 
-                File file = new File(dir.getAbsolutePath() + File.separator + name);
-                return file.getName().endsWith(".omp") && !"CVS".equals(file.getName()); // For developers ;-)
+            File file = new File(dir.getAbsolutePath() + File.separator + name);
+            return file.getName().endsWith(".omp") && !"CVS".equals(file.getName()); // For developers ;-)
 
-            }
         });
 
         // No project files found
@@ -107,18 +102,17 @@ public class ProjectLoader {
         // refer to catalogs
         ArrayList projectThreads = new ArrayList();
         File projectFile = null;
-        for (int i = 0; i < projects.length; i++) {
-            projectFile = new File(path.getAbsolutePath() + File.separator + projects[i]);
+        for (String project : projects) {
+            projectFile = new File(path.getAbsolutePath() + File.separator + project);
             ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.observationManager, this.projectList,
                     userTargets, projectFile, this.observationManager.isDebug());
-            Thread thread = new Thread(this.loadProjects, runnable, "Load project " + projects[i]);
+            Thread thread = new Thread(this.loadProjects, runnable, "Load project " + project);
             projectThreads.add(thread);
         }
 
         // Start loading all projects
-        Iterator iter = projectThreads.iterator();
-        while (iter.hasNext()) {
-            ((Thread) iter.next()).start();
+        for (Object projectThread : projectThreads) {
+            ((Thread) projectThread).start();
         }
 
     }
@@ -128,9 +122,9 @@ public class ProjectLoader {
         ArrayList userTargets = new ArrayList();
 
         ITarget[] targets = this.observationManager.getXmlCache().getTargets();
-        for (int i = 0; i < targets.length; i++) {
-            if (targets[i].getObserver() != null) {
-                userTargets.add(targets[i]);
+        for (ITarget target : targets) {
+            if (target.getObserver() != null) {
+                userTargets.add(target);
             }
         }
 
@@ -189,13 +183,13 @@ class ProjectLoaderRunnable implements Runnable {
 
         // Extract catalogName and targetName
         String catalogName = null;
-        if (line.indexOf(",") != -1) { // Check if catalog name was given at all
+        if (line.contains(",")) { // Check if catalog name was given at all
             catalogName = line.substring(0, line.indexOf(","));
         }
         String targetName = line.substring(line.indexOf(",") + 1);
 
         // Check whether line was formated correctly
-        if ((targetName == null) || ("".equals(targetName.trim()))) {
+        if ("".equals(targetName.trim())) {
             return null;
         }
 
@@ -216,8 +210,8 @@ class ProjectLoaderRunnable implements Runnable {
                     } else { // Try whether alias names match
                         if ((current.getAliasNames() != null) && (current.getAliasNames().length > 0)) {
                             String[] aNames = current.getAliasNames();
-                            for (int j = 0; j < aNames.length; j++) {
-                                ut_name = this.formatName(aNames[j]);
+                            for (String aName : aNames) {
+                                ut_name = this.formatName(aName);
                                 if (ut_name.equals(t_name)) { // Alias name matches
                                     return current;
                                 }
@@ -251,10 +245,10 @@ class ProjectLoaderRunnable implements Runnable {
 
         // Get all catalog names
         String[] catalogNames = catalogLoader.getCatalogNames();
-        for (int i = 0; i < catalogNames.length; i++) {
+        for (String name : catalogNames) {
             // Search via search panel as searching might be optimized
             // and it'll include alias names
-            AbstractSearchPanel searchPanel = catalogLoader.getCatalog(catalogNames[i]).getSearchPanel();
+            AbstractSearchPanel searchPanel = catalogLoader.getCatalog(name).getSearchPanel();
             if (searchPanel != null) {
                 searchPanel.search(targetName);
                 target = searchPanel.getSearchResult();
@@ -279,7 +273,7 @@ class ProjectLoaderRunnable implements Runnable {
 
     }
 
-    public ProjectCatalog loadProjectCatalog(File projectFile) {
+    private ProjectCatalog loadProjectCatalog(File projectFile) {
 
         final String PROJECT_NAME_KEY = "ProjectName";
 
@@ -337,9 +331,8 @@ class ProjectLoaderRunnable implements Runnable {
         }
 
         // Create catalog
-        ProjectCatalog pc = new ProjectCatalog(name, (ITarget[]) targets.toArray(new ITarget[] {}));
 
-        return pc;
+        return new ProjectCatalog(name, (ITarget[]) targets.toArray(new ITarget[] {}));
 
     }
 
@@ -349,23 +342,21 @@ class WaitPopup extends OMDialog {
 
     private static final long serialVersionUID = -3950819080525084021L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
-
     private ThreadGroup threadGroup = null;
-    private JProgressBar progressBar = null;
 
     public WaitPopup(ThreadGroup threadGroup, ObservationManager om) {
 
         super(om);
         super.setLocationRelativeTo(om);
-        super.setTitle(this.bundle.getString("catalogLoader.info.waitOnLoaders"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
+        super.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
 
         this.threadGroup = threadGroup;
 
         super.getContentPane().setLayout(new BorderLayout());
 
-        progressBar = new JProgressBar(0, 100);
+        JProgressBar progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
         progressBar.setIndeterminate(true);
 
@@ -374,16 +365,7 @@ class WaitPopup extends OMDialog {
         this.setSize(WaitPopup.serialVersionUID, 250, 60);
         // this.pack();
 
-        Runnable wait = new Runnable() {
-
-            @Override
-            public void run() {
-
-                WaitPopup.this.waitForCatalogLoaders();
-
-            }
-
-        };
+        Runnable wait = WaitPopup.this::waitForCatalogLoaders;
 
         Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
         waitThread.start();

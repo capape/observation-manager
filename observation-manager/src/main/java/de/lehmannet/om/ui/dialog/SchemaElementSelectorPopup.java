@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -35,7 +34,6 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
     private JButton cancel = null;
 
     private ExtendedSchemaTableModel tableModel = null;
-    private boolean multipleSelection = false;
 
     public SchemaElementSelectorPopup(ObservationManager om, String title, String xsiType, List preSelectedElements,
             boolean multipleSelection, int schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
@@ -47,8 +45,6 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
         super.setSize(SchemaElementSelectorPopup.serialVersionUID, 660, 250);
         super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         super.setLocationRelativeTo(null);
-
-        this.multipleSelection = multipleSelection;
 
         ISchemaElement[] elements = null;
         switch (schemaElement) {

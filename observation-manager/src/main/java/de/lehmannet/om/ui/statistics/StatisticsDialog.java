@@ -26,7 +26,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
@@ -66,7 +65,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     // All selected catalogs
     private List selectedCatalogs = null;
 
-    protected JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
+    private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
     public StatisticsDialog(ObservationManager om) {
 
@@ -100,9 +99,9 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             String defaultObserverDisplayName = this.om.getConfiguration()
                     .getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
             List preselectedObserver = new ArrayList();
-            for (int i = 0; i < observers.length; i++) {
-                if (observers[i].getDisplayName().equals(defaultObserverDisplayName)) {
-                    preselectedObserver.add(observers[i]);
+            for (IObserver observer : observers) {
+                if (observer.getDisplayName().equals(defaultObserverDisplayName)) {
+                    preselectedObserver.add(observer);
                     break;
                 }
             }
@@ -154,8 +153,8 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 this.dispose();
             } else {
                 JButton current = null;
-                for (int i = 0; i < this.catButtons.length; i++) {
-                    current = this.catButtons[i];
+                for (JButton catButton : this.catButtons) {
+                    current = catButton;
                     if (source.equals(current)) {
                         // We set the Catalogname as ActionCommand
                         ListIterator iterator = this.selectedCatalogs.listIterator();
@@ -248,9 +247,8 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         IObservation[] observations = this.om.getXmlCache().getObservations();
 
         // Get config
-        boolean useCoObservers = Boolean
-                .valueOf(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_STATISTICS_USE_COOBSERVERS))
-                .booleanValue();
+        boolean useCoObservers = Boolean.parseBoolean(
+                this.om.getConfiguration().getConfig(ObservationManager.CONFIG_STATISTICS_USE_COOBSERVERS));
 
         // Iterate over all selected catalogs, create CatalogCheckers and start threads
         this.checkers = new CatalogChecker[this.selectedCatalogs.size()];
@@ -315,11 +313,10 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
     private void getObservationsForCatalog(IListableCatalog cat) {
 
-        for (int i = 0; i < this.catalogTargets.length; i++) {
-            if (this.catalogTargets[i] != null) {
-                if (this.catalogTargets[i].getCatalog().equals(cat)) {
-                    ObservationStatisticsTableModel tableModel = new ObservationStatisticsTableModel(
-                            this.catalogTargets[i]);
+        for (CatalogTargets catalogTarget : this.catalogTargets) {
+            if (catalogTarget != null) {
+                if (catalogTarget.getCatalog().equals(cat)) {
+                    ObservationStatisticsTableModel tableModel = new ObservationStatisticsTableModel(catalogTarget);
                     new StatisticsDetailsDialog(om, tableModel); // Show Details dialog
                     break;
                 }
@@ -366,10 +363,9 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         IListableCatalog current = null;
         int i = 0;
-        ListIterator iterator = this.selectedCatalogs.listIterator();
-        while (iterator.hasNext()) {
+        for (Object selectedCatalog : this.selectedCatalogs) {
 
-            current = (IListableCatalog) iterator.next();
+            current = (IListableCatalog) selectedCatalog;
 
             // Set Catalog Label
             ConstraintsBuilder.buildConstraints(constraints, 1, i + 2, 1, 1, 33, 1);

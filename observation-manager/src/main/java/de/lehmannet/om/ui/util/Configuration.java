@@ -41,17 +41,15 @@ public class Configuration {
             this.loadConfiguration(path);
         } catch (IOException ioe) {
             System.out.println("Cannot find configuration file " + path + "\n" + ioe);
-            return;
         }
 
     }
 
-    public void loadConfiguration(String path) throws IOException {
+    private void loadConfiguration(String path) throws IOException {
 
         this.persistence = new Properties();
 
         path = this.getConfigPath(path) + File.separatorChar + CONFIG_FILE;
-        ;
         if (!new File(path).exists()) {
             // No configuration found...must be first time user -> Create empty config
             return;
@@ -121,7 +119,7 @@ public class Configuration {
 
     }
 
-    public String getConfigPath(String path) {
+    private String getConfigPath(String path) {
 
         if (path == null) { // Search in user home
             path = System.getProperty("user.home");

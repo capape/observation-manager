@@ -35,9 +35,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
     private JTextField name = null;
     private JTextField iauCode = null;
     private JTextField timezone = null;
-    private OMLabel Llatitude = null;
     private AngleContainer latitude = null;
-    private OMLabel Llongitude = null;
     private AngleContainer longitude = null;
     private JButton changeArcDec = null;
     private JTextField elevation = null;
@@ -338,7 +336,8 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(this.name);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 10, 1);
-        OMLabel LiauCode = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.iau"), SwingConstants.RIGHT, false);
+        OMLabel LiauCode = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.iau"), SwingConstants.RIGHT,
+                false);
         LiauCode.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.iau"));
         gridbag.setConstraints(LiauCode, constraints);
         this.add(LiauCode);
@@ -349,10 +348,10 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(this.iauCode);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 1);
-        this.Llongitude = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.longitude"), true);
-        this.Llongitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.longitude"));
-        gridbag.setConstraints(this.Llongitude, constraints);
-        this.add(this.Llongitude);
+        OMLabel llongitude = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.longitude"), true);
+        llongitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.longitude"));
+        gridbag.setConstraints(llongitude, constraints);
+        this.add(llongitude);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 2, 1, 35, 1);
         this.longitude = new AngleContainer(Angle.DEGREE, super.isEditable());
         this.longitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.longitude"));
@@ -360,10 +359,11 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(this.longitude);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 10, 1);
-        this.Llatitude = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.latitude"), SwingConstants.RIGHT, true);
-        this.Llatitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.latitude"));
-        gridbag.setConstraints(this.Llatitude, constraints);
-        this.add(this.Llatitude);
+        OMLabel llatitude = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.latitude"),
+                SwingConstants.RIGHT, true);
+        llatitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.latitude"));
+        gridbag.setConstraints(llatitude, constraints);
+        this.add(llatitude);
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 2, 1, 35, 1);
         this.latitude = new AngleContainer(Angle.DEGREE, super.isEditable());
         this.latitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.latitude"));
@@ -396,8 +396,8 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(LelevationUnit);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 10, 1);
-        OMLabel Ltimezone = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.timezone"), SwingConstants.RIGHT,
-                true);
+        OMLabel Ltimezone = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.timezone"),
+                SwingConstants.RIGHT, true);
         gridbag.setConstraints(Ltimezone, constraints);
         Ltimezone.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.timezone"));
         this.add(Ltimezone);

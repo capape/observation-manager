@@ -23,7 +23,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -46,12 +45,11 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
     private JTree tree = null;
-    private JScrollPane scrollPanel = null;
 
     private boolean changedElements = false; // Indicates whether user did change some elements
 
@@ -113,8 +111,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
             if (node instanceof DefaultMutableTreeNode) {
                 if (((DefaultMutableTreeNode) node).getUserObject() instanceof CheckBoxEquipmentNode) { // Node is
                                                                                                         // selected?
-                    Object uo = ((DefaultMutableTreeNode) node).getUserObject();
-                    // if( ((CheckBoxEquipmentNode)uo).isSelected() ) {
                     for (int j = 0; j < model.getChildCount(node); j++) { // Iterate over all children
                         leaf = model.getChild(node, j);
                         if (leaf instanceof DefaultMutableTreeNode) {
@@ -151,8 +147,8 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         this.tree.setEnabled(true);
         this.tree.setToolTipText(this.bundle.getString("dialog.unavailableEquipment.tooltip.tree"));
-        this.scrollPanel = new JScrollPane(this.tree);
-        this.scrollPanel.setBorder(
+        JScrollPane scrollPanel = new JScrollPane(this.tree);
+        scrollPanel.setBorder(
                 BorderFactory.createTitledBorder(this.bundle.getString("dialog.unavailableEquipment.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 50, 92);
         constraints.fill = GridBagConstraints.BOTH;
@@ -230,12 +226,10 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     }
 
     /*
-     * private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize)
-     * {
+     * private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize) {
      * 
-     * Class elementType = oldArray.getClass().getComponentType(); ISchemaElement[]
-     * newArray = (ISchemaElement[])java.lang.reflect.Array.newInstance(elementType,
-     * newSize);
+     * Class elementType = oldArray.getClass().getComponentType(); ISchemaElement[] newArray =
+     * (ISchemaElement[])java.lang.reflect.Array.newInstance(elementType, newSize);
      * 
      * System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
      * 
@@ -248,7 +242,11 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
 class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
 
-    private Color selectionBorderColor, selectionForeground, selectionBackground, textForeground, textBackground;
+    private final Color selectionForeground;
+    private final Color selectionBackground;
+    private final Color textForeground;
+    private final Color textBackground;
+    private final Color selectionBorderColor;
     private Font selectedTreeFont = null;
     private Font unselectedTreeFont = null;
 
@@ -273,7 +271,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
 
         Component returnValue = null;
         if (leaf) {
-            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+            if ((value instanceof DefaultMutableTreeNode)) {
                 Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
                 if (userObject instanceof EquipmentLeaf) {
                     EquipmentLeaf sel = (EquipmentLeaf) userObject;
@@ -291,7 +289,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
                         sel.setFont(this.unselectedTreeFont);
                     }
                     Boolean booleanValue = (Boolean) UIManager.get("Tree.drawsFocusBorderAroundIcon");
-                    sel.setFocusPainted((booleanValue != null) && (booleanValue.booleanValue()));
+                    sel.setFocusPainted((booleanValue != null) && (booleanValue));
 
                     returnValue = sel;
                 }
@@ -300,7 +298,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
             // Get folder icons
             Icon icon = null;
             CheckBoxEquipmentNode cbn = null;
-            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+            if ((value instanceof DefaultMutableTreeNode)) {
                 DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) value;
                 Object userObject = dmtn.getUserObject();
                 if (userObject instanceof CheckBoxEquipmentNode) {
@@ -314,7 +312,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
             }
 
             DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
-            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row,
+            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row,
                     hasFocus);
 
             // Set folder icon
@@ -401,9 +399,7 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
     public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
             boolean leaf, int row) {
 
-        Component editor = super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
-
-        return editor;
+        return super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
 
     }
 
@@ -421,7 +417,7 @@ class CheckBoxEquipmentNode extends Vector {
 
     private int selectedChildren = 0;
 
-    public CheckBoxEquipmentNode(UnavailableEquipmentDialog dialog, String text, ISchemaElement elements[],
+    public CheckBoxEquipmentNode(UnavailableEquipmentDialog dialog, String text, ISchemaElement[] elements,
             Icon expanded, Icon collapsed) {
 
         this.dialog = dialog;
@@ -432,9 +428,9 @@ class CheckBoxEquipmentNode extends Vector {
         int noAvailable = 0;
 
         if (elements != null) {
-            for (int i = 0; i < elements.length; i++) {
-                super.add(new EquipmentLeaf(this.dialog, this, elements[i]));
-                if (((IEquipment) elements[i]).isAvailable()) {
+            for (ISchemaElement element : elements) {
+                super.add(new EquipmentLeaf(this.dialog, this, element));
+                if (((IEquipment) element).isAvailable()) {
                     noAvailable++;
                 }
             }
@@ -471,12 +467,7 @@ class CheckBoxEquipmentNode extends Vector {
         // Update tree, if we've a reference to it
         final JTree tree = this.dialog.getTree();
         if (tree != null) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    tree.updateUI();
-                }
-            });
+            EventQueue.invokeLater(tree::updateUI);
         }
 
     }
@@ -516,11 +507,7 @@ class CheckBoxEquipmentNode extends Vector {
 
         this.selectedChildren++;
 
-        if (this.selectedChildren == 0) {
-            this.selected = false;
-        } else {
-            this.selected = true;
-        }
+        this.selected = this.selectedChildren != 0;
 
     }
 
@@ -528,11 +515,7 @@ class CheckBoxEquipmentNode extends Vector {
 
         this.selectedChildren--;
 
-        if (this.selectedChildren == 0) {
-            this.selected = false;
-        } else {
-            this.selected = true;
-        }
+        this.selected = this.selectedChildren != 0;
 
     }
 
@@ -595,12 +578,7 @@ class EquipmentLeaf extends JCheckBox implements ActionListener {
         // Update tree, if we've a reference to it
         final JTree tree = this.dialog.getTree();
         if (tree != null) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    tree.updateUI();
-                }
-            });
+            EventQueue.invokeLater(tree::updateUI);
         }
 
     }

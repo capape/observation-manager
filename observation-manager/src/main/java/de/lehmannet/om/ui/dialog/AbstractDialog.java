@@ -16,7 +16,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
 import de.lehmannet.om.ISchemaElement;
@@ -33,15 +32,15 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
 
     protected ISchemaElement schemaElement = null;
 
-    protected JButton positive = new JButton(AbstractDialog.bundle.getString("dialog.button.create"));
-    protected JButton cancel = new JButton(AbstractDialog.bundle.getString("dialog.button.cancel"));
+    final JButton positive = new JButton(AbstractDialog.bundle.getString("dialog.button.create"));
+    protected final JButton cancel = new JButton(AbstractDialog.bundle.getString("dialog.button.cancel"));
 
     private AbstractPanel panel = null;
     private boolean oneButton = false;
 
     protected ObservationManager observationManager = null;
 
-    public AbstractDialog(ObservationManager om, AbstractPanel panel) {
+    protected AbstractDialog(ObservationManager om, AbstractPanel panel) {
 
         this(false, om, panel);
 
@@ -49,7 +48,7 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
 
     }
 
-    public AbstractDialog(ObservationManager om, AbstractPanel panel, boolean oneButton) {
+    protected AbstractDialog(ObservationManager om, AbstractPanel panel, boolean oneButton) {
 
         this(true, om, panel);
 
@@ -76,9 +75,8 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
         // Try to set system default look and feel
         /*
          * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
-         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException
-         * ie) { } catch(IllegalAccessException iae) { } catch(ClassNotFoundException
-         * cnfe) { }
+         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException ie) { }
+         * catch(IllegalAccessException iae) { } catch(ClassNotFoundException cnfe) { }
          */
 
         super.getRootPane().setDefaultButton(this.positive);

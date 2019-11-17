@@ -1,13 +1,6 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -28,10 +21,10 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ExtendedSchemaTableModel extends AbstractTableModel {
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private TreeMap elementMap = null;
+    private Map elementMap = null;
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
@@ -89,32 +82,32 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         this.elementMap = new TreeMap(comparator);
 
         // Add elements to treeMap
-        for (int i = 0; i < elements.length; i++) {
+        for (ISchemaElement element : elements) {
             // In case of targets, filter xsiTypes
             if ((SchemaElementConstants.TARGET == schemaElementType) && (xsiFilter != null)) {
-                if (!((IExtendableSchemaElement) elements[i]).getXSIType().equals(xsiFilter)) { // Check if xsiType
-                                                                                                // matches
+                if (!((IExtendableSchemaElement) element).getXSIType().equals(xsiFilter)) { // Check if xsiType
+                    // matches
                     continue;
                 }
             }
             // In case of observations, filter xsiTypes of target
             if ((SchemaElementConstants.OBSERVATION == schemaElementType) && (xsiFilter != null)) {
-                if (!((IObservation) elements[i]).getTarget().getXSIType().equals(xsiFilter)) { // Check if xsiType
-                                                                                                // matches
+                if (!((IObservation) element).getTarget().getXSIType().equals(xsiFilter)) { // Check if xsiType
+                    // matches
                     continue;
                 }
             }
 
             if (!this.multipleSelection) {
-                this.elementMap.put(elements[i], new Boolean(false));
+                this.elementMap.put(element, Boolean.FALSE);
             } else {
                 if (preSelectedTargets != null) {
-                    if (preSelectedTargets.contains(elements[i])) {
-                        this.elementMap.put(elements[i], new Boolean(true));
+                    if (preSelectedTargets.contains(element)) {
+                        this.elementMap.put(element, Boolean.TRUE);
                         continue;
                     }
                 }
-                this.elementMap.put(elements[i], new Boolean(false));
+                this.elementMap.put(element, Boolean.FALSE);
             }
         }
 
@@ -141,11 +134,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
-        if (columnIndex == 0) {
-            return true;
-        }
-
-        return false;
+        return columnIndex == 0;
 
     }
 
@@ -156,8 +145,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
             return "";
         }
 
-        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet()
-                .toArray(new ISchemaElement[] {})[rowIndex];
+        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[rowIndex];
 
         if (keySchemaElement == null) {
             return "";
@@ -182,9 +170,9 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         if (column == 0) {
             if (o instanceof Boolean) {
                 if (this.multipleSelection) {
-                    this.setSelection(row, ((Boolean) o).booleanValue());
+                    this.setSelection(row, (Boolean) o);
                 } else { // Deselect all other entries
-                    this.setSingleSelection(row, (((Boolean) o).booleanValue()));
+                    this.setSingleSelection(row, ((Boolean) o));
                 }
                 super.fireTableDataChanged();
             }
@@ -208,16 +196,15 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
 
     }
 
-    public void setSelection(int row, boolean selection) {
+    private void setSelection(int row, boolean selection) {
 
-        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet()
-                .toArray(new ISchemaElement[] {})[row];
+        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[row];
         this.elementMap.remove(keySchemaElement);
-        this.elementMap.put(keySchemaElement, new Boolean(selection));
+        this.elementMap.put(keySchemaElement, selection);
 
     }
 
-    public void setSingleSelection(int row, boolean selection) {
+    private void setSingleSelection(int row, boolean selection) {
 
         // Disable current row if multiple selection is not allowed
         if (!this.multipleSelection) {
@@ -242,7 +229,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         while (keyIterator.hasNext()) {
             current = (ISchemaElement) keyIterator.next();
             currentValue = (Boolean) this.elementMap.get(current);
-            if (currentValue.booleanValue()) {
+            if (currentValue) {
                 result.add(current);
             }
         }

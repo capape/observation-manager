@@ -7,10 +7,7 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.catalog;
 
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;
@@ -30,23 +27,18 @@ public class SolarSystemCatalog implements IListableCatalog {
 
     private static final String DATASOURCE_ORIGIN = "ObservationManager - SolarSystem Catalog 1.0";
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
-
     // Key IDs for major solar system bodies
     /*
-     * public static final String KEY_SUN = "SUN"; public static final String
-     * KEY_MERCURY = "MERCURY"; public static final String KEY_VENUS = "VENUS";
-     * public static final String KEY_EARTH = "EARTH"; public static final String
-     * KEY_MOON = "MOON"; public static final String KEY_MARS = "MARS"; public
-     * static final String KEY_JUPITER = "JUPITER"; public static final String
-     * KEY_SATURN = "SATURN"; public static final String KEY_URANUS = "URANUS";
+     * public static final String KEY_SUN = "SUN"; public static final String KEY_MERCURY = "MERCURY"; public static
+     * final String KEY_VENUS = "VENUS"; public static final String KEY_EARTH = "EARTH"; public static final String
+     * KEY_MOON = "MOON"; public static final String KEY_MARS = "MARS"; public static final String KEY_JUPITER =
+     * "JUPITER"; public static final String KEY_SATURN = "SATURN"; public static final String KEY_URANUS = "URANUS";
      * public static final String KEY_NEPTUNE = "NEPTUNE";
      */
 
     // Key = Name
     // Value = Target
-    private LinkedHashMap map = new LinkedHashMap();
+    private final Map map = new LinkedHashMap();
 
     private AbstractSchemaTableModel tableModel = null;
     private Locale lastKnownDefaultLocale = Locale.getDefault();
@@ -124,11 +116,9 @@ public class SolarSystemCatalog implements IListableCatalog {
          * this.bundle = (PropertyResourceBundle)ResourceBundle.getBundle(
          * "de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
          * 
-         * Iterator iterator = this.map.values().iterator(); SolarSystemTarget current =
-         * null; while( iterator.hasNext() ) { current =
-         * (SolarSystemTarget)iterator.next(); if(
-         * current.getName().equals(SolarSystemCatalog.KEY_SUN) ) {
-         * current.setI18NName(this.bundle.getString("catalog.sun")); } else if(
+         * Iterator iterator = this.map.values().iterator(); SolarSystemTarget current = null; while( iterator.hasNext()
+         * ) { current = (SolarSystemTarget)iterator.next(); if( current.getName().equals(SolarSystemCatalog.KEY_SUN) )
+         * { current.setI18NName(this.bundle.getString("catalog.sun")); } else if(
          * current.getName().equals(SolarSystemCatalog.KEY_MERCURY) ) {
          * current.setI18NName(this.bundle.getString("catalog.mercury")); } else if(
          * current.getName().equals(SolarSystemCatalog.KEY_VENUS) ) {
@@ -156,40 +146,34 @@ public class SolarSystemCatalog implements IListableCatalog {
 
     private void fillCatalog() {
 
-        try {
+        SolarSystemTargetSun sun = new SolarSystemTargetSun(SolarSystemTarget.KEY_SUN,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet mecury = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MERCURY,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet venus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_VENUS,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetMoon moon = new SolarSystemTargetMoon(SolarSystemTarget.KEY_MOON,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet mars = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MARS,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet jupiter = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_JUPITER,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet saturn = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_SATURN,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet uranus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_URANUS,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet neptune = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_NEPTUNE,
+                SolarSystemCatalog.DATASOURCE_ORIGIN);
 
-            SolarSystemTargetSun sun = new SolarSystemTargetSun(SolarSystemTarget.KEY_SUN,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet mecury = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MERCURY,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet venus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_VENUS,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetMoon moon = new SolarSystemTargetMoon(SolarSystemTarget.KEY_MOON,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet mars = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MARS,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet jupiter = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_JUPITER,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet saturn = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_SATURN,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet uranus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_URANUS,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-            SolarSystemTargetPlanet neptune = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_NEPTUNE,
-                    SolarSystemCatalog.DATASOURCE_ORIGIN);
-
-            this.map.put(sun.getName(), sun);
-            this.map.put(mecury.getName(), mecury);
-            this.map.put(venus.getName(), venus);
-            this.map.put(moon.getName(), moon);
-            this.map.put(mars.getName(), mars);
-            this.map.put(jupiter.getName(), jupiter);
-            this.map.put(saturn.getName(), saturn);
-            this.map.put(uranus.getName(), uranus);
-            this.map.put(neptune.getName(), neptune);
-
-        } catch (SchemaException se) {
-
-        }
+        this.map.put(sun.getName(), sun);
+        this.map.put(mecury.getName(), mecury);
+        this.map.put(venus.getName(), venus);
+        this.map.put(moon.getName(), moon);
+        this.map.put(mars.getName(), mars);
+        this.map.put(jupiter.getName(), jupiter);
+        this.map.put(saturn.getName(), saturn);
+        this.map.put(uranus.getName(), uranus);
+        this.map.put(neptune.getName(), neptune);
 
     }
 
@@ -247,11 +231,8 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         ITarget target = (ITarget) super.elements[rowIndex];
 
         if (target != null) {
-            switch (columnIndex) {
-            case 0: {
+            if (columnIndex == 0) {
                 value = target.getDisplayName();
-                break;
-            }
             }
         }
 
@@ -264,13 +245,10 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
 
         String name = "";
 
-        switch (column) {
-        case 0: {
+        if (column == 0) {
             PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                     .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
             name = bundle.getString("catalog.table.columnHeader.name");
-            break;
-        }
         }
 
         return name;
@@ -280,10 +258,8 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
     @Override
     public int getColumnSize(int columnIndex) {
 
-        switch (columnIndex) {
-        case 0: {
+        if (columnIndex == 0) {
             return 100;
-        }
         }
 
         return super.getColumnSize(columnIndex);

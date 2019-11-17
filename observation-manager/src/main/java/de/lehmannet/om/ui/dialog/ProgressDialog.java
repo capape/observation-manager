@@ -24,9 +24,6 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
     private static final long serialVersionUID = -6190690843181392987L;
 
-    private JLabel information = null;
-    private JProgressBar progressBar = null;
-
     private Thread calculation = null;
     private Thread watchdog = null;
 
@@ -138,17 +135,17 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-        this.information = new JLabel(information);
-        gridbag.setConstraints(this.information, constraints);
-        super.getContentPane().add(this.information);
+        JLabel information1 = new JLabel(information);
+        gridbag.setConstraints(information1, constraints);
+        super.getContentPane().add(information1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-        this.progressBar = new JProgressBar();
-        this.progressBar.setIndeterminate(true);
-        gridbag.setConstraints(this.progressBar, constraints);
-        super.getContentPane().add(this.progressBar);
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        gridbag.setConstraints(progressBar, constraints);
+        super.getContentPane().add(progressBar);
 
     }
 

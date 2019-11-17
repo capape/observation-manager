@@ -20,17 +20,17 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class DeepSkyTargetSCDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -714136627680620087L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     public DeepSkyTargetSCDialog(ObservationManager om, ITarget editableTarget) {
 
-        super(om, new DeepSkyTargetSCPanel(om, editableTarget, new Boolean(true)));
+        super(om, new DeepSkyTargetSCPanel(om, editableTarget, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.sc.title"));
+            super.setTitle(bundle.getString("dialog.sc.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.sc.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.sc.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(DeepSkyTargetSCDialog.serialVersionUID, 620, 365);

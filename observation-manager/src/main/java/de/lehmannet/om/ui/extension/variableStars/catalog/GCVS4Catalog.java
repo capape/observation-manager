@@ -170,7 +170,7 @@ public class GCVS4Catalog implements ICatalog {
         ITarget target = null;
 
         if ((objectName == null) || ("".equals(objectName.trim()))) {
-            return target;
+            return null;
         }
 
         // "Format" objectName
@@ -210,7 +210,7 @@ public class GCVS4Catalog implements ICatalog {
         }
         String constName = objectName.substring(cStart);
         String firstPart = objectName.substring(0, cStart);
-        Constellation constellation = Constellation.getInstance(constName);
+        Constellation constellation = Constellation.getConstellationByAbbOrName(constName);
 
         if (constellation == null) { // Without constellation we cannot find the object
             return -1;
@@ -427,8 +427,7 @@ public class GCVS4Catalog implements ICatalog {
             int len = 9;
 
             int low = startEnd[0] - 1;
-            int high = startEnd[1];
-            int currentLine = high; // Start from highest position
+            int currentLine = startEnd[1]; // Start from highest position
             int pointerPos = 0;
             boolean found = false;
             do {
@@ -593,7 +592,7 @@ public class GCVS4Catalog implements ICatalog {
             designation = this.removeWhiteSpaces(designation);
 
             String constellationString = designation.substring(designation.length() - 3);
-            Constellation constellation = Constellation.getInstance(constellationString);
+            Constellation constellation = Constellation.getConstellationByAbbOrName(constellationString);
 
             // Position
             String position = tokenizer.nextToken();
@@ -627,7 +626,7 @@ public class GCVS4Catalog implements ICatalog {
             String spectrum = tokenizer.nextToken();
             String references = tokenizer.nextToken();
             String otherDesignations = tokenizer.nextToken();
-            otherDesignations = otherDesignations.replaceAll("N           ", " "); // Star does not exist
+            otherDesignations = otherDesignations.replaceAll("N {11}", " "); // Star does not exist
             otherDesignations = otherDesignations.replace('=', ' ');
             otherDesignations = this.removeWhiteSpaces(otherDesignations);
 
@@ -654,7 +653,7 @@ public class GCVS4Catalog implements ICatalog {
                 designation = this.removeWhiteSpaces(designation);
 
                 constellationString = designation.substring(designation.length() - 3);
-                constellation = Constellation.getInstance(constellationString);
+                constellation = Constellation.getConstellationByAbbOrName(constellationString);
 
                 // Position
                 position = tokenizer.nextToken();
@@ -689,14 +688,14 @@ public class GCVS4Catalog implements ICatalog {
                 spectrum = tokenizer.nextToken();
                 references = tokenizer.nextToken();
                 otherDesignations = tokenizer.nextToken();
-                otherDesignations = otherDesignations.replaceAll("N           ", " "); // Star does not exist
+                otherDesignations = otherDesignations.replaceAll("N {11}", " "); // Star does not exist
                 otherDesignations = otherDesignations.replace('=', ' ');
                 otherDesignations = this.removeWhiteSpaces(otherDesignations);
             }
 
             target = new TargetVariableStar(designation, GCVS4Catalog.CATALOG_NAME);
             target.setPosition(equPosition);
-            if ((minMag != null) && !("".equals(minMag.trim()))) {
+            if (!"".equals(minMag.trim())) {
                 target.setMagnitudeApparent(Float.parseFloat(minMag));
             }
             if ((maxMag != null) && !("".equals(maxMag.trim()))) {
@@ -778,10 +777,10 @@ public class GCVS4Catalog implements ICatalog {
 
     private String removeWhiteSpaces(String name) {
 
-        name = name.replaceAll("     ", " ");
-        name = name.replaceAll("    ", " ");
-        name = name.replaceAll("   ", " ");
-        name = name.replaceAll("  ", " ");
+        name = name.replaceAll(" {5}", " ");
+        name = name.replaceAll(" {4}", " ");
+        name = name.replaceAll(" {3}", " ");
+        name = name.replaceAll(" {2}", " ");
         name = name.trim();
 
         return name;

@@ -125,7 +125,7 @@ public class TargetStarContainer extends Container {
         }
 
         String magnitudeApp = this.magnitudeApparent.getText().trim();
-        if ((magnitudeApp != null) && !("".equals(magnitudeApp))) {
+        if (!"".equals(magnitudeApp)) {
             try {
                 float mag = FloatUtil.parseFloat(magnitudeApp);
                 this.starTarget.setMagnitudeApparent(mag);
@@ -138,7 +138,7 @@ public class TargetStarContainer extends Container {
         }
 
         String classification = this.stellarClassification.getText().trim();
-        if ((classification != null) && !("".equals(classification))) {
+        if (!"".equals(classification)) {
             this.starTarget.setStellarClassification(classification);
         } else {
             this.starTarget.setStellarClassification("");
@@ -269,7 +269,7 @@ public class TargetStarContainer extends Container {
 
     }
 
-    protected void createWarning(String message) {
+    private void createWarning(String message) {
 
         JOptionPane.showMessageDialog(this, message, this.bundle.getString("target.warning.title"),
                 JOptionPane.WARNING_MESSAGE);

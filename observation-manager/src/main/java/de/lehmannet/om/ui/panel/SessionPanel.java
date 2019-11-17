@@ -79,7 +79,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private JTextArea weather = null;
     private JTextArea equipment = null;
     private JTextArea comments = null;
-    private JTextField coObservers = new JTextField(); // Shows selected coObservers in a TextField (Creation, Edit)
+    private final JTextField coObservers = new JTextField(); // Shows selected coObservers in a TextField (Creation,
+                                                             // Edit)
     private JTabbedPane coObserverTabbedPane = null; // Shows selected coObservers in a TabbedPane (Show)
     private JButton selectCoObservers = null; // Brings up ObserverSelectorPopup (Creation, Edit)
     private JButton newCoObservers = null; // Brings up observer dialog for creating new observer
@@ -92,7 +93,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private Map cache = null; // Non-persistant cache
 
-    private ArrayList coObserversList = new ArrayList();
+    private final List coObserversList = new ArrayList();
 
     // Requires ObservationManager to load Observers
     public SessionPanel(ObservationManager manager, ISession session, boolean editable) {
@@ -274,8 +275,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         /*
          * if( !super.isEditable() ) { this.weather.setBackground(Color.LIGHT_GRAY);
-         * this.equipment.setBackground(Color.LIGHT_GRAY);
-         * this.comments.setBackground(Color.LIGHT_GRAY); }
+         * this.equipment.setBackground(Color.LIGHT_GRAY); this.comments.setBackground(Color.LIGHT_GRAY); }
          */
 
         this.language.setLanguage(this.session.getLanguage());
@@ -302,7 +302,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (!this.beginTime.checkTime()) {
+        if (this.beginTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.startIncorrect"));
             return null;
         }
@@ -312,7 +312,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (!this.endTime.checkTime()) {
+        if (this.endTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endIncorrect"));
             return null;
         }
@@ -381,7 +381,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (!this.beginTime.checkTime()) {
+        if (this.beginTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.startIncorrect"));
             return null;
         }
@@ -391,7 +391,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (!this.endTime.checkTime()) {
+        if (this.endTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endIncorrect"));
             return null;
         }
@@ -487,7 +487,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.beginTime = new TimeContainer(00, 00, 00, super.isEditable());
+        this.beginTime = new TimeContainer(0, 0, 0, super.isEditable());
         this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
         gridbag.setConstraints(this.beginTime, constraints);
         this.add(this.beginTime);
@@ -510,8 +510,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         ConstraintsBuilder.buildConstraints(constraints, 11, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel Llanguage = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.language"), SwingConstants.RIGHT,
-                false);
+        OMLabel Llanguage = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.language"),
+                SwingConstants.RIGHT, false);
         Llanguage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
         gridbag.setConstraints(Llanguage, constraints);
         this.add(Llanguage);
@@ -525,7 +525,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT, true);
+        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT,
+                true);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
         this.add(Lend);
@@ -547,7 +548,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.endTime = new TimeContainer(00, 00, 00, super.isEditable());
+        this.endTime = new TimeContainer(0, 0, 0, super.isEditable());
         this.endTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
         gridbag.setConstraints(this.endTime, constraints);
         this.add(this.endTime);
@@ -616,12 +617,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         // Use border instead on SitePanel
         /*
-         * ConstraintsBuilder.buildConstraints(constraints, 0, 8, 11, 1, 100, 1); JLabel
-         * Lsite = new
+         * ConstraintsBuilder.buildConstraints(constraints, 0, 8, 11, 1, 100, 1); JLabel Lsite = new
          * JLabel(AbstractPanel.bundle.getString("panel.session.label.site"));
-         * Lsite.setToolTipText(AbstractPanel.bundle.getString(
-         * "panel.session.tooltip.site")); gridbag.setConstraints(Lsite, constraints);
-         * this.add(Lsite);
+         * Lsite.setToolTipText(AbstractPanel.bundle.getString( "panel.session.tooltip.site"));
+         * gridbag.setConstraints(Lsite, constraints); this.add(Lsite);
          */
 
         if ((this.session != null) // Show
@@ -643,13 +642,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 this.add(seperator2);
 
                 /*
-                 * ConstraintsBuilder.buildConstraints(constraints, 0, 11, 11, 1, 100, 1);
-                 * JLabel LcoObservers = new
+                 * ConstraintsBuilder.buildConstraints(constraints, 0, 11, 11, 1, 100, 1); JLabel LcoObservers = new
                  * JLabel(AbstractPanel.bundle.getString("panel.session.label.addObservers"));
-                 * LcoObservers.setToolTipText(AbstractPanel.bundle.getString(
-                 * "panel.session.tooltip.addObservers")); gridbag.setConstraints(LcoObservers,
-                 * constraints); LcoObservers.setFont(new Font("sansserif",Font.ITALIC +
-                 * Font.BOLD, 12)); this.add(LcoObservers);
+                 * LcoObservers.setToolTipText(AbstractPanel.bundle.getString( "panel.session.tooltip.addObservers"));
+                 * gridbag.setConstraints(LcoObservers, constraints); LcoObservers.setFont(new
+                 * Font("sansserif",Font.ITALIC + Font.BOLD, 12)); this.add(LcoObservers);
                  */
                 ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 45);
                 this.coObserverTabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -658,7 +655,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 this.coObserverTabbedPane
                         .setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
                 JScrollPane scrollPane = new JScrollPane(this.coObserverTabbedPane,
-                        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 constraints.anchor = GridBagConstraints.NORTH;
                 constraints.fill = GridBagConstraints.BOTH;
                 gridbag.setConstraints(scrollPane, constraints);
@@ -667,21 +665,19 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
             }
             /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 2, 1, 100, 1);
-             * constraints.fill = GridBagConstraints.BOTH; constraints.anchor =
-             * GridBagConstraints.SOUTH; JLabel LimageContainer = new
+             * ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 2, 1, 100, 1); constraints.fill =
+             * GridBagConstraints.BOTH; constraints.anchor = GridBagConstraints.SOUTH; JLabel LimageContainer = new
              * JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"));
-             * LimageContainer.setToolTipText(AbstractPanel.bundle.getString(
-             * "panel.observationItem.tooltip.images"));
-             * gridbag.setConstraints(LimageContainer, constraints);
-             * LimageContainer.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-             * this.add(LimageContainer);
+             * LimageContainer.setToolTipText(AbstractPanel.bundle.getString( "panel.observationItem.tooltip.images"));
+             * gridbag.setConstraints(LimageContainer, constraints); LimageContainer.setFont(new Font("sansserif",
+             * Font.ITALIC + Font.BOLD, 12)); this.add(LimageContainer);
              */
             ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
             constraints.fill = GridBagConstraints.BOTH;
             this.imageContainer = new ImageContainer(null, this.observationManager, false);
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             imageContainerScroll.setBorder(BorderFactory
                     .createTitledBorder(AbstractPanel.bundle.getString("panel.observationItem.label.images")));
             imageContainerScroll.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
@@ -691,9 +687,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.add(imageContainerScroll);
 
             /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, 14, 11, 1, 100, 82);
-             * constraints.fill = GridBagConstraints.BOTH; JLabel Lfill = new JLabel("");
-             * gridbag.setConstraints(Lfill, constraints); this.add(Lfill);
+             * ConstraintsBuilder.buildConstraints(constraints, 0, 14, 11, 1, 100, 82); constraints.fill =
+             * GridBagConstraints.BOTH; JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
+             * this.add(Lfill);
              */
 
         } else { // Create or edit
@@ -760,7 +756,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             constraints.fill = GridBagConstraints.BOTH;
             this.imageContainer = new ImageContainer(null, this.observationManager, true);
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
             imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
             this.add(imageContainerScroll);
@@ -774,9 +771,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.add(this.newImage);
 
             /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, 18, 11, 1, 100, 82);
-             * constraints.fill = GridBagConstraints.BOTH; constraints.anchor =
-             * GridBagConstraints.NORTH; JLabel Lfill = new JLabel("");
+             * ConstraintsBuilder.buildConstraints(constraints, 0, 18, 11, 1, 100, 82); constraints.fill =
+             * GridBagConstraints.BOTH; constraints.anchor = GridBagConstraints.NORTH; JLabel Lfill = new JLabel("");
              * gridbag.setConstraints(Lfill, constraints); this.add(Lfill);
              */
 
@@ -821,9 +817,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.siteBox = new SiteBox();
 
-        ISite sites[] = this.observationManager.getXmlCache().getSites();
-        for (int x = 0; x < sites.length; x++) {
-            this.siteBox.addItem(sites[x]);
+        ISite[] sites = this.observationManager.getXmlCache().getSites();
+        for (ISite site : sites) {
+            this.siteBox.addItem(site);
         }
 
         if (this.session != null) {
@@ -849,13 +845,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         FileFilter imageFileFilter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                if ((f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
+                return (f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
                         || (f.getName().toLowerCase().endsWith(".gif")) || (f.getName().toLowerCase().endsWith(".png"))
                         || (f.getName().toLowerCase().endsWith(".fits")) || (f.getName().toLowerCase().endsWith(".fit"))
-                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory())) {
-                    return true;
-                }
-                return false;
+                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory());
             }
 
             @Override
@@ -881,7 +874,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.repaint();
             this.updateUI();
 
-            if ((files != null) && (files.length > 0)) {
+            if (files.length > 0) {
                 this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile());
             }
 

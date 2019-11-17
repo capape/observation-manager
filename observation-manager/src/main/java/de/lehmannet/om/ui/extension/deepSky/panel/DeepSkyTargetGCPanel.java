@@ -85,13 +85,13 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
 
         // Optional parameters
         String magnitude = this.magnitude.getText().trim();
-        if ((magnitude != null) && !("".equals(magnitude))) {
+        if (!"".equals(magnitude)) {
             double mag = Double.parseDouble(magnitude);
             this.target.setMagnitude(mag);
         }
 
         String concentration = this.concentration.getText().trim();
-        if ((concentration != null) && !("".equals(concentration))) {
+        if (!"".equals(concentration)) {
             this.target.setConcentration(concentration);
         }
 
@@ -107,7 +107,7 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -182,7 +182,8 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
-        OMLabel Lmagnitude = new OMLabel(this.bundle.getString("panel.gc.label.magnitude"), SwingConstants.RIGHT, false);
+        OMLabel Lmagnitude = new OMLabel(this.bundle.getString("panel.gc.label.magnitude"), SwingConstants.RIGHT,
+                false);
         Lmagnitude.setToolTipText(this.bundle.getString("panel.gc.tooltip.magnitude"));
         gridbag.setConstraints(Lmagnitude, constraints);
         this.add(Lmagnitude);

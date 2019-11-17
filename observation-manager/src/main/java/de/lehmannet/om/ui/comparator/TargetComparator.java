@@ -30,8 +30,8 @@ public class TargetComparator implements Comparator {
             // Maybe we find t1 name in t2 alias names?
             String[] an = t2.getAliasNames();
             if ((an != null) && (an.length > 0)) {
-                for (int i = 0; i < an.length; i++) {
-                    if (t1Name.equals(an[i].toLowerCase().trim())) {
+                for (String s : an) {
+                    if (t1Name.equals(s.toLowerCase().trim())) {
                         return 0;
                     }
                 }

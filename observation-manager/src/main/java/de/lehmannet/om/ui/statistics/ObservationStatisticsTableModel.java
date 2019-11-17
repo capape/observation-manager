@@ -97,15 +97,14 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         Object value = null;
 
         if (this.catalogTargets.getTargetObservations() == null) {
-            return value;
+            return null;
         }
 
         TargetObservation to = (TargetObservation) this.rowIndexMapping.get(rowIndex);
 
         switch (columnIndex) {
         case 0: {
-            ITarget t = this.catalogTargets.getTargetObservations()[to.targetIndex].getTarget();
-            value = t;
+            value = this.catalogTargets.getTargetObservations()[to.targetIndex].getTarget();
 
             // If row above has the same target then this one, return null
             if (rowIndex > 0) {
@@ -120,8 +119,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         case 1: {
             List l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
             if (l != null) {
-                IObservation o = (IObservation) l.get(to.observtionIndex);
-                value = o;
+                value = l.get(to.observtionIndex);
             }
             break;
         }

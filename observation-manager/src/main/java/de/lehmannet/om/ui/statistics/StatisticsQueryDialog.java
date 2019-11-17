@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
@@ -29,18 +28,17 @@ import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
-public class StatisticsQueryDialog extends OMDialog implements ActionListener {
+class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -3368366919141412617L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private ObservationManager om = null;
     private ICatalog[] catalogs = null;
 
-    private JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
-    private JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+    private final JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+    private final JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
 
     private JCheckBox[] catalogCheckBoxes = null;
 
@@ -51,13 +49,11 @@ public class StatisticsQueryDialog extends OMDialog implements ActionListener {
         super(om);
         super.setTitle(this.bundle.getString("dialog.statisticsQuery.title"));
 
-        this.om = om;
-
         // Init catalogs and arrays
         String[] catalogNames = om.getExtensionLoader().getCatalogLoader().getListableCatalogNames();
 
         // Init projects
-        ICatalog[] projectCatalogs = this.om.getProjects();
+        ICatalog[] projectCatalogs = om.getProjects();
 
         // Calculate total amount of catalogs
         int catalogNumber = catalogNames.length;
@@ -89,9 +85,8 @@ public class StatisticsQueryDialog extends OMDialog implements ActionListener {
         // Try to set system default look and feel
         /*
          * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
-         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException
-         * ie) { } catch(IllegalAccessException iae) { } catch(ClassNotFoundException
-         * cnfe) { }
+         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException ie) { }
+         * catch(IllegalAccessException iae) { } catch(ClassNotFoundException cnfe) { }
          */
 
         this.initDialog();

@@ -35,10 +35,9 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
 
     private static final long serialVersionUID = -3798904199589986801L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private ObservationManager om = null;
     private Image origImage = null; // Won't be resized/changed at all
     private Image image = null; // Will be used for display
     private JLabel imageLabel = null;
@@ -47,7 +46,6 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
 
         super(om, true);
 
-        this.om = om;
         this.image = image;
         this.origImage = image;
 

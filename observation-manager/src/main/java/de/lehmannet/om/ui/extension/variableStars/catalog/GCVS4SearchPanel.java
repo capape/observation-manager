@@ -10,23 +10,21 @@ import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 public class GCVS4SearchPanel extends AbstractSearchPanel {
 
     // Config keys
-    public static final String CONFIG_LAST_SEARCHTERM = "om.extension.variableStar.finding.search.lastSearchterm";
-
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private static final String CONFIG_LAST_SEARCHTERM = "om.extension.variableStar.finding.search.lastSearchterm";
 
     private GCVS4Catalog catalog = null;
 
     public GCVS4SearchPanel(GCVS4Catalog catalog) {
 
         this.catalog = catalog;
-        super.setGeneralInfoText(this.bundle.getString("panel.search.label.searchInfo"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        super.setGeneralInfoText(bundle.getString("panel.search.label.searchInfo"));
         super.createPanel();
 
         // Set cached values
-        if (Boolean.valueOf(
-                catalog.observationManager.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED))
-                .booleanValue()) {
+        if (Boolean.parseBoolean(catalog.observationManager.getConfiguration()
+                .getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED))) {
             String cachedSearchTerm = catalog.observationManager.getConfiguration().getConfig(CONFIG_LAST_SEARCHTERM);
             if ((cachedSearchTerm != null) && (!"".equals(cachedSearchTerm))) {
                 super.searchText.setText(cachedSearchTerm);
@@ -38,9 +36,8 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
     @Override
     public void search(String searchString) {
 
-        if (Boolean.valueOf(
-                catalog.observationManager.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED))
-                .booleanValue()) {
+        if (Boolean.parseBoolean(catalog.observationManager.getConfiguration()
+                .getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED))) {
             catalog.observationManager.getConfiguration().setConfig(GCVS4SearchPanel.CONFIG_LAST_SEARCHTERM,
                     searchString);
         }

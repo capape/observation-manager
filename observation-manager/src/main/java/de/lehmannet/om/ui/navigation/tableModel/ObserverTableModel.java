@@ -48,29 +48,29 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        String value = "";
+        StringBuilder value = new StringBuilder();
 
         if (super.elements == null) {
-            return value;
+            return value.toString();
         }
 
         IObserver observer = (IObserver) super.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {
-            value = observer.getSurname();
+            value = new StringBuilder(observer.getSurname());
             break;
         }
         case 1: {
-            value = observer.getName();
+            value = new StringBuilder(observer.getName());
             break;
         }
         case 2: {
             Iterator i = observer.getContacts().iterator();
             while (i.hasNext()) {
-                value = value + i.next();
+                value.append(i.next());
                 if (i.hasNext()) {
-                    value = value + "; ";
+                    value.append("; ");
                 }
             }
             break;
@@ -80,7 +80,7 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
          */
         }
 
-        return value;
+        return value.toString();
 
     }
 
@@ -103,9 +103,7 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
             break;
         }
         /*
-         * case 3 : { name =
-         * AbstractSchemaTableModel.bundle.getString("table.header.observer.dsl");
-         * break; }
+         * case 3 : { name = AbstractSchemaTableModel.bundle.getString("table.header.observer.dsl"); break; }
          */
         }
 

@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,91 +59,77 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Sorter";
 
-    protected AbstractSchemaTableModel tableModel;
+    private AbstractSchemaTableModel tableModel;
 
-    public static final int DESCENDING = -1;
-    public static final int NOT_SORTED = 0;
+    private static final int DESCENDING = -1;
+    private static final int NOT_SORTED = 0;
     public static final int ASCENDING = 1;
 
-    private static Directive EMPTY_DIRECTIVE = new Directive(-1, NOT_SORTED);
+    private static final Directive EMPTY_DIRECTIVE = new Directive(-1, NOT_SORTED);
 
-    public static final Comparator COMPARABLE_COMAPRATOR = new Comparator() {
-        @Override
-        public int compare(Object o1, Object o2) {
-            return ((Comparable) o1).compareTo(o2);
-        }
-    };
-    public static final Comparator LEXICAL_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object o1, Object o2) {
+    private static final Comparator COMPARABLE_COMAPRATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
+    private static final Comparator LEXICAL_COMPARATOR = (o1, o2) -> {
 
-            String o1S = o1.toString();
-            String o2S = o2.toString();
+        String o1S = o1.toString();
+        String o2S = o2.toString();
 
-            // If strings starts with "-" they might be negative DEC values, which
-            // we'll sort reversed
-            // Goal is we want targets with negative DEC to be sorted from -0.1deg to 90deg
-            // ascending.
-            if ((o2S.startsWith("-")) && (o1S.startsWith("-"))) {
-                // Try if this string is a integer EquPosition Dec value
-                try {
-                    Integer.parseInt("" + o1S.charAt(1));
-                    Integer.parseInt("" + o2S.charAt(1));
+        // If strings starts with "-" they might be negative DEC values, which
+        // we'll sort reversed
+        // Goal is we want targets with negative DEC to be sorted from -0.1deg to 90deg
+        // ascending.
+        if ((o2S.startsWith("-")) && (o1S.startsWith("-"))) {
+            // Try if this string is a integer EquPosition Dec value
+            try {
+                Integer.parseInt("" + o1S.charAt(1));
+                Integer.parseInt("" + o2S.charAt(1));
 
-                    // If we come to this point the strings starts with a negative number
-                    // Check if the number is a EquPosition DEC value
-                    new EquPosition("00h00m00s", o1S);
-                    new EquPosition("00h00m00s", o2S);
+                // If we come to this point the strings starts with a negative number
+                // Check if the number is a EquPosition DEC value
+                new EquPosition("00h00m00s", o1S);
+                new EquPosition("00h00m00s", o2S);
 
-                    // OK use reverse order
-                    return o2S.compareTo(o1S);
+                // OK use reverse order
+                return o2S.compareTo(o1S);
 
-                } catch (NumberFormatException nfe) {
-                    // Ok, doesn't start with a number. Just compare Strings
-                } catch (IllegalArgumentException iae) {
-                    // Ok, value is not a valid EquPosition DEC value
-                }
+            } catch (NumberFormatException nfe) {
+                // Ok, doesn't start with a number. Just compare Strings
+            } catch (IllegalArgumentException iae) {
+                // Ok, value is not a valid EquPosition DEC value
             }
-
-            return o1S.compareTo(o2S);
         }
+
+        return o1S.compareTo(o2S);
     };
-    public static final Comparator FLOAT_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object o1, Object o2) {
-            Float f1 = (Float) o1;
-            Float f2 = (Float) o2;
-            if (f1.floatValue() < f2.floatValue()) {
-                return -1;
-            } else if (f1.floatValue() > f2.floatValue()) {
-                return 1;
-            }
-
-            return 0;
+    private static final Comparator FLOAT_COMPARATOR = (o1, o2) -> {
+        Float f1 = (Float) o1;
+        Float f2 = (Float) o2;
+        if (f1 < f2) {
+            return -1;
+        } else if (f1 > f2) {
+            return 1;
         }
+
+        return 0;
     };
-    public static final Comparator INT_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object o1, Object o2) {
-            Integer i1 = (Integer) o1;
-            Integer i2 = (Integer) o2;
-            if (i1.intValue() < i2.intValue()) {
-                return -1;
-            } else if (i1.intValue() > i2.intValue()) {
-                return 1;
-            }
-
-            return 0;
+    private static final Comparator INT_COMPARATOR = (o1, o2) -> {
+        Integer i1 = (Integer) o1;
+        Integer i2 = (Integer) o2;
+        if (i1 < i2) {
+            return -1;
+        } else if (i1 > i2) {
+            return 1;
         }
+
+        return 0;
     };
 
     private Row[] viewToModel;
     private int[] modelToView;
     private JTableHeader tableHeader;
-    private MouseListener mouseListener;
-    private TableModelListener tableModelListener;
-    private Map columnComparators = new HashMap();
-    private List sortingColumns = new ArrayList();
+    private final MouseListener mouseListener;
+    private final TableModelListener tableModelListener;
+    private final Map columnComparators = new HashMap();
+    private final List sortingColumns = new ArrayList();
 
     private TableSorter() {
 
@@ -235,8 +220,8 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private Directive getDirective(int column) {
 
-        for (int i = 0; i < sortingColumns.size(); i++) {
-            Directive directive = (Directive) sortingColumns.get(i);
+        for (Object sortingColumn : sortingColumns) {
+            Directive directive = (Directive) sortingColumn;
             if (directive.column == column) {
                 return directive;
             }
@@ -246,7 +231,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     }
 
-    public int getSortingStatus(int column) {
+    private int getSortingStatus(int column) {
 
         return getDirective(column).direction;
 
@@ -262,7 +247,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     }
 
-    public void setSortingStatus(int column, int status) {
+    private void setSortingStatus(int column, int status) {
 
         Directive directive = getDirective(column);
         if (directive != EMPTY_DIRECTIVE) {
@@ -275,7 +260,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     }
 
-    protected Icon getHeaderRendererIcon(int column, int size) {
+    private Icon getHeaderRendererIcon(int column, int size) {
 
         Directive directive = getDirective(column);
         if (directive == EMPTY_DIRECTIVE) {
@@ -303,7 +288,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     }
 
-    protected Comparator getComparator(int column) {
+    private Comparator getComparator(int column) {
 
         Class columnType = tableModel.getColumnClass(column);
         Comparator comparator = (Comparator) columnComparators.get(columnType);
@@ -453,7 +438,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
         private int modelIndex = 0;
 
-        public Row(int index) {
+        Row(int index) {
 
             this.modelIndex = index;
 
@@ -465,8 +450,8 @@ public class TableSorter extends AbstractSchemaTableModel {
             int row1 = modelIndex;
             int row2 = ((Row) o).modelIndex;
 
-            for (Iterator it = sortingColumns.iterator(); it.hasNext();) {
-                Directive directive = (Directive) it.next();
+            for (Object sortingColumn : sortingColumns) {
+                Directive directive = (Directive) sortingColumn;
                 int column = directive.column;
                 Object o1 = tableModel.getValueAt(row1, column);
                 Object o2 = tableModel.getValueAt(row2, column);
@@ -474,7 +459,6 @@ public class TableSorter extends AbstractSchemaTableModel {
                 int comparison = 0;
                 // Define null less than everything, except null.
                 if (o1 == null && o2 == null) {
-                    comparison = 0;
                 } else if (o1 == null) {
                     comparison = -1;
                 } else if (o2 == null) {
@@ -552,8 +536,6 @@ public class TableSorter extends AbstractSchemaTableModel {
             clearSortingState();
             fireTableDataChanged();
 
-            return;
-
         }
 
     }
@@ -588,13 +570,13 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static class Arrow implements Icon {
 
-        private boolean descending;
+        private final boolean descending;
 
-        private int size;
+        private final int size;
 
-        private int priority;
+        private final int priority;
 
-        public Arrow(boolean descending, int size, int priority) {
+        Arrow(boolean descending, int size, int priority) {
 
             this.descending = descending;
             this.size = size;
@@ -656,9 +638,9 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private class SortableHeaderRenderer implements TableCellRenderer {
 
-        private TableCellRenderer tableCellRenderer;
+        private final TableCellRenderer tableCellRenderer;
 
-        public SortableHeaderRenderer(TableCellRenderer tableCellRenderer) {
+        SortableHeaderRenderer(TableCellRenderer tableCellRenderer) {
 
             this.tableCellRenderer = tableCellRenderer;
 
@@ -694,10 +676,10 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static class Directive {
 
-        private int column;
-        private int direction;
+        private final int column;
+        private final int direction;
 
-        public Directive(int column, int direction) {
+        Directive(int column, int direction) {
 
             this.column = column;
             this.direction = direction;

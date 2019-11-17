@@ -18,18 +18,17 @@ import de.lehmannet.om.ui.panel.TargetStarPanel;
 public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -923728327119653756L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
 
-    public TargetStarDialog(ObservationManager om, ITarget editableTarget, Boolean editable) {
+    public TargetStarDialog(ObservationManager om, ITarget editableTarget) {
 
-        super(om, new TargetStarPanel(om, editableTarget, new Boolean(true)));
+        super(om, new TargetStarPanel(om, editableTarget, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.targetStar.title"));
+            super.setTitle(bundle.getString("dialog.targetStar.title"));
         } else {
-            super.setTitle(
-                    this.bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(TargetStarDialog.serialVersionUID, 590, 313);

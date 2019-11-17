@@ -23,9 +23,6 @@ import javax.swing.JTextArea;
 
 public class EditPopupHandler implements ActionListener {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
     private JTextArea area = null;
 
     private JMenuItem copy = null;
@@ -38,15 +35,17 @@ public class EditPopupHandler implements ActionListener {
 
         JPopupMenu popupMenu = new JPopupMenu();
 
-        this.copy = new JMenuItem(this.bundle.getString("copy"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
+        this.copy = new JMenuItem(bundle.getString("copy"));
         this.copy.addActionListener(this);
         popupMenu.add(this.copy);
 
-        this.paste = new JMenuItem(this.bundle.getString("paste"));
+        this.paste = new JMenuItem(bundle.getString("paste"));
         this.paste.addActionListener(this);
         popupMenu.add(this.paste);
 
-        this.cut = new JMenuItem(this.bundle.getString("cut"));
+        this.cut = new JMenuItem(bundle.getString("cut"));
         this.cut.addActionListener(this);
         popupMenu.add(this.cut);
 
@@ -78,7 +77,7 @@ public class EditPopupHandler implements ActionListener {
 
     }
 
-    public void enablePaste() {
+    private void enablePaste() {
 
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         Transferable contents = clipboard.getContents(null);
@@ -91,7 +90,7 @@ public class EditPopupHandler implements ActionListener {
 
     }
 
-    public void enableCutAndCopy() {
+    private void enableCutAndCopy() {
 
         if ((this.area.getSelectedText() != null) && !("".equals(this.area.getSelectedText().trim()))) {
             this.copy.setEnabled(true);

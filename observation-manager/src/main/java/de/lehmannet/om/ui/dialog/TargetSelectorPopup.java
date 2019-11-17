@@ -11,10 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -30,7 +27,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 //NO LONGER NEEDED - REPLACED BY SCHEMAELEMENTSELECTORPOPUP
-public class TargetSelectorPopup extends JDialog implements ActionListener {
+class TargetSelectorPopup extends JDialog implements ActionListener {
 
     private JButton ok = null;
     private JButton cancel = null;
@@ -68,9 +65,8 @@ public class TargetSelectorPopup extends JDialog implements ActionListener {
             }
         } /*
            * else if( source instanceof JCheckBox ) { // Update TableModel int row =
-           * Integer.parseInt(((JCheckBox)source).getActionCommand()); // We send the row
-           * in the action Command this.tableModel.setSelection(row,
-           * ((JCheckBox)source).isSelected()); }
+           * Integer.parseInt(((JCheckBox)source).getActionCommand()); // We send the row in the action Command
+           * this.tableModel.setSelection(row, ((JCheckBox)source).isSelected()); }
            */
 
     }
@@ -126,17 +122,17 @@ public class TargetSelectorPopup extends JDialog implements ActionListener {
 
 class TargetSelectionModel extends AbstractTableModel {
 
-    private TreeMap targetMap = null;
+    private Map targetMap = null;
 
     public TargetSelectionModel(ITarget[] targets, String targetFilter, List preSelectedTargets) {
 
         this.targetMap = new TreeMap(new TargetComparator());
-        for (int i = 0; i < targets.length; i++) {
-            if (targets[i].getXSIType().equals(targetFilter)) {
-                if (preSelectedTargets.contains(targets[i])) {
-                    targetMap.put(targets[i], new Boolean(true));
+        for (ITarget target : targets) {
+            if (target.getXSIType().equals(targetFilter)) {
+                if (preSelectedTargets.contains(target)) {
+                    targetMap.put(target, Boolean.TRUE);
                 } else {
-                    targetMap.put(targets[i], new Boolean(false));
+                    targetMap.put(target, Boolean.FALSE);
                 }
             }
 
@@ -165,18 +161,14 @@ class TargetSelectionModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
-        if (columnIndex == 1) {
-            return true;
-        }
-
-        return false;
+        return columnIndex == 1;
 
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        ITarget keyTarget = (ITarget) this.targetMap.keySet().toArray(new ITarget[] {})[rowIndex];
+        ITarget keyTarget = (ITarget) this.targetMap.keySet().toArray(new Object[0])[rowIndex];
 
         if (keyTarget == null) {
             return "";
@@ -189,9 +181,9 @@ class TargetSelectionModel extends AbstractTableModel {
         case 1: {
             return this.targetMap.get(keyTarget); // Returns a Boolean
         }
+        default:
+            return "";
         }
-
-        return "";
 
     }
 
@@ -200,7 +192,7 @@ class TargetSelectionModel extends AbstractTableModel {
 
         if (column == 1) {
             if (o instanceof Boolean) {
-                this.setSelection(row, ((Boolean) o).booleanValue());
+                this.setSelection(row, (Boolean) o);
             }
         }
 
@@ -222,11 +214,11 @@ class TargetSelectionModel extends AbstractTableModel {
 
     }
 
-    public void setSelection(int row, boolean selection) {
+    private void setSelection(int row, boolean selection) {
 
-        ITarget keyTarget = (ITarget) this.targetMap.keySet().toArray(new ITarget[] {})[row];
+        ITarget keyTarget = (ITarget) this.targetMap.keySet().toArray(new Object[0])[row];
         this.targetMap.remove(keyTarget);
-        this.targetMap.put(keyTarget, new Boolean(selection));
+        this.targetMap.put(keyTarget, selection);
 
     }
 
@@ -240,7 +232,7 @@ class TargetSelectionModel extends AbstractTableModel {
         while (keyIterator.hasNext()) {
             current = (ITarget) keyIterator.next();
             currentValue = (Boolean) this.targetMap.get(current);
-            if (currentValue.booleanValue()) {
+            if (currentValue) {
                 result.add(current);
             }
         }

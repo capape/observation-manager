@@ -147,9 +147,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private Set getSupportedFindingXSITypes() {
 
-        HashSet result = new HashSet();
-
-        return result;
+        return new HashSet();
 
     }
 
@@ -168,12 +166,8 @@ public class SolarSystemExtension extends AbstractExtension {
     public boolean isCreationAllowed(String xsiType) {
 
         // Don't allow instance creation for moon, sun and planets
-        if ((xsiType.equals("oal:MoonTargetType")) || (xsiType.equals("oal:SunTargetType"))
-                || (xsiType.equals("oal:PlanetTargetType"))) {
-            return false;
-        } else {
-            return true;
-        }
+        return (!xsiType.equals("oal:MoonTargetType")) && (!xsiType.equals("oal:SunTargetType"))
+                && (!xsiType.equals("oal:PlanetTargetType"));
 
     }
 
@@ -188,7 +182,7 @@ public class SolarSystemExtension extends AbstractExtension {
         findingPanels.put(SolarSystemTargetSun.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         findingPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
 
-        super.panels.put(new Integer(SchemaElementConstants.FINDING), findingPanels);
+        super.panels.put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -207,7 +201,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel");
 
-        super.panels.put(new Integer(SchemaElementConstants.TARGET), targetPanels);
+        super.panels.put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -226,7 +220,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetDialogs.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.dialog.SolarSystemTargetPlanetDialog");
 
-        super.dialogs.put(new Integer(SchemaElementConstants.TARGET), targetDialogs);
+        super.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 

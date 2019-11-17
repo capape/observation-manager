@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.box;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
@@ -17,7 +18,7 @@ public abstract class AbstractBox extends JComboBox {
 
     private static final String EMPTY_ENTRY = "----";
 
-    private HashMap map = new HashMap();
+    private final Map map = new HashMap();
 
     // ---------
     // JComboBox --------------------------------------------------------------
@@ -25,7 +26,7 @@ public abstract class AbstractBox extends JComboBox {
 
     public abstract void addItem(ISchemaElement element);
 
-    public abstract String getKey(ISchemaElement element);
+    protected abstract String getKey(ISchemaElement element);
 
     // --------------
     // Public Methods ---------------------------------------------------------
@@ -69,7 +70,7 @@ public abstract class AbstractBox extends JComboBox {
     // Protected Methods ------------------------------------------------------
     // -----------------
 
-    protected void addItem(String key, ISchemaElement element) {
+    void addItem(String key, ISchemaElement element) {
 
         // Item already exists
         if (this.map.containsKey(key)) {

@@ -20,17 +20,17 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class SolarSystemTargetCometDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -4143755484166642959L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
 
     public SolarSystemTargetCometDialog(ObservationManager om, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetCometPanel(om, editableTarget, new Boolean(true)));
+        super(om, new SolarSystemTargetCometPanel(om, editableTarget, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.comet.title"));
+            super.setTitle(bundle.getString("dialog.comet.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.comet.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.comet.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(SolarSystemTargetCometDialog.serialVersionUID, 550, 260);

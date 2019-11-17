@@ -14,10 +14,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import de.lehmannet.om.Angle;
@@ -49,7 +49,7 @@ public class MessierCatalog implements IListableCatalog {
 
     // Key = Messier Number
     // Value = Target
-    private LinkedHashMap map = new LinkedHashMap();
+    private final Map map = new LinkedHashMap();
 
     private AbstractSchemaTableModel tableModel = null;
 
@@ -103,7 +103,7 @@ public class MessierCatalog implements IListableCatalog {
     @Override
     public ITarget[] getTargets() {
 
-        return (ITarget[]) this.map.values().toArray(new DeepSkyTarget[] {});
+        return (ITarget[]) this.map.values().toArray(new ITarget[0]);
 
     }
 
@@ -114,20 +114,17 @@ public class MessierCatalog implements IListableCatalog {
 
     }
 
-    public boolean loadTargets(File file) {
+    private boolean loadTargets(File file) {
 
         // Read file
         Reader reader = null;
         BufferedReader bufferedReader = null;
         try {
             // Must read UTF-8 as we run into problems on some OS
-            reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(reader);
         } catch (FileNotFoundException fnfe) {
             System.err.println("File not found: " + file);
-            return false;
-        } catch (UnsupportedEncodingException uce) {
-            System.err.println("File has wrong encoding: " + file);
             return false;
         }
 
@@ -142,7 +139,7 @@ public class MessierCatalog implements IListableCatalog {
                     // line = bufferedReader.readLine();
                     continue;
                 }
-                messierNumber = line.substring(0, line.toString().indexOf(','));
+                messierNumber = line.substring(0, line.indexOf(','));
 
                 target = null;
 
@@ -307,7 +304,7 @@ public class MessierCatalog implements IListableCatalog {
 
                     if (size.indexOf('x') != -1) {
                         double large = Double.parseDouble(size.substring(0, size.indexOf('x')));
-                        double small = Double.parseDouble(size.substring(size.indexOf('x') + 1, size.length()));
+                        double small = Double.parseDouble(size.substring(size.indexOf('x') + 1));
                         if (small > large) {
                             double x = small;
                             small = large;
@@ -322,9 +319,8 @@ public class MessierCatalog implements IListableCatalog {
 
                     target.setVisibleMagnitude(FloatUtil.parseFloat(mag));
                     target.addAliasName(ngc);
-                    Iterator iterator = aliasNames.iterator();
-                    while (iterator.hasNext()) {
-                        target.addAliasName((String) iterator.next());
+                    for (Object aliasName : aliasNames) {
+                        target.addAliasName((String) aliasName);
                     }
 
                     this.map.put(messierNumber, target);

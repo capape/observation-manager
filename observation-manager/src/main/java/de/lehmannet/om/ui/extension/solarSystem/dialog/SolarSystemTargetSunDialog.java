@@ -21,17 +21,17 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class SolarSystemTargetSunDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -8081855396371032209L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
 
-    public SolarSystemTargetSunDialog(ObservationManager om, IObservation o, ITarget editableTarget, Boolean editable) {
+    public SolarSystemTargetSunDialog(ObservationManager om, IObservation o, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetSunPanel(om, editableTarget, o, new Boolean(true)));
+        super(om, new SolarSystemTargetSunPanel(om, editableTarget, o, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.sun.title"));
+            super.setTitle(bundle.getString("dialog.sun.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.sun.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.sun.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 260);

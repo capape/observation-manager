@@ -31,7 +31,7 @@ public class SessionBox extends AbstractBox {
     }
 
     @Override
-    public String getKey(ISchemaElement element) {
+    protected String getKey(ISchemaElement element) {
 
         // The displayname of Session does not show time, so we build own string...
 

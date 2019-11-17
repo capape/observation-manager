@@ -25,7 +25,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
     private static final long serialVersionUID = -6156286102135355620L;
 
-    public static final String XSI_TYPE = "oal:findingsType";
+    private static final String XSI_TYPE = "oal:findingsType";
 
     private IFinding finding = null;
     private ISession session = null;
@@ -84,19 +84,13 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
     @Override
     public ISchemaElement createSchemaElement() {
 
-        try {
-            GenericFinding gf = new GenericFinding(this.findingContainer.getDescription());
+        GenericFinding gf = new GenericFinding(this.findingContainer.getDescription());
 
-            if (this.findingContainer.getLanguage() != null) {
-                gf.setLanguage(this.findingContainer.getLanguage());
-            }
-
-            return gf;
-        } catch (SchemaException se) {
-            System.err.println("Error while creating GenericFinding\n" + se);
+        if (this.findingContainer.getLanguage() != null) {
+            gf.setLanguage(this.findingContainer.getLanguage());
         }
 
-        return null;
+        return gf;
 
     }
 
@@ -107,7 +101,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
     }
 
-    public void createPanel() {
+    private void createPanel() {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();

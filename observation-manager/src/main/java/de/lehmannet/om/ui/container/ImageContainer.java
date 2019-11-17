@@ -40,17 +40,17 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
-    public static final int THUMBNAIL_SIZE_WIDTH = 96;
-    public static final int THUMBNAIL_SIZE_HEIGHT = 96;
+    private static final int THUMBNAIL_SIZE_WIDTH = 96;
+    private static final int THUMBNAIL_SIZE_HEIGHT = 96;
 
     // Use a static image as thumbnail for fits files
-    public static final String THUMBNAIL_NAME_FITS = "fits.png";
+    private static final String THUMBNAIL_NAME_FITS = "fits.png";
 
     private ObservationManager om = null;
 
     private boolean editable = false;
 
-    private GridBagLayout layout = new GridBagLayout();
+    private final GridBagLayout layout = new GridBagLayout();
 
     private int numberOfImages = 0;
 
@@ -145,8 +145,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
         // Find out whether images path should be returned relative or absolute
         boolean relativePath = Boolean
-                .valueOf(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_IMAGESDIR_RELATIVE))
-                .booleanValue();
+                .parseBoolean(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_IMAGESDIR_RELATIVE));
         if ((homeDir == null) || ("".equals(homeDir.trim()))) {
             relativePath = false;
         }
@@ -154,13 +153,13 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         // Add each image individually
         Component[] comps = super.getComponents();
         ArrayList result = new ArrayList(comps.length);
-        for (int i = 0; i < comps.length; i++) {
+        for (Component comp : comps) {
             MyImageLabel l = null;
-            if (comps[i] instanceof MyImageLabel) {
-                l = (MyImageLabel) comps[i];
+            if (comp instanceof MyImageLabel) {
+                l = (MyImageLabel) comp;
                 if (relativePath) {
                     result.add(RelativPath.getRelativePath(new File(homeDir), new File(l.getPath()))); // Store path
-                                                                                                       // relative
+                    // relative
                 } else {
                     result.add(l.getPath()); // Store path absolute
                 }
@@ -196,10 +195,10 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
             } else {
                 JLabel b = (JLabel) e.getSource();
                 Component[] comps = super.getComponents();
-                for (int i = 0; i < comps.length; i++) {
+                for (Component comp : comps) {
                     MyImageLabel l = null;
-                    if (comps[i] instanceof MyImageLabel) {
-                        l = (MyImageLabel) comps[i];
+                    if (comp instanceof MyImageLabel) {
+                        l = (MyImageLabel) comp;
                         if (l.getDeleteButton().equals(b)) {
                             super.remove(l);
                             super.remove(b);

@@ -22,16 +22,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -52,14 +45,14 @@ import de.lehmannet.om.util.DateConverter;
 public class VariableStarChartDialog extends OMDialog implements PropertyChangeListener, ComponentListener {
 
     private static final long serialVersionUID = 3386387945098447550L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     public VariableStarChartDialog(ObservationManager om, IObservation[] observations, Map colorMap) {
 
         super(om);
 
-        super.setTitle(this.bundle.getString("chart.title") + " " + observations[0].getTarget().getName());
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        super.setTitle(bundle.getString("chart.title") + " " + observations[0].getTarget().getName());
 
         super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         super.setModal(true);
@@ -149,7 +142,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     private ObservationManager om = null;
 
     // The data to be drawn
-    private TreeSet observations = null;
+    private SortedSet observations = null;
 
     // The observer / color assignment
     private Map colorMap = null;
@@ -183,7 +176,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     // All spots which indicate a observation in the diagramm
     private DataSpot[] dataSpots = null;
 
-    public MagnitudeDiagramm(ObservationManager om, TreeSet observations, Map colorMap) {
+    public MagnitudeDiagramm(ObservationManager om, SortedSet observations, Map colorMap) {
 
         this.om = om;
 
@@ -246,8 +239,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         float x = e.getX() - this.xTransformValue;
         float y = e.getY() - this.yTransformValue;
 
-        this.xPopup = new Integer(Math.round(x));
-        this.yPopup = new Integer(Math.round(y));
+        this.xPopup = Math.round(x);
+        this.yPopup = Math.round(y);
 
         this.updateUI();
 
@@ -344,9 +337,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Get max length of FromDate values
         g2d.setFont(valueFont);
-        int maxFromDateLength = valueFontMetric.stringWidth(fromDateJD) >= valueFontMetric.stringWidth(fromDate)
-                ? valueFontMetric.stringWidth(fromDateJD)
-                : valueFontMetric.stringWidth(fromDate);
+        int maxFromDateLength = Math.max(valueFontMetric.stringWidth(fromDateJD),
+                valueFontMetric.stringWidth(fromDate));
         this.g2d.drawString(fromDateJD, valueWidth + 15 + valueWidthFromLabel + 10, valueHeightFromLabel);
         this.g2d.drawString(fromDate, valueWidth + 15 + valueWidthFromLabel + 10, valueHeightFromLabel * 2);
 
@@ -381,13 +373,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         int currentYPos = valueHeight;
         valueHeight = valueFontMetric.getHeight();
         int counter = 1;
-        int xValuePos = labelFontMetric.stringWidth(originLabel) > labelFontMetric.stringWidth(magFromToLabel)
-                ? labelFontMetric.stringWidth(originLabel)
-                : labelFontMetric.stringWidth(magFromToLabel);
-        xValuePos = xValuePos > labelFontMetric.stringWidth(periodLabel) ? xValuePos
-                : labelFontMetric.stringWidth(periodLabel);
-        xValuePos = xValuePos > labelFontMetric.stringWidth(typeLabel) ? xValuePos
-                : labelFontMetric.stringWidth(typeLabel);
+        int xValuePos = Math.max(labelFontMetric.stringWidth(originLabel), labelFontMetric.stringWidth(magFromToLabel));
+        xValuePos = Math.max(xValuePos, labelFontMetric.stringWidth(periodLabel));
+        xValuePos = Math.max(xValuePos, labelFontMetric.stringWidth(typeLabel));
         xValuePos = xValuePos + 10 + xBorder;
 
         // ---- Print Origin
@@ -446,9 +434,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             return; // Don't show popup
         }
 
-        for (int i = 0; i < this.dataSpots.length; i++) {
-            if (this.dataSpots[i].contains(this.xPopup.intValue(), this.yPopup.intValue())) { // If click was inside
-                                                                                              // spot, paint popup
+        for (DataSpot dataSpot : this.dataSpots) {
+            if (dataSpot.contains(this.xPopup, this.yPopup)) { // If click was inside
+                // spot, paint popup
 
                 // Create popup text and prepare font
                 Font valueFont = new Font("Arial", Font.BOLD, 12);
@@ -457,18 +445,18 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
                 // The popup text
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-                format.setCalendar(this.dataSpots[i].getObservation().getBegin());
+                format.setCalendar(dataSpot.getObservation().getBegin());
 
-                String sign = this.dataSpots[i].getResult().isMagnitudeFainterThan() ? "<" : "";
-                String info[] = new String[] { (sign + this.dataSpots[i].getResult().getMagnitude() + "mag"),
-                        ("JD: " + DateConverter.toJulianDate(this.dataSpots[i].getObservation().getBegin())),
+                String sign = dataSpot.getResult().isMagnitudeFainterThan() ? "<" : "";
+                String[] info = new String[] { (sign + dataSpot.getResult().getMagnitude() + "mag"),
+                        ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin())),
                         (this.bundle.getString("chart.popup.date") + ": "
-                                + format.format(this.dataSpots[i].getObservation().getBegin().getTime())) };
+                                + format.format(dataSpot.getObservation().getBegin().getTime())) };
 
                 // Get largest popup text
                 String maxInfoString = "";
-                for (int j = 0; j < info.length; j++) {
-                    maxInfoString = maxInfoString.length() < info[j].length() ? info[j] : maxInfoString;
+                for (String s : info) {
+                    maxInfoString = maxInfoString.length() < s.length() ? s : maxInfoString;
                 }
 
                 // Get metrics
@@ -479,28 +467,26 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
                 g2d.setPaint(Color.BLUE);
 
                 int width = valueWidth + 8;
-                if ((Math.round(this.xPopup.intValue() + this.dataSpots[i].width * 2) + width
-                        + 4) >= super.getWidth()) { // Popup doesn't fit into frame
+                if ((Math.round(this.xPopup + dataSpot.width * 2) + width + 4) >= super.getWidth()) { // Popup doesn't
+                                                                                                      // fit into frame
                     // Paint popup
-                    this.g2d.drawRect(Math.round(this.xPopup.intValue() - (this.dataSpots[i].width * 2) - width),
-                            this.yPopup.intValue() + 2, width,
+                    this.g2d.drawRect(Math.round(this.xPopup - (dataSpot.width * 2) - width), this.yPopup + 2, width,
                             valueHeight * info.length + (valueHeight / 4 * info.length));
 
                     // Paint value into popup
                     for (int j = 0; j < info.length; j++) {
-                        this.g2d.drawString(info[j], this.xPopup.intValue() - (this.dataSpots[i].width * 2) - width + 4,
-                                this.yPopup.intValue() + ((j + 1) * valueHeight) + (valueHeight / 4 * j));
+                        this.g2d.drawString(info[j], this.xPopup - (dataSpot.width * 2) - width + 4,
+                                this.yPopup + ((j + 1) * valueHeight) + (valueHeight / 4 * j));
                     }
                 } else {
                     // Paint popup
-                    this.g2d.drawRect(Math.round(this.xPopup.intValue() + this.dataSpots[i].width * 2),
-                            this.yPopup.intValue() + 2, width,
+                    this.g2d.drawRect(Math.round(this.xPopup + dataSpot.width * 2), this.yPopup + 2, width,
                             valueHeight * info.length + (valueHeight / 4 * info.length));
 
                     // Paint value into popup
                     for (int j = 0; j < info.length; j++) {
-                        this.g2d.drawString(info[j], this.xPopup.intValue() + this.dataSpots[i].width * 2 + 4,
-                                this.yPopup.intValue() + ((j + 1) * valueHeight) + (valueHeight / 4 * j));
+                        this.g2d.drawString(info[j], this.xPopup + dataSpot.width * 2 + 4,
+                                this.yPopup + ((j + 1) * valueHeight) + (valueHeight / 4 * j));
                     }
                 }
 
@@ -558,9 +544,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         int currentX = BORDER_LEFT + gap;
 
-        Iterator iterator = this.colorMap.keySet().iterator();
-        while (iterator.hasNext()) {
-            currentObserver = (IObserver) iterator.next();
+        for (Object o : this.colorMap.keySet()) {
+            currentObserver = (IObserver) o;
             currentColor = (Color) this.colorMap.get(currentObserver);
 
             currentObserverLabel = currentObserver.getDisplayName();
@@ -638,7 +623,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         int lengthOfSegmentLines = yAxisLength / 50; // Make sure the small segment lines adopt to window size, too
         for (int x = 1; x <= xAxisSegmentNumber; x++) {
             g2d.drawLine(Math.round(xAxisSegmentSize * x), 0 - (lengthOfSegmentLines / 2),
-                    Math.round(xAxisSegmentSize * x), 0 + (lengthOfSegmentLines / 2));
+                    Math.round(xAxisSegmentSize * x), (lengthOfSegmentLines / 2));
         }
 
         // Draw x axis labels (values)
@@ -672,7 +657,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             if ((((float) x / skipLabel) % 1) == 0.0f) { // Make sure we draw only the labels that fit (respective to
                                                          // their width) on the axis
                 g2d.drawString(formatX.format(currentLabel / 10.0), (xAxisSegmentSize * x) - labelWidth / 2,
-                        0 + labelHeight + lengthOfSegmentLines);
+                        labelHeight + lengthOfSegmentLines);
             }
             currentLabel = currentLabel + (this.xDivisor * 10.0);
         }
@@ -687,7 +672,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         int axisLabelWidth = axisLabelFontMetric.stringWidth(xAxisLabel);
 
         g2d.drawString(xAxisLabel, (xAxisLength / 2) - (axisLabelWidth / 2),
-                0 + labelHeight + lengthOfSegmentLines + axisLabelHeight);
+                labelHeight + lengthOfSegmentLines + axisLabelHeight);
 
         // ----------- y - axis
 
@@ -707,8 +692,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Draw y axis segments
         for (int x = 1; x <= yAxisSegmentNumber; x++) {
-            g2d.drawLine(0 - (lengthOfSegmentLines / 2), Math.round(-yAxisSegmentSize * x),
-                    0 + (lengthOfSegmentLines / 2), Math.round(-yAxisSegmentSize * x));
+            g2d.drawLine(0 - (lengthOfSegmentLines / 2), Math.round(-yAxisSegmentSize * x), (lengthOfSegmentLines / 2),
+                    Math.round(-yAxisSegmentSize * x));
         }
 
         // Draw y axis labels (values)
@@ -775,7 +760,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         float mag = 0.0f;
         while (iterator.hasNext()) {
             mag = ((FindingVariableStar) (((IObservation) (iterator.next())).getResults().get(0))).getMagnitude();
-            max = mag > max ? mag : max;
+            max = Math.max(mag, max);
         }
 
         return max;
@@ -789,7 +774,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         float mag = 0.0f;
         while (iterator.hasNext()) {
             mag = ((FindingVariableStar) (((IObservation) (iterator.next())).getResults().get(0))).getMagnitude();
-            min = mag < min ? mag : min;
+            min = Math.min(mag, min);
         }
 
         return min;
@@ -804,7 +789,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         String last = this.om.getConfiguration().getConfig(ObservationManager.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
-            if ((dir != null) && (dir.exists())) {
+            if (dir.exists()) {
                 chooser.setCurrentDirectory(dir);
             }
         }
@@ -814,12 +799,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             @Override
             public boolean accept(File f) {
 
-                if ((f.getName().toLowerCase().endsWith(".jpeg")) || (f.getName().toLowerCase().endsWith(".jpg"))
-                        || (f.isDirectory())) {
-                    return true;
-                }
-
-                return false;
+                return (f.getName().toLowerCase().endsWith(".jpeg")) || (f.getName().toLowerCase().endsWith(".jpg"))
+                        || (f.isDirectory());
 
             }
 
@@ -865,9 +846,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         }
 
         /*
-         * try { FileOutputStream out = new FileOutputStream(file);
-         * //JPEGImageEncoderImpl j = new JPEGImageEncoderImpl(out);
-         * //j.encode(awtImage); out.close(); } catch (Exception e) {
+         * try { FileOutputStream out = new FileOutputStream(file); //JPEGImageEncoderImpl j = new
+         * JPEGImageEncoderImpl(out); //j.encode(awtImage); out.close(); } catch (Exception e) {
          * System.err.println("Error while saving image.\n" + e); }
          */
 
@@ -882,13 +862,13 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     }
 
-    private TreeSet getObservations(TreeSet observations, Map colorMap) {
+    private SortedSet getObservations(SortedSet observations, Map colorMap) {
 
         Iterator iterator = observations.iterator();
         IObservation current = null;
         while (iterator.hasNext()) {
             current = (IObservation) iterator.next();
-            if (colorMap.get(current.getObserver()) == null) { // No color assigned...so remove observation
+            if (null == colorMap.get(current.getObserver())) { // No color assigned...so remove observation
                 iterator.remove();
             }
         }
@@ -926,9 +906,6 @@ class DataSpot extends Ellipse2D.Float {
 
 class ChartPopupHandler implements ActionListener {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
-
     private MagnitudeDiagramm chart = null;
 
     private JMenuItem exit = null;
@@ -940,11 +917,13 @@ class ChartPopupHandler implements ActionListener {
 
         JPopupMenu popupMenu = new JPopupMenu();
 
-        this.save = new JMenuItem(this.bundle.getString("chart.popup.save"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        this.save = new JMenuItem(bundle.getString("chart.popup.save"));
         this.save.addActionListener(this);
         popupMenu.add(this.save);
 
-        this.exit = new JMenuItem(this.bundle.getString("chart.popup.exit"));
+        this.exit = new JMenuItem(bundle.getString("chart.popup.exit"));
         this.exit.addActionListener(this);
         popupMenu.add(this.exit);
 

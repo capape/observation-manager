@@ -31,11 +31,11 @@ class CatalogTargets {
 
         ITarget observedTarget = observation.getTarget();
 
-        for (int i = 0; i < this.targets.length; i++) {
-            if (this.areEqual(this.targets[i].getTarget(), observedTarget)) {
+        for (TargetObservations target : this.targets) {
+            if (this.areEqual(target.getTarget(), observedTarget)) {
                 // Add observation
                 // If this is the first add, increase counter.
-                if (this.targets[i].addObservation(observation)) {
+                if (target.addObservation(observation)) {
                     this.observations++;
                 }
             }

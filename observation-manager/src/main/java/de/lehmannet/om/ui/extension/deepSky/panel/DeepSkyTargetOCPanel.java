@@ -86,7 +86,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
 
         // Optional parameters
         String amountStars = this.stars.getText().trim();
-        if ((amountStars != null) && !("".equals(amountStars))) {
+        if (!"".equals(amountStars)) {
             int aS = Integer.parseInt(amountStars);
             if (aS < 1) {
                 super.createWarning(this.bundle.getString("panel.oc.warning.amount.positive"));
@@ -95,13 +95,13 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         }
 
         String brightestStar = this.brightestStar.getText().trim();
-        if ((brightestStar != null) && !("".equals(brightestStar))) {
+        if (!"".equals(brightestStar)) {
             double bS = Double.parseDouble(brightestStar);
             this.target.setBrightestStar(bS);
         }
 
         String clusterClassification = this.clusterClassification.getText().trim();
-        if ((clusterClassification != null) && !("".equals(clusterClassification))) {
+        if (!"".equals(clusterClassification)) {
             this.target.setClusterClassification(clusterClassification);
         }
 
@@ -117,7 +117,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -190,7 +190,8 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         this.add(this.stars);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        OMLabel Lbrightest = new OMLabel(this.bundle.getString("panel.oc.label.brightestStar"), SwingConstants.RIGHT, false);
+        OMLabel Lbrightest = new OMLabel(this.bundle.getString("panel.oc.label.brightestStar"), SwingConstants.RIGHT,
+                false);
         Lbrightest.setToolTipText(this.bundle.getString("panel.oc.tooltip.brightestStar"));
         gridbag.setConstraints(Lbrightest, constraints);
         this.add(Lbrightest);

@@ -36,14 +36,14 @@ import de.lehmannet.om.util.DateConverter;
 
 public class DatePicker extends JDialog {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private JButton[] fields = new JButton[37];
+    private final JButton[] fields = new JButton[37];
 
     private JLabel monthYearLabel = null;
 
-    private int day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH);;
+    private int day = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH);
     private int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
     private int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 
@@ -137,8 +137,7 @@ public class DatePicker extends JDialog {
             return this.calendar;
         }
 
-        GregorianCalendar cal = new GregorianCalendar(this.year, this.month, this.day);
-        return cal;
+        return new GregorianCalendar(this.year, this.month, this.day);
 
     }
 
@@ -159,8 +158,8 @@ public class DatePicker extends JDialog {
                 this.bundle.getString("datePicker.sat") };
 
         JPanel headerPanel = new JPanel(new GridLayout(1, 7));
-        for (int x = 0; x < header.length; x++) {
-            headerPanel.add(new JLabel(header[x], SwingConstants.CENTER));
+        for (String s : header) {
+            headerPanel.add(new JLabel(s, SwingConstants.CENTER));
         }
         super.getContentPane().add(headerPanel, BorderLayout.NORTH);
 
@@ -170,13 +169,10 @@ public class DatePicker extends JDialog {
         for (int x = 0; x < this.fields.length; x++) {
             currentButton = new JButton();
             currentButton.setFocusPainted(false);
-            currentButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    if (event.getSource() instanceof JButton) {
-                        DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
-                        DatePicker.this.dispose();
-                    }
+            currentButton.addActionListener(event -> {
+                if (event.getSource() instanceof JButton) {
+                    DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
+                    DatePicker.this.dispose();
                 }
             });
             this.fields[x] = currentButton;
@@ -189,13 +185,10 @@ public class DatePicker extends JDialog {
         JPanel footerPanel = new JPanel(gridbag);
 
         JButton prevYearButton = new JButton(this.bundle.getString("datePicker.button.previousYear"));
-        prevYearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                DatePicker.this.year--;
-                DatePicker.this.setDates();
-                DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-            }
+        prevYearButton.addActionListener(ae -> {
+            DatePicker.this.year--;
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
         });
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 20, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -203,18 +196,15 @@ public class DatePicker extends JDialog {
         footerPanel.add(prevYearButton);
 
         JButton prevButton = new JButton(this.bundle.getString("datePicker.button.previous"));
-        prevButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (DatePicker.this.month == 0) {
-                    DatePicker.this.month = 11;
-                    DatePicker.this.year--;
-                } else {
-                    DatePicker.this.month--;
-                }
-                DatePicker.this.setDates();
-                DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
+        prevButton.addActionListener(ae -> {
+            if (DatePicker.this.month == 0) {
+                DatePicker.this.month = 11;
+                DatePicker.this.year--;
+            } else {
+                DatePicker.this.month--;
             }
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
         });
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -228,18 +218,15 @@ public class DatePicker extends JDialog {
         footerPanel.add(monthYearLabel);
 
         JButton nextButton = new JButton(this.bundle.getString("datePicker.button.next"));
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (DatePicker.this.month == 11) {
-                    DatePicker.this.month = 0;
-                    DatePicker.this.year++;
-                } else {
-                    DatePicker.this.month++;
-                }
-                DatePicker.this.setDates();
-                DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
+        nextButton.addActionListener(ae -> {
+            if (DatePicker.this.month == 11) {
+                DatePicker.this.month = 0;
+                DatePicker.this.year++;
+            } else {
+                DatePicker.this.month++;
             }
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
         });
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 20, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -247,13 +234,10 @@ public class DatePicker extends JDialog {
         footerPanel.add(nextButton);
 
         JButton nextYearButton = new JButton(this.bundle.getString("datePicker.button.nextYear"));
-        nextYearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                DatePicker.this.year++;
-                DatePicker.this.setDates();
-                DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-            }
+        nextYearButton.addActionListener(ae -> {
+            DatePicker.this.year++;
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
         });
         ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 20, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -261,18 +245,14 @@ public class DatePicker extends JDialog {
         footerPanel.add(nextYearButton);
 
         JButton julianDateButton = new JButton(this.bundle.getString("datePicker.button.julianDate"));
-        julianDateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
+        julianDateButton.addActionListener(ae -> {
 
-                JulianDateDialog jdd = new JulianDateDialog(DatePicker.this, DatePicker.this.timeZone);
-                Calendar jdc = jdd.getCalendar();
-                DatePicker.this.calendar = jdc;
-                if (DatePicker.this.calendar != null) {
-                    DatePicker.this.dispose();
-                }
-
+            JulianDateDialog jdd = new JulianDateDialog(DatePicker.this, DatePicker.this.timeZone);
+            DatePicker.this.calendar = jdd.getCalendar();
+            if (DatePicker.this.calendar != null) {
+                DatePicker.this.dispose();
             }
+
         });
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 5, 1, 100, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -287,9 +267,9 @@ public class DatePicker extends JDialog {
 
     private void setDates() {
 
-        for (int x = 0; x < fields.length; x++) {
-            fields[x].setText("");
-            fields[x].setEnabled(false);
+        for (JButton field : fields) {
+            field.setText("");
+            field.setEnabled(false);
         }
 
         Calendar cal = Calendar.getInstance();
@@ -321,8 +301,8 @@ public class DatePicker extends JDialog {
 
 class JulianDateDialog extends JDialog implements ActionListener {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private Calendar calendar = null;
     private TimeZone timeZone = null;
@@ -371,10 +351,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
                 try {
                     double jd = Double.parseDouble(jdString);
                     this.calendar = DateConverter.toGregorianDate(jd, this.timeZone);
-                } catch (NumberFormatException nfe) {
-                    JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
-                            this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
-                } catch (IllegalArgumentException iae) {
+                } catch (IllegalArgumentException nfe) {
                     JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
                             this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
                 }

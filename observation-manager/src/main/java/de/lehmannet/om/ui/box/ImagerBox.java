@@ -27,7 +27,7 @@ public class ImagerBox extends AbstractBox {
     }
 
     @Override
-    public String getKey(ISchemaElement element) {
+    protected String getKey(ISchemaElement element) {
 
         return element.getDisplayName();
 

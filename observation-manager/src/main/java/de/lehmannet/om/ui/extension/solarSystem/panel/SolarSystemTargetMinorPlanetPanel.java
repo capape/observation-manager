@@ -87,15 +87,10 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
             return null;
         }
 
-        try {
-            if (observer != null) {
-                this.target = new SolarSystemTargetMinorPlanet(name, observer);
-            } else {
-                this.target = new SolarSystemTargetMinorPlanet(name, datasource);
-            }
-        } catch (SchemaException se) {
-            System.err.println("Cannot create SolarSystemTargetMinorPlanet.\n" + se);
-            return null;
+        if (observer != null) {
+            this.target = new SolarSystemTargetMinorPlanet(name, observer);
+        } else {
+            this.target = new SolarSystemTargetMinorPlanet(name, datasource);
         }
 
         // Set all other fields

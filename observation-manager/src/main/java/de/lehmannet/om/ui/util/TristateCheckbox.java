@@ -19,28 +19,26 @@ import javax.swing.JRadioButton;
 
 public class TristateCheckbox extends JPanel {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
-    private JRadioButton trueValue = new JRadioButton();
-    private JRadioButton falseValue = new JRadioButton();
-    private JRadioButton naValue = new JRadioButton();
-
-    private ButtonGroup group = new ButtonGroup();
+    private final JRadioButton trueValue = new JRadioButton();
+    private final JRadioButton falseValue = new JRadioButton();
+    private final JRadioButton naValue = new JRadioButton();
 
     public TristateCheckbox() {
 
         super(new GridLayout(2, 0));
 
-        this.group.add(this.naValue);
-        this.group.add(this.trueValue);
-        this.group.add(this.falseValue);
+        ButtonGroup group = new ButtonGroup();
+        group.add(this.naValue);
+        group.add(this.trueValue);
+        group.add(this.falseValue);
 
         this.naValue.setSelected(true);
 
-        super.add(new JLabel(this.bundle.getString("checkbox.label.false")));
-        super.add(new JLabel(this.bundle.getString("checkbox.label.na")));
-        super.add(new JLabel(this.bundle.getString("checkbox.label.true")));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
+        super.add(new JLabel(bundle.getString("checkbox.label.false")));
+        super.add(new JLabel(bundle.getString("checkbox.label.na")));
+        super.add(new JLabel(bundle.getString("checkbox.label.true")));
 
         super.add(this.falseValue);
         super.add(this.naValue);
@@ -66,7 +64,7 @@ public class TristateCheckbox extends JPanel {
 
     public boolean isNASelected() {
 
-        return this.naValue.isSelected();
+        return !this.naValue.isSelected();
 
     }
 

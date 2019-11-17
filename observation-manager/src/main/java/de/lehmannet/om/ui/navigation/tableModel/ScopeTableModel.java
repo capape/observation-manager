@@ -50,31 +50,16 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
         Class c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = String.class;
-            break;
-        }
+        case 0:
+        case 4:
         case 1: {
             c = String.class;
             break;
         }
-        case 2: {
-            c = Float.class;
-            break;
-        }
+        case 2:
+        case 6:
+        case 5:
         case 3: {
-            c = Float.class;
-            break;
-        }
-        case 4: {
-            c = String.class;
-            break;
-        }
-        case 5: {
-            c = Float.class;
-            break;
-        }
-        case 6: {
             c = Float.class;
             break;
         }
@@ -94,7 +79,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
         Object value = null;
 
         if (super.elements == null) {
-            return value;
+            return null;
         }
 
         IScope scope = (IScope) super.elements[rowIndex];
@@ -109,11 +94,11 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 2: {
-            value = new Float(scope.getAperture());
+            value = scope.getAperture();
             break;
         }
         case 3: {
-            value = new Float(scope.getFocalLength());
+            value = scope.getFocalLength();
             break;
         }
         case 4: {
@@ -121,11 +106,11 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 5: {
-            value = new Float(scope.getLightGrasp());
+            value = scope.getLightGrasp();
             break;
         }
         case 6: {
-            value = new Float(scope.getMagnification());
+            value = scope.getMagnification();
             break;
         }
         case 7: {

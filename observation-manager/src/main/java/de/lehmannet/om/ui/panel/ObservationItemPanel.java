@@ -60,33 +60,32 @@ public class ObservationItemPanel extends AbstractPanel {
     private static final long serialVersionUID = 1738702184674803563L;
 
     // Observations "own" fields
-    JTextField begin = new JTextField(14);
-    JTextField end = new JTextField(14);
-    JTextField faintestStar = new JTextField(4);
-    SurfaceBrightnessContainer sqm = new SurfaceBrightnessContainer(null, false,
+    private final JTextField begin = new JTextField(14);
+    private final JTextField end = new JTextField(14);
+    private final JTextField faintestStar = new JTextField(4);
+    private final SurfaceBrightnessContainer sqm = new SurfaceBrightnessContainer(null, false,
             new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
-    JTextField magnification = new JTextField(4);
-    JTextField seeing = new JTextField(2);
-    JTextField images = new JTextField(15);
-    JTextField accessories = new JTextField(15);
-    ImageContainer imageContainer = null;
+    private final JTextField magnification = new JTextField(4);
+    private final JTextField seeing = new JTextField(2);
+    private final JTextField images = new JTextField(15);
+    private final JTextField accessories = new JTextField(15);
 
     // This might be calculated or retrieved from scope (with fixed focal length)
-    AngleContainer trueFoV = new AngleContainer(Angle.ARCMINUTE, false);
+    private final AngleContainer trueFoV = new AngleContainer(Angle.ARCMINUTE, false);
     // This might be calculated or retrieved from scope and eyepiece
-    JTextField exitPupil = new JTextField(4);
+    private final JTextField exitPupil = new JTextField(4);
 
     // Linked elements
-    JTextField imager = new JTextField();
-    JTextField session = new JTextField();
-    JTextField target = new JTextField();
-    JTextField observer = new JTextField();
-    JTextField site = new JTextField();
-    JTextField scope = new JTextField();
-    JTextField filter = new JTextField();
-    JTextField eyepiece = new JTextField();
-    JTextField lens = new JTextField();
-    JTextArea finding = new JTextArea(5, 40);
+    private final JTextField imager = new JTextField();
+    private final JTextField session = new JTextField();
+    private final JTextField target = new JTextField();
+    private final JTextField observer = new JTextField();
+    private final JTextField site = new JTextField();
+    private final JTextField scope = new JTextField();
+    private final JTextField filter = new JTextField();
+    private final JTextField eyepiece = new JTextField();
+    private final JTextField lens = new JTextField();
+    private final JTextArea finding = new JTextArea(5, 40);
 
     private IObservation observation = null;
 
@@ -196,7 +195,7 @@ public class ObservationItemPanel extends AbstractPanel {
 
         List images = observation.getImages();
         if ((images != null) && !(images.isEmpty())) {
-            StringBuffer imagesString = new StringBuffer();
+            StringBuilder imagesString = new StringBuilder();
             Iterator iterator = images.iterator();
             while (iterator.hasNext()) {
                 imagesString.append(iterator.next());
@@ -248,10 +247,9 @@ public class ObservationItemPanel extends AbstractPanel {
                     // Comment this out, as by using a lens those checks have a good chance to fail
                     /*
                      * if( afl_i > eye.getMaxFocalLength() ) { System.err.
-                     * println("Actual focal length is larger then max focal length of eyepiece. " +
-                     * observation); } else if( afl_i < eye.getFocalLength() ) { System.err.
-                     * println("Actual focal length is lower then min focal length of eyepiece. " +
-                     * observation); }
+                     * println("Actual focal length is larger then max focal length of eyepiece. " + observation); }
+                     * else if( afl_i < eye.getFocalLength() ) { System.err.
+                     * println("Actual focal length is lower then min focal length of eyepiece. " + observation); }
                      */
 
                     // Set text with additional info on actual focal length
@@ -588,8 +586,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.finding.setLineWrap(true);
         this.finding.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.description"));
         /*
-         * if( this.om.isNightVisionEnabled() ) { this.finding.setBackground(new
-         * Color(255, 175, 175)); } else { this.finding.setBackground(Color.WHITE); }
+         * if( this.om.isNightVisionEnabled() ) { this.finding.setBackground(new Color(255, 175, 175)); } else {
+         * this.finding.setBackground(Color.WHITE); }
          */
         JScrollPane findingScroll = new JScrollPane(this.finding);
         findingScroll.setMinimumSize(new Dimension(300, 60));
@@ -614,17 +612,13 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.imager);
 
         /*
-         * ConstraintsBuilder.buildConstraints(constraints, 0, 14, 1, 1, 9, 1); JLabel
-         * Limages = new
+         * ConstraintsBuilder.buildConstraints(constraints, 0, 14, 1, 1, 9, 1); JLabel Limages = new
          * JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"));
-         * Limages.setToolTipText(AbstractPanel.bundle.getString(
-         * "panel.observationItem.tooltip.images")); gridbag.setConstraints(Limages,
-         * constraints); this.add(Limages);
-         * ConstraintsBuilder.buildConstraints(constraints, 1, 14, 5, 1, 90, 1);
-         * this.images.setEditable(false);
-         * this.images.setToolTipText(AbstractPanel.bundle.getString(
-         * "panel.observationItem.tooltip.images")); gridbag.setConstraints(this.images,
-         * constraints); this.add(this.images);
+         * Limages.setToolTipText(AbstractPanel.bundle.getString( "panel.observationItem.tooltip.images"));
+         * gridbag.setConstraints(Limages, constraints); this.add(Limages);
+         * ConstraintsBuilder.buildConstraints(constraints, 1, 14, 5, 1, 90, 1); this.images.setEditable(false);
+         * this.images.setToolTipText(AbstractPanel.bundle.getString( "panel.observationItem.tooltip.images"));
+         * gridbag.setConstraints(this.images, constraints); this.add(this.images);
          */
 
         if (this.observation != null && this.observation.getImages() != null) {
@@ -636,20 +630,18 @@ public class ObservationItemPanel extends AbstractPanel {
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(this.observation.getImages(), this.om, false);
-            JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
+            ImageContainer imageContainer = new ImageContainer(this.observation.getImages(), this.om, false);
+            JScrollPane imageContainerScroll = new JScrollPane(imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
             // Make sure size of scroll container can handle image thumbnail
-            imageContainerScroll.setPreferredSize(this.imageContainer.getPreferredSize());
+            imageContainerScroll.setPreferredSize(imageContainer.getPreferredSize());
             this.add(imageContainerScroll);
-        } else {
-            /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, 16, 6, 1, 99, 30);
-             * constraints.fill = GridBagConstraints.BOTH; JLabel Lfill = new JLabel("");
-             * gridbag.setConstraints(Lfill, constraints); this.add(Lfill);
-             */
-        }
+        } /*
+           * ConstraintsBuilder.buildConstraints(constraints, 0, 16, 6, 1, 99, 30); constraints.fill =
+           * GridBagConstraints.BOTH; JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
+           * this.add(Lfill);
+           */
 
     }
 

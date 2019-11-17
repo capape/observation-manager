@@ -15,7 +15,7 @@ public class OMDialog extends JDialog {
     private ObservationManager observationManager = null;
     private long dialogID = -1;
 
-    public OMDialog(ObservationManager om) {
+    protected OMDialog(ObservationManager om) {
 
         super(om, true);
 

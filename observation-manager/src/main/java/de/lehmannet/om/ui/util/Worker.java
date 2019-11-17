@@ -9,15 +9,15 @@ package de.lehmannet.om.ui.util;
 
 public interface Worker extends Runnable {
 
-    public static byte RETURN_TYPE_OK = 0;
-    public static byte RETURN_TYPE_WARNING = 1;
-    public static byte RETURN_TYPE_ERROR = 2;
+    byte RETURN_TYPE_OK = 0;
+    byte RETURN_TYPE_WARNING = 1;
+    byte RETURN_TYPE_ERROR = 2;
 
     @Override
-    public abstract void run();
+    void run();
 
-    public String getReturnMessage();
+    String getReturnMessage();
 
-    public byte getReturnType();
+    byte getReturnType();
 
 }

@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Constellation;
@@ -43,11 +44,11 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
     // Key = NGC/IC Number
     // Value = ITarget
-    private LinkedHashMap map = new LinkedHashMap();
+    private final Map map = new LinkedHashMap();
 
     private AbstractSchemaTableModel tableModel = null;
 
-    protected AbstractNGCICCatalog(File catalogFile) {
+    AbstractNGCICCatalog(File catalogFile) {
 
         // Load targets into memory.
         // In case or problems aboard
@@ -135,7 +136,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
         // Get each line and create target
         String line = null;
-        String tokens[] = null;
+        String[] tokens = null;
         ITarget target = null;
         int index = 0;
 
@@ -188,7 +189,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
             // Constellation
             constellation = tokens[index++];
-            con = Constellation.getInstance(constellation);
+            con = Constellation.getConstellationByAbbOrName(constellation);
 
             // Right ascension
             ra = tokens[index++] + EquPosition.RA_HOUR + tokens[index++] + EquPosition.RA_MIN + tokens[index++]
@@ -341,9 +342,9 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                     || (type.startsWith("D")) // As we check with startWith()...
                     || (type.startsWith("E")) // make sure we call this as last option
                     || (type.startsWith("I")) || (type.startsWith("P")) || (type.startsWith("R"))
-                    || (type.startsWith("PRG")) || (type.startsWith("S")) || (type.startsWith("D"))
-                    || (type.startsWith("c")) || (type.startsWith("d")) || (type.startsWith("5C"))
-                    || (type.startsWith("4S")) || (type.startsWith("3S"))) {
+                    || (type.startsWith("PRG")) || (type.startsWith("S")) || (type.startsWith("c"))
+                    || (type.startsWith("d")) || (type.startsWith("5C")) || (type.startsWith("4S"))
+                    || (type.startsWith("3S"))) {
 
                 target = new DeepSkyTargetGX(catalogNumber, this.getName());
                 if (!"".equals(positionAngle)) {

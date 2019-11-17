@@ -96,15 +96,10 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
             return null;
         }
 
-        try {
-            if (observer != null) {
-                this.target = new SolarSystemTargetPlanet(name, observer);
-            } else {
-                this.target = new SolarSystemTargetPlanet(name, datasource);
-            }
-        } catch (SchemaException se) {
-            System.err.println("Cannot create SolarSystemTargetPlanet.\n" + se);
-            return null;
+        if (observer != null) {
+            this.target = new SolarSystemTargetPlanet(name, observer);
+        } else {
+            this.target = new SolarSystemTargetPlanet(name, datasource);
         }
 
         // Set all other fields

@@ -85,9 +85,9 @@ public class ProjectCatalog implements IListableCatalog {
         objectName = objectName.replaceAll(" ", "");
         objectName = objectName.toUpperCase();
 
-        for (int i = 0; i < this.targets.length; i++) {
-            if (objectName.equals(targets[i].getName().toUpperCase())) {
-                return targets[i];
+        for (ITarget target : this.targets) {
+            if (objectName.equals(target.getName().toUpperCase())) {
+                return target;
             }
         }
 

@@ -117,7 +117,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 

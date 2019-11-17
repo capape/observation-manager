@@ -54,10 +54,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         Class c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = Calendar.class;
-            break;
-        }
+        case 0:
         case 1: {
             c = Calendar.class;
             break;
@@ -66,19 +63,10 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             c = Site.class;
             break;
         }
-        case 3: {
-            c = String.class;
-            break;
-        }
+        case 3:
+        case 6:
+        case 5:
         case 4: {
-            c = String.class;
-            break;
-        }
-        case 5: {
-            c = String.class;
-            break;
-        }
-        case 6: {
             c = String.class;
             break;
         }
@@ -89,60 +77,61 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-
-        Object value = null;
+    public String getValueAt(int rowIndex, int columnIndex) {
 
         if (super.elements == null) {
-            return value;
+            return null;
         }
 
+        StringBuilder value = new StringBuilder();
         ISession session = (ISession) super.elements[rowIndex];
         switch (columnIndex) {
         case 0: {
-            value = session.getBegin();
+            value.append(session.getBegin().toString());
             break;
         }
         case 1: {
-            value = session.getEnd();
+            value.append(session.getEnd().toString());
             break;
         }
         case 2: {
-            value = session.getSite();
+            value.append(session.getSite());
             break;
         }
         case 3: {
-            value = session.getWeather();
+            value.append(session.getWeather());
             break;
         }
         case 4: {
             Iterator i = session.getCoObservers().iterator();
             if (!session.getCoObservers().isEmpty()) {
-                value = ""; // Otherwise the coObservers are prefixed with NULL
+                value = new StringBuilder(); // Otherwise the coObservers are prefixed with NULL
+            } else {
+                value = new StringBuilder("NULL");
             }
             while (i.hasNext()) {
-                value = value + ((IObserver) i.next()).getDisplayName();
+                value.append(((IObserver) i.next()).getDisplayName());
                 if (i.hasNext()) {
-                    value = value + "; ";
+                    value.append("; ");
                 }
             }
             break;
         }
         case 5: {
-            value = session.getEquipment();
+            value = new StringBuilder(session.getEquipment());
             break;
         }
         case 6: {
             if ((session.getComments() != null) && (session.getComments().length() > 15)) {
-                value = session.getComments().substring(0, 15);
+                value = new StringBuilder(session.getComments().substring(0, 15));
             } else {
-                value = session.getComments();
+                value = new StringBuilder(session.getComments());
             }
             break;
         }
         }
 
-        return value;
+        return value.toString();
 
     }
 

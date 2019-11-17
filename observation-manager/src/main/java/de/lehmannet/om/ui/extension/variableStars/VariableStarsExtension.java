@@ -21,20 +21,7 @@ import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.NoSuchElementException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
@@ -53,7 +40,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
@@ -96,7 +82,6 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private ObservationManager om = null;
 
-    private JMenu menu = null;
     private JMenuItem exportAAVSO = null;
     private JMenuItem showChart = null;
 
@@ -126,13 +111,12 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                     return;
                 }
                 ArrayList preselectedObservations = new ArrayList();
-                for (int i = 0; i < allObservations.length; i++) {
+                for (IObservation allObservation : allObservations) {
                     // Only the variable star observations are of interest
-                    if (TargetVariableStar.XML_XSI_TYPE_VALUE.equals(allObservations[i].getTarget().getXSIType())) {
+                    if (TargetVariableStar.XML_XSI_TYPE_VALUE.equals(allObservation.getTarget().getXSIType())) {
                         // @todo: This works only with one result!
-                        if (!((FindingVariableStar) allObservations[i].getResults().get(0))
-                                .isAlreadyExportedToAAVSO()) {
-                            preselectedObservations.add(allObservations[i]);
+                        if (!((FindingVariableStar) allObservation.getResults().get(0)).isAlreadyExportedToAAVSO()) {
+                            preselectedObservations.add(allObservation);
                         }
                     }
                 }
@@ -234,7 +218,6 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                                     && (observations.length <= 0)) {
                                 this.om.createWarning(
                                         this.uiBundle.getString("popup.selectVariableStar.warning.noObservations"));
-                                continue;
                             } else {
                                 quitLoop = true;
                             }
@@ -253,7 +236,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
                 // Show chart
                 if (colorMap != null) {
-                    new VariableStarChartDialog(this.om, observations, colorMap);
+                    new VariableStarChartDialog(this.om, Objects.requireNonNull(observations), colorMap);
                 }
             }
         }
@@ -294,17 +277,17 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     @Override
     public JMenu getMenu() {
 
-        this.menu = new JMenu(this.uiBundle.getString("menu.main"));
+        JMenu menu = new JMenu(this.uiBundle.getString("menu.main"));
 
         this.exportAAVSO = new JMenuItem(this.uiBundle.getString("menu.aavsoExport"));
         exportAAVSO.setMnemonic('e');
         exportAAVSO.addActionListener(this);
-        this.menu.add(exportAAVSO);
+        menu.add(exportAAVSO);
 
         this.showChart = new JMenuItem(this.uiBundle.getString("menu.showChart"));
         showChart.setMnemonic('c');
         showChart.addActionListener(this);
-        this.menu.add(showChart);
+        menu.add(showChart);
 
         return menu;
 
@@ -386,7 +369,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         findingPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel");
 
-        super.panels.put(new Integer(SchemaElementConstants.FINDING), findingPanels);
+        super.panels.put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -397,7 +380,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel");
 
-        super.panels.put(new Integer(SchemaElementConstants.TARGET), targetPanels);
+        super.panels.put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -408,7 +391,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetDialogs.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarTargetDialog");
 
-        super.dialogs.put(new Integer(SchemaElementConstants.TARGET), targetDialogs);
+        super.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 
@@ -432,7 +415,6 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
     private JTable table = null;
 
     private JButton cancel = null;
-    private JButton ok = null;
 
     private Map result = null;
 
@@ -469,7 +451,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
     }
 
-    public void initDialog() {
+    private void initDialog() {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -487,20 +469,16 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
         this.table.setToolTipText(this.bundle.getString("popup.observerColor.tooltip.table"));
         this.table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         this.table.setDefaultEditor(Color.class, new ColorEditor());
-        this.table.setDefaultRenderer(Color.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
+        this.table.setDefaultRenderer(Color.class, (table, value, isSelected, hasFocus, row, column) -> {
 
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-                    cr.setBackground((Color) value);
-                } else {
-                    cr.setText(ColorSelectionDialog.this.bundle.getString("popup.observerColor.noColorSelection"));
-                }
-
-                return cr;
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                cr.setBackground((Color) value);
+            } else {
+                cr.setText(ColorSelectionDialog.this.bundle.getString("popup.observerColor.noColorSelection"));
             }
+
+            return cr;
         });
         JScrollPane scrollPane = new JScrollPane(this.table);
         gridbag.setConstraints(scrollPane, constraints);
@@ -508,9 +486,9 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 50, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.ok = new JButton(this.bundle.getString("popup.observerColor.button.ok"));
-        this.ok.addActionListener(this);
-        gridbag.setConstraints(this.ok, constraints);
+        JButton ok = new JButton(this.bundle.getString("popup.observerColor.button.ok"));
+        ok.addActionListener(this);
+        gridbag.setConstraints(ok, constraints);
         this.getContentPane().add(ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 50, 5);
@@ -531,9 +509,8 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
     private Map createMap() {
 
         ObserverColorTableModel model = (ObserverColorTableModel) this.table.getModel();
-        Map map = model.getResult();
 
-        return map;
+        return model.getResult();
 
     }
 
@@ -541,14 +518,14 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
         // Make sure we only show the observers, which contributed a observation
         ArrayList list = new ArrayList();
-        for (int i = 0; i < this.observations.length; i++) {
-            if (!list.contains(this.observations[i].getObserver())) {
+        for (IObservation observation : this.observations) {
+            if (!list.contains(observation.getObserver())) {
                 // Make sure the default observer is the top entry
-                if (this.observations[i].getObserver().getDisplayName()
+                if (observation.getObserver().getDisplayName()
                         .equals(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER))) {
-                    list.add(0, this.observations[i].getObserver());
+                    list.add(0, observation.getObserver());
                 } else {
-                    list.add(this.observations[i].getObserver());
+                    list.add(observation.getObserver());
                 }
             }
         }
@@ -596,8 +573,7 @@ class ObserverColorTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
         case 0: {
-            String value = this.observers[rowIndex].getDisplayName();
-            return value;
+            return this.observers[rowIndex].getDisplayName();
         }
         case 1: {
             return this.colors[rowIndex];
@@ -668,11 +644,7 @@ class ObserverColorTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
-        if (columnIndex == 1) {
-            return true;
-        }
-
-        return false;
+        return columnIndex == 1;
 
     }
 
@@ -703,11 +675,11 @@ class ColorEditor extends AbstractCellEditor implements TableCellEditor, ActionL
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private Color currentColor;
-    private JButton button;
-    private JColorChooser colorChooser;
-    private JDialog dialog;
+    private final JButton button;
+    private final JColorChooser colorChooser;
+    private final JDialog dialog;
 
-    private String EDIT = "edit";
+    private final String EDIT = "edit";
 
     public ColorEditor() {
 
@@ -784,7 +756,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
     private ObservationManager om = null;
 
-    private PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
+    private final PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private ExtendedSchemaTableModel tableModel = null;
@@ -837,7 +809,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
         Object o = model.getValueAt(row, 0);
         if (o instanceof Boolean) {
-            if (((Boolean) o).booleanValue()) { // If checkbox marked
+            if ((Boolean) o) { // If checkbox marked
 
                 IObservation[] observations = this.getAllSelectedObservations();
 
@@ -956,12 +928,11 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
         // Filter by start/end date
         ArrayList result = new ArrayList();
-        for (int i = 0; i < observations.length; i++) {
-            if ((observations[i].getBegin().before(this.beginDate))
-                    || (observations[i].getBegin().after(this.endDate))) {
-                continue; // Observation not in selected time period
+        for (IObservation observation : observations) {
+            if ((observation.getBegin().before(this.beginDate)) || (observation.getBegin().after(this.endDate))) {
+                // Observation not in selected time period
             } else {
-                result.add(observations[i]);
+                result.add(observation);
             }
         }
 

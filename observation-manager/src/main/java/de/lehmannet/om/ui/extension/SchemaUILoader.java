@@ -44,9 +44,9 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractPanel getFindingPanel(String xsiType, IFinding finding, ISession s, boolean editable) {
+    private AbstractPanel getFindingPanel(String xsiType, IFinding finding, boolean editable) {
 
-        return this.getFindingPanelFromXSIType(xsiType, finding, s, null, editable);
+        return this.getFindingPanelFromXSIType(xsiType, finding, null, null, editable);
 
     }
 
@@ -58,13 +58,13 @@ public class SchemaUILoader {
 
     public AbstractPanel getFindingPanel(ITarget target, IFinding finding, boolean editable) {
 
-        return this.getFindingPanel(target.getXSIType(), finding, null, editable);
+        return this.getFindingPanel(target.getXSIType(), finding, editable);
 
     }
 
     public ITargetDialog getTargetDialog(String xsiType, ITarget target, IObservation o) {
 
-        return this.getTargetDailogFromXSIType(xsiType, target, o, true);
+        return this.getTargetDailogFromXSIType(xsiType, target, o);
 
     }
 
@@ -90,7 +90,7 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSITypes() {
+    private String[] getAllXSITypes() {
 
         Iterator iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -106,7 +106,7 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSITypes(int schemaElementConstants) {
+    private String[] getAllXSITypes(int schemaElementConstants) {
 
         Iterator iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -132,8 +132,8 @@ public class SchemaUILoader {
         String dispName = null;
         while (iterator.hasNext()) {
             extension = (IExtension) iterator.next();
-            for (int i = 0; i < types.length; i++) {
-                dispName = extension.getDisplayNameForXSIType(types[i]);
+            for (String type : types) {
+                dispName = extension.getDisplayNameForXSIType(type);
                 if (dispName != null) {
                     result.add(dispName);
                 }
@@ -154,9 +154,9 @@ public class SchemaUILoader {
         String dispName = null;
         while (iterator.hasNext()) {
             extension = (IExtension) iterator.next();
-            for (int i = 0; i < types.length; i++) {
-                if (extension.isCreationAllowed(types[i])) {
-                    dispName = extension.getDisplayNameForXSIType(types[i]);
+            for (String type : types) {
+                if (extension.isCreationAllowed(type)) {
+                    dispName = extension.getDisplayNameForXSIType(type);
                     if (dispName != null) {
                         result.add(dispName);
                     }
@@ -199,11 +199,11 @@ public class SchemaUILoader {
         String dispName = null;
         while (iterator.hasNext()) { // Iterator over all extensions
             extension = (IExtension) iterator.next();
-            for (int i = 0; i < types.length; i++) { // Iterate over all types
-                dispName = extension.getDisplayNameForXSIType(types[i]); // Check if extension knows a displayname for
-                                                                         // this type
-                if ((dispName != null) && (name.equals(dispName))) {
-                    return types[i]; // Displayname found for this type
+            for (String type : types) { // Iterate over all types
+                dispName = extension.getDisplayNameForXSIType(type); // Check if extension knows a displayname for
+                // this type
+                if ((name.equals(dispName))) {
+                    return type; // Displayname found for this type
                 }
             }
         }
@@ -263,7 +263,7 @@ public class SchemaUILoader {
 
     }
 
-    private ITargetDialog getTargetDailogFromXSIType(String xsiType, ITarget target, IObservation o, boolean editable) {
+    private ITargetDialog getTargetDailogFromXSIType(String xsiType, ITarget target, IObservation o) {
 
         Iterator iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -282,7 +282,7 @@ public class SchemaUILoader {
         }
 
         return (ITargetDialog) this.loadByReflection(classname, ITarget.class, target, IObservation.class, o, null,
-                null, editable);
+                null, true);
 
     }
 
@@ -295,7 +295,7 @@ public class SchemaUILoader {
         try {
             currentClass = Class.forName(classname);
         } catch (ClassNotFoundException cnfe) {
-            System.err.println("Unable to load " + currentClass + "\n" + cnfe);
+            System.err.println("Unable to load " + null + "\n" + cnfe);
         }
 
         if (currentClass == null) {
@@ -309,40 +309,39 @@ public class SchemaUILoader {
         if (constructors.length > 0) {
             try {
                 Class[] parameters = null;
-                for (int i = 0; i < constructors.length; i++) {
-                    parameters = constructors[i].getParameterTypes();
+                for (Constructor constructor : constructors) {
+                    parameters = constructor.getParameterTypes();
                     if ((parameters.length == 2) && (parameters[0].isAssignableFrom(exampleClass))
-                            && (parameters[1].isInstance(new Boolean(false)))) {
-                        object = constructors[i].newInstance(new Object[] { findingOrTarget, new Boolean(editable) });
+                            && (parameters[1].isInstance(Boolean.FALSE))) {
+                        object = constructor.newInstance(findingOrTarget, editable);
                         break;
                     } else if ((parameters.length == 2) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))) {
-                        object = constructors[i].newInstance(new Object[] { this.observationManager, findingOrTarget });
+                        object = constructor.newInstance(this.observationManager, findingOrTarget);
                         break;
                     } else if ((parameters.length == 3) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
-                            && (parameters[2].isInstance(new Boolean(false)))) {
-                        object = constructors[i].newInstance(
-                                new Object[] { this.observationManager, findingOrTarget, new Boolean(editable) });
+                            && (parameters[2].isInstance(Boolean.FALSE))) {
+                        object = constructor.newInstance(this.observationManager, findingOrTarget, editable);
                         break;
                     } else if ((parameters.length == 4) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
                             && (parameters[2].isAssignableFrom(additionalParameterClass1))
-                            && (parameters[3].isInstance(new Boolean(false)))) {
-                        object = constructors[i].newInstance(new Object[] { this.observationManager, findingOrTarget,
-                                additionalParameter1, new Boolean(editable) });
+                            && (parameters[3].isInstance(Boolean.FALSE))) {
+                        object = constructor.newInstance(this.observationManager, findingOrTarget, additionalParameter1,
+                                editable);
                         break;
                     } else if ((parameters.length == 5) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
                             && (parameters[2].isAssignableFrom(additionalParameterClass1))
                             && (parameters[3].isAssignableFrom(additionalParameterClass2))
-                            && (parameters[4].isInstance(new Boolean(false)))) {
-                        object = constructors[i].newInstance(new Object[] { this.observationManager, findingOrTarget,
-                                additionalParameter1, additionalParameter2, new Boolean(editable) });
+                            && (parameters[4].isInstance(Boolean.FALSE))) {
+                        object = constructor.newInstance(this.observationManager, findingOrTarget, additionalParameter1,
+                                additionalParameter2, editable);
                         break;
                     } else if ((parameters.length == 1) // Maybe its the most simple extension of AbstractPanel?
-                            && (parameters[0].isInstance(new Boolean(false)))) {
-                        object = constructors[i].newInstance(new Object[] { new Boolean(editable) });
+                            && (parameters[0].isInstance(Boolean.FALSE))) {
+                        object = constructor.newInstance(editable);
                         break;
                     }
                 }
@@ -398,7 +397,6 @@ public class SchemaUILoader {
             return ITarget.class;
         }
         }
-        ;
 
         return null;
 

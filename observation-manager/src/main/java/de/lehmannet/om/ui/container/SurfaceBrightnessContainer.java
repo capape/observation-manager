@@ -12,11 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -43,17 +39,12 @@ public class SurfaceBrightnessContainer extends Container {
 
     private boolean editable = false;
 
-    /*
-     * Indicates whether the value was calculated and should be marked accordingly
-     */
-    private boolean calculated = false;
-
     // Stores all possible units (Key: Constant; Value: DisplayName)
-    private HashMap units = new HashMap();
+    private final Map units = new HashMap();
 
     private JLabel Lunit = new JLabel();
-    private JComboBox unitBox = new JComboBox();
-    private JTextField valueField = new JTextField();
+    private final JComboBox unitBox = new JComboBox();
+    private final JTextField valueField = new JTextField();
 
     public SurfaceBrightnessContainer(SurfaceBrightness sb, boolean editable, String[] sbUnits) {
 
@@ -123,12 +114,10 @@ public class SurfaceBrightnessContainer extends Container {
 
     }
 
-    public boolean isCalculatedValue() {
+    private boolean isCalculatedValue() {
 
         if (this.valueField.getText() != null) {
-            if (this.valueField.getText().startsWith(SurfaceBrightnessContainer.CALCULATION_INDICATOR)) {
-                return true;
-            }
+            return this.valueField.getText().startsWith(SurfaceBrightnessContainer.CALCULATION_INDICATOR);
         }
 
         return false;
@@ -155,7 +144,7 @@ public class SurfaceBrightnessContainer extends Container {
     private void setUnits(String[] units) {
 
         // Check if values in given Array are OK
-        int checkedOK[] = new int[units.length];
+        int[] checkedOK = new int[units.length];
         java.util.Arrays.fill(checkedOK, -1);
         int x = 0;
         for (int i = 0; i < units.length; i++) {
@@ -166,19 +155,19 @@ public class SurfaceBrightnessContainer extends Container {
 
         // Fill internal unit set
         x = 0;
-        for (int i = 0; i < checkedOK.length; i++) {
-            if (checkedOK[i] != -1) {
-                if (!this.units.containsKey(units[checkedOK[i]])) { // Check whether unit already exists
-                    this.units.put(units[checkedOK[i]], this.getUnitLabel(units[checkedOK[i]]));
-                    this.unitBox.addItem(this.getUnitLabel(units[checkedOK[i]]));
-                    this.unitBox.setSelectedItem(this.getUnitLabel(units[checkedOK[i]]));
+        for (int item : checkedOK) {
+            if (item != -1) {
+                if (!this.units.containsKey(units[item])) { // Check whether unit already exists
+                    this.units.put(units[item], this.getUnitLabel(units[item]));
+                    this.unitBox.addItem(this.getUnitLabel(units[item]));
+                    this.unitBox.setSelectedItem(this.getUnitLabel(units[item]));
                 }
             }
         }
 
     }
 
-    public void createContainer() {
+    private void createContainer() {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -195,8 +184,8 @@ public class SurfaceBrightnessContainer extends Container {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         if (this.editable) {
             /*
-             * Iterator iterator = this.units.values().iterator(); // Fill unit box with
-             * labels while( iterator.hasNext() ) { this.unitBox.addItem(iterator.next()); }
+             * Iterator iterator = this.units.values().iterator(); // Fill unit box with labels while(
+             * iterator.hasNext() ) { this.unitBox.addItem(iterator.next()); }
              */
             gridbag.setConstraints(this.unitBox, constraints);
             super.add(this.unitBox);

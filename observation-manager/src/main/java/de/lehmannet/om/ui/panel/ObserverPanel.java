@@ -18,18 +18,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -86,7 +80,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
 
         List contacts = this.observer.getContacts();
         ListIterator iterator = contacts.listIterator();
-        StringBuffer contactString = new StringBuffer();
+        StringBuilder contactString = new StringBuilder();
         while (iterator.hasNext()) {
             contactString.append(iterator.next());
             if (iterator.hasNext()) {
@@ -95,8 +89,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
         this.contacts.setText(contactString.toString());
         /*
-         * if( (this.observer != null) && !(super.isEditable()) ) {
-         * this.contacts.setBackground(Color.LIGHT_GRAY); }
+         * if( (this.observer != null) && !(super.isEditable()) ) { this.contacts.setBackground(Color.LIGHT_GRAY); }
          */
         this.contacts.setEditable(super.isEditable());
 
@@ -198,7 +191,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
 
         // Add optional fields
-        HashMap accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
+        Map accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
         // if( !accounts.isEmpty() ) {
         this.observer.setAccounts(accounts);
         // }
@@ -239,7 +232,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             this.observer.addContact(contacts);
         }
 
-        HashMap accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
+        Map accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
         if (!accounts.isEmpty()) {
             this.observer.setAccounts(accounts);
         }
@@ -305,8 +298,8 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         this.add(this.name);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel Lsurname = new OMLabel(AbstractPanel.bundle.getString("panel.observer.label.surname"), SwingConstants.RIGHT,
-                true);
+        OMLabel Lsurname = new OMLabel(AbstractPanel.bundle.getString("panel.observer.label.surname"),
+                SwingConstants.RIGHT, true);
         Lsurname.setToolTipText(AbstractPanel.bundle.getString("panel.observer.tooltip.surname"));
         gridbag.setConstraints(Lsurname, constraints);
         this.add(Lsurname);
@@ -392,16 +385,15 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             gridbag.setConstraints(this.deleteAccountRow, constraints);
             this.add(this.deleteAccountRow);
         } /*
-           * else { ConstraintsBuilder.buildConstraints(constraints, 0, 6, 4, 1, 45, 100);
-           * JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
-           * this.add(Lfill); }
+           * else { ConstraintsBuilder.buildConstraints(constraints, 0, 6, 4, 1, 45, 100); JLabel Lfill = new
+           * JLabel(""); gridbag.setConstraints(Lfill, constraints); this.add(Lfill); }
            */
 
     }
 
-    private String[] getAccountBoxItems(HashMap accounts) {
+    private String[] getAccountBoxItems(Map accounts) {
 
-        ArrayList items = new ArrayList();
+        List items = new ArrayList();
 
         // Add default items
         items.add(AccountListRenderer.EMPTY_LIST_ENTRY);
@@ -412,16 +404,16 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
 
         // Add user items
         String[] accountArray = (String[]) accounts.keySet().toArray(new String[] {});
-        for (int i = 0; i < accountArray.length; i++) {
+        for (String s : accountArray) {
 
             // Filter out generic entires
-            if (Observer.ACCOUNT_AAVSO.equals(accountArray[i]) || Observer.ACCOUNT_DEEPSKYLOG.equals(accountArray[i])
-                    || Observer.ACCOUNT_DSL.equals(accountArray[i])) {
+            if (Observer.ACCOUNT_AAVSO.equals(s) || Observer.ACCOUNT_DEEPSKYLOG.equals(s)
+                    || Observer.ACCOUNT_DSL.equals(s)) {
                 continue;
             }
 
             // Found user created entry
-            items.add(accountArray[i]);
+            items.add(s);
 
         }
 
@@ -441,7 +433,7 @@ class AccountTableModel extends AbstractTableModel {
     private boolean tableEditable = false;
     private JComboBox box = null;
 
-    public AccountTableModel(HashMap map, boolean tableEditable, JComboBox box) {
+    public AccountTableModel(Map map, boolean tableEditable, JComboBox box) {
 
         // Make sure both lists indicies are always equal
         if (map.size() > this.accounts.length) {
@@ -545,9 +537,9 @@ class AccountTableModel extends AbstractTableModel {
 
     }
 
-    public HashMap getAllEntries() {
+    public Map getAllEntries() {
 
-        HashMap result = new HashMap();
+        Map result = new HashMap();
 
         String account = null;
         String user = null;
@@ -581,8 +573,8 @@ class AccountTableModel extends AbstractTableModel {
         this.userNames = newUsernames;
 
         // Remove all existing entries from box
-        for (int i = 0; i < this.accounts.length; i++) {
-            box.removeItem(this.accounts[i]);
+        for (String account : this.accounts) {
+            box.removeItem(account);
         }
 
         fireTableRowsInserted(this.accounts.length - 1, this.accounts.length);
@@ -613,7 +605,7 @@ class AccountListRenderer extends DefaultListCellRenderer {
 
     private static final long serialVersionUID = 2594810794131546967L;
 
-    public static String EMPTY_LIST_ENTRY = AbstractPanel.bundle
+    public static final String EMPTY_LIST_ENTRY = AbstractPanel.bundle
             .getString("panel.observer.account.comboBox.enterValue");
 
     @Override

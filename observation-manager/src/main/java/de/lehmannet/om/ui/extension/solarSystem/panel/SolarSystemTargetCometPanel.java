@@ -93,15 +93,10 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
             return null;
         }
 
-        try {
-            if (observer != null) {
-                this.target = new SolarSystemTargetComet(name, observer);
-            } else {
-                this.target = new SolarSystemTargetComet(name, datasource);
-            }
-        } catch (SchemaException se) {
-            System.err.println("Cannot create SolarSystemTargetComet.\n" + se);
-            return null;
+        if (observer != null) {
+            this.target = new SolarSystemTargetComet(name, observer);
+        } else {
+            this.target = new SolarSystemTargetComet(name, datasource);
         }
 
         // Set all other fields

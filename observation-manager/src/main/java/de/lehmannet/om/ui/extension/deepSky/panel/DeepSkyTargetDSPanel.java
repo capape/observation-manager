@@ -88,7 +88,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
 
         // Optional parameters
         String magCompanion = this.magComp.getText().trim();
-        if ((magCompanion != null) && !("".equals(magCompanion))) {
+        if (!"".equals(magCompanion)) {
             double mc = Double.parseDouble(magCompanion);
             this.target.setCompanionMag(mc);
         }
@@ -137,7 +137,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -221,7 +221,8 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         this.add(this.positionAngle);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 5, 1);
-        OMLabel LseparationAngle = new OMLabel(this.bundle.getString("panel.ds.label.separation"), SwingConstants.RIGHT, false);
+        OMLabel LseparationAngle = new OMLabel(this.bundle.getString("panel.ds.label.separation"), SwingConstants.RIGHT,
+                false);
         LseparationAngle.setToolTipText(this.bundle.getString("panel.ds.tooltip.separation"));
         gridbag.setConstraints(LseparationAngle, constraints);
         this.add(LseparationAngle);

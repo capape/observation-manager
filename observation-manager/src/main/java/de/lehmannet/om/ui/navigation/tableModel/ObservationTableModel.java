@@ -69,7 +69,6 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         }
         case 2: {
             name = AbstractSchemaTableModel.bundle.getString("table.header.observation.constellation");
-            ;
             break;
         }
         case 3: {
@@ -108,10 +107,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
             c = Target.class;
             break;
         }
-        case 2: {
-            c = String.class;
-            break;
-        }
+        case 2:
         case 3: {
             c = String.class;
             break;
@@ -141,7 +137,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         if ((super.elements == null) || (rowIndex < 0) // Might happen during load of an XML file
         ) {
-            return value;
+            return null;
         }
 
         IObservation observation = (IObservation) super.elements[rowIndex];
@@ -157,9 +153,8 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         case 2: {
             value = "";
             if (observation.getTarget().getConstellation() != null) {
-                boolean i18N = Boolean.valueOf(
-                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"))
-                        .booleanValue();
+                boolean i18N = Boolean.parseBoolean(
+                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"));
                 if (i18N) {
                     value = observation.getTarget().getConstellation().getDisplayName();
                 } else {

@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -30,7 +29,6 @@ import java.util.ListIterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import javax.swing.JMenu;
@@ -66,7 +64,7 @@ public class ExtensionLoader {
     // Instance Variables ------------------------------------------------
     // ------------------
 
-    private LinkedList extensions = new LinkedList();
+    private final List extensions = new LinkedList();
 
     private ObservationManager om = null;
 
@@ -84,7 +82,6 @@ public class ExtensionLoader {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
     public ExtensionLoader(ObservationManager om) {
 
         this.om = om;
@@ -100,7 +97,6 @@ public class ExtensionLoader {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
     public String addExtension(ZipFile extension) {
 
         // Unpack ZIP file
@@ -169,7 +165,6 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     public List getExtensions() {
 
         // Create new list to force user to call our addExtension methods
@@ -190,7 +185,6 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     public void reloadLanguage() {
 
         Iterator i = this.extensions.iterator();
@@ -204,21 +198,18 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     public CatalogLoader getCatalogLoader() {
 
         return this.catalogLoader;
 
     }
 
-    // -------------------------------------------------------------------
     public SchemaUILoader getSchemaUILoader() {
 
         return this.schemaUILoader;
 
     }
 
-    // -------------------------------------------------------------------
     public JMenu[] getMenus() {
 
         if (this.cachedMenus == null) {
@@ -242,7 +233,6 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     public PopupMenuExtension[] getPopupMenus() {
 
         if (this.cachedPopupMenus == null) {
@@ -266,7 +256,6 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     public PreferencesPanel[] getPreferencesTabs() {
 
         Iterator iterator = this.extensions.iterator();
@@ -288,7 +277,6 @@ public class ExtensionLoader {
     // Private methods ---------------------------------------------------
     // ---------------
 
-    // -------------------------------------------------------------------
     private void loadExtensions() {
 
         // Add fixed generic elements (no extenstion package required)
@@ -313,37 +301,24 @@ public class ExtensionLoader {
         String extPath = System.getProperty("java.ext.dirs");
         File ext = new File(extPath);
         if (ext.exists()) {
-            File[] jars = ext.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-
-                    if (name.toLowerCase().endsWith(".jar"))
-                        return true;
-
-                    return false;
-                }
-            });
+            File[] jars = ext.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
 
             if (jars != null) {
-                for (int i = 0; i < jars.length; i++) {
-                    scanJarFile(jars[i], false);
+                for (File jar : jars) {
+                    scanJarFile(jar, false);
                 }
             }
         }
 
     }
 
-    // -------------------------------------------------------------------
     private String scanJarFile(File jar, boolean update) {
 
         ZipFile archive = null;
         try {
             archive = new ZipFile(jar);
-        } catch (ZipException zipEx) {
+        } catch (IOException zipEx) {
             System.err.println("Error while accessing JAR file.\n" + zipEx);
-            return null;
-        } catch (IOException ioe) {
-            System.err.println("Error while accessing JAR file.\n" + ioe);
             return null;
         }
 
@@ -356,10 +331,8 @@ public class ExtensionLoader {
             String name = entry.getName();
 
             if (name.toUpperCase().equals(ExtensionLoader.EXTENSION_FILENAME)) {
-                InputStream in = null;
-                try {
+                try (InputStream in = archive.getInputStream(entry)) {
 
-                    in = archive.getInputStream(entry);
                     Properties prop = new Properties();
                     prop.load(in);
 
@@ -369,15 +342,8 @@ public class ExtensionLoader {
                 } catch (IOException ioe) {
                     System.err.println("Error while accessing entry from JAR file.\n" + ioe);
                     return null;
-                } finally {
-                    if (in != null) {
-                        try {
-                            in.close();
-                        } catch (IOException ioe) {
-                            // we can't do anything here
-                        }
-                    }
                 }
+                // we can't do anything here
             }
         }
 
@@ -385,7 +351,6 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     private String addExtension(Properties properties, boolean update) {
 
         // Get extension name and classname of main extension class
@@ -412,14 +377,14 @@ public class ExtensionLoader {
         if (constructors.length > 0) {
             try {
                 Class[] parameters = null;
-                for (int i = 0; i < constructors.length; i++) {
-                    parameters = constructors[i].getParameterTypes();
+                for (Constructor constructor : constructors) {
+                    parameters = constructor.getParameterTypes();
 
                     if (parameters.length == 0) {
-                        extension = (IExtension) constructors[i].newInstance(null); // 0 parameters
+                        extension = (IExtension) constructor.newInstance(null); // 0 parameters
                         break;
                     } else if ((parameters.length == 1) && (parameters[0].isInstance(this.om))) {
-                        extension = (IExtension) constructors[i].newInstance(new Object[] { this.om });
+                        extension = (IExtension) constructor.newInstance(new Object[] { this.om });
                         break;
                     }
                 }
@@ -462,14 +427,12 @@ public class ExtensionLoader {
 
     }
 
-    // -------------------------------------------------------------------
     private void addGenericExtension() {
 
         this.extensions.add(new GenericExtension());
 
     }
 
-    // -------------------------------------------------------------------
     private File unpack(ZipFile zf, ZipEntry ze) {
 
         InputStream istr = null;
@@ -507,7 +470,7 @@ public class ExtensionLoader {
         }
         int sz = (int) ze.getSize();
         final int N = 1024;
-        byte buf[] = new byte[N];
+        byte[] buf = new byte[N];
         int ln = 0;
         try {
             while ((sz > 0) // workaround for bug

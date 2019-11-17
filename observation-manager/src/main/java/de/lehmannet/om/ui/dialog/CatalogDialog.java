@@ -20,14 +20,11 @@ import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -46,9 +43,6 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
 
     private static final long serialVersionUID = 3360836026940203287L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
-
     private CatalogPanel panel = null;
 
     public CatalogDialog(ObservationManager om) {
@@ -60,7 +54,9 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
 
         super.getContentPane().add(this.panel);
 
-        super.setTitle(this.bundle.getString("dialog.catalog.title"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
+        super.setTitle(bundle.getString("dialog.catalog.title"));
         super.setModal(true);
         super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         super.setSize(CatalogDialog.serialVersionUID, 660, 340);
@@ -108,13 +104,13 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
 
 class CatalogPanel extends AbstractPanel implements ActionListener {
 
-    private JComboBox catalogBox = new JComboBox();
+    private final JComboBox catalogBox = new JComboBox();
     private JButton searchButton = null;
 
     private ICatalog selectedCatalog = null;
 
     // In case a table can be shown (IListableCatalog)
-    private JTable table = new JTable();
+    private final JTable table = new JTable();
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
@@ -132,8 +128,8 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         this.om = om;
 
         String[] cNames = this.loader.getCatalogNames(); // Get all catalogs (listable and non-listable
-        for (int i = 0; i < cNames.length; i++) {
-            this.catalogBox.addItem(cNames[i]);
+        for (String cName : cNames) {
+            this.catalogBox.addItem(cName);
         }
         String defaultCatalog = this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_CATALOG);
         if ((defaultCatalog != null) && (!"".equals(defaultCatalog))) {
@@ -153,31 +149,28 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         // Do some settings for table
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Ignore extra messages.
-                if (e.getValueIsAdjusting())
-                    return;
+        lsm.addListSelectionListener(e -> {
+            // Ignore extra messages.
+            if (e.getValueIsAdjusting())
+                return;
 
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    // no rows are selected
-                } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    CatalogPanel.this.selectedTarget = (ITarget) model.getSchemaElement(selectedRow);
+            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            if (lsm1.isSelectionEmpty()) {
+                // no rows are selected
+            } else {
+                int selectedRow = lsm1.getMinSelectionIndex();
+                CatalogPanel.this.selectedTarget = (ITarget) model.getSchemaElement(selectedRow);
 
-                    // Check if selected target exists already in cache...if so, use that one.
-                    ITarget[] targets = CatalogPanel.this.om.getXmlCache().getTargets();
-                    for (int i = 0; i < targets.length; i++) {
-                        if (targets[i].equals(CatalogPanel.this.selectedTarget)) {
-                            CatalogPanel.this.selectedTarget = targets[i]; // Return already existing target, instead of
-                                                                           // the newly created one
-                            break;
-                        }
+                // Check if selected target exists already in cache...if so, use that one.
+                ITarget[] targets = CatalogPanel.this.om.getXmlCache().getTargets();
+                for (ITarget target : targets) {
+                    if (target.equals(CatalogPanel.this.selectedTarget)) {
+                        CatalogPanel.this.selectedTarget = target; // Return already existing target, instead of
+                        // the newly created one
+                        break;
                     }
-
                 }
+
             }
         });
 
@@ -267,10 +260,10 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         if (this.selectedTarget != null) {
             // Check if selected target exists already in cache...if so, use that one.
             ITarget[] targets = this.om.getXmlCache().getTargets();
-            for (int i = 0; i < targets.length; i++) {
-                if (targets[i].equals(this.selectedTarget)) {
-                    this.selectedTarget = targets[i]; // Return already existing target, instead of the newly created
-                                                      // one
+            for (ITarget target : targets) {
+                if (target.equals(this.selectedTarget)) {
+                    this.selectedTarget = target; // Return already existing target, instead of the newly created
+                    // one
                     this.processComponentEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_HIDDEN));
                     return;
                 }

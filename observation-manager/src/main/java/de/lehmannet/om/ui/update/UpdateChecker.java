@@ -66,7 +66,6 @@ public class UpdateChecker implements Runnable {
 
         } catch (ConnectException ce) {
             this.result = null; // This will indicate to the result retrieve that something went totally wrong
-            return;
         }
 
     }
@@ -134,7 +133,6 @@ public class UpdateChecker implements Runnable {
             } else {
                 System.err.println("Error during update check for URL: " + checkURL + "\nNested exception was: " + ioe);
             }
-
 
             throw new ConnectException("Unable to connect to host for update");
         } finally {

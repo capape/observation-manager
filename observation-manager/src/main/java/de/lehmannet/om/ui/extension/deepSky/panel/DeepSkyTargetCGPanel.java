@@ -85,7 +85,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
 
         // Optional parameters
         String magnitude = this.magnitude10th.getText().trim();
-        if ((magnitude != null) && !("".equals(magnitude))) {
+        if (!"".equals(magnitude)) {
             float mag = FloatUtil.parseFloat(magnitude);
             this.target.setMagnitudeOf10thBrightestMember(mag);
         }
@@ -102,7 +102,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 

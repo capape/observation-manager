@@ -20,22 +20,22 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class DeepSkyTargetQSDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -5112331874887900986L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     public DeepSkyTargetQSDialog(ObservationManager om, ITarget editableTarget) {
 
-        super(om, new DeepSkyTargetQSPanel(om, editableTarget, new Boolean(true)));
+        super(om, new DeepSkyTargetQSPanel(om, editableTarget, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.qs.title"));
+            super.setTitle(bundle.getString("dialog.qs.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.qs.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.qs.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(DeepSkyTargetQSDialog.serialVersionUID, 590, 330);
 
-//		super.pack();
+        // super.pack();
         super.setVisible(true);
 
     }

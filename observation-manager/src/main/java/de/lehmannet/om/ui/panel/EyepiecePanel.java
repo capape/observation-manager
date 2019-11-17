@@ -318,8 +318,8 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.add(this.model);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.vendor"), SwingConstants.RIGHT,
-                false);
+        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.vendor"),
+                SwingConstants.RIGHT, false);
         LvendorName.setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.vendor"));
         gridbag.setConstraints(LvendorName, constraints);
         this.add(LvendorName);

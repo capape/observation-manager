@@ -5,7 +5,7 @@ import java.io.File;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
 
-public class GCVS4CatalogTester {
+class GCVS4CatalogTester {
 
     public static void main(String[] args) {
 

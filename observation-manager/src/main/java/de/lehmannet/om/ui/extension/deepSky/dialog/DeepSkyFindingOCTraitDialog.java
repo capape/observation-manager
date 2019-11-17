@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -89,7 +88,6 @@ class TraitPanel extends JPanel implements ActionListener {
     private JButton h = null;
     private JButton i = null;
     private JButton none = null;
-    private JButton cancel = null;
 
     private Character character = null;
     private DeepSkyFindingOCTraitDialog dialog = null;
@@ -119,28 +117,27 @@ class TraitPanel extends JPanel implements ActionListener {
         if (e.getSource() instanceof JButton) {
             JButton button = (JButton) e.getSource();
             if (this.a.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_A);
+                this.character = DeepSkyFindingOC.CHARACTER_A;
             } else if (this.b.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_B);
+                this.character = DeepSkyFindingOC.CHARACTER_B;
             } else if (this.c.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_C);
+                this.character = DeepSkyFindingOC.CHARACTER_C;
             } else if (this.d.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_D);
+                this.character = DeepSkyFindingOC.CHARACTER_D;
             } else if (this.e.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_E);
+                this.character = DeepSkyFindingOC.CHARACTER_E;
             } else if (this.f.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_F);
+                this.character = DeepSkyFindingOC.CHARACTER_F;
             } else if (this.g.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_G);
+                this.character = DeepSkyFindingOC.CHARACTER_G;
             } else if (this.h.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_H);
+                this.character = DeepSkyFindingOC.CHARACTER_H;
             } else if (this.i.equals(button)) {
-                this.character = new Character(DeepSkyFindingOC.CHARACTER_I);
+                this.character = DeepSkyFindingOC.CHARACTER_I;
             } else if (this.none.equals(button)) {
                 this.character = null;
-            } else if (this.cancel.equals(button)) {
-                // Do nothing. Leave old value untouched
-            }
+            } // Do nothing. Leave old value untouched
+
             this.dialog.dispose();
         }
 
@@ -231,11 +228,11 @@ class TraitPanel extends JPanel implements ActionListener {
         this.add(this.none);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 3, 1, 50, 50);
-        this.cancel = new JButton(this.dialog.bundle.getString("dialog.oc.trait.button.cancel"));
-        this.cancel.addActionListener(this);
+        JButton cancel = new JButton(this.dialog.bundle.getString("dialog.oc.trait.button.cancel"));
+        cancel.addActionListener(this);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(this.cancel, constraints);
-        this.add(this.cancel);
+        gridbag.setConstraints(cancel, constraints);
+        this.add(cancel);
 
     }
 

@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -33,12 +34,12 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
     private IFilter filter = null;
 
-    private JTextField model = new JTextField();
+    private final JTextField model = new JTextField();
     private JComponent type = null; // Will be JTextField or JComboBox
     private JComponent colorType = null; // Will be JTextField or JComboBox
-    private JTextField wratten = new JTextField();
-    private JTextField schott = new JTextField();
-    private JTextField vendor = new JTextField();
+    private final JTextField wratten = new JTextField();
+    private final JTextField schott = new JTextField();
+    private final JTextField vendor = new JTextField();
 
     private OMLabel LcolorType = null;
 
@@ -201,7 +202,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         if (super.isEditable()) {
             t = ((JComboBox) this.type).getSelectedItem();
             BoxItem bi = (BoxItem) t;
-            if (bi.isEmptyItem()) {
+            if (Objects.requireNonNull(bi).isEmptyItem()) {
                 return null;
             } else {
                 return bi.getKey();
@@ -219,7 +220,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         if (super.isEditable()) {
             t = ((JComboBox) this.colorType).getSelectedItem();
             BoxItem bi = (BoxItem) t;
-            if (bi.isEmptyItem()) {
+            if (Objects.requireNonNull(bi).isEmptyItem()) {
                 return null;
             } else {
                 return bi.getKey();
@@ -454,9 +455,7 @@ class BoxItem {
 
         if (o instanceof BoxItem) {
             BoxItem bi = (BoxItem) o;
-            if (this.key.equals(bi.getKey())) {
-                return true;
-            }
+            return this.key.equals(bi.getKey());
         }
 
         return false;
@@ -471,11 +470,7 @@ class BoxItem {
 
     public boolean isEmptyItem() {
 
-        if (key.equals(BoxItem.EMPTY_ITEM)) {
-            return true;
-        }
-
-        return false;
+        return key.equals(BoxItem.EMPTY_ITEM);
 
     }
 
@@ -487,55 +482,56 @@ class BoxItem {
 
         BoxItem dummy = new BoxItem("");
 
-        if (s.equals(IFilter.FILTER_TYPE_BROADBAND)) {
+        switch (s) {
+        case IFilter.FILTER_TYPE_BROADBAND:
             return dummy.bundle.getString("filter.type.broadBand");
-        } else if (s.equals(IFilter.FILTER_TYPE_CORRECTIVE)) {
+        case IFilter.FILTER_TYPE_CORRECTIVE:
             return dummy.bundle.getString("filter.type.corrective");
-        } else if (s.equals(IFilter.FILTER_TYPE_HALPHA)) {
+        case IFilter.FILTER_TYPE_HALPHA:
             return dummy.bundle.getString("filter.type.Halpha");
-        } else if (s.equals(IFilter.FILTER_TYPE_HBETA)) {
+        case IFilter.FILTER_TYPE_HBETA:
             return dummy.bundle.getString("filter.type.Hbeta");
-        } else if (s.equals(IFilter.FILTER_TYPE_NARROWBAND)) {
+        case IFilter.FILTER_TYPE_NARROWBAND:
             return dummy.bundle.getString("filter.type.narrowBand");
-        } else if (s.equals(IFilter.FILTER_TYPE_NEUTRAL)) {
+        case IFilter.FILTER_TYPE_NEUTRAL:
             return dummy.bundle.getString("filter.type.neutral");
-        } else if (s.equals(IFilter.FILTER_TYPE_OIII)) {
+        case IFilter.FILTER_TYPE_OIII:
             return dummy.bundle.getString("filter.type.OIII");
-        } else if (s.equals(IFilter.FILTER_TYPE_SOLAR)) {
+        case IFilter.FILTER_TYPE_SOLAR:
             return dummy.bundle.getString("filter.type.solar");
-        } else if (s.equals(IFilter.FILTER_TYPE_OTHER)) {
+        case IFilter.FILTER_TYPE_OTHER:
             return dummy.bundle.getString("filter.type.other");
-        } else if (s.equals(IFilter.FILTER_TYPE_COLOR)) {
+        case IFilter.FILTER_TYPE_COLOR:
             return dummy.bundle.getString("filter.type.color");
-        } else if (s.equals(IFilter.FILTER_COLOR_BLUE)) {
+        case IFilter.FILTER_COLOR_BLUE:
             return dummy.bundle.getString("filter.color.blue");
-        } else if (s.equals(IFilter.FILTER_COLOR_DEEPBLUE)) {
+        case IFilter.FILTER_COLOR_DEEPBLUE:
             return dummy.bundle.getString("filter.color.deepBlue");
-        } else if (s.equals(IFilter.FILTER_COLOR_DEEPRED)) {
+        case IFilter.FILTER_COLOR_DEEPRED:
             return dummy.bundle.getString("filter.color.deepRed");
-        } else if (s.equals(IFilter.FILTER_COLOR_DEEPYELLOW)) {
+        case IFilter.FILTER_COLOR_DEEPYELLOW:
             return dummy.bundle.getString("filter.color.deepYellow");
-        } else if (s.equals(IFilter.FILTER_COLOR_GREEN)) {
+        case IFilter.FILTER_COLOR_GREEN:
             return dummy.bundle.getString("filter.color.green");
-        } else if (s.equals(IFilter.FILTER_COLOR_LIGHTGREEN)) {
+        case IFilter.FILTER_COLOR_LIGHTGREEN:
             return dummy.bundle.getString("filter.color.lightGreen");
-        } else if (s.equals(IFilter.FILTER_COLOR_LIGHTRED)) {
+        case IFilter.FILTER_COLOR_LIGHTRED:
             return dummy.bundle.getString("filter.color.lightRed");
-        } else if (s.equals(IFilter.FILTER_COLOR_LIGHTYELLOW)) {
+        case IFilter.FILTER_COLOR_LIGHTYELLOW:
             return dummy.bundle.getString("filter.color.lightYellow");
-        } else if (s.equals(IFilter.FILTER_COLOR_MEDIUMBLUE)) {
+        case IFilter.FILTER_COLOR_MEDIUMBLUE:
             return dummy.bundle.getString("filter.color.mediumBlue");
-        } else if (s.equals(IFilter.FILTER_COLOR_ORANGE)) {
+        case IFilter.FILTER_COLOR_ORANGE:
             return dummy.bundle.getString("filter.color.orange");
-        } else if (s.equals(IFilter.FILTER_COLOR_PALEBLUE)) {
+        case IFilter.FILTER_COLOR_PALEBLUE:
             return dummy.bundle.getString("filter.color.paleBlue");
-        } else if (s.equals(IFilter.FILTER_COLOR_RED)) {
+        case IFilter.FILTER_COLOR_RED:
             return dummy.bundle.getString("filter.color.red");
-        } else if (s.equals(IFilter.FILTER_COLOR_VIOLET)) {
+        case IFilter.FILTER_COLOR_VIOLET:
             return dummy.bundle.getString("filter.color.violet");
-        } else if (s.equals(IFilter.FILTER_COLOR_YELLOW)) {
+        case IFilter.FILTER_COLOR_YELLOW:
             return dummy.bundle.getString("filter.color.yellow");
-        } else if (s.equals(IFilter.FILTER_COLOR_YELLOWGREEN)) {
+        case IFilter.FILTER_COLOR_YELLOWGREEN:
             return dummy.bundle.getString("filter.color.yellow-green");
         }
 

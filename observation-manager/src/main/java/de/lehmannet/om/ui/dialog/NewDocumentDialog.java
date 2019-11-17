@@ -58,7 +58,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     // Result constants
     public static final int CANCEL = -1;
-    public static final int OK_BLANK = 0;
+    private static final int OK_BLANK = 0;
     public static final int OK_COPY = 1;
 
     // Constants used as ActionCommands
@@ -67,12 +67,11 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
     private JTree tree = null;
-    private JScrollPane scrollPanel = null;
 
     private Boolean blank = null;
 
@@ -136,7 +135,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         if (this.blank == null) {
             return NewDocumentDialog.CANCEL; // Cancel was pressed
         } else {
-            if (this.blank.booleanValue()) {
+            if (this.blank) {
                 return NewDocumentDialog.OK_BLANK; // OK was pressed and create blank document was selected
             } else {
                 return NewDocumentDialog.OK_COPY; // OK was pressed and create new document was selected
@@ -184,9 +183,9 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         case SchemaElementConstants.TARGET: {
             return this.targets;
         }
+        default:
+            return null;
         }
-
-        return null;
 
     }
 
@@ -257,14 +256,14 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         if ((this.observations != null) && (this.observations.length > 0)) { // Check dependencies of selected
                                                                              // observations
-            for (int i = 0; i < this.observations.length; i++) {
+            for (IObservation observation : this.observations) {
                 // --- Eyepiece
-                IEyepiece eyepiece = this.observations[i].getEyepiece();
+                IEyepiece eyepiece = observation.getEyepiece();
                 if (eyepiece != null) {
                     if ((this.eyepieces != null) && (this.eyepieces.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.eyepieces.length; j++) {
-                            if (this.eyepieces[j].equals(eyepiece)) { // Element found
+                        for (IEyepiece iEyepiece : this.eyepieces) {
+                            if (iEyepiece.equals(eyepiece)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -280,12 +279,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Filter
-                IFilter filter = this.observations[i].getFilter();
+                IFilter filter = observation.getFilter();
                 if (filter != null) {
                     if ((this.filters != null) && (this.filters.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.filters.length; j++) {
-                            if (this.filters[j].equals(filter)) { // Element found
+                        for (IFilter iFilter : this.filters) {
+                            if (iFilter.equals(filter)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -301,12 +300,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Imager
-                IImager imager = this.observations[i].getImager();
+                IImager imager = observation.getImager();
                 if (imager != null) {
                     if ((this.imagers != null) && (this.imagers.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.imagers.length; j++) {
-                            if (this.imagers[j].equals(imager)) { // Element found
+                        for (IImager iImager : this.imagers) {
+                            if (iImager.equals(imager)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -322,12 +321,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Lens
-                ILens lens = this.observations[i].getLens();
+                ILens lens = observation.getLens();
                 if (lens != null) {
                     if ((this.lenses != null) && (this.lenses.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.lenses.length; j++) {
-                            if (this.lenses[j].equals(lens)) { // Element found
+                        for (ILens iLens : this.lenses) {
+                            if (iLens.equals(lens)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -343,12 +342,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Observer
-                IObserver observer = this.observations[i].getObserver();
+                IObserver observer = observation.getObserver();
                 if (observer != null) {
                     if ((this.observers != null) && (this.observers.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.observers.length; j++) {
-                            if (this.observers[j].equals(observer)) { // Element found
+                        for (IObserver iObserver : this.observers) {
+                            if (iObserver.equals(observer)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -364,12 +363,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Scope
-                IScope scope = this.observations[i].getScope();
+                IScope scope = observation.getScope();
                 if (scope != null) {
                     if ((this.scopes != null) && (this.scopes.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.scopes.length; j++) {
-                            if (this.scopes[j].equals(scope)) { // Element found
+                        for (IScope iScope : this.scopes) {
+                            if (iScope.equals(scope)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -384,12 +383,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                         solvedDependencyProblem = true;
                     }
                 }
-                ISession session = this.observations[i].getSession();
+                ISession session = observation.getSession();
                 if (session != null) {
                     if ((this.sessions != null) && (this.sessions.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.sessions.length; j++) {
-                            if (this.sessions[j].equals(session)) { // Element found
+                        for (ISession iSession : this.sessions) {
+                            if (iSession.equals(session)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -404,12 +403,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                         solvedDependencyProblem = true;
                     }
                 }
-                ISite site = this.observations[i].getSite();
+                ISite site = observation.getSite();
                 if (site != null) {
                     if ((this.sites != null) && (this.sites.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.sites.length; j++) {
-                            if (this.sites[j].equals(site)) { // Element found
+                        for (ISite iSite : this.sites) {
+                            if (iSite.equals(site)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -424,12 +423,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                         solvedDependencyProblem = true;
                     }
                 }
-                ITarget target = this.observations[i].getTarget();
+                ITarget target = observation.getTarget();
                 if (target != null) {
                     if ((this.targets != null) && (this.targets.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.targets.length; j++) {
-                            if (this.targets[j].equals(target)) { // Element found
+                        for (ITarget iTarget : this.targets) {
+                            if (iTarget.equals(target)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -448,14 +447,14 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         if ((this.sessions != null) && (this.sessions.length > 0)) { // Check dependencies of selected sessions
-            for (int i = 0; i < this.sessions.length; i++) {
+            for (ISession session : this.sessions) {
                 // -- Site
-                ISite site = this.sessions[i].getSite();
+                ISite site = session.getSite();
                 if (site != null) {
                     if ((this.sites != null) && (this.sites.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.sites.length; j++) {
-                            if (this.sites[j].equals(site)) { // Element found
+                        for (ISite iSite : this.sites) {
+                            if (iSite.equals(site)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -471,7 +470,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Observer
-                List coObservers = this.sessions[i].getCoObservers();
+                List coObservers = session.getCoObservers();
                 Iterator iterator = coObservers.iterator();
                 IObserver observer = null;
                 while (iterator.hasNext()) {
@@ -479,8 +478,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     if (observer != null) {
                         if ((this.observers != null) && (this.observers.length > 0)) {
                             boolean found = false;
-                            for (int j = 0; j < this.observers.length; j++) {
-                                if (this.observers[j].equals(observer)) { // Element found
+                            for (IObserver iObserver : this.observers) {
+                                if (iObserver.equals(observer)) { // Element found
                                     found = true;
                                     break;
                                 }
@@ -501,14 +500,14 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         if ((this.targets != null) && (this.targets.length > 0)) { // Check dependencies of selected targets
-            for (int i = 0; i < this.targets.length; i++) {
+            for (ITarget target : this.targets) {
                 // --- Observer
-                IObserver observer = this.targets[i].getObserver();
+                IObserver observer = target.getObserver();
                 if (observer != null) {
                     if ((this.observers != null) && (this.observers.length > 0)) {
                         boolean found = false;
-                        for (int j = 0; j < this.observers.length; j++) {
-                            if (this.observers[j].equals(observer)) { // Element found
+                        for (IObserver iObserver : this.observers) {
+                            if (iObserver.equals(observer)) { // Element found
                                 found = true;
                                 break;
                             }
@@ -565,9 +564,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         this.tree.setEnabled(false); // Disable as we've preselected new blank document
         this.tree.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.tree"));
-        this.scrollPanel = new JScrollPane(this.tree);
-        this.scrollPanel
-                .setBorder(BorderFactory.createTitledBorder(this.bundle.getString("dialog.newDoc.border.tree")));
+        JScrollPane scrollPanel = new JScrollPane(this.tree);
+        scrollPanel.setBorder(BorderFactory.createTitledBorder(this.bundle.getString("dialog.newDoc.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
@@ -687,7 +685,11 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
 class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
 
-    private Color selectionBorderColor, selectionForeground, selectionBackground, textForeground, textBackground;
+    private final Color selectionForeground;
+    private final Color selectionBackground;
+    private final Color textForeground;
+    private final Color textBackground;
+    private final Color selectionBorderColor;
     private Font selectedTreeFont = null;
     private Font unselectedTreeFont = null;
 
@@ -712,7 +714,7 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
 
         Component returnValue = null;
         if (leaf) {
-            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+            if ((value instanceof DefaultMutableTreeNode)) {
                 Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
                 if (userObject instanceof SchemaElementLeaf) {
                     SchemaElementLeaf sel = (SchemaElementLeaf) userObject;
@@ -730,7 +732,7 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
                         sel.setFont(this.unselectedTreeFont);
                     }
                     Boolean booleanValue = (Boolean) UIManager.get("Tree.drawsFocusBorderAroundIcon");
-                    sel.setFocusPainted((booleanValue != null) && (booleanValue.booleanValue()));
+                    sel.setFocusPainted((booleanValue != null) && (booleanValue));
 
                     returnValue = sel;
                 }
@@ -739,7 +741,7 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
             // Get folder icons
             Icon icon = null;
             CheckBoxNode cbn = null;
-            if ((value != null) && (value instanceof DefaultMutableTreeNode)) {
+            if ((value instanceof DefaultMutableTreeNode)) {
                 DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) value;
                 Object userObject = dmtn.getUserObject();
                 if (userObject instanceof CheckBoxNode) {
@@ -753,7 +755,7 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
             }
 
             DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
-            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row,
+            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row,
                     hasFocus);
 
             // Set folder icon
@@ -839,9 +841,7 @@ class CheckBoxNodeEditor extends DefaultTreeCellEditor {
     public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
             boolean leaf, int row) {
 
-        Component editor = super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
-
-        return editor;
+        return super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
 
     }
 
@@ -859,7 +859,7 @@ class CheckBoxNode extends Vector {
 
     private int selectedChildren = 0;
 
-    public CheckBoxNode(NewDocumentDialog dialog, String text, boolean selected, ISchemaElement elements[],
+    public CheckBoxNode(NewDocumentDialog dialog, String text, boolean selected, ISchemaElement[] elements,
             Icon expanded, Icon collapsed) {
 
         this.dialog = dialog;
@@ -869,8 +869,8 @@ class CheckBoxNode extends Vector {
         this.collapsedIcon = collapsed;
 
         if (elements != null) {
-            for (int i = 0; i < elements.length; i++) {
-                super.add(new SchemaElementLeaf(this.dialog, this, elements[i], selected));
+            for (ISchemaElement element : elements) {
+                super.add(new SchemaElementLeaf(this.dialog, this, element, selected));
             }
             if (selected) {
                 this.selectedChildren = elements.length;
@@ -902,12 +902,7 @@ class CheckBoxNode extends Vector {
         // Update tree, if we've a reference to it
         final JTree tree = this.dialog.getTree();
         if (tree != null) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    tree.updateUI();
-                }
-            });
+            EventQueue.invokeLater(tree::updateUI);
         }
 
     }
@@ -947,11 +942,7 @@ class CheckBoxNode extends Vector {
 
         this.selectedChildren++;
 
-        if (this.selectedChildren == 0) {
-            this.selected = false;
-        } else {
-            this.selected = true;
-        }
+        this.selected = this.selectedChildren != 0;
 
     }
 
@@ -959,11 +950,7 @@ class CheckBoxNode extends Vector {
 
         this.selectedChildren--;
 
-        if (this.selectedChildren == 0) {
-            this.selected = false;
-        } else {
-            this.selected = true;
-        }
+        this.selected = this.selectedChildren != 0;
 
     }
 
@@ -1026,12 +1013,7 @@ class SchemaElementLeaf extends JCheckBox implements ActionListener {
         // Update tree, if we've a reference to it
         final JTree tree = this.dialog.getTree();
         if (tree != null) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    tree.updateUI();
-                }
-            });
+            EventQueue.invokeLater(tree::updateUI);
         }
 
     }

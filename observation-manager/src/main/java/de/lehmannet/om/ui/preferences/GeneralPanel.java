@@ -2,20 +2,10 @@ package de.lehmannet.om.ui.preferences;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import javax.swing.JButton;
@@ -33,8 +23,8 @@ public class GeneralPanel extends PreferencesPanel {
 
     private static final long serialVersionUID = 7383101472997890151L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
@@ -42,7 +32,6 @@ public class GeneralPanel extends PreferencesPanel {
     private JCheckBox checkForUpdates = null;
     private LanguageBox uiLanguage = null;
     private JComboBox xslTemplate = null;
-    private JButton resetWindowSizes = null;
 
     public GeneralPanel(Configuration config, ObservationManager om) {
 
@@ -107,7 +96,7 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.loadLastFile = new JCheckBox();
         this.loadLastFile.setSelected(
-                Boolean.valueOf(super.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP)).booleanValue());
+                Boolean.parseBoolean(super.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP)));
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
         super.add(this.loadLastFile);
@@ -127,8 +116,8 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
         this.checkForUpdates = new JCheckBox();
-        this.checkForUpdates.setSelected(Boolean
-                .valueOf(super.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP)).booleanValue());
+        this.checkForUpdates.setSelected(
+                Boolean.parseBoolean(super.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP)));
         this.checkForUpdates
                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);
@@ -184,22 +173,18 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        this.resetWindowSizes = new JButton(this.bundle.getString("dialog.preferences.button.resetWindowSizes"));
-        this.resetWindowSizes.setActionCommand("ResetWindowSizes");
-        this.resetWindowSizes.addActionListener(new ActionListener() {
+        JButton resetWindowSizes = new JButton(this.bundle.getString("dialog.preferences.button.resetWindowSizes"));
+        resetWindowSizes.setActionCommand("ResetWindowSizes");
+        resetWindowSizes.addActionListener(e -> {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if ("ResetWindowSizes".equals(e.getActionCommand())) {
-                    GeneralPanel.this.om.resetWindowSizes();
-                }
-
+            if ("ResetWindowSizes".equals(e.getActionCommand())) {
+                GeneralPanel.this.om.resetWindowSizes();
             }
+
         });
-        this.resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
-        gridbag.setConstraints(this.resetWindowSizes, constraints);
-        super.add(this.resetWindowSizes);
+        resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
+        gridbag.setConstraints(resetWindowSizes, constraints);
+        super.add(resetWindowSizes);
 
         // ------------------
 
@@ -221,22 +206,19 @@ public class GeneralPanel extends PreferencesPanel {
         }
 
         // Get all directories and add them to the JComboBox
-        String[] directories = path.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
+        String[] directories = path.list((dir, name) -> {
 
-                File file = new File(dir.getAbsolutePath() + File.separator + name);
-                return file.isDirectory() && !"CVS".equals(file.getName()); // For developers ;-)
+            File file = new File(dir.getAbsolutePath() + File.separator + name);
+            return file.isDirectory() && !"CVS".equals(file.getName()); // For developers ;-)
 
-            }
         });
         if (directories == null) {
             this.xslTemplate
                     .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
 
         } else {
-            for (int i = 0; i < directories.length; i++) {
-                this.xslTemplate.addItem(directories[i]);
+            for (String directory : directories) {
+                this.xslTemplate.addItem(directory);
             }
 
             if (directories.length > 0) {
@@ -267,7 +249,7 @@ public class GeneralPanel extends PreferencesPanel {
             token = new File(tokenizer.nextToken());
 
             if ((token.isFile()) && ("observationManager.jar".equals(token.getName()))) {
-                result.addAll(scanJarFile(token));
+                result.addAll(Objects.requireNonNull(scanJarFile(token)));
                 return result;
             }
         }
@@ -276,20 +258,11 @@ public class GeneralPanel extends PreferencesPanel {
         String extPath = System.getProperty("java.ext.dirs");
         File ext = new File(extPath);
         if (ext.exists()) {
-            File[] jars = ext.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-
-                    if ("observationManager.jar".equals(name))
-                        return true;
-
-                    return false;
-                }
-            });
+            File[] jars = ext.listFiles((dir, name) -> "observationManager.jar".equals(name));
 
             if (jars != null) {
-                for (int i = 0; i < jars.length; i++) {
-                    result.addAll(scanJarFile(jars[i]));
+                for (File jar : jars) {
+                    result.addAll(Objects.requireNonNull(scanJarFile(jar)));
                     return result;
                 }
             }
@@ -306,11 +279,8 @@ public class GeneralPanel extends PreferencesPanel {
         ZipFile archive = null;
         try {
             archive = new ZipFile(jarFile);
-        } catch (ZipException zipEx) {
+        } catch (IOException zipEx) {
             System.err.println("Error while accessing JAR file.\n" + zipEx);
-            return null;
-        } catch (IOException ioe) {
-            System.err.println("Error while accessing JAR file.\n" + ioe);
             return null;
         }
 

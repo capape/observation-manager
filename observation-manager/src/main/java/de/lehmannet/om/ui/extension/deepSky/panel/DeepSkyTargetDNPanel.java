@@ -85,7 +85,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
 
         // Optional parameters
         String opacity = this.opacity.getText().trim();
-        if ((opacity != null) && !("".equals(opacity))) {
+        if (!"".equals(opacity)) {
             int o = Integer.parseInt(opacity);
             if ((o < 1) || (o > 6)) {
                 super.createWarning(this.bundle.getString("panel.dn.warning.opacity.invalid"));
@@ -127,7 +127,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -195,7 +195,8 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         this.add(this.opacity);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 7, 1, 1, 5, 1);
-        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.dn.label.posAngle"), SwingConstants.RIGHT, false);
+        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.dn.label.posAngle"), SwingConstants.RIGHT,
+                false);
         LpositionAngle.setToolTipText(this.bundle.getString("panel.dn.tooltip.posAngle"));
         gridbag.setConstraints(LpositionAngle, constraints);
         this.add(LpositionAngle);

@@ -7,14 +7,7 @@
 
 package de.lehmannet.om.ui.box;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.swing.JComboBox;
 
@@ -22,18 +15,17 @@ public class LanguageBox extends JComboBox {
 
     private static final String EMPTY_ENTRY = "----";
 
-    private PropertyResourceBundle bundle = null;
-
     // Allow empty entry
     private boolean allowEmptyEntry = true;
 
     // Use tree map for sorting
-    private TreeMap map = new TreeMap();
+    private final Map map = new TreeMap();
 
-    public LanguageBox(List acceptedLanguages, boolean acceptEmptyEntry) {
+    private LanguageBox(List acceptedLanguages, boolean acceptEmptyEntry) {
 
         // Load language file (default locale is set by OM)
-        this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("contentLanguages", Locale.getDefault());
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("contentLanguages",
+                Locale.getDefault());
 
         this.allowEmptyEntry = acceptEmptyEntry;
 
@@ -44,7 +36,7 @@ public class LanguageBox extends JComboBox {
 
         // Put all isoKeys and language strings in a TreeMap which will sort them
         if (this.map.size() == 0) { // Do only once (static)
-            Enumeration e = this.bundle.getKeys();
+            Enumeration e = bundle.getKeys();
             String isoKey = null;
             String lang = null;
             while (e.hasMoreElements()) {
@@ -54,7 +46,7 @@ public class LanguageBox extends JComboBox {
                         continue;
                     }
                 }
-                lang = this.bundle.getString(isoKey);
+                lang = bundle.getString(isoKey);
                 this.map.put(lang, isoKey);
             }
         }
@@ -118,7 +110,7 @@ public class LanguageBox extends JComboBox {
         }
 
         isoKey = isoKey.toLowerCase().trim();
-        if (this.map.values().contains(isoKey)) {
+        if (this.map.containsValue(isoKey)) {
             Iterator i = this.map.keySet().iterator();
             String current = null;
             while (i.hasNext()) {
@@ -141,7 +133,7 @@ public class LanguageBox extends JComboBox {
         if (this.allowEmptyEntry) {
             super.setSelectedItem(LanguageBox.EMPTY_ENTRY);
         } else { // Cannot set EMPTY_VALUE
-            if (this.map.values().contains(Locale.getDefault().getLanguage())) { // Try to set VM language
+            if (this.map.containsValue(Locale.getDefault().getLanguage())) { // Try to set VM language
                 this.setLanguage(Locale.getDefault().getLanguage());
             } else {
                 // We cannot set the EMPTY_ENTRY, nor the VM language, as it's not accepted

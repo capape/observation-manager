@@ -25,8 +25,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -94,7 +92,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         Object source = e.getSource();
         if (source instanceof JButton) {
             if (source.equals(this.addNewStar)) {
-                TargetStarDialog ts = new TargetStarDialog(this.observationManager, null, null);
+                TargetStarDialog ts = new TargetStarDialog(this.observationManager, null);
                 ITarget t = ts.getTarget();
                 if (t != null) {
                     this.tableModel.addTarget(t);
@@ -109,7 +107,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                 }
                 this.tableModel.setTargets((ITarget[]) selectedTargets.toArray(new ITarget[] {}));
             } else if (source.equals(this.editStar)) {
-                new TargetStarDialog(this.observationManager, this.selectedStar, new Boolean(true));
+                new TargetStarDialog(this.observationManager, this.selectedStar);
             } else if (source.equals(this.deleteStar)) {
                 if (this.selectedStar != null) {
                     this.tableModel.deleteTarget(this.selectedStar);
@@ -207,31 +205,28 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         /*
          * DefaultTableCellRenderer renderer =
-         * (DefaultTableCellRenderer)this.componentStars.getDefaultRenderer(String.class
-         * ); renderer.setBackground(Color.);
+         * (DefaultTableCellRenderer)this.componentStars.getDefaultRenderer(String.class );
+         * renderer.setBackground(Color.);
          */
         ListSelectionModel lsm = this.componentStars.getSelectionModel();
-        lsm.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Ignore extra messages.
-                if (e.getValueIsAdjusting())
-                    return;
+        lsm.addListSelectionListener(e -> {
+            // Ignore extra messages.
+            if (e.getValueIsAdjusting())
+                return;
 
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    // no rows are selected
-                    DeepSkyTargetMSPanel.this.selectedStar = null;
-                    DeepSkyTargetMSPanel.this.activateChangeButtons(false);
-                } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    ISchemaElement se = DeepSkyTargetMSPanel.this.tableModel.getSchemaElement(selectedRow);
+            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            if (lsm1.isSelectionEmpty()) {
+                // no rows are selected
+                DeepSkyTargetMSPanel.this.selectedStar = null;
+                DeepSkyTargetMSPanel.this.activateChangeButtons(false);
+            } else {
+                int selectedRow = lsm1.getMinSelectionIndex();
+                ISchemaElement se = DeepSkyTargetMSPanel.this.tableModel.getSchemaElement(selectedRow);
 
-                    // Set selected star
-                    if (se instanceof TargetStar) {
-                        DeepSkyTargetMSPanel.this.selectedStar = (TargetStar) se;
-                        DeepSkyTargetMSPanel.this.activateChangeButtons(true);
-                    }
+                // Set selected star
+                if (se instanceof TargetStar) {
+                    DeepSkyTargetMSPanel.this.selectedStar = (TargetStar) se;
+                    DeepSkyTargetMSPanel.this.activateChangeButtons(true);
                 }
             }
         });
@@ -324,9 +319,9 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         } else {
             /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, y, 8, 1, 100, 400);
-             * constraints.fill = GridBagConstraints.BOTH; JLabel Lfill = new JLabel("");
-             * gridbag.setConstraints(Lfill, constraints); this.add(Lfill);
+             * ConstraintsBuilder.buildConstraints(constraints, 0, y, 8, 1, 100, 400); constraints.fill =
+             * GridBagConstraints.BOTH; JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
+             * this.add(Lfill);
              */
 
             this.componentStars.setEnabled(false);

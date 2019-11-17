@@ -56,10 +56,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
         Class c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = String.class;
-            break;
-        }
+        case 0:
         case 1: {
             c = String.class;
             break;
@@ -80,7 +77,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
         Object value = null;
 
         if (super.elements == null) {
-            return value;
+            return null;
         }
 
         ILens lens = (ILens) super.elements[rowIndex];
@@ -98,7 +95,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 2: {
-            value = new Float(lens.getFactor());
+            value = lens.getFactor();
             break;
         }
         }

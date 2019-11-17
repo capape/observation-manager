@@ -15,7 +15,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
@@ -26,10 +25,10 @@ public class AboutDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 4875893088001020590L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    protected JButton close = new JButton(this.bundle.getString("about.button.close"));
+    private final JButton close = new JButton(this.bundle.getString("about.button.close"));
 
     public AboutDialog(ObservationManager om) {
 
@@ -43,9 +42,8 @@ public class AboutDialog extends OMDialog implements ActionListener {
         // Try to set system default look and feel
         /*
          * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
-         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException
-         * ie) { } catch(IllegalAccessException iae) { } catch(ClassNotFoundException
-         * cnfe) { }
+         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException ie) { }
+         * catch(IllegalAccessException iae) { } catch(ClassNotFoundException cnfe) { }
          */
 
         this.initDialog();

@@ -43,7 +43,7 @@ import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class PopupMenuHandler implements ActionListener {
+class PopupMenuHandler implements ActionListener {
 
     public static final byte CREATE = 0x01;
     public static final byte EDIT = 0x02;
@@ -52,9 +52,6 @@ public class PopupMenuHandler implements ActionListener {
     public static final byte CREATE_NEW_OBSERVATION = 0x10;
     public static final byte EXTENSIONS = 0x20;
     public static final byte CREATE_XML = 0x40;
-
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager observationManager = null;
     private ISchemaElement element = null;
@@ -87,45 +84,47 @@ public class PopupMenuHandler implements ActionListener {
         // again (see below)
         int seType = SchemaElementConstants.NONE;
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
         if (se instanceof IObservation || createType == 2) {
-            menuTitle = new JMenuItem(this.bundle.getString("observation"));
+            menuTitle = new JMenuItem(bundle.getString("observation"));
             seType = SchemaElementConstants.OBSERVATION;
         } else if (se instanceof IObserver || createType == 6) {
-            menuTitle = new JMenuItem(this.bundle.getString("observer"));
+            menuTitle = new JMenuItem(bundle.getString("observer"));
             seType = SchemaElementConstants.OBSERVER;
         } else if (se instanceof ISite || createType == 4) {
-            menuTitle = new JMenuItem(this.bundle.getString("site"));
+            menuTitle = new JMenuItem(bundle.getString("site"));
             seType = SchemaElementConstants.SITE;
         } else if (se instanceof ISession || createType == 5) {
-            menuTitle = new JMenuItem(this.bundle.getString("session"));
+            menuTitle = new JMenuItem(bundle.getString("session"));
             seType = SchemaElementConstants.SESSION;
         } else if (se instanceof IScope || createType == 1) {
-            menuTitle = new JMenuItem(this.bundle.getString("scope"));
+            menuTitle = new JMenuItem(bundle.getString("scope"));
             seType = SchemaElementConstants.SCOPE;
         } else if (se instanceof IEyepiece || createType == 0) {
-            menuTitle = new JMenuItem(this.bundle.getString("eyepiece"));
+            menuTitle = new JMenuItem(bundle.getString("eyepiece"));
             seType = SchemaElementConstants.EYEPIECE;
         } else if (se instanceof IFilter || createType == 8) {
-            menuTitle = new JMenuItem(this.bundle.getString("filter"));
+            menuTitle = new JMenuItem(bundle.getString("filter"));
             seType = SchemaElementConstants.FILTER;
         } else if (se instanceof ILens || createType == 9) {
             if (createType == 9) { // se object is NULL! (Root lens element clicked)
-                menuTitle = new JMenuItem(this.bundle.getString("lens"));
+                menuTitle = new JMenuItem(bundle.getString("lens"));
             } else { // se object must not be NULL!
                 if (((ILens) se).getFactor() > 1) {
-                    menuTitle = new JMenuItem(this.bundle.getString("lens.barlow"));
+                    menuTitle = new JMenuItem(bundle.getString("lens.barlow"));
                 } else if (((ILens) se).getFactor() < 1) {
-                    menuTitle = new JMenuItem(this.bundle.getString("lens.sharpley"));
+                    menuTitle = new JMenuItem(bundle.getString("lens.sharpley"));
                 } else {
-                    menuTitle = new JMenuItem(this.bundle.getString("lens"));
+                    menuTitle = new JMenuItem(bundle.getString("lens"));
                 }
             }
             seType = SchemaElementConstants.LENS;
         } else if (se instanceof IImager || createType == 3) {
-            menuTitle = new JMenuItem(this.bundle.getString("imager"));
+            menuTitle = new JMenuItem(bundle.getString("imager"));
             seType = SchemaElementConstants.IMAGER;
         } else if (se instanceof ITarget || createType == 7) {
-            menuTitle = new JMenuItem(this.bundle.getString("target"));
+            menuTitle = new JMenuItem(bundle.getString("target"));
             seType = SchemaElementConstants.TARGET;
         }
 
@@ -144,34 +143,34 @@ public class PopupMenuHandler implements ActionListener {
                 && ((createType >= 0) && (createType < 10))) {
             this.createType = createType;
 
-            this.create = new JMenuItem(this.bundle.getString("create"));
+            this.create = new JMenuItem(bundle.getString("create"));
             this.create.addActionListener(this);
             popupMenu.add(this.create);
             entries++;
         }
         if ((operation & PopupMenuHandler.EDIT) == PopupMenuHandler.EDIT) {
-            this.edit = new JMenuItem(this.bundle.getString("edit"));
+            this.edit = new JMenuItem(bundle.getString("edit"));
             this.edit.addActionListener(this);
             popupMenu.add(this.edit);
             entries++;
         }
         if ((operation & PopupMenuHandler.DELETE) == PopupMenuHandler.DELETE) {
-            this.delete = new JMenuItem(this.bundle.getString("delete"));
+            this.delete = new JMenuItem(bundle.getString("delete"));
             this.delete.addActionListener(this);
             popupMenu.add(this.delete);
             entries++;
         }
         if (((operation & PopupMenuHandler.CREATE_HTML) == PopupMenuHandler.CREATE_HTML)
                 && ((operation & PopupMenuHandler.CREATE_XML) == PopupMenuHandler.CREATE_XML)) {
-            JMenu export = new JMenu(this.bundle.getString("menu.export"));
+            JMenu export = new JMenu(bundle.getString("menu.export"));
 
             // Add HTML export
-            this.createHTML = new JMenuItem(this.bundle.getString("menu.htmlExport"));
+            this.createHTML = new JMenuItem(bundle.getString("menu.htmlExport"));
             this.createHTML.addActionListener(this);
             export.add(this.createHTML);
 
             // Add OAL export
-            this.createXML = new JMenuItem(this.bundle.getString("menu.oalExport"));
+            this.createXML = new JMenuItem(bundle.getString("menu.oalExport"));
             this.createXML.addActionListener(this);
             export.add(this.createXML);
 
@@ -184,7 +183,7 @@ public class PopupMenuHandler implements ActionListener {
              * && ( (element instanceof IObservation) || (element instanceof ISession) )
              */
             ) {
-                this.createHTML = new JMenuItem(this.bundle.getString("menu.htmlExport"));
+                this.createHTML = new JMenuItem(bundle.getString("menu.htmlExport"));
                 this.createHTML.addActionListener(this);
                 popupMenu.add(this.createHTML);
                 entries++;
@@ -194,14 +193,14 @@ public class PopupMenuHandler implements ActionListener {
              * && ( (element instanceof IObservation) || (element instanceof ISession) )
              */
             ) {
-                this.createXML = new JMenuItem(this.bundle.getString("menu.oalExport"));
+                this.createXML = new JMenuItem(bundle.getString("menu.oalExport"));
                 this.createXML.addActionListener(this);
                 popupMenu.add(this.createXML);
                 entries++;
             }
         }
         if (((operation & PopupMenuHandler.CREATE_NEW_OBSERVATION) == PopupMenuHandler.CREATE_NEW_OBSERVATION)) {
-            this.createNewObservation = new JMenuItem(this.bundle.getString("menu.newObservation"));
+            this.createNewObservation = new JMenuItem(bundle.getString("menu.newObservation"));
             this.createNewObservation.addActionListener(this);
             popupMenu.add(this.createNewObservation);
             entries++;
@@ -211,11 +210,11 @@ public class PopupMenuHandler implements ActionListener {
         if (((operation & PopupMenuHandler.EXTENSIONS) == PopupMenuHandler.EXTENSIONS) && (extensions != null)
                 && (extensions.length > 0)) {
 
-            int schemaElementTypes[] = null;
+            int[] schemaElementTypes = null;
             int contained = -1;
             boolean found = false;
-            for (int i = 0; i < extensions.length; i++) {
-                schemaElementTypes = extensions[i].getSchemaElementTypes();
+            for (PopupMenuExtension extension : extensions) {
+                schemaElementTypes = extension.getSchemaElementTypes();
                 // Check if schemaElementType is requested by the PopupMenuExtension
                 contained = Arrays.binarySearch(schemaElementTypes, seType);
                 if (contained >= 0) { // Found
@@ -225,7 +224,7 @@ public class PopupMenuHandler implements ActionListener {
                     }
                     found = true;
 
-                    popupMenu.add(extensions[i].getMenu());
+                    popupMenu.add(extension.getMenu());
                     entries++;
                 }
             }
@@ -252,7 +251,7 @@ public class PopupMenuHandler implements ActionListener {
                     ObservationDialog dialog = new ObservationDialog(this.observationManager,
                             (IObservation) this.element);
                     // Create new observation
-                    while ((dialog == null) || ((dialog != null) && (dialog.isCreateAdditionalObservation()))) {
+                    while (dialog == null || dialog.isCreateAdditionalObservation()) {
                         dialog = new ObservationDialog(this.observationManager, null);
                         this.observationManager.update(dialog.getObservation());
                     }
@@ -294,7 +293,7 @@ public class PopupMenuHandler implements ActionListener {
                 }
                 case SchemaElementConstants.OBSERVATION: {
                     ObservationDialog dialog = null;
-                    while ((dialog == null) || ((dialog != null) && (dialog.isCreateAdditionalObservation()))) {
+                    while (dialog == null || dialog.isCreateAdditionalObservation()) {
                         dialog = new ObservationDialog(this.observationManager, null);
                         this.observationManager.update(dialog.getObservation());
                     }
@@ -356,7 +355,7 @@ public class PopupMenuHandler implements ActionListener {
                 this.observationManager.createXMLForSchemaElement(element);
             } else if (source.equals(this.createNewObservation)) {
                 ObservationDialog dialog = null;
-                while ((dialog == null) || ((dialog != null) && (dialog.isCreateAdditionalObservation()))) {
+                while (dialog == null || dialog.isCreateAdditionalObservation()) {
                     dialog = new ObservationDialog(this.observationManager, null, element);
                     this.observationManager.update(dialog.getObservation());
                 }

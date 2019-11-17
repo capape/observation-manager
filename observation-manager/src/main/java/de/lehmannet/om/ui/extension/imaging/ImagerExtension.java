@@ -140,7 +140,7 @@ public class ImagerExtension extends AbstractExtension {
 
         panels.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel");
 
-        super.panels.put(new Integer(SchemaElementConstants.IMAGER), panels);
+        super.panels.put(SchemaElementConstants.IMAGER, panels);
 
     }
 
@@ -150,7 +150,7 @@ public class ImagerExtension extends AbstractExtension {
 
         dialogs.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog");
 
-        super.dialogs.put(new Integer(SchemaElementConstants.IMAGER), dialogs);
+        super.dialogs.put(SchemaElementConstants.IMAGER, dialogs);
 
     }
 

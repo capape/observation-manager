@@ -448,8 +448,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.add(this.model);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.vendor"), SwingConstants.RIGHT,
-                false);
+        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.vendor"),
+                SwingConstants.RIGHT, false);
         LvendorName.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.vendor"));
         gridbag.setConstraints(LvendorName, constraints);
         this.add(LvendorName);
@@ -476,8 +476,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength") + "*",
                     SwingConstants.RIGHT, true);
         } else {
-            LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength"), SwingConstants.RIGHT,
-                    true);
+            LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength"),
+                    SwingConstants.RIGHT, true);
         }
         LfocalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(LfocalLength, constraints);
@@ -550,7 +550,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.add(this.lightGrasp);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 5, 1);
-        OMLabel LtfoV = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.trueFoV"), SwingConstants.RIGHT, false);
+        OMLabel LtfoV = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.trueFoV"), SwingConstants.RIGHT,
+                false);
         gridbag.setConstraints(LtfoV, constraints);
         LtfoV.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.trueFoV"));
         // Only show trueFoV in creation mode, or magnification is set

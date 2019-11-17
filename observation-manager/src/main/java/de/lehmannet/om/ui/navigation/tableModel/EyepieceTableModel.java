@@ -57,15 +57,9 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
         Class c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = String.class;
-            break;
-        }
+        case 0:
+        case 2:
         case 1: {
-            c = String.class;
-            break;
-        }
-        case 2: {
             c = String.class;
             break;
         }
@@ -85,7 +79,7 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
         Object value = null;
 
         if (super.elements == null) {
-            return value;
+            return null;
         }
 
         IEyepiece eyepiece = (IEyepiece) super.elements[rowIndex];

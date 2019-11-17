@@ -3,6 +3,7 @@ package de.lehmannet.om.ui.extension;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JMenu;
@@ -24,8 +25,8 @@ public abstract class AbstractExtension implements IExtension {
     // Key: SchemaElementConstant Value: HashMap of xsiTypes
     // HashMap of xsiTypes:
     // Key: xsiType (String) Value: Panel/Dialog classname as String
-    protected HashMap panels = new HashMap();
-    protected HashMap dialogs = new HashMap();
+    protected final Map panels = new HashMap();
+    protected final Map dialogs = new HashMap();
 
     @Override
     public abstract String getName();
@@ -66,7 +67,7 @@ public abstract class AbstractExtension implements IExtension {
     @Override
     public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
 
-        Object o = this.panels.get(new Integer(schemaElementConstant));
+        Object o = this.panels.get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
@@ -80,7 +81,7 @@ public abstract class AbstractExtension implements IExtension {
     @Override
     public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
 
-        Object o = this.dialogs.get(new Integer(schemaElementConstant));
+        Object o = this.dialogs.get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
@@ -97,9 +98,7 @@ public abstract class AbstractExtension implements IExtension {
         if (o instanceof IExtension) {
             IExtension ext = (IExtension) o;
             if (ext.getName().equals(this.getName())) {
-                if (ext.getVersion() == this.getVersion()) {
-                    return true;
-                }
+                return ext.getVersion() == this.getVersion();
             }
         }
 

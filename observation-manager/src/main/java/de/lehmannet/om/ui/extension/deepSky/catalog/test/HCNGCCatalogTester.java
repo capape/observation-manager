@@ -12,7 +12,7 @@ import java.io.File;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.HCNGCCatalog;
 
-public class HCNGCCatalogTester {
+class HCNGCCatalogTester {
 
     public static void main(String[] args) {
 
@@ -26,8 +26,8 @@ public class HCNGCCatalogTester {
         String[] all = c.getCatalogIndex();
 
         ITarget t = null;
-        for (int i = 0; i < all.length; i++) {
-            t = c.getTarget(all[i]);
+        for (String s : all) {
+            t = c.getTarget(s);
             System.out.println("----");
             System.out.println(t.getClass().getName());
             System.out.println(t);

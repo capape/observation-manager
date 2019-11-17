@@ -93,15 +93,10 @@ public class SolarSystemTargetSunPanel extends AbstractPanel {
             return null;
         }
 
-        try {
-            if (observer != null) {
-                this.target = new SolarSystemTargetSun(name, observer);
-            } else {
-                this.target = new SolarSystemTargetSun(name, datasource);
-            }
-        } catch (SchemaException se) {
-            System.err.println("Cannot create SolarSystemTargetSun.\n" + se);
-            return null;
+        if (observer != null) {
+            this.target = new SolarSystemTargetSun(name, observer);
+        } else {
+            this.target = new SolarSystemTargetSun(name, datasource);
         }
 
         // Set all other fields

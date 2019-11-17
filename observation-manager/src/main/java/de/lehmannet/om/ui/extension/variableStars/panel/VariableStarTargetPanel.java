@@ -90,12 +90,12 @@ public class VariableStarTargetPanel extends AbstractPanel {
         // Optional parameters
 
         String type = this.type.getText().trim();
-        if ((type != null) && !("".equals(type))) {
+        if (!"".equals(type)) {
             this.target.setType(type);
         }
 
         String magnitude = this.maxApparentMag.getText().trim();
-        if ((magnitude != null) && !("".equals(magnitude))) {
+        if (!"".equals(magnitude)) {
             float mag = FloatUtil.parseFloat(magnitude);
             if (mag > this.target.getMagnitudeApparent()) { // Greater value means less brightness
                 super.createWarning(this.bundle.getString("panel.variableStarTarget.warning.maxSmallerMin"));
@@ -105,7 +105,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         }
 
         String periodString = this.period.getText().trim();
-        if ((periodString != null) && !("".equals(periodString))) {
+        if (!"".equals(periodString)) {
             float p = FloatUtil.parseFloat(periodString);
             this.target.setPeriod(p);
         }
@@ -232,8 +232,8 @@ public class VariableStarTargetPanel extends AbstractPanel {
         this.add(this.type);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 1, 1);
-        OMLabel Lperiod = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lperiod = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period"),
+                SwingConstants.RIGHT, false);
         Lperiod.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
         gridbag.setConstraints(Lperiod, constraints);
         this.add(Lperiod);

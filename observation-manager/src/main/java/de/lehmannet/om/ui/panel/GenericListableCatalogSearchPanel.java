@@ -5,7 +5,7 @@ import de.lehmannet.om.ui.catalog.IListableCatalog;
 
 public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
 
-    IListableCatalog catalog = null;
+    private IListableCatalog catalog = null;
 
     public GenericListableCatalogSearchPanel(IListableCatalog catalog) {
 
@@ -40,15 +40,15 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
         String[] targetNames = this.catalog.getCatalogIndex();
         ITarget currentTarget = null;
         String[] currentTargetAliasNames = null;
-        for (int i = 0; i < targetNames.length; i++) {
-            currentTarget = this.catalog.getTarget(targetNames[i]);
+        for (String targetName : targetNames) {
+            currentTarget = this.catalog.getTarget(targetName);
             currentTargetAliasNames = currentTarget.getAliasNames();
             if (currentTargetAliasNames == null) {
                 continue;
             }
-            for (int j = 0; j < currentTargetAliasNames.length; j++) {
-                if (searchText.equals(super.formatName(currentTargetAliasNames[j]))) { // Found string within alias
-                                                                                       // names
+            for (String currentTargetAliasName : currentTargetAliasNames) {
+                if (searchText.equals(super.formatName(currentTargetAliasName))) { // Found string within alias
+                    // names
                     super.searchResult = currentTarget;
                     return;
                 }

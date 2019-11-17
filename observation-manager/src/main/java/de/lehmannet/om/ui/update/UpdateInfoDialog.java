@@ -7,7 +7,6 @@
 
 package de.lehmannet.om.ui.update;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,12 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -32,7 +26,6 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
@@ -44,11 +37,11 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -6681965343558223755L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private JButton close = new JButton(this.bundle.getString("dialog.button.cancel"));
-    private JButton download = new JButton(this.bundle.getString("updateInfo.button.download"));
+    private final JButton close = new JButton(this.bundle.getString("dialog.button.cancel"));
+    private final JButton download = new JButton(this.bundle.getString("updateInfo.button.download"));
     private JTable infoTable = null;
 
     private ObservationManager om = null;
@@ -109,7 +102,6 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                         }
 
                     } else {
-                        return;
                     }
                 }
             }
@@ -128,27 +120,22 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         constraints.fill = GridBagConstraints.BOTH;
         this.infoTable = new JTable(new UpdateTableModel(this.updateEntries, this.download));
         this.infoTable.setRowSelectionAllowed(false);
-        this.infoTable.setDefaultRenderer(String.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
+        this.infoTable.setDefaultRenderer(String.class, (table, value, isSelected, hasFocus, row, column) -> {
 
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 
-                if ((column == 2) || (column == 3)) {
-                    cr.setHorizontalAlignment(SwingConstants.CENTER);
-                }
-
-                cr.setText(value.toString());
-
-                return cr;
+            if ((column == 2) || (column == 3)) {
+                cr.setHorizontalAlignment(SwingConstants.CENTER);
             }
+
+            cr.setText(value.toString());
+
+            return cr;
         });
 
         /*
-         * TableColumn col0 = this.infoTable.getColumnModel().getColumn(0); TableColumn
-         * col1 = this.infoTable.getColumnModel().getColumn(1);
-         * col0.setPreferredWidth(preferredWidth)((int)(col0.getWidth() +
+         * TableColumn col0 = this.infoTable.getColumnModel().getColumn(0); TableColumn col1 =
+         * this.infoTable.getColumnModel().getColumn(1); col0.setPreferredWidth(preferredWidth)((int)(col0.getWidth() +
          * col1.getWidth() / 1.5));
          */
 
@@ -177,11 +164,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         new ProgressDialog(this.om, this.bundle.getString("updateInfo.downloadProgress.title"),
                 this.bundle.getString("updateInfo.downloadProgress.information"), downloadTask);
 
-        if (downloadTask.getReturnType() == Worker.RETURN_TYPE_OK) {
-            return true;
-        } else {
-            return false;
-        }
+        return downloadTask.getReturnType() == Worker.RETURN_TYPE_OK;
 
     }
 
@@ -235,7 +218,7 @@ class DownloadTask implements Worker {
                     BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
                     FileOutputStream fos = new FileOutputStream(
                             this.targetDir.getAbsolutePath() + File.separator + filename);
-                    byte buf[] = new byte[1024];
+                    byte[] buf = new byte[1024];
                     int len;
                     while ((len = bis.read(buf)) > 0) {
                         fos.write(buf, 0, len);
@@ -271,8 +254,8 @@ class UpdateTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 3059700226953902438L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private List updateEntries = null;
     private boolean[] checkBoxes = null;
@@ -285,9 +268,7 @@ class UpdateTableModel extends AbstractTableModel {
 
         // Initialize checkboxes
         this.checkBoxes = new boolean[this.updateEntries.size()];
-        for (int i = 0; i < this.checkBoxes.length; i++) {
-            this.checkBoxes[i] = true;
-        }
+        Arrays.fill(this.checkBoxes, true);
 
         this.activeCounter = this.updateEntries.size();
         this.download = download;
@@ -343,7 +324,7 @@ class UpdateTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
         case 0: {
-            return new Boolean(this.checkBoxes[rowIndex]);
+            return this.checkBoxes[rowIndex];
         }
         case 1: {
             return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getName();
@@ -365,15 +346,10 @@ class UpdateTableModel extends AbstractTableModel {
 
         Class c = null;
 
-        switch (columnIndex) {
-        case 0: {
+        if (columnIndex == 0) {
             c = Boolean.class;
-            break;
-        }
-        default: {
+        } else {
             c = String.class;
-            break;
-        }
         }
 
         return c;
@@ -383,11 +359,7 @@ class UpdateTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
-        if (columnIndex == 0) {
-            return true;
-        }
-
-        return false;
+        return columnIndex == 0;
 
     }
 
@@ -424,7 +396,7 @@ class UpdateTableModel extends AbstractTableModel {
         ArrayList result = new ArrayList(this.checkBoxes.length);
         boolean currentValue = false;
         for (int i = 0; i < this.checkBoxes.length; i++) {
-            currentValue = ((Boolean) this.getValueAt(i, 0)).booleanValue();
+            currentValue = (Boolean) this.getValueAt(i, 0);
             if (currentValue) {
                 result.add(this.updateEntries.get(i));
             }

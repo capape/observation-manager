@@ -21,18 +21,17 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -1824120647459055098L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
 
-    public SolarSystemTargetPlanetDialog(ObservationManager om, ITarget editableTarget, IObservation o,
-            Boolean editable) {
+    public SolarSystemTargetPlanetDialog(ObservationManager om, ITarget editableTarget, IObservation o) {
 
-        super(om, new SolarSystemTargetPlanetPanel(om, editableTarget, o, new Boolean(true)));
+        super(om, new SolarSystemTargetPlanetPanel(om, editableTarget, o, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.planet.title"));
+            super.setTitle(bundle.getString("dialog.planet.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.planet.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.planet.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(SolarSystemTargetPlanetDialog.serialVersionUID, 550, 260);

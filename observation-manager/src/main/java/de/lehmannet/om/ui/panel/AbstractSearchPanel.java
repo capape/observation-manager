@@ -11,7 +11,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -24,19 +23,19 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
 
     private static final long serialVersionUID = -1182026656125311590L;
 
-    PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     protected ISchemaElement searchResult = null;
 
     protected JTextField searchText = null;
-    protected OMLabel searchFailed = new OMLabel(true);
-    protected OMLabel generalInfoText = new OMLabel(false);
+    private final OMLabel searchFailed = new OMLabel(true);
+    private final OMLabel generalInfoText = new OMLabel(false);
     private String infoText = "";
     private JButton search = null;
     private JButton cancel = null;
 
-    public AbstractSearchPanel() {
+    protected AbstractSearchPanel() {
 
         this.search = new JButton();
 
@@ -136,7 +135,7 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
 
     }
 
-    protected String formatName(String name) {
+    String formatName(String name) {
 
         // name = name.trim();
         name = name.toUpperCase();

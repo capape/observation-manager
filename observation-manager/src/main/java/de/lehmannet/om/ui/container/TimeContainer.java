@@ -27,12 +27,12 @@ public class TimeContainer extends Container implements FocusListener {
 
     private static final long serialVersionUID = 2217864566103147417L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private JTextField h = new JTextField(2);
-    private JTextField m = new JTextField(2);
-    private JTextField s = new JTextField(2);
+    private final JTextField h = new JTextField(2);
+    private final JTextField m = new JTextField(2);
+    private final JTextField s = new JTextField(2);
 
     private int hour = 0;
     private int min = 0;
@@ -139,30 +139,20 @@ public class TimeContainer extends Container implements FocusListener {
 
     public boolean checkTime() {
 
-        if ((this.getHour() != -1) && (this.getMinutes() != -1) && (this.getSeconds() != -1)) {
-            return true;
-        }
-
-        return false;
+        return (this.getHour() == -1) || (this.getMinutes() == -1) || (this.getSeconds() == -1);
 
     }
 
     public void setTime(int hour, int min, int sec) {
 
-        if ((hour < 24) || (hour >= 0)) {
-            this.hour = hour;
-            this.h.setText(this.formatValue(this.hour));
-        }
+        this.hour = hour;
+        this.h.setText(this.formatValue(this.hour));
 
-        if ((min < 60) || (min >= 0)) {
-            this.min = min;
-            this.m.setText(this.formatValue(this.min));
-        }
+        this.min = min;
+        this.m.setText(this.formatValue(this.min));
 
-        if ((sec < 6) || (sec >= 0)) {
-            this.sec = sec;
-            this.s.setText(this.formatValue(this.sec));
-        }
+        this.sec = sec;
+        this.s.setText(this.formatValue(this.sec));
 
     }
 
@@ -226,9 +216,8 @@ public class TimeContainer extends Container implements FocusListener {
         super.add(this.s);
 
         /*
-         * ConstraintsBuilder.buildConstraints(constraints, 6, 0, 2, 1, 95, 1); JLabel
-         * dummy = new JLabel(""); gridbag.setConstraints(dummy, constraints);
-         * super.add(dummy);
+         * ConstraintsBuilder.buildConstraints(constraints, 6, 0, 2, 1, 95, 1); JLabel dummy = new JLabel("");
+         * gridbag.setConstraints(dummy, constraints); super.add(dummy);
          */
 
     }

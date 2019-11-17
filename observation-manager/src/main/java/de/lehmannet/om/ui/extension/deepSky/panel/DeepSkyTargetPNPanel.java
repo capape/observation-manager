@@ -84,7 +84,7 @@ public class DeepSkyTargetPNPanel extends AbstractPanel {
 
         // Optional parameters
         String magnitude = this.magnitude.getText().trim();
-        if ((magnitude != null) && !("".equals(magnitude))) {
+        if (!"".equals(magnitude)) {
             double mag = Double.parseDouble(magnitude);
             this.target.setCentralStarMagnitude(mag);
         }
@@ -101,7 +101,7 @@ public class DeepSkyTargetPNPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 

@@ -10,6 +10,7 @@ package de.lehmannet.om.ui.extension.deepSky.panel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -33,13 +34,13 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
     private static final long serialVersionUID = 7078168276916621618L;
 
-    public static final String XSI_TYPE = "oal:findingsDeepSkyDSType";
+    private static final String XSI_TYPE = "oal:findingsDeepSkyDSType";
     private static final String EMPTY_ITEM = "----";
 
     private JComponent colorMain = null; // Will be JComboBox or JTextField
     private JComponent colorCompanion = null; // Will be JComboBox or JTextField
-    private TristateCheckbox equalBrightness = new TristateCheckbox();;
-    private TristateCheckbox niceSurrounding = new TristateCheckbox();;
+    private final TristateCheckbox equalBrightness = new TristateCheckbox();
+    private final TristateCheckbox niceSurrounding = new TristateCheckbox();
 
     public DeepSkyFindingDSPanel(ObservationManager om, IFinding finding, ISession s, Boolean editable)
             throws IllegalArgumentException {
@@ -53,7 +54,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
                 finding = super.finding;
 
                 try { // Might be old (< 1.5) DeepSkyFinding
-                    if (finding instanceof DeepSkyFinding) {
+                    if (finding != null) {
                         super.finding = new DeepSkyFindingDS(finding.getDescription(),
                                 ((DeepSkyFinding) finding).getRating());
                     } else { // Finding was something else. So recycle description and use 0 as default
@@ -124,21 +125,21 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         String cs = this.getColorCompanion();
         findingDS.setCompanionStarColor(cs);
 
-        if (!this.equalBrightness.isNASelected()) {
+        if (this.equalBrightness.isNASelected()) {
             if (this.equalBrightness.isFalseSelected()) {
-                findingDS.setEqualBrightness(new Boolean(false));
+                findingDS.setEqualBrightness(Boolean.FALSE);
             } else {
-                findingDS.setEqualBrightness(new Boolean(true));
+                findingDS.setEqualBrightness(Boolean.TRUE);
             }
         } else {
             findingDS.setEqualBrightness(null);
         }
 
-        if (!this.niceSurrounding.isNASelected()) {
+        if (this.niceSurrounding.isNASelected()) {
             if (this.niceSurrounding.isFalseSelected()) {
-                findingDS.setNiceSurrounding(new Boolean(false));
+                findingDS.setNiceSurrounding(Boolean.FALSE);
             } else {
-                findingDS.setNiceSurrounding(new Boolean(true));
+                findingDS.setNiceSurrounding(Boolean.TRUE);
             }
         } else {
             findingDS.setNiceSurrounding(null);
@@ -162,9 +163,6 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         super.finding = new DeepSkyFindingDS(super.findingContainer.getDescription(), rating);
 
         // Something went wrong. Maybe entered values were malformed...
-        if (super.finding == null) {
-            return null;
-        }
 
         // Set all other fields
         super.finding = (DeepSkyFinding) this.updateSchemaElement();
@@ -256,7 +254,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
     }
 
-    void loadSchemaElementDS() {
+    private void loadSchemaElementDS() {
 
         super.loadSchemaElement();
 
@@ -335,7 +333,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
                 return null;
             } else {
                 BoxItem bi = (BoxItem) o;
-                return bi.getColor();
+                return Objects.requireNonNull(bi).getColor();
             }
         } else {
             cm = ((JTextField) this.colorMain).getText();
@@ -357,7 +355,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
                 return null;
             } else {
                 BoxItem bi = (BoxItem) o;
-                return bi.getColor();
+                return Objects.requireNonNull(bi).getColor();
             }
         } else {
             cm = ((JTextField) this.colorCompanion).getText();
@@ -416,14 +414,7 @@ class BoxItem {
     public boolean equals(Object o) {
 
         if (o instanceof BoxItem) {
-            if (o.equals(color)) {
-                return true;
-            }
-            return false;
-        } else if (o instanceof BoxItem) {
-            if (color.equals(((BoxItem) o).getColor())) {
-                return true;
-            }
+            return o.equals(color);
         }
 
         return false;

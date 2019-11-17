@@ -15,6 +15,6 @@ import de.lehmannet.om.ITarget;
  */
 public interface ITargetDialog extends IDialog {
 
-    public abstract ITarget getTarget();
+    ITarget getTarget();
 
 }

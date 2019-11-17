@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.statistics;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,10 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.w3c.dom.Document;
@@ -52,12 +48,9 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 public class StatisticsDetailsDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -9088082984657164772L;
-    private TargetObservations targetObservations[] = null;
+    private TargetObservations[] targetObservations = null;
     private String catalogName = null;
 
-    private JMenu exportMenu = null;
-    private JMenu exportObserved = null;
-    private JMenu exportMissing = null;
     private JMenuItem exportObservedOAL = null;
     private JMenuItem exportObservedHTML = null;
     private JMenuItem exportMissingOAL = null;
@@ -94,38 +87,38 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         JMenuBar menuBar = new JMenuBar();
 
-        this.exportMenu = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.title"));
-        this.exportMenu.setMnemonic('e');
-        menuBar.add(this.exportMenu);
+        JMenu exportMenu = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.title"));
+        exportMenu.setMnemonic('e');
+        menuBar.add(exportMenu);
 
-        this.exportObserved = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.observed"));
-        this.exportObserved.setMnemonic('o');
-        this.exportMenu.add(this.exportObserved);
+        JMenu exportObserved = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.observed"));
+        exportObserved.setMnemonic('o');
+        exportMenu.add(exportObserved);
 
-        this.exportMissing = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.missing"));
-        this.exportMissing.setMnemonic('m');
-        this.exportMenu.add(this.exportMissing);
+        JMenu exportMissing = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.missing"));
+        exportMissing.setMnemonic('m');
+        exportMenu.add(exportMissing);
 
         this.exportObservedOAL = new JMenuItem(AbstractDialog.bundle.getString("dialog.statistics.menu.observed.xml"));
         this.exportObservedOAL.setMnemonic('x');
         this.exportObservedOAL.addActionListener(this);
-        this.exportObserved.add(this.exportObservedOAL);
+        exportObserved.add(this.exportObservedOAL);
 
         this.exportObservedHTML = new JMenuItem(
                 AbstractDialog.bundle.getString("dialog.statistics.menu.observed.html"));
         this.exportObservedHTML.setMnemonic('h');
         this.exportObservedHTML.addActionListener(this);
-        this.exportObserved.add(this.exportObservedHTML);
+        exportObserved.add(this.exportObservedHTML);
 
         this.exportMissingOAL = new JMenuItem(AbstractDialog.bundle.getString("dialog.statistics.menu.missing.xml"));
         this.exportMissingOAL.setMnemonic('a');
         this.exportMissingOAL.addActionListener(this);
-        this.exportMissing.add(this.exportMissingOAL);
+        exportMissing.add(this.exportMissingOAL);
 
         this.exportMissingHTML = new JMenuItem(AbstractDialog.bundle.getString("dialog.statistics.menu.missing.html"));
         this.exportMissingHTML.setMnemonic('t');
         this.exportMissingHTML.addActionListener(this);
-        this.exportMissing.add(this.exportMissingHTML);
+        exportMissing.add(this.exportMissingHTML);
 
         this.setJMenuBar(menuBar);
 
@@ -165,9 +158,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
                 List observations = null;
                 ListIterator iterator = null;
-                for (int x = 0; x < targetObservations.length; x++) {
-                    if (targetObservations[x].getObservations() != null) {
-                        observations = targetObservations[x].getObservations();
+                for (TargetObservations targetObservation : targetObservations) {
+                    if (targetObservation.getObservations() != null) {
+                        observations = targetObservation.getObservations();
                         iterator = observations.listIterator();
                         while (iterator.hasNext()) {
                             xmlHelper.addSchemaElement((IObservation) iterator.next(), true);
@@ -225,17 +218,16 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         // Create worker for first part of export
         Worker calculation = new Worker() {
 
-            private String message = null;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
+            private final String message = null;
 
             @Override
             public void run() {
 
                 List observations = null;
                 ListIterator iterator = null;
-                for (int x = 0; x < targetObservations.length; x++) {
-                    if (targetObservations[x].getObservations() != null) {
-                        observations = targetObservations[x].getObservations();
+                for (TargetObservations targetObservation : targetObservations) {
+                    if (targetObservation.getObservations() != null) {
+                        observations = targetObservation.getObservations();
                         iterator = observations.listIterator();
                         while (iterator.hasNext()) {
                             xmlHelper.addSchemaElement((IObservation) iterator.next(), true);
@@ -255,7 +247,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public byte getReturnType() {
 
-                return returnValue;
+                return Worker.RETURN_TYPE_OK;
 
             }
 
@@ -291,9 +283,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
                 XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
 
-                for (int x = 0; x < targetObservations.length; x++) {
-                    if (targetObservations[x].getObservations() == null) {
-                        xmlHelper.addSchemaElement(targetObservations[x].getTarget());
+                for (TargetObservations targetObservation : targetObservations) {
+                    if (targetObservation.getObservations() == null) {
+                        xmlHelper.addSchemaElement(targetObservation.getTarget());
                     }
                 }
 
@@ -336,7 +328,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             }
         } else {
             super.observationManager.createWarning(calculation.getReturnMessage());
-    }
+        }
 
     }
 
@@ -346,18 +338,17 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         class MyWorker implements Worker {
 
-            private String message = null;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
+            private final String message = null;
 
-            private XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+            private final XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
             private Document document = null;
 
             @Override
             public void run() {
 
-                for (int x = 0; x < targetObservations.length; x++) {
-                    if (targetObservations[x].getObservations() == null) {
-                        xmlHelper.addSchemaElement(targetObservations[x].getTarget());
+                for (TargetObservations targetObservation : targetObservations) {
+                    if (targetObservation.getObservations() == null) {
+                        xmlHelper.addSchemaElement(targetObservation.getTarget());
                     }
                 }
 
@@ -375,11 +366,11 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public byte getReturnType() {
 
-                return returnValue;
+                return Worker.RETURN_TYPE_OK;
 
             }
 
-            public Document getDocument() {
+            Document getDocument() {
 
                 return this.document;
 
@@ -473,20 +464,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
 class DetailPanel extends AbstractPanel implements ActionListener {
 
-    private JComboBox catalogBox = new JComboBox();
-
-    private JTable table = new JTable();
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
-
-    private CatalogLoader loader = null;
-    private ITarget selectedTarget = null;
-
-    /*
-     * private Color currentBGColor = Color.WHITE; private HashMap rowColor = new
-     * HashMap();
-     */
 
     public DetailPanel(ObservationManager om, AbstractSchemaTableModel model) {
 
@@ -495,107 +475,93 @@ class DetailPanel extends AbstractPanel implements ActionListener {
         this.model = model;
         this.om = om;
 
-        this.table.setModel(this.model);
+        JTable table = new JTable();
+        table.setModel(this.model);
 
-        this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Ignore extra messages.
-                if (e.getValueIsAdjusting())
-                    return;
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ListSelectionModel lsm = table.getSelectionModel();
+        lsm.addListSelectionListener(e -> {
+            // Ignore extra messages.
+            if (e.getValueIsAdjusting())
+                return;
 
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    // no rows are selected
-                } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    IObservation obs = (IObservation) DetailPanel.this.model.getValueAt(selectedRow, 1);
-                    DetailPanel.this.om.updateUI(obs);
-                    /*
-                     * List l = (List)DetailPanel.this.model.getValueAt(selectedRow, 1); if( (l !=
-                     * null) && !(l.isEmpty()) ) { IObservation obs = (IObservation)l.get(0); //
-                     * Always show first observation DetailPanel.this.om.updateUI(obs); }
-                     */
-                }
+            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            if (lsm1.isSelectionEmpty()) {
+                // no rows are selected
+            } else {
+                int selectedRow = lsm1.getMinSelectionIndex();
+                IObservation obs = (IObservation) DetailPanel.this.model.getValueAt(selectedRow, 1);
+                DetailPanel.this.om.updateUI(obs);
+                /*
+                 * List l = (List)DetailPanel.this.model.getValueAt(selectedRow, 1); if( (l != null) && !(l.isEmpty()) )
+                 * { IObservation obs = (IObservation)l.get(0); // Always show first observation
+                 * DetailPanel.this.om.updateUI(obs); }
+                 */
             }
         });
 
-        this.table.setDefaultRenderer(ITarget.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                cr.setHorizontalAlignment(SwingConstants.CENTER);
-                String text = null;
-                if (value != null) {
-                    ITarget t = (ITarget) value;
-                    text = t.getDisplayName();
-                    cr.setText(text);
+        table.setDefaultRenderer(ITarget.class, (table12, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            cr.setHorizontalAlignment(SwingConstants.CENTER);
+            String text = null;
+            if (value != null) {
+                ITarget t = (ITarget) value;
+                text = t.getDisplayName();
+                cr.setText(text);
 
-                    /*
-                     * if( DetailPanel.this.rowColor.containsKey(row) ) {
-                     * cr.setBackground((Color)DetailPanel.this.rowColor.get(row)); } else { if(
-                     * DetailPanel.this.currentBGColor.equals(Color.WHITE) ) {
-                     * DetailPanel.this.currentBGColor = Color.LIGHT_GRAY; } else {
-                     * DetailPanel.this.currentBGColor = Color.WHITE; }
-                     * DetailPanel.this.rowColor.put(row, DetailPanel.this.currentBGColor);
-                     * cr.setBackground(DetailPanel.this.currentBGColor); }
-                     */
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+                /*
+                 * if( DetailPanel.this.rowColor.containsKey(row) ) {
+                 * cr.setBackground((Color)DetailPanel.this.rowColor.get(row)); } else { if(
+                 * DetailPanel.this.currentBGColor.equals(Color.WHITE) ) { DetailPanel.this.currentBGColor =
+                 * Color.LIGHT_GRAY; } else { DetailPanel.this.currentBGColor = Color.WHITE; }
+                 * DetailPanel.this.rowColor.put(row, DetailPanel.this.currentBGColor);
+                 * cr.setBackground(DetailPanel.this.currentBGColor); }
+                 */
+                cr.setBackground(Color.LIGHT_GRAY);
             }
+
+            return cr;
         });
-        this.table.setDefaultRenderer(IObservation.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                cr.setHorizontalAlignment(SwingConstants.CENTER);
-                if (value != null) {
-                    IObservation o = (IObservation) value;
-                    SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
-                    df.setCalendar(o.getBegin());
-                    cr.setText(df.format(o.getBegin().getTime()));
-                }
-
-                if (isSelected) {
-                    cr.setForeground(Color.RED);
-                } else {
-                    cr.setForeground(Color.BLACK);
-                }
-
-                return cr;
+        table.setDefaultRenderer(IObservation.class, (table1, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            cr.setHorizontalAlignment(SwingConstants.CENTER);
+            if (value != null) {
+                IObservation o = (IObservation) value;
+                SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+                df.setCalendar(o.getBegin());
+                cr.setText(df.format(o.getBegin().getTime()));
             }
+
+            if (isSelected) {
+                cr.setForeground(Color.RED);
+            } else {
+                cr.setForeground(Color.BLACK);
+            }
+
+            return cr;
         });
 
         /*
-         * this.table.setDefaultRenderer(List.class, new TableCellRenderer() { public
-         * Component getTableCellRendererComponent(JTable table, Object value, boolean
-         * isSelected, boolean hasFocus, int row, int column) { DefaultTableCellRenderer
-         * cr = new DefaultTableCellRenderer(); if( value != null ) { List l =
-         * (List)value; Iterator i = l.iterator(); IObservation o = null; String text =
-         * ""; DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-         * DateFormat.SHORT, Locale.getDefault()); while( i.hasNext() ) { o =
-         * (IObservation)i.next(); df.setCalendar(o.getBegin()); text = text +
-         * df.format(o.getBegin().getTime()); if( i.hasNext() ) { text = text + "; "; }
-         * } cr.setText(text); } else { cr.setText(""); } if( isSelected ) {
+         * this.table.setDefaultRenderer(List.class, new TableCellRenderer() { public Component
+         * getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int
+         * column) { DefaultTableCellRenderer cr = new DefaultTableCellRenderer(); if( value != null ) { List l =
+         * (List)value; Iterator i = l.iterator(); IObservation o = null; String text = ""; DateFormat df =
+         * DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()); while( i.hasNext() )
+         * { o = (IObservation)i.next(); df.setCalendar(o.getBegin()); text = text + df.format(o.getBegin().getTime());
+         * if( i.hasNext() ) { text = text + "; "; } } cr.setText(text); } else { cr.setText(""); } if( isSelected ) {
          * cr.setBackground(Color.LIGHT_GRAY); }
          *
          * return cr; } } );
          */
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumn c = this.table.getColumnModel().getColumn(0);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumn c = table.getColumnModel().getColumn(0);
         c.setPreferredWidth(this.model.getColumnSize(0));
-        c = this.table.getColumnModel().getColumn(1);
+        c = table.getColumnModel().getColumn(1);
         c.setPreferredWidth(this.model.getColumnSize(1));
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 
-        this.table.setDoubleBuffered(true);
-        this.scrollTable = new JScrollPane(this.table);
+        table.setDoubleBuffered(true);
+        this.scrollTable = new JScrollPane(table);
 
         this.createPanel();
 

@@ -20,7 +20,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "DeepSky";
 
-    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     public DeepSkyTableModel(IListableCatalog catalog) {
@@ -81,7 +81,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
                 value = "";
                 break;
             }
-            StringBuffer alias = new StringBuffer();
+            StringBuilder alias = new StringBuilder();
             for (int i = 0; i < aliasNames.length; i++) {
                 alias.append(aliasNames[i]);
                 if (i < aliasNames.length - 1) {
@@ -149,9 +149,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         case 1: {
             return 300;
         }
-        case 2: {
-            return 100;
-        }
+        case 2:
         case 3: {
             return 100;
         }

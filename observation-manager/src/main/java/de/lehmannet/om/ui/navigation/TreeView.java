@@ -18,12 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -54,8 +49,8 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TreeView extends JPanel implements TreeSelectionListener {
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager observationManager = null;
 
@@ -79,9 +74,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
     // Used for faster access in setSelection
     // Key=ISchemaElement - Value: SchemaElementMutableTreeNode
-    private HashMap nodes = new HashMap();
-
-    SchemaElementMutableTreeNode lastSelected = null;
+    private final Map nodes = new HashMap();
 
     public TreeView(ObservationManager om) {
 
@@ -134,7 +127,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     TreeView.this.tree.setSelectionPath(selPath);
                     if (selRow != -1) {
                         if (e.getClickCount() == 1) {
-                            Object node = selPath.getLastPathComponent();
+                            Object node = Objects.requireNonNull(selPath).getLastPathComponent();
 
                             if (node instanceof SchemaElementMutableTreeNode) {
                                 ISchemaElement element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
@@ -219,7 +212,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
         }
 
-        if ((node != null) && (node instanceof SchemaElementMutableTreeNode)) {
+        if ((node instanceof SchemaElementMutableTreeNode)) {
             element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
 
             // Check if parent node is also a schemaElementMutableTreeNode
@@ -235,7 +228,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
             this.observationManager.updateRight(element, parentElement);
 
-            this.lastSelected = (SchemaElementMutableTreeNode) node;
+            SchemaElementMutableTreeNode lastSelected = (SchemaElementMutableTreeNode) node;
         }
 
     }
@@ -268,12 +261,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         // This might cause NullPointerExceptions in BasicTreeUI.paintRow
         // this.tree.updateUI();
         // Try this
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                tree.updateUI();
-            }
-        });
+        EventQueue.invokeLater(() -> tree.updateUI());
 
     }
 
@@ -458,13 +446,13 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private void addSchemaElements(ISchemaElement[] elements, DefaultMutableTreeNode node) {
 
         SchemaElementMutableTreeNode current = null;
-        for (int x = 0; x < elements.length; x++) {
-            current = new SchemaElementMutableTreeNode(elements[x]);
+        for (ISchemaElement element : elements) {
+            current = new SchemaElementMutableTreeNode(element);
 
             // Only add observations for all non-IObservation elements
-            if (!(elements[x] instanceof IObservation)) {
+            if (!(element instanceof IObservation)) {
                 // Get all observations for corresponding schema element
-                IObservation[] observations = this.observationManager.getXmlCache().getObservations(elements[x]);
+                IObservation[] observations = this.observationManager.getXmlCache().getObservations(element);
                 if (observations != null) {
                     // If the element is an IObserver, we also need to access the observations where
                     // this observer
@@ -472,18 +460,18 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     // Also we attach the coObserver Observations to the other observations, as the
                     // both will
                     // be listed under the observer node (in different font/color)
-                    if (elements[x] instanceof IObserver) {
+                    if (element instanceof IObserver) {
                         IObservation[] coObserver = this.observationManager.getXmlCache()
-                                .getCoObserverObservations((IObserver) elements[x]);
+                                .getCoObserverObservations((IObserver) element);
                         if (coObserver != null) {
 
                             // Add coObserver observations to other observations (and remove doublicates via
                             // HashSet)
                             ArrayList obs = new ArrayList(Arrays.asList(observations));
                             int coObsLength = coObserver.length;
-                            for (int j = 0; j < coObserver.length; j++) {
-                                if (!obs.contains(coObserver[j])) { // New observation
-                                    obs.add(coObserver[j]);
+                            for (IObservation iObservation : coObserver) {
+                                if (!obs.contains(iObservation)) { // New observation
+                                    obs.add(iObservation);
                                 } else { // Doublicate
                                     coObsLength--; // One coObserver observation that won't be counted
                                 }
@@ -500,13 +488,13 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     }
 
                     // Add all observations to the parent node
-                    for (int i = 0; i < observations.length; i++) {
-                        current.add(new SchemaElementMutableTreeNode(observations[i], -1));
+                    for (IObservation iObservation : observations) {
+                        current.add(new SchemaElementMutableTreeNode(iObservation, -1));
                     }
                 }
             }
 
-            this.nodes.put(elements[x], current); // For faster access
+            this.nodes.put(element, current); // For faster access
             node.add(current); // Add element to treenode
         }
 

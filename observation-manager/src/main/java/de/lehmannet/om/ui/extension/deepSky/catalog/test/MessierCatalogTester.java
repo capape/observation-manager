@@ -12,7 +12,7 @@ import java.io.File;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.MessierCatalog;
 
-public class MessierCatalogTester {
+class MessierCatalogTester {
 
     public static void main(String[] args) {
 
@@ -21,8 +21,8 @@ public class MessierCatalogTester {
         String[] all = mc.getCatalogIndex();
 
         ITarget t = null;
-        for (int i = 0; i < all.length; i++) {
-            t = mc.getTarget(all[i]);
+        for (String s : all) {
+            t = mc.getTarget(s);
             System.out.println("----");
             System.out.println(t.getClass().getName());
             System.out.println(t);

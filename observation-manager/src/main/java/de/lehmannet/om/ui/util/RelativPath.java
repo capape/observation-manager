@@ -17,8 +17,10 @@ public class RelativPath {
     /**
      * Get relative path of File 'f' with respect to 'home' directory
      * 
-     * @param home base path
-     * @param f    file to generate path for
+     * @param home
+     *            base path
+     * @param f
+     *            file to generate path for
      * @return path from home to f as a string
      */
     public static String getRelativePath(File home, File f) {
@@ -35,12 +37,12 @@ public class RelativPath {
     }
 
     /**
-     * Break a path down into individual elements and add to a list. example : if a
-     * path is /a/b/c/d.txt, the breakdown will be [d.txt,c,b,a]
+     * Break a path down into individual elements and add to a list. example : if a path is /a/b/c/d.txt, the breakdown
+     * will be [d.txt,c,b,a]
      * 
-     * @param f input file
-     * @return a List collection with the individual elements of the path in reverse
-     *         order
+     * @param f
+     *            input file
+     * @return a List collection with the individual elements of the path in reverse order
      */
     private static List getPathList(File f) {
 
@@ -65,18 +67,20 @@ public class RelativPath {
     /**
      * Figure out a string representing the relative path of 'f' with respect to 'r'
      * 
-     * @param r home path
-     * @param f path of file
+     * @param r
+     *            home path
+     * @param f
+     *            path of file
      */
     private static String matchPathLists(List r, List f) {
 
         int i;
         int j;
-        String s;
+        StringBuilder s;
 
         // start at the beginning of the lists
         // iterate while both lists are equal
-        s = "";
+        s = new StringBuilder();
         i = r.size() - 1;
         j = f.size() - 1;
 
@@ -88,19 +92,19 @@ public class RelativPath {
 
         // for each remaining level in the home path, add a ..
         for (; i >= 0; i--) {
-            s += ".." + File.separator;
+            s.append("..").append(File.separator);
         }
 
         // for each level in the file path, add the path
         for (; j >= 1; j--) {
-            s += f.get(j) + File.separator;
+            s.append(f.get(j)).append(File.separator);
         }
 
         // file name
-        s += f.get(j);
-        s = "." + File.separator + s;
+        s.append(f.get(j));
+        s.insert(0, "." + File.separator);
 
-        return s;
+        return s.toString();
 
     }
 

@@ -31,8 +31,8 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ExtenableSchemaElementSelector extends JDialog implements ActionListener {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private JButton ok = null;
     private JButton cancel = null;
@@ -68,7 +68,7 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     }
 
-    public void init(Window window, SchemaUILoader loader) {
+    private void init(Window window, SchemaUILoader loader) {
 
         this.loader = loader;
         this.initFindingChooser();
@@ -155,8 +155,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
     private void fillSelector() {
 
         String[] names = this.loader.getAllXSIDisplayNamesForCreation(this.schemaElementConstant);
-        for (int x = 0; x < names.length; x++) {
-            this.selector.addItem(names[x]);
+        for (String name : names) {
+            this.selector.addItem(name);
         }
 
     }

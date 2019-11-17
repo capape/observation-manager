@@ -85,7 +85,7 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
 
         // Optional parameters
         String hT = this.hubbleType.getText().trim();
-        if ((hT != null) && !("".equals(hT))) {
+        if (!"".equals(hT)) {
             this.target.setHubbleType(hT);
         }
 
@@ -122,7 +122,7 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -190,7 +190,8 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         this.add(this.hubbleType);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.gx.label.posAngle"), SwingConstants.RIGHT, false);
+        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.gx.label.posAngle"), SwingConstants.RIGHT,
+                false);
         LpositionAngle.setToolTipText(this.bundle.getString("panel.gx.tooltip.posAngle"));
         gridbag.setConstraints(LpositionAngle, constraints);
         this.add(LpositionAngle);

@@ -15,7 +15,6 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,17 +27,15 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 5090506213345186056L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
-    private ObservationManager om = null;
     private File fitsImageFile = null;
 
     public FITSImageDialog(ObservationManager om, File fitsFile) {
 
         super(om);
 
-        this.om = om;
         this.fitsImageFile = fitsFile;
 
         super.setTitle(this.bundle.getString("dialog.image.title"));

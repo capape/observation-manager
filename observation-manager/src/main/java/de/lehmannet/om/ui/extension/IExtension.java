@@ -20,37 +20,37 @@ import de.lehmannet.om.ui.preferences.PreferencesPanel;
 
 public interface IExtension {
 
-    public String getName();
+    String getName();
 
-    public float getVersion();
+    float getVersion();
 
-    public JMenu getMenu();
+    JMenu getMenu();
 
-    public PreferencesPanel getPreferencesPanel();
+    PreferencesPanel getPreferencesPanel();
 
-    public ICatalog[] getCatalogs(File catalogDir);
+    ICatalog[] getCatalogs(File catalogDir);
 
-    public Set getAllSupportedXSITypes();
+    Set getAllSupportedXSITypes();
 
-    public Set getSupportedXSITypes(int schemaElementConstant);
+    Set getSupportedXSITypes(int schemaElementConstant);
 
-    public String getPanelForXSIType(String xsiType, int schemaElementConstant);
+    String getPanelForXSIType(String xsiType, int schemaElementConstant);
 
-    public String getDialogForXSIType(String xsiType, int schemaElementConstant);
+    String getDialogForXSIType(String xsiType, int schemaElementConstant);
 
-    public boolean isCreationAllowed(String xsiType);
+    boolean isCreationAllowed(String xsiType);
 
-    public String getDisplayNameForXSIType(String xsiType);
+    String getDisplayNameForXSIType(String xsiType);
 
-    public boolean addOALExtensionElement(Element docElement);
+    boolean addOALExtensionElement(Element docElement);
 
-    public void reloadLanguage();
+    void reloadLanguage();
 
-    public PopupMenuExtension getPopupMenu();
+    PopupMenuExtension getPopupMenu();
 
     /**
      * @since IExtension 0.9
      */
-    public URL getUpdateInformationURL();
+    URL getUpdateInformationURL();
 
 }

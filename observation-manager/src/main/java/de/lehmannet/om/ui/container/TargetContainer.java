@@ -43,8 +43,8 @@ public class TargetContainer extends Container implements MouseListener {
 
     private static final long serialVersionUID = -9052717626196198395L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager observationManager = null;
     private ITarget target = null;
@@ -55,7 +55,7 @@ public class TargetContainer extends Container implements MouseListener {
     private JTextField targetName = null;
     private JTextField targetAliasNames = null;
     private EquPositionContainer equPosition = null;
-    private JTextField targetConstellation = new JTextField();
+    private final JTextField targetConstellation = new JTextField();
     private ConstellationBox constellationBox = null;
     private JTextField targetDatasource = null;
     private ObserverBox sourceObserverBox = null;
@@ -68,8 +68,8 @@ public class TargetContainer extends Container implements MouseListener {
         this.editable = editable;
         this.positionDisabled = positionDisabled;
 
-        this.constellationBox = new ConstellationBox(Boolean.valueOf(this.observationManager.getConfiguration()
-                .getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true")).booleanValue());
+        this.constellationBox = new ConstellationBox(Boolean.parseBoolean(this.observationManager.getConfiguration()
+                .getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true")));
 
         this.createPanel();
 
@@ -102,8 +102,8 @@ public class TargetContainer extends Container implements MouseListener {
 
         EquPosition pos = this.getPosition();
         /*
-         * if( pos == null ) { this.createWarning(TargetContainer.bundle.getString(
-         * "target.warning.posMalformed")); return null; }
+         * if( pos == null ) { this.createWarning(TargetContainer.bundle.getString( "target.warning.posMalformed"));
+         * return null; }
          */
         target.setPosition(pos);
 
@@ -167,12 +167,7 @@ public class TargetContainer extends Container implements MouseListener {
 
         if (!this.editable) { // Show
             String c = this.targetConstellation.getText();
-            Constellation constelltion = Constellation.getInstance(c);
-            if (constelltion != null) {
-                return constelltion;
-            } else {
-                return null;
-            }
+            return Constellation.getConstellationByAbbOrName(c);
         } else { // Create, edit
             return this.constellationBox.getSelectedConstellation();
         }
@@ -252,7 +247,7 @@ public class TargetContainer extends Container implements MouseListener {
         this.targetName.setEditable(this.editable);
 
         String[] aliasNames = target.getAliasNames();
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if (aliasNames != null) {
             for (int i = 0; i < aliasNames.length; i++) {
                 buffer.append(aliasNames[i]);
@@ -268,8 +263,8 @@ public class TargetContainer extends Container implements MouseListener {
         if (c != null) {
             this.constellationBox.setSelectedConstellation(c);
             String cName = null;
-            boolean i18N = Boolean.valueOf(this.observationManager.getConfiguration()
-                    .getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true")).booleanValue();
+            boolean i18N = Boolean.parseBoolean(this.observationManager.getConfiguration()
+                    .getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"));
             if (i18N) {
                 cName = c.getDisplayName();
             } else {
@@ -380,7 +375,8 @@ public class TargetContainer extends Container implements MouseListener {
             gridbag.setConstraints(this.targetConstellation, constraints);
             this.add(this.targetConstellation);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT, true);
+            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT,
+                    true);
             targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 5, 1);
             constraints.fill = GridBagConstraints.NONE;
@@ -497,8 +493,8 @@ public class TargetContainer extends Container implements MouseListener {
             }
             this.add(this.constellationBox);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasourceObserver"), SwingConstants.RIGHT,
-                    true);
+            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasourceObserver"),
+                    SwingConstants.RIGHT, true);
             targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasourceObserver"));
             ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 5, 1);
             gridbag.setConstraints(targetDatasourceLabel, constraints);
@@ -544,8 +540,8 @@ public class TargetContainer extends Container implements MouseListener {
 
         IObserver[] observer = this.observationManager.getXmlCache().getObservers();
         if (observer != null) {
-            for (int x = 0; x < observer.length; x++) {
-                this.sourceObserverBox.addItem(observer[x]);
+            for (IObserver iObserver : observer) {
+                this.sourceObserverBox.addItem(iObserver);
             }
         } else {
             this.sourceObserverBox.addEmptyItem();
@@ -558,7 +554,7 @@ public class TargetContainer extends Container implements MouseListener {
         }
     }
 
-    protected void createWarning(String message) {
+    private void createWarning(String message) {
 
         JOptionPane.showMessageDialog(this, message, this.bundle.getString("target.warning.title"),
                 JOptionPane.WARNING_MESSAGE);

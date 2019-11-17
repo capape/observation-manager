@@ -19,18 +19,16 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
 
     private static final long serialVersionUID = -8858493947135823299L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    public GenericTargetDialog(ObservationManager om, ITarget editableTarget) {
 
-    public GenericTargetDialog(ObservationManager om, ITarget editableTarget, Boolean editable) {
+        super(om, new GenericTargetPanel(om, editableTarget, Boolean.TRUE));
 
-        super(om, new GenericTargetPanel(om, editableTarget, new Boolean(true)));
-
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.genericTarget.title"));
+            super.setTitle(bundle.getString("dialog.genericTarget.title"));
         } else {
-            super.setTitle(
-                    this.bundle.getString("dialog.genericTarget.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.genericTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(GenericTargetDialog.serialVersionUID, 590, 260);

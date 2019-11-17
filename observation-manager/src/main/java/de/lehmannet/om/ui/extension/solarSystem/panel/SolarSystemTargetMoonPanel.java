@@ -96,15 +96,10 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
             return null;
         }
 
-        try {
-            if (observer != null) {
-                this.target = new SolarSystemTargetMoon(name, observer);
-            } else {
-                this.target = new SolarSystemTargetMoon(name, datasource);
-            }
-        } catch (SchemaException se) {
-            System.err.println("Cannot create SolarSystemTargetMoon.\n" + se);
-            return null;
+        if (observer != null) {
+            this.target = new SolarSystemTargetMoon(name, observer);
+        } else {
+            this.target = new SolarSystemTargetMoon(name, datasource);
         }
 
         // Set all other fields

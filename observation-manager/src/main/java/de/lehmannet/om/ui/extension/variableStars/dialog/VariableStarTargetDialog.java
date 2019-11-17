@@ -21,18 +21,16 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
 
     private static final long serialVersionUID = -5379806312927835453L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
-
     public VariableStarTargetDialog(ObservationManager om, ITarget editableTarget) {
 
-        super(om, new VariableStarTargetPanel(om, editableTarget, new Boolean(true)));
+        super(om, new VariableStarTargetPanel(om, editableTarget, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.variableTarget.title"));
+            super.setTitle(bundle.getString("dialog.variableTarget.title"));
         } else {
-            super.setTitle(
-                    this.bundle.getString("dialog.variableTarget.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.variableTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(VariableStarTargetDialog.serialVersionUID, 575, 375);

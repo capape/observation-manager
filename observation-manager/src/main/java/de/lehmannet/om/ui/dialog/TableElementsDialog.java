@@ -19,8 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import de.lehmannet.om.IEyepiece;
@@ -60,7 +58,7 @@ public class TableElementsDialog extends AbstractDialog {
 
 class TableElementsPanel extends AbstractPanel {
 
-    private JTable table = new JTable();
+    private final JTable table = new JTable();
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
@@ -75,22 +73,19 @@ class TableElementsPanel extends AbstractPanel {
         this.model = new SimpleSchemaElementModel(se);
         this.table.setModel(this.model);
         ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Ignore extra messages.
-                if (e.getValueIsAdjusting())
-                    return;
+        lsm.addListSelectionListener(e -> {
+            // Ignore extra messages.
+            if (e.getValueIsAdjusting())
+                return;
 
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    // no rows are selected
-                } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    ISchemaElement se = TableElementsPanel.this.model.getSchemaElement(selectedRow);
-                    if (se != null) {
-                        TableElementsPanel.this.om.update(se);
-                    }
+            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            if (lsm1.isSelectionEmpty()) {
+                // no rows are selected
+            } else {
+                int selectedRow = lsm1.getMinSelectionIndex();
+                ISchemaElement se1 = TableElementsPanel.this.model.getSchemaElement(selectedRow);
+                if (se1 != null) {
+                    TableElementsPanel.this.om.update(se1);
                 }
             }
         });
@@ -241,11 +236,8 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
             value = this.bundle.getString("target");
         }
 
-        switch (columnIndex) {
-        case 0: {
+        if (columnIndex == 0) {
             value = value + " " + element.getDisplayName();
-            break;
-        }
         }
 
         return value;
@@ -257,11 +249,8 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
         String name = "";
 
-        switch (column) {
-        case 0: {
+        if (column == 0) {
             name = this.bundle.getString("table.header.tableElements.element");
-            break;
-        }
         }
 
         return name;

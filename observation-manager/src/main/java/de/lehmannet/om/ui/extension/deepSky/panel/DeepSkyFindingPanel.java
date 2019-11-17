@@ -34,17 +34,17 @@ import de.lehmannet.om.ui.util.TristateCheckbox;
 
 public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel {
 
-    protected final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    public static final String XSI_TYPE = "oal:findingsDeepSkyType";
+    private static final String XSI_TYPE = "oal:findingsDeepSkyType";
 
-    protected ObservationManager om = null;
+    ObservationManager om = null;
 
-    protected DeepSkyFinding finding = null;
-    protected JComboBox rating = null;
+    DeepSkyFinding finding = null;
+    private JComboBox rating = null;
 
-    protected FindingContainer findingContainer = null;
+    FindingContainer findingContainer = null;
 
     private AngleContainer smallDiameter = null;
     private AngleContainer largeDiameter = null;
@@ -55,7 +55,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     private TristateCheckbox extended = null;
     private ISession session = null;
 
-    public DeepSkyFindingPanel(ObservationManager om, IFinding finding, ISession s, Boolean editable)
+    DeepSkyFindingPanel(ObservationManager om, IFinding finding, ISession s, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -172,41 +172,41 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
         this.finding.setDescription(this.findingContainer.getDescription());
 
-        if (!this.stellar.isNASelected()) {
+        if (this.stellar.isNASelected()) {
             if (this.stellar.isFalseSelected()) {
-                this.finding.setStellar(new Boolean(false));
+                this.finding.setStellar(Boolean.FALSE);
             } else {
-                this.finding.setStellar(new Boolean(true));
+                this.finding.setStellar(Boolean.TRUE);
             }
         } else {
             this.finding.setStellar(null);
         }
 
-        if (!this.resolved.isNASelected()) {
+        if (this.resolved.isNASelected()) {
             if (this.resolved.isFalseSelected()) {
-                this.finding.setResolved(new Boolean(false));
+                this.finding.setResolved(Boolean.FALSE);
             } else {
-                this.finding.setResolved(new Boolean(true));
+                this.finding.setResolved(Boolean.TRUE);
             }
         } else {
             this.finding.setResolved(null);
         }
 
-        if (!this.mottled.isNASelected()) {
+        if (this.mottled.isNASelected()) {
             if (this.mottled.isFalseSelected()) {
-                this.finding.setMottled(new Boolean(false));
+                this.finding.setMottled(Boolean.FALSE);
             } else {
-                this.finding.setMottled(new Boolean(true));
+                this.finding.setMottled(Boolean.TRUE);
             }
         } else {
             this.finding.setMottled(null);
         }
 
-        if (!this.extended.isNASelected()) {
+        if (this.extended.isNASelected()) {
             if (this.extended.isFalseSelected()) {
-                this.finding.setExtended(new Boolean(false));
+                this.finding.setExtended(Boolean.FALSE);
             } else {
-                this.finding.setExtended(new Boolean(true));
+                this.finding.setExtended(Boolean.TRUE);
             }
         } else {
             this.finding.setExtended(null);
@@ -242,7 +242,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
     }
 
-    protected int getRating() {
+    int getRating() {
 
         // Nothing selected
         if (this.rating.getSelectedIndex() == 0) {
@@ -253,7 +253,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
     }
 
-    void createPanel() {
+    private void createPanel() {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -293,8 +293,8 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         this.add(this.smallDiameter);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 4, 1);
-        OMLabel LlargeDiameter = new OMLabel(this.bundle.getString("panel.finding.label.largeDiameter"), SwingConstants.RIGHT,
-                false);
+        OMLabel LlargeDiameter = new OMLabel(this.bundle.getString("panel.finding.label.largeDiameter"),
+                SwingConstants.RIGHT, false);
         LlargeDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.largeDiameter"));
         gridbag.setConstraints(LlargeDiameter, constraints);
         this.add(LlargeDiameter);
@@ -302,7 +302,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         this.largeDiameter = new AngleContainer(Angle.ARCSECOND, super.isEditable());
         this.largeDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.largeDiameter"));
         this.largeDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
-//        constraints.fill = GridBagConstraints.HORIZONTAL;
+        // constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.largeDiameter, constraints);
         this.add(this.largeDiameter);
 
@@ -453,7 +453,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
     }
 
-    protected JComboBox getVisualRatingBox() {
+    JComboBox getVisualRatingBox() {
 
         JComboBox box = new JComboBox();
         box.addItem("----");

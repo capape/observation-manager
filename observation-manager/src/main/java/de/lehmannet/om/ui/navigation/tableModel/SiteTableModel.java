@@ -58,10 +58,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
             c = Site.class;
             break;
         }
-        case 1: {
-            c = Angle.class;
-            break;
-        }
+        case 1:
         case 2: {
             c = Angle.class;
             break;
@@ -90,7 +87,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         Object value = null;
 
         if (super.elements == null) {
-            return value;
+            return null;
         }
 
         ISite site = (ISite) super.elements[rowIndex];
@@ -109,8 +106,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 3: {
-            float elevation = site.getElevation();
-            value = new Float(elevation);
+            value = site.getElevation();
             break;
         }
         case 4: {
@@ -118,7 +114,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 5: {
-            value = new Integer(site.getTimezone());
+            value = site.getTimezone();
             break;
         }
         }

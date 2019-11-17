@@ -14,8 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import de.lehmannet.om.Angle;
@@ -47,7 +48,7 @@ public class HCNGCCatalog implements IListableCatalog {
 
     // Key = NGC Number
     // Value = ITarget
-    private LinkedHashMap map = new LinkedHashMap();
+    private final Map map = new LinkedHashMap();
 
     private AbstractSchemaTableModel tableModel = null;
 
@@ -98,20 +99,17 @@ public class HCNGCCatalog implements IListableCatalog {
 
     }
 
-    public boolean loadTargets(File file) {
+    private boolean loadTargets(File file) {
 
         // Check catalog file
         Reader reader = null;
         BufferedReader bufferedReader = null;
         try {
             // Must read UTF-16 as we run into problems on some OS
-            reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(reader);
         } catch (FileNotFoundException fnfe) {
             System.err.println("File not found: " + file);
-            return false;
-        } catch (UnsupportedEncodingException uce) {
-            System.err.println("File has wrong encoding: " + file);
             return false;
         }
 
@@ -130,8 +128,7 @@ public class HCNGCCatalog implements IListableCatalog {
                 }
 
                 // Get HCNGC Number
-                hcngcNumber = "HCNGC" + line.substring(0, line.toString().indexOf('|'));
-                line = line.toString();
+                hcngcNumber = "HCNGC" + line.substring(0, line.indexOf('|'));
 
                 // Parse line...and create Target
                 target = null;
@@ -139,7 +136,7 @@ public class HCNGCCatalog implements IListableCatalog {
                 tokenizer = new StringTokenizer(line, "|");
 
                 tokenizer.nextToken(); // Skip token (HCNGC number)
-                String lineCounter = tokenizer.nextToken(); // LineCounter (ignore this for now)
+                tokenizer.nextToken(); // LineCounter (ignore this for now)
                 String gcNo = tokenizer.nextToken();
                 tokenizer.nextToken(); // Skip token (John Herschel (JH) designation)
                 tokenizer.nextToken(); // Skip token (William Herschel (WH) designation)
@@ -157,7 +154,7 @@ public class HCNGCCatalog implements IListableCatalog {
                 String positionAngle = tokenizer.nextToken();
                 String vMag = tokenizer.nextToken();
                 tokenizer.nextToken(); // Skip token (bMag (blue Magnification)
-                String vSurfaceBrightness = tokenizer.nextToken();
+                tokenizer.nextToken(); // vsourceFaceBrightness
                 String ngcNo = tokenizer.nextToken();
                 String icNo = tokenizer.nextToken();
 
@@ -175,7 +172,7 @@ public class HCNGCCatalog implements IListableCatalog {
                     positionAngle = positionAngle.substring(0, positionAngle.lastIndexOf("."));
                 }
                 // Some objects have two values...skip positionAngle entry for those
-                if (positionAngle.indexOf("/") != -1) {
+                if (positionAngle.contains("/")) {
                     positionAngle = null;
                 }
                 if ("E".equals(positionAngle)) { // PA for HCNGC1089 is E...whatever that means
@@ -338,10 +335,10 @@ public class HCNGCCatalog implements IListableCatalog {
                         if (size.indexOf('&') != -1) { // HCNGC6991 has two size entries divided by &
                             size = size.substring(0, size.indexOf('&') - 1);
                         }
-                        if ((size != null) && !("".equals(size.trim()))) {
+                        if (!"".equals(size.trim())) {
                             if (size.indexOf('X') != -1) { // No (valid) entry (e.g. HCNGC1554)
                                 String s_large = size.substring(0, size.indexOf('X'));
-                                String s_small = size.substring(size.indexOf('X') + 1, size.length());
+                                String s_small = size.substring(size.indexOf('X') + 1);
                                 if (!("".equals(s_large.trim()) && ("".equals(s_small.trim())))) { // In case of e.g.
                                                                                                    // HCNGC501 size is
                                                                                                    // empty
@@ -363,7 +360,7 @@ public class HCNGCCatalog implements IListableCatalog {
                         }
                     }
 
-                    String an[] = aliasNames.split(",");
+                    String[] an = aliasNames.split(",");
                     target.setAliasNames(an);
 
                     // Add target to map and increment counter

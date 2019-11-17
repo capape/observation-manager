@@ -12,12 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -30,8 +25,8 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 public class AngleContainer extends Container {
 
     private static final String UNIT_KEY_PREFIX = "Angle.Unit.";
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private double angleValue = Double.NaN;
     private String angleUnit = Angle.DEGREE;
@@ -45,13 +40,13 @@ public class AngleContainer extends Container {
     private boolean useArc = false;
 
     private JLabel unit = null;
-    private AngleUnitBox unitBox = new AngleUnitBox();
-    private JTextField decValue = new JTextField();
-    private JTextField arcDegreeValue = new JTextField();
-    private JTextField arcMinValue = new JTextField();
-    private JTextField arcSecValue = new JTextField();
+    private final AngleUnitBox unitBox = new AngleUnitBox();
+    private final JTextField decValue = new JTextField();
+    private final JTextField arcDegreeValue = new JTextField();
+    private final JTextField arcMinValue = new JTextField();
+    private final JTextField arcSecValue = new JTextField();
 
-    private Map unitI18Nmap = new HashMap();
+    private final Map unitI18Nmap = new HashMap();
 
     public AngleContainer(Angle angle, boolean editable) {
 
@@ -186,7 +181,7 @@ public class AngleContainer extends Container {
         }
 
         // Check if values in given Array are OK
-        int checkedOK[] = new int[units.length];
+        int[] checkedOK = new int[units.length];
         java.util.Arrays.fill(checkedOK, -1);
         int x = 0;
         for (int i = 0; i < units.length; i++) {
@@ -198,9 +193,9 @@ public class AngleContainer extends Container {
         // Fill internal unit list
         this.units = new String[x];
         x = 0;
-        for (int i = 0; i < checkedOK.length; i++) {
-            if (checkedOK[i] != -1) {
-                this.units[x++] = units[checkedOK[i]];
+        for (int value : checkedOK) {
+            if (value != -1) {
+                this.units[x++] = units[value];
             }
         }
 
@@ -228,7 +223,7 @@ public class AngleContainer extends Container {
 
     }
 
-    public void createContainer() {
+    private void createContainer() {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -281,8 +276,8 @@ public class AngleContainer extends Container {
             constraints.fill = GridBagConstraints.HORIZONTAL;
             // Check if we're in editmode and a list of allowed units was given
             if ((this.editable) && (this.units != null) && (!this.useArc)) {
-                for (int i = 0; i < this.units.length; i++) {
-                    this.unitBox.addItem(this.getI18NUnit(this.units[i]));
+                for (String s : this.units) {
+                    this.unitBox.addItem(this.getI18NUnit(s));
                 }
 
                 gridbag.setConstraints(this.unitBox, constraints);
@@ -335,9 +330,6 @@ public class AngleContainer extends Container {
     private String getI18NUnit(String unit) {
 
         String result = this.bundle.getString(AngleContainer.UNIT_KEY_PREFIX + unit);
-        if (result == null) {
-            return unit;
-        }
 
         unitI18Nmap.put(result, unit);
 
@@ -355,15 +347,15 @@ public class AngleContainer extends Container {
     // Private inner classes --------------------------------------------------
     // ---------------------
 
-    private class AngleUnitBox extends JComboBox {
+    private static class AngleUnitBox extends JComboBox {
 
-        private ArrayList list = new ArrayList();
+        private final List list = new ArrayList();
 
         // ---------
         // JComboBox ----------------------------------------------------------
         // ---------
 
-        public void addItem(String angleUnit) {
+        void addItem(String angleUnit) {
 
             // Item already exists
             if (this.list.contains(angleUnit)) {

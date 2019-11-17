@@ -14,7 +14,6 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -34,7 +33,7 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 
-public class DeepSkyTargetContainer extends Container {
+class DeepSkyTargetContainer extends Container {
 
     private static final long serialVersionUID = 7287706985477081449L;
 
@@ -116,7 +115,7 @@ public class DeepSkyTargetContainer extends Container {
 
     public boolean checkOrigin(String datasource, IObserver observer) {
 
-        return this.targetContainer.checkOrigin(datasource, observer);
+        return !this.targetContainer.checkOrigin(datasource, observer);
 
     }
 
@@ -177,19 +176,19 @@ public class DeepSkyTargetContainer extends Container {
 
     }
 
-    public Angle getSmallDiameter() throws NumberFormatException {
+    private Angle getSmallDiameter() throws NumberFormatException {
 
         return this.smallDiameter.getAngle();
 
     }
 
-    public Angle getLargeDiameter() throws NumberFormatException {
+    private Angle getLargeDiameter() throws NumberFormatException {
 
         return this.largeDiameter.getAngle();
 
     }
 
-    public float getVisibleMagnitude() {
+    private float getVisibleMagnitude() {
 
         if ("".equals(this.visibleMagnitude.getText().trim())) {
             return Float.NaN;
@@ -199,7 +198,7 @@ public class DeepSkyTargetContainer extends Container {
 
     }
 
-    public SurfaceBrightness getSurfaceBrightness() throws NumberFormatException {
+    private SurfaceBrightness getSurfaceBrightness() throws NumberFormatException {
 
         return this.surfaceBrightness.getSurfaceBrightness();
 

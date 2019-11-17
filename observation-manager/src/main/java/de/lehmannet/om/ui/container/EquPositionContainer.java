@@ -21,28 +21,22 @@ import javax.swing.JTextField;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
-public class EquPositionContainer extends Container {
+class EquPositionContainer extends Container {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private EquPosition equPosition = null;
 
     private boolean editable = false;
 
-    private JTextField raHourValue = new JTextField();
-    private JLabel raHourLabel = null;
-    private JTextField raMinValue = new JTextField();;
-    private JLabel raMinLabel = null;
-    private JTextField raSecValue = new JTextField();;
-    private JLabel raSecLabel = null;
+    private final JTextField raHourValue = new JTextField();
+    private final JTextField raMinValue = new JTextField();
+    private final JTextField raSecValue = new JTextField();
 
-    private JTextField decDegreeValue = new JTextField();;
-    private JLabel decDegreeLabel = null;
-    private JTextField decMinValue = new JTextField();;
-    private JLabel decMinLabel = null;
-    private JTextField decSecValue = new JTextField();;
-    private JLabel decSecLabel = null;
+    private final JTextField decDegreeValue = new JTextField();
+    private final JTextField decMinValue = new JTextField();
+    private final JTextField decSecValue = new JTextField();
 
     public EquPositionContainer(EquPosition position, boolean editable) {
 
@@ -166,10 +160,10 @@ public class EquPositionContainer extends Container {
         this.raHourValue.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         super.add(this.raHourValue);
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 5, 1);
-        this.raHourLabel = new JLabel(EquPosition.RA_HOUR);
-        this.raHourLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
-        gridbag.setConstraints(this.raHourLabel, constraints);
-        super.add(this.raHourLabel);
+        JLabel raHourLabel = new JLabel(EquPosition.RA_HOUR);
+        raHourLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
+        gridbag.setConstraints(raHourLabel, constraints);
+        super.add(raHourLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
         this.raMinValue.setEditable(this.editable);
@@ -177,10 +171,10 @@ public class EquPositionContainer extends Container {
         gridbag.setConstraints(this.raMinValue, constraints);
         super.add(this.raMinValue);
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 5, 1);
-        this.raMinLabel = new JLabel(EquPosition.RA_MIN);
-        this.raMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
-        gridbag.setConstraints(this.raMinLabel, constraints);
-        super.add(this.raMinLabel);
+        JLabel raMinLabel = new JLabel(EquPosition.RA_MIN);
+        raMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
+        gridbag.setConstraints(raMinLabel, constraints);
+        super.add(raMinLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 25, 1);
         this.raSecValue.setEditable(this.editable);
@@ -188,10 +182,10 @@ public class EquPositionContainer extends Container {
         gridbag.setConstraints(this.raSecValue, constraints);
         super.add(this.raSecValue);
         ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 5, 1);
-        this.raSecLabel = new JLabel(EquPosition.RA_SEC);
-        this.raSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
-        gridbag.setConstraints(this.raSecLabel, constraints);
-        super.add(this.raSecLabel);
+        JLabel raSecLabel = new JLabel(EquPosition.RA_SEC);
+        raSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
+        gridbag.setConstraints(raSecLabel, constraints);
+        super.add(raSecLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 1);
         constraints.fill = GridBagConstraints.NONE;
@@ -209,10 +203,10 @@ public class EquPositionContainer extends Container {
         gridbag.setConstraints(this.decDegreeValue, constraints);
         super.add(this.decDegreeValue);
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        this.decDegreeLabel = new JLabel(EquPosition.DEC_DEG);
-        this.decDegreeLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
-        gridbag.setConstraints(this.decDegreeLabel, constraints);
-        super.add(this.decDegreeLabel);
+        JLabel decDegreeLabel = new JLabel(EquPosition.DEC_DEG);
+        decDegreeLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
+        gridbag.setConstraints(decDegreeLabel, constraints);
+        super.add(decDegreeLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 25, 1);
         this.decMinValue.setEditable(this.editable);
@@ -220,10 +214,10 @@ public class EquPositionContainer extends Container {
         gridbag.setConstraints(this.decMinValue, constraints);
         super.add(this.decMinValue);
         ConstraintsBuilder.buildConstraints(constraints, 4, 2, 1, 1, 5, 1);
-        this.decMinLabel = new JLabel(EquPosition.DEC_MIN);
-        this.decMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
-        gridbag.setConstraints(this.decMinLabel, constraints);
-        super.add(this.decMinLabel);
+        JLabel decMinLabel = new JLabel(EquPosition.DEC_MIN);
+        decMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
+        gridbag.setConstraints(decMinLabel, constraints);
+        super.add(decMinLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 2, 1, 1, 25, 1);
         this.decSecValue.setEditable(this.editable);
@@ -231,10 +225,10 @@ public class EquPositionContainer extends Container {
         gridbag.setConstraints(this.decSecValue, constraints);
         super.add(this.decSecValue);
         ConstraintsBuilder.buildConstraints(constraints, 6, 2, 1, 1, 5, 1);
-        this.decSecLabel = new JLabel(EquPosition.DEC_SEC);
-        this.decSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
-        gridbag.setConstraints(this.decSecLabel, constraints);
-        super.add(this.decSecLabel);
+        JLabel decSecLabel = new JLabel(EquPosition.DEC_SEC);
+        decSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
+        gridbag.setConstraints(decSecLabel, constraints);
+        super.add(decSecLabel);
 
     }
 

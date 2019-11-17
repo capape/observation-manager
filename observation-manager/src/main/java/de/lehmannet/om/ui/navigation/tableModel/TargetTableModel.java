@@ -52,30 +52,30 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        String value = "";
+        StringBuilder value = new StringBuilder();
 
         if ((super.elements == null) || (super.elements.length == 0)) {
-            return value;
+            return value.toString();
         }
 
         if (rowIndex >= super.elements.length) {
-            return value;
+            return value.toString();
         }
 
         ITarget target = (ITarget) super.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {
-            value = target.getDisplayName();
+            value = new StringBuilder(target.getDisplayName());
             break;
         }
         case 1: {
             String[] alias = target.getAliasNames();
             if (alias != null) {
                 for (int x = 0; x < alias.length; x++) {
-                    value = value + alias[x];
+                    value.append(alias[x]);
                     if (x < alias.length - 1) {
-                        value = value + "; ";
+                        value.append("; ");
                     }
                 }
             }
@@ -83,44 +83,44 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         }
         case 2: {
             if (target.getPosition() != null) {
-                value = "" + target.getPosition().getRa();
+                value = new StringBuilder("" + target.getPosition().getRa());
             }
             break;
         }
         case 3: {
             if (target.getPosition() != null) {
-                value = "" + target.getPosition().getDec();
+                value = new StringBuilder("" + target.getPosition().getDec());
             }
             break;
         }
         case 4: {
-            value = this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType());
+            value = new StringBuilder(
+                    this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType()));
             break;
         }
         case 5: {
             if (target.getConstellation() != null) {
-                boolean i18N = Boolean.valueOf(
-                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"))
-                        .booleanValue();
+                boolean i18N = Boolean.parseBoolean(
+                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"));
                 if (i18N) {
-                    value = target.getConstellation().getDisplayName();
+                    value = new StringBuilder(target.getConstellation().getDisplayName());
                 } else {
-                    value = target.getConstellation().getName();
+                    value = new StringBuilder(target.getConstellation().getName());
                 }
             }
             break;
         }
         case 6: {
             if (target.getDatasource() != null) {
-                value = target.getDatasource();
+                value = new StringBuilder(target.getDatasource());
             } else {
-                value = target.getObserver().getDisplayName();
+                value = new StringBuilder(target.getObserver().getDisplayName());
             }
             break;
         }
         }
 
-        return value;
+        return value.toString();
 
     }
 

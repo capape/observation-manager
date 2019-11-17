@@ -21,18 +21,17 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = 11451630089774356L;
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
 
-    public SolarSystemTargetMoonDialog(ObservationManager om, IObservation o, ITarget editableTarget,
-            Boolean editable) {
+    public SolarSystemTargetMoonDialog(ObservationManager om, IObservation o, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetMoonPanel(om, editableTarget, o, new Boolean(true)));
+        super(om, new SolarSystemTargetMoonPanel(om, editableTarget, o, Boolean.TRUE));
 
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(this.bundle.getString("dialog.moon.title"));
+            super.setTitle(bundle.getString("dialog.moon.title"));
         } else {
-            super.setTitle(this.bundle.getString("dialog.moon.titleEdit") + " " + editableTarget.getDisplayName());
+            super.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
         super.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);

@@ -28,12 +28,12 @@ import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
 
-public class MassTest {
+class MassTest {
 
-    File origXMLFile = null;
-    File xsdFile = null;
-    File newXMLFile = null;
-    CatalogLoader cl;
+    private File origXMLFile = null;
+    private File xsdFile = null;
+    private File newXMLFile = null;
+    private CatalogLoader cl;
 
     /**
      * @param args
@@ -47,7 +47,7 @@ public class MassTest {
 
     }
 
-    public void run(int number) {
+    private void run(int number) {
 
         SchemaLoader sl = new SchemaLoader();
         RootElement re = null;
@@ -167,7 +167,7 @@ public class MassTest {
 
     }
 
-    public void loadFiles(String xml, String xsd) {
+    private void loadFiles(String xml, String xsd) {
 
         this.origXMLFile = new File(xml);
         this.xsdFile = new File(xsd);
@@ -182,24 +182,16 @@ public class MassTest {
 
         String targetXSI = t.getXSIType();
         if ("SolarSystemTargetType".equals(targetXSI)) {
-            try {
-                GenericFinding finding = new GenericFinding(desc);
-                return finding;
-            } catch (SchemaException se) {
-                System.err.println("Error in Finding creation. " + se);
-            }
-        } else if ("deepSkyDS".equals(targetXSI)) {
-            DeepSkyFindingDS ds = new DeepSkyFindingDS(desc, 3);
-            return ds;
-        } else if ("deepSkyOC".equals(targetXSI)) {
-            DeepSkyFindingOC oc = new DeepSkyFindingOC(desc, 3);
-            return oc;
-        } else {
-            DeepSkyFinding dsf = new DeepSkyFinding(desc, 3);
-            return dsf;
-        }
 
-        return null;
+            return new GenericFinding(desc);
+
+        } else if ("deepSkyDS".equals(targetXSI)) {
+            return new DeepSkyFindingDS(desc, 3);
+        } else if ("deepSkyOC".equals(targetXSI)) {
+            return new DeepSkyFindingOC(desc, 3);
+        } else {
+            return new DeepSkyFinding(desc, 3);
+        }
 
     }
 

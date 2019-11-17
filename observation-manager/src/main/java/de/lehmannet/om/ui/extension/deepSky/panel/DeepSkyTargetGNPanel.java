@@ -85,7 +85,7 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
 
         // Optional parameters
         String nT = this.nebulaType.getText().trim();
-        if ((nT != null) && !("".equals(nT))) {
+        if (!"".equals(nT)) {
             this.target.setNebulaType(nT);
         }
 
@@ -122,7 +122,7 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
         IObserver observer = this.deepSkyTargetContainer.getObserver();
 
         // Make sure only datasource or observer is set
-        if (!this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
+        if (this.deepSkyTargetContainer.checkOrigin(datasource, observer)) {
             return null;
         }
 
@@ -190,7 +190,8 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
         this.add(this.nebulaType);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.gn.label.posAngle"), SwingConstants.RIGHT, false);
+        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.gn.label.posAngle"), SwingConstants.RIGHT,
+                false);
         LpositionAngle.setToolTipText(this.bundle.getString("panel.gn.tooltip.posAngle"));
         gridbag.setConstraints(LpositionAngle, constraints);
         this.add(LpositionAngle);

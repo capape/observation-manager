@@ -11,14 +11,13 @@ import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 
-public class SearchDialog extends OMDialog implements ComponentListener {
+class SearchDialog extends OMDialog implements ComponentListener {
 
     private static final long serialVersionUID = 3212116551261771429L;
 

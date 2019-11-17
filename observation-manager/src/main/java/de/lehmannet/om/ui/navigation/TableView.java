@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.navigation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
@@ -33,10 +32,7 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -92,43 +88,40 @@ public class TableView extends JPanel {
         this.table = new JTable(this.model);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Ignore extra messages.
-                if (e.getValueIsAdjusting())
+        lsm.addListSelectionListener(e -> {
+            // Ignore extra messages.
+            if (e.getValueIsAdjusting())
+                return;
+
+            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            if (lsm1.isSelectionEmpty()) {
+                // no rows are selected
+            } else {
+                int selectedRow = lsm1.getMinSelectionIndex();
+                int selectedSortedRow = TableView.this.sorter.modelIndex(selectedRow);
+                ISchemaElement se = model.getSchemaElement(selectedSortedRow);
+
+                // Update ItemView
+                TableView.this.updateItemView(se);
+
+                // If current selection and new selection is equal stop here
+                // Don't do this before the ItemView was updated (above) as otherwise, clicking
+                // in the
+                // TreeView won't update the ItemView.
+                // RootCause for this is the setting of the selectedElement down in the
+                // updateTable()
+                // method, which come before the rowSelectionInterval gets reset. (Chaning the
+                // sequence there
+                // causes even more trouble...:-( )
+                if ((se != null) && (se.equals(TableView.this.selectedElement))) {
                     return;
+                }
 
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                if (lsm.isSelectionEmpty()) {
-                    // no rows are selected
+                // Update TreeView
+                if (se instanceof IObservation) {
+                    observationManager.getTreeView().setSelection(se, parentElement);
                 } else {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    int selectedSortedRow = TableView.this.sorter.modelIndex(selectedRow);
-                    ISchemaElement se = model.getSchemaElement(selectedSortedRow);
-
-                    // Update ItemView
-                    TableView.this.updateItemView(se);
-
-                    // If current selection and new selection is equal stop here
-                    // Don't do this before the ItemView was updated (above) as otherwise, clicking
-                    // in the
-                    // TreeView won't update the ItemView.
-                    // RootCause for this is the setting of the selectedElement down in the
-                    // updateTable()
-                    // method, which come before the rowSelectionInterval gets reset. (Chaning the
-                    // sequence there
-                    // causes even more trouble...:-( )
-                    if ((se != null) && (se.equals(TableView.this.selectedElement))) {
-                        return;
-                    }
-
-                    // Update TreeView
-                    if (se instanceof IObservation) {
-                        observationManager.getTreeView().setSelection(se, parentElement);
-                    } else {
-                        observationManager.getTreeView().setSelection(se, null);
-                    }
+                    observationManager.getTreeView().setSelection(se, null);
                 }
             }
         });
@@ -138,131 +131,102 @@ public class TableView extends JPanel {
         this.scrollTable = new JScrollPane(this.table);
         super.add(scrollTable);
 
-        table.setDefaultRenderer(Angle.class, new TableCellRenderer() {
+        table.setDefaultRenderer(Angle.class, (table, value, isSelected, hasFocus, row, column) -> {
 
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                String result = null;
+                Angle angle = (Angle) value;
+                DecimalFormat df = new DecimalFormat("0.00");
+                DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+                dfs.setDecimalSeparator('.');
+                df.setDecimalFormatSymbols(dfs);
+                result = df.format(angle.getValue()) + " " + angle.getUnit();
+                cr.setText(result);
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
 
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
+            return cr;
+        });
+
+        this.table.setDefaultRenderer(Float.class, (table, value, isSelected, hasFocus, row, column) -> {
+
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                Float f = (Float) value;
+                if (Float.isNaN(f)) {
+                    cr.setText("");
+                } else {
                     String result = null;
-                    Angle angle = (Angle) value;
                     DecimalFormat df = new DecimalFormat("0.00");
                     DecimalFormatSymbols dfs = new DecimalFormatSymbols();
                     dfs.setDecimalSeparator('.');
                     df.setDecimalFormatSymbols(dfs);
-                    result = df.format(angle.getValue()) + " " + angle.getUnit();
+                    result = df.format(f.floatValue());
                     cr.setText(result);
                 }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
             }
 
+            return cr;
         });
 
-        this.table.setDefaultRenderer(Float.class, new TableCellRenderer() {
+        this.table.setDefaultRenderer(Integer.class, (table, value, isSelected, hasFocus, row, column) -> {
 
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-
-                    Float f = (Float) value;
-                    if (Float.isNaN(f.floatValue())) {
-                        cr.setText("");
-                    } else {
-                        String result = null;
-                        DecimalFormat df = new DecimalFormat("0.00");
-                        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-                        dfs.setDecimalSeparator('.');
-                        df.setDecimalFormatSymbols(dfs);
-                        result = df.format(f.floatValue());
-                        cr.setText(result);
-                    }
-                }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                Integer i = (Integer) value;
+                cr.setText("" + i);
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
             }
 
-        });
-
-        this.table.setDefaultRenderer(Integer.class, new TableCellRenderer() {
-
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-                    Integer i = (Integer) value;
-                    cr.setText("" + i.intValue());
-                }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
-            }
+            return cr;
         }
 
         );
 
-        this.table.setDefaultRenderer(Calendar.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-                    Calendar cal = (Calendar) value;
-                    cr.setText(sdf.format(cal.getTime()));
-                }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+        this.table.setDefaultRenderer(Calendar.class, (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+                Calendar cal = (Calendar) value;
+                cr.setText(sdf.format(cal.getTime()));
             }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
         });
-        this.table.setDefaultRenderer(SchemaElement.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-                    ISchemaElement se = (ISchemaElement) value;
-                    cr.setText(se.getDisplayName());
-                }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+        this.table.setDefaultRenderer(SchemaElement.class, (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                ISchemaElement se = (ISchemaElement) value;
+                cr.setText(se.getDisplayName());
             }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
         });
-        this.table.setDefaultRenderer(Object.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
-                DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-                if (value != null) {
-                    cr.setText(value.toString());
-                }
-                if (isSelected) {
-                    cr.setBackground(Color.LIGHT_GRAY);
-                }
-
-                return cr;
+        this.table.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                cr.setText(value.toString());
             }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
         });
 
         MouseListener ml = new MouseAdapter() {
@@ -330,9 +294,9 @@ public class TableView extends JPanel {
                     // HashSet)
                     ArrayList obsList = new ArrayList(Arrays.asList(obs));
                     int coObsLength = coObserver.length;
-                    for (int j = 0; j < coObserver.length; j++) {
-                        if (!obsList.contains(coObserver[j])) { // New observation
-                            obsList.add(coObserver[j]);
+                    for (IObservation iObservation : coObserver) {
+                        if (!obsList.contains(iObservation)) { // New observation
+                            obsList.add(iObservation);
                         } else { // Doublicate
                             coObsLength--; // One coObserver observation that won't be counted
                         }
@@ -346,8 +310,8 @@ public class TableView extends JPanel {
 
         if ((obs != null) && (obs.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ObservationTableModel) {
-             * this.sorter.setTableModel(new ObservationTableModel(obs), false); } else {
+             * if( this.sorter.getTableModel() instanceof ObservationTableModel) { this.sorter.setTableModel(new
+             * ObservationTableModel(obs), false); } else {
              */
             this.sorter.setTableModel(new ObservationTableModel(obs, this.observationManager), true);
             // }
@@ -362,16 +326,8 @@ public class TableView extends JPanel {
             // Do this later in UI Thread to avoid exception:
             // java.lang.ArrayIndexOutOfBoundsException: 0 >= 0
             // at java.util.Vector.elementAt(Vector.java:427)
-            SwingUtilities.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-
-                    TableView.this.table.setModel(new ObservationTableModel(null, TableView.this.observationManager));
-
-                }
-
-            });
+            SwingUtilities.invokeLater(() -> TableView.this.table
+                    .setModel(new ObservationTableModel(null, TableView.this.observationManager)));
             // this.table.setModel(new ObservationTableModel(null,
             // this.observationManager));
 
@@ -391,8 +347,8 @@ public class TableView extends JPanel {
         IObserver[] obs = this.observationManager.getXmlCache().getObservers();
         if ((obs != null) && (obs.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ObserverTableModel) {
-             * this.sorter.setTableModel(new ObserverTableModel(obs), false); } else {
+             * if( this.sorter.getTableModel() instanceof ObserverTableModel) { this.sorter.setTableModel(new
+             * ObserverTableModel(obs), false); } else {
              */
             this.sorter.setTableModel(new ObserverTableModel(obs), true);
             // }
@@ -419,8 +375,8 @@ public class TableView extends JPanel {
         ITarget[] targets = this.observationManager.getXmlCache().getTargets();
         if ((targets != null) && (targets.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof TargetTableModel) {
-             * this.sorter.setTableModel(new TargetTableModel(targets), false); } else {
+             * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
+             * TargetTableModel(targets), false); } else {
              */
             this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager), true);
             // }
@@ -447,8 +403,8 @@ public class TableView extends JPanel {
         ISite[] sites = this.observationManager.getXmlCache().getSites();
         if ((sites != null) && (sites.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof SiteTableModel) {
-             * this.sorter.setTableModel(new SiteTableModel(sites), false); } else {
+             * if( this.sorter.getTableModel() instanceof SiteTableModel) { this.sorter.setTableModel(new
+             * SiteTableModel(sites), false); } else {
              */
             this.sorter.setTableModel(new SiteTableModel(sites), true);
             // }
@@ -475,8 +431,8 @@ public class TableView extends JPanel {
         IScope[] scopes = this.observationManager.getXmlCache().getScopes();
         if ((scopes != null) && (scopes.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ScopeTableModel) {
-             * this.sorter.setTableModel(new ScopeTableModel(scopes), false); } else {
+             * if( this.sorter.getTableModel() instanceof ScopeTableModel) { this.sorter.setTableModel(new
+             * ScopeTableModel(scopes), false); } else {
              */
             this.sorter.setTableModel(new ScopeTableModel(scopes), true);
             // }
@@ -503,8 +459,8 @@ public class TableView extends JPanel {
         ISession[] session = this.observationManager.getXmlCache().getSessions();
         if ((session != null) && (session.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof SessionTableModel) {
-             * this.sorter.setTableModel(new SessionTableModel(session), false); } else {
+             * if( this.sorter.getTableModel() instanceof SessionTableModel) { this.sorter.setTableModel(new
+             * SessionTableModel(session), false); } else {
              */
             this.sorter.setTableModel(new SessionTableModel(session), true);
             // }
@@ -531,8 +487,8 @@ public class TableView extends JPanel {
         IImager[] imager = this.observationManager.getXmlCache().getImagers();
         if ((imager != null) && (imager.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ImagerTableModel) {
-             * this.sorter.setTableModel(new ImagerTableModel(imager), false); } else {
+             * if( this.sorter.getTableModel() instanceof ImagerTableModel) { this.sorter.setTableModel(new
+             * ImagerTableModel(imager), false); } else {
              */
             this.sorter.setTableModel(new ImagerTableModel(imager), true);
             // }
@@ -559,8 +515,8 @@ public class TableView extends JPanel {
         IFilter[] filter = this.observationManager.getXmlCache().getFilters();
         if ((filter != null) && (filter.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof FilterTableModel) {
-             * this.sorter.setTableModel(new FilterTableModel(filter), false); } else {
+             * if( this.sorter.getTableModel() instanceof FilterTableModel) { this.sorter.setTableModel(new
+             * FilterTableModel(filter), false); } else {
              */
             this.sorter.setTableModel(new FilterTableModel(filter), true);
             // }
@@ -587,8 +543,8 @@ public class TableView extends JPanel {
         IEyepiece[] eyepiece = this.observationManager.getXmlCache().getEyepieces();
         if ((eyepiece != null) && (eyepiece.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) {
-             * this.sorter.setTableModel(new EyepieceTableModel(eyepiece), false); } else {
+             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
+             * EyepieceTableModel(eyepiece), false); } else {
              */
             this.sorter.setTableModel(new EyepieceTableModel(eyepiece), true);
             // }
@@ -615,8 +571,8 @@ public class TableView extends JPanel {
         ILens[] lens = this.observationManager.getXmlCache().getLenses();
         if ((lens != null) && (lens.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) {
-             * this.sorter.setTableModel(new EyepieceTableModel(eyepiece), false); } else {
+             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
+             * EyepieceTableModel(eyepiece), false); } else {
              */
             this.sorter.setTableModel(new LensTableModel(lens), true);
             // }
@@ -659,13 +615,13 @@ public class TableView extends JPanel {
         while (iterator.hasNext()) {
             currentKey = (String) iterator.next();
             if (currentKey.startsWith(TableView.CONFIG_TABLESETTINGS_PREFIX)) {
-                config.setConfig(currentKey, "" + ((Integer) cache.get(currentKey)).intValue());
+                config.setConfig(currentKey, "" + cache.get(currentKey));
             }
         }
 
     }
 
-    void loadSettings() {
+    private void loadSettings() {
 
         Configuration config = observationManager.getConfiguration();
         Map cache = observationManager.getUIDataCache();
@@ -675,7 +631,7 @@ public class TableView extends JPanel {
         while (iterator.hasNext()) {
             currentKey = (String) iterator.next();
             if (currentKey.startsWith(TableView.CONFIG_TABLESETTINGS_PREFIX)) {
-                cache.put(currentKey, new Integer(Integer.parseInt(config.getConfig(currentKey))));
+                cache.put(currentKey, Integer.parseInt(config.getConfig(currentKey)));
             }
         }
 
@@ -716,8 +672,7 @@ public class TableView extends JPanel {
 
         // Current and selected element is equal...so we can stop here
         /*
-         * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return;
-         * }
+         * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return; }
          */// Comment this out 02.04.08: Need to update table (setSelection) and ItemView
            // as selected element can have
            // different parent elements in tree
@@ -726,75 +681,71 @@ public class TableView extends JPanel {
         // java.lang.ArrayIndexOutOfBoundsException: 0 >= 0
         // at java.util.Vector.elementAt(Vector.java:427)
         final ISchemaElement finalSelected = selected;
-        SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(() -> {
 
-            @Override
-            public void run() {
+            TableView.this.table.setModel(TableView.this.model);
 
-                TableView.this.table.setModel(TableView.this.model);
-
-                int sel = TableView.this.model.getRow(finalSelected);
-                if (TableView.this.sorter.isSorting()) {
-                    sel = TableView.this.sorter.viewIndex(sel);
-                }
-
-                TableView.this.selectedElement = finalSelected;
-
-                TableView.this.table.setRowSelectionInterval(sel, sel);
-
-                // 2011/09/06 --- Put the whole block into the invokeLater method, as sorted
-                // tables don't scroll ViewPort to
-                // right possition -> Bug ID: 3404084 (Sort Targets by RA, select Target in
-                // Table)
-                // 2011/09/06 }
-
-                // 2011/09/06 });
-                // 2011/09/06 int sel = this.model.getRow(selected);
-
-                /*
-                 * this.table.setModel(this.model);
-                 * 
-                 * int sel = this.model.getRow(selected); if( this.sorter.isSorting() ) { sel =
-                 * this.sorter.viewIndex(sel); }
-                 * 
-                 * this.selectedElement = selected;
-                 * 
-                 * this.table.setRowSelectionInterval(sel, sel);
-                 */
-
-                // 2011/09/06 JViewport viewport = this.scrollTable.getViewport();
-                JViewport viewport = TableView.this.scrollTable.getViewport();
-
-                // This rectangle is relative to the table where the
-                // northwest corner of cell (0,0) is always (0,0).
-                Rectangle rect = table.getCellRect(sel, sel, true);
-
-                // The location of the view relative to the table
-                Rectangle viewRect = viewport.getViewRect();
-
-                // Translate the cell location so that it is relative
-                // to the view, assuming the northwest corner of the
-                // view is (0,0).
-                rect.setLocation(rect.x - viewRect.x, rect.y - viewRect.y);
-
-                // Calculate location of rect if it were at the center of view
-                int centerX = (viewRect.width - rect.width) / 2;
-                int centerY = (viewRect.height - rect.height) / 2;
-
-                // Fake the location of the cell so that scrollRectToVisible
-                // will move the cell to the center
-                if (rect.x < centerX) {
-                    centerX = -centerX;
-                }
-                if (rect.y < centerY) {
-                    centerY = -centerY;
-                }
-                rect.translate(centerX, centerY);
-
-                // Scroll the area into view.
-                viewport.scrollRectToVisible(rect);
-
+            int sel = TableView.this.model.getRow(finalSelected);
+            if (TableView.this.sorter.isSorting()) {
+                sel = TableView.this.sorter.viewIndex(sel);
             }
+
+            TableView.this.selectedElement = finalSelected;
+
+            TableView.this.table.setRowSelectionInterval(sel, sel);
+
+            // 2011/09/06 --- Put the whole block into the invokeLater method, as sorted
+            // tables don't scroll ViewPort to
+            // right possition -> Bug ID: 3404084 (Sort Targets by RA, select Target in
+            // Table)
+            // 2011/09/06 }
+
+            // 2011/09/06 });
+            // 2011/09/06 int sel = this.model.getRow(selected);
+
+            /*
+             * this.table.setModel(this.model);
+             *
+             * int sel = this.model.getRow(selected); if( this.sorter.isSorting() ) { sel = this.sorter.viewIndex(sel);
+             * }
+             *
+             * this.selectedElement = selected;
+             *
+             * this.table.setRowSelectionInterval(sel, sel);
+             */
+
+            // 2011/09/06 JViewport viewport = this.scrollTable.getViewport();
+            JViewport viewport = TableView.this.scrollTable.getViewport();
+
+            // This rectangle is relative to the table where the
+            // northwest corner of cell (0,0) is always (0,0).
+            Rectangle rect = table.getCellRect(sel, sel, true);
+
+            // The location of the view relative to the table
+            Rectangle viewRect = viewport.getViewRect();
+
+            // Translate the cell location so that it is relative
+            // to the view, assuming the northwest corner of the
+            // view is (0,0).
+            rect.setLocation(rect.x - viewRect.x, rect.y - viewRect.y);
+
+            // Calculate location of rect if it were at the center of view
+            int centerX = (viewRect.width - rect.width) / 2;
+            int centerY = (viewRect.height - rect.height) / 2;
+
+            // Fake the location of the cell so that scrollRectToVisible
+            // will move the cell to the center
+            if (rect.x < centerX) {
+                centerX = -centerX;
+            }
+            if (rect.y < centerY) {
+                centerY = -centerY;
+            }
+            rect.translate(centerX, centerY);
+
+            // Scroll the area into view.
+            viewport.scrollRectToVisible(rect);
+
         });
     }
 
@@ -816,7 +767,7 @@ public class TableView extends JPanel {
             preferedWidth = current.getPreferredWidth();
             this.observationManager.getUIDataCache().put(
                     TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex(),
-                    new Integer(preferedWidth));
+                    preferedWidth);
         }
 
     }
@@ -841,7 +792,7 @@ public class TableView extends JPanel {
                     .get(TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex());
             if (o == null)
                 break;
-            preferedWidth = ((Integer) o).intValue();
+            preferedWidth = (Integer) o;
 
             current.setPreferredWidth(preferedWidth);
         }

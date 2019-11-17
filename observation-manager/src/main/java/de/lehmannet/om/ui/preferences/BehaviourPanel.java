@@ -28,8 +28,8 @@ public class BehaviourPanel extends PreferencesPanel {
 
     private static final long serialVersionUID = -9046543688331125983L;
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
@@ -289,10 +289,10 @@ public class BehaviourPanel extends PreferencesPanel {
 
         IObserver[] observers = this.om.getXmlCache().getObservers();
         IObserver defaultObserver = null;
-        for (int i = 0; i < observers.length; i++) {
-            this.defaultObserver.addItem(observers[i]);
-            if ((currentValue != null) && (currentValue.equals(observers[i].getDisplayName()))) {
-                defaultObserver = observers[i];
+        for (IObserver observer : observers) {
+            this.defaultObserver.addItem(observer);
+            if ((currentValue != null) && (currentValue.equals(observer.getDisplayName()))) {
+                defaultObserver = observer;
             }
         }
 
@@ -305,8 +305,8 @@ public class BehaviourPanel extends PreferencesPanel {
     private void fillCatalogBox() {
 
         String[] cNames = this.om.getExtensionLoader().getCatalogLoader().getCatalogNames();
-        for (int i = 0; i < cNames.length; i++) {
-            this.catalogBox.addItem(cNames[i]);
+        for (String cName : cNames) {
+            this.catalogBox.addItem(cName);
         }
 
         this.catalogBox
@@ -319,8 +319,8 @@ public class BehaviourPanel extends PreferencesPanel {
         IObservation[] observations = this.om.getXmlCache().getObservations();
         List findings = null;
         Iterator iter = null;
-        for (int i = 0; i < observations.length; i++) {
-            findings = observations[i].getResults();
+        for (IObservation observation : observations) {
+            findings = observation.getResults();
             iter = findings.listIterator();
             while (iter.hasNext()) {
                 ((IFinding) iter.next()).setLanguage(isoLanguage);
@@ -332,8 +332,8 @@ public class BehaviourPanel extends PreferencesPanel {
     private void setLanguageForAllSessions(String isoLanguage) {
 
         ISession[] sessions = this.om.getXmlCache().getSessions();
-        for (int i = 0; i < sessions.length; i++) {
-            sessions[i].setLanguage(isoLanguage);
+        for (ISession session : sessions) {
+            session.setLanguage(isoLanguage);
         }
 
     }
@@ -346,10 +346,8 @@ public class BehaviourPanel extends PreferencesPanel {
         dialog.setVisible(true);
         Object selectedValue = pane.getValue();
 
-        if ((selectedValue != null) && (selectedValue instanceof Integer)) {
-            if (((Integer) selectedValue).intValue() == JOptionPane.YES_OPTION) {
-                return true;
-            }
+        if ((selectedValue instanceof Integer)) {
+            return (Integer) selectedValue == JOptionPane.YES_OPTION;
         }
 
         return false;

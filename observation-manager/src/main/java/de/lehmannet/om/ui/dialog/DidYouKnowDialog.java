@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -40,14 +39,14 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private static final String TEXT_PATH = "help" + File.separatorChar + "hints";
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
-    private JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
-    private JButton next = new JButton(this.bundle.getString("didyouknow.button.next"));
-    private JCheckBox showOnStartup = new JCheckBox(this.bundle.getString("didyouknow.checkbox.showOnStartup"));
+    private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
+    private final JButton next = new JButton(this.bundle.getString("didyouknow.button.next"));
+    private final JCheckBox showOnStartup = new JCheckBox(this.bundle.getString("didyouknow.checkbox.showOnStartup"));
     private JTextArea text = null;
 
     public DidYouKnowDialog(ObservationManager om) {
@@ -124,9 +123,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 2, 1, 10, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.showOnStartup.setSelected(Boolean
-                .valueOf(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true"))
-                .booleanValue());
+        this.showOnStartup.setSelected(Boolean.parseBoolean(
+                this.om.getConfiguration().getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")));
         gridbag.setConstraints(this.showOnStartup, constraints);
         super.getContentPane().add(this.showOnStartup);
 
@@ -168,7 +166,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
                                             // at all!
 
         String current = null;
-        StringBuffer text = new StringBuffer();
+        StringBuilder text = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(files[iNumber]));
             current = br.readLine();
@@ -191,7 +189,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         char aChar;
         int len = theString.length();
-        StringBuffer outBuffer = new StringBuffer(len);
+        StringBuilder outBuffer = new StringBuilder(len);
 
         for (int x = 0; x < len;) {
             aChar = theString.charAt(x++);

@@ -12,10 +12,10 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 
 public interface IListableCatalog extends ICatalog {
 
-    public ITarget[] getTargets();
+    ITarget[] getTargets();
 
-    public String[] getCatalogIndex();
+    String[] getCatalogIndex();
 
-    public AbstractSchemaTableModel getTableModel();
+    AbstractSchemaTableModel getTableModel();
 
 }

@@ -2,13 +2,7 @@ package de.lehmannet.om.ui.extension;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.JMenu;
 
@@ -30,9 +24,9 @@ public class GenericExtension implements IExtension {
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("genericTargetDisplayNames", Locale.getDefault());
 
-    private final HashMap findingPanels = new HashMap();
-    private final HashMap targetPanels = new HashMap();
-    private final HashMap targetDialogs = new HashMap();
+    private final Map findingPanels = new HashMap();
+    private final Map targetPanels = new HashMap();
+    private final Map targetDialogs = new HashMap();
 
     public GenericExtension() {
 

@@ -20,22 +20,12 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -122,26 +112,25 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JPanel selectionPanel = null;
     private AbstractPanel findingsPanel = null;
 
-    private ObserverBox observerBox = new ObserverBox();
+    private final ObserverBox observerBox = new ObserverBox();
     private JButton newObserver = null;
-    private TargetBox targetBox = new TargetBox();
+    private final TargetBox targetBox = new TargetBox();
     private JButton newTarget = null;
     private JButton selectTarget = null;
-    private SessionBox sessionBox = new SessionBox();
+    private final SessionBox sessionBox = new SessionBox();
     private JButton newSession = null;
-    private ScopeBox scopeBox = new ScopeBox();
+    private final ScopeBox scopeBox = new ScopeBox();
     private JButton newScope = null;
-    private OMLabel LeyepieceName = null;
-    private EyepieceBox eyepieceBox = new EyepieceBox();
-    private JSlider eyepieceFLSlider = new JSlider(JSlider.HORIZONTAL);
+    private final EyepieceBox eyepieceBox = new EyepieceBox();
+    private final JSlider eyepieceFLSlider = new JSlider(JSlider.HORIZONTAL);
     private JButton newEyepiece = null;
-    private LensBox lensBox = new LensBox();
+    private final LensBox lensBox = new LensBox();
     private JButton newLens = null;
-    private FilterBox filterBox = new FilterBox();
+    private final FilterBox filterBox = new FilterBox();
     private JButton newFilter = null;
-    private SiteBox siteBox = new SiteBox();
+    private final SiteBox siteBox = new SiteBox();
     private JButton newSite = null;
-    private ImagerBox imagerBox = new ImagerBox();
+    private final ImagerBox imagerBox = new ImagerBox();
     private JButton newImager = null;
     private ImageContainer imageContainer = null;
     private JButton newImage = null;
@@ -295,12 +284,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             return null;
         }
 
-        if (!this.beginTime.checkTime()) {
+        if (this.beginTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongStartTime"));
             return null;
         }
 
-        if (!this.endTime.checkTime()) {
+        if (this.endTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongEndTime"));
             return null;
         }
@@ -373,16 +362,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver.title"));
                 dialog.setVisible(true);
                 Object selectedValue = pane.getValue();
-                if ((selectedValue != null) && (selectedValue instanceof Integer)) {
-                    if (((Integer) selectedValue).intValue() == JOptionPane.NO_OPTION) {
+                if ((selectedValue instanceof Integer)) {
+                    if ((Integer) selectedValue == JOptionPane.NO_OPTION) {
                         return null; // User want's to rework settings
                     }
                 }
             }
 
             this.observation.setSession((ISession) this.sessionBox.getSelectedSchemaElement());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION,
-                    this.sessionBox.getSelectedSchemaElement());
+            this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION, this.sessionBox.getSelectedSchemaElement());
         } catch (IllegalArgumentException iae) {
             super.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongTimeForSession"));
             return null;
@@ -450,23 +438,19 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, null); // Reset cache
         SeeingBoxEntry s = (SeeingBoxEntry) this.seeing.getSelectedItem();
-        if (s.isEmptyItem()) { // No seeing selected
+        if (Objects.requireNonNull(s).isEmptyItem()) { // No seeing selected
             this.observation.setSeeing(-1);
         } else {
             this.observation.setSeeing(s.getValue());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s.getValue()));
+            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
-         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
-         * catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.invalidSeeing")); return null; } }
-         * catch(NumberFormatException nfe) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } } else {
-         * this.observation.setSeeing(-1); }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
+         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
+         * } } catch(NumberFormatException nfe) { this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.noNumberSeeing")); return null; } } else { this.observation.setSeeing(-1); }
          */
 
         this.observation.setAccessories(this.accessories.getText());
@@ -500,12 +484,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             return null;
         }
 
-        if (!this.beginTime.checkTime()) {
+        if (this.beginTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongStartTime"));
             return null;
         }
 
-        if (!this.endTime.checkTime()) {
+        if (this.endTime.checkTime()) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongEndTime"));
             return null;
         }
@@ -580,8 +564,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                             AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver.title"));
                     dialog.setVisible(true);
                     Object selectedValue = pane.getValue();
-                    if ((selectedValue != null) && (selectedValue instanceof Integer)) {
-                        if (((Integer) selectedValue).intValue() == JOptionPane.NO_OPTION) {
+                    if ((selectedValue instanceof Integer)) {
+                        if ((Integer) selectedValue == JOptionPane.NO_OPTION) {
                             return null; // User want's to rework settings
                         }
                     }
@@ -668,23 +652,20 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         SeeingBoxEntry s = (SeeingBoxEntry) this.seeing.getSelectedItem();
         this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, null); // Reset cache
-        if (s.isEmptyItem()) { // No seeing selected
+        if (Objects.requireNonNull(s).isEmptyItem()) { // No seeing selected
             this.observation.setSeeing(-1);
         } else {
             this.observation.setSeeing(s.getValue());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s.getValue()));
+            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
-         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
-         * catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.invalidSeeing")); return null; }
-         * this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); }
-         * catch(NumberFormatException nfe) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
+         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
+         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); } catch(NumberFormatException nfe)
+         * { this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.noNumberSeeing")); return
+         * null; } }
          */
 
         String ac = this.accessories.getText();
@@ -886,9 +867,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     AbstractPanel oldPanel = this.getFindingPanel();
                     if (oldPanel != null) {
                         String oldType = ((IFindingPanel) oldPanel).getXSIType();
-                        if (!oldType.equals(type)) {
-                            // @todo PopUp Warning?
-                        }
+                        // @todo PopUp Warning?
                     }
                     this.setFindingPanel(target);
                 } else { // EMPTY_ITEM selected
@@ -941,10 +920,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                             start.get(Calendar.SECOND));
 
                     // Check whether enddate/time should be autom. set
-                    if (Boolean
-                            .valueOf(this.observationManager.getConfiguration()
-                                    .getConfig(ObservationManager.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))
-                            .booleanValue()) {
+                    if (Boolean.parseBoolean(this.observationManager.getConfiguration()
+                            .getConfig(ObservationManager.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
                         this.endDate = (Calendar) start.clone();
                         this.endDate.add(Calendar.MINUTE, 10); // Add 10 minutes, as end date should be after begin date
 
@@ -1027,13 +1004,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         FileFilter imageFileFilter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                if ((f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
+                return (f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
                         || (f.getName().toLowerCase().endsWith(".gif")) || (f.getName().toLowerCase().endsWith(".png"))
                         || (f.getName().toLowerCase().endsWith(".fits")) || (f.getName().toLowerCase().endsWith(".fit"))
-                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory())) {
-                    return true;
-                }
-                return false;
+                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory());
             }
 
             @Override
@@ -1058,7 +1032,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.imageContainer.addImages(images);
             this.repaint();
 
-            if ((files != null) && (files.length > 0)) {
+            if (files.length > 0) {
                 this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile());
             }
 
@@ -1107,9 +1081,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             super.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.targetAndfinding"));
             return null;
         }
-        IFinding finding = (IFinding) this.findingsPanel.createSchemaElement();
 
-        return finding;
+        return (IFinding) this.findingsPanel.createSchemaElement();
 
     }
 
@@ -1272,7 +1245,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 2, 1, 6, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.beginTime = new TimeContainer(00, 00, 00, super.isEditable());
+        this.beginTime = new TimeContainer(0, 0, 0, super.isEditable());
         this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.begin"));
         gridbag.setConstraints(this.beginTime, constraints);
         this.selectionPanel.add(this.beginTime);
@@ -1286,7 +1259,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 1, 1, 1, 1, 1);
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.end"), SwingConstants.RIGHT, false);
+        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.end"), SwingConstants.RIGHT,
+                false);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
         this.selectionPanel.add(Lend);
@@ -1309,7 +1283,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         ConstraintsBuilder.buildConstraints(constraints, 13, 1, 2, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.endTime = new TimeContainer(00, 00, 00, super.isEditable());
+        this.endTime = new TimeContainer(0, 0, 0, super.isEditable());
         this.endTime.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         gridbag.setConstraints(this.endTime, constraints);
         this.selectionPanel.add(this.endTime);
@@ -1347,8 +1321,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(this.faintestStar);
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 2, 1, 1, 1, 1);
-        OMLabel LSeeing = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.seeing"), SwingConstants.RIGHT,
-                false);
+        OMLabel LSeeing = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.seeing"),
+                SwingConstants.RIGHT, false);
         LSeeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
         gridbag.setConstraints(LSeeing, constraints);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -1359,7 +1333,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.fillSeeingBox();
         this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
         gridbag.setConstraints(this.seeing, constraints);
-        ;
         this.selectionPanel.add(this.seeing);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 2, 1, 3, 1);
@@ -1376,7 +1349,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(this.magnification);
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 3, 1, 1, 1, 1);
-        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT, false);
+        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT,
+                false);
         Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(Lsqm, constraints);
@@ -1469,10 +1443,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 8, 2, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        LeyepieceName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.eyepiece"), false);
-        LeyepieceName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
-        gridbag.setConstraints(LeyepieceName, constraints);
-        this.selectionPanel.add(LeyepieceName);
+        OMLabel leyepieceName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.eyepiece"), false);
+        leyepieceName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
+        gridbag.setConstraints(leyepieceName, constraints);
+        this.selectionPanel.add(leyepieceName);
         ConstraintsBuilder.buildConstraints(constraints, 2, 8, 14, 1, 6, 1);
         this.eyepieceBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
         this.eyepieceBox.addActionListener(this);
@@ -1612,10 +1586,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         IObserver[] observers = this.observationManager.getXmlCache().getObservers();
         IObserver defaultObserver = null;
-        for (int i = 0; i < observers.length; i++) {
-            this.observerBox.addItem(observers[i]);
-            if ((currentValue != null) && (currentValue.equals(observers[i].getDisplayName()))) {
-                defaultObserver = observers[i];
+        for (IObserver observer : observers) {
+            this.observerBox.addItem(observer);
+            if ((currentValue != null) && (currentValue.equals(observer.getDisplayName()))) {
+                defaultObserver = observer;
             }
         }
         if (defaultObserver != null) {
@@ -1632,9 +1606,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.targetBox.getSelectedSchemaElement();
         }
         ITarget[] targets = this.observationManager.getXmlCache().getTargets();
-        for (int i = 0; i < targets.length; i++) {
-            if (targets[i].getObserver() != null) {
-                this.targetBox.addItem(targets[i]);
+        for (ITarget target : targets) {
+            if (target.getObserver() != null) {
+                this.targetBox.addItem(target);
             }
             if (this.observation != null) { // In edit mode, add current target to list
                 this.targetBox.addItem(this.observation.getTarget());
@@ -1661,8 +1635,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.sessionBox.getSelectedSchemaElement();
         }
         ISession[] session = this.observationManager.getXmlCache().getSessions();
-        for (int i = 0; i < session.length; i++) {
-            this.sessionBox.addItem(session[i]);
+        for (ISession iSession : session) {
+            this.sessionBox.addItem(iSession);
         }
         if (refill) {
             this.sessionBox.setSelectedItem(element);
@@ -1676,13 +1650,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.scopeBox.getSelectedSchemaElement();
         }
         IScope[] scopes = this.observationManager.getXmlCache().getScopes();
-        for (int i = 0; i < scopes.length; i++) {
+        for (IScope scope : scopes) {
             if (this.observation == null) { // In create mode only show still active equipment
-                if (scopes[i].isAvailable()) {
-                    this.scopeBox.addItem(scopes[i]);
+                if (scope.isAvailable()) {
+                    this.scopeBox.addItem(scope);
                 }
             } else { // In edit mode show also deactivated equipment
-                this.scopeBox.addItem(scopes[i]);
+                this.scopeBox.addItem(scope);
             }
         }
         if (refill) {
@@ -1697,13 +1671,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.eyepieceBox.getSelectedSchemaElement();
         }
         IEyepiece[] eyepieces = this.observationManager.getXmlCache().getEyepieces();
-        for (int i = 0; i < eyepieces.length; i++) {
+        for (IEyepiece eyepiece : eyepieces) {
             if (this.observation == null) { // In create mode only show still active equipment
-                if (eyepieces[i].isAvailable()) {
-                    this.eyepieceBox.addItem(eyepieces[i]);
+                if (eyepiece.isAvailable()) {
+                    this.eyepieceBox.addItem(eyepiece);
                 }
             } else { // In edit mode show also deactivated equipment
-                this.eyepieceBox.addItem(eyepieces[i]);
+                this.eyepieceBox.addItem(eyepiece);
             }
         }
         if (refill) {
@@ -1718,13 +1692,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.lensBox.getSelectedSchemaElement();
         }
         ILens[] lenses = this.observationManager.getXmlCache().getLenses();
-        for (int i = 0; i < lenses.length; i++) {
+        for (ILens lens : lenses) {
             if (this.observation == null) { // In create mode only show still active equipment
-                if (lenses[i].isAvailable()) {
-                    this.lensBox.addItem(lenses[i]);
+                if (lens.isAvailable()) {
+                    this.lensBox.addItem(lens);
                 }
             } else { // In edit mode show also deactivated equipment
-                this.lensBox.addItem(lenses[i]);
+                this.lensBox.addItem(lens);
             }
         }
         if (refill) {
@@ -1739,13 +1713,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.filterBox.getSelectedSchemaElement();
         }
         IFilter[] filters = this.observationManager.getXmlCache().getFilters();
-        for (int i = 0; i < filters.length; i++) {
+        for (IFilter filter : filters) {
             if (this.observation == null) { // In create mode only show still active equipment
-                if (filters[i].isAvailable()) {
-                    this.filterBox.addItem(filters[i]);
+                if (filter.isAvailable()) {
+                    this.filterBox.addItem(filter);
                 }
             } else { // In edit mode show also deactivated equipment
-                this.filterBox.addItem(filters[i]);
+                this.filterBox.addItem(filter);
             }
         }
         if (refill) {
@@ -1760,8 +1734,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.siteBox.getSelectedSchemaElement();
         }
         ISite[] sites = this.observationManager.getXmlCache().getSites();
-        for (int i = 0; i < sites.length; i++) {
-            this.siteBox.addItem(sites[i]);
+        for (ISite site : sites) {
+            this.siteBox.addItem(site);
         }
         if (refill) {
             this.siteBox.setSelectedItem(element);
@@ -1775,13 +1749,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.imagerBox.getSelectedSchemaElement();
         }
         IImager[] imagers = this.observationManager.getXmlCache().getImagers();
-        for (int i = 0; i < imagers.length; i++) {
+        for (IImager imager : imagers) {
             if (this.observation == null) { // In create mode only show still active equipment
-                if (imagers[i].isAvailable()) {
-                    this.imagerBox.addItem(imagers[i]);
+                if (imager.isAvailable()) {
+                    this.imagerBox.addItem(imager);
                 }
             } else { // In edit mode show also deactivated equipment
-                this.imagerBox.addItem(imagers[i]);
+                this.imagerBox.addItem(imager);
             }
         }
         if (refill) {
@@ -1941,7 +1915,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         if (this.cache.get(CACHEKEY_SEEING) != null) {
-            this.seeing.setSelectedItem(new SeeingBoxEntry(((Integer) this.cache.get(CACHEKEY_SEEING)).intValue()));
+            this.seeing.setSelectedItem(new SeeingBoxEntry((Integer) this.cache.get(CACHEKEY_SEEING)));
         }
 
         if (this.cache.get(CACHEKEY_ACCESSORIES) != null) {
@@ -2003,8 +1977,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 class SeeingBoxEntry {
 
     private static final String BUNDLE_PREFIX = "seeing.antoniadi.short.";
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private static final String EMPTY_ENTRY = "----";
 
@@ -2035,10 +2009,8 @@ class SeeingBoxEntry {
     @Override
     public boolean equals(Object o) {
 
-        if ((o != null) && (o instanceof SeeingBoxEntry)) {
-            if (((SeeingBoxEntry) o).getValue() == this.value) {
-                return true;
-            }
+        if ((o instanceof SeeingBoxEntry)) {
+            return ((SeeingBoxEntry) o).getValue() == this.value;
         }
 
         return false;
@@ -2053,11 +2025,7 @@ class SeeingBoxEntry {
 
     public boolean isEmptyItem() {
 
-        if (this.value == 0) {
-            return true;
-        }
-
-        return false;
+        return this.value == 0;
 
     }
 

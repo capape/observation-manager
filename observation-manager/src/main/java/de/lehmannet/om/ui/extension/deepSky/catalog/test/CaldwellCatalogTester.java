@@ -12,7 +12,7 @@ import java.io.File;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.CaldwellCatalog;
 
-public class CaldwellCatalogTester {
+class CaldwellCatalogTester {
 
     public static void main(String[] args) {
 
@@ -21,8 +21,8 @@ public class CaldwellCatalogTester {
         String[] all = cc.getCatalogIndex();
 
         ITarget t = null;
-        for (int i = 0; i < all.length; i++) {
-            t = cc.getTarget(all[i]);
+        for (String s : all) {
+            t = cc.getTarget(s);
             System.out.println("----");
             System.out.println(t.getClass().getName());
             System.out.println(t);

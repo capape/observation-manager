@@ -2,7 +2,7 @@ package de.lehmannet.om.ui.update;
 
 import java.net.URL;
 
-public class UpdateEntry {
+class UpdateEntry {
 
     private String name = null;
     private String oldVersion = null;

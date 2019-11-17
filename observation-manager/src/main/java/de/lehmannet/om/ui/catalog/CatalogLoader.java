@@ -27,8 +27,8 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class CatalogLoader {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private static final String CATALOG_DIR = "catalog";
 
@@ -37,14 +37,14 @@ public class CatalogLoader {
 
     // Key: Catalog name (String)
     // Value: Catalog (ICatalog)
-    private HashMap catalogMap = new HashMap();
+    private final Map catalogMap = new HashMap();
 
     // Key: Extension name (String)
     // Value: Extension version (Float)
-    private HashMap knownExtensions = new HashMap();
+    private final Map knownExtensions = new HashMap();
 
     // Used to load catalogs in parallel
-    ThreadGroup loadCatalogs = new ThreadGroup("Load all catalogs");
+    private final ThreadGroup loadCatalogs = new ThreadGroup("Load all catalogs");
 
     public CatalogLoader(ObservationManager om, List extensions) {
 
@@ -166,7 +166,7 @@ public class CatalogLoader {
             if (this.knownExtensions.containsKey(current.getName())) { // Is extension already known (we're in an update
                                                                        // run)
                 // Extension is known...check if version is equal
-                float knownVersion = ((Float) this.knownExtensions.get(current.getName())).floatValue();
+                float knownVersion = (Float) this.knownExtensions.get(current.getName());
                 float version = current.getVersion();
                 if (knownVersion >= version) {
                     continue; // Extension in that version is already known to us
@@ -183,13 +183,12 @@ public class CatalogLoader {
             catalogs.add(thread);
 
             // Add current extension to list of known extesions
-            this.knownExtensions.put(current.getName(), new Float(current.getVersion()));
+            this.knownExtensions.put(current.getName(), current.getVersion());
         }
 
         // Start loading all catalogs
-        Iterator iter = catalogs.iterator();
-        while (iter.hasNext()) {
-            ((Thread) iter.next()).start();
+        for (Object catalog : catalogs) {
+            ((Thread) catalog).start();
         }
 
     }
@@ -225,8 +224,8 @@ class CatalogLoaderRunnable implements Runnable {
         // All catalogs are loaded, so add them to map
         if (currentCatalogs != null) {
             synchronized (this.resultMap) { // Make sure access to map is synchronized
-                for (int i = 0; i < currentCatalogs.length; i++) {
-                    this.resultMap.put(currentCatalogs[i].getName(), currentCatalogs[i]);
+                for (ICatalog currentCatalog : currentCatalogs) {
+                    this.resultMap.put(currentCatalog.getName(), currentCatalog);
                 }
             }
         }
@@ -243,23 +242,21 @@ class WaitPopup extends OMDialog {
 
     private static final long serialVersionUID = 4130578764471183037L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
-
     private ThreadGroup threadGroup = null;
-    private JProgressBar progressBar = null;
 
     public WaitPopup(ThreadGroup threadGroup, ObservationManager om) {
 
         super(om);
         super.setLocationRelativeTo(om);
-        super.setTitle(this.bundle.getString("catalogLoader.info.waitOnLoaders"));
+        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+                Locale.getDefault());
+        super.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
 
         this.threadGroup = threadGroup;
 
         super.getContentPane().setLayout(new BorderLayout());
 
-        progressBar = new JProgressBar(0, 100);
+        JProgressBar progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
         progressBar.setIndeterminate(true);
 
@@ -268,16 +265,7 @@ class WaitPopup extends OMDialog {
         this.setSize(WaitPopup.serialVersionUID, 250, 60);
         // this.pack();
 
-        Runnable wait = new Runnable() {
-
-            @Override
-            public void run() {
-
-                WaitPopup.this.waitForCatalogLoaders();
-
-            }
-
-        };
+        Runnable wait = WaitPopup.this::waitForCatalogLoaders;
 
         Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
         waitThread.start();

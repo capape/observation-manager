@@ -19,7 +19,7 @@ public class ConstellationBox extends JComboBox {
 
     private static final String EMPTY_ENTRY = "----";
 
-    private static final Constellation cache[] = new Constellation[] { Constellation.ANDROMEDA, Constellation.ANTLIA,
+    private static final Constellation[] cache = new Constellation[] { Constellation.ANDROMEDA, Constellation.ANTLIA,
             Constellation.APUS, Constellation.AQUARIUS, Constellation.AQUILA, Constellation.ARA, Constellation.ARIES,
             Constellation.AURIGA, Constellation.BOOTES, Constellation.CAELUM, Constellation.CAMELOPARDALIS,
             Constellation.CANCER, Constellation.CANES_VENATICI, Constellation.CANIS_MAIOR, Constellation.CANIS_MINOR,
@@ -71,9 +71,8 @@ public class ConstellationBox extends JComboBox {
     /*
      * public String getSelectedConstellationAbbreviation() {
      * 
-     * Object cons = super.getSelectedItem(); if(
-     * ConstellationBox.EMPTY_ENTRY.equals(cons) ) { return null; } else { return
-     * ((Constellation)cons).getAbbreviation(); }
+     * Object cons = super.getSelectedItem(); if( ConstellationBox.EMPTY_ENTRY.equals(cons) ) { return null; } else {
+     * return ((Constellation)cons).getAbbreviation(); }
      * 
      * }
      */
@@ -103,9 +102,8 @@ public class ConstellationBox extends JComboBox {
      * if( (name == null) || ("".equals(name.trim())) ) { return null; }
      * 
      * for(int i=0; i < ConstellationBox.cache.length; i++) { if(
-     * ConstellationBox.cache[i].getName().toLowerCase().trim().equals(name.
-     * toLowerCase().trim()) ) { return ConstellationBox.cache[i].getAbbreviation();
-     * } }
+     * ConstellationBox.cache[i].getName().toLowerCase().trim().equals(name. toLowerCase().trim()) ) { return
+     * ConstellationBox.cache[i].getAbbreviation(); } }
      * 
      * return null;
      * 
@@ -115,25 +113,24 @@ public class ConstellationBox extends JComboBox {
     /*
      * public static String getConstellationName(String abbreviation) {
      * 
-     * if( (abbreviation == null) || ("".equals(abbreviation.trim())) ) { return
-     * null; }
+     * if( (abbreviation == null) || ("".equals(abbreviation.trim())) ) { return null; }
      * 
      * for(int i=0; i < ConstellationBox.cache.length; i++) { if(
-     * ConstellationBox.cache[i].getAbbreviation().equals(abbreviation) ) { return
-     * ConstellationBox.cache[i].getName(); } }
+     * ConstellationBox.cache[i].getAbbreviation().equals(abbreviation) ) { return ConstellationBox.cache[i].getName();
+     * } }
      * 
      * return null;
      * 
      * }
      */
 
-    public void selectEmptyItem() {
+    private void selectEmptyItem() {
 
         super.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
 
     }
 
-    public void addEmptyItem() {
+    private void addEmptyItem() {
 
         super.addItem(ConstellationBox.EMPTY_ENTRY);
         super.setSelectedItem(ConstellationBox.EMPTY_ENTRY);

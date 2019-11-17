@@ -24,7 +24,6 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
@@ -40,11 +39,11 @@ public class LogDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3508562400111692974L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager", Locale.getDefault());
 
     private JTextPane text = null;
-    private JButton close = new JButton(this.bundle.getString("log.button.close"));
+    private final JButton close = new JButton(this.bundle.getString("log.button.close"));
 
     private File logfile = null;
     private BufferedReader bufferedReader = null;
@@ -147,10 +146,8 @@ public class LogDialog extends OMDialog implements ActionListener {
             this.bufferedReader.close();
         } catch (IOException ioe) {
             System.err.println("Error reading line " + no + " from log " + this.logfile + "\n" + ioe);
-            return;
         } catch (BadLocationException ble) {
             System.err.println("Error setting log text\n" + ble);
-            return;
         }
 
     }

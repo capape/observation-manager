@@ -71,9 +71,8 @@ public class VariableStarsPreferences extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.cacheEnabled = new JCheckBox();
-        this.cacheEnabled.setSelected(
-                Boolean.valueOf(super.configuration.getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED, "true"))
-                        .booleanValue());
+        this.cacheEnabled.setSelected(Boolean
+                .parseBoolean(super.configuration.getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED, "true")));
         this.cacheEnabled.setToolTipText(this.bundle.getString("preferences.tooltip.cacheEnabled"));
         gridbag.setConstraints(this.cacheEnabled, constraints);
         super.add(this.cacheEnabled);
