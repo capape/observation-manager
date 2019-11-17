@@ -2,9 +2,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>de.lehmannet.com</groupId>
 	<artifactId>observation-planner-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<artifactId>observation-parent</artifactId>
+		<groupId>de.lehmannet.om</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
 
 	<properties>
@@ -25,6 +32,24 @@
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 			<version>${xerces.xcercesImpl.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.revelc.code.formatter</groupId>
+			<artifactId>formatter-maven-plugin</artifactId>
+			<version>${formatter.maven.plugin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
 
 	</dependencies>
