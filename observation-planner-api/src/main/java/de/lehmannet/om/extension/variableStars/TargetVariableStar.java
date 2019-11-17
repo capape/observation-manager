@@ -56,20 +56,20 @@ public class TargetVariableStar extends TargetStar {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a TargetVariableStar from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a TargetVariableStar from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    public TargetVariableStar(Node targetElement, IObserver[] observers) throws SchemaException {
+    public TargetVariableStar(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -92,7 +92,8 @@ public class TargetVariableStar extends TargetStar {
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException(
                             "Maximal apparent magnitude of TargetVariableStar must be a numeric value. (ID: "
-                                    + super.getID() + ")");
+                                    + super.getID() + ")",
+                            nfe);
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
@@ -105,14 +106,14 @@ public class TargetVariableStar extends TargetStar {
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
-                String value = "";
+                StringBuilder value = new StringBuilder();
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        value = value + textElements.item(te).getNodeValue();
+                        value.append(textElements.item(te).getNodeValue());
                     }
                     // currentCompStar = child.getFirstChild().getNodeValue();
-                    this.setType(value);
+                    this.setType(value.toString());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
@@ -131,7 +132,7 @@ public class TargetVariableStar extends TargetStar {
                     this.setPeriod(period);
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException(
-                            "Period of TargetVariableStar must be a numeric value. (ID: " + super.getID() + ")");
+                            "Period of TargetVariableStar must be a numeric value. (ID: " + super.getID() + ")", nfe);
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("TargetVariableStar can only have one period. (ID: " + super.getID() + ")");
@@ -169,7 +170,7 @@ public class TargetVariableStar extends TargetStar {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer(super.toString());
+        StringBuilder buffer = new StringBuilder(super.toString());
         buffer.append("\n ----- Target VariableStar Values=");
 
         if (this.type != null) {
@@ -197,21 +198,18 @@ public class TargetVariableStar extends TargetStar {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this TargetVariableStar to a given parent XML DOM Element. The
-     * TargetVariableStar element will be set as a child element of the passed
-     * element.
+     * Adds this TargetVariableStar to a given parent XML DOM Element. The TargetVariableStar element will be set as a
+     * child element of the passed element.
      * 
-     * @param parent The parent element for this TargetVariableStar
-     * @return Returns the element given as parameter with this TargetVariableStar
-     *         as child element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this TargetVariableStar
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         // Create TargetStar element
@@ -219,7 +217,7 @@ public class TargetVariableStar extends TargetStar {
 
         // Check if element already exists
         if (e_VSTarget == null) {
-            return element;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -248,8 +246,6 @@ public class TargetVariableStar extends TargetStar {
 
             e_VSTarget.appendChild(e_Period);
         }
-
-        return element;
 
     }
 
@@ -280,8 +276,8 @@ public class TargetVariableStar extends TargetStar {
     // -------------------------------------------------------------------
     /**
      * Returns the maximal apparent magnitude of this variable star.<br>
-     * To access the minimal apparent magnitude of this variable star, please use
-     * getMagnitudeApparent() (derived vom de.lehmannet.om.TargetStar)<br>
+     * To access the minimal apparent magnitude of this variable star, please use getMagnitudeApparent() (derived vom
+     * de.lehmannet.om.TargetStar)<br>
      * Might be <code>Float.NaN</code> if value was never set.
      * 
      * @return The maximal apparent magnitude
@@ -296,8 +292,7 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Sets the maximal apparent magnitude of this variable star.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
-     * 
-     * @param The new maximal apparent magnitude of this variable star
+     *
      */
     public void setMaxMagnitudeApparent(float maxApparentMag) {
 
@@ -308,9 +303,8 @@ public class TargetVariableStar extends TargetStar {
     // -------------------------------------------------------------------
     /**
      * Returns the type of this variable star.<br>
-     * This can be any free string describing the variable star type like: Cepheids,
-     * RR Lyrae stars, Semiregular, Supernovae, Novae, R Coronae Borealis, Eclipsing
-     * Binary Stars, ... <br>
+     * This can be any free string describing the variable star type like: Cepheids, RR Lyrae stars, Semiregular,
+     * Supernovae, Novae, R Coronae Borealis, Eclipsing Binary Stars, ... <br>
      * A good description of variable star types can be found at the
      * <a href="http://www.aavso.org/vstar/types.shtml">AAVSO page</a><br>
      * Might be <code>null</code> if value was never set.
@@ -326,8 +320,7 @@ public class TargetVariableStar extends TargetStar {
     // -------------------------------------------------------------------
     /**
      * Sets the type of this variable star.<br>
-     * 
-     * @param The new type of this variable star
+     *
      */
     public void setType(String type) {
 
@@ -343,8 +336,7 @@ public class TargetVariableStar extends TargetStar {
     // -------------------------------------------------------------------
     /**
      * Returns the period of this variable star in days.<br>
-     * Might be <code>Float.NaN</code> if value was never set (or the variable star
-     * has no period)
+     * Might be <code>Float.NaN</code> if value was never set (or the variable star has no period)
      * 
      * @return The period of the variable star in days
      */
@@ -358,8 +350,7 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Sets the period of this variable star in days.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
-     * 
-     * @param The period of this variable star in days
+     *
      */
     public void setPeriod(float period) {
 

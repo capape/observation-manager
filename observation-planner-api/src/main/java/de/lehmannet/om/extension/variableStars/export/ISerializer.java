@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
-public interface ISerializer {
+interface ISerializer {
 
     // --------------
     // Public methods ---------------------------------------------------------
@@ -20,6 +20,6 @@ public interface ISerializer {
      * 
      * @return int value with the number of exported observations
      */
-    public int serialize(OutputStream stream) throws Exception;
+    int serialize(OutputStream stream) throws Exception;
 
 }

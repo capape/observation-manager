@@ -11,8 +11,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -30,15 +28,12 @@ import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
 
 /**
- * An IObservation describes an astronomical oberservation of exactly one
- * celestial object (target).<br>
- * The observation must have one start date to be correct, but does not have to
- * have an end date (as the end date might be lost in older observations).<br>
- * Inside the XML Schema the Observation is the central entry point for
- * accessing all other kinds of data. (See:
- * <a href="http://observation.sourceforge.net/schema/doc/uml/root.html"> XML
- * Schema Doc</a>) Therefore the IObservation provides access to almost all
- * other XML Schema elements.
+ * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>
+ * The observation must have one start date to be correct, but does not have to have an end date (as the end date might
+ * be lost in older observations).<br>
+ * Inside the XML Schema the Observation is the central entry point for accessing all other kinds of data. (See:
+ * <a href="http://observation.sourceforge.net/schema/doc/uml/root.html"> XML Schema Doc</a>) Therefore the IObservation
+ * provides access to almost all other XML Schema elements.
  *
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -109,56 +104,48 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new Observation instance from a given XML Schema Node. Normally
-     * this constructor is only used by de.lehmannet.om.util.SchemaLoader<br>
-     * Please mind: As a Observation can have multiple subelements (e.g.
-     * <target>,<session>,<observer>...) that link to their implementing elements
-     * somewhere else in the xml. Because of that this constructor requires several
-     * arrays of these subelements to check whether their implementing element
-     * exists. If a Observation Node has no subelement of a specific type (cause its
-     * optional by XML Schema specification), the according array parameter can be
-     * empty or <code>null</code>.
+     * Constructs a new Observation instance from a given XML Schema Node. Normally this constructor is only used by
+     * de.lehmannet.om.util.SchemaLoader<br>
+     * Please mind: As a Observation can have multiple subelements (e.g. <target>,<session>,<observer>...) that link to
+     * their implementing elements somewhere else in the xml. Because of that this constructor requires several arrays
+     * of these subelements to check whether their implementing element exists. If a Observation Node has no subelement
+     * of a specific type (cause its optional by XML Schema specification), the according array parameter can be empty
+     * or <code>null</code>.
      *
-     * @param observation the XML Schema Node that represents this Observation
-     *                    object
-     * @param targets     Array of ITarget that might be linked from this
-     *                    observation
-     * @param observers   Array of IObserver that might be linked from this
-     *                    observation
-     * @param sites       Array of ISite that might be linked from this observation
-     * @param scopes      Array of IScope that might be linked from this observation
-     *                    (as Site is optional by XML Schema, this parameter can be
-     *                    <code>NULL</code> if passed Observation Node has no <site>
-     *                    subelement)
-     * @param sessions    Array of ISession that might be linked from this
-     *                    observation (as Session is optional by XML Schema, this
-     *                    parameter can be <code>NULL</code> if passed Observation
-     *                    Node has no <session> subelement)
-     * @param eyepieces   Array of IEyepiece that might be linked from this
-     *                    observation (as Eyepiece is optional by XML Schema, this
-     *                    parameter can be <code>NULL</code> if passed Observation
-     *                    Node has no <eyepiece> subelement)
-     * @param filters     Array of IFilter that might be linked from this
-     *                    observation (as Filter is optional by XML Schema, this
-     *                    parameter can be <code>NULL</code> if passed Observation
-     *                    Node has no <filter> subelement)
-     * @param imagers     Array of IImagers that might be linked from this
-     *                    observation (as Imager is optional by XML Schema, this
-     *                    parameter can be <code>NULL</code> if passed Observation
-     *                    Node has no <imager> subelement)
-     * @param lenses      Array of ILens that might be linked from this observation
-     *                    (as Lens is optional by XML Schema, this parameter can be
-     *                    <code>NULL</code> if passed Observation Node has no <lens>
-     *                    subelement)
-     * @throws IllegalArgumentException if parameter observation is
-     *                                  <code>null</code> or Observation Node has
-     *                                  subelements of which no according array was
-     *                                  passed (or the passed array was empty).
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param observation
+     *            the XML Schema Node that represents this Observation object
+     * @param targets
+     *            Array of ITarget that might be linked from this observation
+     * @param observers
+     *            Array of IObserver that might be linked from this observation
+     * @param sites
+     *            Array of ISite that might be linked from this observation
+     * @param scopes
+     *            Array of IScope that might be linked from this observation (as Site is optional by XML Schema, this
+     *            parameter can be <code>NULL</code> if passed Observation Node has no <site> subelement)
+     * @param sessions
+     *            Array of ISession that might be linked from this observation (as Session is optional by XML Schema,
+     *            this parameter can be <code>NULL</code> if passed Observation Node has no <session> subelement)
+     * @param eyepieces
+     *            Array of IEyepiece that might be linked from this observation (as Eyepiece is optional by XML Schema,
+     *            this parameter can be <code>NULL</code> if passed Observation Node has no <eyepiece> subelement)
+     * @param filters
+     *            Array of IFilter that might be linked from this observation (as Filter is optional by XML Schema, this
+     *            parameter can be <code>NULL</code> if passed Observation Node has no <filter> subelement)
+     * @param imagers
+     *            Array of IImagers that might be linked from this observation (as Imager is optional by XML Schema,
+     *            this parameter can be <code>NULL</code> if passed Observation Node has no <imager> subelement)
+     * @param lenses
+     *            Array of ILens that might be linked from this observation (as Lens is optional by XML Schema, this
+     *            parameter can be <code>NULL</code> if passed Observation Node has no <lens> subelement)
+     * @throws IllegalArgumentException
+     *             if parameter observation is <code>null</code> or Observation Node has subelements of which no
+     *             according array was passed (or the passed array was empty).
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Observation(Node observation, ITarget[] targets, IObserver[] observers, ISite[] sites, IScope[] scopes,
-            ISession[] sessions, IEyepiece[] eyepieces, IFilter[] filters, IImager[] imagers, ILens[] lenses)
+            ISession[] sessions, IEyepiece[] eyepieces, IFilter[] filters, IImager[] imagers, ILens... lenses)
             throws SchemaException, IllegalArgumentException {
 
         if (observation == null) {
@@ -222,14 +209,14 @@ public class Observation extends SchemaElement implements IObservation {
             if ((targets != null) && (targets.length > 0)) {
                 // Check if target link is not broken
                 boolean found = false;
-                for (int j = 0; j < targets.length; j++) {
-                    if (targets[j].getID().equals(targetID)) {
+                for (ITarget iTarget : targets) {
+                    if (iTarget.getID().equals(targetID)) {
                         found = true;
-                        this.setTarget(targets[j]);
+                        this.setTarget(iTarget);
                         break;
                     }
                 }
-                if (found == false) {
+                if (!found) {
                     throw new SchemaException(
                             "Observation " + super.getID() + " links to not existing target element!");
                 }
@@ -254,14 +241,14 @@ public class Observation extends SchemaElement implements IObservation {
             if ((observers != null) && (observers.length > 0)) {
                 // Check if observer exists
                 boolean found = false;
-                for (int j = 0; j < observers.length; j++) {
-                    if (observers[j].getID().equals(observerID)) {
+                for (IObserver iObserver : observers) {
+                    if (iObserver.getID().equals(observerID)) {
                         found = true;
-                        this.setObserver(observers[j]);
+                        this.setObserver(iObserver);
                         break;
                     }
                 }
-                if (found == false) {
+                if (!found) {
                     throw new SchemaException("Observation observer links to not existing observer element. ");
                 }
             } else {
@@ -282,7 +269,6 @@ public class Observation extends SchemaElement implements IObservation {
         this.setResults(Arrays.asList(results));
 
         // Get optional end date
-        child = null;
         children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_END);
         Calendar end = null;
         if (children != null) {
@@ -316,14 +302,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((sites != null) && (sites.length > 0)) {
                         // Check if site exits
                         boolean found = false;
-                        for (int j = 0; j < sites.length; j++) {
-                            if (sites[j].getID().equals(siteID)) {
+                        for (ISite iSite : sites) {
+                            if (iSite.getID().equals(siteID)) {
                                 found = true;
-                                this.setSite(sites[j]);
+                                this.setSite(iSite);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation site links to not existing site element. ");
                         }
                     } else {
@@ -349,14 +335,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((scopes != null) && (scopes.length > 0)) {
                         // Check if scope exits
                         boolean found = false;
-                        for (int j = 0; j < scopes.length; j++) {
-                            if (scopes[j].getID().equals(scopeID)) {
+                        for (IScope iScope : scopes) {
+                            if (iScope.getID().equals(scopeID)) {
                                 found = true;
-                                this.setScope(scopes[j]);
+                                this.setScope(iScope);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation scope links to not existing scope element. ");
                         }
                     } else {
@@ -373,7 +359,7 @@ public class Observation extends SchemaElement implements IObservation {
         // Get optional images
         child = null;
         children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_IMAGE);
-        String image = "";
+        StringBuilder image = new StringBuilder();
         if (children != null) {
             for (int i = 0; i < children.getLength(); i++) {
                 child = (Element) children.item(i);
@@ -381,14 +367,14 @@ public class Observation extends SchemaElement implements IObservation {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            image = image + textElements.item(te).getNodeValue();
+                            image.append(textElements.item(te).getNodeValue());
                         }
                         // Make sure to use the local file separator character during runtime
                         // When saving the file, we'll convert it back to /
-                        image = image.replace('/', File.separatorChar);
-                        image = image.replace('\\', File.separatorChar);
-                        this.addImage(image);
-                        image = "";
+                        image = new StringBuilder(image.toString().replace('/', File.separatorChar));
+                        image = new StringBuilder(image.toString().replace('\\', File.separatorChar));
+                        this.addImage(image.toString());
+                        image = new StringBuilder();
                     }
                     // image = child.getFirstChild().getNodeValue();
                 } else {
@@ -473,7 +459,7 @@ public class Observation extends SchemaElement implements IObservation {
         // Get optional accessories
         child = null;
         children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_ACCESSORIES);
-        String accessories = "";
+        StringBuilder accessories = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -481,9 +467,9 @@ public class Observation extends SchemaElement implements IObservation {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            accessories = accessories + textElements.item(te).getNodeValue();
+                            accessories.append(textElements.item(te).getNodeValue());
                         }
-                        this.setAccessories(accessories);
+                        this.setAccessories(accessories.toString());
                     }
                     // accessories = child.getFirstChild().getNodeValue();
                 } else {
@@ -524,20 +510,20 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((sessions != null) && (sessions.length > 0)) {
                         // Check if session exists
                         boolean found = false;
-                        for (int j = 0; j < sessions.length; j++) {
-                            if (sessions[j].getID().equals(sessionID)) {
+                        for (ISession iSession : sessions) {
+                            if (iSession.getID().equals(sessionID)) {
                                 found = true;
                                 try {
-                                    this.setSession(sessions[j]);
+                                    this.setSession(iSession);
                                     break;
                                 } catch (IllegalArgumentException iae) {
                                     throw new SchemaException("Problem while setting session: "
-                                            + sessions[j].getDisplayName() + " to observation: " + this.getDisplayName()
-                                            + ".\n" + "Nested Exception is: " + iae);
+                                            + iSession.getDisplayName() + " to observation: " + this.getDisplayName()
+                                            + ".\n" + "Nested Exception is: " + iae, iae);
                                 }
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation session links to not existing session element. ");
                         }
                     } else {
@@ -563,14 +549,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((eyepieces != null) && (eyepieces.length > 0)) {
                         // Check if eyepiece exits
                         boolean found = false;
-                        for (int j = 0; j < eyepieces.length; j++) {
-                            if (eyepieces[j].getID().equals(eyepieceID)) {
+                        for (IEyepiece iEyepiece : eyepieces) {
+                            if (iEyepiece.getID().equals(eyepieceID)) {
                                 found = true;
-                                this.setEyepiece(eyepieces[j]);
+                                this.setEyepiece(iEyepiece);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation eyepiece links to not existing eyepiece element. ");
                         }
                     } else {
@@ -596,14 +582,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((lenses != null) && (lenses.length > 0)) {
                         // Check if lens exits
                         boolean found = false;
-                        for (int j = 0; j < lenses.length; j++) {
-                            if (lenses[j].getID().equals(lensID)) {
+                        for (ILens iLens : lenses) {
+                            if (iLens.getID().equals(lensID)) {
                                 found = true;
-                                this.setLens(lenses[j]);
+                                this.setLens(iLens);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation lens links to not existing lens element. ");
                         }
                     } else {
@@ -629,14 +615,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((filters != null) && (filters.length > 0)) {
                         // Check if filter exits
                         boolean found = false;
-                        for (int j = 0; j < filters.length; j++) {
-                            if (filters[j].getID().equals(filterID)) {
+                        for (IFilter iFilter : filters) {
+                            if (iFilter.getID().equals(filterID)) {
                                 found = true;
-                                this.setFilter(filters[j]);
+                                this.setFilter(iFilter);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation filter links to not existing filter element. ");
                         }
                     } else {
@@ -662,14 +648,14 @@ public class Observation extends SchemaElement implements IObservation {
                     if ((imagers != null) && (imagers.length > 0)) {
                         // Check if imgager exits
                         boolean found = false;
-                        for (int j = 0; j < imagers.length; j++) {
-                            if (imagers[j].getID().equals(imagerID)) {
+                        for (IImager iImager : imagers) {
+                            if (iImager.getID().equals(imagerID)) {
                                 found = true;
-                                this.setImager(imagers[j]);
+                                this.setImager(iImager);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Observation imager links to not existing imager element. ");
                         }
                     } else {
@@ -690,12 +676,16 @@ public class Observation extends SchemaElement implements IObservation {
      * Constructs a new instance of an Observation.<br>
      * Simplest constructor as all parameters are mandatory.
      *
-     * @param begin    Start date of observation
-     * @param target   The target of the observation
-     * @param observer The observer who made the observation
-     * @param result   The result of this observation
-     * @throws IllegalArgumentException if one of the parameters is
-     *                                  <code>null</code>
+     * @param begin
+     *            Start date of observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param result
+     *            The result of this observation
+     * @throws IllegalArgumentException
+     *             if one of the parameters is <code>null</code>
      */
     public Observation(Calendar begin, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
@@ -726,13 +716,16 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Constructs a new instance of an Observation.<br>
      *
-     * @param begin    Start date of observation
-     * @param target   The target of the observation
-     * @param observer The observer who made the observation
-     * @param results  The results of this observation as List
-     * @throws IllegalArgumentException if one of the parameters is
-     *                                  <code>null</code> or the result list is
-     *                                  empty
+     * @param begin
+     *            Start date of observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param results
+     *            The results of this observation as List
+     * @throws IllegalArgumentException
+     *             if one of the parameters is <code>null</code> or the result list is empty
      */
     public Observation(Calendar begin, ITarget target, IObserver observer, List results)
             throws IllegalArgumentException {
@@ -763,14 +756,18 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Constructs a new instance of an Observation.<br>
      *
-     * @param begin    Start date of observation
-     * @param end      End date of observation
-     * @param target   The target of the observation
-     * @param observer The observer who made the observation
-     * @param results  The results of this observation as List
-     * @throws IllegalArgumentException if one of the parameters, except end date,
-     *                                  is <code>null</code>, or the result list is
-     *                                  empty
+     * @param begin
+     *            Start date of observation
+     * @param end
+     *            End date of observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param results
+     *            The results of this observation as List
+     * @throws IllegalArgumentException
+     *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
     public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, List results)
             throws IllegalArgumentException {
@@ -785,13 +782,18 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Constructs a new instance of an Observation.<br>
      *
-     * @param begin    Start date of observation
-     * @param end      End date of observation
-     * @param target   The target of the observation
-     * @param observer The observer who made the observation
-     * @param result   The result of this observation
-     * @throws IllegalArgumentException if one of the parameters, except end date,
-     *                                  is <code>null</code>
+     * @param begin
+     *            Start date of observation
+     * @param end
+     *            End date of observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param result
+     *            The result of this observation
+     * @throws IllegalArgumentException
+     *             if one of the parameters, except end date, is <code>null</code>
      */
     public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
@@ -806,25 +808,41 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Constructs a new instance of an Observation.<br>
      *
-     * @param begin         Start date of observation
-     * @param end           End date of observation
-     * @param faintestStar  Faintest star visible with the naked eye (in magnitude)
-     * @param sq            Sky quality meter value
-     * @param seeing        The seeing during observation (1=best, 5=worst)
-     * @param magnification Magnification used at the observation
-     * @param target        The target of the observation
-     * @param observer      The observer who made the observation
-     * @param site          The place where the observation took place
-     * @param scope         The scope used for this observation
-     * @param eyepiece      The eyepiece used for this observation
-     * @param filter        The filter used for this observation
-     * @param imager        The imager used for this observation
-     * @param lens          The lens used for this observation
-     * @param session       The session this observation belongs to
-     * @param result        The result of this observation
-     * @throws IllegalArgumentException if one of the follwing parameters, is
-     *                                  <code>null</code>: begin, target, observer,
-     *                                  site, result or seeing is < 1 or > 5
+     * @param begin
+     *            Start date of observation
+     * @param end
+     *            End date of observation
+     * @param faintestStar
+     *            Faintest star visible with the naked eye (in magnitude)
+     * @param sq
+     *            Sky quality meter value
+     * @param seeing
+     *            The seeing during observation (1=best, 5=worst)
+     * @param magnification
+     *            Magnification used at the observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param site
+     *            The place where the observation took place
+     * @param scope
+     *            The scope used for this observation
+     * @param eyepiece
+     *            The eyepiece used for this observation
+     * @param filter
+     *            The filter used for this observation
+     * @param imager
+     *            The imager used for this observation
+     * @param lens
+     *            The lens used for this observation
+     * @param session
+     *            The session this observation belongs to
+     * @param result
+     *            The result of this observation
+     * @throws IllegalArgumentException
+     *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, result or
+     *             seeing is < 1 or > 5
      */
     public Observation(Calendar begin, Calendar end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
@@ -852,26 +870,41 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Constructs a new instance of an Observation.<br>
      *
-     * @param begin         Start date of observation
-     * @param end           End date of observation
-     * @param faintestStar  Faintest star visible with the naked eye (in magnitude)
-     * @param sq            Sky quality meter value
-     * @param seeing        The seeing during observation (1=best, 5=worst)
-     * @param magnification Magnification used at the observation
-     * @param target        The target of the observation
-     * @param observer      The observer who made the observation
-     * @param site          The place where the observation took place
-     * @param scope         The scope used for this observation
-     * @param eyepiece      The eyepiece used for this observation
-     * @param filter        The filter used for this observation
-     * @param imager        The imager used for this observation
-     * @param lens          The lens used for this observation
-     * @param session       The session this observation belongs to
-     * @param results       The results of this observation as List
-     * @throws IllegalArgumentException if one of the follwing parameters, is
-     *                                  <code>null</code>: begin, target, observer,
-     *                                  site, results or result list is empty. Also
-     *                                  if seeing is < 1 or > 5
+     * @param begin
+     *            Start date of observation
+     * @param end
+     *            End date of observation
+     * @param faintestStar
+     *            Faintest star visible with the naked eye (in magnitude)
+     * @param sq
+     *            Sky quality meter value
+     * @param seeing
+     *            The seeing during observation (1=best, 5=worst)
+     * @param magnification
+     *            Magnification used at the observation
+     * @param target
+     *            The target of the observation
+     * @param observer
+     *            The observer who made the observation
+     * @param site
+     *            The place where the observation took place
+     * @param scope
+     *            The scope used for this observation
+     * @param eyepiece
+     *            The eyepiece used for this observation
+     * @param filter
+     *            The filter used for this observation
+     * @param imager
+     *            The imager used for this observation
+     * @param lens
+     *            The lens used for this observation
+     * @param session
+     *            The session this observation belongs to
+     * @param results
+     *            The results of this observation as List
+     * @throws IllegalArgumentException
+     *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, results or
+     *             result list is empty. Also if seeing is < 1 or > 5
      */
     public Observation(Calendar begin, Calendar end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
@@ -902,14 +935,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     * @see java.lang.Object.toString();
+     *
      */
     @Override
     public String getDisplayName() {
@@ -937,7 +968,7 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Observation: Begin Date=");
         buffer.append(DateConverter.toISO8601(begin));
 
@@ -1037,19 +1068,6 @@ public class Observation extends SchemaElement implements IObservation {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Observation and the given Object are equal. The given object
-     * is equal with this Observation, if it derives from IObservation and if its
-     * start date, target, observer and result list is equal to this
-     * Observation.<br>
-     *
-     * @param obj The Object to compare this Observation with.
-     * @return <code>true</code> if the given Object is an instance of IObservation
-     *         and its start date, target, observer and result list is equal to this
-     *         observation.<br>
-     * @see java.lang.Object
-     */
     /*
      * public boolean equals(Object obj) {
      *
@@ -1063,16 +1081,14 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * if( !observation.getObserver().equals(observer) ) { return false; }
      *
-     * // Sort result list from given object List objectResults =
-     * sortResultList(observation.getResults());
+     * // Sort result list from given object List objectResults = sortResultList(observation.getResults());
      *
-     * // dublicate this RootElement results, that the original // result list stays
-     * unchanged, while we sort and compare the results List resultList = new
-     * LinkedList(results); // Sort internal result list resultList =
+     * // dublicate this RootElement results, that the original // result list stays unchanged, while we sort and
+     * compare the results List resultList = new LinkedList(results); // Sort internal result list resultList =
      * sortResultList(resultList);
      *
-     * // Calls AbstractList.equals(Object) as both list should be sorted if(
-     * !resultList.equals(objectResults) ) { return false; }
+     * // Calls AbstractList.equals(Object) as both list should be sorted if( !resultList.equals(objectResults) ) {
+     * return false; }
      *
      * return true;
      *
@@ -1085,19 +1101,18 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Observation to a given parent XML DOM Element. The Observation
-     * element will be set as a child element of the passed element.
+     * Adds this Observation to a given parent XML DOM Element. The Observation element will be set as a child element
+     * of the passed element.
      *
-     * @param parent The parent element for this Observation
-     * @return Returns the element given as parameter with this Observation as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Observation
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element parent) {
+    @Override
+    public void addToXmlElement(Element parent) {
 
         if (parent == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = parent.getOwnerDocument();
@@ -1213,8 +1228,6 @@ public class Observation extends SchemaElement implements IObservation {
         // Add element here so that XML sequence fits forward references
         parent.appendChild(e_Observation);
 
-        return parent;
-
     }
 
     // -------------------------------------------------------------------
@@ -1223,6 +1236,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @return The start date of the observation
      */
+    @Override
     public Calendar getBegin() {
 
         return (Calendar) begin.clone();
@@ -1234,9 +1248,9 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the accessories used for this observation.<br>
      * Might return <code>null</code> if no accessories have been used.
      *
-     * @return Accessories used for this observation or <code>null</code> if no
-     *         accessories were used
+     * @return Accessories used for this observation or <code>null</code> if no accessories were used
      */
+    @Override
     public String getAccessories() {
 
         return this.accessories;
@@ -1248,9 +1262,9 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the end date of the observation.<br>
      * Might return <code>null</code> if no end date was given.
      *
-     * @return The end date of the observation or <code>null</code> if no end date
-     *         was given
+     * @return The end date of the observation or <code>null</code> if no end date was given
      */
+    @Override
     public Calendar getEnd() {
 
         if (end != null) {
@@ -1266,9 +1280,9 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the eyepiece with which the observation was made.<br>
      * Might return <code>null</code> if no eyepiece was used at all.
      *
-     * @return The eyepiece used for the observation or <code>null</code> if no
-     *         eyepiece was used.
+     * @return The eyepiece used for the observation or <code>null</code> if no eyepiece was used.
      */
+    @Override
     public IEyepiece getEyepiece() {
 
         return eyepiece;
@@ -1280,9 +1294,9 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the lens with which the observation was made.<br>
      * Might return <code>null</code> if no lens was used at all.
      *
-     * @return The lens used for the observation or <code>null</code> if no lens was
-     *         used.
+     * @return The lens used for the observation or <code>null</code> if no lens was used.
      */
+    @Override
     public ILens getLens() {
 
         return lens;
@@ -1294,10 +1308,10 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the filter which was used for this observation<br>
      * Might return <code>null</code> if no filter was used at all.
      *
-     * @return The filter used for the observation or <code>null</code> if no filter
-     *         was used.
+     * @return The filter used for the observation or <code>null</code> if no filter was used.
      * @since 1.5
      */
+    @Override
     public IFilter getFilter() {
 
         return this.filter;
@@ -1310,6 +1324,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @return The imager used at this observation.
      */
+    @Override
     public IImager getImager() {
 
         return this.imager;
@@ -1318,11 +1333,12 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the magnification used for this observation. Might return
-     * <code>Float.NaN</code> if no value was set at all.
+     * Returns the magnification used for this observation. Might return <code>Float.NaN</code> if no value was set at
+     * all.
      *
      * @return The magnification or <code>Float.NaN</code> if no value was set.
      */
+    @Override
     public float getMagnification() {
 
         return magnification;
@@ -1331,13 +1347,12 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the magnitude of the faintest star that could be seen during
-     * observation time with the unaided eye. Might return <code>Float.NaN</code> if
-     * no value was set at all.
+     * Returns the magnitude of the faintest star that could be seen during observation time with the unaided eye. Might
+     * return <code>Float.NaN</code> if no value was set at all.
      *
-     * @return The magnitude of the faintest star as float value, or
-     *         <code>Float.NaN</code> if no value was set.
+     * @return The magnitude of the faintest star as float value, or <code>Float.NaN</code> if no value was set.
      */
+    @Override
     public float getFaintestStar() {
 
         return faintestStar;
@@ -1346,11 +1361,11 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the sky quality meter value Might return <code>null</code> if no
-     * value was set at all.
+     * Returns the sky quality meter value Might return <code>null</code> if no value was set at all.
      *
      * @return The sky quality value, or <code>null</code> if no value was set.
      */
+    @Override
     public SurfaceBrightness getSkyQuality() {
 
         return sqmValue;
@@ -1359,11 +1374,12 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Returns a list of images (relativ path to images), taken at this observation.
-     * Might return <code>null</code> if images were set.
+     * Returns a list of images (relativ path to images), taken at this observation. Might return <code>null</code> if
+     * images were set.
      *
      * @return List of images or <code>null</code> if no images were set.
      */
+    @Override
     public List getImages() {
 
         if ((this.images == null) || (this.images.isEmpty())) {
@@ -1377,13 +1393,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the seeing during this observation.<br>
-     * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst
-     * seeing.<br>
+     * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
      * Might return <code>-1</code> if no value was set at all.
      *
-     * @return A int between 1-5 representing the seeing, or <code>-1</code> if no
-     *         value was set for seeing.
+     * @return A int between 1-5 representing the seeing, or <code>-1</code> if no value was set for seeing.
      */
+    @Override
     public int getSeeing() {
 
         return seeing;
@@ -1396,6 +1411,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @return The observer who made this observation.
      */
+    @Override
     public IObserver getObserver() {
 
         return observer;
@@ -1405,24 +1421,22 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets a single IFinding as result for this observation.<br>
-     * The old list of results will be overwritten. If you want to add one ore more
-     * results to the existing ones use addResults(java.util.List) or
-     * addResult(IFinding).<br>
-     * If the passed IFinding was successfully attached to this observation, the
-     * method will return <b>true</b>. <br>
-     * If the passed IFinding is <code>null</code>, an IllegalArgumentException is
-     * thrown.
+     * The old list of results will be overwritten. If you want to add one ore more results to the existing ones use
+     * addResults(java.util.List) or addResult(IFinding).<br>
+     * If the passed IFinding was successfully attached to this observation, the method will return <b>true</b>. <br>
+     * If the passed IFinding is <code>null</code>, an IllegalArgumentException is thrown.
      *
-     * @param results A new result for this observation
-     * @return <b>true</b> if the given result was successfully attached to this
-     *         observation, while the old result list was deleted.
+     * @param results
+     *            A new result for this observation
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IObservation#setResults(List results)
      * @see de.lehmannet.om.IFinding
-     * @throws IllegalArgumentException if the new result is <code>null</code>
+     * @throws IllegalArgumentException
+     *             if the new result is <code>null</code>
      */
-    public boolean setResult(IFinding result) throws IllegalArgumentException {
+    @Override
+    public void setResult(IFinding result) throws IllegalArgumentException {
 
         if (results == null) {
             throw new IllegalArgumentException("Result cannot be null. ");
@@ -1430,48 +1444,33 @@ public class Observation extends SchemaElement implements IObservation {
 
         this.results = new LinkedList();
         this.results.add(result);
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Sets a List of results for this observation.<br>
-     * The old list of results will be overwritten. If you want to add one ore more
-     * results to the existing ones use addResults(java.util.List) or
-     * addResult(IFinding).<br>
-     * If the new list of results was successfully attached to this observation, the
-     * method will return <b>true</b>. If one of the elements in the list does not
-     * implement the IFinding interface <b>false</b> is returned.<br>
-     * If the new list is empty or <code>null</code>, an IllegalArgumentException is
-     * thrown.
+     * The old list of results will be overwritten. If you want to add one ore more results to the existing ones use
+     * addResults(java.util.List) or addResult(IFinding).<br>
+     * If the new list of results was successfully attached to this observation, the method will return <b>true</b>. If
+     * one of the elements in the list does not implement the IFinding interface <b>false</b> is returned.<br>
+     * If the new list is empty or <code>null</code>, an IllegalArgumentException is thrown.
      *
-     * @param results The new list of results for this observation
-     * @return <b>true</b> if the given list was successfully attached to this
-     *         observation. <b>false</b> if one of the new result elements in the
-     *         list did not implement the the IFinding interface.
+     * @param results
+     *            The new list of results for this observation
+     * @return <b>true</b> if the given list was successfully attached to this observation. <b>false</b> if one of the
+     *         new result elements in the list did not implement the the IFinding interface.
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IFinding
-     * @throws IllegalArgumentException if new results list is <code>null</code> or
-     *                                  empty
+     * @throws IllegalArgumentException
+     *             if new results list is <code>null</code> or empty
      */
-    public boolean setResults(List results) throws IllegalArgumentException {
+    @Override
+    public boolean setResults(List results) {
 
         if ((results == null) || (results.isEmpty())) {
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
-        }
-
-        // Check if every single entry is a IFinding implementation (this might be a
-        // little paranoic...ok)
-        ListIterator iterator = results.listIterator();
-        IFinding current = null;
-        if (iterator.hasNext()) {
-            try {
-                current = (IFinding) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
         }
 
         this.results = results;
@@ -1482,11 +1481,13 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the accessories used during the observation.<br>
-     * If there was already an accessories list attached to this observation, the
-     * old one will be replaced with the new one.
+     * If there was already an accessories list attached to this observation, the old one will be replaced with the new
+     * one.
      *
-     * @param accessories The accessories of the observation
+     * @param accessories
+     *            The accessories of the observation
      */
+    @Override
     public void setAccessories(String accessories) {
 
         if ((accessories != null) && ("".equals(accessories.trim()))) {
@@ -1501,23 +1502,21 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets a List of images (path as String) for this observation.<br>
-     * The old list of images will be overwritten. If you want to add one ore more
-     * images to the existing ones use addImages(java.util.List) or
-     * addImage(String).<br>
-     * If the new list of images was successfully attached to this observation, the
-     * method will return <b>true</b>. If one of the elements in the list isn't a
-     * java.lang.String object <b>false</b> is returned.<br>
+     * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
+     * addImages(java.util.List) or addImage(String).<br>
+     * If the new list of images was successfully attached to this observation, the method will return <b>true</b>. If
+     * one of the elements in the list isn't a java.lang.String object <b>false</b> is returned.<br>
      * If the new list is <code>null</code>, an IllegalArgumentException is thrown.
      *
-     * @param imagesList The new (String) list of images for this observation
-     * @return <b>true</b> if the given list was successfully set to this
-     *         observation. <b>false</b> if one of the lists elements wasn't a
-     *         String
+     * @param imagesList
+     *            The new (String) list of images for this observation
      * @see de.lehmannet.om.IObservation#addImages(java.util.List images)
      * @see de.lehmannet.om.IObservation#addImage(String image)
-     * @throws IllegalArgumentException if new image list is <code>null</code>
+     * @throws IllegalArgumentException
+     *             if new image list is <code>null</code>
      */
-    public boolean setImages(List imagesList) throws IllegalArgumentException {
+    @Override
+    public void setImages(List imagesList) throws IllegalArgumentException {
 
         if (imagesList == null) {
             throw new IllegalArgumentException("Images list cannot be null. ");
@@ -1525,23 +1524,10 @@ public class Observation extends SchemaElement implements IObservation {
 
         if (imagesList.isEmpty()) {
             this.images.clear();
-            return true;
-        }
-
-        // Check if every single entry is a String (this might be a little
-        // paranoic...ok)
-        ListIterator iterator = imagesList.listIterator();
-        String current = null;
-        if (iterator.hasNext()) {
-            try {
-                current = (String) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
+            return;
         }
 
         this.images = imagesList;
-        return true;
 
     }
 
@@ -1549,8 +1535,10 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Sets an imager used for this observation.<br>
      *
-     * @param imager The imager used for this observation
+     * @param imager
+     *            The imager used for this observation
      */
+    @Override
     public void setImager(IImager imager) {
 
         this.imager = imager;
@@ -1560,35 +1548,22 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Adds a List of results for this observation.<br>
-     * The new list of results will be added to the existing list of results
-     * belonging to this observation. If you want to replace the old result list use
-     * setResults(java.util.List).<br>
-     * If the new list of results was successfully added to the old result list, the
-     * method will return <b>true</b>. If the list is empty or <code>null</code>,
-     * the old result list will remain unchanged.
+     * The new list of results will be added to the existing list of results belonging to this observation. If you want
+     * to replace the old result list use setResults(java.util.List).<br>
+     * If the new list of results was successfully added to the old result list, the method will return <b>true</b>. If
+     * the list is empty or <code>null</code>, the old result list will remain unchanged.
      *
-     * @param results A list with more results for this observation
-     * @return <b>true</b> if the given list was successfully added to this
-     *         observations result list. <b>false</b> if the new list could not be
-     *         added and the old list remains unchanged.
+     * @param results
+     *            A list with more results for this observation
+     * @return <b>true</b> if the given list was successfully added to this observations result list. <b>false</b> if
+     *         the new list could not be added and the old list remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
+    @Override
     public boolean addResults(List results) {
 
         if ((results == null) || (results.isEmpty())) {
             return false;
-        }
-
-        // Check if every single entry is a IFinding implementation (this might be a
-        // little paranoic...ok)
-        ListIterator iterator = results.listIterator();
-        IFinding current = null;
-        while (iterator.hasNext()) {
-            try {
-                current = (IFinding) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
         }
 
         this.results.addAll(results);
@@ -1600,8 +1575,10 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Adds a new result to this observation.<br>
      *
-     * @param result A new result for this observation
+     * @param result
+     *            A new result for this observation
      */
+    @Override
     public void addResult(IFinding result) {
 
         if (result == null) {
@@ -1615,36 +1592,22 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Adds a List of image paths (String) to this observation.<br>
-     * The new list of images will be added to the existing list of images belonging
-     * to this observation. If you want to replace the old images list use
-     * setImages(java.util.List).<br>
-     * If the new list of images was successfully added to the old images list, the
-     * method will return <b>true</b>. If the list is empty or <code>null</code>,
-     * the old result list will remain unchanged.
+     * The new list of images will be added to the existing list of images belonging to this observation. If you want to
+     * replace the old images list use setImages(java.util.List).<br>
+     * If the new list of images was successfully added to the old images list, the method will return <b>true</b>. If
+     * the list is empty or <code>null</code>, the old result list will remain unchanged.
      *
-     * @param images A list (containing Strings) with additional images (path) for
-     *               this observation
-     * @return <b>true</b> if the given list was successfully added to this
-     *         observations images list. <b>false</b> if the new list could not be
-     *         added and the old list remains unchanged.
+     * @param images
+     *            A list (containing Strings) with additional images (path) for this observation
+     * @return <b>true</b> if the given list was successfully added to this observations images list. <b>false</b> if
+     *         the new list could not be added and the old list remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
+    @Override
     public boolean addImages(List images) {
 
         if ((images == null) || (images.isEmpty())) {
             return false;
-        }
-
-        // Check if every single entry is a String (this might be a little
-        // paranoic...ok)
-        ListIterator iterator = images.listIterator();
-        String current = null;
-        while (iterator.hasNext()) {
-            try {
-                current = (String) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
         }
 
         this.images.addAll(images);
@@ -1656,8 +1619,10 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Adds a new image (path) to this observation.<br>
      *
-     * @param imagePath A new image for this observation
+     * @param imagePath
+     *            A new image for this observation
      */
+    @Override
     public void addImage(String imagePath) {
 
         if (imagePath == null) {
@@ -1675,6 +1640,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @return A List containing the results of the observation.
      */
+    @Override
     public List getResults() {
 
         return this.results;
@@ -1684,12 +1650,11 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the scope that was used for the observation.<br>
-     * Might return <code>null</code> if the observation was not made with any
-     * scope.
+     * Might return <code>null</code> if the observation was not made with any scope.
      *
-     * @return The scope which was used for the observation, or <code>null</code> if
-     *         no scope was used at all.
+     * @return The scope which was used for the observation, or <code>null</code> if no scope was used at all.
      */
+    @Override
     public IScope getScope() {
 
         return scope;
@@ -1699,12 +1664,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Returns the session this observation belongs to.<br>
-     * Might return <code>null</code> if the observation is not part of any
-     * observation session.
+     * Might return <code>null</code> if the observation is not part of any observation session.
      *
-     * @return The session this observation belongs to, or <code>null</code> if the
-     *         observation does not belong to any session.
+     * @return The session this observation belongs to, or <code>null</code> if the observation does not belong to any
+     *         session.
      */
+    @Override
     public ISession getSession() {
 
         return session;
@@ -1715,9 +1680,9 @@ public class Observation extends SchemaElement implements IObservation {
     /**
      * Returns the site where the observation took place.<br>
      *
-     * @return The site of the observation, or <code>null</code> if the observation
-     *         has no site
+     * @return The site of the observation, or <code>null</code> if the observation has no site
      */
+    @Override
     public ISite getSite() {
 
         return site;
@@ -1730,6 +1695,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @return The target which was observed.
      */
+    @Override
     public ITarget getTarget() {
 
         return target;
@@ -1741,9 +1707,12 @@ public class Observation extends SchemaElement implements IObservation {
      * Sets the start date of the observation.<br>
      * The start date is a mandatory field, as the end date is not.
      *
-     * @param begin The start date of the observation
-     * @throws IllegalArgumentException if new begin date is <code>null</code>
+     * @param begin
+     *            The start date of the observation
+     * @throws IllegalArgumentException
+     *             if new begin date is <code>null</code>
      */
+    @Override
     public void setBegin(Calendar begin) throws IllegalArgumentException {
 
         if (begin == null) {
@@ -1757,11 +1726,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the end date of the observation.<br>
-     * The end date is an optional field, as for example old observations might not
-     * have an precise end date.
+     * The end date is an optional field, as for example old observations might not have an precise end date.
      *
-     * @param end The end date of the observation
+     * @param end
+     *            The end date of the observation
      */
+    @Override
     public void setEnd(Calendar end) {
 
         if (end == null) {
@@ -1776,11 +1746,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the eyepiece of the observation.<br>
-     * If there was already an eyepiece attached to this observation, the old one
-     * will be replaced with the new one.
+     * If there was already an eyepiece attached to this observation, the old one will be replaced with the new one.
      *
-     * @param eyepiece The eyepiece of the observation
+     * @param eyepiece
+     *            The eyepiece of the observation
      */
+    @Override
     public void setEyepiece(IEyepiece eyepiece) {
 
         this.eyepiece = eyepiece;
@@ -1790,11 +1761,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the lens of the observation.<br>
-     * If there was already an lens attached to this observation, the old one will
-     * be replaced with the new one.
+     * If there was already an lens attached to this observation, the old one will be replaced with the new one.
      *
-     * @param lens The lens of the observation
+     * @param lens
+     *            The lens of the observation
      */
+    @Override
     public void setLens(ILens lens) {
 
         this.lens = lens;
@@ -1804,12 +1776,13 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the filter used during this observation.<br>
-     * If there was already an filter attached to this observation, the old one will
-     * be replaced with the new one.
+     * If there was already an filter attached to this observation, the old one will be replaced with the new one.
      *
-     * @param filter The filter used during this observation
+     * @param filter
+     *            The filter used during this observation
      * @since 1.5
      */
+    @Override
     public void setFilter(IFilter filter) {
 
         this.filter = filter;
@@ -1818,13 +1791,14 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the magnitude value of the faintest star which could be seen with the
-     * unaided eye during the observation.<br>
-     * If there was already a value set for this observation, the old one will be
-     * replaced with the new one.
+     * Sets the magnitude value of the faintest star which could be seen with the unaided eye during the
+     * observation.<br>
+     * If there was already a value set for this observation, the old one will be replaced with the new one.
      *
-     * @param faintestStar The faintestStar of the observation in magnitude
+     * @param faintestStar
+     *            The faintestStar of the observation in magnitude
      */
+    @Override
     public void setFaintestStar(float faintestStar) {
 
         this.faintestStar = faintestStar;
@@ -1834,10 +1808,9 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the magnification used at the observation.<br>
-     * If there was already a value set for this observation, the old one will be
-     * replaced with the new one. In case a zoom eyepiece was used for the
-     * observation, this value conatais th actual focalLength used. (And also the
-     * lens focal length factor if used)<br>
+     * If there was already a value set for this observation, the old one will be replaced with the new one. In case a
+     * zoom eyepiece was used for the observation, this value conatais th actual focalLength used. (And also the lens
+     * focal length factor if used)<br>
      * Example:<br>
      * scope had a focal length of 1114mm<br>
      * zoomeyepiece used a focal length of 10mm<br>
@@ -1845,8 +1818,10 @@ public class Observation extends SchemaElement implements IObservation {
      * Magnification set here must be:<br>
      * 1114*2/10 = 222,8
      *
-     * @param magnification The magnification used at the observation
+     * @param magnification
+     *            The magnification used at the observation
      */
+    @Override
     public void setMagnification(float magnification) {
 
         this.magnification = magnification;
@@ -1855,13 +1830,13 @@ public class Observation extends SchemaElement implements IObservation {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the sky quality meter value that was determined during the
-     * observation.<br>
-     * If there was already a value set for this observation, the old one will be
-     * replaced with the new one.
+     * Sets the sky quality meter value that was determined during the observation.<br>
+     * If there was already a value set for this observation, the old one will be replaced with the new one.
      *
-     * @param sq The sky quality meter value
+     * @param sq
+     *            The sky quality meter value
      */
+    @Override
     public void setSkyQuality(SurfaceBrightness sq) {
 
         this.sqmValue = sq;
@@ -1871,11 +1846,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the seeing during this observation.<br>
-     * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst
-     * seeing.<br>
+     * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
      *
-     * @param seeing A int between 1-5 representing the seeing
+     * @param seeing
+     *            A int between 1-5 representing the seeing
      */
+    @Override
     public void setSeeing(int seeing) throws IllegalArgumentException {
 
         if (seeing == -1) { // Unset value
@@ -1895,12 +1871,14 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the observer of the observation.<br>
-     * If there was already an observer attached to this observation, the old one
-     * will be replaced with the new one.
+     * If there was already an observer attached to this observation, the old one will be replaced with the new one.
      *
-     * @param observer The observer of the observation
-     * @throws IllegalArgumentException if new observer is <code>null</code>
+     * @param observer
+     *            The observer of the observation
+     * @throws IllegalArgumentException
+     *             if new observer is <code>null</code>
      */
+    @Override
     public void setObserver(IObserver observer) throws IllegalArgumentException {
 
         if (observer == null) {
@@ -1914,11 +1892,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the scope of the observation.<br>
-     * If there was already a scope attached to this observation, the old one will
-     * be replaced with the new one.
+     * If there was already a scope attached to this observation, the old one will be replaced with the new one.
      *
-     * @param scope The scope of the observation
+     * @param scope
+     *            The scope of the observation
      */
+    @Override
     public void setScope(IScope scope) {
 
         this.scope = scope;
@@ -1928,15 +1907,15 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the session which this observation belongs to.<br>
-     * This observations start date must be between the sessions start and end
-     * date.<br>
-     * If there was already a session attached to this observation, the old one will
-     * be replaced with the new one.
+     * This observations start date must be between the sessions start and end date.<br>
+     * If there was already a session attached to this observation, the old one will be replaced with the new one.
      *
-     * @param session The session this observation belongs to
-     * @throws IllegalArgumentException if this observations start date is not
-     *                                  between the session start and end date
+     * @param session
+     *            The session this observation belongs to
+     * @throws IllegalArgumentException
+     *             if this observations start date is not between the session start and end date
      */
+    @Override
     public void setSession(ISession session) throws IllegalArgumentException {
 
         if (session == null) { // Clear session
@@ -1970,11 +1949,12 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the site where this observation took place.<br>
-     * If there was already a site attached to this observation, the old one will be
-     * replaced with the new one.
+     * If there was already a site attached to this observation, the old one will be replaced with the new one.
      *
-     * @param site The site this observation took place
+     * @param site
+     *            The site this observation took place
      */
+    @Override
     public void setSite(ISite site) {
 
         this.site = site;
@@ -1984,12 +1964,14 @@ public class Observation extends SchemaElement implements IObservation {
     // -------------------------------------------------------------------
     /**
      * Sets the target of this observation.<br>
-     * If there was already a target attached to this observation, the old one will
-     * be replaced with the new one.
+     * If there was already a target attached to this observation, the old one will be replaced with the new one.
      *
-     * @param target The target of this observation
-     * @throws IllegalArgumentException if new Target is <code>null</code>
+     * @param target
+     *            The target of this observation
+     * @throws IllegalArgumentException
+     *             if new Target is <code>null</code>
      */
+    @Override
     public void setTarget(ITarget target) throws IllegalArgumentException {
 
         if (target == null) {
@@ -2012,39 +1994,14 @@ public class Observation extends SchemaElement implements IObservation {
         // Get classname from xsi:type
         // String xsiType = finding.getAttribute(IFinding.XML_XSI_TYPE);
         String xsiType = this.target.getXSIType(); // Use XSI:Type from target to determin Finding type
-        Object object = SchemaLoader.getFindingFromXSIType(xsiType, finding);
+        IFinding object = SchemaLoader.getFindingFromXSIType(xsiType, finding);
         if (object != null) {
             IFinding currentFinding = null;
-            if (object instanceof IFinding) {
-                currentFinding = (IFinding) object;
-                return currentFinding;
-            } else {
-                throw new SchemaException(
-                        "Unable to load class of type: " + xsiType + "\nClass seems not to be of type IFinding. ");
-            }
+            currentFinding = object;
+            return currentFinding;
         } else {
             throw new SchemaException("Unable to load class of type: " + xsiType);
         }
-
-    }
-
-    // -------------------------------------------------------------------
-    private List sortResultList(List results) {
-
-        Collections.sort(results, new Comparator() {
-            public int compare(Object o1, Object o2) {
-
-                IFinding f1 = (IFinding) o1;
-                IFinding f2 = (IFinding) o2;
-
-                return f1.getDescription().compareTo(f2.getDescription());
-
-            }
-
-
-        });
-
-        return results;
 
     }
 

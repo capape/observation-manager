@@ -14,8 +14,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetQS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
- * class.<br>
+ * DeepSkyTargetQS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for quasars.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -37,20 +36,20 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a DeepSkyTargetQS from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a DeepSkyTargetQS from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    public DeepSkyTargetQS(Node targetElement, IObserver[] observers) throws SchemaException {
+    public DeepSkyTargetQS(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -60,8 +59,10 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetQS.
      * 
-     * @param name       The name of the quasar
-     * @param datasource The datasource of the quasar
+     * @param name
+     *            The name of the quasar
+     * @param datasource
+     *            The datasource of the quasar
      */
     public DeepSkyTargetQS(String name, String datasource) {
 
@@ -73,8 +74,10 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetQS.
      * 
-     * @param name     The name of the quasar
-     * @param observer The observer who is the originator of the quasar
+     * @param name
+     *            The name of the quasar
+     * @param observer
+     *            The observer who is the originator of the quasar
      */
     public DeepSkyTargetQS(String name, IObserver observer) {
 
@@ -88,25 +91,21 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         super.createXmlDeepSkyTargetElement(element, DeepSkyTargetQS.XML_XSI_TYPE_VALUE);
-
-        return element;
 
     }
 

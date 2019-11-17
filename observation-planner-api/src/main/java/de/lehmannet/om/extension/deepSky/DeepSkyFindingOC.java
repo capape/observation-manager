@@ -13,17 +13,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.IFinding;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyFindingOC extends the de.lehmannet.om.DeepSkyFinding class. Its
- * specialised for open cluster observations and their findings. The class is
- * mostly oriented after the recommondations of the german "VdS - DeepSky" group
+ * DeepSkyFindingOC extends the de.lehmannet.om.DeepSkyFinding class. Its specialised for open cluster observations and
+ * their findings. The class is mostly oriented after the recommondations of the german "VdS - DeepSky" group
  * (<a href="http://www.fachgruppe-deepsky.de/">Homepage</a>).<br>
- * The field rating is based on a seven step scale recommended by "VDS -
- * DeepSky" group. The scales value should be interpreted as the following table
- * explains:
+ * The field rating is based on a seven step scale recommended by "VDS - DeepSky" group. The scales value should be
+ * interpreted as the following table explains:
  * <table>
  * <tr>
  * <td>1</td>
@@ -57,16 +54,16 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     public static final String XML_XSI_TYPE_VALUE = "oal:findingsDeepSkyOCType";
 
     // Constant for XML representation: finding element character
-    public static final String XML_ELEMENT_CHARACTER = "character";
+    private static final String XML_ELEMENT_CHARACTER = "character";
 
     // Constant for XML representation: finding element attribute character
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALSHAPE = "unusualShape";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALSHAPE = "unusualShape";
 
     // Constant for XML representation: finding element attribute character
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_PARTLYUNRESOLVED = "partlyUnresolved";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_PARTLYUNRESOLVED = "partlyUnresolved";
 
     // Constant for XML representation: finding element attribute character
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_COLORCONTRASTS = "colorContrasts";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_COLORCONTRASTS = "colorContrasts";
 
     // Open cluster characteristics as definied by the german "Deep Sky List"
     // project;
@@ -119,23 +116,22 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         // Get optional unusualShape attribute
         String unSh = finding.getAttribute(DeepSkyFindingOC.XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALSHAPE);
         if ((unSh != null) && (!"".equals(unSh.trim()))) {
-            this.setUnusualShape(new Boolean(unSh));
+            this.setUnusualShape(Boolean.valueOf(unSh));
         }
 
         // Get optional stellar attribute
         String paUn = finding.getAttribute(DeepSkyFindingOC.XML_ELEMENT_FINDING_ATTRIBUTE_PARTLYUNRESOLVED);
         if ((paUn != null) && (!"".equals(paUn.trim()))) {
-            this.setPartlyUnresolved(new Boolean(paUn));
+            this.setPartlyUnresolved(Boolean.valueOf(paUn));
         }
 
         // Get optional colorContrast attribute
         String coCo = finding.getAttribute(DeepSkyFindingOC.XML_ELEMENT_FINDING_ATTRIBUTE_COLORCONTRASTS);
         if ((coCo != null) && (!"".equals(coCo.trim()))) {
-            this.setColorContrasts(new Boolean(coCo));
+            this.setColorContrasts(Boolean.valueOf(coCo));
         }
 
         // Get optional character
-        child = null;
         children = finding.getElementsByTagName(DeepSkyFindingOC.XML_ELEMENT_CHARACTER);
         String c = null;
         if (children != null) {
@@ -143,7 +139,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
                 child = (Element) children.item(0);
                 if (child != null) {
                     c = child.getFirstChild().getNodeValue();
-                    this.setCharacter(new Character(c.toCharArray()[0]));
+                    this.setCharacter(c.toCharArray()[0]);
                 } else {
                     throw new SchemaException("Problem while retrieving character from DeepSkyFindingOC. ");
                 }
@@ -158,10 +154,12 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Constructs a new instance of a DeepSkyFindingOC.
      *
-     * @param description The description of the finding
-     * @param rating      The rating of the finding
-     * @throws IllegalArgumentException if description was <code>null</code> or
-     *                                  rating had a illegal value.
+     * @param description
+     *            The description of the finding
+     * @param rating
+     *            The rating of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code> or rating had a illegal value.
      */
     public DeepSkyFindingOC(String description, int rating) throws IllegalArgumentException {
 
@@ -184,7 +182,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer(super.toString());
+        StringBuilder buffer = new StringBuilder(super.toString());
 
         if (unusualShape != -1) {
             buffer.append(" UnusualShape=");
@@ -212,9 +210,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         return result;
 
     }
-
-
-
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
@@ -269,20 +264,17 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             return false;
         if (partlyUnresolved != other.partlyUnresolved)
             return false;
-        if (unusualShape != other.unusualShape)
-            return false;
-        return true;
+        return unusualShape == other.unusualShape;
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The
-     * DeepSkyFindingOC Element will be set as a child element of the passed
-     * Element.
+     * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The DeepSkyFindingOC Element will be set as a
+     * child element of the passed Element.
      *
-     * @param parent The parent element for this DeepSkyFindingOC
-     * @return Returns the Element given as parameter with this DeepSkyFindingOC as
-     *         child Element.<br>
+     * @param parent
+     *            The parent element for this DeepSkyFindingOC
+     * @return Returns the Element given as parameter with this DeepSkyFindingOC as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -338,8 +330,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object has an unusualShape.
      *
      * @return <code>true</code> if the observed object has an unusual Shape
-     * @throws IllegalStateException if unusualShape was not set by the user so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if unusualShape was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getUnusualShape() throws IllegalStateException {
 
@@ -347,11 +339,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             throw new IllegalStateException("UnusualShape value was never set for: " + this);
         }
 
-        if (unusualShape == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return unusualShape == 1;
 
     }
 
@@ -361,9 +349,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object was partly unresolved.
      *
      * @return <code>true</code> if the observed object was partly unresolved
-     * @throws IllegalStateException if partlyUnresolved was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if partlyUnresolved was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getPartlyUnresolved() throws IllegalStateException {
 
@@ -371,11 +358,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             throw new IllegalStateException("PartlyUnresolved value was never set for: " + this);
         }
 
-        if (partlyUnresolved == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return partlyUnresolved == 1;
 
     }
 
@@ -385,9 +368,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object showed some color contrasts.
      *
      * @return <code>true</code> if the observed object showed some color contrasts
-     * @throws IllegalStateException if colorContrasts was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if colorContrasts was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getColorContrasts() throws IllegalStateException {
 
@@ -395,11 +377,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             throw new IllegalStateException("ColorContrasts value was never set for: " + this);
         }
 
-        if (colorContrasts == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return colorContrasts == 1;
 
     }
 
@@ -408,9 +386,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Returns the character of this DeepSkyFindingOC.<br>
      * See DeepSkyFindingOC constants for valid values.<br>
      *
-     * @return A character describing the open cluster characteristics according to
-     *         the german "Deep Sky Liste" or <code>null</code> if the value was
-     *         never set
+     * @return A character describing the open cluster characteristics according to the german "Deep Sky Liste" or
+     *         <code>null</code> if the value was never set
      */
     public Character getCharacter() {
 
@@ -423,9 +400,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusual shape.
      *
-     * @param unusualShape The unusual shape value to set for this DeepSkyFindingOC
-     *                     or <code>NULL</code> if the value should be not set at
-     *                     all.
+     * @param unusualShape
+     *            The unusual shape value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setUnusualShape(Boolean unusualShape) {
 
@@ -434,7 +411,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             return;
         }
 
-        if (unusualShape.booleanValue() == true) {
+        if (unusualShape) {
             this.unusualShape = 1;
         } else {
             this.unusualShape = 0;
@@ -447,9 +424,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
      *
-     * @param partlyUnresolved The partlyUnresolved value to set for this
-     *                         DeepSkyFindingOC or <code>NULL</code> if the value
-     *                         should be not set at all.
+     * @param partlyUnresolved
+     *            The partlyUnresolved value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should
+     *            be not set at all.
      */
     public void setPartlyUnresolved(Boolean partlyUnresolved) {
 
@@ -458,7 +435,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             return;
         }
 
-        if (partlyUnresolved.booleanValue() == true) {
+        if (partlyUnresolved) {
             this.partlyUnresolved = 1;
         } else {
             this.partlyUnresolved = 0;
@@ -471,9 +448,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
-     * @param colorContrasts The colorContrasts value to set for this
-     *                       DeepSkyFindingOC or <code>NULL</code> if the value
-     *                       should be not set at all.
+     * @param colorContrasts
+     *            The colorContrasts value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setColorContrasts(Boolean colorContrasts) {
 
@@ -482,7 +459,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
             return;
         }
 
-        if (colorContrasts.booleanValue() == true) {
+        if (colorContrasts) {
             this.colorContrasts = 1;
         } else {
             this.colorContrasts = 0;
@@ -495,18 +472,20 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
-     * @param c The colorContrasts value to set for this DeepSkyFindingOC or
-     *          <code>NULL</code> if the value should be not set at all.
-     * @throws IllegalArgumentException if the given character value is invalid
+     * @param c
+     *            The colorContrasts value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
+     * @throws IllegalArgumentException
+     *             if the given character value is invalid
      */
     public void setCharacter(Character c) throws IllegalArgumentException {
 
-        if ((c == null) || (Character.toUpperCase(c.charValue()) == 'X')) {
+        if ((c == null) || (Character.toUpperCase(c) == 'X')) {
             this.character = null;
             return;
         }
 
-        char cv = c.charValue();
+        char cv = c;
         if (DeepSkyFindingOC.CHARACTER_A == cv || DeepSkyFindingOC.CHARACTER_B == cv
                 || DeepSkyFindingOC.CHARACTER_C == cv || DeepSkyFindingOC.CHARACTER_D == cv
                 || DeepSkyFindingOC.CHARACTER_E == cv || DeepSkyFindingOC.CHARACTER_F == cv

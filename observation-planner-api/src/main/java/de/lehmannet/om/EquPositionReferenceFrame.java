@@ -11,15 +11,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * EquPositionReferenceFrame describes the landscape in which certain position
- * values are valid.<br>
- * This class should be used by all instances of de.lehmannet.om.IPosition to
- * describe in which position reference frame their position values are valid.
+ * EquPositionReferenceFrame describes the landscape in which certain position values are valid.<br>
+ * This class should be used by all instances of de.lehmannet.om.IPosition to describe in which position reference frame
+ * their position values are valid.
  *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public class EquPositionReferenceFrame {
+class EquPositionReferenceFrame {
 
     // ---------
     // Constants ---------------------------------------------------------
@@ -29,7 +28,7 @@ public class EquPositionReferenceFrame {
     public static final String ORIGIN_GEOCENTRIC = "geocentric";
 
     // EquPositionReferenceFrame origin: topocentric
-    public static final String ORIGIN_TOPOCENTRIC = "topocentric";
+    private static final String ORIGIN_TOPOCENTRIC = "topocentric";
 
     // Default value of equinox
     public static final String EQUINOX_2000 = "J2000.0";
@@ -52,10 +51,10 @@ public class EquPositionReferenceFrame {
 
     // The EquPositionReferenceFrame origin (Valid values: geocentric or
     // topocentric)
-    private String origin = new String(ORIGIN_GEOCENTRIC);
+    private String origin = ORIGIN_GEOCENTRIC;
 
     // Equinox date
-    private String equinox = new String(EQUINOX_2000);
+    private String equinox = EQUINOX_2000;
 
     // ------------
     // Constructors ------------------------------------------------------
@@ -65,12 +64,13 @@ public class EquPositionReferenceFrame {
     /**
      * Creates an instance of an EquPositionReferenceFrame.<br>
      *
-     * @param origin  The origin of the position reference frame. All valid values
-     *                can be accessed by this classes constants.
-     * @param equinox A equinox date. Should be formed like e.g.
-     *                <code>J2000.0</code>
-     * @throws IllegalArgumentException if origin or equinox is <code>null</code> or
-     *                                  origin does not have a valid value.
+     * @param origin
+     *            The origin of the position reference frame. All valid values can be accessed by this classes
+     *            constants.
+     * @param equinox
+     *            A equinox date. Should be formed like e.g. <code>J2000.0</code>
+     * @throws IllegalArgumentException
+     *             if origin or equinox is <code>null</code> or origin does not have a valid value.
      */
     public EquPositionReferenceFrame(String origin, String equinox) throws IllegalArgumentException {
 
@@ -106,45 +106,34 @@ public class EquPositionReferenceFrame {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append(this.getOrigin());
-        buffer.append(" ");
-        buffer.append(this.getEquinox());
-
-        return buffer.toString();
+        return this.getOrigin() + " " + this.getEquinox();
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this EquPositionReferenceFrame and the given Object are equal. The
-     * given object is equal with this EquPositionReferenceFrame, if its an instance
-     * from class EquPositionReferenceFrame and its equinox date and the position
-     * origin are equal with this instances values.
+     * Checks if this EquPositionReferenceFrame and the given Object are equal. The given object is equal with this
+     * EquPositionReferenceFrame, if its an instance from class EquPositionReferenceFrame and its equinox date and the
+     * position origin are equal with this instances values.
      *
-     * @param obj The Object to compare this EquPositionReferenceFrame with.
-     * @return <code>true</code> if the given Object is an instance of
-     *         EquPositionReferenceFrame and its equinox date and origin are equal
-     *         with this PositionReferenceFrames values.<br>
+     * @param obj
+     *            The Object to compare this EquPositionReferenceFrame with.
+     * @return <code>true</code> if the given Object is an instance of EquPositionReferenceFrame and its equinox date
+     *         and origin are equal with this PositionReferenceFrames values.<br>
      * @see java.lang.Object
      */
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof EquPositionReferenceFrame)) {
+        if (!(obj instanceof EquPositionReferenceFrame)) {
             return false;
         }
 
         EquPositionReferenceFrame frame = (EquPositionReferenceFrame) obj;
 
-        if ((frame.getEquinox().toLowerCase().trim().equals(equinox.toLowerCase().trim()))
-                && (frame.getOrigin().toLowerCase().trim().equals(origin.toLowerCase().trim()))) {
-            return true;
-        } else {
-            return false;
-        }
+        return (frame.getEquinox().toLowerCase().trim().equals(equinox.toLowerCase().trim()))
+                && (frame.getOrigin().toLowerCase().trim().equals(origin.toLowerCase().trim()));
 
     }
 
@@ -157,22 +146,18 @@ public class EquPositionReferenceFrame {
         return result;
     }
 
-
-
-
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
 
     // -------------------------------------------------------------------
     /**
-     * Adds this EquPositionReferenceFrame to an given parent XML DOM Element. The
-     * EquPositionReferenceFrame Element will be set as a child element of the
-     * passed Element.
+     * Adds this EquPositionReferenceFrame to an given parent XML DOM Element. The EquPositionReferenceFrame Element
+     * will be set as a child element of the passed Element.
      *
-     * @param parent The parent element for this EquPositionReferenceFrame
-     * @return Returns the Element given as parameter with this
-     *         EquPositionReferenceFrame as child Element.<br>
+     * @param parent
+     *            The parent element for this EquPositionReferenceFrame
+     * @return Returns the Element given as parameter with this EquPositionReferenceFrame as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -200,15 +185,13 @@ public class EquPositionReferenceFrame {
 
     }
 
-
-
     // -------------------------------------------------------------------
     /**
      * Returns the equinox date of this position reference frame.
      *
      * @return The equinox date of this position reference frame
      */
-    public String getEquinox() {
+    private String getEquinox() {
 
         return equinox;
 
@@ -220,7 +203,7 @@ public class EquPositionReferenceFrame {
      *
      * @return The origin of this position reference frame
      */
-    public String getOrigin() {
+    private String getOrigin() {
 
         return origin;
 
@@ -231,10 +214,12 @@ public class EquPositionReferenceFrame {
      * Sets the equinox date of this position reference frame.<br>
      * String should be formed like <code>J2000.0</code>
      *
-     * @param equinox The equinox date to set
-     * @throws IllegalArgumentException if equinox was <code>null</code>
+     * @param equinox
+     *            The equinox date to set
+     * @throws IllegalArgumentException
+     *             if equinox was <code>null</code>
      */
-    public void setEquinox(String equinox) throws IllegalArgumentException {
+    private void setEquinox(String equinox) throws IllegalArgumentException {
 
         if (equinox == null) {
             throw new IllegalArgumentException("Equinox cannot be null. ");
@@ -249,11 +234,12 @@ public class EquPositionReferenceFrame {
      * Sets the origin of this position reference frame.<br>
      * All valid origin values can be accessed by this classes constants.
      *
-     * @param origin The new origin of this position reference frame
-     * @throws IllegalArgumentException if origin was <code>null</code> or did not
-     *                                  have valid value.
+     * @param origin
+     *            The new origin of this position reference frame
+     * @throws IllegalArgumentException
+     *             if origin was <code>null</code> or did not have valid value.
      */
-    public void setOrigin(String origin) throws IllegalArgumentException {
+    private void setOrigin(String origin) throws IllegalArgumentException {
 
         if (origin == null) {
             throw new IllegalArgumentException("Origin cannot be null. ");

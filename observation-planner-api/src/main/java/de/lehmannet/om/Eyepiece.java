@@ -18,9 +18,8 @@ import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * Eyepiece implements the class de.lehmannet.om.IEyepiece. An Eyepiece
- * describes a optical eyepiece. The model name and the focalLength are
- * mandatory fields which have to be set.
+ * Eyepiece implements the class de.lehmannet.om.IEyepiece. An Eyepiece describes a optical eyepiece. The model name and
+ * the focalLength are mandatory fields which have to be set.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -32,7 +31,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // ------------------
 
     // Model name of the eyepiece (usually given by vendor)
-    private String model = new String();
+    private String model = "";
 
     // Vendor name of eyepiece (TeleVue, Meade, Vixen....)
     private String vendor = null;
@@ -58,10 +57,12 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * Constructs a new instance of an Eyepiece from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
-     * @param eyepiece The XML Schema element that represents this eyepiece
-     * @throws IllegalArgumentException if parameter is <code>null</code>,
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param eyepiece
+     *            The XML Schema element that represents this eyepiece
+     * @throws IllegalArgumentException
+     *             if parameter is <code>null</code>,
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Eyepiece(Node eyepiece) throws SchemaException, IllegalArgumentException {
 
@@ -92,7 +93,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
             throw new SchemaException("Eyepiece must have exact one model name. ");
         }
         child = (Element) children.item(0);
-        String model = "";
+        StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Eyepiece must have a model name. ");
         } else {
@@ -100,9 +101,9 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        model = model + textElements.item(te).getNodeValue();
+                        model.append(textElements.item(te).getNodeValue());
                     }
-                    this.setModel(model);
+                    this.setModel(model.toString());
                 }
             } else {
                 throw new SchemaException("Eyepiece cannot have an empty model name. ");
@@ -139,7 +140,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         // Get optional vendor
         child = null;
         children = eyepieceElement.getElementsByTagName(IEyepiece.XML_ELEMENT_VENDOR);
-        String vendor = "";
+        StringBuilder vendor = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -147,9 +148,9 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor = vendor + textElements.item(te).getNodeValue();
+                            vendor.append(textElements.item(te).getNodeValue());
                         }
-                        this.setVendor(vendor);
+                        this.setVendor(vendor.toString());
                     }
                     // vendor = child.getFirstChild().getNodeValue();
                     /*
@@ -194,9 +195,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
                     String value = child.getFirstChild().getNodeValue();
                     String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
                     apparentFOV = new Angle(Double.parseDouble(value), unit);
-                    if (apparentFOV != null) {
-                        this.setApparentFOV(apparentFOV);
-                    }
+                    this.setApparentFOV(apparentFOV);
                 } else {
                     throw new SchemaException("Problem while retrieving apparent field of view from eyepiece. ");
                 }
@@ -211,10 +210,12 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Constructs a new instance of an Eyepiece.<br>
      *
-     * @param model       The eyepieces model name
-     * @param focalLength The focal length of the eyepiece
-     * @throws IllegalArgumentException if model is <code>null</code> or focalLength
-     *                                  is Float.NaN
+     * @param model
+     *            The eyepieces model name
+     * @param focalLength
+     *            The focal length of the eyepiece
+     * @throws IllegalArgumentException
+     *             if model is <code>null</code> or focalLength is Float.NaN
      */
     public Eyepiece(String model, float focalLength) throws IllegalArgumentException {
 
@@ -230,11 +231,9 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -261,8 +260,8 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // -------------------------------------------------------------------
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
-     * Returns all fields of the class Eyepiece (unset field will be ignored). The
-     * result string will look like this:<br>
+     * Returns all fields of the class Eyepiece (unset field will be ignored). The result string will look like
+     * this:<br>
      * Example:<br>
      * <code>
      * Eyepiece Model: Ultra Wide Angle 8.8mm<br>
@@ -277,7 +276,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("Eyepiece Model: ");
         buffer.append(this.getModel());
@@ -305,19 +304,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Eyepiece and the given Object are equal. The given object is
-     * equal with this Eyepiece, if its implementing IEyepiece and its modelname,
-     * vendorname, focalLength and apparent field of view matches the values of this
-     * Eyepiece.
-     * 
-     * @param obj The Object to compare this Eyepiece with.
-     * @return <code>true</code> if the given Object is an instance of IEyepiece and
-     *         its modelname, vendorname, focalLength and apparent field of view
-     *         matches with this Eyepiece.<br>
-     * @see java.lang.Object
-     */
     /*
      * public boolean equals(Object obj) {
      * 
@@ -329,11 +315,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * if( !(focalLength == eyepiece.getFocalLength()) ) { return false; }
      * 
-     * if( vendor != null ) { if( !vendor.equals(eyepiece.getVendor()) ) { return
-     * false; } } else if( eyepiece.getVendor() != null ) { return false; }
+     * if( vendor != null ) { if( !vendor.equals(eyepiece.getVendor()) ) { return false; } } else if(
+     * eyepiece.getVendor() != null ) { return false; }
      * 
-     * if( apparentFOV != null ) { if(
-     * !apparentFOV.equals(eyepiece.getApparentFOV()) ) { return false; } } else if(
+     * if( apparentFOV != null ) { if( !apparentFOV.equals(eyepiece.getApparentFOV()) ) { return false; } } else if(
      * eyepiece.getApparentFOV() != null ) { return false; }
      * 
      * return true;
@@ -351,6 +336,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @return a boolean with the availability of the element
      */
+    @Override
     public boolean isAvailable() {
 
         return this.available;
@@ -361,9 +347,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Sets the availability of this element.<br>
      * 
-     * @param available A boolean value indicating whether this element is still
-     *                  available for usage
+     * @param available
+     *            A boolean value indicating whether this element is still available for usage
      */
+    @Override
     public void setAvailability(boolean available) {
 
         this.available = available;
@@ -376,19 +363,18 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Eyepiece to a given parent XML DOM Element. The Eyepiece element
-     * will be set as a child element of the passed element.
+     * Adds this Eyepiece to a given parent XML DOM Element. The Eyepiece element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Eyepiece
-     * @return Returns the element given as parameter with this Eyepiece as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Eyepiece
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -404,7 +390,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
@@ -452,15 +438,12 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
             e_Eyepiece.appendChild(e_ApparentFOV);
         }
 
-        return element;
-
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds the eyepiece link to an given XML DOM Element The eyepiece element
-     * itself will be attached to given elements ownerDocument if the passed boolean
-     * was <code>true</code>. If the ownerDocument has no eyepiece container, it
+     * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no eyepiece container, it
      * will be created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
@@ -474,19 +457,18 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * <b>&lt;/eyepieceContainer&gt;</b><br>
      * <br>
      * 
-     * @param element               The element under which the the eyepiece link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional eyepiece
-     *         link, and the eyepiece element under the eyepiece container of the
-     *         ownerDocument Might return <code>null</code> if element was
+     * @param element
+     *            The element under which the the eyepiece link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional eyepiece link, and the eyepiece element under
+     *         the eyepiece container of the ownerDocument Might return <code>null</code> if element was
      *         <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -522,9 +504,8 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the eyepiece link to an given XML DOM Element The eyepiece element
-     * itself will <b>NOT</b> be attached to given elements ownerDocument. Calling
-     * this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will <b>NOT</b> be attached to
+     * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
@@ -532,11 +513,13 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the eyepiece link is created
-     * @return Returns the Element given as parameter with a additional eyepiece
-     *         link Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the eyepiece link is created
+     * @return Returns the Element given as parameter with a additional eyepiece link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -547,12 +530,11 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Returns the apparent field of view of this eyepiece.
      * 
-     * @return Returns the apparent field of view of this eyepiece. The Angles value
-     *         cannot be negative or 0.<br>
-     *         If <code>null</code> is returned the apparent field of view value was
-     *         never set.
+     * @return Returns the apparent field of view of this eyepiece. The Angles value cannot be negative or 0.<br>
+     *         If <code>null</code> is returned the apparent field of view value was never set.
      * @see de.lehmannet.om.Angle
      */
+    @Override
     public Angle getApparentFOV() {
 
         return apparentFOV;
@@ -561,15 +543,15 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the focal length of this eyepiece. The focal length of the telescope
-     * divided by the focal length of the eyepiece equals the amplification.<br>
-     * In case this eyepiece is a zoomEyepiece, this focal length is the minimum
-     * focal length. To retrieve the maximim focal length, please use
-     * getMaxFocalLength()
+     * Returns the focal length of this eyepiece. The focal length of the telescope divided by the focal length of the
+     * eyepiece equals the amplification.<br>
+     * In case this eyepiece is a zoomEyepiece, this focal length is the minimum focal length. To retrieve the maximim
+     * focal length, please use getMaxFocalLength()
      * 
      * @see getMaxFocalLength()
      * @return Returns the focal length of the eyepiece.
      */
+    @Override
     public float getFocalLength() {
 
         return focalLength;
@@ -578,13 +560,13 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the maximal focal length of this eyepiece in case this eyepiece is a
-     * zoom eyepiece. Might return <code>Float.NaN</code> in case this eyepiece is
-     * not a zoom eyepiece.
+     * Returns the maximal focal length of this eyepiece in case this eyepiece is a zoom eyepiece. Might return
+     * <code>Float.NaN</code> in case this eyepiece is not a zoom eyepiece.
      * 
      * @return Returns the maximal focal length of the eyepiece.
      * @since 1.7
      */
+    @Override
     public float getMaxFocalLength() {
 
         return maxFocalLength;
@@ -597,6 +579,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @return Returns a String representing the eyepieces model name.<br>
      */
+    @Override
     public String getModel() {
 
         return model;
@@ -610,6 +593,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * @return Returns a String representing the eyepieces vendor name.<br>
      *         If <code>null</code> is returned the vendor name was never set.
      */
+    @Override
     public String getVendor() {
 
         return vendor;
@@ -624,13 +608,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * @return <code>true</code> if this eyepiece is a zoom eyepiece
      * @since 1.7
      */
+    @Override
     public boolean isZoomEyepiece() {
 
-        if (!Float.isNaN(this.maxFocalLength)) {
-            return true;
-        }
-
-        return false;
+        return !Float.isNaN(this.maxFocalLength);
 
     }
 
@@ -639,21 +620,17 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * Sets the apparent field of view of this eyepiece.<br>
      * The field of view Angle cannot be negative or 0.
      * 
-     * @param apparentFOV The new apparent field of view to be set.
-     * @return Returns <code>true</code> if the new apparent field of view could be
-     *         set. If <code>false</code> is returned the parameter was null, or the
-     *         Angles value was negative or 0 (apparent field of view will not be
-     *         changed if <code>false</code> is returned).
+     * @param apparentFOV
+     *            The new apparent field of view to be set.
      */
-    public boolean setApparentFOV(Angle apparentFOV) {
+    @Override
+    public void setApparentFOV(Angle apparentFOV) {
 
         if ((apparentFOV == null) || (apparentFOV.getValue() <= 0.0)) {
-            return false;
+            return;
         }
 
         this.apparentFOV = apparentFOV;
-
-        return true;
 
     }
 
@@ -661,9 +638,12 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Sets the focal length of the eyepiece.<br>
      * 
-     * @param focalLength The new focal length to be set.
-     * @throws IllegalArgumentException if focalLength was <code>Float.NaN</code>
+     * @param focalLength
+     *            The new focal length to be set.
+     * @throws IllegalArgumentException
+     *             if focalLength was <code>Float.NaN</code>
      */
+    @Override
     public void setFocalLength(float focalLength) throws IllegalArgumentException {
 
         if (Float.isNaN(focalLength)) {
@@ -677,12 +657,13 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // -------------------------------------------------------------------
     /**
      * Sets the maximal focal length of the zoom eyepiece.<br>
-     * If Float.NaN is passed, this eyepiece will no longer be treated as a zoom
-     * eyepiece.
+     * If Float.NaN is passed, this eyepiece will no longer be treated as a zoom eyepiece.
      * 
-     * @param maxFocalLength The new maximal focal length to be set.
+     * @param maxFocalLength
+     *            The new maximal focal length to be set.
      * @since 1.7
      */
+    @Override
     public void setMaxFocalLength(float maxFocalLength) {
 
         this.maxFocalLength = maxFocalLength;
@@ -693,9 +674,12 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Sets the model name for the eyepiece.<br>
      * 
-     * @param modelname The new model name to be set.
-     * @throws IllegalArgumentException if modelname was <code>null</code>
+     * @param modelname
+     *            The new model name to be set.
+     * @throws IllegalArgumentException
+     *             if modelname was <code>null</code>
      */
+    @Override
     public void setModel(String modelname) throws IllegalArgumentException {
 
         if (modelname == null) {
@@ -710,8 +694,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     /**
      * Sets the vendor name of the eyepiece.<br>
      * 
-     * @param vendorname The new vendor name to be set.
+     * @param vendorname
+     *            The new vendor name to be set.
      */
+    @Override
     public void setVendor(String vendorname) {
 
         if ((vendorname != null) && ("".equals(vendorname.trim()))) {

@@ -8,6 +8,7 @@
 package de.lehmannet.om.util;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
@@ -125,7 +126,7 @@ public class Ephemerides {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
-        double RA = equPos.getRaAngle().toDegree();
+        double RA = Objects.requireNonNull(equPos).getRaAngle().toDegree();
         double Dec = equPos.getDecAngle().toDegree();
 
         double HA = Ephemerides.getMoonHourAngle(date, geoLongitude);
@@ -156,7 +157,7 @@ public class Ephemerides {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
-        double Dec = equPos.getDecAngle().toDegree();
+        double Dec = Objects.requireNonNull(equPos).getDecAngle().toDegree();
 
         // Moon hour angle
         double HA = Ephemerides.getMoonHourAngle(date, geoLongitude);
@@ -166,11 +167,7 @@ public class Ephemerides {
         double h = Math.asin(sinh);
         h = Math.toDegrees(h);
 
-        if (h > 0) {
-            return true;
-        }
-
-        return false;
+        return h > 0;
 
     }
 
@@ -268,9 +265,7 @@ public class Ephemerides {
 
         double FV = 180 - elong;
 
-        double phase = (1 + Math.cos(Math.toRadians(FV))) / 2;
-
-        return phase;
+        return (1 + Math.cos(Math.toRadians(FV))) / 2;
 
     }
 
@@ -278,7 +273,7 @@ public class Ephemerides {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
-        double RA = equPos.getRaAngle().toDegree();
+        double RA = Objects.requireNonNull(equPos).getRaAngle().toDegree();
 
         double Ls = Ephemerides.getSunLongitude(date);
 
@@ -292,9 +287,8 @@ public class Ephemerides {
         double LST = GMST0 + (UT * 15) + geoLongitude;
 
         // Moons hour angle
-        double HA = LST - RA;
 
-        return HA;
+        return LST - RA;
 
     }
 
@@ -331,9 +325,7 @@ public class Ephemerides {
             XvYv = Ephemerides.getSunXY(planet, date);
         }
 
-        double r = Math.sqrt(XvYv[0] * XvYv[0] + XvYv[1] * XvYv[1]);
-
-        return r;
+        return Math.sqrt(XvYv[0] * XvYv[0] + XvYv[1] * XvYv[1]);
 
     }
 
@@ -353,10 +345,8 @@ public class Ephemerides {
 
     private static double[] getSunEclipticRectangularGeocentric(Calendar date) {
 
-        int planet = Ephemerides.SUN;
-
         double lonsun = Ephemerides.getSunLongitude(date);
-        double r = Ephemerides.getDistance(planet, date);
+        double r = Ephemerides.getDistance(Ephemerides.SUN, date);
 
         double xs = r * Math.cos(Math.toRadians(lonsun));
         double ys = r * Math.sin(Math.toRadians(lonsun));
@@ -369,9 +359,7 @@ public class Ephemerides {
 
         int planet = Ephemerides.SUN;
 
-        double lonsun = Ephemerides.getTrueAnomaly(planet, date) + Ephemerides.getArgumentOfPerihelion(planet, date);
-
-        return lonsun;
+        return Ephemerides.getTrueAnomaly(planet, date) + Ephemerides.getArgumentOfPerihelion(planet, date);
 
     }
 
@@ -418,8 +406,7 @@ public class Ephemerides {
         lonecl = Math.toDegrees(lonecl);
         latecl = Math.toDegrees(latecl);
 
-        switch (planet) {
-        case Ephemerides.MOON: {
+        if (planet == Ephemerides.MOON) {
             double[] per = Ephemerides.getPerturbationsForMoon(lonecl, latecl, date);
             lonecl = per[0];
             latecl = per[1];
@@ -427,7 +414,6 @@ public class Ephemerides {
             xh = r * Math.cos(Math.toRadians(lonecl)) * Math.cos(Math.toRadians(latecl));
             yh = r * Math.sin(Math.toRadians(lonecl)) * Math.cos(Math.toRadians(latecl));
             zh = r * Math.sin(Math.toRadians(latecl));
-        }
         }
 
         return new double[] { xh, yh, zh, lonecl, latecl };
@@ -476,9 +462,7 @@ public class Ephemerides {
 
         double d = Ephemerides.getD(date);
 
-        double ecl = 23.4393 - 3.563E-7 * d;
-
-        return ecl;
+        return 23.4393 - 3.563E-7 * d;
 
     }
 
@@ -505,10 +489,9 @@ public class Ephemerides {
             return 74.0005 + 1.3978E-5 * d;
         case Ephemerides.NEPTUNE:
             return 131.7806 + 3.0173E-5 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -535,10 +518,9 @@ public class Ephemerides {
             return 0.7733 + 1.9E-8 * d;
         case Ephemerides.NEPTUNE:
             return 11.7700 - 2.55E-7 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -565,10 +547,9 @@ public class Ephemerides {
             return 96.6612 + 3.0565E-5 * d;
         case Ephemerides.NEPTUNE:
             return 272.8461 - 6.027E-6 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -595,10 +576,9 @@ public class Ephemerides {
             return 19.18171 - 1.55E-8 * d;
         case Ephemerides.NEPTUNE:
             return 30.05826 + 3.313E-8 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -625,10 +605,9 @@ public class Ephemerides {
             return 0.047318 + 7.45E-9 * d;
         case Ephemerides.NEPTUNE:
             return 0.008606 + 2.15E-9 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -655,10 +634,9 @@ public class Ephemerides {
             return 142.5905 + 0.011725806 * d;
         case Ephemerides.NEPTUNE:
             return 260.2471 + 0.005995147 * d;
+        default:
+            return Double.NaN;
         }
-        ;
-
-        return Double.NaN;
 
     }
 
@@ -692,7 +670,7 @@ public class Ephemerides {
 
     }
 
-    private static double getPerturbationsForMoonDistance(double distance, Calendar date) {
+    private static double getPerturbationsForMoonDistance(double pdistance, Calendar date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -704,14 +682,14 @@ public class Ephemerides {
         double D = Lm - Ls;
         double F = Lm - Nm;
 
-        distance = distance + (-0.58 * Math.cos(Math.toRadians(Mm - 2 * D)));
+        double distance = pdistance + (-0.58 * Math.cos(Math.toRadians(Mm - 2 * D)));
         distance = distance + (-0.46 * Math.cos(Math.toRadians(2 * D)));
 
         return distance;
 
     }
 
-    private static double[] getPerturbationsForMoon(double longitude, double latitude, Calendar date) {
+    private static double[] getPerturbationsForMoon(double plongitude, double platitude, Calendar date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -723,7 +701,7 @@ public class Ephemerides {
         double D = Lm - Ls;
         double F = Lm - Nm;
 
-        longitude = longitude + (-1.274 * Math.sin(Math.toRadians(Mm - 2 * D)));
+        double longitude = plongitude + (-1.274 * Math.sin(Math.toRadians(Mm - 2 * D)));
         longitude = longitude + (+0.658 * Math.sin(Math.toRadians(2 * D)));
         longitude = longitude + (-0.186 * Math.sin(Math.toRadians(Ms)));
         longitude = longitude + (-0.059 * Math.sin(Math.toRadians(2 * Mm - 2 * D)));
@@ -736,7 +714,7 @@ public class Ephemerides {
         longitude = longitude + (-0.015 * Math.sin(Math.toRadians(2 * F - 2 * D)));
         longitude = longitude + (+0.011 * Math.sin(Math.toRadians(Mm - 4 * D)));
 
-        latitude = latitude + (-0.173 * Math.sin(Math.toRadians(F - 2 * D)));
+        double latitude = platitude + (-0.173 * Math.sin(Math.toRadians(F - 2 * D)));
         latitude = latitude + (-0.055 * Math.sin(Math.toRadians(Mm - F - 2 * D)));
         latitude = latitude + (-0.046 * Math.sin(Math.toRadians(Mm + F - 2 * D)));
         latitude = latitude + (+0.033 * Math.sin(Math.toRadians(F + 2 * D)));
@@ -749,12 +727,10 @@ public class Ephemerides {
     /*
      * public static void main(String args[]) {
      * 
-     * Calendar date = Calendar.getInstance(); date.set(Calendar.HOUR_OF_DAY, 1);
-     * date.set(Calendar.DAY_OF_MONTH, 22); //date.set(Calendar.MONTH, 11);
-     * System.out.println("" + new java.util.Date(date.getTimeInMillis()) + "\n" +
-     * Ephemerides.getMoonPosition(date, 0)); System.out.println("Moon phase: " +
-     * Ephemerides.getMoonPhase(date) + "\t Date: " + new
-     * java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " +
+     * Calendar date = Calendar.getInstance(); date.set(Calendar.HOUR_OF_DAY, 1); date.set(Calendar.DAY_OF_MONTH, 22);
+     * //date.set(Calendar.MONTH, 11); System.out.println("" + new java.util.Date(date.getTimeInMillis()) + "\n" +
+     * Ephemerides.getMoonPosition(date, 0)); System.out.println("Moon phase: " + Ephemerides.getMoonPhase(date) +
+     * "\t Date: " + new java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " +
      * Ephemerides.isMoonAboveHorizon(date, 9, 49)); }
      */
 

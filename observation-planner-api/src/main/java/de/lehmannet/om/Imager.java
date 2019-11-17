@@ -17,8 +17,7 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * An Imager describes a camera. This class is an abstract implementation of
- * de.lehmannet.om.IImager.<br>
+ * An Imager describes a camera. This class is an abstract implementation of de.lehmannet.om.IImager.<br>
  * If you need an instance use one of the subclasses.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -31,7 +30,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // ------------------
 
     // Model name of the imager (usually given by vendor)
-    private String model = new String();
+    private String model = "";
 
     // Vendor name of imager (Canon, Meade, Attic, StarLight....)
     private String vendor = null;
@@ -54,10 +53,12 @@ public abstract class Imager extends SchemaElement implements IImager {
      * Constructs a new instance of an Imager from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
-     * @param imager The XML Schema element that represents this imager
-     * @throws IllegalArgumentException if parameter is <code>null</code>,
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param imager
+     *            The XML Schema element that represents this imager
+     * @throws IllegalArgumentException
+     *             if parameter is <code>null</code>,
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Imager(Node imager) throws SchemaException, IllegalArgumentException {
 
@@ -88,7 +89,7 @@ public abstract class Imager extends SchemaElement implements IImager {
             throw new SchemaException("Imager must have exact one model name. ");
         }
         child = (Element) children.item(0);
-        String model = "";
+        StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Imager must have a model name. ");
         } else {
@@ -97,9 +98,9 @@ public abstract class Imager extends SchemaElement implements IImager {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        model = model + textElements.item(te).getNodeValue();
+                        model.append(textElements.item(te).getNodeValue());
                     }
-                    this.setModel(model);
+                    this.setModel(model.toString());
                 }
             } else {
                 throw new SchemaException("Imager cannot have an empty model name. ");
@@ -121,7 +122,7 @@ public abstract class Imager extends SchemaElement implements IImager {
         // Get optional vendor
         child = null;
         children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_VENDOR);
-        String vendor = "";
+        StringBuilder vendor = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -129,13 +130,12 @@ public abstract class Imager extends SchemaElement implements IImager {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor = vendor + textElements.item(te).getNodeValue();
+                            vendor.append(textElements.item(te).getNodeValue());
                         }
-                        this.setVendor(vendor);
+                        this.setVendor(vendor.toString());
                     }
                     /*
-                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                     * this.setVendor(vendor); }
+                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) { this.setVendor(vendor); }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving vendor from imager. ");
@@ -147,30 +147,24 @@ public abstract class Imager extends SchemaElement implements IImager {
 
         // Get optional type
         /*
-         * child = null; children =
-         * imagerElement.getElementsByTagName(IImager.XML_ELEMENT_TYPE); String type =
-         * ""; if( children != null ) { if( children.getLength() == 1 ) { child =
-         * (Element)children.item(0); if( child != null ) { NodeList textElements =
-         * child.getChildNodes(); if( (textElements != null) &&
-         * (textElements.getLength() > 0) ) { for(int te=0; te <
-         * textElements.getLength(); te++) { type = type +
-         * textElements.item(te).getNodeValue(); } this.setType(type); }
+         * child = null; children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_TYPE); String type = ""; if(
+         * children != null ) { if( children.getLength() == 1 ) { child = (Element)children.item(0); if( child != null )
+         * { NodeList textElements = child.getChildNodes(); if( (textElements != null) && (textElements.getLength() > 0)
+         * ) { for(int te=0; te < textElements.getLength(); te++) { type = type + textElements.item(te).getNodeValue();
+         * } this.setType(type); }
          */
         /*
-         * type = child.getFirstChild().getNodeValue(); if( type != null ) {
-         * this.setType(type); }
+         * type = child.getFirstChild().getNodeValue(); if( type != null ) { this.setType(type); }
          */
         /*
-         * } else { throw new
-         * SchemaException("Problem while retrieving type from imager. "); } } else if(
-         * children.getLength() > 1 ) { throw new
-         * SchemaException("Imager can have only one type. "); } }
+         * } else { throw new SchemaException("Problem while retrieving type from imager. "); } } else if(
+         * children.getLength() > 1 ) { throw new SchemaException("Imager can have only one type. "); } }
          */
 
         // Get optional remarks
         child = null;
         children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_REMARKS);
-        String remarks = "";
+        StringBuilder remarks = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -178,13 +172,12 @@ public abstract class Imager extends SchemaElement implements IImager {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            remarks = remarks + textElements.item(te).getNodeValue();
+                            remarks.append(textElements.item(te).getNodeValue());
                         }
-                        this.setRemarks(remarks);
+                        this.setRemarks(remarks.toString());
                     }
                     /*
-                     * remarks = child.getFirstChild().getNodeValue(); if( type != null ) {
-                     * this.setRemarks(remarks); }
+                     * remarks = child.getFirstChild().getNodeValue(); if( type != null ) { this.setRemarks(remarks); }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving remarks from imager. ");
@@ -200,8 +193,10 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Constructs a new instance of an Imager.<br>
      *
-     * @param model The imager model name
-     * @throws IllegalArgumentException if model is <code>null</code>
+     * @param model
+     *            The imager model name
+     * @throws IllegalArgumentException
+     *             if model is <code>null</code>
      */
     protected Imager(String model) throws IllegalArgumentException {
 
@@ -216,11 +211,9 @@ public abstract class Imager extends SchemaElement implements IImager {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -242,16 +235,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     // ------
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this imager and the given Object are equal. The given object is
-     * equal with this Imager is model, type and vendor are equal.<br>
-     * 
-     * @param obj The Object to compare this Imager with.
-     * @return <code>true</code> if the given Object is an instance of IImager and
-     *         its modelname, vendorname, and type matches with this Imager.<br>
-     * @see java.lang.Object
-     */
     /*
      * public boolean equals(Object obj) {
      * 
@@ -261,11 +244,11 @@ public abstract class Imager extends SchemaElement implements IImager {
      * 
      * if( !(this.model.equals(imager.getModel())) ) { return false; }
      * 
-     * if( type != null ) { if( !type.equals(imager.getType()) ) { return false; } }
-     * else if( imager.getType() != null ) { return false; }
+     * if( type != null ) { if( !type.equals(imager.getType()) ) { return false; } } else if( imager.getType() != null )
+     * { return false; }
      * 
-     * if( vendor != null ) { if( !vendor.equals(imager.getVendor()) ) { return
-     * false; } } else if( imager.getVendor() != null ) { return false; }
+     * if( vendor != null ) { if( !vendor.equals(imager.getVendor()) ) { return false; } } else if( imager.getVendor()
+     * != null ) { return false; }
      * 
      * return true;
      * 
@@ -282,6 +265,7 @@ public abstract class Imager extends SchemaElement implements IImager {
      * 
      * @return a boolean with the availability of the element
      */
+    @Override
     public boolean isAvailable() {
 
         return this.available;
@@ -292,9 +276,10 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Sets the availability of this element.<br>
      * 
-     * @param available A boolean value indicating whether this element is still
-     *                  available for usage
+     * @param available
+     *            A boolean value indicating whether this element is still available for usage
      */
+    @Override
     public void setAvailability(boolean available) {
 
         this.available = available;
@@ -307,23 +292,21 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this IImager to a given parent XML DOM Element. The IImager element will
-     * be set as a child element of the passed element.
+     * Adds this IImager to a given parent XML DOM Element. The IImager element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this IImager
-     * @return Returns the element given as parameter with this IImager as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this IImager
      * @see org.w3c.dom.Element
      */
-    public abstract Element addToXmlElement(Element element);
+    @Override
+    public abstract void addToXmlElement(Element element);
 
     // -------------------------------------------------------------------
     /**
-     * Adds the imager link to an given XML DOM Element The IImager element itself
-     * will be attached to given elements ownerDocument if the passed boolean was
-     * <code>true</code>. If the ownerDocument has no IImager container, it will be
-     * created (in case the passed boolean was <code>true</code>).<br>
+     * Adds the imager link to an given XML DOM Element The IImager element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no IImager container, it will
+     * be created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;imagerLink&gt;123&lt;/imagerLink&gt;</b><br>
@@ -336,19 +319,17 @@ public abstract class Imager extends SchemaElement implements IImager {
      * <b>&lt;/imagerContainer&gt;</b><br>
      * <br>
      * 
-     * @param parent                The element under which the the imager link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional imager link,
-     *         and the imager element under the imager container of the
-     *         ownerDocument Might return <code>null</code> if element was
-     *         <code>null</code>.
+     * @param parent
+     *            The element under which the the imager link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional imager link, and the imager element under the
+     *         imager container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element parent, boolean addElementToContainer) {
 
         if (parent == null) {
@@ -384,21 +365,22 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the imager link to an given XML DOM Element The imager element itself
-     * will <b>NOT</b> be attached to given elements ownerDocument. Calling this
-     * method is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the imager link to an given XML DOM Element The imager element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;imagerLink&gt;123&lt;/imagerLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the imager link is created
-     * @return Returns the Element given as parameter with a additional imager link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the imager link is created
+     * @return Returns the Element given as parameter with a additional imager link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -411,6 +393,7 @@ public abstract class Imager extends SchemaElement implements IImager {
      * 
      * @return Returns the model name of this imager.<br>
      */
+    @Override
     public String getModel() {
 
         return this.model;
@@ -421,9 +404,9 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Returns the vendor name of this imager.<br>
      * 
-     * @return Returns the vendor name of this imager or <code>NULL</code> if vendor
-     *         name was not set.<br>
+     * @return Returns the vendor name of this imager or <code>NULL</code> if vendor name was not set.<br>
      */
+    @Override
     public String getVendor() {
 
         return this.vendor;
@@ -431,14 +414,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Returns the type of this imager.<br>
-     * Only two types are allowed:<br>
-     * - IImager.CCD<br>
-     * - IImager.Film<br>
-     * 
-     * @return Returns the type imager or <code>NULL</code> if type was not set.<br>
-     */
     /*
      * public String getType() {
      * 
@@ -451,9 +426,9 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Returns the remarks to this imager.<br>
      * 
-     * @return Returns the remarks to this imager or <code>NULL</code> if no remarks
-     *         were set.<br>
+     * @return Returns the remarks to this imager or <code>NULL</code> if no remarks were set.<br>
      */
+    @Override
     public String getRemarks() {
 
         return this.remarks;
@@ -464,10 +439,12 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Sets the model name for the imager.<br>
      * 
-     * @param modelname The new model name to be set.
-     * @throws IllegalArgumentException if new modelname is <code>null</code> or
-     *                                  empty string
+     * @param modelname
+     *            The new model name to be set.
+     * @throws IllegalArgumentException
+     *             if new modelname is <code>null</code> or empty string
      */
+    @Override
     public void setModel(String modelname) throws IllegalArgumentException {
 
         if ((modelname == null) || ("".equals(modelname))) {
@@ -482,8 +459,10 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Sets the vendor name for the imager.<br>
      * 
-     * @param vendor The new vendor name to be set.
+     * @param vendor
+     *            The new vendor name to be set.
      */
+    @Override
     public void setVendor(String vendor) {
 
         if ((vendor != null) && ("".equals(vendor.trim()))) {
@@ -496,22 +475,11 @@ public abstract class Imager extends SchemaElement implements IImager {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Sets the type for this imager.<br>
-     * Only two types are allowed:<br>
-     * - IImager.CCD<br>
-     * - IImager.Film<br>
-     * If some other type is given, no change will take place.<br>
-     * 
-     * @param type The new image type.
-     */
     /*
      * public void setType(String type) {
      * 
-     * if( (IImager.CCD.equals(type)) || (IImager.FILM.equals(type)) ) { this.type =
-     * type; } else { throw new
-     * IllegalArgumentException("Imager type must be IImager.CCD or IImager.Film.\n"
-     * ); }
+     * if( (IImager.CCD.equals(type)) || (IImager.FILM.equals(type)) ) { this.type = type; } else { throw new
+     * IllegalArgumentException("Imager type must be IImager.CCD or IImager.Film.\n" ); }
      * 
      * }
      */
@@ -520,8 +488,10 @@ public abstract class Imager extends SchemaElement implements IImager {
     /**
      * Sets the remarks for this imager.<br>
      * 
-     * @param remarks The new remarks.
+     * @param remarks
+     *            The new remarks.
      */
+    @Override
     public void setRemarks(String remarks) {
 
         if ((remarks != null) && ("".equals(remarks.trim()))) {
@@ -539,11 +509,9 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     // -------------------------------------------------------------------
     /**
-     * Creates an XML DOM Element for the Imager. The new Imager element will be
-     * added as child element to an given parent element. The given parent element
-     * should be the target container. All specialised subclasses may use this
-     * method to create a Imager element under which they may store their addition
-     * data.<br>
+     * Creates an XML DOM Element for the Imager. The new Imager element will be added as child element to an given
+     * parent element. The given parent element should be the target container. All specialised subclasses may use this
+     * method to create a Imager element under which they may store their addition data.<br>
      * Example:<br>
      * &lt;imagerContainer&gt;<br>
      * &lt;imager&gt;<br>
@@ -551,10 +519,10 @@ public abstract class Imager extends SchemaElement implements IImager {
      * &lt;/imager&gt;<br>
      * &lt;/imagerContainer&gt;
      * 
-     * @param parent The target container element
-     * @return Returns the new created target element (which is a child of the
-     *         passed container element) Might return <code>null</code> if parent
-     *         was <code>null</code>.
+     * @param parent
+     *            The target container element
+     * @return Returns the new created target element (which is a child of the passed container element) Might return
+     *         <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
     protected Element createXmlImagerElement(Element parent) {
@@ -600,10 +568,8 @@ public abstract class Imager extends SchemaElement implements IImager {
         e_Imager.appendChild(e_Model);
 
         /*
-         * if( this.type != null ) { Element e_Type =
-         * ownerDoc.createElement(IImager.XML_ELEMENT_TYPE); Node n_TypeText =
-         * ownerDoc.createCDATASection(this.type); e_Type.appendChild(n_TypeText);
-         * e_Imager.appendChild(e_Type); }
+         * if( this.type != null ) { Element e_Type = ownerDoc.createElement(IImager.XML_ELEMENT_TYPE); Node n_TypeText
+         * = ownerDoc.createCDATASection(this.type); e_Type.appendChild(n_TypeText); e_Imager.appendChild(e_Type); }
          */
 
         if (this.vendor != null) {

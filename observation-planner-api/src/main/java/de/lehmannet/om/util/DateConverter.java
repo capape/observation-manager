@@ -56,8 +56,6 @@ public class DateConverter {
      *
      *
      *
-     * @param gregorianDate The gregorianDate date
-     *
      * @return A julian date with seconds accuracy
      */
     public static double toJulianDate(Calendar gregorianCalendar) {
@@ -81,14 +79,15 @@ public class DateConverter {
         // Calculation of leap year
         double leapYear = Double.NaN;
         Calendar gregStartDate = Calendar.getInstance();
-        gregStartDate.set(1583, 9, 16); // 16.10.1583 day of introduction of greg. Calendar. Before that there're no
-                                        // leap
-                                        // years
+        gregStartDate.set(1583, Calendar.OCTOBER, 16); // 16.10.1583 day of introduction of greg. Calendar. Before that
+                                                       // there're no
+        // leap
+        // years
         if (gregorianCalendar.after(gregStartDate)) {
-            leapYear = (double) (2 - (year / 100) + ((year / 100) / 4));
+            leapYear = 2 - (year / 100) + ((year / 100) / 4);
         }
         Calendar gregBeginDate = Calendar.getInstance();
-        gregBeginDate.set(1583, 9, 4); // 04.10.1583 last day before gregorian calendar reformation
+        gregBeginDate.set(1583, Calendar.OCTOBER, 4); // 04.10.1583 last day before gregorian calendar reformation
         if ((gregorianCalendar.before(gregBeginDate)) || (gregorianCalendar.equals(gregBeginDate))) {
             leapYear = 0;
         }
@@ -104,13 +103,11 @@ public class DateConverter {
         long c = (long) (365.25 * (year + 4716));
         long d = (long) (30.6001 * (month + 1));
 
-        double julianDate = day + c + d + fracSecs + leapYear - 1524.5;
-
         /*
          * double julianDate = c + d + hourAndMinutes + leapYear - 1524.5;
          *
-         * if( (month == 5) || (month == 7) || (month == 10) || (month == 12) ) { //
-         * Those month have 31 days julianDate = julianDate-1; }
+         * if( (month == 5) || (month == 7) || (month == 10) || (month == 12) ) { // Those month have 31 days julianDate
+         * = julianDate-1; }
          */
 
         // System.out.println("@@ day= " + Double.toString(day) + " month= " +
@@ -124,7 +121,7 @@ public class DateConverter {
         // GMB APR12,2012 - end fix #3514617
         // -------------------------------------------------------------------------------
 
-        return julianDate;
+        return day + c + d + fracSecs + leapYear - 1524.5;
     }
 
     // -------------------------------------------------------------------
@@ -134,7 +131,8 @@ public class DateConverter {
      *
      *
      *
-     * @param julianDate The julian date
+     * @param julianDate
+     *            The julian date
      *
      * @return A gregorian date with seconds accuracy (Timezone = GMT)
      */
@@ -149,24 +147,28 @@ public class DateConverter {
      *
      *
      *
-     * @param julianDate The julian date
+     * @param pjulianDate
+     *            The julian date
      *
-     * @param zone       The timzone for the returned gregorian date (if
-     *                   <code>NULL</code> is
+     * @param pzone
+     *            The timzone for the returned gregorian date (if <code>NULL</code> is
      *
-     *                   passed GMT will be taken)
+     *            passed GMT will be taken)
      *
      * @return A gregorian date
      */
-    public static Calendar toGregorianDate(double julianDate, TimeZone zone) {
-        final Double julianDouble = Double.valueOf(julianDate);
-        if (julianDouble.isNaN() || julianDouble.isInfinite()) {
-            throw new IllegalArgumentException("Julian Date has illegal value. (Value=" + julianDate + ")");
+    public static Calendar toGregorianDate(double pjulianDate, TimeZone pzone) {
+
+        if (Double.isNaN(pjulianDate) || Double.valueOf(pjulianDate).isInfinite()) {
+            throw new IllegalArgumentException("Julian Date has illegal value. (Value=" + pjulianDate + ")");
         }
-        if (zone == null) {
+        TimeZone zone;
+        if (pzone == null) {
             zone = TimeZone.getTimeZone("GMT");
+        } else {
+            zone = pzone;
         }
-        julianDate = julianDate + 0.5;
+        double julianDate = pjulianDate + 0.5;
         int onlyDays = (int) Math.round(julianDate);
         double onlyMinutes = julianDate - onlyDays;
         double hours = 24 * onlyMinutes;
@@ -214,7 +216,8 @@ public class DateConverter {
      *
      *
      *
-     * @param calendar A java.util.Date object that has to be converted
+     * @param calendar
+     *            A java.util.Date object that has to be converted
      *
      * @return A ISO8601 conform String, or <code>null</code> if the
      *
@@ -224,7 +227,7 @@ public class DateConverter {
         if (calendar == null) {
             return null;
         }
-        StringBuffer iso8601 = new StringBuffer();
+        StringBuilder iso8601 = new StringBuilder();
         iso8601.append(calendar.get(Calendar.YEAR));
         iso8601.append(DATE_DELIMITER);
         iso8601.append(setLeadingZero(calendar.get(Calendar.MONTH) + 1));
@@ -251,13 +254,15 @@ public class DateConverter {
      *
      *
      *
-     * @param iso8601 A String with a ISO8601 conform value
+     * @param iso8601
+     *            A String with a ISO8601 conform value
      *
      * @return The parameters date as java.util.Calendar, or <code>null</code>
      *
      *         if the given string was <code>null</code> or empty.
      *
-     * @throws NumberFormatException if given ISO8601 is malformed.
+     * @throws NumberFormatException
+     *             if given ISO8601 is malformed.
      */
     public static Calendar toDate(String iso8601) throws NumberFormatException {
         if (iso8601 == null || "".equals(iso8601)) {
@@ -267,16 +272,16 @@ public class DateConverter {
         String year = tokenizer.nextToken(DATE_DELIMITER);
         String month = tokenizer.nextToken(DATE_DELIMITER);
         String day = tokenizer.nextToken(DATETIME_DELIMITER);
-        day = day.substring(1, day.length()); // cutoff '-'
+        day = day.substring(1); // cutoff '-'
         String hour = tokenizer.nextToken(TIME_DELIMITER);
-        hour = hour.substring(1, hour.length()); // cutoff 'T'
+        hour = hour.substring(1); // cutoff 'T'
         hour = cutLeadingZeroAndPlus(hour);
         String minute = tokenizer.nextToken(TIME_DELIMITER);
         minute = cutLeadingZeroAndPlus(minute);
-        String secAndTZ = iso8601.substring(iso8601.indexOf(TIME_DELIMITER) + 4, iso8601.length());
+        String secAndTZ = iso8601.substring(iso8601.indexOf(TIME_DELIMITER) + 4);
         String second = secAndTZ.substring(0, 2);
         second = cutLeadingZeroAndPlus(second);
-        String timeZone = secAndTZ.substring(2, secAndTZ.length());
+        String timeZone = secAndTZ.substring(2);
         int i_year = 0;
         int i_month = 0;
         int i_day = 0;
@@ -331,7 +336,7 @@ public class DateConverter {
         if (h.startsWith("+")) {
             h = cutLeadingZeroAndPlus(h);
         }
-        String m = timeZone.substring(timeZone.indexOf(TIME_DELIMITER) + 1, timeZone.length());
+        String m = timeZone.substring(timeZone.indexOf(TIME_DELIMITER) + 1);
         int hour = 0;
         int minute = 0;
         try {
@@ -398,12 +403,12 @@ public class DateConverter {
      */
     private static String cutLeadingZeroAndPlus(String value) {
         if (value.startsWith("+0")) {
-            return value.substring(2, value.length());
+            return value.substring(2);
         } else if (value.startsWith("-0")) {
-            return "-" + value.substring(2, value.length());
+            return "-" + value.substring(2);
         }
         if (value.startsWith("+")) {
-            value = value.substring(1, value.length());
+            return value.substring(1);
         }
         return value;
     }

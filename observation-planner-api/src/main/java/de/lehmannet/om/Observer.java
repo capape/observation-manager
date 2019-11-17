@@ -7,15 +7,10 @@
 
 package de.lehmannet.om;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -27,13 +22,15 @@ import de.lehmannet.om.util.SchemaException;
 
 /**
  * An Observer describes person, who does astronomical observations.<br>
- * The Observer class provides access to at least the name and surname of the
- * person. Additionally address informations may be stored here.
+ * The Observer class provides access to at least the name and surname of the person. Additionally address informations
+ * may be stored here.
  *
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
 public class Observer extends SchemaElement implements IObserver {
+
+    private static Logger log = LoggerFactory.getLogger(Observer.class);
 
     // ---------
     // Constants ---------------------------------------------------------
@@ -53,17 +50,17 @@ public class Observer extends SchemaElement implements IObserver {
     // ------------------
 
     // The observers name
-    private String name = new String();
+    private String name = "";
 
     // The observers surname
-    private String surname = new String();
+    private String surname = "";
 
     // The sites latitude in degrees
-    private LinkedList contacts = new LinkedList();
+    private List contacts = new LinkedList();
 
     // Usernames/UserIDs/accountNames of the observer in external
     // applications/websites
-    private HashMap accounts = new HashMap();
+    private Map accounts = new HashMap();
 
     // Personal fst Offset of the observer
     private float fstOffset = Float.NaN;
@@ -74,13 +71,15 @@ public class Observer extends SchemaElement implements IObserver {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new Observer instance from a given XML Schema Node. Normally
-     * this constructor is only used by de.lehmannet.om.util.SchemaLoader
+     * Constructs a new Observer instance from a given XML Schema Node. Normally this constructor is only used by
+     * de.lehmannet.om.util.SchemaLoader
      *
-     * @param observer The XML Schema Node that represents this Observer object
-     * @throws IllegalArgumentException if the given parameter is <code>null</code>
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param observer
+     *            The XML Schema Node that represents this Observer object
+     * @throws IllegalArgumentException
+     *             if the given parameter is <code>null</code>
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Observer(Node observer) throws SchemaException, IllegalArgumentException {
 
@@ -112,7 +111,7 @@ public class Observer extends SchemaElement implements IObserver {
             throw new SchemaException("Observer must have exact one name. ");
         }
         child = (Element) children.item(0);
-        String name = "";
+        StringBuilder name = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Observer must have a name. ");
         } else {
@@ -121,9 +120,9 @@ public class Observer extends SchemaElement implements IObserver {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        name = name + textElements.item(te).getNodeValue();
+                        name.append(textElements.item(te).getNodeValue());
                     }
-                    this.setName(name);
+                    this.setName(name.toString());
                 }
             } else {
                 // Some applications (like DSP) don't set a name, which is OK with OAL
@@ -139,7 +138,7 @@ public class Observer extends SchemaElement implements IObserver {
             throw new SchemaException("Observer must have exact one surname. ");
         }
         child = (Element) children.item(0);
-        String surname = "";
+        StringBuilder surname = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Observer must have a surname. ");
         } else {
@@ -147,9 +146,9 @@ public class Observer extends SchemaElement implements IObserver {
             NodeList textElements = child.getChildNodes();
             if ((textElements != null) && (textElements.getLength() > 0)) {
                 for (int te = 0; te < textElements.getLength(); te++) {
-                    surname = surname + textElements.item(te).getNodeValue();
+                    surname.append(textElements.item(te).getNodeValue());
                 }
-                this.setSurname(surname);
+                this.setSurname(surname.toString());
             }
         }
 
@@ -160,13 +159,13 @@ public class Observer extends SchemaElement implements IObserver {
             for (int x = 0; x < children.getLength(); x++) {
                 child = (Element) children.item(x);
                 if (child != null) {
-                    String contactEntry = "";
+                    StringBuilder contactEntry = new StringBuilder();
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            contactEntry = contactEntry + textElements.item(te).getNodeValue();
+                            contactEntry.append(textElements.item(te).getNodeValue());
                         }
-                        this.addContact(contactEntry);
+                        this.addContact(contactEntry.toString());
                     }
                 } else {
                     throw new SchemaException("Problem retrieving contact information from Observer. ");
@@ -177,7 +176,7 @@ public class Observer extends SchemaElement implements IObserver {
         // Get optional DSL code (eventhough it's deprecated)
         child = null;
         children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_DSL);
-        String DSLCode = "";
+        StringBuilder DSLCode = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -186,13 +185,14 @@ public class Observer extends SchemaElement implements IObserver {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            DSLCode = DSLCode + textElements.item(te).getNodeValue();
+                            DSLCode.append(textElements.item(te).getNodeValue());
                         }
-                        this.accounts.put(Observer.ACCOUNT_DSL, DSLCode);
+                        this.accounts.put(Observer.ACCOUNT_DSL, DSLCode.toString());
                     }
                 } else {
-                    System.err.println("Problem while retrieving DSL code from observer: " + this.getID()
-                            + "\nAs this element is deprecated, error will be ignored.");
+                    log.error(
+                            "Problem while retrieving DSL code from observer: {} \n As this element is deprecated, error will be ignored.",
+                            this.getID());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("Observer can have only one DSL Code. ");
@@ -202,7 +202,7 @@ public class Observer extends SchemaElement implements IObserver {
         // Get optional fstOffset
         child = null;
         children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_FST_OFFSET);
-        String fstOffset = "";
+        StringBuilder fstOffset = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -210,12 +210,12 @@ public class Observer extends SchemaElement implements IObserver {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            fstOffset = fstOffset + textElements.item(te).getNodeValue();
+                            fstOffset.append(textElements.item(te).getNodeValue());
                         }
-                        this.fstOffset = FloatUtil.parseFloat(fstOffset);
+                        this.fstOffset = FloatUtil.parseFloat(fstOffset.toString());
                     }
                 } else {
-                    System.err.println("Problem while retrieving fst Offset from observer: " + this.getID());
+                    log.error("Problem while retrieving fst Offset from observer: {} ", this.getID());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("Observer can have only one fst Offset. ");
@@ -230,13 +230,13 @@ public class Observer extends SchemaElement implements IObserver {
                 child = (Element) children.item(x);
                 if (child != null) {
                     String accountName = child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME);
-                    String accountID = "";// child.getFirstChild().getNodeValue();
+                    StringBuilder accountID = new StringBuilder();// child.getFirstChild().getNodeValue();
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            accountID = accountID + textElements.item(te).getNodeValue();
+                            accountID.append(textElements.item(te).getNodeValue());
                         }
-                        this.addAccount(accountName, accountID);
+                        this.addAccount(accountName, accountID.toString());
                     }
                 } else {
                     throw new SchemaException("Problem retrieving account information from Observer. " + this.getID());
@@ -250,10 +250,12 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Constructs a new instance of an Observer.
      *
-     * @param name    The observers name
-     * @param surname The observers surname
-     * @throws IllegalArgumentException if one of the given parameters is
-     *                                  <code>null</code>
+     * @param name
+     *            The observers name
+     * @param surname
+     *            The observers surname
+     * @throws IllegalArgumentException
+     *             if one of the given parameters is <code>null</code>
      */
     public Observer(String name, String surname) throws IllegalArgumentException {
 
@@ -276,14 +278,12 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     * @see java.lang.Object.toString();
+     *
      */
     @Override
     public String getDisplayName() {
@@ -307,7 +307,7 @@ public class Observer extends SchemaElement implements IObserver {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Observer: Name=");
         buffer.append(name);
 
@@ -336,7 +336,7 @@ public class Observer extends SchemaElement implements IObserver {
                 key = (String) iterator.next();
                 value = (String) accounts.get(key);
 
-                buffer.append(key + ": " + value);
+                buffer.append(key).append(": ").append(value);
 
                 if (iterator.hasNext()) {
                     buffer.append(" --- ");
@@ -367,42 +367,25 @@ public class Observer extends SchemaElement implements IObserver {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Observer and the given Object are equal. The given object is
-     * equal with this Observer, if it implements the IObserver interface and if its
-     * name, surname and contact informations equals this Observers data.<br>
-     *
-     * @param obj The Object to compare this Observer with.
-     * @return <code>true</code> if the given Object is an instance of IObserver and
-     *         its name, surname and contact informations are equal to this
-     *         Observers data.<br>
-     *         (Name, surname comparism is <b>not</b> casesensitive)
-     * @see java.lang.Object
-     */
     /*
-     * public boolean equals(Object obj) {
+     * @Override public boolean equals(Object obj) {
      *
      * if( obj == null || !(obj instanceof IObserver) ) { return false; }
      *
      * IObserver observer = (IObserver)obj;
      *
-     * if( !observer.getName().toLowerCase().equals(name.toLowerCase()) ) { return
-     * false; }
+     * if( !observer.getName().toLowerCase().equals(name.toLowerCase()) ) { return false; }
      *
-     * if( !observer.getSurname().toLowerCase().equals(surname.toLowerCase()) ) {
-     * return false; }
+     * if( !observer.getSurname().toLowerCase().equals(surname.toLowerCase()) ) { return false; }
      *
-     * // Sort contact list from given object List objectContacts =
-     * sortContactList(observer.getContacts());
+     * // Sort contact list from given object List objectContacts = sortContactList(observer.getContacts());
      *
-     * // dublicate this Observers contacts, that the original // contact list stays
-     * unchanged, while we sort and compare the results List contactList = new
-     * LinkedList(contacts); // Sort internal contact list contactList =
+     * // dublicate this Observers contacts, that the original // contact list stays unchanged, while we sort and
+     * compare the results List contactList = new LinkedList(contacts); // Sort internal contact list contactList =
      * sortContactList(contactList);
      *
-     * // Calls AbstractList.equals(Object) as both list should be sorted if(
-     * !contactList.equals(objectContacts) ) { return false; }
+     * // Calls AbstractList.equals(Object) as both list should be sorted if( !contactList.equals(objectContacts) ) {
+     * return false; }
      *
      * return true;
      *
@@ -415,19 +398,18 @@ public class Observer extends SchemaElement implements IObserver {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Observer to a given parent XML DOM Element. The Observer element
-     * will be set as a child element of the passed element.
+     * Adds this Observer to a given parent XML DOM Element. The Observer element will be set as a child element of the
+     * passed element.
      *
-     * @param parent The parent element for this Observer
-     * @return Returns the element given as parameter with this Observer as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param element
+     *            The parent element for this Observer
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -443,7 +425,7 @@ public class Observer extends SchemaElement implements IObserver {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
@@ -503,21 +485,17 @@ public class Observer extends SchemaElement implements IObserver {
             e_Observer.appendChild(e_fstOffset);
         }
 
-        return element;
-
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds a Observer link to an given XML DOM Element. The Observer element itself
-     * will be attached to given elements ownerDocument if the passed boolean is
-     * <code>true</code>. If the ownerDocument has no observer container, it will be
-     * created (in case the passed boolean was <code>true</code>.<br>
-     * It might look a little odd that observers addAsLinkToXmlElement() method
-     * takes two parameters, but it is nessary as IObserver is once used as
-     * <coObserver> (under <session>) and used as <observer> under other elements.
-     * This is why the name of the link element has to be specified. The link
-     * element will be created under the passed parameter element. Example:<br>
+     * Adds a Observer link to an given XML DOM Element. The Observer element itself will be attached to given elements
+     * ownerDocument if the passed boolean is <code>true</code>. If the ownerDocument has no observer container, it will
+     * be created (in case the passed boolean was <code>true</code>.<br>
+     * It might look a little odd that observers addAsLinkToXmlElement() method takes two parameters, but it is nessary
+     * as IObserver is once used as <coObserver> (under <session>) and used as <observer> under other elements. This is
+     * why the name of the link element has to be specified. The link element will be created under the passed parameter
+     * element. Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;linkNameElement&gt;123&lt;/linkNameElement&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
@@ -529,21 +507,20 @@ public class Observer extends SchemaElement implements IObserver {
      * <b>&lt;/observerContainer&gt;</b><br>
      * <br>
      *
-     * @param element               The element at which the Observer link will be
-     *                              created.
-     * @param nameOfLinkElement     The name of the link element, which is set under
-     *                              the passed element
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with the Observer as linked
-     *         child element, and the elements ownerDocument with the additional
-     *         Observer element Might return <code>null</code> if element was
+     * @param element
+     *            The element at which the Observer link will be created.
+     * @param nameOfLinkElement
+     *            The name of the link element, which is set under the passed element
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with the Observer as linked child element, and the elements
+     *         ownerDocument with the additional Observer element Might return <code>null</code> if element was
      *         <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, String nameOfLinkElement, boolean addElementToContainer) {
 
         if (element == null) {
@@ -579,9 +556,8 @@ public class Observer extends SchemaElement implements IObserver {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the observer link to an given XML DOM Element The observer element
-     * itself will <b>NOT</b> be attached to given elements ownerDocument. Calling
-     * this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * Adds the observer link to an given XML DOM Element The observer element itself will <b>NOT</b> be attached to
+     * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, nameOfLinkElement, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
@@ -589,14 +565,13 @@ public class Observer extends SchemaElement implements IObserver {
      * &lt;/parameterElement&gt;<br>
      * <br>
      *
-     * @param element           The element under which the the observer link is
-     *                          created
-     * @param NameOfLinkElement The name of the link element, which is set under the
-     *                          passed element
-     * @return Returns the Element given as parameter with a additional observer
-     *         link Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the observer link is created
+     * @return Returns the Element given as parameter with a additional observer link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, String nameOfLinkElement) {
 
         return this.addAsLinkToXmlElement(element, nameOfLinkElement, false);
@@ -606,15 +581,13 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Returns a List with contact information of the observer<br>
-     * The returned List may contain e-Mail address, phone number, fax number,
-     * postal adress, webpage....whatever. No garantee is given what the list
-     * should/may contain, or in which order the elements are placed.<br>
-     * If no contact informations where given, the method might return
-     * <code>null</code>
+     * The returned List may contain e-Mail address, phone number, fax number, postal adress, webpage....whatever. No
+     * garantee is given what the list should/may contain, or in which order the elements are placed.<br>
+     * If no contact informations where given, the method might return <code>null</code>
      *
-     * @return a List with contact information of the observer, or <code>null</code>
-     *         if not informations are given.
+     * @return a List with contact information of the observer, or <code>null</code> if not informations are given.
      */
+    @Override
     public List getContacts() {
 
         return contacts;
@@ -625,20 +598,17 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Adds a new contact information to the observer.<br>
      *
-     * @param newContact the additional contact information
-     * @return <b>true</b> if the new contact information could be added
-     *         successfully. <b>false</b> if the new contact information could not
-     *         be added.
+     * @param newContact
+     *            the additional contact information
      */
-    public boolean addContact(String newContact) {
+    @Override
+    public void addContact(String newContact) {
 
         if (newContact == null || "".equals(newContact)) {
-            return false;
+            return;
         }
 
         this.contacts.add(newContact);
-
-        return true;
 
     }
 
@@ -648,30 +618,28 @@ public class Observer extends SchemaElement implements IObserver {
      * All current contacts will be deleted!<br>
      * If you want to add a contact use addContact(String)<br>
      *
-     * @param newContacts new list of contact informations
-     * @return <b>true</b> if the new contact information could be set successfully.
-     *         <b>false</b> if the new contact information could not be set.
+     * @param newContacts
+     *            new list of contact informations
      */
-    public boolean setContacts(List newContacts) {
+    @Override
+    public void setContacts(List newContacts) {
 
         if (newContacts == null) {
-            return false;
+            return;
         }
 
         this.contacts = new LinkedList(newContacts);
-
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Returns the name of the observer<br>
-     * The name (and the surname) are the only mandatory fields this interface
-     * requires.
+     * The name (and the surname) are the only mandatory fields this interface requires.
      *
      * @return the name of the observer
      */
+    @Override
     public String getName() {
 
         return name;
@@ -683,11 +651,11 @@ public class Observer extends SchemaElement implements IObserver {
      * Returns the DeepSkyList (DSL) Code of the observer<br>
      * Might return <code>NULL</code> if observer has no DSL code
      *
-     * @return the DeepSkyList (DSL) Code of the observer, or <code>NULL</code> if
-     *         DSL was never set
+     * @return the DeepSkyList (DSL) Code of the observer, or <code>NULL</code> if DSL was never set
      * @deprecated Use getUsernameForAccount(String accountName) instead
      */
     @Deprecated
+    @Override
     public String getDSLCode() {
 
         return this.getUsernameForAccount(Observer.ACCOUNT_DSL);
@@ -697,11 +665,11 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Returns the surname of the observer<br>
-     * The surname (and the name) are the only mandatory fields this interface
-     * requires.
+     * The surname (and the name) are the only mandatory fields this interface requires.
      *
      * @return the surname of the observer
      */
+    @Override
     public String getSurname() {
 
         return surname;
@@ -712,10 +680,12 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Sets the DeepSkyList (DSL) Code of the observer<br>
      *
-     * @param DSLCode the DeepSkyList (DSL) Code of the observer
+     * @param DSLCode
+     *            the DeepSkyList (DSL) Code of the observer
      * @deprecated Use addAccount(String accountName, String username) instead
      */
     @Deprecated
+    @Override
     public void setDSLCode(String DSLCode) {
 
         this.addAccount(Observer.ACCOUNT_DSL, DSLCode);
@@ -727,9 +697,12 @@ public class Observer extends SchemaElement implements IObserver {
      * Sets a new name to the observer.<br>
      * As the name is mandatory it cannot be <code>null</code>
      *
-     * @param name the new name of the observer
-     * @throws IllegalArgumentException if the given name is <code>null</code>
+     * @param name
+     *            the new name of the observer
+     * @throws IllegalArgumentException
+     *             if the given name is <code>null</code>
      */
+    @Override
     public void setName(String name) throws IllegalArgumentException {
 
         if (name == null) {
@@ -745,9 +718,12 @@ public class Observer extends SchemaElement implements IObserver {
      * Sets a new surname to the observer.<br>
      * As the surname is mandatory it cannot be <code>null</code>
      *
-     * @param surname the new surname of the observer
-     * @throws IllegalArgumentException if the given surname is <code>null</code>
+     * @param surname
+     *            the new surname of the observer
+     * @throws IllegalArgumentException
+     *             if the given surname is <code>null</code>
      */
+    @Override
     public void setSurname(String surname) {
 
         if (surname == null) {
@@ -761,36 +737,36 @@ public class Observer extends SchemaElement implements IObserver {
     // -------------------------------------------------------------------
     /**
      * Returns a Map with external account information of the observer<br>
-     * The returned Map contains external service/website/organisation names etc. as
-     * key values. The corresponding values are usernames/userid, accountnames,
-     * membernumbers, etc. identifing this oberver on an external
-     * site/service/organisation. If no additional account informations where given,
-     * the method might return <code>null</code>
+     * The returned Map contains external service/website/organisation names etc. as key values. The corresponding
+     * values are usernames/userid, accountnames, membernumbers, etc. identifing this oberver on an external
+     * site/service/organisation. If no additional account informations where given, the method might return
+     * <code>null</code>
      *
-     * @return a Map with additional account information of the observer, or
-     *         <code>null</code> if no informations are given.
+     * @return a Map with additional account information of the observer, or <code>null</code> if no informations are
+     *         given.
      * @since 2.0
      */
-    public java.util.Map getAccounts() {
+    @Override
+    public Map getAccounts() {
 
-        return (Map) this.accounts.clone();
+        return Collections.unmodifiableMap(this.accounts);
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Adds a new account information to the observer.<br>
-     * If the account name does already exist, the existing value gets overwritten
-     * with the passed new value.<br>
+     * If the account name does already exist, the existing value gets overwritten with the passed new value.<br>
      *
-     * @param accountName the new account name (name of service, organisation,
-     *                    website, ...)
-     * @param username    the username/ID/User#/... to the new account
-     * @return <b>true</b> if the new accout information could be added
-     *         successfully. <b>false</b> if the new accout information could not be
-     *         added.
+     * @param accountName
+     *            the new account name (name of service, organisation, website, ...)
+     * @param username
+     *            the username/ID/User#/... to the new account
+     * @return <b>true</b> if the new accout information could be added successfully. <b>false</b> if the new accout
+     *         information could not be added.
      * @since 2.0
      */
+    @Override
     public boolean addAccount(String accountName, String username) {
 
         if ((accountName == null) || ("".equals(accountName.trim())) || (username == null)
@@ -808,12 +784,13 @@ public class Observer extends SchemaElement implements IObserver {
     /**
      * Removes an existing account information from the observer.<br>
      *
-     * @param accountName the account name (name of service, organisation, website,
-     *                    ...) to be removed
-     * @return <b>true</b> if the accout information could be removed successfully.
-     *         <b>false</b> if the accout information could not be removed.
+     * @param accountName
+     *            the account name (name of service, organisation, website, ...) to be removed
+     * @return <b>true</b> if the accout information could be removed successfully. <b>false</b> if the accout
+     *         information could not be removed.
      * @since 2.0
      */
+    @Override
     public boolean removeAccount(String accountName) {
 
         this.accounts.remove(accountName);
@@ -828,33 +805,33 @@ public class Observer extends SchemaElement implements IObserver {
      * If you want to add a single account use addAccount(String, String)<br>
      * If <code>NULL</code> is passed, the all current accounts will be deleted.
      *
-     * @param newAccounts new list of account informations
-     * @return <b>true</b> if the new account information could be set successfully.
-     *         <b>false</b> if the new account information could not be set.
+     * @param newAccounts
+     *            new list of account informations
      * @since 2.0
      */
-    public boolean setAccounts(Map newAccounts) {
+    @Override
+    public void setAccounts(Map newAccounts) {
 
         if (newAccounts == null) {
-            newAccounts = new HashMap();
+            this.accounts = new HashMap();
+        } else {
+            this.accounts = new HashMap(newAccounts);
         }
-
-        this.accounts = new HashMap(newAccounts);
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
-     * Returns the username/ID/User#/... belonging to the passed accountName, or
-     * <code>NULL</code> if the accountName wasn't set for this observer.<br>
+     * Returns the username/ID/User#/... belonging to the passed accountName, or <code>NULL</code> if the accountName
+     * wasn't set for this observer.<br>
      *
-     * @param accountName Name of service, organisation, website, ...
-     * @return The username/ID/User#/... of this observer beloging to the passed
-     *         accountName, or <code>NULL</code> if the accountName wasn't set for
-     *         this observer.
+     * @param accountName
+     *            Name of service, organisation, website, ...
+     * @return The username/ID/User#/... of this observer beloging to the passed accountName, or <code>NULL</code> if
+     *         the accountName wasn't set for this observer.
      * @since 2.0
      */
+    @Override
     public String getUsernameForAccount(String accountName) {
 
         return (String) this.accounts.get(accountName);
@@ -866,8 +843,10 @@ public class Observer extends SchemaElement implements IObserver {
      * Sets a new fst offset to the observer.<br>
      * Float.NaN will clear the current set value.
      *
-     * @param fstOffset the new faintest star offset of the observer
+     * @param fstOffset
+     *            the new faintest star offset of the observer
      */
+    @Override
     public void setFSTOffset(float fstOffset) {
 
         if (Float.isNaN(fstOffset)) {
@@ -881,48 +860,21 @@ public class Observer extends SchemaElement implements IObserver {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the fst Offset of this observer or <code>Float.NaN</code> if the
-     * value was never set.<br>
-     * Personal fst offset between the "reference" correlation of the sky quality
-     * meter as it can be measured with an SQM and the estimated naked eye limiting
-     * magnitude (fst) The individual observer's offset depends mainly on the visual
-     * acuity of the observer. If the fstOffset is known, the sky quality may be
-     * derived from faintestStar estimates by this observer. The "reference"
-     * correlation used to convert between sky quality and fst was given by Bradley
-     * Schaefer: fst = 5*(1.586-log(10^((21.568-BSB)/5)+1)) where BSB is the sky
-     * quality (or background surface brightness) given in magnitudes per square
-     * arcsecond
+     * Returns the fst Offset of this observer or <code>Float.NaN</code> if the value was never set.<br>
+     * Personal fst offset between the "reference" correlation of the sky quality meter as it can be measured with an
+     * SQM and the estimated naked eye limiting magnitude (fst) The individual observer's offset depends mainly on the
+     * visual acuity of the observer. If the fstOffset is known, the sky quality may be derived from faintestStar
+     * estimates by this observer. The "reference" correlation used to convert between sky quality and fst was given by
+     * Bradley Schaefer: fst = 5*(1.586-log(10^((21.568-BSB)/5)+1)) where BSB is the sky quality (or background surface
+     * brightness) given in magnitudes per square arcsecond
      *
-     * @return the fst Offset of the Observer or <code>Float.NaN</code> if the value
-     *         was never set.
+     * @return the fst Offset of the Observer or <code>Float.NaN</code> if the value was never set.
      * @since 2.0
      */
+    @Override
     public float getFSTOffset() {
 
         return this.fstOffset;
-
-    }
-
-    // ---------------
-    // Private Methods ---------------------------------------------------
-    // ---------------
-
-    // -------------------------------------------------------------------
-    private List sortContactList(List contacts) {
-
-        Collections.sort(contacts, new Comparator() {
-            public int compare(Object o1, Object o2) {
-
-                String s1 = (String) o1;
-                String s2 = (String) o2;
-
-                return s1.compareTo(s2);
-
-            }
-
-        });
-
-        return contacts;
 
     }
 

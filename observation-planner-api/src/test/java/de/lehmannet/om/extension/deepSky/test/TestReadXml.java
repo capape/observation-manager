@@ -12,16 +12,20 @@ import java.io.File;
 import de.lehmannet.om.OALException;
 import de.lehmannet.om.RootElement;
 import de.lehmannet.om.util.SchemaLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple Test class that reads a XML and writes it again
  */
-public class TestReadXml {
+class TestReadXml {
+
+    private static Logger log = LoggerFactory.getLogger(TestReadXml.class);
 
     public static void main(String[] args) {
 
         if (args.length != 2) {
-            System.err.println(
+            log.error(
                     "Need to pass xmlFilePath and newXmlFilePath as arguments. E.g. /home/john/myTestObservation.xml /home/john/myNewTestObservation.xml");
             return;
         }
@@ -35,7 +39,7 @@ public class TestReadXml {
 
             obs.serializeAsXml(new File(args[1]));
         } catch (OALException fgca) {
-            System.err.println("Error while loading document: " + fgca.getMessage());
+            log.error("Error while loading document: ", fgca.getMessage());
         }
 
     }

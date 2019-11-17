@@ -15,11 +15,10 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * The abstract class Finding provides some common features that may be used by
- * the subclasses of an de.lehmannet.om.IFinding.<br>
- * The Finding class stores a description of the findings and provides simple
- * access to this description field. It also implements a basic XML DOM helper
- * method that may be used by all subclasses that have to implement the IFinding
+ * The abstract class Finding provides some common features that may be used by the subclasses of an
+ * de.lehmannet.om.IFinding.<br>
+ * The Finding class stores a description of the findings and provides simple access to this description field. It also
+ * implements a basic XML DOM helper method that may be used by all subclasses that have to implement the IFinding
  * interface.
  * 
  * @author doergn@users.sourceforge.net
@@ -44,8 +43,10 @@ public abstract class Finding extends SchemaElement implements IFinding {
     /**
      * Protected constructor used by subclasses construction.
      *
-     * @param findingElement The XML Node representing this Finding
-     * @throws SchemaException if the XML element is malformed
+     * @param findingElement
+     *            The XML Node representing this Finding
+     * @throws SchemaException
+     *             if the XML element is malformed
      */
     protected Finding(Node findingElement) throws SchemaException {
 
@@ -70,24 +71,24 @@ public abstract class Finding extends SchemaElement implements IFinding {
                 throw new SchemaException("Finding must have exact one description. ");
             }
             child = (Element) children.item(0);
-            String description = null;
+            StringBuilder description = null;
             if (child == null) {
                 throw new SchemaException("Finding must have a description. ");
             } else {
                 // Check if description has a child
                 NodeList childrenNodeList = child.getChildNodes();
                 if (childrenNodeList != null) {
-                    description = "";
+                    description = new StringBuilder();
                     for (int i = 0; i < childrenNodeList.getLength(); i++) {
-                        description = description + childrenNodeList.item(i).getNodeValue();
+                        description.append(childrenNodeList.item(i).getNodeValue());
                     }
-                    this.setDescription(description);
+                    this.setDescription(description.toString());
                 } else {
                     throw new SchemaException("Finding must have a description. ");
                 }
                 /*
-                 * if( child.getFirstChild() != null ) { description =
-                 * child.getFirstChild().getNodeValue(); this.setDescription(description); }
+                 * if( child.getFirstChild() != null ) { description = child.getFirstChild().getNodeValue();
+                 * this.setDescription(description); }
                  */
             }
 
@@ -105,11 +106,14 @@ public abstract class Finding extends SchemaElement implements IFinding {
     /**
      * Protected constructor used by subclasses construction.
      *
-     * @param ID          This elements unique ID
-     * @param description The description of the finding
-     * @throws IllegalArgumentException if description was <code>null</code>
+     * @param ID
+     *            This elements unique ID
+     * @param description
+     *            The description of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code>
      */
-    protected Finding(String ID, String description) throws IllegalArgumentException {
+    Finding(String ID, String description) throws IllegalArgumentException {
 
         super(ID);
 
@@ -124,8 +128,10 @@ public abstract class Finding extends SchemaElement implements IFinding {
     /**
      * Protected constructor used by subclasses construction.
      * 
-     * @param description The description of the finding
-     * @throws IllegalArgumentException if description was <code>null</code>
+     * @param description
+     *            The description of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code>
      */
     protected Finding(String description) throws IllegalArgumentException {
 
@@ -143,24 +149,26 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the Finding to an given parent XML DOM Element. This abstract method is
-     * derived from de.lehmannet.om.IFinding.
+     * Adds the Finding to an given parent XML DOM Element. This abstract method is derived from
+     * de.lehmannet.om.IFinding.
      * 
-     * @param parent The parent element for the Finding
-     * @return Returns the Element given as parameter with the Finding as child
-     *         Element.
+     * @param parent
+     *            The parent element for the Finding
+     * @return Returns the Element given as parameter with the Finding as child Element.
      * @see org.w3c.dom.Element
      * @see de.lehmannet.om.IFinding
      */
+    @Override
     public abstract org.w3c.dom.Element addToXmlElement(org.w3c.dom.Element parent);
 
     // -------------------------------------------------------------------
     /**
-     * Returns the description of the Finding. The string describes the impressions
-     * the observer had during the observation of an object.
+     * Returns the description of the Finding. The string describes the impressions the observer had during the
+     * observation of an object.
      * 
      * @return The description of the finding.
      */
+    @Override
     public String getDescription() {
 
         return description;
@@ -169,12 +177,15 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the description of the Finding. The string should describe the
-     * impressions the observer had during the observation of an object.
+     * Sets the description of the Finding. The string should describe the impressions the observer had during the
+     * observation of an object.
      * 
-     * @param description A description of the finding.
-     * @throws IllegalArgumentException if description was <code>null</code>
+     * @param description
+     *            A description of the finding.
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code>
      */
+    @Override
     public void setDescription(String description) throws IllegalArgumentException {
 
         if (description == null) {
@@ -187,14 +198,15 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the language in which this session is described as ISO language
-     * string. E.g. de=German, fr=French, ...<br>
+     * Returns the language in which this session is described as ISO language string. E.g. de=German, fr=French,
+     * ...<br>
      * Might return <code>null</code> if no language was set for this session.
      * 
-     * @return Returns a ISO language code that represents the sessions describtion
-     *         language or <code>null</code> if no language was set at all.
+     * @return Returns a ISO language code that represents the sessions describtion language or <code>null</code> if no
+     *         language was set at all.
      * @since 1.5
      */
+    @Override
     public String getLanguage() {
 
         return this.lang;
@@ -203,12 +215,14 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the language in which this finding is described. String must be given as
-     * ISO language string. E.g. de=German, fr=French, ...<br>
+     * Sets the language in which this finding is described. String must be given as ISO language string. E.g.
+     * de=German, fr=French, ...<br>
      * 
-     * @param language ISO language string
+     * @param language
+     *            ISO language string
      * @since 1.5
      */
+    @Override
     public void setLanguage(String language) {
 
         if ((language != null) && ("".equals(language.trim()))) {
@@ -222,13 +236,13 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Returns <code>true</code> if the target was seen with this finding or not. As
-     * findings might be created to document that an object was not seen this flag
-     * can be used for checks.
+     * Returns <code>true</code> if the target was seen with this finding or not. As findings might be created to
+     * document that an object was not seen this flag can be used for checks.
      * 
      * @return Returns <code>true</code> if the target was seen with this finding
      * @since 1.6
      */
+    @Override
     public boolean wasSeen() {
 
         return this.targetSeen;
@@ -239,10 +253,12 @@ public abstract class Finding extends SchemaElement implements IFinding {
     /**
      * Set to <code>true</code> if the target was seen by the observer.<br>
      * 
-     * @param seen <code>true</code> if the target was seen by the observer or
-     *             <code>false</code> if the target was not seen
+     * @param seen
+     *            <code>true</code> if the target was seen by the observer or <code>false</code> if the target was not
+     *            seen
      * @since 1.6
      */
+    @Override
     public void setSeen(boolean seen) {
 
         this.targetSeen = seen;
@@ -255,10 +271,9 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     // -------------------------------------------------------------------
     /**
-     * Creates an XML DOM Element for the Finding. The new Finding element will be
-     * added as child element to an given parent element. All specialised subclasses
-     * may use this method to create a Finding element under which they may store
-     * their addition data.<br>
+     * Creates an XML DOM Element for the Finding. The new Finding element will be added as child element to an given
+     * parent element. All specialised subclasses may use this method to create a Finding element under which they may
+     * store their addition data.<br>
      * Example:<br>
      * &lt;parentElement&gt;<br>
      * &lt;result&gt;<br>
@@ -266,9 +281,9 @@ public abstract class Finding extends SchemaElement implements IFinding {
      * &lt;/result&gt;<br>
      * &lt;/parentElement&gt;
      * 
-     * @param parent The parent element for the Finding
-     * @return Returns a Finding element which is a child of the given parent
-     *         element.<br>
+     * @param parent
+     *            The parent element for the Finding
+     * @return Returns a Finding element which is a child of the given parent element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */

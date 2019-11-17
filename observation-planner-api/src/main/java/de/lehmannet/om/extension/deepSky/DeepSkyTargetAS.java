@@ -16,8 +16,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetAS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
- * class.<br>
+ * DeepSkyTargetAS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for asterisms.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -49,20 +48,20 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a DeepSkyTargetAS from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a DeepSkyTargetAS from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    public DeepSkyTargetAS(Node targetElement, IObserver[] observers) throws SchemaException {
+    public DeepSkyTargetAS(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -91,8 +90,10 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetAS.
      * 
-     * @param name       The name of the asterism
-     * @param datasource The datasource of the asterism
+     * @param name
+     *            The name of the asterism
+     * @param datasource
+     *            The datasource of the asterism
      */
     public DeepSkyTargetAS(String name, String datasource) {
 
@@ -104,8 +105,10 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetAS.
      * 
-     * @param name     The name of the asterism
-     * @param observer The observer who is the originator of the asterism
+     * @param name
+     *            The name of the asterism
+     * @param observer
+     *            The observer who is the originator of the asterism
      */
     public DeepSkyTargetAS(String name, IObserver observer) {
 
@@ -119,20 +122,18 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -141,7 +142,7 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
         // Check if element already exists
         if (e_DSTarget == null) {
-            return element;
+            return;
         }
 
         if (this.positionAngle != -1) {
@@ -151,8 +152,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_PositionAngle);
         }
-
-        return element;
 
     }
 
@@ -184,8 +183,8 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     /**
      * Returns the position angle of the asterism.
      * 
-     * @return The position angle of the astronomical object as integer The returned
-     *         value might be <code>-1</code> if the value was never set
+     * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
+     *         the value was never set
      */
     public int getPositionAngle() {
 
@@ -195,10 +194,11 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the position angle of the asterism. If the given new position angle is <
-     * 0 or > 359 the position angle will be unset again.
+     * Sets the position angle of the asterism. If the given new position angle is < 0 or > 359 the position angle will
+     * be unset again.
      * 
-     * @param newPosAngle The new position angle of the asterism.
+     * @param newPosAngle
+     *            The new position angle of the asterism.
      */
     public void setPositionAngle(int newPosAngle) {
 

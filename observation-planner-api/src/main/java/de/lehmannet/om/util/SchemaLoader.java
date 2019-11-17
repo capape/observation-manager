@@ -14,16 +14,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -56,8 +54,7 @@ import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
 
 /**
- * The SchemaLoader provides loading facilities to load (parse) a XML Schema
- * file.<br>
+ * The SchemaLoader provides loading facilities to load (parse) a XML Schema file.<br>
  * You can see this as a Factory of the Schema Objects.
  *
  * @author doergn@users.sourceforge.net
@@ -65,6 +62,7 @@ import de.lehmannet.om.Site;
  */
 public class SchemaLoader {
 
+    private static Logger log = LoggerFactory.getLogger(SchemaLoader.class);
     // ---------
     // Constants --------------------------------------------------------------
     // ---------
@@ -110,11 +108,11 @@ public class SchemaLoader {
     // Add doublicate catalog targets in here
     // Key is the doublicate target entry, value is the "new" target which
     // will be used to replace the doublicate target in the corsp. observations
-    private HashMap doublicateTargets = new HashMap();
+    private final Map doublicateTargets = new HashMap();
 
     // List of additional classLoader which can be used to find classes using
     // reflection
-    private static ArrayList extensionClassLoaders = new ArrayList();
+    private static final List extensionClassLoaders = new ArrayList();
 
     // ---------------------
     // Public Static Methods ---------------------------------------------
@@ -124,16 +122,17 @@ public class SchemaLoader {
     /**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <target>...</target>
-     * @param observers   A array of Observers that are needed to instanciate a
-     *                    object of type Target
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <target>...</target>
+     * @param observers
+     *            A array of Observers that are needed to instanciate a object of type Target
      * @return A ITarget that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
-    public static ITarget getTargetFromXSIType(String xsiType, Node currentNode, IObserver[] observers)
+    private static ITarget getTargetFromXSIType(String xsiType, Node currentNode, IObserver... observers)
             throws SchemaException {
 
         return (ITarget) SchemaLoader.getObjectFromXSIType(xsiType, currentNode, observers,
@@ -145,12 +144,13 @@ public class SchemaLoader {
     /**
      * Gets a IFinding object (e.g. DeepSkyFinding) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <result>...</result>
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <result>...</result>
      * @return A IFinding that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
     public static IFinding getFindingFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
@@ -162,14 +162,15 @@ public class SchemaLoader {
     /**
      * Gets a IImager object (e.g. CCDImager) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <imager>...</imager>
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <imager>...</imager>
      * @return A IImager that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
-    public static IImager getImagerFromXSIType(String xsiType, Node currentNode) throws SchemaException {
+    private static IImager getImagerFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
         return (IImager) SchemaLoader.getObjectFromXSIType(xsiType, currentNode, null, SchemaElementConstants.IMAGER);
 
@@ -182,70 +183,70 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     public IObservation[] getObservations() {
 
-        return this.observations;
+        return this.observations.clone();
 
     }
 
     // -------------------------------------------------------------------
     public ISession[] getSessions() {
 
-        return this.sessions;
+        return this.sessions.clone();
 
     }
 
     // -------------------------------------------------------------------
     public ITarget[] getTargets() {
 
-        return this.targets;
+        return this.targets.clone();
 
     }
 
     // -------------------------------------------------------------------
     public IObserver[] getObservers() {
 
-        return this.observers;
+        return this.observers.clone();
 
     }
 
     // -------------------------------------------------------------------
     public ISite[] getSites() {
 
-        return this.sites;
+        return this.sites.clone();
 
     }
 
     // -------------------------------------------------------------------
     public IScope[] getScopes() {
 
-        return this.scopes;
+        return this.scopes.clone();
 
     }
 
     // -------------------------------------------------------------------
     public IEyepiece[] getEyepieces() {
 
-        return this.eyepieces;
+        return this.eyepieces.clone();
 
     }
 
     // -------------------------------------------------------------------
     public IFilter[] getFilters() {
 
-        return this.filters;
+        return this.filters.clone();
 
     }
 
     // -------------------------------------------------------------------
     public ILens[] getLenses() {
 
-        return this.lenses;
+        return this.lenses.clone();
 
     }
 
     // -------------------------------------------------------------------
     public IImager[] getImagers() {
 
-        return this.imagers;
+        return this.imagers.clone();
 
     }
 
@@ -253,9 +254,12 @@ public class SchemaLoader {
     /**
      * Loads/parses a XML File
      *
-     * @param schemaPath The path to the XML Schemas
-     * @throws OALException    if schema File cannot be accessed
-     * @throws SchemaException if XML File is not valid
+     * @param schemaPath
+     *            The path to the XML Schemas
+     * @throws OALException
+     *             if schema File cannot be accessed
+     * @throws SchemaException
+     *             if XML File is not valid
      */
     public RootElement load(File xmlFile, File schemaPath) throws OALException, SchemaException {
 
@@ -301,10 +305,11 @@ public class SchemaLoader {
     // -------------------------------------------------------------------
     /**
      * Adds a new classloader to the SchemaLoader.<br>
-     * Additional classloaders will be used in case a requested class cannot be
-     * found on the default classloaders search path.
+     * Additional classloaders will be used in case a requested class cannot be found on the default classloaders search
+     * path.
      *
-     * @param classloader A new classloader
+     * @param classloader
+     *            A new classloader
      */
     public static void addClassloader(ClassLoader classloader) {
 
@@ -318,11 +323,14 @@ public class SchemaLoader {
     /**
      * Loads/parses a XML Document
      *
-     * @param doc The XML Document which should be parsed
-     * @throws OALException    if doc is <code>NULL</code> or empty
-     * @throws SchemaException if XML File is not valid
+     * @param doc
+     *            The XML Document which should be parsed
+     * @throws OALException
+     *             if doc is <code>NULL</code> or empty
+     * @throws SchemaException
+     *             if XML File is not valid
      */
-    public RootElement load(Document doc) throws OALException, SchemaException {
+    private RootElement load(Document doc) throws OALException, SchemaException {
 
         // Check if document is OK
         if ((doc == null) || (!doc.hasChildNodes())) {
@@ -424,8 +432,8 @@ public class SchemaLoader {
         this.removeDoublicateTargets();
 
         RootElement obs = new RootElement();
-        for (int i = 0; i < observations.length; i++) {
-            obs.addObservation(observations[i]);
+        for (IObservation observation : observations) {
+            obs.addObservation(observation);
         }
 
         return obs;
@@ -440,11 +448,12 @@ public class SchemaLoader {
     /**
      * Loads objects for a given xsiType via reflection
      *
-     * @param xsiType     The xsiType that specifies the Object
-     * @param currentNode The XML node that represents the Object e.g.
-     *                    <target>...</target>
-     * @param observers   Needed for Target Objects, can be <code>null</code> for
-     *                    Findings
+     * @param xsiType
+     *            The xsiType that specifies the Object
+     * @param currentNode
+     *            The XML node that represents the Object e.g. <target>...</target>
+     * @param observers
+     *            Needed for Target Objects, can be <code>null</code> for Findings
      */
     private static Object getObjectFromXSIType(String xsiType, Node currentNode, IObserver[] observers,
             int schemaElementType) throws SchemaException {
@@ -463,7 +472,7 @@ public class SchemaLoader {
                 throw new SchemaException("Unknown class name");
             }
         } catch (ConfigException ce) {
-            throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage());
+            throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage(), ce);
         }
 
         // Get Java class
@@ -474,10 +483,9 @@ public class SchemaLoader {
             // Default ClassLoader cannot find it...so try extension ClassLoaders if there
             // are any
             if (!SchemaLoader.extensionClassLoaders.isEmpty()) {
-                ListIterator iterator = SchemaLoader.extensionClassLoaders.listIterator();
-                while (iterator.hasNext()) {
+                for (Object extensionClassLoader : SchemaLoader.extensionClassLoaders) {
                     try {
-                        currentClass = ((ClassLoader) iterator.next()).loadClass(classname);
+                        currentClass = ((ClassLoader) extensionClassLoader).loadClass(classname);
                         break; // Class was found
                     } catch (ClassNotFoundException cnfe2) {
                         // Do nothing...just try next classLoader
@@ -496,27 +504,27 @@ public class SchemaLoader {
         if (constructors.length > 0) {
             try {
                 Class[] parameters = null;
-                for (int i = 0; i < constructors.length; i++) {
-                    parameters = constructors[i].getParameterTypes();
+                for (Constructor constructor : constructors) {
+                    parameters = constructor.getParameterTypes();
                     if (observers == null) { // create IFinding (Constructor has one parameter)
                         if ((parameters.length == 1) && (parameters[0].isInstance(currentNode))) {
-                            object = constructors[i].newInstance(new Object[] { currentNode });
+                            object = constructor.newInstance(currentNode);
                             break;
                         }
                     } else { // create ITarget (Constructor takes 2 parameters)
                         if ((parameters.length == 2) && (parameters[0].isInstance(currentNode))
                                 && (parameters[1].isInstance(observers))) {
-                            object = constructors[i].newInstance(new Object[] { currentNode, observers });
+                            object = constructor.newInstance(currentNode, observers);
                             break;
                         }
                     }
                 }
             } catch (InstantiationException ie) {
-                throw new SchemaException("Unable to instantiate class: " + classname + "\n" + ie.getMessage());
+                throw new SchemaException("Unable to instantiate class: " + classname + "\n" + ie.getMessage(), ie);
             } catch (InvocationTargetException ite) {
-                throw new SchemaException("Unable to invocate class: " + classname + "\n" + ite.getMessage());
+                throw new SchemaException("Unable to invocate class: " + classname + "\n" + ite.getMessage(), ite);
             } catch (IllegalAccessException iae) {
-                throw new SchemaException("Unable to access class: " + classname + "\n" + iae.getMessage());
+                throw new SchemaException("Unable to access class: " + classname + "\n" + iae.getMessage(), iae);
             }
         } else {
             throw new SchemaException(
@@ -532,7 +540,7 @@ public class SchemaLoader {
     // ---------------
 
     // -------------------------------------------------------------------
-    private IObservation[] createObservationElements(Node observations) throws SchemaException {
+    private IObservation[] createObservationElements(Node observations) {
 
         Element e = (Element) observations;
         NodeList observationList = e.getElementsByTagName(IObservation.XML_ELEMENT_OBSERVATION);
@@ -547,12 +555,8 @@ public class SchemaLoader {
             try {
                 obs.add(new Observation(observationList.item(i), this.targets, this.observers, this.sites, this.scopes,
                         this.sessions, this.eyepieces, this.filters, this.imagers, this.lenses));
-            } catch (SchemaException se) {
-                System.err.println(se + "\n\nContinue loading next observation...\n\n");
-                continue;
-            } catch (IllegalArgumentException iae) {
-                System.err.println(iae + "\n\nContinue loading next observation...\n\n");
-                continue;
+            } catch (SchemaException | IllegalArgumentException se) {
+                log.error("\n\nContinue loading next observation...\n\n", se);
             }
 
         }
@@ -562,7 +566,7 @@ public class SchemaLoader {
     }
 
     // -------------------------------------------------------------------
-    private ITarget[] createTargetElements(Node targets, IObserver[] observers) throws SchemaException {
+    private ITarget[] createTargetElements(Node targets, IObserver... observers) throws SchemaException {
 
         Element e = (Element) targets;
         NodeList targetList = e.getElementsByTagName(ITarget.XML_ELEMENT_TARGET);
@@ -586,32 +590,27 @@ public class SchemaLoader {
                 if (attribute != null) {
                     String xsiType = attribute.getNodeValue();
 
-                    Object object = null;
+                    ITarget object = null;
                     try {
                         object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);
                     } catch (SchemaException se) {
-                        System.err.println(se + "\n\nContinue with next target element...\n\n");
+                        log.error("\n\nContinue with next target element...\n\n", se);
                         continue;
                     }
                     if (object != null) {
                         ITarget currentTarget = null;
-                        if (object instanceof ITarget) {
-                            currentTarget = (ITarget) object;
-                            // Make sure catalog targets are unique (fixes Bug that might occur with files
-                            // from 0.516)
-                            // if( currentTarget.getDatasource() != null ) { // Target is catalog object
-                            int index = targetElements.indexOf(currentTarget);
-                            if (index != -1) { // Target already in catalog
-                                this.doublicateTargets.put(currentTarget, targetElements.get(index));
-                            }
-                            // }
-                            // Add target (doublicate targets will be removed later when we've the
-                            // observations)
-                            targetElements.add(currentTarget);
-                        } else {
-                            throw new SchemaException("Unable to load class of type: " + xsiType
-                                    + "\nClass seems not to be of type ITarget. ");
+                        currentTarget = object;
+                        // Make sure catalog targets are unique (fixes Bug that might occur with files
+                        // from 0.516)
+                        // if( currentTarget.getDatasource() != null ) { // Target is catalog object
+                        int index = targetElements.indexOf(currentTarget);
+                        if (index != -1) { // Target already in catalog
+                            this.doublicateTargets.put(currentTarget, targetElements.get(index));
                         }
+                        // }
+                        // Add target (doublicate targets will be removed later when we've the
+                        // observations)
+                        targetElements.add(currentTarget);
                     } else {
                         throw new SchemaException("Unable to load class of type: " + xsiType);
                     }
@@ -781,22 +780,17 @@ public class SchemaLoader {
                 if (attribute != null) {
                     String xsiType = attribute.getNodeValue();
 
-                    Object object = null;
+                    IImager object = null;
                     try {
                         object = SchemaLoader.getImagerFromXSIType(xsiType, currentNode);
                     } catch (SchemaException se) {
-                        System.err.println(se + "\n\nContinue with next imager element...\n\n");
+                        log.error("\n\nContinue with next imager element...\n\n", se);
                         continue;
                     }
                     if (object != null) {
                         IImager currentImager = null;
-                        if (object instanceof IImager) {
-                            currentImager = (IImager) object;
-                            imagerElements.add(currentImager);
-                        } else {
-                            throw new SchemaException("Unable to load class of type: " + xsiType
-                                    + "\nClass seems not to be of type IImager. ");
-                        }
+                        currentImager = object;
+                        imagerElements.add(currentImager);
                     } else {
                         throw new SchemaException("Unable to load class of type: " + xsiType);
                     }
@@ -820,14 +814,15 @@ public class SchemaLoader {
         try {
             reader = new FileReader(xmlFile);
         } catch (FileNotFoundException fnf) {
-            throw new OALException("XML file " + xmlFile + " cannot be found.\n" + fnf);
+            throw new OALException("XML file " + xmlFile + " cannot be found.\n" + fnf, fnf);
         }
 
         char[] buffer = new char[500];
         try {
             reader.read(buffer, 0, 500);
         } catch (IOException ioe) {
-            throw new OALException("Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe);
+            throw new OALException("Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe,
+                    ioe);
         }
 
         // Check if in the first 500 characters of the XML file a known SchemaFile name
@@ -855,8 +850,8 @@ public class SchemaLoader {
         Iterator keyIterator = null;
         ITarget current = null;
         Object dT = null;
-        for (int i = 0; i < this.observations.length; i++) {
-            current = observations[i].getTarget();
+        for (IObservation observation : this.observations) {
+            current = observation.getTarget();
             if (current.getDatasource() == null) { // Check if target is catalog target
                 // continue;
             }
@@ -865,7 +860,7 @@ public class SchemaLoader {
             while (keyIterator.hasNext()) {
                 dT = keyIterator.next();
                 if (current.equalsID(dT)) { // Replace target with ID is equal (calling equal won't work here!)
-                    observations[i].setTarget((ITarget) this.doublicateTargets.get(dT));
+                    observation.setTarget((ITarget) this.doublicateTargets.get(dT));
                 }
             }
         }
@@ -892,26 +887,26 @@ public class SchemaLoader {
     // Inner Classes ----------------------------------------------------------
     // -------------
 
-    private class Validator extends DefaultHandler {
+    private static class Validator extends DefaultHandler {
 
         @Override
-        public void error(SAXParseException exception) throws SAXException {
+        public void error(SAXParseException exception) {
 
-            System.err.println("XML Schema error: " + exception);
+            log.error("XML Schema error: ", exception);
 
         }
 
         @Override
-        public void fatalError(SAXParseException exception) throws SAXException {
+        public void fatalError(SAXParseException exception) {
 
-            System.err.println("XML Schema fatal error: " + exception);
+            log.error("XML Schema fatal error: ", exception);
 
         }
 
         @Override
-        public void warning(SAXParseException exception) throws SAXException {
+        public void warning(SAXParseException exception) {
 
-            System.out.println("XML Schema warning: " + exception);
+            log.warn("XML Schema warning: ", exception);
 
         }
 

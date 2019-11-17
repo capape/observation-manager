@@ -14,9 +14,12 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.util.DateConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AAVSOVisualSerializer implements ISerializer {
 
+    private static Logger log = LoggerFactory.getLogger(AAVSOVisualSerializer.class);
     // ---------
     // Constants --------------------------------------------------------------
     // ---------
@@ -109,10 +112,10 @@ public class AAVSOVisualSerializer implements ISerializer {
     /**
      * Constructor<br>
      * 
-     * @param softwareName             Name and version of software used to create
-     *                                 the format
-     * @param variableStarObservations List of IObservation elements for
-     *                                 serialization
+     * @param softwareName
+     *            Name and version of software used to create the format
+     * @param variableStarObservations
+     *            List of IObservation elements for serialization
      */
     public AAVSOVisualSerializer(String softwareName, List variableStarObservations) {
 
@@ -129,6 +132,7 @@ public class AAVSOVisualSerializer implements ISerializer {
     /**
      * Serialize all observations to stream
      */
+    @Override
     public int serialize(OutputStream stream) throws Exception {
 
         // Write header
@@ -158,7 +162,7 @@ public class AAVSOVisualSerializer implements ISerializer {
             if ((initials == null) || ("".equals(initials.trim()))) {
                 String message = "No AAVSO observer initials found for:\n" + currentObserver + "\nat Observation: \n"
                         + currentObservation;
-                System.err.println(message);
+                log.error(message);
                 continue; // Don't cancel export, but try next entry
                 /*
                  * this.closeStreamOnError(stream, message); throw new Exception(message);
@@ -221,42 +225,42 @@ public class AAVSOVisualSerializer implements ISerializer {
             stream.write(AAVSOVisualSerializer.DELIMITER);
 
             // Write notes
-            String notes = "";
+            StringBuilder notes = new StringBuilder();
 
             // If there are more comp. stars add them here
             if (comparismStars.size() > 2) {
                 ListIterator compStarItertor = comparismStars.listIterator(2);
                 while (compStarItertor.hasNext()) {
-                    notes = notes + (String) compStarItertor.next() + ","; // This delimiter must be !=
-                                                                           // AAVSOVisualSerializer.DELIMITER
+                    notes.append((String) compStarItertor.next()).append(","); // This delimiter must be !=
+                    // AAVSOVisualSerializer.DELIMITER
                 }
-                notes = notes + " - ";
+                notes.append(" - ");
             }
-            notes = notes + fvs.getDescription();
+            notes.append(fvs.getDescription());
 
             // GMB - escaping non-ASCII chars to html4 entities and replaces CR LF with
             // dashes
             String rawNotes = "";
-            rawNotes = StringEscapeUtils.escapeHtml4(notes);
+            rawNotes = StringEscapeUtils.escapeHtml4(notes.toString());
             rawNotes = rawNotes.replace('\n', NOTES_LINE_SEP);
             rawNotes = rawNotes.replace('\r', NOTES_LINE_SEP);
-            notes = rawNotes;
+            notes = new StringBuilder(rawNotes);
             // GMB - end patch
 
             // Make sure notes are not longer then 100 characters
             if (notes.length() > 100) {
-                notes = notes.substring(0, 100);
+                notes = new StringBuilder(notes.substring(0, 100));
             }
 
             // If there's no note/description, set na
-            if ("".equals(notes)) {
-                notes = AAVSOVisualSerializer.NOT_APPLICABLE;
+            if ("".equals(notes.toString())) {
+                notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
             }
 
             // The finding status to exported
             fvs.setAlreadyExportedToAAVSO(true);
 
-            stream.write(notes.getBytes());
+            stream.write(notes.toString().getBytes());
 
             // Next line for next observation
             stream.write("\n".getBytes());
@@ -287,7 +291,7 @@ public class AAVSOVisualSerializer implements ISerializer {
             stream.flush();
             stream.close();
         } catch (IOException ioe) {
-            System.err.println("Unable to close stream on error.");
+            log.error("Unable to close stream on error.");
         }
 
     }
@@ -295,13 +299,11 @@ public class AAVSOVisualSerializer implements ISerializer {
     // ------------------------------------------------------------------------
     private String getHeader() {
 
-        String header = AAVSOVisualSerializer.PARAMETER_TYPE + AAVSOVisualSerializer.VISUAL + "\n"
+        return AAVSOVisualSerializer.PARAMETER_TYPE + AAVSOVisualSerializer.VISUAL + "\n"
                 + AAVSOVisualSerializer.PARAMETER_SOFTWARE + this.softwareName + "\n"
                 + AAVSOVisualSerializer.PARAMETER_DELIMITER + AAVSOVisualSerializer.DELIMITER + "\n"
                 + AAVSOVisualSerializer.PARAMETER_DATE + AAVSOVisualSerializer.JULIAN_DATE + "\n"
                 + AAVSOVisualSerializer.PARAMETER_OBSERVATIONTYPE + AAVSOVisualSerializer.VISUAL + "\n";
-
-        return header;
 
     }
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,11 +28,10 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * The RootElement element is the root element of a schema element. All other
- * schema elements are grouped below RootElement.<br>
- * The object itself contains no astronomical data but provides XML namespaces,
- * and schema element containers. A schema element container groups multiple
- * schema elements of one and the same type.<br>
+ * The RootElement element is the root element of a schema element. All other schema elements are grouped below
+ * RootElement.<br>
+ * The object itself contains no astronomical data but provides XML namespaces, and schema element containers. A schema
+ * element container groups multiple schema elements of one and the same type.<br>
  * E.g.<br>
  * <observers><br>
  * <observer><br>
@@ -43,10 +43,8 @@ import de.lehmannet.om.util.SchemaException;
  * <i>More observer stuff goes here</i><br>
  * </observer><br>
  * </observers><br>
- * In this example <observers> is the container element of multiple <observer>
- * elements.<br>
- * Also the RootElement object contains the serializeToSchema() method, that
- * will create a schema valid XML file.
+ * In this example <observers> is the container element of multiple <observer> elements.<br>
+ * Also the RootElement object contains the serializeToSchema() method, that will create a schema valid XML file.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -58,31 +56,31 @@ public class RootElement {
     // ---------
 
     // XML Namespace of schema Key
-    public static final String XML_NS_KEY = "xmlns:oal";
+    private static final String XML_NS_KEY = "xmlns:oal";
 
     // XML Namespace of schema
-    public static final String XML_NS = "http://groups.google.com/group/openastronomylog";
+    private static final String XML_NS = "http://groups.google.com/group/openastronomylog";
 
     // XML SI Schema Key
-    public static final String XML_SI_KEY = "xmlns:xsi";
+    private static final String XML_SI_KEY = "xmlns:xsi";
 
     // XML SI Schema
-    public static final String XML_SI = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String XML_SI = "http://www.w3.org/2001/XMLSchema-instance";
 
     // XML Schema Location Key
-    public static final String XML_SCHEMA_LOCATION_KEY = "xsi:schemaLocation";
+    private static final String XML_SCHEMA_LOCATION_KEY = "xsi:schemaLocation";
 
     // XML Schema Location
-    public static final String XML_SCHEMA_LOCATION = "http://groups.google.com/group/openastronomylog oal21.xsd";
+    private static final String XML_SCHEMA_LOCATION = "http://groups.google.com/group/openastronomylog oal21.xsd";
 
     // XML Schema Version Key
-    public static final String XML_SCHEMA_VERSION_KEY = "version";
+    private static final String XML_SCHEMA_VERSION_KEY = "version";
 
     // XML Schema Location
-    public static final String XML_SCHEMA_VERSION = "2.1";
+    private static final String XML_SCHEMA_VERSION = "2.1";
 
     // Schema container for <observation> objects
-    public static final String XML_OBSERVATION_CONTAINER = "oal:observations";
+    private static final String XML_OBSERVATION_CONTAINER = "oal:observations";
 
     // Schema container for <session> objects
     public static final String XML_SESSION_CONTAINER = "sessions";
@@ -116,34 +114,34 @@ public class RootElement {
     // ------------------
 
     // All obervation objects belonging to this RootElement group
-    private ArrayList observationList = new ArrayList();
+    private final List observationList = new ArrayList();
 
     // All observer objects belonging to this RootElement group
-    private ArrayList observerList = new ArrayList();
+    private final List observerList = new ArrayList();
 
     // All site objects belonging to this RootElement group
-    private ArrayList siteList = new ArrayList();
+    private final List siteList = new ArrayList();
 
     // All scope objects belonging to this RootElement group
-    private ArrayList scopeList = new ArrayList();
+    private final List scopeList = new ArrayList();
 
     // All eyepiece objects belonging to this RootElement group
-    private ArrayList eyepieceList = new ArrayList();
+    private final List eyepieceList = new ArrayList();
 
     // All imager objects belonging to this RootElement group
-    private ArrayList imagerList = new ArrayList();
+    private final List imagerList = new ArrayList();
 
     // All session objects belonging to this RootElement group
-    private ArrayList sessionList = new ArrayList();
+    private final List sessionList = new ArrayList();
 
     // All target objects belonging to this RootElement group
-    private ArrayList targetList = new ArrayList();
+    private final List targetList = new ArrayList();
 
     // All filter objects belonging to this RootElement group
-    private ArrayList filterList = new ArrayList();
+    private final List filterList = new ArrayList();
 
     // All lens objects belonging to this RootElement group
-    private ArrayList lensList = new ArrayList();
+    private final List lensList = new ArrayList();
 
     // --------------
     // Public methods ----------------------------------------------------
@@ -458,7 +456,7 @@ public class RootElement {
             serializer.serialize(newSchema);
             fos.close();
         } catch (FileNotFoundException fnfe) {
-            throw new SchemaException("File not found: " + xmlFile.getAbsolutePath());
+            throw new SchemaException("File not found: " + xmlFile.getAbsolutePath(), fnfe);
         } catch (IOException ioe) {
             throw new SchemaException("Error while serializing. Nested Exception is: ", ioe);
         }

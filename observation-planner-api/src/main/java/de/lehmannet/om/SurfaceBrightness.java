@@ -13,9 +13,10 @@ import org.w3c.dom.Node;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
+import java.util.Objects;
+
 /**
- * Surface Brightness represents the value and the unit of a celestial objects
- * surface brightness
+ * Surface Brightness represents the value and the unit of a celestial objects surface brightness
  *
  * @author doergn@users.sourceforge.net
  * @since 2.0
@@ -59,8 +60,8 @@ public class SurfaceBrightness {
     /**
      * Constructs a new instance of Surface Brightness from a given DOM Element.<br>
      *
-     * @param surfaceBrightnessNode The origin XML DOM surface brightness Element
-     * @throws SchemaException if given surfaceBrightnessNode was <code>null</code>
+     * @throws SchemaException
+     *             if given surfaceBrightnessNode was <code>null</code>
      */
     public SurfaceBrightness(Node sfNode) throws SchemaException {
 
@@ -71,16 +72,11 @@ public class SurfaceBrightness {
         Element sf = (Element) sfNode;
 
         String unit = sf.getAttribute(SurfaceBrightness.XML_ATTRIBUTE_UNIT).trim();
-        if (unit != null) {
-            if ((unit.equals(SurfaceBrightness.MAGS_SQR_ARC_MIN))
-                    || (unit.equals(SurfaceBrightness.MAGS_SQR_ARC_SEC))) {
-                this.value = FloatUtil.parseFloat(sf.getFirstChild().getNodeValue());
-                this.unit = unit;
-            } else {
-                throw new SchemaException("Surface Brightness unit is unknown. ");
-            }
+        if ((unit.equals(SurfaceBrightness.MAGS_SQR_ARC_MIN)) || (unit.equals(SurfaceBrightness.MAGS_SQR_ARC_SEC))) {
+            this.value = FloatUtil.parseFloat(sf.getFirstChild().getNodeValue());
+            this.unit = unit;
         } else {
-            throw new SchemaException("Problem while retrieving Surface Brightness unit. ");
+            throw new SchemaException("Surface Brightness unit is unknown. ");
         }
 
     }
@@ -93,8 +89,8 @@ public class SurfaceBrightness {
      *
      * @param unit Surface brightness unit (use SurfaceBrightness constants)
      *
-     * @throws IllegalArgumentException if unit parameter has unknown type. Allowed
-     * types can be accessed by public constants.<br>
+     * @throws IllegalArgumentException if unit parameter has unknown type. Allowed types can be accessed by public
+     * constants.<br>
      *
      * @see de.lehmannet.om.SurfaceBrightness
      */
@@ -135,32 +131,26 @@ public class SurfaceBrightness {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(value);
-        buffer.append(" ");
-        buffer.append(unit);
-
-        return buffer.toString();
+        return value + " " + unit;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this surface brightness and the given Object are equal. Two surface
-     * brightness' are equal if both have the same value when represented as
-     * mags-per-squarearcsec.<br>
+     * Checks if this surface brightness and the given Object are equal. Two surface brightness' are equal if both have
+     * the same value when represented as mags-per-squarearcsec.<br>
      *
-     * @param obj The Object to compare this surface brightness with.
-     * @return <code>true</code> if both Objects are instances from class
-     *         de.lehmannet.om.SurfaceBrightness and their values in
-     *         mags-per-squarearcsec is equal.
+     * @param obj
+     *            The Object to compare this surface brightness with.
+     * @return <code>true</code> if both Objects are instances from class de.lehmannet.om.SurfaceBrightness and their
+     *         values in mags-per-squarearcsec is equal.
      * @see java.lang.Object
      */
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof SurfaceBrightness)) {
+        if (!(obj instanceof SurfaceBrightness)) {
             return false;
         }
 
@@ -173,11 +163,7 @@ public class SurfaceBrightness {
             thisMagsPerSqrArcSec = this.getValueAs(SurfaceBrightness.MAGS_SQR_ARC_SEC);
         }
 
-        if (thisMagsPerSqrArcSec == foreignMagsPerSqrArcSec) {
-            return true;
-        }
-
-        return false;
+        return thisMagsPerSqrArcSec == foreignMagsPerSqrArcSec;
 
     }
 
@@ -190,7 +176,6 @@ public class SurfaceBrightness {
         return result;
     }
 
-
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
@@ -198,15 +183,15 @@ public class SurfaceBrightness {
     // -------------------------------------------------------------------
     /**
      * Sets this SurfaceBrightness to an given XML DOM Element.<br>
-     * The SurfaceBrightness value will be set as the Elements value and the
-     * SurfaceBrightness unit will be set as the Elements attribute.<br>
+     * The SurfaceBrightness value will be set as the Elements value and the SurfaceBrightness unit will be set as the
+     * Elements attribute.<br>
      * Example:<br>
-     * &lt;surfaceBrightness
-     * unit="mags-per-squarearcsec"&gt;20.3&lt;/surfaceBrightness&gt;
+     * &lt;surfaceBrightness unit="mags-per-squarearcsec"&gt;20.3&lt;/surfaceBrightness&gt;
      *
-     * @param element The XML DOM Element this SurfaceBrightness belongs to
-     * @return Returns the element given as parameter with this SurfaceBrightness
-     *         value as element value and this SurfaceBrightness unit as attribute
+     * @param element
+     *            The XML DOM Element this SurfaceBrightness belongs to
+     * @return Returns the element given as parameter with this SurfaceBrightness value as element value and this
+     *         SurfaceBrightness unit as attribute
      * @see org.w3c.dom.Element
      */
     public Element setToXmlElement(Element element) {
@@ -223,13 +208,10 @@ public class SurfaceBrightness {
 
     }
 
-
-
     // -------------------------------------------------------------------
     /**
      * Returns the unit of the SurfaceBrightness value.<br>
-     * The returned value may be any valid SurfaceBrightness unit, which can be
-     * accessed by SurfaceBrightness constants.
+     * The returned value may be any valid SurfaceBrightness unit, which can be accessed by SurfaceBrightness constants.
      *
      * @return This SurfaceBrightness value unit.
      */
@@ -255,11 +237,10 @@ public class SurfaceBrightness {
     // -------------------------------------------------------------------
     /**
      * Returns the value of this SurfaceBrightness given in the passed unit.<br>
-     * The returned value may be any float value (positiv or negativ). If the passed
-     * unit is invalid, <code>Float.NaN</code> is returned.
+     * The returned value may be any float value (positiv or negativ). If the passed unit is invalid,
+     * <code>Float.NaN</code> is returned.
      *
-     * @return This SurfaceBrightness value or <code>Float.NaN</code> if the given
-     *         unit parameter was invalid
+     * @return This SurfaceBrightness value or <code>Float.NaN</code> if the given unit parameter was invalid
      */
     public float getValueAs(String unit) {
 
@@ -268,7 +249,7 @@ public class SurfaceBrightness {
         }
 
         // Requested unit is current unit
-        if (unit == this.unit) {
+        if (Objects.equals(unit, this.unit)) {
             return this.getValue();
         }
 
@@ -287,19 +268,15 @@ public class SurfaceBrightness {
     // -------------------------------------------------------------------
     /**
      * Checks if a given String is a valid Surface Brightness unit.<br>
-     * Means, if the given string is equal to SurfaceBrightness.MAGS_SQR_ARC_MIN or
-     * SurfaceBrightness.MAGS_SQR_ARC_SEC
+     * Means, if the given string is equal to SurfaceBrightness.MAGS_SQR_ARC_MIN or SurfaceBrightness.MAGS_SQR_ARC_SEC
      *
-     * @param unit A String which represents an Surface Brightness unit
+     * @param unit
+     *            A String which represents an Surface Brightness unit
      * @return true if the given string is a valid Surface Brightness unit
      */
     public static boolean isValidUnit(String unit) {
 
-        if ((SurfaceBrightness.MAGS_SQR_ARC_MIN.equals(unit)) || (SurfaceBrightness.MAGS_SQR_ARC_SEC.equals(unit))) {
-            return true;
-        }
-
-        return false;
+        return (SurfaceBrightness.MAGS_SQR_ARC_MIN.equals(unit)) || (SurfaceBrightness.MAGS_SQR_ARC_SEC.equals(unit));
 
     }
 

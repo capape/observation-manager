@@ -18,10 +18,9 @@ import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * A Lens describes a lens used to extend or reduce a focal length.
- * Implementations of Lens can be Barlow lenses or Shapley lenses depending on
- * the given factor. The model name and the factor are mandatory fields which
- * have to be set.
+ * A Lens describes a lens used to extend or reduce a focal length. Implementations of Lens can be Barlow lenses or
+ * Shapley lenses depending on the given factor. The model name and the factor are mandatory fields which have to be
+ * set.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.7
@@ -33,7 +32,7 @@ public class Lens extends SchemaElement implements ILens {
     // ------------------
 
     // Model name of the lens (usually given by vendor)
-    private String model = new String();
+    private String model = "";
 
     // Vendor name of lens (TeleVue, Meade, Vixen....)
     private String vendor = null;
@@ -56,10 +55,12 @@ public class Lens extends SchemaElement implements ILens {
      * Constructs a new instance of a Lens from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
-     * @param lens The XML Schema element that represents this lens
-     * @throws IllegalArgumentException if parameter is <code>null</code>,
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param lens
+     *            The XML Schema element that represents this lens
+     * @throws IllegalArgumentException
+     *             if parameter is <code>null</code>,
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Lens(Node lens) throws SchemaException, IllegalArgumentException {
 
@@ -90,7 +91,7 @@ public class Lens extends SchemaElement implements ILens {
             throw new SchemaException("Lens must have exact one model name. ");
         }
         child = (Element) children.item(0);
-        String model = "";
+        StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Lens must have a model name. ");
         } else {
@@ -98,9 +99,9 @@ public class Lens extends SchemaElement implements ILens {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        model = model + textElements.item(te).getNodeValue();
+                        model.append(textElements.item(te).getNodeValue());
                     }
-                    this.setModel(model);
+                    this.setModel(model.toString());
                 }
                 // model = child.getFirstChild().getNodeValue();
             } else {
@@ -138,7 +139,7 @@ public class Lens extends SchemaElement implements ILens {
         // Get optional vendor
         child = null;
         children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_VENDOR);
-        String vendor = "";
+        StringBuilder vendor = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -146,13 +147,12 @@ public class Lens extends SchemaElement implements ILens {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor = vendor + textElements.item(te).getNodeValue();
+                            vendor.append(textElements.item(te).getNodeValue());
                         }
-                        this.setVendor(vendor);
+                        this.setVendor(vendor.toString());
                     }
                     /*
-                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                     * this.setVendor(vendor); }
+                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) { this.setVendor(vendor); }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving vendor from lens. ");
@@ -168,13 +168,15 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Constructs a new instance of a Lens.<br>
      *
-     * @param model  The lens model name
-     * @param factor The focal length factor of the lens<br>
-     *               Factors > 1 represent barlow lenses<br>
-     *               Factors < 1 represent shapley lenses<br>
-     *               Factors <= 0 are not allowed
-     * @throws IllegalArgumentException if model is <code>null</code> or factor is
-     *                                  Float.NaN or <= 0
+     * @param model
+     *            The lens model name
+     * @param factor
+     *            The focal length factor of the lens<br>
+     *            Factors > 1 represent barlow lenses<br>
+     *            Factors < 1 represent shapley lenses<br>
+     *            Factors <= 0 are not allowed
+     * @throws IllegalArgumentException
+     *             if model is <code>null</code> or factor is Float.NaN or <= 0
      */
     public Lens(String model, float factor) throws IllegalArgumentException {
 
@@ -190,11 +192,9 @@ public class Lens extends SchemaElement implements ILens {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -218,8 +218,7 @@ public class Lens extends SchemaElement implements ILens {
     // -------------------------------------------------------------------
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
-     * Returns all fields of the class lens (unset fields will be ignored). The
-     * result string will look like this:<br>
+     * Returns all fields of the class lens (unset fields will be ignored). The result string will look like this:<br>
      * Example:<br>
      * <code>
      * Lens Model: Powermate<br>
@@ -233,7 +232,7 @@ public class Lens extends SchemaElement implements ILens {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("Lens Model: ");
         buffer.append(this.getModel());
@@ -262,6 +261,7 @@ public class Lens extends SchemaElement implements ILens {
      * 
      * @return a boolean with the availability of the element
      */
+    @Override
     public boolean isAvailable() {
 
         return this.available;
@@ -272,9 +272,10 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Sets the availability of this element.<br>
      * 
-     * @param available A boolean value indicating whether this element is still
-     *                  available for usage
+     * @param available
+     *            A boolean value indicating whether this element is still available for usage
      */
+    @Override
     public void setAvailability(boolean available) {
 
         this.available = available;
@@ -287,19 +288,18 @@ public class Lens extends SchemaElement implements ILens {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Lens to a given parent XML DOM Element. The Lens element will be
-     * set as a child element of the passed element.
+     * Adds this Lens to a given parent XML DOM Element. The Lens element will be set as a child element of the passed
+     * element.
      * 
-     * @param parent The parent element for this Lens
-     * @return Returns the element given as parameter with this Lens as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Lens
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -315,7 +315,7 @@ public class Lens extends SchemaElement implements ILens {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
@@ -350,15 +350,12 @@ public class Lens extends SchemaElement implements ILens {
         e_factor.appendChild(n_FocalLengthText);
         e_Lens.appendChild(e_factor);
 
-        return element;
-
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds the lens link to an given XML DOM Element The lens element itself will
-     * be attached to given elements ownerDocument if the passed boolean was
-     * <code>true</code>. If the ownerDocument has no lens container, it will be
+     * Adds the lens link to an given XML DOM Element The lens element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no lens container, it will be
      * created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
@@ -372,18 +369,17 @@ public class Lens extends SchemaElement implements ILens {
      * <b>&lt;/lensContainer&gt;</b><br>
      * <br>
      * 
-     * @param element               The element under which the the lens link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional lens link,
-     *         and the lens element under the lens container of the ownerDocument
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the lens link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional lens link, and the lens element under the lens
+     *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -419,21 +415,22 @@ public class Lens extends SchemaElement implements ILens {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the lens link to an given XML DOM Element The lens element itself will
-     * <b>NOT</b> be attached to given elements ownerDocument. Calling this method
-     * is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the lens link to an given XML DOM Element The lens element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;lensLink&gt;123&lt;/lensLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the lens link is created
-     * @return Returns the Element given as parameter with a additional lens link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the lens link is created
+     * @return Returns the Element given as parameter with a additional lens link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -449,6 +446,7 @@ public class Lens extends SchemaElement implements ILens {
      * 
      * @return Returns the focal length factor of the lens.
      */
+    @Override
     public float getFactor() {
 
         return this.factor;
@@ -461,6 +459,7 @@ public class Lens extends SchemaElement implements ILens {
      * 
      * @return Returns a String representing the lens model name.<br>
      */
+    @Override
     public String getModel() {
 
         return model;
@@ -474,6 +473,7 @@ public class Lens extends SchemaElement implements ILens {
      * @return Returns a String representing the lens vendor name.<br>
      *         If <code>null</code> is returned the vendor name was never set.
      */
+    @Override
     public String getVendor() {
 
         return vendor;
@@ -484,9 +484,12 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Sets the focal length factor of the lens.<br>
      * 
-     * @param factor The new focal length factor to be set.
-     * @throws IllegalArgumentException if factor was <code>Float.NaN</code> or <= 0
+     * @param factor
+     *            The new focal length factor to be set.
+     * @throws IllegalArgumentException
+     *             if factor was <code>Float.NaN</code> or <= 0
      */
+    @Override
     public void setFactor(float factor) throws IllegalArgumentException {
 
         if (Float.isNaN(factor)) {
@@ -505,9 +508,12 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Sets the model name for the lens.<br>
      * 
-     * @param modelname The new model name to be set.
-     * @throws IllegalArgumentException if modelname was <code>null</code>
+     * @param modelname
+     *            The new model name to be set.
+     * @throws IllegalArgumentException
+     *             if modelname was <code>null</code>
      */
+    @Override
     public void setModel(String modelname) throws IllegalArgumentException {
 
         if (modelname == null) {
@@ -522,8 +528,10 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Sets the vendor name of the lens.<br>
      * 
-     * @param vendorname The new vendor name to be set.
+     * @param vendorname
+     *            The new vendor name to be set.
      */
+    @Override
     public void setVendor(String vendorname) {
 
         if ((vendorname != null) && ("".equals(vendorname.trim()))) {

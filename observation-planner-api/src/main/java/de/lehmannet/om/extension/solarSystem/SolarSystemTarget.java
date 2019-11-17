@@ -22,16 +22,13 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.RootElement;
-import de.lehmannet.om.SchemaElement;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * SolarSystemTarget extends the de.lehmannet.om.Target class. Its specialised
- * for solar system targets. A SolarSystemTarget target can be any astronomical
- * object inside our solar system.<br>
- * This class exists more due to extension reasons as this class does not add
- * new functions to de.lehmannet.om.Target
+ * SolarSystemTarget extends the de.lehmannet.om.Target class. Its specialised for solar system targets. A
+ * SolarSystemTarget target can be any astronomical object inside our solar system.<br>
+ * This class exists more due to extension reasons as this class does not add new functions to de.lehmannet.om.Target
  *
  * @author doergn@users.sourceforge.net
  * @since 1.3
@@ -62,7 +59,7 @@ public abstract class SolarSystemTarget extends Target {
     private String i18nName = null;
 
     // Last known locale
-    private Locale lastKnown = Locale.getDefault();
+    private final Locale lastKnown = Locale.getDefault();
 
     // ------------
     // Constructors ------------------------------------------------------
@@ -70,21 +67,20 @@ public abstract class SolarSystemTarget extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a SolarSystemTarget from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by a subclass which itself is called by
-     * de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is
-     * set, a array with Observers must be passed to check, whether the <observer>
-     * link is valid.
+     * Constructs a new instance of a SolarSystemTarget from a given DOM target Element.<br>
+     * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
+     * set, a array with Observers must be passed to check, whether the <observer> link is valid.
      *
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    protected SolarSystemTarget(Node targetElement, IObserver[] observers) throws SchemaException {
+    SolarSystemTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -96,10 +92,12 @@ public abstract class SolarSystemTarget extends Target {
     /**
      * Constructs a new instance of a SolarSystemTarget.
      *
-     * @param name       The name of the astronomical object
-     * @param datasource The datasource of the astronomical object
+     * @param name
+     *            The name of the astronomical object
+     * @param datasource
+     *            The datasource of the astronomical object
      */
-    protected SolarSystemTarget(String name, String datasource) {
+    SolarSystemTarget(String name, String datasource) {
 
         super(name, datasource);
         this.setI18NName();
@@ -110,10 +108,12 @@ public abstract class SolarSystemTarget extends Target {
     /**
      * Constructs a new instance of a SolarSystemTarget.
      *
-     * @param name     The name of the astronomical object
-     * @param observer The observer who is the originator of the target
+     * @param name
+     *            The name of the astronomical object
+     * @param observer
+     *            The observer who is the originator of the target
      */
-    protected SolarSystemTarget(String name, IObserver observer) {
+    SolarSystemTarget(String name, IObserver observer) {
 
         super(name, observer);
         this.setI18NName();
@@ -121,16 +121,8 @@ public abstract class SolarSystemTarget extends Target {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Constructs a new instance of a SolarSystemTarget.
-     *
-     * @param name       The name of the astronomical object
-     * @param i18nName   Localized name of the target
-     * @param datasource The datasource of the astronomical object
-     */
     /*
-     * protected SolarSystemTarget(String name, String i18nName, String datasource)
-     * {
+     * protected SolarSystemTarget(String name, String i18nName, String datasource) {
      *
      * super(name, datasource); this.i18nName = i18nName;
      *
@@ -141,13 +133,11 @@ public abstract class SolarSystemTarget extends Target {
     /**
      * Constructs a new instance of a SolarSystemTarget.
      *
-     * @param name     The name of the astronomical object
-     * @param i18nName Localized name of the target
-     * @param observer The observer who is the originator of the target
+     * @param name
+     *            The name of the astronomical object
      */
     /*
-     * protected SolarSystemTarget(String name, String i18nName, IObserver observer)
-     * {
+     * protected SolarSystemTarget(String name, String i18nName, IObserver observer) {
      *
      * super(name, observer); this.i18nName = i18nName;
      *
@@ -214,7 +204,7 @@ public abstract class SolarSystemTarget extends Target {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("SolarSystemTarget: Name=");
         buffer.append(super.getName());
 
@@ -240,13 +230,13 @@ public abstract class SolarSystemTarget extends Target {
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Target and the given Object are equal. The given object is
-     * equal with this Target, if it derives from ITarget, both XSI types are equal
-     * and its name is equal to this Target name.<br>
+     * Checks if this Target and the given Object are equal. The given object is equal with this Target, if it derives
+     * from ITarget, both XSI types are equal and its name is equal to this Target name.<br>
      *
-     * @param obj The Object to compare this Target with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both
-     *         XSI types are equal and its name is equal to this Target name.<br>
+     * @param obj
+     *            The Object to compare this Target with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
+     *         equal to this Target name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
      * @see java.lang.Object
      */
@@ -256,7 +246,7 @@ public abstract class SolarSystemTarget extends Target {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ITarget)) {
+        if (!(obj instanceof ITarget)) {
             return false;
         }
 
@@ -269,12 +259,8 @@ public abstract class SolarSystemTarget extends Target {
             return false;
         }
 
-        if ((this.getName().toLowerCase().equals(targetName.toLowerCase()))
-                && (this.getXSIType()).equals(target.getXSIType())) {
-            return true;
-        }
-
-        return false;
+        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
+                && (this.getXSIType()).equals(target.getXSIType());
 
     }
 
@@ -291,6 +277,7 @@ public abstract class SolarSystemTarget extends Target {
      *
      * @return The xsi:type value of this implementation
      */
+    @Override
     public abstract String getXSIType();
 
     // ------
@@ -299,17 +286,15 @@ public abstract class SolarSystemTarget extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      *
-     * @param parent The parent element for this Target
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
-    public abstract Element addToXmlElement(Element element);
+    public abstract void addToXmlElement(Element element);
 
     // -----------------
     // Protected methods -------------------------------------------------
@@ -317,11 +302,10 @@ public abstract class SolarSystemTarget extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Creates a SolarSystemTarget under the target container. If no target
-     * container exists under the given elements ownerDocument, it will be
-     * created.<br>
-     * This method should be called by subclasses, so that they only have to add
-     * their specific data to the element returned. Example:<br>
+     * Creates a SolarSystemTarget under the target container. If no target container exists under the given elements
+     * ownerDocument, it will be created.<br>
+     * This method should be called by subclasses, so that they only have to add their specific data to the element
+     * returned. Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
@@ -333,18 +317,16 @@ public abstract class SolarSystemTarget extends Target {
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
      *
-     * @param element The element under which the the target link is created
-     * @param xsiType The XSI:Type identification of the child class
-     * @return Returns a new created target Element that contains all data from a
-     *         SolarSystemTarget. Please mind, NOT the passed element is given, but
-     *         a child element of the passed elements ownerDocument. Might return
-     *         <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the target link is created
+     * @param xsiType
+     *            The XSI:Type identification of the child class
      * @see org.w3c.dom.Element
      */
-    protected Element createXmlSolarSystemTargetElement(Element element, String xsiType) {
+    void createXmlSolarSystemTargetElement(Element element, String xsiType) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -373,7 +355,7 @@ public abstract class SolarSystemTarget extends Target {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
-                    return null;
+                    return;
                 }
             }
         }
@@ -385,8 +367,6 @@ public abstract class SolarSystemTarget extends Target {
         // Set XSI:Type
         e_Target.setAttribute(ITarget.XML_XSI_TYPE, xsiType);
 
-        return e_Target;
-
     }
 
     // -------------------------------------------------------------------
@@ -395,26 +375,37 @@ public abstract class SolarSystemTarget extends Target {
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem", Locale.getDefault());
 
-        if (this.getName().equals(SolarSystemTarget.KEY_SUN)) {
+        switch (this.getName()) {
+        case SolarSystemTarget.KEY_SUN:
             this.i18nName = bundle.getString("catalog.sun");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_MERCURY)) {
+            break;
+        case SolarSystemTarget.KEY_MERCURY:
             this.i18nName = bundle.getString("catalog.mercury");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_VENUS)) {
+            break;
+        case SolarSystemTarget.KEY_VENUS:
             this.i18nName = bundle.getString("catalog.venus");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_MOON)) {
+            break;
+        case SolarSystemTarget.KEY_MOON:
             this.i18nName = bundle.getString("catalog.moon");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_MARS)) {
+            break;
+        case SolarSystemTarget.KEY_MARS:
             this.i18nName = bundle.getString("catalog.mars");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_JUPITER)) {
+            break;
+        case SolarSystemTarget.KEY_JUPITER:
             this.i18nName = bundle.getString("catalog.jupiter");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_SATURN)) {
+            break;
+        case SolarSystemTarget.KEY_SATURN:
             this.i18nName = bundle.getString("catalog.saturn");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_URANUS)) {
+            break;
+        case SolarSystemTarget.KEY_URANUS:
             this.i18nName = bundle.getString("catalog.uranus");
-        } else if (this.getName().equals(SolarSystemTarget.KEY_NEPTUNE)) {
+            break;
+        case SolarSystemTarget.KEY_NEPTUNE:
             this.i18nName = bundle.getString("catalog.neptune");
-        } else {
+            break;
+        default:
             this.i18nName = super.getName();
+            break;
         }
 
     }

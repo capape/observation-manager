@@ -21,11 +21,9 @@ import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * A Scope describes an optical instrument which can be used for astronomical
- * observations.<br>
- * A Scope must have an aperture and a model name, as well as either a
- * magnification <b>or</b> a focalLength. (magnification should be set if the
- * optical instrument does not allow to change eyepieces).<br>
+ * A Scope describes an optical instrument which can be used for astronomical observations.<br>
+ * A Scope must have an aperture and a model name, as well as either a magnification <b>or</b> a focalLength.
+ * (magnification should be set if the optical instrument does not allow to change eyepieces).<br>
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -53,7 +51,7 @@ public class Scope extends SchemaElement implements IScope {
     // ------------------
 
     // Model of the scope
-    private String model = new String();
+    private String model = "";
 
     // Type of scope. E.g. Newton, Schmidt,...
     // Or use DSL coded abbreviation:
@@ -104,13 +102,15 @@ public class Scope extends SchemaElement implements IScope {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a Scope from a given XML Schmea Node. Normally
-     * this constructor is only used by de.lehmannet.om.util.SchemaLoader
+     * Constructs a new instance of a Scope from a given XML Schmea Node. Normally this constructor is only used by
+     * de.lehmannet.om.util.SchemaLoader
      *
-     * @param scope The XML Schema Node that represents this Scope Object
-     * @throws IllegalArgumentException if the parameter is <NULL>
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema secifications
+     * @param scope
+     *            The XML Schema Node that represents this Scope Object
+     * @throws IllegalArgumentException
+     *             if the parameter is <NULL>
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema secifications
      */
     public Scope(Node scope) throws SchemaException, IllegalArgumentException {
 
@@ -148,7 +148,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         // Get optional focalLength
-        child = null;
         children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_FOCALLENGTH);
         String focalLength = null;
         if (children != null) {
@@ -216,7 +215,7 @@ public class Scope extends SchemaElement implements IScope {
             throw new SchemaException("Scope must have exact one model name. ");
         }
         child = (Element) children.item(0);
-        String model = "";
+        StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Scope must have a model name. ");
         } else {
@@ -224,9 +223,9 @@ public class Scope extends SchemaElement implements IScope {
             NodeList textElements = child.getChildNodes();
             if ((textElements != null) && (textElements.getLength() > 0)) {
                 for (int te = 0; te < textElements.getLength(); te++) {
-                    model = model + textElements.item(te).getNodeValue();
+                    model.append(textElements.item(te).getNodeValue());
                 }
-                this.setModel(model);
+                this.setModel(model.toString());
             }
         }
 
@@ -248,7 +247,7 @@ public class Scope extends SchemaElement implements IScope {
         // Get optional type
         child = null;
         children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_TYPE);
-        String type = "";
+        StringBuilder type = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -257,9 +256,9 @@ public class Scope extends SchemaElement implements IScope {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            type = type + textElements.item(te).getNodeValue();
+                            type.append(textElements.item(te).getNodeValue());
                         }
-                        this.setType(type);
+                        this.setType(type.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving type from scope. ");
@@ -272,7 +271,7 @@ public class Scope extends SchemaElement implements IScope {
         // Get optional vendor
         child = null;
         children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_VENDOR);
-        String vendor = "";
+        StringBuilder vendor = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -281,9 +280,9 @@ public class Scope extends SchemaElement implements IScope {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor = vendor + textElements.item(te).getNodeValue();
+                            vendor.append(textElements.item(te).getNodeValue());
                         }
-                        this.setVendor(vendor);
+                        this.setVendor(vendor.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving vendor from scope. ");
@@ -323,8 +322,7 @@ public class Scope extends SchemaElement implements IScope {
                     ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT).trim().toLowerCase();
                     ori_Truesided = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_TRUESIDED).trim()
                             .toLowerCase();
-                    this.setOrientation(new Boolean(ori_Erect).booleanValue(),
-                            new Boolean(ori_Truesided).booleanValue());
+                    this.setOrientation(Boolean.parseBoolean(ori_Erect), Boolean.parseBoolean(ori_Truesided));
                 } else {
                     throw new SchemaException("Problem while retrieving orientation element from scope. ");
                 }
@@ -339,13 +337,15 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Constructs a new instance of a Scope.
      * 
-     * @param model       The scopes model name
-     * @param aperture    The aperture of the scope
-     * @param focalLength The focal length of the scope
-     * @throws IllegalArgumentException if one of the parameters has an illegal
-     *                                  value (see setModel(String),
-     *                                  setAperture(float) and setFocalLength(float)
-     *                                  for allowed values
+     * @param model
+     *            The scopes model name
+     * @param aperture
+     *            The aperture of the scope
+     * @param focalLength
+     *            The focal length of the scope
+     * @throws IllegalArgumentException
+     *             if one of the parameters has an illegal value (see setModel(String), setAperture(float) and
+     *             setFocalLength(float) for allowed values
      */
     public Scope(String model, float aperture, float focalLength) throws IllegalArgumentException {
 
@@ -361,13 +361,15 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Constructs a new instance of a Scope.
      * 
-     * @param aperture      The scopes aperture
-     * @param magnification The magnification of the scope
-     * @param model         The model name of the scope
-     * @throws IllegalArgumentException if one of the parameters has an illegal
-     *                                  value (see setModel(String),
-     *                                  setAperture(float) and
-     *                                  setMagnification(float) for allowed values
+     * @param aperture
+     *            The scopes aperture
+     * @param magnification
+     *            The magnification of the scope
+     * @param model
+     *            The model name of the scope
+     * @throws IllegalArgumentException
+     *             if one of the parameters has an illegal value (see setModel(String), setAperture(float) and
+     *             setMagnification(float) for allowed values
      */
     public Scope(float aperture, float magnification, String model) throws IllegalArgumentException {
 
@@ -386,11 +388,9 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -422,19 +422,10 @@ public class Scope extends SchemaElement implements IScope {
     // ------------------------
 
     // -------------------------------------------------------------------
-    /**
-     * Returns the XML schema instance type of the implementation.<br>
-     * Example:<br>
-     * <scope xsi:type="myOwnScope"><br>
-     * </scope><br>
-     * 
-     * @return The xsi:type value of this implementation
-     */
     /*
-     * public String[] getXSIType() {
+     * @Override public String[] getXSIType() {
      * 
-     * return new String[] { Scope.XML_XSI_TYPE_VALUE, Scope.XML_XSI_FIXEDTYPE_VALUE
-     * };
+     * return new String[] { Scope.XML_XSI_TYPE_VALUE, Scope.XML_XSI_FIXEDTYPE_VALUE };
      * 
      * }
      */
@@ -454,7 +445,7 @@ public class Scope extends SchemaElement implements IScope {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Scope: Model name=");
         buffer.append(model);
 
@@ -492,22 +483,17 @@ public class Scope extends SchemaElement implements IScope {
 
         if ((this.orientation_Erect != -1) && (this.orientation_Truesided != -1)) {
             buffer.append(" Orientation=");
-            switch (orientation_Erect) {
-            case 1:
+            if (orientation_Erect == 1) {
                 buffer.append(" (Erected");
-                break;
-            case 0:
+            } else if (orientation_Erect == 0) {
                 buffer.append(" (Not Erected");
-                break;
             }
-            switch (orientation_Truesided) {
-            case 1:
+            if (orientation_Truesided == 1) {
                 buffer.append(" Truesided)");
-                break;
-            case 0:
+            } else if (orientation_Truesided == 0) {
                 buffer.append(" Not Truesided)");
-                break;
             }
+
         }
 
         return buffer.toString();
@@ -515,43 +501,25 @@ public class Scope extends SchemaElement implements IScope {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Scope and the given Object are equal. The given object is
-     * equal with this Scope, if it implements the IScope interface and if model
-     * name, aperture and focalLength (or magnification) are equal to this Scopes
-     * values.<br>
-     * 
-     * @param obj The Object to compare this Scope with.
-     * @return <code>true</code> if the given Object is an instance of IScope and
-     *         its model name, aperture and focalLength (or magnification) is equal
-     *         to this Scope.<br>
-     *         (Model name comparism is <b>not</b> casesensitive)
-     * @see java.lang.Object
-     */
     /*
-     * public boolean equals(Object obj) {
+     * @Override public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof IScope) ) { return false; }
      * 
      * IScope scope = (IScope)obj;
      * 
-     * String modelName = scope.getModel(); if( modelName == null ) { return false;
-     * } if( !model.toLowerCase().equals(modelName.toLowerCase()) ) { return false;
-     * }
+     * String modelName = scope.getModel(); if( modelName == null ) { return false; } if(
+     * !model.toLowerCase().equals(modelName.toLowerCase()) ) { return false; }
      * 
-     * float objAperture = scope.getAperture(); if( objAperture != aperture ) {
-     * return false; }
+     * float objAperture = scope.getAperture(); if( objAperture != aperture ) { return false; }
      * 
-     * if( !Float.isNaN(magnification) ) { float objMagnification =
-     * scope.getMagnification(); if( magnification == objMagnification ) { return
-     * true; } else { return false; }
+     * if( !Float.isNaN(magnification) ) { float objMagnification = scope.getMagnification(); if( magnification ==
+     * objMagnification ) { return true; } else { return false; }
      * 
      * }
      * 
-     * if( !Float.isNaN(focalLength) ) { float objFocalLength =
-     * scope.getFocalLength(); if( focalLength == objFocalLength ) { return true; }
-     * else { return false; } }
+     * if( !Float.isNaN(focalLength) ) { float objFocalLength = scope.getFocalLength(); if( focalLength ==
+     * objFocalLength ) { return true; } else { return false; } }
      * 
      * // We should never get here return false;
      * 
@@ -568,6 +536,7 @@ public class Scope extends SchemaElement implements IScope {
      * 
      * @return a boolean with the availability of the element
      */
+    @Override
     public boolean isAvailable() {
 
         return this.available;
@@ -578,9 +547,10 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Sets the availability of this element.<br>
      * 
-     * @param available A boolean value indicating whether this element is still
-     *                  available for usage
+     * @param available
+     *            A boolean value indicating whether this element is still available for usage
      */
+    @Override
     public void setAvailability(boolean available) {
 
         this.available = available;
@@ -593,19 +563,18 @@ public class Scope extends SchemaElement implements IScope {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Scope to a given parent XML DOM Element. The Scope element will be
-     * set as a child element of the passed element.
+     * Adds this Scope to a given parent XML DOM Element. The Scope element will be set as a child element of the passed
+     * element.
      * 
-     * @param parent The parent element for this Scope
-     * @return Returns the element given as parameter with this Scope as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Scope
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -621,7 +590,7 @@ public class Scope extends SchemaElement implements IScope {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
@@ -702,16 +671,13 @@ public class Scope extends SchemaElement implements IScope {
             e_Scope.setAttribute(IScope.XML_XSI_TYPE, Scope.XML_XSI_FIXEDTYPE_VALUE);
         }
 
-        return element;
-
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds the scope link to an given XML DOM Element The scope element itself will
-     * be attached to given elements ownerDocument if the passed boolean was
-     * <code>true</code>. If the ownerDocument has no scope container, it will be
-     * created (in case the passed boolean was <code>true</code>).<br>
+     * Adds the scope link to an given XML DOM Element The scope element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no scope container, it will
+     * be created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;scopeLink&gt;123&lt;/scopeLink&gt;</b><br>
@@ -724,18 +690,17 @@ public class Scope extends SchemaElement implements IScope {
      * <b>&lt;/scopeContainer&gt;</b><br>
      * <br>
      * 
-     * @param element               The element under which the the scope link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional scope link,
-     *         and the scope element under the scope container of the ownerDocument
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the scope link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional scope link, and the scope element under the
+     *         scope container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -771,21 +736,22 @@ public class Scope extends SchemaElement implements IScope {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the scope link to an given XML DOM Element The scope element itself will
-     * <b>NOT</b> be attached to given elements ownerDocument. Calling this method
-     * is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the scope link to an given XML DOM Element The scope element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;scopeLink&gt;123&lt;/observerLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the scope link is created
-     * @return Returns the Element given as parameter with a additional scope link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the scope link is created
+     * @return Returns the Element given as parameter with a additional scope link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -799,6 +765,7 @@ public class Scope extends SchemaElement implements IScope {
      * 
      * @return Returns the aperture of the scope
      */
+    @Override
     public float getAperture() {
 
         return aperture;
@@ -808,12 +775,12 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Returns the focal length of the scope.<br>
-     * This value might return <code>Float.NaN</code> in case the focal length is
-     * not set for this scope. In that case the magnification must return a value.
+     * This value might return <code>Float.NaN</code> in case the focal length is not set for this scope. In that case
+     * the magnification must return a value.
      * 
-     * @return Returns the focal length of the scope, or Float.NaN if the value does
-     *         not suit this scope
+     * @return Returns the focal length of the scope, or Float.NaN if the value does not suit this scope
      */
+    @Override
     public float getFocalLength() {
 
         return focalLength;
@@ -824,12 +791,11 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Returns the light grasp value of the scope.<br>
      * Allowed values are between 0.0 and 1.0 (including 0.0 and 1.0)<br>
-     * This value might return <code>Float.NaN</code> in case the light grasp was
-     * never set.
+     * This value might return <code>Float.NaN</code> in case the light grasp was never set.
      * 
-     * @return Returns the light grasp value of the scope, or Float.NaN if the value
-     *         was never set.
+     * @return Returns the light grasp value of the scope, or Float.NaN if the value was never set.
      */
+    @Override
     public float getLightGrasp() {
 
         return lightGrasp;
@@ -839,12 +805,11 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Returns the true field of view, if set.<br>
-     * Might return <code>NULL</code> as the field is optional only if magnification
-     * is set.
+     * Might return <code>NULL</code> as the field is optional only if magnification is set.
      * 
-     * @return Returns the true field of view of the scope, or <code>NULL</code> if
-     *         the value was never set.
+     * @return Returns the true field of view of the scope, or <code>NULL</code> if the value was never set.
      */
+    @Override
     public Angle getTrueFieldOfView() {
 
         return this.trueFieldOfView;
@@ -856,16 +821,17 @@ public class Scope extends SchemaElement implements IScope {
      * Returns the scopes picture vertical orientation.
      * 
      * @return <b>true</b> if the scopes picture is errected
-     * @throws IllegalStateException if orientation was not set by the user, so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
+    @Override
     public boolean isOrientationErected() throws IllegalStateException {
 
         if (this.orientation_Erect == -1) {
             throw new IllegalStateException("Orientation was never set. ");
         }
 
-        return (this.orientation_Erect == 1) ? true : false;
+        return this.orientation_Erect == 1;
 
     }
 
@@ -874,28 +840,29 @@ public class Scope extends SchemaElement implements IScope {
      * Returns the scopes picture horizontal orientation.
      * 
      * @return <b>true</b> if the scopes picture is truesided
-     * @throws IllegalStateException if orientation was not set by the user, so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
+    @Override
     public boolean isOrientationTruesided() throws IllegalStateException {
 
         if (this.orientation_Truesided == -1) {
             throw new IllegalStateException("Orientation was never set. ");
         }
 
-        return (this.orientation_Truesided == 1) ? true : false;
+        return this.orientation_Truesided == 1;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Returns the magnification of the scope.<br>
-     * This value might return <code>Float.NaN</code> in case the magnification is
-     * not set for this scope. In that case the focal length must return a value.
+     * This value might return <code>Float.NaN</code> in case the magnification is not set for this scope. In that case
+     * the focal length must return a value.
      * 
-     * @return Returns the magnification of the scope, or Float.NaN if the value
-     *         does not suit this scope
+     * @return Returns the magnification of the scope, or Float.NaN if the value does not suit this scope
      */
+    @Override
     public float getMagnification() {
 
         return magnification;
@@ -908,6 +875,7 @@ public class Scope extends SchemaElement implements IScope {
      * 
      * @return Returns the model name of the scope
      */
+    @Override
     public String getModel() {
 
         return model;
@@ -930,28 +898,32 @@ public class Scope extends SchemaElement implements IScope {
      * 
      * This method might return <code>null</code> if the type was never set.
      * 
-     * @return Returns the scope type, or <code>null</code> if the type was never
-     *         set.
+     * @return Returns the scope type, or <code>null</code> if the type was never set.
      */
+    @Override
     public String getType() {
 
         if (type != null) {
-            if ("A".equals(type)) {
+            switch (type) {
+            case "A":
                 return "Naked eye";
-            } else if ("B".equals(type)) {
+            case "B":
                 return "Binoculars";
-            } else if ("N".equals(type)) {
+            case "N":
                 return "Newton";
-            } else if ("R".equals(type)) {
+            case "R":
                 return "Refractor";
-            } else if ("C".equals(type)) {
+            case "C":
                 return "Cassegrain";
-            } else if ("S".equals(type)) {
+            case "S":
                 return "Schmidt-Cassegrain";
-            } else if ("K".equals(type)) {
+            case "K":
                 return "Kutter";
-            } else if ("M".equals(type)) {
+            case "M":
                 return "Maksutov";
+            default:
+                return type;
+
             }
         }
 
@@ -965,9 +937,9 @@ public class Scope extends SchemaElement implements IScope {
      * E.g. Celestron, TeleVue, Meade, Vixen...<br>
      * This method might return <code>null</code> if the vendor was never set.
      * 
-     * @return Returns the scope's vendor name, or <code>null</code> if the type was
-     *         never set.
+     * @return Returns the scope's vendor name, or <code>null</code> if the type was never set.
      */
+    @Override
     public String getVendor() {
 
         return vendor;
@@ -979,10 +951,12 @@ public class Scope extends SchemaElement implements IScope {
      * Sets the aperture of the scope.<br>
      * The aperture must be a positive float value.
      * 
-     * @param aperture The new aperture of the scope
-     * @throws IllegalArgumentException if the given aperture is smaller or equal
-     *                                  0.0 or if the aperture is Float.NaN
+     * @param aperture
+     *            The new aperture of the scope
+     * @throws IllegalArgumentException
+     *             if the given aperture is smaller or equal 0.0 or if the aperture is Float.NaN
      */
+    @Override
     public void setAperture(float aperture) throws IllegalArgumentException {
 
         if (Float.isNaN(aperture)) {
@@ -1000,18 +974,18 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Sets the focal length of the scope.<br>
-     * Throws IllegalArgumentException if the given parameter is Float.NaN and
-     * magnification is not set. This mechanism should prevent that both values
-     * contain an invalid value at the same time. Either focal length <b>or</b>
-     * magnification must be set. Also if the new focal Length is smaller or equal
-     * 0.0 a IllegalArgumentException is thrown.
+     * Throws IllegalArgumentException if the given parameter is Float.NaN and magnification is not set. This mechanism
+     * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
+     * magnification must be set. Also if the new focal Length is smaller or equal 0.0 a IllegalArgumentException is
+     * thrown.
      * 
-     * @param focalLength The new focal length of the scope
-     * @throws IllegalArgumentException if the given focal length is smaller or
-     *                                  equal 0.0 or if the new focal length is
-     *                                  Float.NaN while magnification is also
-     *                                  Float.NaN. Or magnification is already set.
+     * @param focalLength
+     *            The new focal length of the scope
+     * @throws IllegalArgumentException
+     *             if the given focal length is smaller or equal 0.0 or if the new focal length is Float.NaN while
+     *             magnification is also Float.NaN. Or magnification is already set.
      */
+    @Override
     public void setFocalLength(float focalLength) throws IllegalArgumentException {
 
         if ((Float.isNaN(focalLength)) && (Float.isNaN(magnification))) {
@@ -1032,37 +1006,35 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Sets the light grasp value of the scope.<br>
-     * The light grasp must be a positive float value between 0.0 and 1.0 (including
-     * 0.0 and 1.0).
+     * The light grasp must be a positive float value between 0.0 and 1.0 (including 0.0 and 1.0).
      * 
-     * @param lightGrasp The new light grasp value of the scope
-     * @return <b>true</b> if new lightGrasp value could be set. If <b>false</b> is
-     *         returned the new lightGrasp value was < 0.0 or > 1.0.
+     * @param lightGrasp
+     *            The new light grasp value of the scope
      */
-    public boolean setLightGrasp(float lightGrasp) {
+    @Override
+    public void setLightGrasp(float lightGrasp) {
 
         if ((lightGrasp < 0.0) || (lightGrasp > 1.0)) {
-            return false;
+            return;
         }
 
         this.lightGrasp = lightGrasp;
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Sets the magnification of the scope.<br>
-     * Throws IllegalArgumentException if the given parameter is Float.NaN and focal
-     * length is not set. This mechanism should prevent that both values contain an
-     * invalid value at the same time. Either focal length <b>or</b> magnification
-     * must be set.
+     * Throws IllegalArgumentException if the given parameter is Float.NaN and focal length is not set. This mechanism
+     * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
+     * magnification must be set.
      * 
-     * @param magnification The new magnification value of the scope
-     * @throws IllegalArgumentException if the given focal length is Float.NaN while
-     *                                  focal length is not set. Or focal length is
-     *                                  already set.
+     * @param magnification
+     *            The new magnification value of the scope
+     * @throws IllegalArgumentException
+     *             if the given focal length is Float.NaN while focal length is not set. Or focal length is already set.
      */
+    @Override
     public void setMagnification(float magnification) throws IllegalArgumentException {
 
         if ((Float.isNaN(magnification)) && (Float.isNaN(focalLength))) {
@@ -1079,9 +1051,12 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Sets the true field of view, if magnification is given.<br>
      * 
-     * @param tfov The true field of view of the scope
-     * @throws IllegalArgumentException if focal length is set.
+     * @param tfov
+     *            The true field of view of the scope
+     * @throws IllegalArgumentException
+     *             if focal length is set.
      */
+    @Override
     public void setTrueFieldOfView(Angle tfov) throws IllegalArgumentException {
 
         if (!Float.isNaN(this.focalLength)) {
@@ -1098,9 +1073,12 @@ public class Scope extends SchemaElement implements IScope {
      * Sets the model name of the scope.<br>
      * The model name cannot be <code>null</code>.
      * 
-     * @param model The new model name of the scope
-     * @throws IllegalArgumentException if the given model name is <code>null</code>
+     * @param model
+     *            The new model name of the scope
+     * @throws IllegalArgumentException
+     *             if the given model name is <code>null</code>
      */
+    @Override
     public void setModel(String model) throws IllegalArgumentException {
 
         if (model == null) {
@@ -1114,18 +1092,18 @@ public class Scope extends SchemaElement implements IScope {
     // -------------------------------------------------------------------
     /**
      * Sets the type of the scope.<br>
-     * E.g. Newton, Reflector, Binocular... The type is optional but should be given
-     * if known!<br>
-     * When applicable, the following coding (according to the DSL) should be
-     * used:<br>
+     * E.g. Newton, Reflector, Binocular... The type is optional but should be given if known!<br>
+     * When applicable, the following coding (according to the DSL) should be used:<br>
      * A: Naked eye C: Cassegrain<br>
      * B: Binoculars S: Schmidt-Cassegrain<br>
      * N: Newton K: Kutter (Schiefspiegler)<br>
      * R: Refractor M: Maksutov <br>
      * <br>
      * 
-     * @param type The new type of the scope
+     * @param type
+     *            The new type of the scope
      */
+    @Override
     public void setType(String type) {
 
         if ((type != null) && ("".equals(type.trim()))) {
@@ -1141,8 +1119,10 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Sets the vendor name of the scope.<br>
      * 
-     * @param vendor The new vendor name of the scope
+     * @param vendor
+     *            The new vendor name of the scope
      */
+    @Override
     public void setVendor(String vendor) {
 
         if ((vendor != null) && ("".equals(vendor.trim()))) {
@@ -1158,9 +1138,12 @@ public class Scope extends SchemaElement implements IScope {
     /**
      * Sets the orientation of the scope.<br>
      * 
-     * @param errected  <code>true</code> if the scope produces errected pictures
-     * @param truesided <code>true</code> if the scope produces truesided pictures
+     * @param errected
+     *            <code>true</code> if the scope produces errected pictures
+     * @param truesided
+     *            <code>true</code> if the scope produces truesided pictures
      */
+    @Override
     public void setOrientation(boolean errected, boolean truesided) {
 
         if (errected) {

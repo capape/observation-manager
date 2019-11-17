@@ -20,12 +20,11 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * The abstract class Target provides some common features that may be used by
- * the subclasses of an de.lehmannet.om.ITarget.<br>
- * The Target class stores the name, alias names and the position of an
- * astronomical object. It also provides some basic access methods for these
- * attributes. Additionally It implements a basic XML DOM helper method that may
- * be used by all subclasses that have to implement the ITarget interface.
+ * The abstract class Target provides some common features that may be used by the subclasses of an
+ * de.lehmannet.om.ITarget.<br>
+ * The Target class stores the name, alias names and the position of an astronomical object. It also provides some basic
+ * access methods for these attributes. Additionally It implements a basic XML DOM helper method that may be used by all
+ * subclasses that have to implement the ITarget interface.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -44,10 +43,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     // ------------------
 
     // Name of the astronomical object
-    private String name = new String();
+    private String name = "";
 
     // Alternative names of the astronomical object
-    private List aliasNames = new LinkedList();
+    private final List aliasNames = new LinkedList();
 
     // Celestial position of the astronomical object
     private EquPosition position = null;
@@ -72,19 +71,20 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a Target from a given DOM target Element.<br>
-     * Normally this constructor is called by a child class which itself was called
-     * by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is
-     * set, a array with Observers must be passed to check, whether the <observer>
+     * Normally this constructor is called by a child class which itself was called by
+     * de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be passed to check, whether the <observer>
      * link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    protected Target(Node targetElement, IObserver[] observers) throws SchemaException {
+    protected Target(Node targetElement, IObserver... observers) throws SchemaException {
 
         if (targetElement == null) {
             throw new SchemaException("Given element is NULL. ");
@@ -108,7 +108,7 @@ public abstract class Target extends SchemaElement implements ITarget {
             throw new SchemaException("Target must have exact one name. ");
         }
         child = (Element) children.item(0);
-        String name = "";
+        StringBuilder name = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Target must have a name. ");
         } else {
@@ -117,9 +117,9 @@ public abstract class Target extends SchemaElement implements ITarget {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        name = name + textElements.item(te).getNodeValue();
+                        name.append(textElements.item(te).getNodeValue());
                     }
-                    this.setName(name);
+                    this.setName(name.toString());
                 }
             } else {
                 throw new SchemaException("Target cannot have an empty name. ");
@@ -130,18 +130,18 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         // Get datasource or observer
         children = target.getElementsByTagName(ITarget.XML_ELEMENT_DATASOURCE);
-        String datasource = null;
+        StringBuilder datasource = null;
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
                 // datasource = child.getFirstChild().getNodeValue();
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
-                    datasource = "";
+                    datasource = new StringBuilder();
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        datasource = datasource + textElements.item(te).getNodeValue();
+                        datasource.append(textElements.item(te).getNodeValue());
                     }
-                    this.setDatasource(datasource);
+                    this.setDatasource(datasource.toString());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("Target can only have one datasource entry. ");
@@ -157,14 +157,14 @@ public abstract class Target extends SchemaElement implements ITarget {
                 if ((observers != null) && (observers.length > 0)) {
                     // Check if observer exists
                     boolean found = false;
-                    for (int j = 0; j < observers.length; j++) {
-                        if (observers[j].getID().equals(observerID)) {
+                    for (IObserver iObserver : observers) {
+                        if (iObserver.getID().equals(observerID)) {
                             found = true;
-                            this.setObserver(observers[j]);
+                            this.setObserver(iObserver);
                             break;
                         }
                     }
-                    if (found == false) {
+                    if (!found) {
                         throw new SchemaException("Target observer links to not existing observer element. ");
                     }
                 } else {
@@ -185,15 +185,15 @@ public abstract class Target extends SchemaElement implements ITarget {
         if ((children != null) && (children.getLength() >= 1)) {
             for (int j = 0; j < children.getLength(); j++) {
                 child = (Element) children.item(j);
-                String aliasNameEntry = "";
+                StringBuilder aliasNameEntry = new StringBuilder();
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        aliasNameEntry = aliasNameEntry + textElements.item(te).getNodeValue();
+                        aliasNameEntry.append(textElements.item(te).getNodeValue());
                     }
-                    this.addAliasName(aliasNameEntry);
+                    this.addAliasName(aliasNameEntry.toString());
                 }
-//                    this.addAliasName(children.item(j).getFirstChild().getNodeValue());
+                // this.addAliasName(children.item(j).getFirstChild().getNodeValue());
             }
         }
 
@@ -215,7 +215,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         // Get optional constellation
         children = target.getElementsByTagName(ITarget.XML_ELEMENT_CONSTELLATION);
-        String constellation = "";
+        StringBuilder constellation = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -223,9 +223,9 @@ public abstract class Target extends SchemaElement implements ITarget {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        constellation = constellation + textElements.item(te).getNodeValue();
+                        constellation.append(textElements.item(te).getNodeValue());
                     }
-                    this.setConstellation(constellation);
+                    this.setConstellation(constellation.toString());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("Target can only have one constellation. ");
@@ -234,16 +234,16 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         // Get optional notes
         children = target.getElementsByTagName(ITarget.XML_ELEMENT_NOTES);
-        String notes = "";
+        StringBuilder notes = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        notes = notes + textElements.item(te).getNodeValue();
+                        notes.append(textElements.item(te).getNodeValue());
                     }
-                    this.setNotes(notes);
+                    this.setNotes(notes.toString());
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException("Target can only have one notes element. ");
@@ -256,10 +256,12 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Protected Constructor used by subclasses construction.
      * 
-     * @param name       The name of the astronomical object
-     * @param datasource The datasource which is the origin of the astronomical
-     *                   object
-     * @throws IllegalArgumentException if name or datasource was <code>null</code>
+     * @param name
+     *            The name of the astronomical object
+     * @param datasource
+     *            The datasource which is the origin of the astronomical object
+     * @throws IllegalArgumentException
+     *             if name or datasource was <code>null</code>
      */
     protected Target(String name, String datasource) throws IllegalArgumentException {
 
@@ -281,10 +283,12 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Protected Constructor used by subclasses construction.
      * 
-     * @param name     The name of the astronomical object
-     * @param observer The observer which is the originator of the astronomical
-     *                 object
-     * @throws IllegalArgumentException if name or observer was <code>null</code>
+     * @param name
+     *            The name of the astronomical object
+     * @param observer
+     *            The observer which is the originator of the astronomical object
+     * @throws IllegalArgumentException
+     *             if name or observer was <code>null</code>
      */
     protected Target(String name, IObserver observer) throws IllegalArgumentException {
 
@@ -309,11 +313,9 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -332,25 +334,23 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Target and the given Object are equal. The given object is
-     * equal with this Target, if it derives from ITarget, both XSI types are equal,
-     * the datasource or observer is equal and its name is equal to this Target
+     * Checks if this Target and the given Object are equal. The given object is equal with this Target, if it derives
+     * from ITarget, both XSI types are equal, the datasource or observer is equal and its name is equal to this Target
      * name.<br>
-     * Please note, that no checks on the alias names is done. So e.g. M13 and
-     * NGC6205 are NOT equal. (Even if they come from the same
-     * catalog/datasource/observer)
+     * Please note, that no checks on the alias names is done. So e.g. M13 and NGC6205 are NOT equal. (Even if they come
+     * from the same catalog/datasource/observer)
      * 
-     * @param obj The Object to compare this Target with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both
-     *         XSI types are equal, the datasource or observer is equal and its name
-     *         is equal to this Target name.<br>
+     * @param obj
+     *            The Object to compare this Target with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal, the datasource
+     *         or observer is equal and its name is equal to this Target name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
      * @see java.lang.Object
      */
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ITarget)) {
+        if (!(obj instanceof ITarget)) {
             return false;
         }
 
@@ -384,12 +384,8 @@ public abstract class Target extends SchemaElement implements ITarget {
             return false;
         }
 
-        if ((this.getName().toLowerCase().equals(targetName.toLowerCase()))
-                && (this.getXSIType()).equals(target.getXSIType())) {
-            return true;
-        }
-
-        return false;
+        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
+                && (this.getXSIType()).equals(target.getXSIType());
 
     }
 
@@ -400,20 +396,17 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Returns true if the given object is an instance of ITarget<br>
-     * and the given objects SchmemaElement.getID() returns the same string as this
-     * objects getID() method. This method is required in the deletion of elements,
-     * and equal to the equals() method in all other SchemaElements (they do only a
-     * check on the ID)
+     * and the given objects SchmemaElement.getID() returns the same string as this objects getID() method. This method
+     * is required in the deletion of elements, and equal to the equals() method in all other SchemaElements (they do
+     * only a check on the ID)
      * 
-     * @return Returns <b>true</b> if this Targets ID is equal to the given objects
-     *         ID
+     * @return Returns <b>true</b> if this Targets ID is equal to the given objects ID
      */
+    @Override
     public boolean equalsID(Object o) {
 
         if (o instanceof ITarget) {
-            if (this.getID().equals(((ITarget) o).getID())) {
-                return true;
-            }
+            return this.getID().equals(((ITarget) o).getID());
         }
 
         return false;
@@ -422,23 +415,21 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
-    public abstract Element addToXmlElement(Element element);
+    @Override
+    public abstract void addToXmlElement(Element element);
 
     // -------------------------------------------------------------------
     /**
-     * Adds the target link to an given XML DOM Element The target element itself
-     * will be attached to given elements ownerDocument if the passed boolean was
-     * <code>true</code>. If the ownerDocument has no target container, it will be
-     * created (in case the passed boolean was <code>true</code>).<br>
+     * Adds the target link to an given XML DOM Element The target element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no target container, it will
+     * be created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
@@ -451,28 +442,28 @@ public abstract class Target extends SchemaElement implements ITarget {
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
      * 
-     * @param parent                The element under which the the target link is
-     *                              created
-     * @param xmlElementName        The name of the element that contains the link
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional target link,
-     *         and the target element under the target container of the
-     *         ownerDocument Might return <code>null</code> if element was
-     *         <code>null</code>.
+     * @param pxmlElementName
+     *            The name of the element that contains the link
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional target link, and the target element under the
+     *         target container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
-    public Element addAsLinkToXmlElement(Element element, String xmlElementName, boolean addElementToContainer) {
+    @Override
+    public Element addAsLinkToXmlElement(Element element, String pxmlElementName, boolean addElementToContainer) {
 
         if (element == null) {
             return null;
         }
 
-        if ((xmlElementName == null) || ("".equals(xmlElementName.trim()))) {
+        String xmlElementName;
+        if ((pxmlElementName == null) || ("".equals(pxmlElementName.trim()))) {
             xmlElementName = ITarget.XML_ELEMENT_TARGET;
+        } else {
+            xmlElementName = pxmlElementName;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -503,22 +494,24 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the target link to an given XML DOM Element The target element itself
-     * will <b>NOT</b> be attached to given elements ownerDocument. Calling this
-     * method is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the target link to an given XML DOM Element The target element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element        The element under which the the target link is created
-     * @param xmlElementName The name of the element that contains the link
-     * @return Returns the Element given as parameter with a additional target link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the target link is created
+     * @param xmlElementName
+     *            The name of the element that contains the link
+     * @return Returns the Element given as parameter with a additional target link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, String xmlElementName) {
 
         return this.addAsLinkToXmlElement(element, xmlElementName, false);
@@ -527,14 +520,14 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     // -------------------------------------------------------------------
     /**
-     * Adds a new alias name to the Target e.g. name = M42 ; alias name = "Great
-     * Orion Nebulae"
+     * Adds a new alias name to the Target e.g. name = M42 ; alias name = "Great Orion Nebulae"
      * 
-     * @param newAliasName A new alias name
-     * @return Returns <code>true</code> if the alias name could be added. If
-     *         <code>false</code> is returned the new alias was <code>null</code> or
-     *         an empty String.
+     * @param newAliasName
+     *            A new alias name
+     * @return Returns <code>true</code> if the alias name could be added. If <code>false</code> is returned the new
+     *         alias was <code>null</code> or an empty String.
      */
+    @Override
     public boolean addAliasName(String newAliasName) {
 
         if (newAliasName == null || "".equals(newAliasName)) {
@@ -550,13 +543,14 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Sets an array of new alias names to this target.<br>
-     * All current aliasNames will be deleted! If you want to add alias names
-     * without deleting the existing ones, please use Target.addAliasNames(String)
-     * or Target.addAliasName(String).<br>
+     * All current aliasNames will be deleted! If you want to add alias names without deleting the existing ones, please
+     * use Target.addAliasNames(String) or Target.addAliasName(String).<br>
      * If <code>null</code> is passed, the given alias names are deleted.
      * 
-     * @param newAliasNames An array with new alias name
+     * @param newAliasNames
+     *            An array with new alias name
      */
+    @Override
     public void setAliasNames(String[] newAliasNames) {
 
         if ((newAliasNames == null) || (newAliasNames.length == 0)) {
@@ -567,11 +561,11 @@ public abstract class Target extends SchemaElement implements ITarget {
         this.aliasNames.clear();
 
         // Make sure only valid names can be set
-        for (int i = 0; i < newAliasNames.length; i++) {
-            if ((newAliasNames[i] == null) || (newAliasNames[i].trim().equals(""))) {
+        for (String newAliasName : newAliasNames) {
+            if ((newAliasName == null) || (newAliasName.trim().equals(""))) {
                 continue;
             }
-            this.aliasNames.add(newAliasNames[i]);
+            this.aliasNames.add(newAliasName);
         }
 
     }
@@ -580,12 +574,12 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Returns all alias names.<br>
      * 
-     * @return Returns a String array with all alias names. If no alias names were
-     *         set <code>null</code> is returned.
+     * @return Returns a String array with all alias names. If no alias names were set <code>null</code> is returned.
      */
+    @Override
     public String[] getAliasNames() {
 
-        if (aliasNames.size() == 0) {
+        if (aliasNames.isEmpty()) {
             return null;
         }
 
@@ -593,11 +587,10 @@ public abstract class Target extends SchemaElement implements ITarget {
         /*
          * String[] result = new String[aliasNames.size()];
          * 
-         * int i = 0; ListIterator iterator = aliasNames.listIterator(); String next =
-         * null; while( iterator.hasNext() ) { next = (String)iterator.next();
+         * int i = 0; ListIterator iterator = aliasNames.listIterator(); String next = null; while( iterator.hasNext() )
+         * { next = (String)iterator.next();
          * 
-         * // Make aliasNames homogeneous // next = next.trim(); // next =
-         * next.toUpperCase();
+         * // Make aliasNames homogeneous // next = next.trim(); // next = next.toUpperCase();
          * 
          * result[i++] = next; }
          * 
@@ -609,12 +602,13 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Removes a alias name from the target.<br>
      * 
-     * @param aliasName The alias name that should be removed
-     * @return Returns <code>true</code> if the alias name could be removed from the
-     *         target. If <code>false</code> is returned the given alias name could
-     *         not be found in the targets alias name list or the parameter was
+     * @param aliasName
+     *            The alias name that should be removed
+     * @return Returns <code>true</code> if the alias name could be removed from the target. If <code>false</code> is
+     *         returned the given alias name could not be found in the targets alias name list or the parameter was
      *         <code>null<code> or contained a empty string.
      */
+    @Override
     public boolean removeAliasName(String aliasName) {
 
         if (aliasName == null || "".equals(aliasName)) {
@@ -633,11 +627,11 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Returns the name of the target.<br>
-     * The name should clearly identify the astronomical object. Use alias names for
-     * colloquial names of the object.
+     * The name should clearly identify the astronomical object. Use alias names for colloquial names of the object.
      * 
      * @return Returns the name of the astronomical object
      */
+    @Override
     public String getName() {
 
         // Make name homogeneous
@@ -655,6 +649,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * 
      * @return The celestial constellation
      */
+    @Override
     public Constellation getConstellation() {
 
         return this.constellation;
@@ -665,8 +660,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
-     * @param constellation The celestial constellation of the target
+     * @param constellation
+     *            The celestial constellation of the target
      */
+    @Override
     public void setConstellation(String constellation) {
 
         this.constellation = Constellation.getInstance(constellation);
@@ -677,8 +674,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
-     * @param constellation The celestial constellation of the target
+     * @param constellation
+     *            The celestial constellation of the target
      */
+    @Override
     public void setConstellation(Constellation constellation) {
 
         this.constellation = constellation;
@@ -688,14 +687,15 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Sets the name of the target.<br>
-     * The name should clearly identify the astronomical object. For alternative
-     * names of the object add a new alias name.<br>
-     * If a name is already set to the target, the old name will be overwritten with
-     * new new name.
+     * The name should clearly identify the astronomical object. For alternative names of the object add a new alias
+     * name.<br>
+     * If a name is already set to the target, the old name will be overwritten with new new name.
      * 
      * @return The name of the target
-     * @throws IllegalArgumentException if name was <code>null</code>
+     * @throws IllegalArgumentException
+     *             if name was <code>null</code>
      */
+    @Override
     public void setName(String name) throws IllegalArgumentException {
 
         if (name == null) {
@@ -709,12 +709,13 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Returns the position of the target.<br>
-     * The position of the target describes the location of the astronomical object
-     * in any popular celestial coordination system.
+     * The position of the target describes the location of the astronomical object in any popular celestial
+     * coordination system.
      * 
-     * @return The celestial position of the astronomical object Might return
-     *         <code>null</code> if position was never set.
+     * @return The celestial position of the astronomical object Might return <code>null</code> if position was never
+     *         set.
      */
+    @Override
     public EquPosition getPosition() {
 
         return position;
@@ -725,10 +726,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Returns the observer who is the originator of the target.<br>
      * 
-     * @return The observer who is the originator of this target. Might return
-     *         <code>null</code> if observer was never set. (In this case a
-     *         dataSource must exist)
+     * @return The observer who is the originator of this target. Might return <code>null</code> if observer was never
+     *         set. (In this case a dataSource must exist)
      */
+    @Override
     public IObserver getObserver() {
 
         return this.observer;
@@ -739,10 +740,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Returns the datasource which is the origin of the target.<br>
      * 
-     * @return The datasource which is the origin of this target Might return
-     *         <code>null</code> if datasource was never set. (In this case a
-     *         observer must exist)
+     * @return The datasource which is the origin of this target Might return <code>null</code> if datasource was never
+     *         set. (In this case a observer must exist)
      */
+    @Override
     public String getDatasource() {
 
         return this.dataSource;
@@ -752,12 +753,13 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Sets the position of the target.<br>
-     * The position of the target describes the location of the astronomical object
-     * in a popular celestial coordination system.
+     * The position of the target describes the location of the astronomical object in a popular celestial coordination
+     * system.
      * 
-     * @param position The position of the astronomical object in a popular
-     *                 coordination system
+     * @param position
+     *            The position of the astronomical object in a popular coordination system
      */
+    @Override
     public void setPosition(EquPosition position) {
 
         this.position = position;
@@ -768,8 +770,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Sets the datasource of the target.<br>
      * 
-     * @param datasource The datasource of the astronomical object
+     * @param datasource
+     *            The datasource of the astronomical object
      */
+    @Override
     public void setDatasource(String datasource) {
 
         if (datasource != null) {
@@ -783,8 +787,10 @@ public abstract class Target extends SchemaElement implements ITarget {
     /**
      * Sets the observer who is the originator of the target.<br>
      * 
-     * @param observer The observer who is the originator of this target
+     * @param observer
+     *            The observer who is the originator of this target
      */
+    @Override
     public void setObserver(IObserver observer) {
 
         if (observer != null) {
@@ -801,6 +807,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * 
      * @return Notes on the target or <code>null</code> if no notes were set
      */
+    @Override
     public String getNotes() {
 
         return this.notes;
@@ -810,11 +817,12 @@ public abstract class Target extends SchemaElement implements ITarget {
     // -------------------------------------------------------------------
     /**
      * Sets additional notes to the target.<br>
-     * Additional notes can be used to add any additional textual information to the
-     * target.
+     * Additional notes can be used to add any additional textual information to the target.
      * 
-     * @param notes Additional notes
+     * @param notes
+     *            Additional notes
      */
+    @Override
     public void setNotes(String notes) {
 
         this.notes = notes;
@@ -827,11 +835,9 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     // -------------------------------------------------------------------
     /**
-     * Creates an XML DOM Element for the Target. The new Target element will be
-     * added as child element to an given parent element. The given parent element
-     * should be the target container. All specialised subclasses may use this
-     * method to create a Target element under which they may store their addition
-     * data.<br>
+     * Creates an XML DOM Element for the Target. The new Target element will be added as child element to an given
+     * parent element. The given parent element should be the target container. All specialised subclasses may use this
+     * method to create a Target element under which they may store their addition data.<br>
      * Example:<br>
      * &lt;targetContainer&gt;<br>
      * &lt;target&gt;<br>
@@ -839,10 +845,10 @@ public abstract class Target extends SchemaElement implements ITarget {
      * &lt;/target&gt;<br>
      * &lt;/targetContainer&gt;
      * 
-     * @param parent The target container element
-     * @return Returns the new created target element (which is a child of the
-     *         passed container element) Might return <code>null</code> if parent
-     *         was <code>null</code>.
+     * @param parent
+     *            The target container element
+     * @return Returns the new created target element (which is a child of the passed container element) Might return
+     *         <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
     protected Element createXmlTargetElement(Element parent) {
@@ -873,7 +879,7 @@ public abstract class Target extends SchemaElement implements ITarget {
         e_Name.appendChild(n_NameText);
         e_Target.appendChild(e_Name);
 
-        if (aliasNames.size() != 0) {
+        if (!aliasNames.isEmpty()) {
 
             Element e_Alias = null;
             ListIterator iterator = aliasNames.listIterator();
@@ -950,24 +956,22 @@ public abstract class Target extends SchemaElement implements ITarget {
         // Correct old solar system entries
         if (this.dataSource.endsWith("SolarSystem Extension")) {
             this.dataSource = "ObservationManager - SolarSystem Catalog 1.0";
-            return;
         }
 
     }
 
     // --------------
-    // Public methods ----------------------------------------------------
+    // @Override public methods ----------------------------------------------------
     // --------------
 
     // -------------------------------------------------------------------
     /**
      * Adds a comma seperated list of new alias names to the Target.<br>
      * 
-     * @param aliasNames Comma seperated list with alternative names of the
-     *                   astronomical object
-     * @return Returns <code>true</code> if all alias names of the list could be
-     *         added. If <code>false</code> is returned the new alias was
-     *         <code>null</code>.
+     * @param aliasNames
+     *            Comma seperated list with alternative names of the astronomical object
+     * @return Returns <code>true</code> if all alias names of the list could be added. If <code>false</code> is
+     *         returned the new alias was <code>null</code>.
      */
     public boolean addAliasNames(String aliasNames) {
 

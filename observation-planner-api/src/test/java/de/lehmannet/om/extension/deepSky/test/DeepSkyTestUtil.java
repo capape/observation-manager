@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.extension.deepSky.test;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import de.lehmannet.om.Angle;
@@ -40,7 +41,7 @@ import de.lehmannet.om.extension.imaging.CCDImager;
 /**
  * Simple Utility class for testing
  */
-public class DeepSkyTestUtil {
+class DeepSkyTestUtil {
 
     private ITarget target1 = null;
     private ITarget target2 = null;
@@ -86,19 +87,16 @@ public class DeepSkyTestUtil {
 
     public IObservation createDeepSkyObservation() {
 
-        IObservation observation = new Observation(new GregorianCalendar(2004, 01, 01, 22, 00),
-                new GregorianCalendar(2004, 01, 01, 22, 10), 5.0f,
-                new SurfaceBrightness(19.5f, SurfaceBrightness.MAGS_SQR_ARC_SEC), 4, 70.3f, target1, observer1, site1,
-                scope1, "Narrow Band Filter", eyepiece1, filter1, imager, lens1, session, finding1);
-
-        return observation;
+        return new Observation(new GregorianCalendar(2004, 1, 1, 22, 0), new GregorianCalendar(2004, 1, 1, 22, 10),
+                5.0f, new SurfaceBrightness(19.5f, SurfaceBrightness.MAGS_SQR_ARC_SEC), 4, 70.3f, target1, observer1,
+                site1, scope1, "Narrow Band Filter", eyepiece1, filter1, imager, lens1, session, finding1);
 
     }
 
     public IObservation createDeepSkyObservation2() {
 
-        IObservation observation = new Observation(new GregorianCalendar(2004, 01, 01, 22, 15),
-                new GregorianCalendar(2004, 01, 01, 22, 30), 5.0f,
+        IObservation observation = new Observation(new GregorianCalendar(2004, Calendar.FEBRUARY, 1, 22, 15),
+                new GregorianCalendar(2004, Calendar.FEBRUARY, 1, 22, 30), 5.0f,
                 new SurfaceBrightness(14.7f, SurfaceBrightness.MAGS_SQR_ARC_SEC), 2, 150.0f, target2, observer1, site2,
                 scope1, "OIII Filter", eyepiece2, filter1, imager, lens1, session, finding3);
 
@@ -110,8 +108,8 @@ public class DeepSkyTestUtil {
 
     public IObservation createDeepSkyObservation3() {
 
-        IObservation observation = new Observation(new GregorianCalendar(2004, 01, 02, 22, 00),
-                new GregorianCalendar(2004, 01, 02, 22, 30), target3, observer2, finding3);
+        IObservation observation = new Observation(new GregorianCalendar(2004, Calendar.FEBRUARY, 2, 22, 0),
+                new GregorianCalendar(2004, Calendar.FEBRUARY, 2, 22, 30), target3, observer2, finding3);
 
         observation.setScope(scope2);
 
@@ -119,47 +117,47 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IFinding createFinding() {
+    private IFinding createFinding() {
 
         DeepSkyFinding finding = new DeepSkyFinding("Looks twisted", 3);
 
-        finding.setMottled(new Boolean(false));
-        finding.setResolved(new Boolean(true));
-        finding.setStellar(new Boolean(false));
+        finding.setMottled(Boolean.FALSE);
+        finding.setResolved(Boolean.TRUE);
+        finding.setStellar(Boolean.FALSE);
         finding.setLargeDiameter(new Angle(10, Angle.ARCSECOND));
 
         return finding;
 
     }
 
-    public IFinding createThirdFinding() {
+    private IFinding createThirdFinding() {
 
         DeepSkyFinding finding = new DeepSkyFinding("Wow!", 4);
 
-        finding.setResolved(new Boolean(true));
-        finding.setStellar(new Boolean(false));
+        finding.setResolved(Boolean.TRUE);
+        finding.setStellar(Boolean.FALSE);
         finding.setLargeDiameter(new Angle(10, Angle.ARCSECOND));
 
         return finding;
 
     }
 
-    public IFinding createSecondFinding() {
+    private IFinding createSecondFinding() {
 
         DeepSkyFinding finding = new DeepSkyFinding("Hey there're two!", 3);
 
-        finding.setMottled(new Boolean(false));
-        finding.setResolved(new Boolean(false));
+        finding.setMottled(Boolean.FALSE);
+        finding.setResolved(Boolean.FALSE);
         finding.setSmallDiameter(new Angle(7, Angle.ARCSECOND));
 
         return finding;
 
     }
 
-    public ISession createSession() {
+    private ISession createSession() {
 
-        ISession session = new Session(new GregorianCalendar(2004, 01, 01, 22, 00),
-                new GregorianCalendar(2004, 01, 01, 23, 30), this.site1);
+        ISession session = new Session(new GregorianCalendar(2004, Calendar.FEBRUARY, 1, 22, 0),
+                new GregorianCalendar(2004, Calendar.FEBRUARY, 1, 23, 30), this.site1);
 
         session.addCoObserver(observer1);
         session.setComments("That was fun!");
@@ -170,7 +168,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IEyepiece createEyepiece() {
+    private IEyepiece createEyepiece() {
 
         IEyepiece eyepiece = new Eyepiece("Nagler", 31);
 
@@ -180,7 +178,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IEyepiece createSecondEyepiece() {
+    private IEyepiece createSecondEyepiece() {
 
         IEyepiece eyepiece = new Eyepiece("Speers Waler", 10);
 
@@ -190,7 +188,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IFilter createFilter() {
+    private IFilter createFilter() {
 
         IFilter filter = new Filter("Meade Narrowband", IFilter.FILTER_TYPE_COLOR);
 
@@ -200,37 +198,31 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IScope createScope() {
+    private IScope createScope() {
 
-        IScope scope = new Scope("Meade Starfinder 10\"", 254, 1140);
-
-        return scope;
+        return new Scope("Meade Starfinder 10\"", 254, 1140);
 
     }
 
-    public IScope createSecondScope() {
+    private IScope createSecondScope() {
 
-        IScope scope = new Scope(50f, 10f, "Nikon 10x50 CF");
-
-        return scope;
+        return new Scope(50f, 10f, "Nikon 10x50 CF");
 
     }
 
-    public IImager createFirstImager() {
+    private IImager createFirstImager() {
 
         return new CCDImager("ToUCam", 800, 640);
 
     }
 
-    public ISite createSite() {
+    private ISite createSite() {
 
-        ISite site = new Site("Wehrheim", new Angle(8.567, Angle.DEGREE), new Angle(50.3, Angle.DEGREE), 2);
-
-        return site;
+        return new Site("Wehrheim", new Angle(8.567, Angle.DEGREE), new Angle(50.3, Angle.DEGREE), 2);
 
     }
 
-    public ISite createSecondSite() {
+    private ISite createSecondSite() {
 
         ISite site = new Site("Dossenheim", new Angle(8.657, Angle.DEGREE), new Angle(49.45, Angle.DEGREE), 2);
 
@@ -240,15 +232,13 @@ public class DeepSkyTestUtil {
 
     }
 
-    public IObserver createObserver() {
+    private IObserver createObserver() {
 
-        IObserver observer = new Observer("John", "Doe");
-
-        return observer;
+        return new Observer("John", "Doe");
 
     }
 
-    public IObserver createSecondObserver() {
+    private IObserver createSecondObserver() {
 
         IObserver observer = new Observer("Hans", "Mustermann");
 
@@ -260,7 +250,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public ITarget createDeepSkyTarget() {
+    private ITarget createDeepSkyTarget() {
 
         DeepSkyTargetDS target = new DeepSkyTargetDS("A double star", "WU DC");
 
@@ -274,7 +264,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public ITarget createSecondDeepSkyTarget(IObserver observer) {
+    private ITarget createSecondDeepSkyTarget(IObserver observer) {
 
         DeepSkyTargetOC target = new DeepSkyTargetOC("M45", observer);
 
@@ -289,7 +279,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public ITarget createThirdDeepSkyTarget() {
+    private ITarget createThirdDeepSkyTarget() {
 
         DeepSkyTargetGC target = new DeepSkyTargetGC("M13", "Messier Catalogue");
 
@@ -300,7 +290,7 @@ public class DeepSkyTestUtil {
 
     }
 
-    public ILens createFirstLens() {
+    private ILens createFirstLens() {
 
         ILens lens = new Lens("Powermate", 5.0f);
 

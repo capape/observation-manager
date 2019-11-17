@@ -48,20 +48,20 @@ public class TargetStar extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new instance of a TargetStar from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a TargetStar from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
-    public TargetStar(Node targetElement, IObserver[] observers) throws SchemaException {
+    protected TargetStar(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -127,7 +127,7 @@ public class TargetStar extends Target {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("TargetStar Name=");
         buffer.append(super.getName());
 
@@ -152,8 +152,8 @@ public class TargetStar extends Target {
         if (super.getAliasNames() != null) {
             buffer.append("\nAlias Names: ");
             String[] an = super.getAliasNames();
-            for (int i = 0; i < an.length; i++) {
-                buffer.append(an[i] + "  ");
+            for (String s : an) {
+                buffer.append(s).append("  ");
             }
         }
 
@@ -174,21 +174,20 @@ public class TargetStar extends Target {
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this TargetStar and the given Object are equal. The given object is
-     * equal with this TargetStar, if it derives from ITarget, both XSI types are
-     * equal and its name equals this TargetStar name.<br>
+     * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
+     * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
      * 
-     * @param obj The Object to compare this TargetStar with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both
-     *         XSI types are equal and its name is equal to this TargetStar
-     *         name.<br>
+     * @param obj
+     *            The Object to compare this TargetStar with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
+     *         equal to this TargetStar name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
      * @see java.lang.Object
      */
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ITarget)) {
+        if (!(obj instanceof ITarget)) {
             return false;
         }
 
@@ -199,12 +198,8 @@ public class TargetStar extends Target {
             return false;
         }
 
-        if ((super.getName().toLowerCase().equals(targetName.toLowerCase()))
-                && (this.getXSIType()).equals(target.getXSIType())) {
-            return true;
-        }
-
-        return false;
+        return (super.getName().toLowerCase().equals(targetName.toLowerCase()))
+                && (this.getXSIType()).equals(target.getXSIType());
 
     }
 
@@ -214,19 +209,17 @@ public class TargetStar extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this TargetStar to a given parent XML DOM Element. The Target element
-     * will be set as a child element of the passed element.
+     * Adds this TargetStar to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this TargetStar
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this TargetStar
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
-        return this.createXmlTargetStarElement(element, this.getXSIType());
+        this.createXmlTargetStarElement(element, this.getXSIType());
 
     }
 
@@ -243,6 +236,7 @@ public class TargetStar extends Target {
      * 
      * @return The xsi:type value of this implementation
      */
+    @Override
     public String getXSIType() {
 
         return TargetStar.XML_XSI_TYPE_VALUE;
@@ -258,8 +252,7 @@ public class TargetStar extends Target {
      * Returns the apparent magnitude of the star.<br>
      * Might be Float.NaN if value was never set.
      * 
-     * @return The apparent magnitude of the star or Float.NaN if value was never
-     *         set
+     * @return The apparent magnitude of the star or Float.NaN if value was never set
      */
     public float getMagnitudeApparent() {
 
@@ -270,8 +263,7 @@ public class TargetStar extends Target {
     // -------------------------------------------------------------------
     /**
      * Sets the apparent magnitude of the star.<br>
-     * 
-     * @param The new apparent magnitude of the star
+     *
      */
     public void setMagnitudeApparent(float magnitudeApparent) {
 
@@ -296,18 +288,20 @@ public class TargetStar extends Target {
     // -------------------------------------------------------------------
     /**
      * Sets the stellar classification of the star.<br>
-     * 
-     * @param The new stellar classification of the star
+     *
      */
-    public void setStellarClassification(String stellarClassification) {
+    public void setStellarClassification(String pstellarClassification) {
 
         // Convert empty string to NULL
-        if (stellarClassification != null) {
-            stellarClassification = stellarClassification.trim();
+        String stellarClassification;
+        if (pstellarClassification != null) {
+            stellarClassification = pstellarClassification.trim();
 
             if ("".equals(stellarClassification)) {
                 stellarClassification = null;
             }
+        } else {
+            stellarClassification = null;
         }
 
         this.stellarClassification = stellarClassification;
@@ -320,10 +314,10 @@ public class TargetStar extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Creates a deepkSkyTarget under the target container. If no target container
-     * exists under the given elements ownerDocument, it will be created.<br>
-     * This method should be called by subclasses, so that they only have to add
-     * their specific data to the element returned. Example:<br>
+     * Creates a deepkSkyTarget under the target container. If no target container exists under the given elements
+     * ownerDocument, it will be created.<br>
+     * This method should be called by subclasses, so that they only have to add their specific data to the element
+     * returned. Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
@@ -335,11 +329,12 @@ public class TargetStar extends Target {
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
      * 
-     * @param element The element under which the the target link is created
-     * @param xsiType The XSI:Type identification of the child class
-     * @return Returns a new created target Element that contains all data from a
-     *         DeepSkyTarget. Please mind, NOT the passed element is given, but a
-     *         child element of the passed elements ownerDocument. Might return
+     * @param element
+     *            The element under which the the target link is created
+     * @param xsiType
+     *            The XSI:Type identification of the child class
+     * @return Returns a new created target Element that contains all data from a DeepSkyTarget. Please mind, NOT the
+     *         passed element is given, but a child element of the passed elements ownerDocument. Might return
      *         <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      */

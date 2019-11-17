@@ -22,9 +22,7 @@ public class FloatUtil {
             return Float.NaN;
         }
 
-        floatString = floatString.replace(',', '.');
-
-        return Float.parseFloat(floatString);
+        return Float.parseFloat(floatString.replace(',', '.'));
 
     }
 

@@ -18,9 +18,8 @@ import de.lehmannet.om.util.SchemaException;
 
 /**
  * An Site describes an observation site where an observation took place.<br>
- * A site can be identified by its latitude and longitude values, but as for
- * processing reasons this class has some more mandatory fields, such as e.g.
- * elevation and timezone.
+ * A site can be identified by its latitude and longitude values, but as for processing reasons this class has some more
+ * mandatory fields, such as e.g. elevation and timezone.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -55,13 +54,15 @@ public class Site extends SchemaElement implements ISite {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new Site instance from a given XML Schema Node. Normally this
-     * constructor is only called by de.lehmannet.om.util.SchemaLoader
+     * Constructs a new Site instance from a given XML Schema Node. Normally this constructor is only called by
+     * de.lehmannet.om.util.SchemaLoader
      * 
-     * @param site The XML Schema Node that represents this Site object
-     * @throws IllegalArgumentException if the parameter is <code>null</code>
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param site
+     *            The XML Schema Node that represents this Site object
+     * @throws IllegalArgumentException
+     *             if the parameter is <code>null</code>
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Site(Node site) throws SchemaException, IllegalArgumentException {
 
@@ -92,7 +93,7 @@ public class Site extends SchemaElement implements ISite {
             throw new SchemaException("Site must have exact one name. ");
         }
         child = (Element) children.item(0);
-        String name = "";
+        StringBuilder name = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Site must have a name. ");
         } else {
@@ -101,9 +102,9 @@ public class Site extends SchemaElement implements ISite {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        name = name + textElements.item(te).getNodeValue();
+                        name.append(textElements.item(te).getNodeValue());
                     }
-                    this.setName(name);
+                    this.setName(name.toString());
                 }
             } else {
                 throw new SchemaException("Site cannot have an empty name. ");
@@ -202,10 +203,14 @@ public class Site extends SchemaElement implements ISite {
     /**
      * Constructs a new instance of a Site.
      * 
-     * @param name      The sites name
-     * @param longitude The sites longitude
-     * @param latitude  The sites latitude
-     * @param timezone  The sites timezone offset in minutes from GMT
+     * @param name
+     *            The sites name
+     * @param longitude
+     *            The sites longitude
+     * @param latitude
+     *            The sites latitude
+     * @param timezone
+     *            The sites timezone offset in minutes from GMT
      */
     public Site(String name, Angle longitude, Angle latitude, int timezone) throws IllegalArgumentException {
 
@@ -223,15 +228,14 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
+
     @Override
     public String getDisplayName() {
 
@@ -251,10 +255,11 @@ public class Site extends SchemaElement implements ISite {
      * @return This DeepSkyTarget field values
      * @see java.lang.Object
      */
+
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Site: Name=");
         buffer.append(name);
 
@@ -282,28 +287,15 @@ public class Site extends SchemaElement implements ISite {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Site and the given Object are equal. The given object is equal
-     * with this Site, if it derives from ISite and if its name, longitude, latitude
-     * and elevation equals this Sites name, longitude, latitude and elevation.<br>
-     * 
-     * @param obj The Object to compare this Site with.
-     * @return <code>true</code> if the given Object is an instance of ISite and its
-     *         name, longitude, latitude and elevation is equal to this Sites name,
-     *         longitude, latitude and elevation.<br>
-     *         (Name comparism is <b>not</b> casesensitive)
-     * @see java.lang.Object
-     */
     /*
-     * public boolean equals(Object obj) {
+     * @Override public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof ISite) ) { return false; }
      * 
      * ISite site = (ISite)obj;
      * 
-     * String siteName = site.getName(); if( (siteName == null) ||
-     * !(name.toLowerCase().equals(siteName.toLowerCase())) ) { return false; }
+     * String siteName = site.getName(); if( (siteName == null) || !(name.toLowerCase().equals(siteName.toLowerCase()))
+     * ) { return false; }
      * 
      * if( !site.getLatitude().equals(latitude) ) { return false; }
      * 
@@ -320,19 +312,18 @@ public class Site extends SchemaElement implements ISite {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Site to a given parent XML DOM Element. The Site element will be
-     * set as a child element of the passed element.
+     * Adds this Site to a given parent XML DOM Element. The Site element will be set as a child element of the passed
+     * element.
      * 
-     * @param parent The parent element for this Site
-     * @return Returns the element given as parameter with this Site as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Site
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -348,7 +339,7 @@ public class Site extends SchemaElement implements ISite {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
@@ -391,16 +382,13 @@ public class Site extends SchemaElement implements ISite {
             e_Site.appendChild(e_IAUCode);
         }
 
-        return element;
-
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds the site link to an given XML DOM Element The site element itself will
-     * be attached to given elements ownerDocument if the passed boolean value is
-     * <code>true</code>. Also if the ownerDocument has no site container, it will
-     * be created (if the passed boolean value is <code>true</code> <br>
+     * Adds the site link to an given XML DOM Element The site element itself will be attached to given elements
+     * ownerDocument if the passed boolean value is <code>true</code>. Also if the ownerDocument has no site container,
+     * it will be created (if the passed boolean value is <code>true</code> <br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;siteLink&gt;123&lt;/siteLink&gt;</b><br>
@@ -413,18 +401,15 @@ public class Site extends SchemaElement implements ISite {
      * <b>&lt;/siteContainer&gt;</b><br>
      * <br>
      * 
-     * @param parent                The element under which the the site link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional site link,
-     *         and the site element under the site container of the ownerDocument
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional site link, and the site element under the site
+     *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -460,21 +445,22 @@ public class Site extends SchemaElement implements ISite {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the site link to an given XML DOM Element The site element itself will
-     * <b>NOT</b> be attached to given elements ownerDocument. Calling this method
-     * is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the site link to an given XML DOM Element The site element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;siteLink&gt;123&lt;/siteLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the site link is created
-     * @return Returns the Element given as parameter with a additional site link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the site link is created
+     * @return Returns the Element given as parameter with a additional site link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -484,11 +470,11 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Returns the latitude of the site.<br>
-     * The latitude is a positiv angle if its north of the equator, and negative if
-     * south of the equator.
+     * The latitude is a positiv angle if its north of the equator, and negative if south of the equator.
      * 
      * @return Returns an Angle with the geographical latitude
      */
+    @Override
     public Angle getLatitude() {
 
         return latitude;
@@ -498,11 +484,11 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Returns the longitude of the site.<br>
-     * The longitude is a positiv angle if its east of Greenwich, and negative if
-     * west of Greenwich.
+     * The longitude is a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
      * @return Returns an Angle with the geographical longitude
      */
+    @Override
     public Angle getLongitude() {
 
         return longitude;
@@ -516,6 +502,7 @@ public class Site extends SchemaElement implements ISite {
      * 
      * @return Returns the name of the site
      */
+    @Override
     public String getName() {
 
         return name;
@@ -524,11 +511,12 @@ public class Site extends SchemaElement implements ISite {
 
     /**
      * Returns the timezone of the site.<br>
-     * The timezone is given as positiv or negative value, depending on the sites
-     * timezone difference to the GMT in minutes.
+     * The timezone is given as positiv or negative value, depending on the sites timezone difference to the GMT in
+     * minutes.
      * 
      * @return Returns timzone offset (in comparism to GMT) in minutes
      */
+    @Override
     public int getTimezone() {
 
         return timezone;
@@ -538,12 +526,14 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Sets the latitude of the site.<br>
-     * The latitude must be a positiv angle if its north of the equator, and
-     * negative if south of the equator.
+     * The latitude must be a positiv angle if its north of the equator, and negative if south of the equator.
      * 
-     * @param latitude The new latitude for this site
-     * @throws IllegalArgumentException if latitude is <code>null</code>
+     * @param latitude
+     *            The new latitude for this site
+     * @throws IllegalArgumentException
+     *             if latitude is <code>null</code>
      */
+    @Override
     public void setLatitude(Angle latitude) throws IllegalArgumentException {
 
         if (latitude == null) {
@@ -557,12 +547,14 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Sets the longitude of the site.<br>
-     * The longitude must be a positiv angle if its east of Greenwich, and negative
-     * if west of Greenwich.
+     * The longitude must be a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
-     * @param longitude The new longitude for this site
-     * @throws IllegalArgumentException if longitude is <code>null</code>
+     * @param longitude
+     *            The new longitude for this site
+     * @throws IllegalArgumentException
+     *             if longitude is <code>null</code>
      */
+    @Override
     public void setLongitude(Angle longitude) throws IllegalArgumentException {
 
         if (longitude == null) {
@@ -578,9 +570,12 @@ public class Site extends SchemaElement implements ISite {
      * Sets the name of the site.<br>
      * The name should be any string describing the site as precise as it can be.
      * 
-     * @param name The new name for this site
-     * @throws IllegalArgumentException if name is <code>null</code>
+     * @param name
+     *            The new name for this site
+     * @throws IllegalArgumentException
+     *             if name is <code>null</code>
      */
+    @Override
     public void setName(String name) throws IllegalArgumentException {
 
         if (name == null) {
@@ -594,13 +589,15 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Sets the timezone of the site.<br>
-     * The timezone must be given as positiv or negative value, depending on the
-     * sites timezone difference to the GMT in minutes.
+     * The timezone must be given as positiv or negative value, depending on the sites timezone difference to the GMT in
+     * minutes.
      * 
-     * @param timezone The new timezone for this site in minutes
-     * @throws IllegalArgumentException if new timezone is greater than 720 (12*60)
-     *                                  or lower than -720 (12*60)
+     * @param timezone
+     *            The new timezone for this site in minutes
+     * @throws IllegalArgumentException
+     *             if new timezone is greater than 720 (12*60) or lower than -720 (12*60)
      */
+    @Override
     public void setTimezone(int timezone) throws IllegalArgumentException {
 
         if ((timezone > 720) || (timezone < -720)) {
@@ -615,8 +612,10 @@ public class Site extends SchemaElement implements ISite {
     /**
      * Sets the IAU code of the site.<br>
      * 
-     * @param IAUCode The new IAU code for this site
+     * @param IAUCode
+     *            The new IAU code for this site
      */
+    @Override
     public void setIAUCode(String IAUCode) {
 
         if ((IAUCode != null) && ("".equals(IAUCode.trim()))) {
@@ -633,8 +632,10 @@ public class Site extends SchemaElement implements ISite {
      * Sets the elevation of the site.<br>
      * The elevation should be given in meters above/under sea level.
      * 
-     * @param elevation The new elevation for this site
+     * @param elevation
+     *            The new elevation for this site
      */
+    @Override
     public void setElevation(float elevation) {
 
         this.elevation = elevation;
@@ -646,9 +647,10 @@ public class Site extends SchemaElement implements ISite {
      * Returns the elevation of the site.<br>
      * The elevation is given in meters above/under sea level.
      * 
-     * @return Returns the sites elevation in meters above or under sea level, or
-     *         <code>NULL</code> if value was never set
+     * @return Returns the sites elevation in meters above or under sea level, or <code>NULL</code> if value was never
+     *         set
      */
+    @Override
     public float getElevation() {
 
         return elevation;
@@ -658,12 +660,12 @@ public class Site extends SchemaElement implements ISite {
     // -------------------------------------------------------------------
     /**
      * Returns the IAU station code of the site.<br>
-     * This method may return <code>null</code> as the site may not have an IAU
-     * (International Astronomical Union) station code.
+     * This method may return <code>null</code> as the site may not have an IAU (International Astronomical Union)
+     * station code.
      * 
-     * @return Returns the IAU code of the site, or <code>null</code> if no code
-     *         exists, or was never set.
+     * @return Returns the IAU code of the site, or <code>null</code> if no code exists, or was never set.
      */
+    @Override
     public String getIAUCode() {
 
         return iauCode;

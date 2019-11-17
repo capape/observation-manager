@@ -37,27 +37,27 @@ public class CCDImager extends Imager {
     /**
      * Constant for XML representation: pixels on x axis
      */
-    public static final String XML_ELEMENT_XPIXELS = "pixelsX";
+    private static final String XML_ELEMENT_XPIXELS = "pixelsX";
 
     /**
      * Constant for XML representation: pixels on y axis
      */
-    public static final String XML_ELEMENT_YPIXELS = "pixelsY";
+    private static final String XML_ELEMENT_YPIXELS = "pixelsY";
 
     /**
      * Constant for XML representation: pixel size on x axis
      */
-    public static final String XML_ELEMENT_XPIXELS_SIZE = "pixelXSize";
+    private static final String XML_ELEMENT_XPIXELS_SIZE = "pixelXSize";
 
     /**
      * Constant for XML representation: pixel site on y axis
      */
-    public static final String XML_ELEMENT_YPIXELS_SIZE = "pixelYSize";
+    private static final String XML_ELEMENT_YPIXELS_SIZE = "pixelYSize";
 
     /**
      * Constant for XML representation: binning value
      */
-    public static final String XML_ELEMENT_BINNING = "binning";
+    private static final String XML_ELEMENT_BINNING = "binning";
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -78,9 +78,6 @@ public class CCDImager extends Imager {
     // Binning (default 1x1)
     private byte binning = 1;
 
-    // Flag indicating whether Imager is still available
-    private boolean available = true;
-
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
@@ -88,11 +85,13 @@ public class CCDImager extends Imager {
     // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a CCDImager from a given DOM target Element.<br>
-     * Normally this constructor is called by a child class which itself was called
-     * by de.lehmannet.om.util.SchemaLoader.
+     * Normally this constructor is called by a child class which itself was called by
+     * de.lehmannet.om.util.SchemaLoader.
      * 
-     * @param imagerElement The origin XML DOM <target> Element
-     * @throws SchemaException if given imagerElement was <code>null</code>
+     * @param imagerElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given imagerElement was <code>null</code>
      */
     public CCDImager(Node imagerElement) throws SchemaException {
 
@@ -146,7 +145,7 @@ public class CCDImager extends Imager {
         // Get optional x-Pixel size
         child = null;
         children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS_SIZE);
-        String xSize = "";
+        StringBuilder xSize = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -154,9 +153,9 @@ public class CCDImager extends Imager {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            xSize = xSize + textElements.item(te).getNodeValue();
+                            xSize.append(textElements.item(te).getNodeValue());
                         }
-                        float xS = FloatUtil.parseFloat(xSize);
+                        float xS = FloatUtil.parseFloat(xSize.toString());
                         if (xS > 0.0) {
                             this.setXPixelSize(xS);
                         }
@@ -172,7 +171,7 @@ public class CCDImager extends Imager {
         // Get optional y-Pixel size
         child = null;
         children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_YPIXELS_SIZE);
-        String ySize = "";
+        StringBuilder ySize = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -180,9 +179,9 @@ public class CCDImager extends Imager {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            ySize = ySize + textElements.item(te).getNodeValue();
+                            ySize.append(textElements.item(te).getNodeValue());
                         }
-                        float yS = FloatUtil.parseFloat(ySize);
+                        float yS = FloatUtil.parseFloat(ySize.toString());
                         if (yS > 0.0) {
                             this.setYPixelSize(yS);
                         }
@@ -198,7 +197,7 @@ public class CCDImager extends Imager {
         // Get binning value
         child = null;
         children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_BINNING);
-        String sBin = "";
+        StringBuilder sBin = new StringBuilder();
         if (children != null) { // Use default value of 1
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -206,9 +205,9 @@ public class CCDImager extends Imager {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            sBin = sBin + textElements.item(te).getNodeValue();
+                            sBin.append(textElements.item(te).getNodeValue());
                         }
-                        byte b = Byte.parseByte(sBin);
+                        byte b = Byte.parseByte(sBin.toString());
                         this.setBinning(b);
                     }
                 } else {
@@ -225,11 +224,14 @@ public class CCDImager extends Imager {
     /**
      * Constructs a new instance of a CCDImager.<br>
      * 
-     * @param model   The model name
-     * @param xPixels The amount of pixel on the x axis
-     * @param yPixels The amount of pixel on the y axis
-     * @throws SchemaException if given model was <code>null</code>, or on of the
-     *                         pixel values was <= 0.
+     * @param model
+     *            The model name
+     * @param xPixels
+     *            The amount of pixel on the x axis
+     * @param yPixels
+     *            The amount of pixel on the y axis
+     * @throws SchemaException
+     *             if given model was <code>null</code>, or on of the pixel values was <= 0.
      */
     public CCDImager(String model, int xPixels, int yPixels) {
 
@@ -253,6 +255,7 @@ public class CCDImager extends Imager {
      * 
      * @return The xsi:type value of this implementation
      */
+    @Override
     public String getXSIType() {
 
         return CCDImager.XML_ATTRIBUTE_CCDIMAGER;
@@ -264,17 +267,17 @@ public class CCDImager extends Imager {
     // ------
 
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
 
         Element e_Imager = super.createXmlImagerElement(element);
         if (e_Imager == element) {
-            return element; // Already added
+            return; // Already added
         }
         e_Imager.setAttribute(IImager.XML_XSI_TYPE, CCDImager.XML_ATTRIBUTE_CCDIMAGER);
 
@@ -307,8 +310,6 @@ public class CCDImager extends Imager {
         e_Binning.appendChild(n_BinningText);
         e_Imager.appendChild(e_Binning);
 
-        return element;
-
     }
 
     // --------------
@@ -331,8 +332,10 @@ public class CCDImager extends Imager {
     /**
      * Sets the amount of pixels on the x axis.<br>
      * 
-     * @param pixels The new amount of pixel on the x axis
-     * @throws IllegalArgumentException if given pixels are <= 0
+     * @param pixels
+     *            The new amount of pixel on the x axis
+     * @throws IllegalArgumentException
+     *             if given pixels are <= 0
      */
     public void setXPixels(int pixels) throws IllegalArgumentException {
 
@@ -360,8 +363,10 @@ public class CCDImager extends Imager {
     /**
      * Sets the amount of pixels on the y axis.<br>
      * 
-     * @param pixels The new amount of pixel on the y axis
-     * @throws IllegalArgumentException if given pixels are <= 0
+     * @param pixels
+     *            The new amount of pixel on the y axis
+     * @throws IllegalArgumentException
+     *             if given pixels are <= 0
      */
     public void setYPixels(int pixels) {
 
@@ -377,8 +382,7 @@ public class CCDImager extends Imager {
     /**
      * Returns the pixel size on the x axis.<br>
      * 
-     * @return Returns the pixel size on the x axis or Float.NaN if the value was
-     *         never set
+     * @return Returns the pixel size on the x axis or Float.NaN if the value was never set
      * @since 2.0
      */
     public float getXPixelSize() {
@@ -391,8 +395,10 @@ public class CCDImager extends Imager {
     /**
      * Sets the pixel size on the x axis.<br>
      * 
-     * @param pixelSize The new size of the pixel on the x axis
-     * @throws IllegalArgumentException if given pixel size is < 0
+     * @param pixelSize
+     *            The new size of the pixel on the x axis
+     * @throws IllegalArgumentException
+     *             if given pixel size is < 0
      * @since 2.0
      */
     public void setXPixelSize(float pixelSize) throws IllegalArgumentException {
@@ -414,8 +420,7 @@ public class CCDImager extends Imager {
     /**
      * Returns the pixel size on the y axis.<br>
      * 
-     * @return Returns the pixel size on the y axis or Float.NaN if the value was
-     *         never set<br>
+     * @return Returns the pixel size on the y axis or Float.NaN if the value was never set<br>
      * @since 2.0
      */
     public float getYPixelSize() {
@@ -428,8 +433,10 @@ public class CCDImager extends Imager {
     /**
      * Sets the pixel size on the y axis.<br>
      * 
-     * @param pixelSize The new size of the pixel on the y axis
-     * @throws IllegalArgumentException if given pixel size is < 0
+     * @param pixelSize
+     *            The new size of the pixel on the y axis
+     * @throws IllegalArgumentException
+     *             if given pixel size is < 0
      * @since 2.0
      */
     public void setYPixelSize(float pixelSize) throws IllegalArgumentException {
@@ -464,8 +471,10 @@ public class CCDImager extends Imager {
     /**
      * Sets the binning value of the camera.<br>
      * 
-     * @param binning The new binning value of the camera
-     * @throws IllegalArgumentException if given binning value size is < 1 or > 9
+     * @param binning
+     *            The new binning value of the camera
+     * @throws IllegalArgumentException
+     *             if given binning value size is < 1 or > 9
      * @since 2.0
      */
     public void setBinning(byte binning) throws IllegalArgumentException {

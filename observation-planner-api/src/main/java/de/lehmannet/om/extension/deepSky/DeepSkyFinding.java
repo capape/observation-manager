@@ -15,18 +15,15 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Finding;
 import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.IFinding;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyFinding extends the de.lehmannet.om.Finding class. Its specialised for
- * DeepSky observations and their findings. A DeepSky object can be an
- * astronomical object outside our solar system. The class is mostly oriented
- * after the recommondations of the german "VdS - DeepSky" group
+ * DeepSkyFinding extends the de.lehmannet.om.Finding class. Its specialised for DeepSky observations and their
+ * findings. A DeepSky object can be an astronomical object outside our solar system. The class is mostly oriented after
+ * the recommondations of the german "VdS - DeepSky" group
  * (<a href="http://www.fachgruppe-deepsky.de/">Homepage</a>).<br>
- * The field rating is based on a seven step scale recommended by "VDS -
- * DeepSky" group. The scales value should be interpreted as the following table
- * explains:
+ * The field rating is based on a seven step scale recommended by "VDS - DeepSky" group. The scales value should be
+ * interpreted as the following table explains:
  * <table>
  * <tr>
  * <td>1</td>
@@ -62,25 +59,25 @@ public class DeepSkyFinding extends Finding {
     public static final String XML_XSI_TYPE_VALUE = "oal:findingsDeepSkyType";
 
     // Constant for XML representation: finding element attribute stellar
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_STELLAR = "stellar";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_STELLAR = "stellar";
 
     // Constant for XML representation: finding element attribute resolved
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_RESOLVED = "resolved";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_RESOLVED = "resolved";
 
     // Constant for XML representation: finding element attribute mottled
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_MOTTLED = "mottled";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_MOTTLED = "mottled";
 
     // Constant for XML representation: finding element attribute extended
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_EXTENDED = "extended";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_EXTENDED = "extended";
 
     // Constant for XML representation: smallDiameter element name
-    public static final String XML_ELEMENT_SMALLDIAMETER = "smallDiameter";
+    private static final String XML_ELEMENT_SMALLDIAMETER = "smallDiameter";
 
     // Constant for XML representation: largeDiameter element name
-    public static final String XML_ELEMENT_LARGEDIAMETER = "largeDiameter";
+    private static final String XML_ELEMENT_LARGEDIAMETER = "largeDiameter";
 
     // Constant for XML representation: rating element name
-    public static final String XML_ELEMENT_RATING = "rating";
+    private static final String XML_ELEMENT_RATING = "rating";
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -121,7 +118,7 @@ public class DeepSkyFinding extends Finding {
     // Constructors ------------------------------------------------------
     // ------------
 
-    public DeepSkyFinding(Node findingElement) throws SchemaException {
+    DeepSkyFinding(Node findingElement) throws SchemaException {
 
         super(findingElement);
 
@@ -182,25 +179,25 @@ public class DeepSkyFinding extends Finding {
         // Get optional resolved attribute
         String resolved = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_RESOLVED);
         if ((resolved != null) && (!"".equals(resolved.trim()))) {
-            this.setResolved(new Boolean(resolved));
+            this.setResolved(Boolean.valueOf(resolved));
         }
 
         // Get optional stellar attribute
         String stellar = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_STELLAR);
         if ((stellar != null) && (!"".equals(stellar.trim()))) {
-            this.setStellar(new Boolean(stellar));
+            this.setStellar(Boolean.valueOf(stellar));
         }
 
         // Get optional mottled attribute
         String mottled = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_MOTTLED);
         if ((mottled != null) && (!"".equals(mottled.trim()))) {
-            this.setMottled(new Boolean(mottled));
+            this.setMottled(Boolean.valueOf(mottled));
         }
 
         // Get optional extended attribute
         String extended = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_EXTENDED);
         if ((extended != null) && (!"".equals(extended.trim()))) {
-            this.setExtended(new Boolean(extended));
+            this.setExtended(Boolean.valueOf(extended));
         }
 
     }
@@ -209,10 +206,12 @@ public class DeepSkyFinding extends Finding {
     /**
      * Constructs a new instance of a DeepSkyFinding.
      *
-     * @param description The description of the finding
-     * @param rating      The rating of the finding
-     * @throws IllegalArgumentException if description was <code>null</code> or
-     *                                  rating had a illegal value.
+     * @param description
+     *            The description of the finding
+     * @param rating
+     *            The rating of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code> or rating had a illegal value.
      */
     public DeepSkyFinding(String description, int rating) throws IllegalArgumentException {
 
@@ -229,11 +228,9 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -260,7 +257,7 @@ public class DeepSkyFinding extends Finding {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("DeepSkyFinding: Description=");
         buffer.append(super.getDescription());
         buffer.append(" Rating=");
@@ -299,7 +296,6 @@ public class DeepSkyFinding extends Finding {
         return buffer.toString();
 
     }
-
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
@@ -346,9 +342,7 @@ public class DeepSkyFinding extends Finding {
                 return false;
         } else if (!smallDiameter.equals(other.smallDiameter))
             return false;
-        if (stellar != other.stellar)
-            return false;
-        return true;
+        return stellar == other.stellar;
     }
 
     // -------------------------------------------------------------------
@@ -360,6 +354,7 @@ public class DeepSkyFinding extends Finding {
      *
      * @return The xsi:type value of this implementation
      */
+    @Override
     public String getXSIType() {
 
         return DeepSkyFinding.XML_XSI_TYPE_VALUE;
@@ -372,12 +367,12 @@ public class DeepSkyFinding extends Finding {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this DeepSkyFinding to an given parent XML DOM Element. The
-     * DeepSkyFinding Element will be set as a child element of the passed Element.
+     * Adds this DeepSkyFinding to an given parent XML DOM Element. The DeepSkyFinding Element will be set as a child
+     * element of the passed Element.
      *
-     * @param parent The parent element for this DeepSkyFinding
-     * @return Returns the Element given as parameter with this DeepSkyFinding as
-     *         child Element.<br>
+     * @param parent
+     *            The parent element for this DeepSkyFinding
+     * @return Returns the Element given as parameter with this DeepSkyFinding as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -397,7 +392,7 @@ public class DeepSkyFinding extends Finding {
     }
 
     // --------------
-    // Public methods ----------------------------------------------------
+    // @Override public methods ----------------------------------------------------
     // --------------
 
     // -------------------------------------------------------------------
@@ -417,13 +412,11 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Returns the mottled value of this DeepSkyFinding.<br>
-     * A observed object is mottled when it can be seen with at least some
-     * structures.
+     * A observed object is mottled when it can be seen with at least some structures.
      *
-     * @return <code>true</code> if the observed object could be seen with
-     *         structures
-     * @throws IllegalStateException if mottled was not set by the user so the class
-     *                               cannot return <b>true</b> or <b>false</b>
+     * @return <code>true</code> if the observed object could be seen with structures
+     * @throws IllegalStateException
+     *             if mottled was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getMottled() throws IllegalStateException {
 
@@ -431,20 +424,15 @@ public class DeepSkyFinding extends Finding {
             throw new IllegalStateException("Mottled value was never set for: " + this);
         }
 
-        if (mottled == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return mottled == 1;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Returns the rating of the observed object.<br>
-     * The rating scale is described at <a href="http://www.naa.net/deepsky/">VdS -
-     * DeepSky Group</a>. A valid rating value is an integer between 1 and 7 or 99
-     * if the value was unknown, for e.g. historical reasons.
+     * The rating scale is described at <a href="http://www.naa.net/deepsky/">VdS - DeepSky Group</a>. A valid rating
+     * value is an integer between 1 and 7 or 99 if the value was unknown, for e.g. historical reasons.
      *
      * @return The rating that was given to the DeepSkyFinding during observation
      */
@@ -456,12 +444,11 @@ public class DeepSkyFinding extends Finding {
 
     // -------------------------------------------------------------------
     /**
-     * Returns <code>true</code> if the observed object could be seen resolved
-     * during observation.<br>
+     * Returns <code>true</code> if the observed object could be seen resolved during observation.<br>
      *
      * @return <code>true</code> if the observed object could be seen resolved
-     * @throws IllegalStateException if resolved was not set by the user so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if resolved was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getResolved() throws IllegalStateException {
 
@@ -469,11 +456,7 @@ public class DeepSkyFinding extends Finding {
             throw new IllegalStateException("Resolved value was never set for: " + this);
         }
 
-        if (resolved == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return resolved == 1;
 
     }
 
@@ -481,8 +464,8 @@ public class DeepSkyFinding extends Finding {
     /**
      * Returns the small visible diameter of the observed object.
      *
-     * @return The small visible diameter of the object as Angle Might return
-     *         <code>null</code> if large diameter was never set.
+     * @return The small visible diameter of the object as Angle Might return <code>null</code> if large diameter was
+     *         never set.
      * @see de.lehmannet.om.Angle
      */
     public Angle getSmallDiameter() {
@@ -493,12 +476,11 @@ public class DeepSkyFinding extends Finding {
 
     // -------------------------------------------------------------------
     /**
-     * Returns <code>true</code> if the observed object appeard stellar during
-     * observation.
+     * Returns <code>true</code> if the observed object appeard stellar during observation.
      *
      * @return <code>true</code> if the observed object appeard stellar
-     * @throws IllegalStateException if stellar was not set by the user, so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if stellar was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getStellar() throws IllegalStateException {
 
@@ -506,22 +488,17 @@ public class DeepSkyFinding extends Finding {
             throw new IllegalStateException("Stellar value was never set for: " + this);
         }
 
-        if (stellar == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return stellar == 1;
 
     }
 
     // -------------------------------------------------------------------
     /**
-     * Returns <code>true</code> if the observed object appeard extended during
-     * observation.
+     * Returns <code>true</code> if the observed object appeard extended during observation.
      *
      * @return <code>true</code> if the observed object appeard extended
-     * @throws IllegalStateException if extended was not set by the user, so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if extended was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getExtended() throws IllegalStateException {
 
@@ -529,49 +506,39 @@ public class DeepSkyFinding extends Finding {
             throw new IllegalStateException("Extended value was never set for: " + this);
         }
 
-        if (extended == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return extended == 1;
 
     }
 
     // -------------------------------------------------------------------
     /**
-     * Sets the large visible diameter of the observed object. The passed Angle
-     * needs to have a positiv value. If the Angles value is negativ, the large
-     * diameter will not be set and the method returns <code>false</code>.
+     * Sets the large visible diameter of the observed object. The passed Angle needs to have a positiv value. If the
+     * Angles value is negativ, the large diameter will not be set and the method returns <code>false</code>.
      *
-     * @param largeDiameter The large diameters (positiv) angle
-     * @return <code>true</code> if the angle was set successfully. If
-     *         <code>false</code> is returned the angles value might have been
-     *         nagativ. If <code>false</code> is returned the large diameter isn't
-     *         set
+     * @param largeDiameter
+     *            The large diameters (positiv) angle
      * @see de.lehmannet.om.Angle
      */
-    public boolean setLargeDiameter(Angle largeDiameter) {
+    public void setLargeDiameter(Angle largeDiameter) {
 
         if (largeDiameter != null) {
             if (largeDiameter.getValue() < 0.0) {
-                return false;
+                return;
             }
         }
 
         this.largeDiameter = largeDiameter;
-
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Sets the mottled value of this DeepSkyFinding.<br>
-     * A observed object is mottled when it can be seen with at least some
-     * structures.
+     * A observed object is mottled when it can be seen with at least some structures.
      *
-     * @param mottled The mottled value to set for this DeepSkyFinding or
-     *                <code>NULL</code> if the value should be not set at all.
+     * @param mottled
+     *            The mottled value to set for this DeepSkyFinding or <code>NULL</code> if the value should be not set
+     *            at all.
      */
     public void setMottled(Boolean mottled) {
 
@@ -580,7 +547,7 @@ public class DeepSkyFinding extends Finding {
             return;
         }
 
-        if (mottled.booleanValue() == true) {
+        if (mottled) {
             this.mottled = 1;
         } else {
             this.mottled = 0;
@@ -591,12 +558,10 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Sets the rating of the observed object.<br>
-     * The rating scale is described at
-     * <a href="http://www.naa.net/deepsky/download/dsl_einfuehrung_v70.pdf">VdS -
-     * DeepSky Group</a> A valid rating value is an integer between 1 and 7
-     * (including 1 and 7) or 99 if the value is unknown (should only be used for
-     * e.g. migration of old observations). If any other value is passed to the
-     * method throws an IllegalArgumentException. Explaination of rating scale:<br>
+     * The rating scale is described at <a href="http://www.naa.net/deepsky/download/dsl_einfuehrung_v70.pdf">VdS -
+     * DeepSky Group</a> A valid rating value is an integer between 1 and 7 (including 1 and 7) or 99 if the value is
+     * unknown (should only be used for e.g. migration of old observations). If any other value is passed to the method
+     * throws an IllegalArgumentException. Explaination of rating scale:<br>
      * <table>
      * <tr>
      * <td>1</td>
@@ -618,9 +583,11 @@ public class DeepSkyFinding extends Finding {
      * </tr>
      * </table>
      *
-     * @param rating The rating value to set for this DeepSkyFinding. A valid rating
-     *               value is an integer between 1 and 7 or 99 for unknown
-     * @throws IllegalArgumentException if rating > 7 or < 1 and also not 99
+     * @param rating
+     *            The rating value to set for this DeepSkyFinding. A valid rating value is an integer between 1 and 7 or
+     *            99 for unknown
+     * @throws IllegalArgumentException
+     *             if rating > 7 or < 1 and also not 99
      */
     public void setRating(int rating) throws IllegalArgumentException {
 
@@ -644,11 +611,10 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Sets the resolved value for this DeepSkyFinding.<br>
-     * The value should be <code>true</code> if the observed object could be seen
-     * resolved during observation.
+     * The value should be <code>true</code> if the observed object could be seen resolved during observation.
      *
-     * @param resolved The resolved value for this DeepSkyFinding or
-     *                 <code>NULL</code> if the value should be not set at all.
+     * @param resolved
+     *            The resolved value for this DeepSkyFinding or <code>NULL</code> if the value should be not set at all.
      */
     public void setResolved(Boolean resolved) {
 
@@ -657,7 +623,7 @@ public class DeepSkyFinding extends Finding {
             return;
         }
 
-        if (resolved.booleanValue() == true) {
+        if (resolved) {
             this.resolved = 1;
         } else {
             this.resolved = 0;
@@ -667,39 +633,33 @@ public class DeepSkyFinding extends Finding {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the small visible diameter of the observed object. The passed Angle
-     * needs to have a positiv value. If the Angles value is negativ, the small
-     * diameter will not be set and the method returns <code>false</code>.
+     * Sets the small visible diameter of the observed object. The passed Angle needs to have a positiv value. If the
+     * Angles value is negativ, the small diameter will not be set and the method returns <code>false</code>.
      *
-     * @param smallDiameter The small diameters (positiv) angle
-     * @return <code>true</code> if the angle was set successfully. If
-     *         <code>false</code> is returned the angles value might have been
-     *         nagativ If <code>false</code> is returned the small diameter isn't
-     *         set
+     * @param smallDiameter
+     *            The small diameters (positiv) angle
      * @see de.lehmannet.om.Angle
      */
-    public boolean setSmallDiameter(Angle smallDiameter) {
+    public void setSmallDiameter(Angle smallDiameter) {
 
         if (smallDiameter != null) {
             if (smallDiameter.getValue() < 0.0f) {
-                return false;
+                return;
             }
         }
 
         this.smallDiameter = smallDiameter;
-
-        return true;
 
     }
 
     // -------------------------------------------------------------------
     /**
      * Sets the stellar value for this DeepSkyFinding.<br>
-     * The value should be <code>true</code> if the observed object could only be
-     * seen stellar during observation.
+     * The value should be <code>true</code> if the observed object could only be seen stellar during observation.
      *
-     * @param stellar The stellar value to set for this DeepkSkyFinding or
-     *                <code>NULL</code> if the value should be not set at all.
+     * @param stellar
+     *            The stellar value to set for this DeepkSkyFinding or <code>NULL</code> if the value should be not set
+     *            at all.
      */
     public void setStellar(Boolean stellar) {
 
@@ -708,7 +668,7 @@ public class DeepSkyFinding extends Finding {
             return;
         }
 
-        if (stellar.booleanValue() == true) {
+        if (stellar) {
             this.stellar = 1;
         } else {
             this.stellar = 0;
@@ -719,11 +679,11 @@ public class DeepSkyFinding extends Finding {
     // -------------------------------------------------------------------
     /**
      * Sets the extended value for this DeepSkyFinding.<br>
-     * The value should be <code>true</code> if the observed object could be seen
-     * extended during observation.
+     * The value should be <code>true</code> if the observed object could be seen extended during observation.
      *
-     * @param extended The extended value to set for this DeepkSkyFinding or
-     *                 <code>NULL</code> if the value should be not set at all.
+     * @param extended
+     *            The extended value to set for this DeepkSkyFinding or <code>NULL</code> if the value should be not set
+     *            at all.
      */
     public void setExtended(Boolean extended) {
 
@@ -732,7 +692,7 @@ public class DeepSkyFinding extends Finding {
             return;
         }
 
-        if (extended.booleanValue() == true) {
+        if (extended) {
             this.extended = 1;
         } else {
             this.extended = 0;

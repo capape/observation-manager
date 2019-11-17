@@ -30,7 +30,7 @@ public class GenericTarget extends Target {
     // -----------
 
     // -------------------------------------------------------------------
-    public GenericTarget(Node targetElement, IObserver[] observers) throws SchemaException {
+    public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
@@ -65,7 +65,7 @@ public class GenericTarget extends Target {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("GenericTarget Name=");
         buffer.append(super.getName());
 
@@ -92,21 +92,20 @@ public class GenericTarget extends Target {
     // -------------------------------------------------------------------
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this GenericTarget and the given Object are equal. The given object
-     * is equal with this GenericTarget, if it derives from ITarget, both XSI types
-     * are equal and its name equals this GenericTarget name.<br>
+     * Checks if this GenericTarget and the given Object are equal. The given object is equal with this GenericTarget,
+     * if it derives from ITarget, both XSI types are equal and its name equals this GenericTarget name.<br>
      * 
-     * @param obj The Object to compare this GenericTarget with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both
-     *         XSI types are equal and its name is equal to this GenericTarget
-     *         name.<br>
+     * @param obj
+     *            The Object to compare this GenericTarget with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
+     *         equal to this GenericTarget name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
      * @see java.lang.Object
      */
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ITarget)) {
+        if (!(obj instanceof ITarget)) {
             return false;
         }
 
@@ -117,12 +116,8 @@ public class GenericTarget extends Target {
             return false;
         }
 
-        if ((super.getName().toLowerCase().equals(targetName.toLowerCase()))
-                && (this.getXSIType()).equals(target.getXSIType())) {
-            return true;
-        }
-
-        return false;
+        return (super.getName().toLowerCase().equals(targetName.toLowerCase()))
+                && (this.getXSIType()).equals(target.getXSIType());
 
     }
 
@@ -132,20 +127,18 @@ public class GenericTarget extends Target {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
-     * @return Returns the element given as parameter with this Target as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addToXmlElement(Element element) {
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -175,7 +168,7 @@ public class GenericTarget extends Target {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
-                    return null;
+                    return;
                 }
             }
         }
@@ -196,8 +189,6 @@ public class GenericTarget extends Target {
             ownerDoc.getDocumentElement().appendChild(e_Targets);
         }
 
-        return e_Target;
-
     }
 
     // ------------------------
@@ -213,6 +204,7 @@ public class GenericTarget extends Target {
      * 
      * @return The xsi:type value of this implementation
      */
+    @Override
     public String getXSIType() {
 
         return GenericTarget.XML_XSI_TYPE_VALUE;

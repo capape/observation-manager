@@ -25,11 +25,9 @@ import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * A Session can be used to link several observations together. Typically a
- * session would describe an observation night, where several observations took
- * place. Therefore an Session requires two mandatory fields: a start date and
- * an end date. All observations of the session should have a start date that is
- * inbetween the sessions start and end date.
+ * A Session can be used to link several observations together. Typically a session would describe an observation night,
+ * where several observations took place. Therefore an Session requires two mandatory fields: a start date and an end
+ * date. All observations of the session should have a start date that is inbetween the sessions start and end date.
  *
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -59,7 +57,7 @@ public class Session extends SchemaElement implements ISession {
     private String comments = null;
 
     // Coobservers of the session
-    private LinkedList coObservers = new LinkedList();
+    private List coObservers = new LinkedList();
 
     // Language (since 1.5)
     private String lang = null;
@@ -76,24 +74,23 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Constructs a new Session instance from a given XML Schema Node. Normally this
-     * constructor is only used by de.lehmannet.om.util.SchemaLoader<br>
-     * Please mind: As a Session can have <coObserver> elements that link to
-     * <observer> elements somewhere else in the xml, this method requires an array
-     * of IObservers to check whether the <coObserver> elements link to existing
-     * <Obsever>s. If a Session Node has no <coObserver> elements, the second
-     * parameter can be <code>null</code>
+     * Constructs a new Session instance from a given XML Schema Node. Normally this constructor is only used by
+     * de.lehmannet.om.util.SchemaLoader<br>
+     * Please mind: As a Session can have <coObserver> elements that link to <observer> elements somewhere else in the
+     * xml, this method requires an array of IObservers to check whether the <coObserver> elements link to existing
+     * <Obsever>s. If a Session Node has no <coObserver> elements, the second parameter can be <code>null</code>
      *
-     * @param session   the XML Schema Node that represents this Session object
-     * @param observers Needed if the Session Node has <coObserver> elements.
-     * @throws IllegalArgumentException if parameter session is <code>null</code> or
-     *                                  Node has <coObserver> elements, but no
-     *                                  observer array way passed (or array was
-     *                                  empty)
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param session
+     *            the XML Schema Node that represents this Session object
+     * @param observers
+     *            Needed if the Session Node has <coObserver> elements.
+     * @throws IllegalArgumentException
+     *             if parameter session is <code>null</code> or Node has <coObserver> elements, but no observer array
+     *             way passed (or array was empty)
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
-    public Session(Node session, IObserver[] observers, ISite[] sites)
+    public Session(Node session, IObserver[] observers, ISite... sites)
             throws SchemaException, IllegalArgumentException {
 
         if (session == null) {
@@ -139,7 +136,7 @@ public class Session extends SchemaElement implements ISession {
         // Get optional images
         child = null;
         children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_IMAGE);
-        String image = "";
+        StringBuilder image = new StringBuilder();
         if (children != null) {
             for (int i = 0; i < children.getLength(); i++) {
                 child = (Element) children.item(i);
@@ -147,14 +144,14 @@ public class Session extends SchemaElement implements ISession {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            image = image + textElements.item(te).getNodeValue();
+                            image.append(textElements.item(te).getNodeValue());
                         }
                         // Make sure to use the local file separator character during runtime
                         // When saving the file, we'll convert it back to /
-                        image = image.replace('/', File.separatorChar);
-                        image = image.replace('\\', File.separatorChar);
-                        this.addImage(image);
-                        image = "";
+                        image = new StringBuilder(image.toString().replace('/', File.separatorChar));
+                        image = new StringBuilder(image.toString().replace('\\', File.separatorChar));
+                        this.addImage(image.toString());
+                        image = new StringBuilder();
                     }
                     // image = child.getFirstChild().getNodeValue();
                 } else {
@@ -178,7 +175,7 @@ public class Session extends SchemaElement implements ISession {
         // Get optional comments
         child = null;
         children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_COMMENTS);
-        String comments = "";
+        StringBuilder comments = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -187,9 +184,9 @@ public class Session extends SchemaElement implements ISession {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            comments = comments + textElements.item(te).getNodeValue();
+                            comments.append(textElements.item(te).getNodeValue());
                         }
-                        this.setComments(comments);
+                        this.setComments(comments.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving comment from session. ");
@@ -206,7 +203,7 @@ public class Session extends SchemaElement implements ISession {
         // Get optional equipment
         child = null;
         children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_EQUIPMENT);
-        String equipment = "";
+        StringBuilder equipment = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -214,10 +211,10 @@ public class Session extends SchemaElement implements ISession {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            equipment = equipment + textElements.item(te).getNodeValue();
+                            equipment.append(textElements.item(te).getNodeValue());
                         }
                         // equipment = child.getFirstChild().getNodeValue();
-                        this.setEquipment(equipment);
+                        this.setEquipment(equipment.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving equipment from session. ");
@@ -234,7 +231,7 @@ public class Session extends SchemaElement implements ISession {
         // Get optional weather
         child = null;
         children = sessionElement.getElementsByTagName(ISession.XML_ELEMENT_WEATHER);
-        String weather = "";
+        StringBuilder weather = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -242,10 +239,10 @@ public class Session extends SchemaElement implements ISession {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            weather = weather + textElements.item(te).getNodeValue();
+                            weather.append(textElements.item(te).getNodeValue());
                         }
                         // weather = child.getFirstChild().getNodeValue();
-                        this.setWeather(weather);
+                        this.setWeather(weather.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving weather from session. ");
@@ -269,14 +266,14 @@ public class Session extends SchemaElement implements ISession {
                     String coObserverID = child.getFirstChild().getNodeValue();
                     if (observers != null && observers.length > 0) {
                         boolean found = false;
-                        for (int j = 0; j < observers.length; j++) {
-                            if (observers[j].getID().equals(coObserverID)) {
+                        for (IObserver observer : observers) {
+                            if (observer.getID().equals(coObserverID)) {
                                 found = true;
-                                this.addCoObserver(observers[j]);
+                                this.addCoObserver(observer);
                                 break;
                             }
                         }
-                        if (found == false) {
+                        if (!found) {
                             throw new SchemaException("Sessions coobserver links to not existing observer element. ");
                         }
                     } else {
@@ -305,14 +302,14 @@ public class Session extends SchemaElement implements ISession {
             String siteID = child.getFirstChild().getNodeValue();
             if (sites != null && sites.length > 0) {
                 boolean found = false;
-                for (int j = 0; j < sites.length; j++) {
-                    if (sites[j].getID().equals(siteID)) {
+                for (ISite iSite : sites) {
+                    if (iSite.getID().equals(siteID)) {
                         found = true;
-                        this.setSite(sites[j]);
+                        this.setSite(iSite);
                         break;
                     }
                 }
-                if (found == false) {
+                if (!found) {
                     throw new SchemaException("Sessions site links to not existing observer element. ");
                 }
             } else {
@@ -377,11 +374,14 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Constructs a new instance of a Session.
      *
-     * @param begin The start date of the session
-     * @param end   The end date of the session
-     * @param end   The site of the session
-     * @throws IllegalArgumentException if site, begin or end date is
-     *                                  <code>null</code>
+     * @param begin
+     *            The start date of the session
+     * @param end
+     *            The end date of the session
+     * @param end
+     *            The site of the session
+     * @throws IllegalArgumentException
+     *             if site, begin or end date is <code>null</code>
      */
     public Session(Calendar begin, Calendar end, ISite site) throws IllegalArgumentException {
 
@@ -398,11 +398,9 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
@@ -436,7 +434,7 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Session: Begin=");
         buffer.append(DateConverter.toISO8601(begin));
 
@@ -482,19 +480,8 @@ public class Session extends SchemaElement implements ISession {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Session and the given Object are equal. The given object is
-     * equal with this Session, if it derives from ISession and if its start and end
-     * date equals this Sessions start and end date.<br>
-     *
-     * @param obj The Object to compare this Session with.
-     * @return <code>true</code> if the given Object is an instance of ISession and
-     *         its start and end date equals this Sessions start and end date.<br>
-     * @see java.lang.Object
-     */
     /*
-     * public boolean equals(Object obj) {
+     * @Override public boolean equals(Object obj) {
      *
      * if( obj == null || !(obj instanceof ISession) ) { return false; }
      *
@@ -512,20 +499,19 @@ public class Session extends SchemaElement implements ISession {
      */
 
     // --------------
-    // Public methods ----------------------------------------------------
+    // @Override public methods ----------------------------------------------------
     // --------------
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Session to a given parent XML DOM Element. The Session element will
-     * be set as a child element of the passed element.
+     * Adds this Session to a given parent XML DOM Element. The Session element will be set as a child element of the
+     * passed element.
      *
-     * @param parent The parent element for this Session
-     * @return Returns the element given as parameter with this Session as child
-     *         element.<br>
+     * @return Returns the element given as parameter with this Session as child element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addToXmlElement(Element element) {
 
         if (element == null) {
@@ -626,10 +612,9 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the session link to an given XML DOM Element The session element itself
-     * will be attached to given elements ownerDocument if the passed boolean is
-     * <cod>true</code>. If the ownerDocument has no session container, it will be
-     * created (in case the passed boolean is <cod>true</code>).<br>
+     * Adds the session link to an given XML DOM Element The session element itself will be attached to given elements
+     * ownerDocument if the passed boolean is <cod>true</code>. If the ownerDocument has no session container, it will
+     * be created (in case the passed boolean is <cod>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;sessionLink&gt;123&lt;/sessionLink&gt;</b><br>
@@ -642,19 +627,17 @@ public class Session extends SchemaElement implements ISession {
      * <b>&lt;/sessionContainer&gt;</b><br>
      * <br>
      *
-     * @param element               The element under which the the Session link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional Session
-     *         link, and the session element under the session container of the
-     *         ownerDocument Might return <code>null</code> if element was
-     *         <code>null</code>.
+     * @param element
+     *            The element under which the the Session link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional Session link, and the session element under the
+     *         session container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -700,21 +683,22 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the session link to an given XML DOM Element The session element itself
-     * will <b>NOT</b> be attached to given elements ownerDocument. Calling this
-     * method is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the session link to an given XML DOM Element The session element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;sessionLink&gt;123&lt;/sessionLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      *
-     * @param element The element under which the the session link is created
-     * @return Returns the Element given as parameter with a additional session link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the session link is created
+     * @return Returns the Element given as parameter with a additional session link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -727,6 +711,7 @@ public class Session extends SchemaElement implements ISession {
      *
      * @return Returns the start date of the session
      */
+    @Override
     public Calendar getBegin() {
 
         return (Calendar) begin.clone();
@@ -738,9 +723,9 @@ public class Session extends SchemaElement implements ISession {
      * Returns a comment about this session.<br>
      * Might return <code>null</code> if no comment was set to this session.
      *
-     * @return Returns a comment about this session or <code>null</code> if no
-     *         comment was set at all.
+     * @return Returns a comment about this session or <code>null</code> if no comment was set at all.
      */
+    @Override
     public String getComments() {
 
         return comments;
@@ -753,6 +738,7 @@ public class Session extends SchemaElement implements ISession {
      *
      * @return Returns the end date of the session
      */
+    @Override
     public Calendar getEnd() {
 
         return (Calendar) end.clone();
@@ -765,6 +751,7 @@ public class Session extends SchemaElement implements ISession {
      *
      * @return Returns the site of the session
      */
+    @Override
     public ISite getSite() {
 
         return this.site;
@@ -774,14 +761,13 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns a string describing equipment which was used during this session.<br>
-     * Typically one should add non optical equipment here like "Radio and a warm
-     * bottle of Tea."<br>
+     * Typically one should add non optical equipment here like "Radio and a warm bottle of Tea."<br>
      * Might return <code>null</code> if no equipment was set to this session.
      *
-     * @return Returns string describing some equipment which was used during the
-     *         session or <code>null</code> if no additional equipment was used at
-     *         all.
+     * @return Returns string describing some equipment which was used during the session or <code>null</code> if no
+     *         additional equipment was used at all.
      */
+    @Override
     public String getEquipment() {
 
         return equipment;
@@ -791,12 +777,12 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Returns a describtion of the weather conditions during the session.<br>
-     * Might return <code>null</code> if no weather conditions were added to this
-     * session.
+     * Might return <code>null</code> if no weather conditions were added to this session.
      *
-     * @return Returns a describtion of the weather conditions during the session or
-     *         <code>null</code> if no weather conditions were added at all.
+     * @return Returns a describtion of the weather conditions during the session or <code>null</code> if no weather
+     *         conditions were added at all.
      */
+    @Override
     public String getWeather() {
 
         return weather;
@@ -805,14 +791,15 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Returns the language in which this session is described as ISO language
-     * string. E.g. de=German, fr=French, ...<br>
+     * Returns the language in which this session is described as ISO language string. E.g. de=German, fr=French,
+     * ...<br>
      * Might return <code>null</code> if no language was set for this session.
      *
-     * @return Returns a ISO language code that represents the sessions describtion
-     *         language or <code>null</code> if no language was set at all.
+     * @return Returns a ISO language code that represents the sessions describtion language or <code>null</code> if no
+     *         language was set at all.
      * @since 1.5
      */
+    @Override
     public String getLanguage() {
 
         return this.lang;
@@ -821,11 +808,12 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Returns a list of images (relativ path to images), taken at this session.
-     * Might return <code>null</code> if images were set.
+     * Returns a list of images (relativ path to images), taken at this session. Might return <code>null</code> if
+     * images were set.
      *
      * @return List of images or <code>null</code> if no images were set.
      */
+    @Override
     public List getImages() {
 
         if ((this.images == null) || (this.images.isEmpty())) {
@@ -840,9 +828,12 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Sets the start date of the session.<br>
      *
-     * @param begin The new start date of the session.
-     * @throws IllegalArgumentException if new start date is <code>null</code>
+     * @param begin
+     *            The new start date of the session.
+     * @throws IllegalArgumentException
+     *             if new start date is <code>null</code>
      */
+    @Override
     public void setBegin(Calendar begin) throws IllegalArgumentException {
 
         if (begin == null) {
@@ -858,8 +849,10 @@ public class Session extends SchemaElement implements ISession {
      * Sets a comment to the session.<br>
      * The old comment will be overwritten.
      *
-     * @param comments A new comment for the session
+     * @param comments
+     *            A new comment for the session
      */
+    @Override
     public void setComments(String comments) {
 
         if ((comments != null) && ("".equals(comments.trim()))) {
@@ -875,9 +868,12 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Sets the end date of the session.<br>
      *
-     * @param end The new end date of the session.
-     * @throws IllegalArgumentException if new end date is <code>null</code>
+     * @param end
+     *            The new end date of the session.
+     * @throws IllegalArgumentException
+     *             if new end date is <code>null</code>
      */
+    @Override
     public void setEnd(Calendar end) throws IllegalArgumentException {
 
         if (end == null) {
@@ -891,12 +887,13 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets a equipment description to the session.<br>
-     * Typically non optical equipment will should be stored here, e.g. "Red LED
-     * light and bottle of hot tea."<br>
+     * Typically non optical equipment will should be stored here, e.g. "Red LED light and bottle of hot tea."<br>
      * The old equipment will be overwritten.
      *
-     * @param equipment The new equipment of the session
+     * @param equipment
+     *            The new equipment of the session
      */
+    @Override
     public void setEquipment(String equipment) {
 
         if ((equipment != null) && ("".equals(equipment.trim()))) {
@@ -913,9 +910,12 @@ public class Session extends SchemaElement implements ISession {
      * Sets a site (location) where the session took place.<br>
      * A session can only took place at one site.
      *
-     * @param site The site where the session took place.
-     * @throws IllegalArgumentException if site is <code>null</code>
+     * @param site
+     *            The site where the session took place.
+     * @throws IllegalArgumentException
+     *             if site is <code>null</code>
      */
+    @Override
     public void setSite(ISite site) throws IllegalArgumentException {
 
         if (site == null) {
@@ -929,39 +929,22 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets a new List of coobservers to this session.<br>
-     * The old List of coobservers will be overwritten. If you want to add one ore
-     * more coobservers to the existing list use addCoObservers(java.util.List) or
-     * addCoObserver(IObserver) instead.
+     * The old List of coobservers will be overwritten. If you want to add one ore more coobservers to the existing list
+     * use addCoObservers(java.util.List) or addCoObserver(IObserver) instead.
      *
-     * @param coObservers The new List of coobservers of the session
-     * @return <b>true</b> if the list could be set successfully, <b>false</b> if
-     *         the operation fails, because e.g. one of the lists elements does not
-     *         implement the IObserver interface. If <b>false</b> is returned the
-     *         existing list is not changed at all.
+     * @param coObservers
+     *            The new List of coobservers of the session
      */
-    public boolean setCoObservers(List coObservers) {
+    @Override
+    public void setCoObservers(List coObservers) {
 
         if (coObservers == null) {
             this.coObservers = null;
-            return true;
-        }
-
-        // Check if every single entry is a IObserver implementation (this might be a
-        // little paranoic...ok)
-        ListIterator iterator = coObservers.listIterator();
-        IObserver current = null;
-        if (iterator.hasNext()) {
-            try {
-                current = (IObserver) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
-
+            return;
         }
 
         this.coObservers.clear();
         this.coObservers.addAll(coObservers);
-        return true;
 
     }
 
@@ -970,29 +953,18 @@ public class Session extends SchemaElement implements ISession {
      * Adds a List of coobservers to this session.<br>
      * The old List of coobservers will be extended by the new List of coobservers.
      *
-     * @param coObservers A List of coobservers which will be added to the existing
-     *                    List of coobservers which is stored in the session
-     * @return <b>true</b> if the list could be added to the existing list,
-     *         <b>false</b> if the operation fails, because e.g. one of the lists
-     *         elements does not implement the IObserver interface. If <b>false</b>
-     *         is returned the existing list is not changed at all.
+     * @param coObservers
+     *            A List of coobservers which will be added to the existing List of coobservers which is stored in the
+     *            session
+     * @return <b>true</b> if the list could be added to the existing list, <b>false</b> if the operation fails, because
+     *         e.g. one of the lists elements does not implement the IObserver interface. If <b>false</b> is returned
+     *         the existing list is not changed at all.
      */
+    @Override
     public boolean addCoObservers(List coObservers) {
 
         if (coObservers == null) {
             return true;
-        }
-
-        // Check if every single entry is a IObserver implementation (this might be a
-        // little paranoic...ok)
-        ListIterator iterator = coObservers.listIterator();
-        IObserver current = null;
-        if (iterator.hasNext()) {
-            try {
-                current = (IObserver) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
         }
 
         this.coObservers.addAll(coObservers);
@@ -1004,20 +976,17 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Adds a single coobserver to this session.<br>
      *
-     * @param coObserver A new coobserver who will be addded to the List of
-     *                   coobservers
-     * @return <b>true</b> if the new coobserver could be added, <b>false</b> if the
-     *         operation fails, because e.g. the given IObserver is
-     *         <code>null</code>
+     * @param coObserver
+     *            A new coobserver who will be addded to the List of coobservers
      */
-    public boolean addCoObserver(IObserver coObserver) {
+    @Override
+    public void addCoObserver(IObserver coObserver) {
 
         if (coObserver == null) {
-            return false;
+            return;
         }
 
         this.coObservers.add(coObserver);
-        return true;
 
     }
 
@@ -1026,9 +995,9 @@ public class Session extends SchemaElement implements ISession {
      * Returns a List of coobservers who joined this session.<br>
      * Might return <code>null</code> if no coobservers were added to this session.
      *
-     * @return Returns a List of coobserver or <code>null</code> if coobservers were
-     *         never added.
+     * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
      */
+    @Override
     public List getCoObservers() {
 
         return this.coObservers;
@@ -1038,12 +1007,13 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets the weather conditions of the session.<br>
-     * The weather conditions string should explain in some short sentences, how the
-     * weather conditions were like during the session. E.g. "Small clouds at the
-     * first hour but then totally clear and cool, at about 4\u00b0C."
+     * The weather conditions string should explain in some short sentences, how the weather conditions were like during
+     * the session. E.g. "Small clouds at the first hour but then totally clear and cool, at about 4\u00b0C."
      *
-     * @param weather A string describing the weather conditions during the session
+     * @param weather
+     *            A string describing the weather conditions during the session
      */
+    @Override
     public void setWeather(String weather) {
 
         if ((weather != null) && ("".equals(weather.trim()))) {
@@ -1057,12 +1027,14 @@ public class Session extends SchemaElement implements ISession {
 
     // -------------------------------------------------------------------
     /**
-     * Sets the language in which this session is described. String must be given as
-     * ISO language string. E.g. de=German, fr=French, ...<br>
+     * Sets the language in which this session is described. String must be given as ISO language string. E.g.
+     * de=German, fr=French, ...<br>
      *
-     * @param language ISO language string
+     * @param language
+     *            ISO language string
      * @since 1.5
      */
+    @Override
     public void setLanguage(String language) {
 
         if ((language != null) && ("".equals(language.trim()))) {
@@ -1077,36 +1049,21 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Adds a List of image paths (String) to this session.<br>
-     * The new list of images will be added to the existing list of images belonging
-     * to this session. If you want to replace the old images list use
-     * setImages(java.util.List).<br>
-     * If the new list of images was successfully added to the old images list, the
-     * method will return <b>true</b>. If the list is empty or <code>null</code>,
-     * the old result list will remain unchanged.
+     * The new list of images will be added to the existing list of images belonging to this session. If you want to
+     * replace the old images list use setImages(java.util.List).<br>
+     * If the new list of images was successfully added to the old images list, the method will return <b>true</b>. If
+     * the list is empty or <code>null</code>, the old result list will remain unchanged.
      *
-     * @param images A list (containing Strings) with additional images (path) for
-     *               this session
-     * @return <b>true</b> if the given list was successfully added to this session
-     *         images list. <b>false</b> if the new list could not be added and the
-     *         old list remains unchanged.
-     * @see de.lehmannet.om.ISession#setResults(java.util.List images)
+     * @param images
+     *            A list (containing Strings) with additional images (path) for this session
+     * @return <b>true</b> if the given list was successfully added to this session images list. <b>false</b> if the new
+     *         list could not be added and the old list remains unchanged.
      */
+    @Override
     public boolean addImages(List images) {
 
         if ((images == null) || (images.isEmpty())) {
             return false;
-        }
-
-        // Check if every single entry is a String (this might be a little
-        // paranoic...ok)
-        ListIterator iterator = images.listIterator();
-        String current = null;
-        while (iterator.hasNext()) {
-            try {
-                current = (String) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
         }
 
         this.images.addAll(images);
@@ -1118,8 +1075,10 @@ public class Session extends SchemaElement implements ISession {
     /**
      * Adds a new image (path) to this session.<br>
      *
-     * @param imagePath A new image for this session
+     * @param imagePath
+     *            A new image for this session
      */
+    @Override
     public void addImage(String imagePath) {
 
         if (imagePath == null) {
@@ -1133,22 +1092,21 @@ public class Session extends SchemaElement implements ISession {
     // -------------------------------------------------------------------
     /**
      * Sets a List of images (path as String) for this session.<br>
-     * The old list of images will be overwritten. If you want to add one ore more
-     * images to the existing ones use addImages(java.util.List) or
-     * addImage(String).<br>
-     * If the new list of images was successfully attached to this session, the
-     * method will return <b>true</b>. If one of the elements in the list isn't a
-     * java.lang.String object <b>false</b> is returned.<br>
+     * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
+     * addImages(java.util.List) or addImage(String).<br>
+     * If the new list of images was successfully attached to this session, the method will return <b>true</b>. If one
+     * of the elements in the list isn't a java.lang.String object <b>false</b> is returned.<br>
      * If the new list is <code>null</code>, an IllegalArgumentException is thrown.
      *
-     * @param imagesList The new (String) list of images for this session
-     * @return <b>true</b> if the given list was successfully set to this session.
-     *         <b>false</b> if one of the lists elements wasn't a String
+     * @param imagesList
+     *            The new (String) list of images for this session
      * @see de.lehmannet.om.ISession#addImages(java.util.List images)
      * @see de.lehmannet.om.ISession#addImage(String image)
-     * @throws IllegalArgumentException if new image list is <code>null</code>
+     * @throws IllegalArgumentException
+     *             if new image list is <code>null</code>
      */
-    public boolean setImages(List imagesList) throws IllegalArgumentException {
+    @Override
+    public void setImages(List imagesList) throws IllegalArgumentException {
 
         if (imagesList == null) {
             throw new IllegalArgumentException("Images list cannot be null. ");
@@ -1156,23 +1114,10 @@ public class Session extends SchemaElement implements ISession {
 
         if (imagesList.isEmpty()) {
             this.images.clear();
-            return true;
-        }
-
-        // Check if every single entry is a String (this might be a little
-        // paranoic...ok)
-        ListIterator iterator = imagesList.listIterator();
-        String current = null;
-        if (iterator.hasNext()) {
-            try {
-                current = (String) iterator.next();
-            } catch (ClassCastException cce) {
-                return false;
-            }
+            return;
         }
 
         this.images = imagesList;
-        return true;
 
     }
 

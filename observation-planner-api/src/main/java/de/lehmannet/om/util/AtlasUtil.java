@@ -12,22 +12,20 @@ import de.lehmannet.om.EquPosition;
 public class AtlasUtil {
 
     // Uranometria borders and pages
-    private static final int DEC_BORDERS[] = new int[] { -900, -845, -725, -610, -500, -390, -280, -170, -55, 55, 170,
+    private static final int[] DEC_BORDERS = new int[] { -900, -845, -725, -610, -500, -390, -280, -170, -55, 55, 170,
             280, 390, 500, 610, 725, 845, 900 };
-    private static final int DIV[] = new int[] { 2, 12, 20, 24, 30, 36, 45, 45, 45, 45, 45, 36, 30, 24, 20, 12, 2 };
+    private static final int[] DIV = new int[] { 2, 12, 20, 24, 30, 36, 45, 45, 45, 45, 45, 36, 30, 24, 20, 12, 2 };
 
     // Uranometria 2000.0 borders and pages
-    private static final double DEC_BORDERS2000[] = new double[] { 84.5, 73.5, 62.0, 51.0, 40.0, 29.0, 17.0, 5.5, 0.0,
+    private static final double[] DEC_BORDERS2000 = new double[] { 84.5, 73.5, 62.0, 51.0, 40.0, 29.0, 17.0, 5.5, 0.0,
             0.0 };
-    private static final int DIV2000[] = new int[] { 1, 6, 10, 12, 15, 18, 18, 20, 20, 0 };
+    private static final int[] DIV2000 = new int[] { 1, 6, 10, 12, 15, 18, 18, 20, 20, 0 };
 
     // Millenium StarAtlas pages
     private static final int[] P_ZONE = { 2, 4, 8, 10, 12, 14, 16, 20, 20, 22, 22, 24, 24, 24, 24, 24, 24, 24, 24, 24,
             22, 22, 20, 20, 16, 14, 12, 10, 8, 4, 2 };
 
     public static int getSkyAtlas2000Page(EquPosition position) {
-
-        int start = 472;
 
         double dec = position.getDecAngle().toDegree();
         double ra = position.getRaDecimalHours();

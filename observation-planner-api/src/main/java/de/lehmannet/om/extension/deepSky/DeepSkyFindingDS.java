@@ -13,17 +13,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.IFinding;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyFindingDS extends the de.lehmannet.om.DeepSkyFinding class. Its
- * specialised for double star observations and their findings. The class is
- * mostly oriented after the recommondations of the german "VdS - DeepSky" group
+ * DeepSkyFindingDS extends the de.lehmannet.om.DeepSkyFinding class. Its specialised for double star observations and
+ * their findings. The class is mostly oriented after the recommondations of the german "VdS - DeepSky" group
  * (<a href="http://www.fachgruppe-deepsky.de/">Homepage</a>).<br>
- * The field rating is based on a seven step scale recommended by "VDS -
- * DeepSky" group. The scales value should be interpreted as the following table
- * explains:
+ * The field rating is based on a seven step scale recommended by "VDS - DeepSky" group. The scales value should be
+ * interpreted as the following table explains:
  * <table>
  * <tr>
  * <td>1</td>
@@ -57,16 +54,16 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     public static final String XML_XSI_TYPE_VALUE = "oal:findingsDeepSkyDSType";
 
     // Constant for XML representation: finding element character
-    public static final String XML_ELEMENT_COLORMAIN = "colorMain";
+    private static final String XML_ELEMENT_COLORMAIN = "colorMain";
 
     // Constant for XML representation: finding element character
-    public static final String XML_ELEMENT_COLORCOMPANION = "colorCompanion";
+    private static final String XML_ELEMENT_COLORCOMPANION = "colorCompanion";
 
     // Constant for XML representation: finding element attribute character
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS = "equalBrightness";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS = "equalBrightness";
 
     // Constant for XML representation: finding element attribute character
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING = "niceSurrounding";
+    private static final String XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING = "niceSurrounding";
 
     // Star color types
     public static final String COLOR_WHITE = "white";
@@ -113,19 +110,18 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         // Get optional equalBrightness attribute
         String eqBr = finding.getAttribute(DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS);
         if ((eqBr != null) && (!"".equals(eqBr.trim()))) {
-            this.setEqualBrightness(new Boolean(eqBr));
+            this.setEqualBrightness(Boolean.valueOf(eqBr));
         }
 
         // Get optional niceSurrounding attribute
         String niSu = finding.getAttribute(DeepSkyFindingDS.XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING);
         if ((niSu != null) && (!"".equals(niSu.trim()))) {
-            this.setNiceSurrounding(new Boolean(niSu));
+            this.setNiceSurrounding(Boolean.valueOf(niSu));
         }
 
         // Get optional color of mainstar
-        child = null;
         children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORMAIN);
-        String c = "";
+        StringBuilder c = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -133,11 +129,11 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            c = c + textElements.item(te).getNodeValue();
+                            c.append(textElements.item(te).getNodeValue());
                         }
                     }
                     // c = child.getFirstChild().getNodeValue();
-                    this.setMainStarColor(c);
+                    this.setMainStarColor(c.toString());
                 } else {
                     throw new SchemaException("Problem while retrieving main color from DeepSkyFindingDS. ");
                 }
@@ -149,7 +145,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         // Get optional color of companionstar
         child = null;
         children = finding.getElementsByTagName(DeepSkyFindingDS.XML_ELEMENT_COLORCOMPANION);
-        c = "";
+        c = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -157,10 +153,10 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            c = c + textElements.item(te).getNodeValue();
+                            c.append(textElements.item(te).getNodeValue());
                         }
                         // c = child.getFirstChild().getNodeValue();
-                        this.setCompanionStarColor(c);
+                        this.setCompanionStarColor(c.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving companion color from DeepSkyFindingDS. ");
@@ -176,10 +172,12 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     /**
      * Constructs a new instance of a DeepSkyFindingDS.
      *
-     * @param description The description of the finding
-     * @param rating      The rating of the finding
-     * @throws IllegalArgumentException if description was <code>null</code> or
-     *                                  rating had a illegal value.
+     * @param description
+     *            The description of the finding
+     * @param rating
+     *            The rating of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code> or rating had a illegal value.
      */
     public DeepSkyFindingDS(String description, int rating) throws IllegalArgumentException {
 
@@ -202,7 +200,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer(super.toString());
+        StringBuilder buffer = new StringBuilder(super.toString());
 
         if (equalBrightness != -1) {
             buffer.append(" EqualBrightness=");
@@ -230,9 +228,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         return result;
 
     }
-
-
-
 
     @Override
     public int hashCode() {
@@ -266,9 +261,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             return false;
         if (equalBrightness != other.equalBrightness)
             return false;
-        if (niceSurrounding != other.niceSurrounding)
-            return false;
-        return true;
+        return niceSurrounding == other.niceSurrounding;
     }
 
     // ------------------------
@@ -295,17 +288,14 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // Finding -----------------------------------------------------------
     // -------
 
-
-
     // -------------------------------------------------------------------
     /**
-     * Adds this DeepSkyFindingDS to an given parent XML DOM Element. The
-     * DeepSkyFindingDS Element will be set as a child element of the passed
-     * Element.
+     * Adds this DeepSkyFindingDS to an given parent XML DOM Element. The DeepSkyFindingDS Element will be set as a
+     * child element of the passed Element.
      *
-     * @param parent The parent element for this DeepSkyFindingDS
-     * @return Returns the Element given as parameter with this DeepSkyFindingDS as
-     *         child Element.<br>
+     * @param parent
+     *            The parent element for this DeepSkyFindingDS
+     * @return Returns the Element given as parameter with this DeepSkyFindingDS as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -335,14 +325,14 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
         if (this.colorMain != null) {
             Element e_ColorMain = ownerDoc.createElement(XML_ELEMENT_COLORMAIN);
-            Node n_ColorMainText = ownerDoc.createCDATASection(this.getColorMain().toString());
+            Node n_ColorMainText = ownerDoc.createCDATASection(this.getColorMain());
             e_ColorMain.appendChild(n_ColorMainText);
             e_Finding.appendChild(e_ColorMain);
         }
 
         if (this.colorCompanion != null) {
             Element e_ColorCompanion = ownerDoc.createElement(XML_ELEMENT_COLORCOMPANION);
-            Node n_ColorCompanionText = ownerDoc.createCDATASection(this.getColorCompanion().toString());
+            Node n_ColorCompanionText = ownerDoc.createCDATASection(this.getColorCompanion());
             e_ColorCompanion.appendChild(n_ColorCompanionText);
             e_Finding.appendChild(e_ColorCompanion);
         }
@@ -363,9 +353,8 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Describes if both stars have an equal brightness.
      *
      * @return <code>true</code> if both stars have an equal brightness
-     * @throws IllegalStateException if equalBrightness was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if equalBrightness was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getEqualBrightness() throws IllegalStateException {
 
@@ -373,11 +362,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             throw new IllegalStateException("EqualBrightness value was never set for: " + this);
         }
 
-        if (equalBrightness == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return equalBrightness == 1;
 
     }
 
@@ -387,9 +372,8 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Describes if the double star has a nice surrounding.
      *
      * @return <code>true</code> if the observed object has a nice surrounding.
-     * @throws IllegalStateException if niceSurrounding was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if niceSurrounding was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getNiceSurrounding() throws IllegalStateException {
 
@@ -397,11 +381,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             throw new IllegalStateException("NiceSurrounding value was never set for: " + this);
         }
 
-        if (niceSurrounding == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return niceSurrounding == 1;
 
     }
 
@@ -410,8 +390,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Returns the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
-     * @return A string describing the color of the main star or <code>null</code>
-     *         if the value was never set
+     * @return A string describing the color of the main star or <code>null</code> if the value was never set
      */
     public String getColorMain() {
 
@@ -424,8 +403,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Returns the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
-     * @return A string describing the color of the companion star or
-     *         <code>null</code> if the value was never set
+     * @return A string describing the color of the companion star or <code>null</code> if the value was never set
      */
     public String getColorCompanion() {
 
@@ -438,9 +416,9 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Sets the equalBrightness value of this DeepSkyFindingDS.<br>
      * Describes if both stars have an equal brightness.
      *
-     * @param equalBrightness The equalBrightness value to set for this
-     *                        DeepSkyFindingDS or <code>NULL</code> if the value
-     *                        should be not set at all.
+     * @param equalBrightness
+     *            The equalBrightness value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setEqualBrightness(Boolean equalBrightness) {
 
@@ -449,7 +427,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             return;
         }
 
-        if (equalBrightness.booleanValue() == true) {
+        if (equalBrightness) {
             this.equalBrightness = 1;
         } else {
             this.equalBrightness = 0;
@@ -462,9 +440,9 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Sets the niceSurrounding value of this DeepSkyFindingDS.<br>
      * Describes if the observed object has a nice surrounding.
      *
-     * @param niceSurrounding The niceSurrounding value to set for this
-     *                        DeepSkyFindingDS or <code>NULL</code> if the value
-     *                        should be not set at all.
+     * @param niceSurrounding
+     *            The niceSurrounding value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setNiceSurrounding(Boolean niceSurrounding) {
 
@@ -473,7 +451,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             return;
         }
 
-        if (niceSurrounding.booleanValue() == true) {
+        if (niceSurrounding) {
             this.niceSurrounding = 1;
         } else {
             this.niceSurrounding = 0;
@@ -486,9 +464,11 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Sets the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
-     * @param color The color value to set for this DeepSkyFindingDS or
-     *              <code>NULL</code> if the value should be not set at all.
-     * @throws IllegalArgumentException if the given color value is invalid
+     * @param color
+     *            The color value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be not set
+     *            at all.
+     * @throws IllegalArgumentException
+     *             if the given color value is invalid
      */
     public void setMainStarColor(String color) throws IllegalArgumentException {
 
@@ -512,9 +492,11 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Sets the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
-     * @param color The color value to set for this DeepSkyFindingDS or
-     *              <code>NULL</code> if the value should be not set at all.
-     * @throws IllegalArgumentException if the given color value is invalid
+     * @param color
+     *            The color value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be not set
+     *            at all.
+     * @throws IllegalArgumentException
+     *             if the given color value is invalid
      */
     public void setCompanionStarColor(String color) throws IllegalArgumentException {
 

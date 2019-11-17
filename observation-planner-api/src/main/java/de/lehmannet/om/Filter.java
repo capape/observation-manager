@@ -17,8 +17,8 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * Filter implements the class de.lehmannet.om.IFilter. A Filter describes a
- * optical filter used during the observation.<br>
+ * Filter implements the class de.lehmannet.om.IFilter. A Filter describes a optical filter used during the
+ * observation.<br>
  * This includes all kind of filters like color filters, band filter, ... <br>
  * The model name and the type are mandatory fields which have to be set.
  * 
@@ -32,10 +32,10 @@ public class Filter extends SchemaElement implements IFilter {
     // ------------------
 
     // Model name of the filter (usually given by vendor)
-    private String model = new String();
+    private String model = "";
 
     // Type of filter (Narrow band, Color, O-III, ...)
-    private String type = new String();
+    private String type = "";
 
     // Color of filter (only relevant for color filter type)
     private String color = null;
@@ -61,10 +61,12 @@ public class Filter extends SchemaElement implements IFilter {
      * Constructs a new instance of a Filter from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
-     * @param filter The XML Schema element that represents this filter
-     * @throws IllegalArgumentException if parameter is <code>null</code>,
-     * @throws SchemaException          if the given Node does not match the XML
-     *                                  Schema specifications
+     * @param filter
+     *            The XML Schema element that represents this filter
+     * @throws IllegalArgumentException
+     *             if parameter is <code>null</code>,
+     * @throws SchemaException
+     *             if the given Node does not match the XML Schema specifications
      */
     public Filter(Node filter) throws SchemaException, IllegalArgumentException {
 
@@ -95,7 +97,7 @@ public class Filter extends SchemaElement implements IFilter {
             throw new SchemaException("Filter must have exact one model name. ");
         }
         child = (Element) children.item(0);
-        String model = "";
+        StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Filter must have a model name. ");
         } else {
@@ -103,11 +105,11 @@ public class Filter extends SchemaElement implements IFilter {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        model = model + textElements.item(te).getNodeValue();
+                        model.append(textElements.item(te).getNodeValue());
                     }
-                    this.setModel(model);
+                    this.setModel(model.toString());
                 }
-//                model = child.getFirstChild().getNodeValue();                
+                // model = child.getFirstChild().getNodeValue();
             } else {
                 throw new SchemaException("Filter cannot have an empty model name. ");
             }
@@ -119,7 +121,7 @@ public class Filter extends SchemaElement implements IFilter {
             throw new SchemaException("Filter must have exact one type. ");
         }
         child = (Element) children.item(0);
-        String type = "";
+        StringBuilder type = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Filter must have a type. ");
         } else {
@@ -127,9 +129,9 @@ public class Filter extends SchemaElement implements IFilter {
                 NodeList textElements = child.getChildNodes();
                 if ((textElements != null) && (textElements.getLength() > 0)) {
                     for (int te = 0; te < textElements.getLength(); te++) {
-                        type = type + textElements.item(te).getNodeValue();
+                        type.append(textElements.item(te).getNodeValue());
                     }
-                    this.setType(type);
+                    this.setType(type.toString());
                 }
                 // type = child.getFirstChild().getNodeValue();
             } else {
@@ -152,7 +154,7 @@ public class Filter extends SchemaElement implements IFilter {
         // Get optional color
         child = null;
         children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_COLOR);
-        String color = "";
+        StringBuilder color = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -160,13 +162,12 @@ public class Filter extends SchemaElement implements IFilter {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            color = color + textElements.item(te).getNodeValue();
+                            color.append(textElements.item(te).getNodeValue());
                         }
-                        this.setColor(color);
+                        this.setColor(color.toString());
                     }
                     /*
-                     * color = child.getFirstChild().getNodeValue(); if( color != null ) {
-                     * this.setColor(color); }
+                     * color = child.getFirstChild().getNodeValue(); if( color != null ) { this.setColor(color); }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving color from filter. ");
@@ -179,7 +180,7 @@ public class Filter extends SchemaElement implements IFilter {
         // Get optional wratten value
         child = null;
         children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_WRATTEN);
-        String wratten = "";
+        StringBuilder wratten = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -187,13 +188,13 @@ public class Filter extends SchemaElement implements IFilter {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            wratten = wratten + textElements.item(te).getNodeValue();
+                            wratten.append(textElements.item(te).getNodeValue());
                         }
-                        this.setWratten(wratten);
+                        this.setWratten(wratten.toString());
                     }
                     /*
-                     * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) {
-                     * this.setWratten(wratten); }
+                     * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) { this.setWratten(wratten);
+                     * }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving wratten value from filter. ");
@@ -206,7 +207,7 @@ public class Filter extends SchemaElement implements IFilter {
         // Get optional schott value
         child = null;
         children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_SCHOTT);
-        String schott = "";
+        StringBuilder schott = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -214,13 +215,12 @@ public class Filter extends SchemaElement implements IFilter {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            schott = schott + textElements.item(te).getNodeValue();
+                            schott.append(textElements.item(te).getNodeValue());
                         }
-                        this.setSchott(schott);
+                        this.setSchott(schott.toString());
                     }
                     /*
-                     * schott = child.getFirstChild().getNodeValue(); if( schott != null ) {
-                     * this.setSchott(schott); }
+                     * schott = child.getFirstChild().getNodeValue(); if( schott != null ) { this.setSchott(schott); }
                      */
                 } else {
                     throw new SchemaException("Problem while retrieving schott value from filter. ");
@@ -233,7 +233,7 @@ public class Filter extends SchemaElement implements IFilter {
         // Get optional vendor name
         child = null;
         children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_VENDOR);
-        String vendor = "";
+        StringBuilder vendor = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
                 child = (Element) children.item(0);
@@ -241,9 +241,9 @@ public class Filter extends SchemaElement implements IFilter {
                     NodeList textElements = child.getChildNodes();
                     if ((textElements != null) && (textElements.getLength() > 0)) {
                         for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor = vendor + textElements.item(te).getNodeValue();
+                            vendor.append(textElements.item(te).getNodeValue());
                         }
-                        this.setVendor(vendor);
+                        this.setVendor(vendor.toString());
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving vendor name from filter. ");
@@ -259,13 +259,15 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Constructs a new instance of a Filter.<br>
      *
-     * @param model The filter model name
-     * @param type  The type of the filter (use IFilter constants)
-     * @throws IllegalArgumentException if model is empty <code>null</code> or type
-     *                                  is empty, <code>null</code> or does not
-     *                                  represent a type value from IFilter.
+     * @param model
+     *            The filter model name
+     * @param type
+     *            The type of the filter (use IFilter constants)
+     * @throws IllegalArgumentException
+     *             if model is empty <code>null</code> or type is empty, <code>null</code> or does not represent a type
+     *             value from IFilter.
      */
-    public Filter(String model, String type) throws IllegalArgumentException {
+    public Filter(String model, String type) {
 
         this.setModel(model);
         this.setType(type);
@@ -279,8 +281,7 @@ public class Filter extends SchemaElement implements IFilter {
     // -------------------------------------------------------------------
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
-     * Returns all fields of the class Filter (unset field will be ignored). The
-     * result string will look like this:<br>
+     * Returns all fields of the class Filter (unset field will be ignored). The result string will look like this:<br>
      * Example:<br>
      * <code>
      * Filter Model: Meade Narrowband<br>
@@ -293,27 +294,27 @@ public class Filter extends SchemaElement implements IFilter {
     @Override
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("Filter Model: ");
-        buffer.append(this.getModel() + "\n");
+        buffer.append(this.getModel()).append("\n");
 
         buffer.append("Type: ");
-        buffer.append(this.getType() + "\n");
+        buffer.append(this.getType()).append("\n");
 
         if (color != null) {
             buffer.append("Color: ");
-            buffer.append(this.getColor() + "\n");
+            buffer.append(this.getColor()).append("\n");
         }
 
         if (wratten != null) {
             buffer.append("Wratten: ");
-            buffer.append(this.getWratten() + "\n");
+            buffer.append(this.getWratten()).append("\n");
         }
 
         if (schott != null) {
             buffer.append("Schott: ");
-            buffer.append(this.getSchott() + "\n");
+            buffer.append(this.getSchott()).append("\n");
         }
 
         return buffer.toString();
@@ -321,18 +322,6 @@ public class Filter extends SchemaElement implements IFilter {
     }
 
     // -------------------------------------------------------------------
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this Filter and the given Object are equal. The given object is
-     * equal with this Filter, if its implementing IFilter and its modelname, type,
-     * color, wratten and schott value matches the values of this Filter.
-     * 
-     * @param obj The Object to compare this Filter with.
-     * @return <code>true</code> if the given Object is an instance of IFilter and
-     *         its modelname, type, color, wratten and schott value matches with
-     *         this Filter.<br>
-     * @see java.lang.Object
-     */
     /*
      * public boolean equals(Object obj) {
      * 
@@ -344,14 +333,14 @@ public class Filter extends SchemaElement implements IFilter {
      * 
      * if( !(this.type.equals(filter.getType())) ) { return false; }
      * 
-     * if( this.color != null ) { if( !this.color.equals(filter.getColor()) ) {
-     * return false; } } else if( filter.getColor() != null ) { return false; }
+     * if( this.color != null ) { if( !this.color.equals(filter.getColor()) ) { return false; } } else if(
+     * filter.getColor() != null ) { return false; }
      * 
-     * if( this.wratten != null ) { if( !this.wratten.equals(filter.getWratten()) )
-     * { return false; } } else if( filter.getWratten() != null ) { return false; }
+     * if( this.wratten != null ) { if( !this.wratten.equals(filter.getWratten()) ) { return false; } } else if(
+     * filter.getWratten() != null ) { return false; }
      * 
-     * if( this.schott != null ) { if( !this.schott.equals(filter.getSchott()) ) {
-     * return false; } } else if( filter.getSchott() != null ) { return false; }
+     * if( this.schott != null ) { if( !this.schott.equals(filter.getSchott()) ) { return false; } } else if(
+     * filter.getSchott() != null ) { return false; }
      * 
      * return true;
      * 
@@ -365,28 +354,24 @@ public class Filter extends SchemaElement implements IFilter {
     // -------------------------------------------------------------------
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more
-     * technical information about the element. Also the formating of toString() can
-     * spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in
-     * e.g. a UI dropdown box.
+     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * Also the formating of toString() can spread over several lines.<br>
+     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
-     * @see java.lang.Object.toString();
+     * 
      */
 
     @Override
     public String getDisplayName() {
 
-        String dn = this.getModel();// + " " + this.getType();
         /*
-         * if( (this.color != null) && !("".equals(this.color.trim())) ) { dn = dn + " "
-         * + this.getColor(); }
+         * if( (this.color != null) && !("".equals(this.color.trim())) ) { dn = dn + " " + this.getColor(); }
          */
 
         // Don't add type and color as we wanna translate them later on UI
 
-        return dn;
+        return this.getModel();
 
     }
 
@@ -400,6 +385,7 @@ public class Filter extends SchemaElement implements IFilter {
      * 
      * @return a boolean with the availability of the element
      */
+    @Override
     public boolean isAvailable() {
 
         return this.available;
@@ -410,9 +396,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Sets the availability of this element.<br>
      * 
-     * @param available A boolean value indicating whether this element is still
-     *                  available for usage
+     * @param available
+     *            A boolean value indicating whether this element is still available for usage
      */
+    @Override
     public void setAvailability(boolean available) {
 
         this.available = available;
@@ -425,19 +412,18 @@ public class Filter extends SchemaElement implements IFilter {
 
     // -------------------------------------------------------------------
     /**
-     * Adds this Filter to a given parent XML DOM Element. The Filter element will
-     * be set as a child element of the passed element.
+     * Adds this Filter to a given parent XML DOM Element. The Filter element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Filter
-     * @return Returns the element given as parameter with this Filter as child
-     *         element.<br>
-     *         Might return <code>null</code> if parent was <code>null</code>.
+     * @param element
+     *            The parent element for this Filter
      * @see org.w3c.dom.Element
      */
-    public Element addToXmlElement(Element element) {
+    @Override
+    public void addToXmlElement(Element element) {
 
         if (element == null) {
-            return null;
+            return;
         }
 
         Document ownerDoc = element.getOwnerDocument();
@@ -453,72 +439,69 @@ public class Filter extends SchemaElement implements IFilter {
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
                         && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
-                    return element;
+                    return;
                 }
             }
         }
 
         // Create the new filter element
-        Element e_Filter = ownerDoc.createElement(IFilter.XML_ELEMENT_FILTER);
-        e_Filter.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        Element eFilter = ownerDoc.createElement(IFilter.XML_ELEMENT_FILTER);
+        eFilter.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, super.getID());
 
-        element.appendChild(e_Filter);
+        element.appendChild(eFilter);
 
         // ----- Set Comments (do this at the very beginning to possibly increase speed
         // during read)
         if (!this.isAvailable()) {
             Comment comment = ownerDoc.createComment(IEquipment.XML_COMMENT_ELEMENT_NOLONGERAVAILABLE);
-            e_Filter.appendChild(comment);
+            eFilter.appendChild(comment);
         }
 
-        Element e_Model = ownerDoc.createElement(IFilter.XML_ELEMENT_MODEL);
-        Node n_ModelText = ownerDoc.createCDATASection(this.model);
-        e_Model.appendChild(n_ModelText);
-        e_Filter.appendChild(e_Model);
+        Element eModel = ownerDoc.createElement(IFilter.XML_ELEMENT_MODEL);
+        Node nModelText = ownerDoc.createCDATASection(this.model);
+        eModel.appendChild(nModelText);
+        eFilter.appendChild(eModel);
 
         if (vendor != null) {
-            Element e_Vendor = ownerDoc.createElement(IFilter.XML_ELEMENT_VENDOR);
-            Node n_VendorText = ownerDoc.createCDATASection(this.vendor);
-            e_Vendor.appendChild(n_VendorText);
-            e_Filter.appendChild(e_Vendor);
+            Element eVendor = ownerDoc.createElement(IFilter.XML_ELEMENT_VENDOR);
+            Node nVendorText = ownerDoc.createCDATASection(this.vendor);
+            eVendor.appendChild(nVendorText);
+            eFilter.appendChild(eVendor);
         }
 
         Element e_Type = ownerDoc.createElement(IFilter.XML_ELEMENT_TYPE);
         Node n_TypeText = ownerDoc.createCDATASection(this.type);
         e_Type.appendChild(n_TypeText);
-        e_Filter.appendChild(e_Type);
+        eFilter.appendChild(e_Type);
 
         if (color != null) {
             Element e_Color = ownerDoc.createElement(IFilter.XML_ELEMENT_COLOR);
             Node n_ColorText = ownerDoc.createCDATASection(this.color);
             e_Color.appendChild(n_ColorText);
-            e_Filter.appendChild(e_Color);
+            eFilter.appendChild(e_Color);
         }
 
         if (wratten != null) {
             Element e_Wratten = ownerDoc.createElement(IFilter.XML_ELEMENT_WRATTEN);
             Node n_WrattenText = ownerDoc.createCDATASection(this.wratten);
             e_Wratten.appendChild(n_WrattenText);
-            e_Filter.appendChild(e_Wratten);
+            eFilter.appendChild(e_Wratten);
         }
 
         if (schott != null) {
             Element e_Schott = ownerDoc.createElement(IFilter.XML_ELEMENT_SCHOTT);
             Node n_SchottText = ownerDoc.createCDATASection(this.schott);
             e_Schott.appendChild(n_SchottText);
-            e_Filter.appendChild(e_Schott);
+            eFilter.appendChild(e_Schott);
         }
-
-        return element;
 
     }
 
     // -------------------------------------------------------------------
     /**
-     * Adds the filter link to an given XML DOM Element The filter element itself
-     * will be attached to given elements ownerDocument if the passed boolean was
-     * <code>true</code>. If the ownerDocument has no filter container, it will be
-     * created (in case the passed boolean was <code>true</code>).<br>
+     * Adds the filter link to an given XML DOM Element The filter element itself will be attached to given elements
+     * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no filter container, it will
+     * be created (in case the passed boolean was <code>true</code>).<br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;filter&gt;123&lt;/filter&gt;</b><br>
@@ -531,19 +514,17 @@ public class Filter extends SchemaElement implements IFilter {
      * <b>&lt;/filterContainer&gt;</b><br>
      * <br>
      * 
-     * @param element               The element under which the the filter link is
-     *                              created
-     * @param addElementToContainer if <code>true</code> it's ensured that the
-     *                              linked element exists in the corresponding
-     *                              container element. Please note, passing
-     *                              <code>true</code> slowes down XML serialization.
-     * @return Returns the Element given as parameter with a additional filter link,
-     *         and the filter element under the filter container of the
-     *         ownerDocument Might return <code>null</code> if element was
-     *         <code>null</code>.
+     * @param element
+     *            The element under which the the filter link is created
+     * @param addElementToContainer
+     *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
+     *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * @return Returns the Element given as parameter with a additional filter link, and the filter element under the
+     *         filter container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      * @since 2.0
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element, boolean addElementToContainer) {
 
         if (element == null) {
@@ -579,21 +560,22 @@ public class Filter extends SchemaElement implements IFilter {
 
     // -------------------------------------------------------------------
     /**
-     * Adds the filter link to an given XML DOM Element The filter element itself
-     * will <b>NOT</b> be attached to given elements ownerDocument. Calling this
-     * method is equal to calling <code>addAsLinkToXmlElement</code> with parameters
-     * <code>element, false</code><br>
+     * Adds the filter link to an given XML DOM Element The filter element itself will <b>NOT</b> be attached to given
+     * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
+     * parameters <code>element, false</code><br>
      * Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;filterLink&gt;123&lt;/filterLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
      * 
-     * @param element The element under which the the filter link is created
-     * @return Returns the Element given as parameter with a additional filter link
-     *         Might return <code>null</code> if element was <code>null</code>.
+     * @param element
+     *            The element under which the the filter link is created
+     * @return Returns the Element given as parameter with a additional filter link Might return <code>null</code> if
+     *         element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
+    @Override
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
@@ -604,10 +586,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Returns the color of this filter.<br>
      * 
-     * @return Returns a String representing the filters color, or <code>null</code>
-     *         if the color was never set (e.g. filter type is not
-     *         IFilter.FILTER_TYPE_COLOR).<br>
+     * @return Returns a String representing the filters color, or <code>null</code> if the color was never set (e.g.
+     *         filter type is not IFilter.FILTER_TYPE_COLOR).<br>
      */
+    @Override
     public String getColor() {
 
         return this.color;
@@ -617,19 +599,19 @@ public class Filter extends SchemaElement implements IFilter {
     // -------------------------------------------------------------------
     /**
      * Sets the color of this filter.<br>
-     * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a
-     * IllegalArgumentException is thrown, so make sure to set Filter type to color
-     * first.<br>
+     * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a IllegalArgumentException is thrown, so make
+     * sure to set Filter type to color first.<br>
      * Valid color values can be retrieved from IFilter constants.<br>
      * 
-     * @param color The new color of the filter.
-     * @throws IllegalArgumentException if filter type is not
-     *                                  IFilter.FILTER_TYPE_COLOR, or the given
-     *                                  color is empty <code>null</code> or does not
-     *                                  contain a valid value.
+     * @param color
+     *            The new color of the filter.
+     * @throws IllegalArgumentException
+     *             if filter type is not IFilter.FILTER_TYPE_COLOR, or the given color is empty <code>null</code> or
+     *             does not contain a valid value.
      * @see IFilter
      */
-    public void setColor(String color) throws IllegalArgumentException {
+    @Override
+    public void setColor(String color) {
 
         if ((color == null) || ("".equals(color.trim()))) {
             return;
@@ -661,6 +643,7 @@ public class Filter extends SchemaElement implements IFilter {
      * 
      * @return Returns a String representing the filter model.<br>
      */
+    @Override
     public String getModel() {
 
         return this.model;
@@ -671,9 +654,12 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Sets the model name for the filter.<br>
      * 
-     * @param model The new model name to be set.
-     * @throws IllegalArgumentException if modelname was <code>null</code>
+     * @param model
+     *            The new model name to be set.
+     * @throws IllegalArgumentException
+     *             if modelname was <code>null</code>
      */
+    @Override
     public void setModel(String model) {
 
         if ((model == null) || ("".equals(model.trim()))) {
@@ -688,9 +674,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Returns the schott value of this filter.<br>
      * 
-     * @return Returns a String representing the schott value of the filter, or
-     *         <code>null</code> if the value was never set.<br>
+     * @return Returns a String representing the schott value of the filter, or <code>null</code> if the value was never
+     *         set.<br>
      */
+    @Override
     public String getSchott() {
 
         return this.schott;
@@ -701,8 +688,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Sets the schott value for the filter.<br>
      * 
-     * @param schott The new schott value to be set.
+     * @param schott
+     *            The new schott value to be set.
      */
+    @Override
     public void setSchott(String schott) {
 
         if ((schott != null) && ("".equals(schott.trim()))) {
@@ -720,6 +709,7 @@ public class Filter extends SchemaElement implements IFilter {
      * 
      * @return Returns a String representing the filter type.<br>
      */
+    @Override
     public String getType() {
 
         return this.type;
@@ -730,15 +720,16 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Sets the filter type.<br>
      * The filter type must be a value from the types defined in IFilter.<br>
-     * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type
-     * is not, then the filters color is reset to <code>null</code>.
+     * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type is not, then the filters color is
+     * reset to <code>null</code>.
      * 
-     * @param type The new filter type to be set.
-     * @throws IllegalArgumentException if type was empty, <code>null</code> or does
-     *                                  not contain a valid value (see IFilter
-     *                                  constants).
+     * @param type
+     *            The new filter type to be set.
+     * @throws IllegalArgumentException
+     *             if type was empty, <code>null</code> or does not contain a valid value (see IFilter constants).
      * @see IFilter
      */
+    @Override
     public void setType(String type) {
 
         if ((type == null) || ("".equals(type.trim()))) {
@@ -768,9 +759,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Returns the wratten value of this filter.<br>
      * 
-     * @return Returns a String representing the wratten value of the filter, or
-     *         <code>null</code> if the value was never set.<br>
+     * @return Returns a String representing the wratten value of the filter, or <code>null</code> if the value was
+     *         never set.<br>
      */
+    @Override
     public String getWratten() {
 
         return this.wratten;
@@ -780,9 +772,9 @@ public class Filter extends SchemaElement implements IFilter {
     // -------------------------------------------------------------------
     /**
      * Sets the wratten value for the filter.<br>
-     * 
-     * @param schott The new wratten value to be set.
+     *
      */
+    @Override
     public void setWratten(String wratten) {
 
         if ((wratten != null) && ("".equals(wratten.trim()))) {
@@ -798,9 +790,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Returns the vendor name of this filter.<br>
      * 
-     * @return Returns a String representing the vendor name of the filter, or
-     *         <code>null</code> if the vendor was never set.<br>
+     * @return Returns a String representing the vendor name of the filter, or <code>null</code> if the vendor was never
+     *         set.<br>
      */
+    @Override
     public String getVendor() {
 
         return this.vendor;
@@ -811,8 +804,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Sets the vendor name of the filter.<br>
      * 
-     * @param vendor The new vendor name to be set.
+     * @param vendor
+     *            The new vendor name to be set.
      */
+    @Override
     public void setVendor(String vendor) {
 
         this.vendor = vendor;
