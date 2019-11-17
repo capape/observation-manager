@@ -127,8 +127,7 @@ public interface IObservation extends ISchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the IObservation implementation to an given parent XML DOM Element. The observation Element will be set as a
      * child element of the passed element.<br>
      * Example:<br>
@@ -144,16 +143,14 @@ public interface IObservation extends ISchemaElement {
      */
     void addToXmlElement(Element parent);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the start date of the observation.<br>
      * 
      * @return The start date of the observation
      */
     java.util.Calendar getBegin();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the end date of the observation.<br>
      * Might return <code>null</code> if no end date was given.
      * 
@@ -161,8 +158,7 @@ public interface IObservation extends ISchemaElement {
      */
     java.util.Calendar getEnd();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the accessories used for this observation.<br>
      * Might return <code>null</code> if no accessories have been used.
      * 
@@ -170,8 +166,7 @@ public interface IObservation extends ISchemaElement {
      */
     String getAccessories();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the eyepiece with which the observation was made.<br>
      * Might return <code>null</code> if no eyepiece was used at all.
      * 
@@ -179,8 +174,7 @@ public interface IObservation extends ISchemaElement {
      */
     IEyepiece getEyepiece();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the lens with which the observation was made.<br>
      * Might return <code>null</code> if no lens was used at all.
      * 
@@ -188,16 +182,14 @@ public interface IObservation extends ISchemaElement {
      */
     ILens getLens();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the sky quality meter value Might return <code>null</code> if no value was set at all.
      * 
      * @return The sky quality value, or <code>null</code> if no value was set.
      */
     SurfaceBrightness getSkyQuality();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the filter which was used for this observation<br>
      * Might return <code>null</code> if no filter was used at all.
      * 
@@ -206,8 +198,7 @@ public interface IObservation extends ISchemaElement {
      */
     IFilter getFilter();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnitude of the faintest star that could be seen during observation time with the unaided eye. Might
      * return <code>Float.NaN</code> if no value was set at all.
      * 
@@ -215,8 +206,7 @@ public interface IObservation extends ISchemaElement {
      */
     float getFaintestStar();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnification used for this observation. Might return <code>Float.NaN</code> if no value was set at
      * all.
      * 
@@ -224,8 +214,7 @@ public interface IObservation extends ISchemaElement {
      */
     float getMagnification();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a list of images (relativ path to images), taken at this observation. Might return <code>null</code> if
      * images were set.
      * 
@@ -233,8 +222,7 @@ public interface IObservation extends ISchemaElement {
      */
     java.util.List getImages();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the seeing during this observation.<br>
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
      * Might return <code>-1</code> if no value was set at all.
@@ -243,16 +231,14 @@ public interface IObservation extends ISchemaElement {
      */
     int getSeeing();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the observer who made the observation.<br>
      * 
      * @return The observer who made this observation.
      */
     IObserver getObserver();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a List with one or more results of the observation.<br>
      * Every observation has at least one result.
      * 
@@ -260,8 +246,7 @@ public interface IObservation extends ISchemaElement {
      */
     java.util.List getResults();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scope that was used for the observation.<br>
      * Might return <code>null</code> if the observation was not made with any scope.
      * 
@@ -269,8 +254,7 @@ public interface IObservation extends ISchemaElement {
      */
     IScope getScope();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the session this observation belongs to.<br>
      * Might return <code>null</code> if the observation is not part of any observation session.
      * 
@@ -279,32 +263,28 @@ public interface IObservation extends ISchemaElement {
      */
     ISession getSession();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the site where the observation took place.<br>
      * 
      * @return The site of the observation.
      */
     ISite getSite();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the target which was observed.<br>
      * 
      * @return The target which was observed.
      */
     ITarget getTarget();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the imager that was used for this observation.<br>
      * 
      * @return The imager used at this observation.
      */
     IImager getImager();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a single IFinding as result for this observation.<br>
      * The old list of results will be overwritten. If you want to add one ore more results to the existing ones use
      * addResults(java.util.List) or addResult(IFinding).<br>
@@ -322,8 +302,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setResult(IFinding result) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a List of results for this observation.<br>
      * The old list of results will be overwritten. If you want to add one ore more results to the existing ones use
      * addResults(java.util.List) or addResult(IFinding).<br>
@@ -343,8 +322,7 @@ public interface IObservation extends ISchemaElement {
      */
     boolean setResults(java.util.List results) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a List of results for this observation.<br>
      * The new list of results will be added to the existing list of results belonging to this observation. If you want
      * to replace the old result list use setResults(java.util.List).<br>
@@ -359,8 +337,7 @@ public interface IObservation extends ISchemaElement {
      */
     boolean addResults(java.util.List results);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new result to this observation.<br>
      * 
      * @param result
@@ -368,8 +345,7 @@ public interface IObservation extends ISchemaElement {
      */
     void addResult(IFinding result);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a List of image paths (String) to this observation.<br>
      * The new list of images will be added to the existing list of images belonging to this observation. If you want to
      * replace the old images list use setImages(java.util.List).<br>
@@ -384,8 +360,7 @@ public interface IObservation extends ISchemaElement {
      */
     boolean addImages(java.util.List images);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new image (path) to this observation.<br>
      * 
      * @param imagePath
@@ -393,8 +368,7 @@ public interface IObservation extends ISchemaElement {
      */
     void addImage(String imagePath);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a List of images (path as String) for this observation.<br>
      * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
      * addImages(java.util.List) or addImage(String).<br>
@@ -411,8 +385,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setImages(List imagesList) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets an imager used for this observation.<br>
      * 
      * @param imager
@@ -420,8 +393,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setImager(IImager imager);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the start date of the observation.<br>
      * The start date is a mandatory field, as the end date is not.
      * 
@@ -432,8 +404,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setBegin(java.util.Calendar begin) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the end date of the observation.<br>
      * The end date is an optional field, as for example old observations might not have an precise end date.
      * 
@@ -442,8 +413,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setEnd(java.util.Calendar end);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the eyepiece of the observation.<br>
      * If there was already an eyepiece attached to this observation, the old one will be replaced with the new one.
      * 
@@ -452,8 +422,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setEyepiece(IEyepiece eyepiece);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the lens of the observation.<br>
      * If there was already an lens attached to this observation, the old one will be replaced with the new one.
      * 
@@ -462,8 +431,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setLens(ILens lens);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the filter used during this observation.<br>
      * If there was already an filter attached to this observation, the old one will be replaced with the new one.
      * 
@@ -473,8 +441,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setFilter(IFilter filter);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the accessories used during the observation.<br>
      * If there was already an accessories list attached to this observation, the old one will be replaced with the new
      * one.
@@ -484,8 +451,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setAccessories(String accessories);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnitude value of the faintest star which could be seen with the unaided eye during the
      * observation.<br>
      * If there was already a value set for this observation, the old one will be replaced with the new one.
@@ -495,8 +461,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setFaintestStar(float faintestStar);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the sky quality meter value that was determined during the observation.<br>
      * If there was already a value set for this observation, the old one will be replaced with the new one.
      * 
@@ -505,8 +470,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setSkyQuality(SurfaceBrightness sq);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnification used at the observation.<br>
      * If there was already a value set for this observation, the old one will be replaced with the new one. In case a
      * zoom eyepiece was used for the observation, this value conatais th actual focalLength used. (And also the lens
@@ -523,8 +487,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setMagnification(float magnification);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the seeing during this observation.<br>
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
      * 
@@ -533,8 +496,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setSeeing(int seeing) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the observer of the observation.<br>
      * If there was already an observer attached to this observation, the old one will be replaced with the new one.
      * 
@@ -545,8 +507,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setObserver(IObserver observer) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the scope of the observation.<br>
      * If there was already a scope attached to this observation, the old one will be replaced with the new one.
      * 
@@ -555,8 +516,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setScope(IScope scope);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the session which this observation belongs to.<br>
      * This observations start date must be between the sessions start and end date.<br>
      * If there was already a session attached to this observation, the old one will be replaced with the new one.
@@ -568,8 +528,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setSession(ISession session) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the site where this observation took place.<br>
      * If there was already a site attached to this observation, the old one will be replaced with the new one.
      * 
@@ -580,8 +539,7 @@ public interface IObservation extends ISchemaElement {
      */
     void setSite(ISite site) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the target of this observation.<br>
      * If there was already a target attached to this observation, the old one will be replaced with the new one.
      * 

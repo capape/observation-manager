@@ -52,8 +52,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGX from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -111,8 +110,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGX.
      * 
      * @param name
@@ -126,8 +124,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGX.
      * 
      * @param name
@@ -145,8 +142,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -192,8 +188,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -212,8 +207,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the large axis position angle of the galaxy.
      * 
      * @return The large axis position angle of the astronomical object as integer The returned value might be
@@ -225,8 +219,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the hubble type of the galaxy.
      * 
      * @return The hubble type of the galaxy as String The returned value might be <code>null</code> if the value was
@@ -238,8 +231,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the large axis position angle of the galaxy. If the given new position angle is < 0 or > 359 the position
      * angle will be unset again.
      * 
@@ -257,8 +249,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the hubble type of the galaxy.
      * 
      * @param newHubbleType

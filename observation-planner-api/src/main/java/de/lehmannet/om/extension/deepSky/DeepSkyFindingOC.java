@@ -150,8 +150,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyFindingOC.
      *
      * @param description
@@ -171,8 +170,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFindingOC.
      *
@@ -215,8 +213,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -267,8 +264,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         return unusualShape == other.unusualShape;
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The DeepSkyFindingOC Element will be set as a
      * child element of the passed Element.
      *
@@ -324,8 +320,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusualShape.
      *
@@ -343,8 +338,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
      *
@@ -362,8 +356,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
@@ -381,8 +374,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the character of this DeepSkyFindingOC.<br>
      * See DeepSkyFindingOC constants for valid values.<br>
      *
@@ -395,8 +387,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusual shape.
      *
@@ -419,8 +410,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
      *
@@ -443,8 +433,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
@@ -467,8 +456,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *

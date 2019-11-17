@@ -82,8 +82,7 @@ public class CCDImager extends Imager {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a CCDImager from a given DOM target Element.<br>
      * Normally this constructor is called by a child class which itself was called by
      * de.lehmannet.om.util.SchemaLoader.
@@ -220,8 +219,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a CCDImager.<br>
      * 
      * @param model
@@ -246,8 +244,7 @@ public class CCDImager extends Imager {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <imager xsi:type="myOwnImagerType"><br>
@@ -316,8 +313,7 @@ public class CCDImager extends Imager {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the amount of pixels on the x axis.<br>
      * 
      * @return Returns amount of pixels on the x axis<br>
@@ -328,8 +324,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the amount of pixels on the x axis.<br>
      * 
      * @param pixels
@@ -347,8 +342,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the amount of pixels on the y axis.<br>
      * 
      * @return Returns amount of pixels on the y axis<br>
@@ -359,8 +353,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the amount of pixels on the y axis.<br>
      * 
      * @param pixels
@@ -378,8 +371,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the pixel size on the x axis.<br>
      * 
      * @return Returns the pixel size on the x axis or Float.NaN if the value was never set
@@ -391,8 +383,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the pixel size on the x axis.<br>
      * 
      * @param pixelSize
@@ -416,8 +407,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the pixel size on the y axis.<br>
      * 
      * @return Returns the pixel size on the y axis or Float.NaN if the value was never set<br>
@@ -429,8 +419,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the pixel size on the y axis.<br>
      * 
      * @param pixelSize
@@ -454,8 +443,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the binning.<br>
      * 
      * @return Returns the binning value of the camera. Default = 1<br>
@@ -467,8 +455,7 @@ public class CCDImager extends Imager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the binning value of the camera.<br>
      * 
      * @param binning

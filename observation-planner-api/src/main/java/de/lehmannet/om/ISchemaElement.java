@@ -41,8 +41,7 @@ public interface ISchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the schema.
      * 
@@ -50,8 +49,7 @@ public interface ISchemaElement {
      */
     String getID();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>

@@ -168,8 +168,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyFindingDS.
      *
      * @param description
@@ -189,8 +188,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFindingDS.
      *
@@ -268,8 +266,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -288,8 +285,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // Finding -----------------------------------------------------------
     // -------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this DeepSkyFindingDS to an given parent XML DOM Element. The DeepSkyFindingDS Element will be set as a
      * child element of the passed Element.
      *
@@ -347,8 +343,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the equalBrightness value of this DeepSkyFindingDS.<br>
      * Describes if both stars have an equal brightness.
      *
@@ -366,8 +361,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the niceSurrounding value of this DeepSkyFindingDS.<br>
      * Describes if the double star has a nice surrounding.
      *
@@ -385,8 +379,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
@@ -398,8 +391,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
@@ -411,8 +403,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the equalBrightness value of this DeepSkyFindingDS.<br>
      * Describes if both stars have an equal brightness.
      *
@@ -435,8 +426,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the niceSurrounding value of this DeepSkyFindingDS.<br>
      * Describes if the observed object has a nice surrounding.
      *
@@ -459,8 +449,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the color of the main star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *
@@ -487,8 +476,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the color of the companion star of this DeepSkyFindingDS.<br>
      * See DeepSkyFindingDS constants for valid color values.<br>
      *

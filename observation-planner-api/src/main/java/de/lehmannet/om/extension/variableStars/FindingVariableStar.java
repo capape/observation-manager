@@ -146,8 +146,7 @@ public class FindingVariableStar extends Finding {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    public FindingVariableStar(Node findingElement) throws SchemaException {
+public FindingVariableStar(Node findingElement) throws SchemaException {
 
         super(findingElement);
 
@@ -311,8 +310,7 @@ public class FindingVariableStar extends Finding {
 
     }
 
-    // -------------------------------------------------------------------
-    public FindingVariableStar(float magnitude, List comparismStars, String chartDate) {
+public FindingVariableStar(float magnitude, List comparismStars, String chartDate) {
 
         super("");
 
@@ -326,8 +324,7 @@ public class FindingVariableStar extends Finding {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -349,8 +346,7 @@ public class FindingVariableStar extends Finding {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this FindingVariableStar.
      * 
@@ -402,8 +398,7 @@ public class FindingVariableStar extends Finding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this FindingVariableStar and the given Object are equal. Two FindingVariableStar are equal if both
      * return the same string from their toString() method and their XSI type is equal.<br>
@@ -454,8 +449,7 @@ public class FindingVariableStar extends Finding {
     // Finding -----------------------------------------------------------
     // -------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this FindingVariableStar to an given parent XML DOM Element. The FindingVariableStar Element will be set as
      * a child element of the passed Element.
      * 

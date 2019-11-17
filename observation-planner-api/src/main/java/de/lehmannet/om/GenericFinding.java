@@ -33,22 +33,19 @@ public class GenericFinding extends Finding {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    public GenericFinding(Node findingElement) throws SchemaException {
+public GenericFinding(Node findingElement) throws SchemaException {
 
         super(findingElement);
 
     }
 
-    // -------------------------------------------------------------------
-    public GenericFinding(String description) {
+public GenericFinding(String description) {
 
         super(description);
 
     }
 
-    // -------------------------------------------------------------------
-    public GenericFinding(String ID, String description) {
+public GenericFinding(String ID, String description) {
 
         super(ID, description);
 
@@ -58,8 +55,7 @@ public class GenericFinding extends Finding {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -79,8 +75,7 @@ public class GenericFinding extends Finding {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this GenericFinding.
      * 
@@ -94,8 +89,7 @@ public class GenericFinding extends Finding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this GenericFinding and the given Object are equal. Two GenericFinding are equal if both return the
      * same string from their toString() method and both XSI types are equal.<br>
@@ -122,8 +116,7 @@ public class GenericFinding extends Finding {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -142,8 +135,7 @@ public class GenericFinding extends Finding {
     // Finding -----------------------------------------------------------
     // -------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this GenericFinding to an given parent XML DOM Element. The GenericFinding Element will be set as a child
      * element of the passed Element.
      * 

@@ -147,78 +147,67 @@ public class RootElement {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    public Collection getObservations() {
+public Collection getObservations() {
 
         return this.observationList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getEyepieceList() {
+public Collection getEyepieceList() {
 
         return this.eyepieceList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getImagerList() {
+public Collection getImagerList() {
 
         return this.imagerList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getObserverList() {
+public Collection getObserverList() {
 
         return this.observerList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getScopeList() {
+public Collection getScopeList() {
 
         return this.scopeList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getSessionList() {
+public Collection getSessionList() {
 
         return this.sessionList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getSiteList() {
+public Collection getSiteList() {
 
         return this.siteList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getTargetList() {
+public Collection getTargetList() {
 
         return this.targetList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getFilterList() {
+public Collection getFilterList() {
 
         return this.filterList;
 
     }
 
-    // -------------------------------------------------------------------
-    public Collection getLensList() {
+public Collection getLensList() {
 
         return this.lensList;
 
     }
 
-    // -------------------------------------------------------------------
-    public void addObservation(IObservation observation) throws SchemaException {
+public void addObservation(IObservation observation) throws SchemaException {
 
         if (observation != null) {
             observationList.add(observation);
@@ -228,8 +217,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addObservations(Collection observations) throws SchemaException {
+public void addObservations(Collection observations) throws SchemaException {
 
         if (observations != null) {
             observationList.addAll(observations);
@@ -239,8 +227,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
+public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
 
         if (eyepiece != null) {
             this.eyepieceList.add(eyepiece);
@@ -250,8 +237,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addEyepieces(Collection eyepieces) throws SchemaException {
+public void addEyepieces(Collection eyepieces) throws SchemaException {
 
         if (eyepieces != null) {
             this.eyepieceList.addAll(eyepieces);
@@ -261,8 +247,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addImager(IImager imager) throws SchemaException {
+public void addImager(IImager imager) throws SchemaException {
 
         if (imager != null) {
             this.imagerList.add(imager);
@@ -272,8 +257,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addImagers(Collection imagers) throws SchemaException {
+public void addImagers(Collection imagers) throws SchemaException {
 
         if (imagers != null) {
             this.imagerList.addAll(imagers);
@@ -283,8 +267,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addSite(ISite site) throws SchemaException {
+public void addSite(ISite site) throws SchemaException {
 
         if (site != null) {
             this.siteList.add(site);
@@ -294,8 +277,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addSites(Collection sites) throws SchemaException {
+public void addSites(Collection sites) throws SchemaException {
 
         if (sites != null) {
             this.siteList.addAll(sites);
@@ -305,8 +287,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addScope(IScope scope) throws SchemaException {
+public void addScope(IScope scope) throws SchemaException {
 
         if (scope != null) {
             this.scopeList.add(scope);
@@ -316,8 +297,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addScopes(Collection scopes) throws SchemaException {
+public void addScopes(Collection scopes) throws SchemaException {
 
         if (scopes != null) {
             this.scopeList.addAll(scopes);
@@ -327,8 +307,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addSession(ISession session) throws SchemaException {
+public void addSession(ISession session) throws SchemaException {
 
         if (session != null) {
             this.sessionList.add(session);
@@ -338,8 +317,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addSessions(Collection sessions) throws SchemaException {
+public void addSessions(Collection sessions) throws SchemaException {
 
         if (sessions != null) {
             this.sessionList.addAll(sessions);
@@ -349,8 +327,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addObserver(IObserver observer) throws SchemaException {
+public void addObserver(IObserver observer) throws SchemaException {
 
         if (observer != null) {
             this.observerList.add(observer);
@@ -360,8 +337,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addObservers(Collection observers) throws SchemaException {
+public void addObservers(Collection observers) throws SchemaException {
 
         if (observers != null) {
             this.observerList.addAll(observers);
@@ -371,8 +347,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addTarget(ITarget target) throws SchemaException {
+public void addTarget(ITarget target) throws SchemaException {
 
         if (target != null) {
             this.targetList.add(target);
@@ -382,8 +357,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addTargets(Collection targets) throws SchemaException {
+public void addTargets(Collection targets) throws SchemaException {
 
         if (targets != null) {
             this.targetList.addAll(targets);
@@ -393,8 +367,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addFilter(IFilter filter) throws SchemaException {
+public void addFilter(IFilter filter) throws SchemaException {
 
         if (filter != null) {
             this.filterList.add(filter);
@@ -404,8 +377,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addFilters(Collection filters) throws SchemaException {
+public void addFilters(Collection filters) throws SchemaException {
 
         if (filters != null) {
             this.filterList.addAll(filters);
@@ -415,8 +387,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addLens(ILens lens) throws SchemaException {
+public void addLens(ILens lens) throws SchemaException {
 
         if (lens != null) {
             this.lensList.add(lens);
@@ -426,8 +397,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void addLenses(Collection lenses) throws SchemaException {
+public void addLenses(Collection lenses) throws SchemaException {
 
         if (lenses != null) {
             this.lensList.addAll(lenses);
@@ -437,8 +407,7 @@ public class RootElement {
 
     }
 
-    // -------------------------------------------------------------------
-    public void serializeAsXml(File xmlFile) throws SchemaException {
+public void serializeAsXml(File xmlFile) throws SchemaException {
 
         if (xmlFile == null) {
             throw new SchemaException("File cannot be null. ");

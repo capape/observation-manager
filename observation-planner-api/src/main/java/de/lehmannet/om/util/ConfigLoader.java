@@ -50,8 +50,7 @@ public class ConfigLoader {
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the java classname for a target that matches the given xsi:type attribute, which can be found at
      * additional schema elements<br>
      * E.g.:<br>
@@ -104,8 +103,7 @@ public class ConfigLoader {
         return classname;
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the java classname for a finding that matches the given xsi:type attribute, which can be found at
      * additional schema elements<br>
      * E.g.:<br>
@@ -158,8 +156,7 @@ public class ConfigLoader {
         return classname;
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Scans the java classpath again for valid configfile.
      * 
      * @throws ConfigException
@@ -178,8 +175,7 @@ public class ConfigLoader {
     // ---------------
     // Private methods ---------------------------------------------------
     // ---------------
-    // -------------------------------------------------------------------
-    private static void loadConfig() throws ConfigException {
+private static void loadConfig() throws ConfigException {
         // Add fixed generic elements (no extenstion package required)
         ConfigLoader.addGenericElements();
 
@@ -208,8 +204,7 @@ public class ConfigLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private static void scanJarFile(File jar) throws ConfigException {
+private static void scanJarFile(File jar) throws ConfigException {
         ZipFile archive = null;
         try {
             archive = new ZipFile(jar);
@@ -234,8 +229,7 @@ public class ConfigLoader {
         }
     }
 
-    // -------------------------------------------------------------------
-    private static void addConfig(Properties newProperties) {
+private static void addConfig(Properties newProperties) {
         Iterator keys = newProperties.keySet().iterator();
         String currentKey = null;
         String prefix = null;
@@ -282,8 +276,7 @@ public class ConfigLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private static void addGenericElements() {
+private static void addGenericElements() {
 
         // This is the most simple element relation
         final String target_type = "oal:observationTargetType";
@@ -327,8 +320,7 @@ public class ConfigLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    // Check on old xsi types/names (before OAL 2.0)
+// Check on old xsi types/names (before OAL 2.0)
     private static String checkAncestorTypes(String type) {
 
         if (type.startsWith("fgca")) {

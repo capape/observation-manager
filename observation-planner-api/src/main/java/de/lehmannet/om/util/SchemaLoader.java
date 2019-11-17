@@ -63,11 +63,7 @@ import de.lehmannet.om.Site;
 public class SchemaLoader {
 
     private static Logger log = LoggerFactory.getLogger(SchemaLoader.class);
-    // ---------
-    // Constants --------------------------------------------------------------
-    // ---------
-
-    // XML Schema Filenames
+// XML Schema Filenames
     public static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
             "comast17.xsd", "oal20.xsd", "oal21.xsd" };
 
@@ -118,8 +114,7 @@ public class SchemaLoader {
     // Public Static Methods ---------------------------------------------
     // ---------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
      *
      * @param xsiType
@@ -140,8 +135,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Gets a IFinding object (e.g. DeepSkyFinding) from a given xsiType.
      *
      * @param xsiType
@@ -158,8 +152,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Gets a IImager object (e.g. CCDImager) from a given xsiType.
      *
      * @param xsiType
@@ -180,78 +173,67 @@ public class SchemaLoader {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    public IObservation[] getObservations() {
+public IObservation[] getObservations() {
 
         return this.observations.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public ISession[] getSessions() {
+public ISession[] getSessions() {
 
         return this.sessions.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public ITarget[] getTargets() {
+public ITarget[] getTargets() {
 
         return this.targets.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public IObserver[] getObservers() {
+public IObserver[] getObservers() {
 
         return this.observers.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public ISite[] getSites() {
+public ISite[] getSites() {
 
         return this.sites.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public IScope[] getScopes() {
+public IScope[] getScopes() {
 
         return this.scopes.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public IEyepiece[] getEyepieces() {
+public IEyepiece[] getEyepieces() {
 
         return this.eyepieces.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public IFilter[] getFilters() {
+public IFilter[] getFilters() {
 
         return this.filters.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public ILens[] getLenses() {
+public ILens[] getLenses() {
 
         return this.lenses.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    public IImager[] getImagers() {
+public IImager[] getImagers() {
 
         return this.imagers.clone();
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Loads/parses a XML File
      *
      * @param schemaPath
@@ -302,8 +284,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new classloader to the SchemaLoader.<br>
      * Additional classloaders will be used in case a requested class cannot be found on the default classloaders search
      * path.
@@ -319,8 +300,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Loads/parses a XML Document
      *
      * @param doc
@@ -444,8 +424,7 @@ public class SchemaLoader {
     // Private Static Methods --------------------------------------------
     // ----------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Loads objects for a given xsiType via reflection
      *
      * @param xsiType
@@ -539,8 +518,7 @@ public class SchemaLoader {
     // Private Methods ---------------------------------------------------
     // ---------------
 
-    // -------------------------------------------------------------------
-    private IObservation[] createObservationElements(Node observations) {
+private IObservation[] createObservationElements(Node observations) {
 
         Element e = (Element) observations;
         NodeList observationList = e.getElementsByTagName(IObservation.XML_ELEMENT_OBSERVATION);
@@ -565,8 +543,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private ITarget[] createTargetElements(Node targets, IObserver... observers) throws SchemaException {
+private ITarget[] createTargetElements(Node targets, IObserver... observers) throws SchemaException {
 
         Element e = (Element) targets;
         NodeList targetList = e.getElementsByTagName(ITarget.XML_ELEMENT_TARGET);
@@ -626,8 +603,7 @@ public class SchemaLoader {
         return (ITarget[]) targetElements.toArray(new ITarget[] {});
     }
 
-    // -------------------------------------------------------------------
-    private ISession[] createSessionElements(Node sessions) throws SchemaException {
+private ISession[] createSessionElements(Node sessions) throws SchemaException {
 
         Element e = (Element) sessions;
         NodeList sessionList = e.getElementsByTagName(ISession.XML_ELEMENT_SESSION);
@@ -642,8 +618,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private IObserver[] createObserverElements(Node observers) throws SchemaException {
+private IObserver[] createObserverElements(Node observers) throws SchemaException {
 
         Element e = (Element) observers;
 
@@ -659,8 +634,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private ISite[] createSiteElements(Node sites) throws SchemaException {
+private ISite[] createSiteElements(Node sites) throws SchemaException {
 
         Element e = (Element) sites;
 
@@ -676,8 +650,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private IScope[] createScopeElements(Node scopes) throws SchemaException {
+private IScope[] createScopeElements(Node scopes) throws SchemaException {
 
         Element e = (Element) scopes;
 
@@ -693,8 +666,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private IEyepiece[] createEyepieceElements(Node eyepieces) throws SchemaException {
+private IEyepiece[] createEyepieceElements(Node eyepieces) throws SchemaException {
 
         Element e = (Element) eyepieces;
 
@@ -710,8 +682,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private ILens[] createLensElements(Node lenses) throws SchemaException {
+private ILens[] createLensElements(Node lenses) throws SchemaException {
 
         // For < 1.7 compatibility reasons
         if (lenses == null) {
@@ -732,8 +703,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private IFilter[] createFilterElements(Node filters) throws SchemaException {
+private IFilter[] createFilterElements(Node filters) throws SchemaException {
 
         // For < 1.5 compatibility reasons
         if (filters == null) {
@@ -754,8 +724,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private IImager[] createImagerElements(Node imagers) throws SchemaException {
+private IImager[] createImagerElements(Node imagers) throws SchemaException {
 
         Element e = (Element) imagers;
 
@@ -807,8 +776,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
+private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
 
         FileReader reader = null;
         try {
@@ -839,8 +807,7 @@ public class SchemaLoader {
 
     }
 
-    // -------------------------------------------------------------------
-    // Remove doublicate catalog targets
+// Remove doublicate catalog targets
     private void removeDoublicateTargets() {
 
         if ((this.doublicateTargets.isEmpty()) || (this.observations.length <= 0)) {

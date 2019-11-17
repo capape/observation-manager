@@ -35,8 +35,7 @@ public class SolarSystemTargetMinorPlanet extends SolarSystemTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a SolarSystemTargetMinorPlanet from a given DOM target Element.<br>
      * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
      * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
@@ -56,8 +55,7 @@ public class SolarSystemTargetMinorPlanet extends SolarSystemTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a SolarSystemTargetMinorPlanet.<br>
      * 
      * @param name
@@ -71,8 +69,7 @@ public class SolarSystemTargetMinorPlanet extends SolarSystemTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a SolarSystemTargetMinorPlanet.<br>
      * 
      * @param name
@@ -90,8 +87,7 @@ public class SolarSystemTargetMinorPlanet extends SolarSystemTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -110,8 +106,7 @@ public class SolarSystemTargetMinorPlanet extends SolarSystemTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 

@@ -23,8 +23,7 @@ public class SchemaException extends OALException {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new SchemaException.<br>
      * 
      * @param message
@@ -36,8 +35,7 @@ public class SchemaException extends OALException {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new SchemaException.<br>
      * 
      * @param message

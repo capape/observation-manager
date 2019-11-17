@@ -51,8 +51,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDN from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -104,8 +103,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDN.
      * 
      * @param name
@@ -119,8 +117,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDN.
      * 
      * @param name
@@ -138,8 +135,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -185,8 +181,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -205,8 +200,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the position angle of the large axis of the dark nebula.
      * 
      * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
@@ -218,8 +212,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the opacity of the dark nebula. After Lynds: 1=min; 6=max
      * 
      * @return The opacity of the dark nebula as integer between 1-6 The returned value might be <code>-1</code> if the
@@ -231,8 +224,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the position angle of the large axis of the dark nebula. If the given new position angle is < 0 or > 359 the
      * position angle will be unset again.
      * 
@@ -250,8 +242,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the opacity of the dark nebula. The opacity value has to be between 1 and 6. (After Lynds: 1=min; 6=max)<br>
      * All other values will be interpreted as -1, which means that the value gets cleared (means: is treated like it
      * was never set)

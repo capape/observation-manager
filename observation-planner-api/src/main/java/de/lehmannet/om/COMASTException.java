@@ -21,8 +21,7 @@ public class COMASTException extends Exception {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a COMASTException.
      * 
      * @param message
@@ -34,8 +33,7 @@ public class COMASTException extends Exception {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a COMASTException.
      * 
      * @param message
@@ -53,8 +51,7 @@ public class COMASTException extends Exception {
     // Private methods ---------------------------------------------------
     // ---------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a special flavour around the exceptions message that sould make it easier to point out COMASTExceptions.
      */
     private static String addMessageFlavour(String message) {

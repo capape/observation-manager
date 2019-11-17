@@ -145,8 +145,7 @@ public interface IScope extends ISchemaElement, IEquipment {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Scope to a given parent XML DOM Element. The Scope element will be set as a child element of the passed
      * element.
      * 
@@ -156,8 +155,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the scope link to an given XML DOM Element The scope element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no scope container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -185,8 +183,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the scope link to an given XML DOM Element The scope element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -204,8 +201,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the aperture of the scope.<br>
      * The aperture can be any positive float value.
      * 
@@ -213,8 +209,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     float getAperture();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the focal length is not set for this scope. In that case
      * the magnification must return a value.
@@ -223,8 +218,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     float getFocalLength();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the light grasp value of the scope.<br>
      * Allowed values are between 0.0 and 1.0 (including 0.0 and 1.0)<br>
      * This value might return <code>Float.NaN</code> in case the light grasp was never set.
@@ -233,8 +227,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     float getLightGrasp();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnification of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the magnification is not set for this scope. In that case
      * the focal length must return a value.
@@ -243,16 +236,14 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     float getMagnification();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes model name.<br>
      * 
      * @return Returns the model name of the scope
      */
     String getModel();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scope type.<br>
      * E.g. Newton, Binocular, Reflector...<br>
      * If abbreviation is returned, here's the mapping: A: Naked eye<br>
@@ -271,8 +262,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     String getType();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the true field of view, if set.<br>
      * Might return <code>NULL</code> as the field is optional only if magnification is set.
      * 
@@ -280,8 +270,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     Angle getTrueFieldOfView();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scope's vendor name.<br>
      * E.g. Celestron, TeleVue, Meade, Vixen...<br>
      * This method might return <code>null</code> if the vendor was never set.
@@ -290,8 +279,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     String getVendor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes picture vertical orientation.
      * 
      * @return <b>true</b> if the scopes picture is errected
@@ -300,8 +288,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     boolean isOrientationErected() throws IllegalStateException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes picture horizontal orientation.
      * 
      * @return <b>true</b> if the scopes picture is truesided
@@ -310,8 +297,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     boolean isOrientationTruesided() throws IllegalStateException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the true field of view, if magnification is given.<br>
      * 
      * @param tfov
@@ -321,8 +307,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setTrueFieldOfView(Angle tfov) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the aperture of the scope.<br>
      * The aperture must be a positive float value.
      * 
@@ -333,8 +318,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setAperture(float aperture) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length of the scope.<br>
      * Throws IllegalArgumentException if the given parameter is Float.NaN and magnification is not set. This mechanism
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
@@ -349,8 +333,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setFocalLength(float focalLength) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the light grasp value of the scope.<br>
      * The light grasp must be a positive float value between 0.0 and 1.0 (including 0.0 and 1.0).
      * 
@@ -359,8 +342,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setLightGrasp(float lightGrasp);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnification of the scope.<br>
      * Throws IllegalArgumentException if the given parameter is Float.NaN and focal length is not set. This mechanism
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
@@ -384,8 +366,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setModel(String model) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the type of the scope.<br>
      * E.g. Newton, Reflector, Binocular... The type is optional but should be given if known!<br>
      * When applicable, the following coding (according to the DSL) should be used:<br>
@@ -400,8 +381,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setType(String type);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the scope.<br>
      * 
      * @param vendor
@@ -409,8 +389,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      */
     void setVendor(String vendor);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the orientation of the scope.<br>
      * 
      * @param errected

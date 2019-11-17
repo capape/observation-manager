@@ -49,8 +49,7 @@ public class DateConverter {
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
-    // -------------------------------------------------------------------
-    /**
+/**
      *
      * Converts a gregorian date into a julian date.
      *
@@ -124,8 +123,7 @@ public class DateConverter {
         return day + c + d + fracSecs + leapYear - 1524.5;
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      *
      * Converts a julian date into a gregorian date.<br>
      *
@@ -140,8 +138,7 @@ public class DateConverter {
         return DateConverter.toGregorianDate(julianDate, TimeZone.getTimeZone("GMT"));
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      *
      * Converts a julian date into a gregorian date.<br>
      *
@@ -207,8 +204,7 @@ public class DateConverter {
         return gregorianDate;
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      *
      * Converts a Date object into a String object that represents a
      *
@@ -245,8 +241,7 @@ public class DateConverter {
         return iso8601.toString();
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      *
      * Converts a String object that contains a ISO8601 conform value to an
      *
@@ -324,8 +319,7 @@ public class DateConverter {
     // ---------------
     // Private methods ---------------------------------------------------
     // ---------------
-    // -------------------------------------------------------------------
-    /*
+/*
      *
      * Creates a TimeZone object from the last part of a ISO8601 date
      *
@@ -366,8 +360,7 @@ public class DateConverter {
         return tz;
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      *
      * Sets a leading 0 to a given value, if the value has only one digit.
      */
@@ -381,8 +374,7 @@ public class DateConverter {
         return "" + value;
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      *
      * Sets a leading 0 to a given value, if the value has only one digit.
      */
@@ -396,8 +388,7 @@ public class DateConverter {
         return "" + value;
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      *
      * Cuts off leadings zeros (and the + sign, if given) from a string
      */
@@ -413,8 +404,7 @@ public class DateConverter {
         return value;
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      *
      * Takes a value in minutes and formats it an ISO8601 timezone String.
      *

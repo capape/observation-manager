@@ -74,8 +74,7 @@ public class EquPosition extends SchemaElement {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a EquPosition from a given DOM target Element.<br>
      * 
      * @param positionNode
@@ -118,8 +117,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * Creates an instance of an EquPosition with a geocentric reference frame (equinox J2000.0).<br>
      * 
      * @param ra Angle with positiv value describing the right ascension of the equatorial position
@@ -143,8 +141,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * Creates an instance of an EquPosition with a geocentric reference frame (equinox J2000.0).<br>
      * 
      * @param ra String describing the right ascension of the equatorial position. Input sting must be of format
@@ -170,8 +167,7 @@ public class EquPosition extends SchemaElement {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -191,8 +187,7 @@ public class EquPosition extends SchemaElement {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the equatorial position as string in form:<br>
      * Example:<br>
@@ -222,8 +217,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this EquPosition and the given Object are equal. The given object is equal with this EquPosition, if
      * the right ascension, declination and the position reference frame are equal.
@@ -256,8 +250,7 @@ public class EquPosition extends SchemaElement {
     // Public static methods ---------------------------------------------
     // ---------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a correct formed right ascension string.
      * 
      * @param min
@@ -273,8 +266,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a correct formed right ascension string.
      * 
      * @param min
@@ -290,8 +282,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a correct formed declination string.
      * 
      * @param deg
@@ -315,8 +306,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a correct formed declination string.
      * 
      * @param deg
@@ -344,8 +334,7 @@ public class EquPosition extends SchemaElement {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this EquPosition to an given parent XML DOM Element. The EquPosition Element will be set as a child element
      * of the passed Element.
      * 
@@ -385,8 +374,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the declination of this equatorial position as Angle. This might have a strange unit for Dec values.
      * 
      * @return The declination as instance of class Angle
@@ -397,8 +385,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the declination of this equatorial position..
      * 
      * @return The declination as displayable value
@@ -445,8 +432,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the right ascension of this equatorial position as Angle. This might have a strange unit for RA values.
      * Maybe getRa() is what you want.
      * 
@@ -458,8 +444,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the right ascension of this equatorial position.
      * 
      * @return The right ascension as displayable sting.
@@ -482,8 +467,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the right ascension of this equatorial position in decimal hours
      * 
      * @return The right ascension in decimal hours as double
@@ -501,8 +485,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the declination of the equatorial position. Input string must be of format
      * <i>01</i>\u00b0<i>02</i>'<i>03</i>''.
      * 
@@ -536,8 +519,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the right ascension of this equatorial position. Input sting must be of format
      * <i>01</i>h<i>02</i>min<i>03</i>sec
      * 
@@ -567,8 +549,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the declination of the equatorial position.
      * 
      * @param dec
@@ -586,8 +567,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the right ascension of this equatorial position. The Angles value has to be positive.
      * 
      * @param ra
@@ -609,8 +589,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the position reference frame of this equatorial position.
      * 
      * @return The position reference frame of this equatorial position
@@ -621,8 +600,7 @@ public class EquPosition extends SchemaElement {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the position reference frame of this equatorial position.<br>
      * If <code>null</code> is passed the new position reference frame that is set is geocentric with equinox J2000.0
      * 

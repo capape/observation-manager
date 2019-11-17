@@ -90,8 +90,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns true if the given object is an instance of ITarget<br>
      * and the given objects SchmemaElement.getID() returns the same string as this objects getID() method.
      * 
@@ -99,8 +98,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     boolean equalsID(Object o);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -110,8 +108,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the target link to an given XML DOM Element The target element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no target container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -139,8 +136,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the target link to an given XML DOM Element The target element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -160,8 +156,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new alias name to the target.<br>
      * The alias name can be any alternative name of the astronomical object.<br>
      * Example:<br>
@@ -174,8 +169,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     boolean addAliasName(String newAliasName);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets an array of new alias names to this target.<br>
      * All current aliasNames will be deleted! If you want to add alias names without deleting the existing ones, please
      * use Target.addAliasNames(String) or Target.addAliasName(String).<br>
@@ -186,8 +180,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setAliasNames(String... newAliasNames);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Removes a alias name from the target.<br>
      * 
      * @param aliasName
@@ -197,8 +190,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     boolean removeAliasName(String aliasName);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the celestial constellation, where the target can be found.<br>
      * Might return <code>NULL</code> if constellation was never set
      * 
@@ -206,8 +198,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     Constellation getConstellation();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
      * @param constellation
@@ -215,8 +206,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setConstellation(Constellation constellation);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
      * @param constellation
@@ -224,8 +214,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setConstellation(String constellation);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the datasource of the target.<br>
      * 
      * @param datasource
@@ -233,8 +222,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setDatasource(String datasource);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the observer who is the originator of the target.<br>
      * 
      * @param observer
@@ -242,8 +230,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setObserver(IObserver observer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the observer who is the originator of the target.<br>
      * 
      * @return The observer who is the originator of this target. Might return <code>null</code> if observer was never
@@ -251,8 +238,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     IObserver getObserver();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the datasource which is the origin of the target.<br>
      * 
      * @return The datasource which is the origin of this target Might return <code>null</code> if datasource was never
@@ -260,16 +246,14 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     String getDatasource();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns all alias names.<br>
      * 
      * @return Returns a String array with all alias names. If no alias names were set <code>null</code> is returned.
      */
     String[] getAliasNames();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the name of the target.<br>
      * The name should clearly identify the astronomical object. Use alias names for colloquial names of the object.
      * 
@@ -277,8 +261,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     String getName();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the name of the target.<br>
      * The name should clearly identify the astronomical object. For alternative names of the object add a new alias
      * name.<br>
@@ -288,8 +271,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setName(String name);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the position of the target.<br>
      * The position of the target describes the location of the astronomical object in any popular celestial
      * coordination system.
@@ -298,8 +280,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     EquPosition getPosition();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the position of the target.<br>
      * The position of the target describes the location of the astronomical object in a popular celestial coordination
      * system.
@@ -309,8 +290,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     void setPosition(EquPosition position);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns additional notes of the target.<br>
      * Notes can be used for additional descriptions of the target.
      * 
@@ -318,8 +298,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      */
     String getNotes();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets additional notes to the target.<br>
      * Additional notes can be used to add any additional textual information to the target.
      * 

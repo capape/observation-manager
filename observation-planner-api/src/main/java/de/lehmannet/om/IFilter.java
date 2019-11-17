@@ -125,8 +125,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Filter to a given parent XML DOM Element. The Filter element will be set as a child element of the
      * passed element.
      * 
@@ -136,8 +135,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the filter link to an given XML DOM Element The filter element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no filter container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -165,8 +163,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the filter link to an given XML DOM Element The filter element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -184,8 +181,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the color of this filter.<br>
      * 
      * @return Returns a String representing the filters color, or <code>null</code> if the color was never set (e.g.
@@ -193,8 +189,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     String getColor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the color of this filter.<br>
      * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a IllegalArgumentException is thrown, so make
      * sure to set Filter type to color first.<br>
@@ -209,16 +204,14 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     void setColor(String color);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model of this filter.<br>
      * 
      * @return Returns a String representing the filter model.<br>
      */
     String getModel();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the filter.<br>
      * 
      * @param model
@@ -228,8 +221,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     void setModel(String model);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the schott value of this filter.<br>
      * 
      * @return Returns a String representing the schott value of the filter, or <code>null</code> if the value was never
@@ -237,8 +229,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     String getSchott();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the schott value for the filter.<br>
      * 
      * @param schott
@@ -246,16 +237,14 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     void setSchott(String schott);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the filter type.<br>
      * 
      * @return Returns a String representing the filter type.<br>
      */
     String getType();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the filter type.<br>
      * The filter type must be a value from the types defined in IFilter.<br>
      * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type is not, then the filters color is
@@ -269,8 +258,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     void setType(String type);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the wratten value of this filter.<br>
      * 
      * @return Returns a String representing the wratten value of the filter, or <code>null</code> if the value was
@@ -278,15 +266,13 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     String getWratten();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the wratten value for the filter.<br>
      *
      */
     void setWratten(String wratten);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of this filter.<br>
      * 
      * @return Returns a String representing the vendor name of the filter, or <code>null</code> if the vendor was never
@@ -294,8 +280,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      */
     String getVendor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the filter.<br>
      * 
      * @param vendor

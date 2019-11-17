@@ -21,8 +21,7 @@ public interface IIDGenerator {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates a unique ID that can be used to identify and link several schema elements.<br>
      * All elements inside a XML file need to have a unique ID.
      * 

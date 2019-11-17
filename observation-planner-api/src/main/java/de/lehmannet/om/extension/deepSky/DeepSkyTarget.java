@@ -71,8 +71,7 @@ public abstract class DeepSkyTarget extends Target {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTarget from a given DOM target Element.<br>
      * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
      * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
@@ -162,8 +161,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTarget.
      * 
      * @param name
@@ -177,8 +175,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTarget.
      * 
      * @param name
@@ -196,8 +193,7 @@ public abstract class DeepSkyTarget extends Target {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyTarget.
      * 
@@ -255,8 +251,7 @@ public abstract class DeepSkyTarget extends Target {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -271,8 +266,7 @@ public abstract class DeepSkyTarget extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -287,8 +281,7 @@ public abstract class DeepSkyTarget extends Target {
     // Protected methods -------------------------------------------------
     // -----------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates a deepkSkyTarget under the target container. If no target container exists under the given elements
      * ownerDocument, it will be created.<br>
      * This method should be called by subclasses, so that they only have to add their specific data to the element
@@ -404,8 +397,7 @@ public abstract class DeepSkyTarget extends Target {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the large diameter of the astronomical object.
      * 
      * @return The large diameter of the astronomical object as Angle The returned value might be <code>null</code> if
@@ -418,8 +410,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the small diameter of the astronomical object.
      * 
      * @return The small diameter of the astronomical object as Angle The returned value might be <code>null</code> if
@@ -432,8 +423,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the surface brightness of the astronomical object
      * 
      * @return The surface brightness of the astronomical object.<br>
@@ -445,8 +435,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the visible magnitude of the astronomical object.
      * 
      * @return The visible magnitude of the astronomical object.<br>
@@ -458,8 +447,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the large diameter of the DeepSkyTarget. A valid Angle has a value larger (or euqals) 0.0.
      * 
      * @param largeDiameter
@@ -477,8 +465,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the small diameter of the DeepSkyTarget. A valid Angle has a value larger (or euqals) 0.0.
      * 
      * @param smallDiameter
@@ -496,8 +483,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the surface brightness of the astronomical object.<br>
      * 
      * @param surfaceBrightness
@@ -509,8 +495,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the visible magnitude of the astronomical object.
      * 
      * @param visibleMagnitude

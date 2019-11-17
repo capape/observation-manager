@@ -22,8 +22,7 @@ public class UUIDGenerator implements IIDGenerator {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    public UUIDGenerator() throws Exception {
+public UUIDGenerator() throws Exception {
 
         // Check if VM Version is correct
         // This will cause the ClassNotFoundException in case the UUID class cannot be
@@ -36,8 +35,7 @@ public class UUIDGenerator implements IIDGenerator {
     // IIDGenerator ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates a universal unique ID that can be used to identify and link several schema elements.<br>
      * All elements inside a XML file need to have a unique ID.
      * 

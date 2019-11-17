@@ -53,8 +53,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetMS from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -102,16 +101,14 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    public DeepSkyTargetMS(String starName, String datasource, List componentStars) {
+public DeepSkyTargetMS(String starName, String datasource, List componentStars) {
 
         super(starName, datasource);
         this.setComponents(componentStars);
 
     }
 
-    // -------------------------------------------------------------------
-    public DeepSkyTargetMS(String starName, IObserver observer, List componentStars) {
+public DeepSkyTargetMS(String starName, IObserver observer, List componentStars) {
 
         super(starName, observer);
         this.setComponents(componentStars);
@@ -122,8 +119,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -142,8 +138,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this DeepSkyTargetMS to a given parent XML DOM Element. The DeepSkyTargetMS element will be set as a child
      * element of the passed element.
      *
@@ -224,8 +219,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a list with all components of this multiple star given as unique ID link.<br>
      * If you want to access all linked targets as de.lehmannet.om.TargetStar objects, call getComponentTargets().<br>
      *
@@ -237,8 +231,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a list with all components of this multiple star given as de.lehmannet.om.TargetStar.<br>
      * If you want to access all linked targets as unique ID (String) objects, call getComponents().<br>
      *
@@ -266,8 +259,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a new list of component stars for this multiple star target.<br>
      * The given list must contain at least three entries of type de.lehmannet.TargetStar or of type String (which will
      * be interpreted as unique ID of a linked TargetStar.<br>
@@ -313,8 +305,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a list of component stars to this multiple star target.<br>
      * The given list must contain at least three entries of type de.lehmannet.TargetStar or java.lang.String in case
      * getComponents() returns <code>null</code><br>
@@ -356,8 +347,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new star to a given list of component stars. If getComponents() returns <code>null</code> you need to use
      * setComponents(List) first, to initially add (at least three) component stars.
      *
@@ -381,8 +371,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new star to a given list of component stars. If getComponents() returns <code>null</code> you need to use
      * setComponents(List) first, to initially add (at least three) component stars.
      *

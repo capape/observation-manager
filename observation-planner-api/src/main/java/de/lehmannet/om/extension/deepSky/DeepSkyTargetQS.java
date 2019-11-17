@@ -34,8 +34,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetQS from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -55,8 +54,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetQS.
      * 
      * @param name
@@ -70,8 +68,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetQS.
      * 
      * @param name
@@ -89,8 +86,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -113,8 +109,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>

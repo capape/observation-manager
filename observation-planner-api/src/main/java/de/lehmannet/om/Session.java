@@ -72,8 +72,7 @@ public class Session extends SchemaElement implements ISession {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new Session instance from a given XML Schema Node. Normally this constructor is only used by
      * de.lehmannet.om.util.SchemaLoader<br>
      * Please mind: As a Session can have <coObserver> elements that link to <observer> elements somewhere else in the
@@ -370,8 +369,7 @@ public class Session extends SchemaElement implements ISession {
         }
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Session.
      *
      * @param begin
@@ -395,8 +393,7 @@ public class Session extends SchemaElement implements ISession {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -423,8 +420,7 @@ public class Session extends SchemaElement implements ISession {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this Session.
      *
@@ -479,8 +475,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * @Override public boolean equals(Object obj) {
      *
      * if( obj == null || !(obj instanceof ISession) ) { return false; }
@@ -502,8 +497,7 @@ public class Session extends SchemaElement implements ISession {
     // @Override public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Session to a given parent XML DOM Element. The Session element will be set as a child element of the
      * passed element.
      *
@@ -610,8 +604,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the session link to an given XML DOM Element The session element itself will be attached to given elements
      * ownerDocument if the passed boolean is <cod>true</code>. If the ownerDocument has no session container, it will
      * be created (in case the passed boolean is <cod>true</code>).<br>
@@ -681,8 +674,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the session link to an given XML DOM Element The session element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -705,8 +697,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the start date of the session.<br>
      *
      * @return Returns the start date of the session
@@ -718,8 +709,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a comment about this session.<br>
      * Might return <code>null</code> if no comment was set to this session.
      *
@@ -732,8 +722,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the end date of the session.<br>
      *
      * @return Returns the end date of the session
@@ -745,8 +734,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the site of the session.<br>
      *
      * @return Returns the site of the session
@@ -758,8 +746,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a string describing equipment which was used during this session.<br>
      * Typically one should add non optical equipment here like "Radio and a warm bottle of Tea."<br>
      * Might return <code>null</code> if no equipment was set to this session.
@@ -774,8 +761,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a describtion of the weather conditions during the session.<br>
      * Might return <code>null</code> if no weather conditions were added to this session.
      *
@@ -789,8 +775,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the language in which this session is described as ISO language string. E.g. de=German, fr=French,
      * ...<br>
      * Might return <code>null</code> if no language was set for this session.
@@ -806,8 +791,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a list of images (relativ path to images), taken at this session. Might return <code>null</code> if
      * images were set.
      *
@@ -824,8 +808,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the start date of the session.<br>
      *
      * @param begin
@@ -844,8 +827,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a comment to the session.<br>
      * The old comment will be overwritten.
      *
@@ -864,8 +846,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the end date of the session.<br>
      *
      * @param end
@@ -884,8 +865,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a equipment description to the session.<br>
      * Typically non optical equipment will should be stored here, e.g. "Red LED light and bottle of hot tea."<br>
      * The old equipment will be overwritten.
@@ -905,8 +885,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a site (location) where the session took place.<br>
      * A session can only took place at one site.
      *
@@ -926,8 +905,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a new List of coobservers to this session.<br>
      * The old List of coobservers will be overwritten. If you want to add one ore more coobservers to the existing list
      * use addCoObservers(java.util.List) or addCoObserver(IObserver) instead.
@@ -948,8 +926,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a List of coobservers to this session.<br>
      * The old List of coobservers will be extended by the new List of coobservers.
      *
@@ -972,8 +949,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a single coobserver to this session.<br>
      *
      * @param coObserver
@@ -990,8 +966,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a List of coobservers who joined this session.<br>
      * Might return <code>null</code> if no coobservers were added to this session.
      *
@@ -1004,8 +979,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the weather conditions of the session.<br>
      * The weather conditions string should explain in some short sentences, how the weather conditions were like during
      * the session. E.g. "Small clouds at the first hour but then totally clear and cool, at about 4\u00b0C."
@@ -1025,8 +999,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the language in which this session is described. String must be given as ISO language string. E.g.
      * de=German, fr=French, ...<br>
      *
@@ -1046,8 +1019,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a List of image paths (String) to this session.<br>
      * The new list of images will be added to the existing list of images belonging to this session. If you want to
      * replace the old images list use setImages(java.util.List).<br>
@@ -1071,8 +1043,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds a new image (path) to this session.<br>
      *
      * @param imagePath
@@ -1089,8 +1060,7 @@ public class Session extends SchemaElement implements ISession {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets a List of images (path as String) for this session.<br>
      * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
      * addImages(java.util.List) or addImage(String).<br>

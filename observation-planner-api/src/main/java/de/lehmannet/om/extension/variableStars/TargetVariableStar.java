@@ -54,8 +54,7 @@ public class TargetVariableStar extends TargetStar {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a TargetVariableStar from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -141,15 +140,13 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    public TargetVariableStar(String starName, String datasource) {
+public TargetVariableStar(String starName, String datasource) {
 
         super(starName, datasource);
 
     }
 
-    // -------------------------------------------------------------------
-    public TargetVariableStar(String starName, IObserver observer) {
+public TargetVariableStar(String starName, IObserver observer) {
 
         super(starName, observer);
 
@@ -159,8 +156,7 @@ public class TargetVariableStar extends TargetStar {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this TargetVariableStar.
      * 
@@ -196,8 +192,7 @@ public class TargetVariableStar extends TargetStar {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this TargetVariableStar to a given parent XML DOM Element. The TargetVariableStar element will be set as a
      * child element of the passed element.
      * 
@@ -253,8 +248,7 @@ public class TargetVariableStar extends TargetStar {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -273,8 +267,7 @@ public class TargetVariableStar extends TargetStar {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the maximal apparent magnitude of this variable star.<br>
      * To access the minimal apparent magnitude of this variable star, please use getMagnitudeApparent() (derived vom
      * de.lehmannet.om.TargetStar)<br>
@@ -288,8 +281,7 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the maximal apparent magnitude of this variable star.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
      *
@@ -300,8 +292,7 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the type of this variable star.<br>
      * This can be any free string describing the variable star type like: Cepheids, RR Lyrae stars, Semiregular,
      * Supernovae, Novae, R Coronae Borealis, Eclipsing Binary Stars, ... <br>
@@ -317,8 +308,7 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the type of this variable star.<br>
      *
      */
@@ -333,8 +323,7 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the period of this variable star in days.<br>
      * Might be <code>Float.NaN</code> if value was never set (or the variable star has no period)
      * 
@@ -346,8 +335,7 @@ public class TargetVariableStar extends TargetStar {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the period of this variable star in days.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
      *

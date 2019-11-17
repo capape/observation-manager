@@ -100,8 +100,7 @@ public class Scope extends SchemaElement implements IScope {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Scope from a given XML Schmea Node. Normally this constructor is only used by
      * de.lehmannet.om.util.SchemaLoader
      *
@@ -333,8 +332,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Scope.
      * 
      * @param model
@@ -357,8 +355,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Scope.
      * 
      * @param aperture
@@ -385,8 +382,7 @@ public class Scope extends SchemaElement implements IScope {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -421,8 +417,7 @@ public class Scope extends SchemaElement implements IScope {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * @Override public String[] getXSIType() {
      * 
      * return new String[] { Scope.XML_XSI_TYPE_VALUE, Scope.XML_XSI_FIXEDTYPE_VALUE };
@@ -434,8 +429,7 @@ public class Scope extends SchemaElement implements IScope {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this Scope.
      * 
@@ -500,8 +494,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * @Override public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof IScope) ) { return false; }
@@ -530,8 +523,7 @@ public class Scope extends SchemaElement implements IScope {
     // IEquipment --------------------------------------------------------
     // ----------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this element is still available for use-<br>
      * 
      * @return a boolean with the availability of the element
@@ -543,8 +535,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the availability of this element.<br>
      * 
      * @param available
@@ -561,8 +552,7 @@ public class Scope extends SchemaElement implements IScope {
     // IScope ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Scope to a given parent XML DOM Element. The Scope element will be set as a child element of the passed
      * element.
      * 
@@ -673,8 +663,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the scope link to an given XML DOM Element The scope element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no scope container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -734,8 +723,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the scope link to an given XML DOM Element The scope element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -758,8 +746,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the aperture of the scope.<br>
      * The aperture can be any positive float value.
      * 
@@ -772,8 +759,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the focal length is not set for this scope. In that case
      * the magnification must return a value.
@@ -787,8 +773,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the light grasp value of the scope.<br>
      * Allowed values are between 0.0 and 1.0 (including 0.0 and 1.0)<br>
      * This value might return <code>Float.NaN</code> in case the light grasp was never set.
@@ -802,8 +787,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the true field of view, if set.<br>
      * Might return <code>NULL</code> as the field is optional only if magnification is set.
      * 
@@ -816,8 +800,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes picture vertical orientation.
      * 
      * @return <b>true</b> if the scopes picture is errected
@@ -835,8 +818,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes picture horizontal orientation.
      * 
      * @return <b>true</b> if the scopes picture is truesided
@@ -854,8 +836,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnification of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the magnification is not set for this scope. In that case
      * the focal length must return a value.
@@ -869,8 +850,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scopes model name.<br>
      * 
      * @return Returns the model name of the scope
@@ -882,8 +862,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scope type.<br>
      * E.g. Newton, Binocular, Reflector...<br>
      * If abbreviation is returned, here's the mapping: A: Naked eye<br>
@@ -931,8 +910,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the scope's vendor name.<br>
      * E.g. Celestron, TeleVue, Meade, Vixen...<br>
      * This method might return <code>null</code> if the vendor was never set.
@@ -946,8 +924,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the aperture of the scope.<br>
      * The aperture must be a positive float value.
      * 
@@ -971,8 +948,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length of the scope.<br>
      * Throws IllegalArgumentException if the given parameter is Float.NaN and magnification is not set. This mechanism
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
@@ -1003,8 +979,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the light grasp value of the scope.<br>
      * The light grasp must be a positive float value between 0.0 and 1.0 (including 0.0 and 1.0).
      * 
@@ -1022,8 +997,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnification of the scope.<br>
      * Throws IllegalArgumentException if the given parameter is Float.NaN and focal length is not set. This mechanism
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
@@ -1047,8 +1021,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the true field of view, if magnification is given.<br>
      * 
      * @param tfov
@@ -1068,8 +1041,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name of the scope.<br>
      * The model name cannot be <code>null</code>.
      * 
@@ -1089,8 +1061,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the type of the scope.<br>
      * E.g. Newton, Reflector, Binocular... The type is optional but should be given if known!<br>
      * When applicable, the following coding (according to the DSL) should be used:<br>
@@ -1115,8 +1086,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the scope.<br>
      * 
      * @param vendor
@@ -1134,8 +1104,7 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the orientation of the scope.<br>
      * 
      * @param errected

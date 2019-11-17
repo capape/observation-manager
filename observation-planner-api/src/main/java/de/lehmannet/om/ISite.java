@@ -88,8 +88,7 @@ public interface ISite extends ISchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Site to a given parent XML DOM Element. The Site element will be set as a child element of the passed
      * element.
      * 
@@ -99,8 +98,7 @@ public interface ISite extends ISchemaElement {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the site link to an given XML DOM Element The site element itself will be attached to given elements
      * ownerDocument if the passed boolean value is <code>true</code>. Also if the ownerDocument has no site container,
      * it will be created (if the passed boolean value is <code>true</code> <br>
@@ -128,8 +126,7 @@ public interface ISite extends ISchemaElement {
      */
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the site link to an given XML DOM Element The site element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -147,8 +144,7 @@ public interface ISite extends ISchemaElement {
      */
     org.w3c.dom.Element addAsLinkToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the latitude of the site.<br>
      * The latitude is a positiv angle if its north of the equator, and negative if south of the equator.
      * 
@@ -156,8 +152,7 @@ public interface ISite extends ISchemaElement {
      */
     de.lehmannet.om.Angle getLatitude();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the longitude of the site.<br>
      * The longitude is a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
@@ -165,8 +160,7 @@ public interface ISite extends ISchemaElement {
      */
     de.lehmannet.om.Angle getLongitude();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the name of the site.<br>
      * The name may be any string describing the site as precise as it can be.
      * 
@@ -174,8 +168,7 @@ public interface ISite extends ISchemaElement {
      */
     String getName();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the IAU station code of the site.<br>
      * This method may return <code>null</code> as the site may not have an IAU (International Astronomical Union)
      * station code.
@@ -184,8 +177,7 @@ public interface ISite extends ISchemaElement {
      */
     String getIAUCode();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the timezone of the site.<br>
      * The timezone is given as positiv or negative value, depending on the sites timezone difference to the GMT in
      * minutes.
@@ -194,8 +186,7 @@ public interface ISite extends ISchemaElement {
      */
     int getTimezone();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the elevation of the site.<br>
      * The elevation is given in meters above/under sea level.
      * 
@@ -204,8 +195,7 @@ public interface ISite extends ISchemaElement {
      */
     float getElevation();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the elevation of the site.<br>
      * The elevation should be given in meters above/under sea level.
      * 
@@ -214,8 +204,7 @@ public interface ISite extends ISchemaElement {
      */
     void setElevation(float elevation);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the latitude of the site.<br>
      * The latitude must be a positiv angle if its north of the equator, and negative if south of the equator.
      * 
@@ -226,8 +215,7 @@ public interface ISite extends ISchemaElement {
      */
     void setLatitude(de.lehmannet.om.Angle latitude) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the longitude of the site.<br>
      * The longitude must be a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
@@ -238,8 +226,7 @@ public interface ISite extends ISchemaElement {
      */
     void setLongitude(de.lehmannet.om.Angle longitude) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the name of the site.<br>
      * The name should be any string describing the site as precise as it can be.
      * 
@@ -250,8 +237,7 @@ public interface ISite extends ISchemaElement {
      */
     void setName(String name) throws IllegalArgumentException;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the IAU code of the site.<br>
      * 
      * @param IAUCode
@@ -259,8 +245,7 @@ public interface ISite extends ISchemaElement {
      */
     void setIAUCode(String IAUCode);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the timezone of the site.<br>
      * The timezone must be given as positiv or negative value, depending on the sites timezone difference to the GMT in
      * minutes.

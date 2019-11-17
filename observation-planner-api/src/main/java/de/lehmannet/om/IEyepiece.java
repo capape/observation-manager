@@ -82,8 +82,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Eyepiece to a given parent XML DOM Element. The Eyepiece element will be set as a child element of the
      * passed element.
      * 
@@ -93,8 +92,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no eyepiece container, it
      * will be created (in case the passed boolean was <code>true</code>).<br>
@@ -123,8 +121,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will <b>NOT</b> be attached to
      * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -142,8 +139,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the apparent field of view of this eyepiece.
      * 
      * @return Returns the apparent field of view of this eyepiece. The Angles value cannot be negative or 0.<br>
@@ -152,8 +148,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     de.lehmannet.om.Angle getApparentFOV();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length of this eyepiece. The focal length of the telescope divided by the focal length of the
      * eyepiece equals the amplification.
      * 
@@ -161,8 +156,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     float getFocalLength();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the maximal focal length of this eyepiece in case this eyepiece is a zoom eyepiece. Might return
      * <code>Float.NaN</code> in case this eyepiece is not a zoom eyepiece.
      * 
@@ -171,8 +165,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     float getMaxFocalLength();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model name of the eyepiece.<br>
      * 
      * @return Returns a String representing the eyepieces model name.<br>
@@ -180,8 +173,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     String getModel();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of the eyepiece.<br>
      * 
      * @return Returns a String representing the eyepieces vendor name.<br>
@@ -189,8 +181,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     String getVendor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this eyepiece is a zoom eyepiece.<br>
      * Basically this method just checks if the maxFocalLength field is set.
      * 
@@ -199,8 +190,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     boolean isZoomEyepiece();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the apparent field of view of this eyepiece.<br>
      * The field of view Angle cannot be negative or 0.
      * 
@@ -209,8 +199,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     void setApparentFOV(Angle apparentFOV);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length of the eyepiece.<br>
      * 
      * @param focalLength
@@ -218,8 +207,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     void setFocalLength(float focalLength);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the maximal focal length of the zoom eyepiece.<br>
      * If Float.NaN is passed, this eyepiece will no longer be treated as a zoom eyepiece.
      * 
@@ -229,8 +217,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     void setMaxFocalLength(float maxFocalLength);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the eyepiece.<br>
      * 
      * @param modelname
@@ -238,8 +225,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      */
     void setModel(String modelname);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the eyepiece.<br>
      * 
      * @param vendorname

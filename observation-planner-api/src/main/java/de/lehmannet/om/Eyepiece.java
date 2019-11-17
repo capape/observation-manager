@@ -52,8 +52,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of an Eyepiece from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
@@ -206,8 +205,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of an Eyepiece.<br>
      *
      * @param model
@@ -228,8 +226,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -257,8 +254,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns all fields of the class Eyepiece (unset field will be ignored). The result string will look like
      * this:<br>
@@ -303,8 +299,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof IEyepiece) ) { return false; }
@@ -330,8 +325,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // IEquipment --------------------------------------------------------
     // ----------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this element is still available for use-<br>
      * 
      * @return a boolean with the availability of the element
@@ -343,8 +337,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the availability of this element.<br>
      * 
      * @param available
@@ -361,8 +354,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     // IEyepiece ---------------------------------------------------------
     // ---------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Eyepiece to a given parent XML DOM Element. The Eyepiece element will be set as a child element of the
      * passed element.
      * 
@@ -440,8 +432,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no eyepiece container, it
      * will be created (in case the passed boolean was <code>true</code>).<br>
@@ -502,8 +493,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the eyepiece link to an given XML DOM Element The eyepiece element itself will <b>NOT</b> be attached to
      * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -526,8 +516,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the apparent field of view of this eyepiece.
      * 
      * @return Returns the apparent field of view of this eyepiece. The Angles value cannot be negative or 0.<br>
@@ -541,8 +530,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length of this eyepiece. The focal length of the telescope divided by the focal length of the
      * eyepiece equals the amplification.<br>
      * In case this eyepiece is a zoomEyepiece, this focal length is the minimum focal length. To retrieve the maximim
@@ -558,8 +546,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the maximal focal length of this eyepiece in case this eyepiece is a zoom eyepiece. Might return
      * <code>Float.NaN</code> in case this eyepiece is not a zoom eyepiece.
      * 
@@ -573,8 +560,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model name of the eyepiece.<br>
      * 
      * @return Returns a String representing the eyepieces model name.<br>
@@ -586,8 +572,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of the eyepiece.<br>
      * 
      * @return Returns a String representing the eyepieces vendor name.<br>
@@ -600,8 +585,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this eyepiece is a zoom eyepiece.<br>
      * Basically this method just checks if the maxFocalLength field is set.
      * 
@@ -615,8 +599,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the apparent field of view of this eyepiece.<br>
      * The field of view Angle cannot be negative or 0.
      * 
@@ -634,8 +617,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length of the eyepiece.<br>
      * 
      * @param focalLength
@@ -654,8 +636,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the maximal focal length of the zoom eyepiece.<br>
      * If Float.NaN is passed, this eyepiece will no longer be treated as a zoom eyepiece.
      * 
@@ -670,8 +651,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the eyepiece.<br>
      * 
      * @param modelname
@@ -690,8 +670,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the eyepiece.<br>
      * 
      * @param vendorname

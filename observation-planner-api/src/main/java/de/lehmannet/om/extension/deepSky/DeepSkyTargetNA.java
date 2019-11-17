@@ -22,19 +22,10 @@ import de.lehmannet.om.util.SchemaException;
  */
 public class DeepSkyTargetNA extends DeepSkyTarget {
 
-    // ---------
-    // Constants ---------------------------------------------------------
-    // ---------
 
     // XSML schema instance value. Enables class/schema loaders to identify this
-    // class
     public static final String XML_XSI_TYPE_VALUE = "oal:deepSkyNA";
 
-    // ------------
-    // Constructors ------------------------------------------------------
-    // ------------
-
-    // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetNA from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
@@ -55,7 +46,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
     /**
      * Constructs a new instance of a DeepSkyTargetNA.
      * 
@@ -70,8 +60,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetNA.
      * 
      * @param name
@@ -89,8 +78,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -109,12 +97,11 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
-     * @param parent
+     * @param element
      *            The parent element for this Target
      * @see org.w3c.dom.Element
      */

@@ -51,8 +51,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGC from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -110,8 +109,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGC.
      *
      * @param name
@@ -125,8 +123,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetGC.
      *
      * @param name
@@ -144,8 +141,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      *
@@ -191,8 +187,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -211,8 +206,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the concentration of the stars in the galactic cluster.
      *
      * @return Description of the concentration of the galactic cluster
@@ -223,8 +217,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnitude of the stars in the galactic cluster.
      *
      * @return The magnitude of the stars in the galactic cluster. The returned value might be <code>Double.NaN</code>
@@ -236,8 +229,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the concentration of the galactic cluster.
      *
      * @param newConcentration
@@ -254,8 +246,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnitude of the stars in the galactic cluster
      *
      * @param newMagnitude

@@ -60,8 +60,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDS from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -128,8 +127,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDS.
      * 
      * @param name
@@ -143,8 +141,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetDS.
      * 
      * @param name
@@ -162,8 +159,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -216,8 +212,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -236,8 +231,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the position angle of the double star.
      * 
      * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
@@ -249,8 +243,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the separation of the double star components.
      * 
      * @return The separation of the double star components as Angle The returned value might be <code>null</code> if
@@ -263,8 +256,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnitude of the companion star.
      * 
      * @return The magnitude of the companion star. The returned value might be <code>Double.NaN</code> if the value was
@@ -276,8 +268,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnitude of the companion star.
      * 
      * @param newMagnitude
@@ -289,8 +280,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the position angle of the double star. If the given new position angle is < 0 or > 359 the position angle
      * will be unset again.
      * 
@@ -308,8 +298,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the separation of the double star components.<br>
      * Only positiv angles are allowed.
      * 

@@ -50,8 +50,7 @@ public class Lens extends SchemaElement implements ILens {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Lens from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
@@ -164,8 +163,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a Lens.<br>
      *
      * @param model
@@ -189,8 +187,7 @@ public class Lens extends SchemaElement implements ILens {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -215,8 +212,7 @@ public class Lens extends SchemaElement implements ILens {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns all fields of the class lens (unset fields will be ignored). The result string will look like this:<br>
      * Example:<br>
@@ -255,8 +251,7 @@ public class Lens extends SchemaElement implements ILens {
     // IEquipment --------------------------------------------------------
     // ----------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this element is still available for use-<br>
      * 
      * @return a boolean with the availability of the element
@@ -268,8 +263,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the availability of this element.<br>
      * 
      * @param available
@@ -286,8 +280,7 @@ public class Lens extends SchemaElement implements ILens {
     // ILens -------------------------------------------------------------
     // -----
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Lens to a given parent XML DOM Element. The Lens element will be set as a child element of the passed
      * element.
      * 
@@ -352,8 +345,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the lens link to an given XML DOM Element The lens element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no lens container, it will be
      * created (in case the passed boolean was <code>true</code>).<br>
@@ -413,8 +405,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the lens link to an given XML DOM Element The lens element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -437,8 +428,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length factor of this lens.<br>
      * Factors > 1 represent barlow lenses<br>
      * Factors < 1 represent shapley lenses<br>
@@ -453,8 +443,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model name of the lens.<br>
      * 
      * @return Returns a String representing the lens model name.<br>
@@ -466,8 +455,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of the lens.<br>
      * 
      * @return Returns a String representing the lens vendor name.<br>
@@ -480,8 +468,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length factor of the lens.<br>
      * 
      * @param factor
@@ -504,8 +491,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the lens.<br>
      * 
      * @param modelname
@@ -524,8 +510,7 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the lens.<br>
      * 
      * @param vendorname

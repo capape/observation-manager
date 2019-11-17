@@ -48,8 +48,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of an Imager from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
@@ -189,8 +188,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of an Imager.<br>
      *
      * @param model
@@ -208,8 +206,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -234,8 +231,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof IImager) ) { return false; }
@@ -259,8 +255,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // IEquipment --------------------------------------------------------
     // ----------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if this element is still available for use-<br>
      * 
      * @return a boolean with the availability of the element
@@ -272,8 +267,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the availability of this element.<br>
      * 
      * @param available
@@ -290,8 +284,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // IImager -----------------------------------------------------------
     // -------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this IImager to a given parent XML DOM Element. The IImager element will be set as a child element of the
      * passed element.
      * 
@@ -302,8 +295,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     @Override
     public abstract void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the imager link to an given XML DOM Element The IImager element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no IImager container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -363,8 +355,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the imager link to an given XML DOM Element The imager element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -387,8 +378,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model name of this imager.<br>
      * 
      * @return Returns the model name of this imager.<br>
@@ -400,8 +390,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of this imager.<br>
      * 
      * @return Returns the vendor name of this imager or <code>NULL</code> if vendor name was not set.<br>
@@ -413,8 +402,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * public String getType() {
      * 
      * return this.type;
@@ -422,8 +410,7 @@ public abstract class Imager extends SchemaElement implements IImager {
      * }
      */
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the remarks to this imager.<br>
      * 
      * @return Returns the remarks to this imager or <code>NULL</code> if no remarks were set.<br>
@@ -435,8 +422,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the imager.<br>
      * 
      * @param modelname
@@ -455,8 +441,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name for the imager.<br>
      * 
      * @param vendor
@@ -474,8 +459,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * public void setType(String type) {
      * 
      * if( (IImager.CCD.equals(type)) || (IImager.FILM.equals(type)) ) { this.type = type; } else { throw new
@@ -484,8 +468,7 @@ public abstract class Imager extends SchemaElement implements IImager {
      * }
      */
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the remarks for this imager.<br>
      * 
      * @param remarks
@@ -507,8 +490,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // Protected methods -------------------------------------------------
     // -----------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates an XML DOM Element for the Imager. The new Imager element will be added as child element to an given
      * parent element. The given parent element should be the target container. All specialised subclasses may use this
      * method to create a Imager element under which they may store their addition data.<br>

@@ -47,8 +47,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetCG from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -87,8 +86,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetCG.
      * 
      * @param name
@@ -102,8 +100,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetCG.
      * 
      * @param name
@@ -121,8 +118,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -160,8 +156,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -180,8 +175,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnitude of the 10th brightest member in mag.
      * 
      * @return The magnitude of the 10th brightest member in mag. The returned value might be <code>Float.NaN</code> if
@@ -193,8 +187,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnitude of the 10th brightest member in mag
      * 
      * @param magTen

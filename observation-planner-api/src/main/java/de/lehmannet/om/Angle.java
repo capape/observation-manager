@@ -65,8 +65,7 @@ public class Angle {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of an Angle from a given DOM target Element.<br>
      *
      * @param angleNode
@@ -93,8 +92,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /*
+/*
      * Creates a new Angle instace.
      *
      * @param value The angles value
@@ -122,8 +120,7 @@ public class Angle {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the value of this Angle followed by its unit.<br>
      * Example:<br>
@@ -139,8 +136,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this Angle and the given Object are equal. Two Angles are equal if both have the same value when
      * represented as degree based angle.<br>
@@ -184,8 +180,7 @@ public class Angle {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets this Angle to an given XML DOM Element.<br>
      * The Angles value will be set as the Elements value and the Angles unit will be set as the Elements attribute.<br>
      * Example:<br>
@@ -211,8 +206,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the unit of the angles value.<br>
      * The returned value may be any valid Angle unit, which can be accessed by Angles constants.
      *
@@ -224,8 +218,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the value of this angle.<br>
      * The returned value may be any double value (positiv or negativ).
      *
@@ -237,8 +230,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Converts and sets this Angles value and unit to an Angle given in degrees.<br>
      * If the Angle is already given in degree, the Angle will not change.
      *
@@ -268,8 +260,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Converts and sets this Angles value and unit to an Angle given in arcminutes.<br>
      * If the Angle is already given in arcminutes, the Angle will not change.
      *
@@ -299,8 +290,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Converts and sets this Angles value and unit to an Angle given in arcseconds.<br>
      * If the Angle is already given in arcseconds, the Angle will not change.
      *
@@ -330,8 +320,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Converts and sets this Angles value and unit to an Angle given in radiant.<br>
      * If the Angle is already given in radiants, the Angle will not change.
      *
@@ -365,8 +354,7 @@ public class Angle {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Checks if a given String is a valid Angle unit.<br>
      * Means, if the given string is equal to Angle.DEGREE, Angle.RADIANT, Angle.ARCMINUTE, Angle.ARCSECOND
      *

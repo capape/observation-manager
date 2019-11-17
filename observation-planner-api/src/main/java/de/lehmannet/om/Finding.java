@@ -39,8 +39,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
     // Indicates whether the target has been successfuly seen, or not
     private boolean targetSeen = true;
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Protected constructor used by subclasses construction.
      *
      * @param findingElement
@@ -102,8 +101,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Protected constructor used by subclasses construction.
      *
      * @param ID
@@ -124,8 +122,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Protected constructor used by subclasses construction.
      * 
      * @param description
@@ -147,8 +144,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
     // IFinding ----------------------------------------------------------
     // --------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the Finding to an given parent XML DOM Element. This abstract method is derived from
      * de.lehmannet.om.IFinding.
      * 
@@ -161,8 +157,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
     @Override
     public abstract org.w3c.dom.Element addToXmlElement(org.w3c.dom.Element parent);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the description of the Finding. The string describes the impressions the observer had during the
      * observation of an object.
      * 
@@ -175,8 +170,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the description of the Finding. The string should describe the impressions the observer had during the
      * observation of an object.
      * 
@@ -196,8 +190,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the language in which this session is described as ISO language string. E.g. de=German, fr=French,
      * ...<br>
      * Might return <code>null</code> if no language was set for this session.
@@ -213,8 +206,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the language in which this finding is described. String must be given as ISO language string. E.g.
      * de=German, fr=French, ...<br>
      * 
@@ -234,8 +226,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns <code>true</code> if the target was seen with this finding or not. As findings might be created to
      * document that an object was not seen this flag can be used for checks.
      * 
@@ -249,8 +240,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Set to <code>true</code> if the target was seen by the observer.<br>
      * 
      * @param seen
@@ -269,8 +259,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
     // Protected methods -------------------------------------------------
     // -----------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates an XML DOM Element for the Finding. The new Finding element will be added as child element to an given
      * parent element. All specialised subclasses may use this method to create a Finding element under which they may
      * store their addition data.<br>

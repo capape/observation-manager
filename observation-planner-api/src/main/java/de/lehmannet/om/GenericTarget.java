@@ -29,22 +29,19 @@ public class GenericTarget extends Target {
     // Constructor -------------------------------------------------------
     // -----------
 
-    // -------------------------------------------------------------------
-    public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
+public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
     }
 
-    // -------------------------------------------------------------------
-    public GenericTarget(String name, String datasource) throws IllegalArgumentException {
+public GenericTarget(String name, String datasource) throws IllegalArgumentException {
 
         super(name, datasource);
 
     }
 
-    // -------------------------------------------------------------------
-    public GenericTarget(String name, IObserver observer) throws IllegalArgumentException {
+public GenericTarget(String name, IObserver observer) throws IllegalArgumentException {
 
         super(name, observer);
 
@@ -54,8 +51,7 @@ public class GenericTarget extends Target {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this GenericTarget.
      * 
@@ -89,8 +85,7 @@ public class GenericTarget extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this GenericTarget and the given Object are equal. The given object is equal with this GenericTarget,
      * if it derives from ITarget, both XSI types are equal and its name equals this GenericTarget name.<br>
@@ -125,8 +120,7 @@ public class GenericTarget extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -195,8 +189,7 @@ public class GenericTarget extends Target {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>

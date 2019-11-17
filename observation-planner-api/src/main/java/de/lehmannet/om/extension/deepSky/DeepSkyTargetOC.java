@@ -58,8 +58,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetOC from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -131,8 +130,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetOC.
      * 
      * @param name
@@ -146,8 +144,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a DeepSkyTargetOC.
      * 
      * @param name
@@ -165,8 +162,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -220,8 +216,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -240,8 +235,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the amount of stars in the open cluster.
      * 
      * @return The amount of stars in the open cluster. The returned value might be <code>-1</code> if the value was
@@ -253,8 +247,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the classification (according to Trumpler) of the open cluster.
      * 
      * @return The classification of the open cluster (according to Trumpler) The returned value might be
@@ -266,8 +259,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the magnitude of the brightest star in the open cluster.
      * 
      * @return The magnitude of the brightest star in the open cluster. The returned value might be
@@ -279,8 +271,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the amount of stars in the open cluster. All passed values lower than 1 are treated as -1, which means that
      * the value was never set.
      * 
@@ -298,8 +289,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the magnitude of the brightest star in the open cluster
      * 
      * @param newBrightestStar
@@ -311,8 +301,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the cluster classification (according to Trumpler).
      * 
      * @param newClassification

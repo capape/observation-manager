@@ -24,8 +24,7 @@ public class OpticsUtil {
     // Public Methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the exit pupil of a given scope eyepiece lens combination.
      * 
      * @return The exit pupil of this scope/eyepiece combination, or Float.NaN if no magnification could be accessed or
@@ -47,8 +46,7 @@ public class OpticsUtil {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the exit pupil of a given scope
      * 
      * @return The exit pupil of this scope, or Float.NaN if no magnification could be accessed
@@ -59,8 +57,7 @@ public class OpticsUtil {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the true field of view
      * 
      * In case the scope has a fixed magnification and the true field of view was set, returns this true field of view
@@ -124,8 +121,7 @@ public class OpticsUtil {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the magnification of a eyepiece used at a given scope.
      * 
      * @return The magnification or Float.NaN if one of both parameters was <b>NULL</b>
@@ -148,8 +144,7 @@ public class OpticsUtil {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the magnification of a eyepiece used at a given scope, and a used lens (barlow or focal reducer).
      * 
      * @param scope
@@ -182,8 +177,7 @@ public class OpticsUtil {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Calculates the actual focal length of an eyepiece used on a scope together with a lens (barlow or focal
      * reducer).<br>
      * This method is used to get the actual focal length used in case an zoom eyepiece was used for an observation.<br>

@@ -20,11 +20,7 @@ import org.slf4j.LoggerFactory;
 public class AAVSOVisualSerializer implements ISerializer {
 
     private static Logger log = LoggerFactory.getLogger(AAVSOVisualSerializer.class);
-    // ---------
-    // Constants --------------------------------------------------------------
-    // ---------
-
-    // ---------- AAVSO Comment codes
+// ---------- AAVSO Comment codes
 
     /* B: Sky is bright, moon, twilight, light pollution, aurorae. */
     private static final String COMMENTCODE_B = "B";

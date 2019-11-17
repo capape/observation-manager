@@ -62,8 +62,7 @@ public interface ILens extends ISchemaElement, IEquipment {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this Lens to a given parent XML DOM Element. The Lens element will be set as a child element of the passed
      * element.
      * 
@@ -73,8 +72,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     void addToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the lens link to an given XML DOM Element The lens element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no lens container, it will be
      * created (in case the passed boolean was <code>true</code>).<br>
@@ -102,8 +100,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds the lens link to an given XML DOM Element The lens element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -121,8 +118,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     Element addAsLinkToXmlElement(Element element);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the focal length factor of this lens.<br>
      * Factors > 1 represent barlow lenses<br>
      * Factors < 1 represent shapley lenses<br>
@@ -132,16 +128,14 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     float getFactor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the model name of the lens.<br>
      * 
      * @return Returns a String representing the lenses model name.<br>
      */
     String getModel();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the vendor name of the lens.<br>
      * 
      * @return Returns a String representing the lenses vendor name.<br>
@@ -149,8 +143,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     String getVendor();
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the focal length factor of the lens.<br>
      * Value must be > 0.<br>
      * Factors > 1 represent barlow lenses<br>
@@ -162,8 +155,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     void setFactor(float factor);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the model name for the lens.<br>
      * 
      * @param modelname
@@ -171,8 +163,7 @@ public interface ILens extends ISchemaElement, IEquipment {
      */
     void setModel(String modelname);
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the vendor name of the lens.<br>
      * 
      * @param vendorname

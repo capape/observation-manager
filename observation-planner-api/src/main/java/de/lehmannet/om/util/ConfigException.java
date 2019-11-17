@@ -23,8 +23,7 @@ public class ConfigException extends OALException {
     // Constructors ------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new ConfigException.<br>
      * 
      * @param message
@@ -36,8 +35,7 @@ public class ConfigException extends OALException {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new ConfigException.<br>
      * 
      * @param message

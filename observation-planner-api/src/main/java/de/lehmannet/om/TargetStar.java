@@ -46,8 +46,7 @@ public class TargetStar extends Target {
     // Constructors -----------------------------------------------------------
     // ------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Constructs a new instance of a TargetStar from a given DOM target Element.<br>
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
@@ -116,8 +115,7 @@ public class TargetStar extends Target {
     // Object ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this TargetStar.
      * 
@@ -171,8 +169,7 @@ public class TargetStar extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
      * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
@@ -207,8 +204,7 @@ public class TargetStar extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Adds this TargetStar to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -227,8 +223,7 @@ public class TargetStar extends Target {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -247,8 +242,7 @@ public class TargetStar extends Target {
     // Public methods ----------------------------------------------------
     // --------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the apparent magnitude of the star.<br>
      * Might be Float.NaN if value was never set.
      * 
@@ -260,8 +254,7 @@ public class TargetStar extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the apparent magnitude of the star.<br>
      *
      */
@@ -271,8 +264,7 @@ public class TargetStar extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Returns the stellar classification of the star.<br>
      * Classification might be e.g. O,B,A,F,G,K,M or some more specific value.<br>
      * Might be <code>null</code> if value was never set.
@@ -285,8 +277,7 @@ public class TargetStar extends Target {
 
     }
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Sets the stellar classification of the star.<br>
      *
      */
@@ -312,8 +303,7 @@ public class TargetStar extends Target {
     // Protected methods -------------------------------------------------
     // -----------------
 
-    // -------------------------------------------------------------------
-    /**
+/**
      * Creates a deepkSkyTarget under the target container. If no target container exists under the given elements
      * ownerDocument, it will be created.<br>
      * This method should be called by subclasses, so that they only have to add their specific data to the element
