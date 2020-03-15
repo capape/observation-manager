@@ -552,7 +552,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
 
         this.treeView = treeView;
         this.om = om;
-        this.imagesDir = this.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images" + File.separatorChar;
+        this.imagesDir = this.om.getInstallDir().getPathForFolder("images");
 
     }
 

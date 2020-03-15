@@ -87,7 +87,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
     public ItemView(ObservationManager main) {
 
-        this.imagesDir = main.getInstallDir().getAbsolutePath() + File.separatorChar + "images" + File.separatorChar;
+        this.imagesDir = main.getInstallDir().getPathForFolder("images");
 
         this.main = main;
 

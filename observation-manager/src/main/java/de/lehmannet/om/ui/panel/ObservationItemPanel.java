@@ -568,7 +568,7 @@ public class ObservationItemPanel extends AbstractPanel {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.EAST;
         MoonDetailContainer moonContainer = new MoonDetailContainer(this.observation,
-                new File(this.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images"));
+                new File(this.om.getInstallDir().getPathForFolder("images")));
         moonContainer.setHorizontalAlignment(SwingConstants.RIGHT);
         gridbag.setConstraints(moonContainer, constraints);
         this.add(moonContainer);

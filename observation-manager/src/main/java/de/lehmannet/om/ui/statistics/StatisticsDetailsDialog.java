@@ -406,7 +406,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                 && (super.observationManager.getXmlCache().getAllOpenedFiles().length > 0)) {
             path = new File(super.observationManager.getXmlCache().getAllOpenedFiles()[0]).getParent();
         } else {
-            path = super.observationManager.getInstallDir().getParent();
+            path = super.observationManager.getInstallDir().getInstallDir().getParent();
         }
         path = path + File.separator;
 
@@ -432,8 +432,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        File path = new File(super.observationManager.getInstallDir().getAbsolutePath() + File.separator + "xsl"
-                + File.separator + selectedTemplate + File.separator + "targetOnly");
+        File path = new File(super.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
             super.observationManager
                     .createWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"

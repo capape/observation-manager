@@ -72,6 +72,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import de.lehmannet.om.IEyepiece;
@@ -107,6 +109,9 @@ import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.dialog.TableElementsDialog;
 import de.lehmannet.om.ui.dialog.UnavailableEquipmentDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.navigation.observation.utils.ArgumentName;
+import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
@@ -152,18 +157,10 @@ public class ObservationManager extends JFrame implements ActionListener {
     // ResourceBundle will be set in constructor after default locale is defined
     private static PropertyResourceBundle bundle = null;
 
-    // Command line arguments
-    private static final String INSTALL_DIR = "instDir";
-    private static final String LANGUAGE = "lang";
-    private static final String CONFIGURATION = "config";
-    private static final String NIGHTVISION = "nightvision";
-    private static final String LOGGING = "log";
-    private static final String DEBUG = "debug";
+    private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
     // Version
     public static final String VERSION = "1.421";
-
-    private static final String MAIN_JAR_NAME = "observationManager.jar";
 
     public static URL UPDATE_URL = null;
     static {
@@ -173,10 +170,6 @@ public class ObservationManager extends JFrame implements ActionListener {
             System.err.println("Malformed update check URL: " + ObservationManager.UPDATE_URL);
         }
     }
-
-    // Log prefixes
-    public static final String LOG_ERROR_PREFIX = "ERR";
-    public static final String LOG_DEFAULT_PREFIX = "LOG";
 
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
@@ -232,7 +225,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     private Configuration configuration = null;
     private ProjectLoader projectLoader = null;
 
-    private File installDir = null;
     private String logDir = null;
     private File logFile = null;
     private File schemaPath = null;
@@ -249,6 +241,28 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private boolean debug = false; // Show debug information
 
+    private InstallDir installDir;
+    private ArgumentsParser argumentsParser;
+
+    // this.installDir = new File(getArgValue(arg));
+
+    // if ("de".equals(getArgValue(arg))) {
+    // Locale.setDefault(Locale.GERMAN);
+    // } else {
+    // Locale.setDefault(Locale.ENGLISH);
+    // }
+
+    // this.nightVisionOnStartup = Boolean.parseBoolean(getArgValue(arg));
+    // this.configDir = getArgValue(arg);
+    // this.logDir = getArgValue(arg);
+    // this.debug = true;
+
+    public final InstallDir getInstallDir() {
+        return this.installDir;
+    }
+
+
+
     // -----------
     // Constructor ------------------------------------------------------------
     // -----------
@@ -256,13 +270,13 @@ public class ObservationManager extends JFrame implements ActionListener {
     private ObservationManager(String[] args) {
 
         // Get install dir and parse arguments
-        this.setInstallDir();
-        this.parseArguments(args);
+        this.argumentsParser = new ArgumentsParser.Builder(args).build();
 
-        if (this.debug) {
-            System.out.println("Start: " + new Date());
-            System.out.println(this.printMemoryUsage());
-        }
+        final String installDirName = this.argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
+        this.installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
+
+        LOGGER.debug("Start: {}", new Date());
+        LOGGER.debug(this.printMemoryUsage());
 
         // Try to set system default look and feel
         // Do this pretty early as otherwise some components (LanguageBox) have
@@ -270,36 +284,14 @@ public class ObservationManager extends JFrame implements ActionListener {
         /*
          * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
          * catch(UnsupportedLookAndFeelException lfe) { System.out.println(
-         * "--- Look and feel not supported. UI might look strange..."); } catch(InstantiationException ie) {
-         * System.out.println( "--- Look and feel cannot be instantiated. UI might look strange..." ); }
+         * "--- Look and feel not supported. UI might look strange..."); }
+         * catch(InstantiationException ie) { System.out.println(
+         * "--- Look and feel cannot be instantiated. UI might look strange..." ); }
          * catch(IllegalAccessException iae) { System.out.println(
-         * "--- Look and feel cannot be accessed. UI might look strange..."); } catch(ClassNotFoundException cnfe) {
-         * System.out.println( "--- Look and feel classes not found. UI might look strange..."); }
+         * "--- Look and feel cannot be accessed. UI might look strange..."); }
+         * catch(ClassNotFoundException cnfe) { System.out.println(
+         * "--- Look and feel classes not found. UI might look strange..."); }
          */
-
-        // Initialize logging
-        File f_logDir = null;
-        if (this.logDir == null) { // Not set by parameter
-            f_logDir = new File(System.getProperty("user.home") + File.separatorChar + ObservationManager.WORKING_DIR
-                    + File.separatorChar + "log");
-        } else {
-            f_logDir = new File(this.logDir);
-        }
-        if (!f_logDir.exists()) {
-            if (!f_logDir.mkdirs()) {
-                System.err.println("Cannot create log dir: " + f_logDir);
-            }
-        }
-        this.logFile = new File(f_logDir.getAbsolutePath() + File.separatorChar + "obs.log");
-        try {
-            PrintStream ps = new PrintStream(new FileOutputStream(this.logFile));
-            TeeLog elog = new TeeLog(ps, ObservationManager.LOG_ERROR_PREFIX);
-            TeeLog slog = new TeeLog(ps, ObservationManager.LOG_DEFAULT_PREFIX);
-            System.setErr(elog);
-            System.setOut(slog);
-        } catch (FileNotFoundException fnf) {
-            this.createWarning(ObservationManager.bundle.getString("error.logFile") + " " + this.logFile);
-        }
 
         // Load configuration
         this.configuration = new Configuration(this.configDir);
@@ -312,7 +304,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         // Load SplashScreen
         if (!nightVisionOnStartup) {
-            this.splash = new Thread(new SplashScreen(this.installDir.getAbsolutePath()));
+            this.splash = new Thread(new SplashScreen(this.installDir.getPath()));
             this.splash.start();
         }
 
@@ -325,20 +317,17 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.setTitle();
 
         // Set icon
-        super.setIconImage(
-                new ImageIcon(this.installDir.getAbsolutePath() + File.separatorChar + "om_logo.png").getImage());
+        super.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
 
-        // Write into log that we start now
-        System.out.println("--- Observation Manager " + VERSION + " starting up...");
+        LOGGER.info("--- Observation Manager {} starting up...", VERSION);
 
         // Write Java version into log
-        System.out
-                .println("--- Java:\t" + System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
-        System.out.println("--- OS:\t" + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") "
-                + System.getProperty("os.version"));
+        LOGGER.info("--- Java:\t {} {} , " + System.getProperty("java.vendor"), System.getProperty("java.version"));
+        LOGGER.info("--- OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
+                System.getProperty("os.version"));
 
         // Get Schema File and check if it exists
-        this.schemaPath = new File(this.installDir.getAbsolutePath() + File.separatorChar + "schema");
+        this.schemaPath = new File(this.installDir.getPathForFile("schema"));
         if (!this.schemaPath.exists()) {
             System.err.println("--- Comast schema path not found: " + this.schemaPath + "\n. Need to quit...");
         }
@@ -531,23 +520,17 @@ public class ObservationManager extends JFrame implements ActionListener {
     // Public Methods ---------------------------------------------------------
     // --------------
 
-    public File getInstallDir() {
-
-        return this.installDir;
-
-    }
-
     private boolean exit() {
 
         // Save before exit...
         switch (this.saveBeforeExit()) {
-        case -1:
-            // 0 = Save was ok...continue
-            // 1 = No save wanted...continue
-        case 2: {
-            return false; // Save failed (message was provided). Stop here.
-        } // Cancel was pressed
-        // 3 = No save required...continue
+            case -1:
+                // 0 = Save was ok...continue
+                // 1 = No save wanted...continue
+            case 2: {
+                return false; // Save failed (message was provided). Stop here.
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         // Write into log that we start now
@@ -871,17 +854,17 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         // Save before exit...
         switch (this.saveBeforeExit()) {
-        case -1:
-            // 1 = No save wanted...continue
-        case 2: {
-            return; // Save failed (message was provided)
-        }
-        case 0: {
-            // 0 = Save was ok...continue, but create message before
-            this.createInfo(ObservationManager.bundle.getString("ok.save"));
-            break;
-        } // Cancel was pressed
-        // 3 = No save required...continue
+            case -1:
+                // 1 = No save wanted...continue
+            case 2: {
+                return; // Save failed (message was provided)
+            }
+            case 0: {
+                // 0 = Save was ok...continue, but create message before
+                this.createInfo(ObservationManager.bundle.getString("ok.save"));
+                break;
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         // Create dialog
@@ -988,17 +971,17 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         // Save before exit...
         switch (this.saveBeforeExit()) {
-        case -1:
-            // 1 = No save wanted...continue
-        case 2: {
-            return; // Save failed (message was provided)
-        }
-        case 0: {
-            // 0 = Save was ok...continue, but create message before
-            this.createInfo(ObservationManager.bundle.getString("ok.save"));
-            break;
-        } // Cancel was pressed
-        // 3 = No save required...continue
+            case -1:
+                // 1 = No save wanted...continue
+            case 2: {
+                return; // Save failed (message was provided)
+            }
+            case 0: {
+                // 0 = Save was ok...continue, but create message before
+                this.createInfo(ObservationManager.bundle.getString("ok.save"));
+                break;
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         JFileChooser chooser = new JFileChooser();
@@ -1155,22 +1138,27 @@ public class ObservationManager extends JFrame implements ActionListener {
     /*
      * public void createHTMLForObservation(IObservation obs) {
      *
-     * // Get DOM source Document doc = this.xmlCache.getDocumentForObservation(obs);
+     * // Get DOM source Document doc =
+     * this.xmlCache.getDocumentForObservation(obs);
      *
-     * // XML File needs to be saved, as otherwise we don't get the path String[] files =
-     * this.xmlCache.getAllOpenedFiles(); if( (files == null) || (files.length == 0) ) { // There is data (otherwise we
-     * wouldn't have come here), but data's not saved this.createInfo(ObservationManager.bundle
-     * .getString("error.noXMLFileOpen")); return; } // @todo This works only with ONE file opened File xmlFile = new
-     * File(files[0]); // Get filename Calendar begin = obs.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR)
-     * + DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
+     * // XML File needs to be saved, as otherwise we don't get the path String[]
+     * files = this.xmlCache.getAllOpenedFiles(); if( (files == null) ||
+     * (files.length == 0) ) { // There is data (otherwise we wouldn't have come
+     * here), but data's not saved this.createInfo(ObservationManager.bundle
+     * .getString("error.noXMLFileOpen")); return; } // @todo This works only with
+     * ONE file opened File xmlFile = new File(files[0]); // Get filename Calendar
+     * begin = obs.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
-     * this.replaceSpecialChars(obs.getTarget().getName()); String fullFileName = xmlFile.getParent() +
-     * File.separatorChar + htmlName + ".html"; File html = new File(fullFileName); int i=2; while( html.exists() ) { //
-     * Check if file exists (Two observations (at same time) from different user, eyepieces, scopes, ... fullFileName =
-     * xmlFile.getParent() + File.separatorChar + htmlName + "(" + i +").html"; i++; html = new File(fullFileName); }
+     * this.replaceSpecialChars(obs.getTarget().getName()); String fullFileName =
+     * xmlFile.getParent() + File.separatorChar + htmlName + ".html"; File html =
+     * new File(fullFileName); int i=2; while( html.exists() ) { // Check if file
+     * exists (Two observations (at same time) from different user, eyepieces,
+     * scopes, ... fullFileName = xmlFile.getParent() + File.separatorChar +
+     * htmlName + "(" + i +").html"; i++; html = new File(fullFileName); }
      *
      * this.transformXML2HTML(doc, html);
      *
@@ -1178,21 +1166,27 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForSession(ISession session) {
      *
-     * // Get DOM source Document doc = this.xmlCache.getDocumentForSession(session);
+     * // Get DOM source Document doc =
+     * this.xmlCache.getDocumentForSession(session);
      *
-     * // XML File needs to be saved, as otherwise we don't get the path String[] files =
-     * this.xmlCache.getAllOpenedFiles(); if( (files == null) || (files.length == 0) ) { // There is data (otherwise we
-     * wouldn't have come here), but data's not saved this.createInfo(ObservationManager.bundle
-     * .getString("error.noXMLFileOpen")); return; } // @todo This works only with ONE file opened File xmlFile = new
-     * File(files[0]); // Get filename Calendar begin = session.getBegin(); String htmlName = "" +
-     * begin.get(Calendar.YEAR) + DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
+     * // XML File needs to be saved, as otherwise we don't get the path String[]
+     * files = this.xmlCache.getAllOpenedFiles(); if( (files == null) ||
+     * (files.length == 0) ) { // There is data (otherwise we wouldn't have come
+     * here), but data's not saved this.createInfo(ObservationManager.bundle
+     * .getString("error.noXMLFileOpen")); return; } // @todo This works only with
+     * ONE file opened File xmlFile = new File(files[0]); // Get filename Calendar
+     * begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName(); String fullFileName
-     * = xmlFile.getParent() + File.separatorChar + htmlName + ".html"; File html = new File(fullFileName); int i=2;
-     * while( html.exists() ) { // Check if file exists (Two session (at same time) from different user... fullFileName
-     * = xmlFile.getParent() + File.separatorChar + htmlName + "(" + i +").html"; i++; html = new File(fullFileName); }
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName(); String fullFileName = xmlFile.getParent() +
+     * File.separatorChar + htmlName + ".html"; File html = new File(fullFileName);
+     * int i=2; while( html.exists() ) { // Check if file exists (Two session (at
+     * same time) from different user... fullFileName = xmlFile.getParent() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.transformXML2HTML(doc, html);
      *
@@ -1202,17 +1196,21 @@ public class ObservationManager extends JFrame implements ActionListener {
     /*
      * public void createHTMLForSession(ISession session) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1220,16 +1218,19 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForObservation(IObservation obs) {
      *
-     * // Build filename Calendar begin = obs.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = obs.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
-     * this.replaceSpecialChars(obs.getTarget().getName()); String fullFileName = this.getCurrentXMLParentPath() +
-     * File.separatorChar + htmlName + ".html"; File html = new File(fullFileName); int i=2; while( html.exists() ) { //
-     * Check if file exists (Two observations (at same time) from different user, eyepieces, scopes, ... fullFileName =
-     * this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * this.replaceSpecialChars(obs.getTarget().getName()); String fullFileName =
+     * this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html";
+     * File html = new File(fullFileName); int i=2; while( html.exists() ) { //
+     * Check if file exists (Two observations (at same time) from different user,
+     * eyepieces, scopes, ... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
      * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(obs, html);
@@ -1238,9 +1239,11 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForEyepiece(IEyepiece eyepiece) {
      *
-     * // Build filename String model = eyepiece.getModel(); String focalLength = "" + eyepiece.getFocalLength();
+     * // Build filename String model = eyepiece.getModel(); String focalLength = ""
+     * + eyepiece.getFocalLength();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + model + focalLength + ".html";
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * model + focalLength + ".html";
      *
      * this.createHTMLForSchemaElement(eyepiece, new File(fullFileName));
      *
@@ -1250,9 +1253,11 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * site.getDisplayName()
      *
-     * // Build filename String name = site.getName(); String focalLength = "" + eyepiece.getFocalLength();
+     * // Build filename String name = site.getName(); String focalLength = "" +
+     * eyepiece.getFocalLength();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + model + focalLength + ".html";
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * model + focalLength + ".html";
      *
      * this.createHTMLForSchemaElement(eyepiece, new File(fullFileName));
      *
@@ -1260,17 +1265,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForScope(IScope scope) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1278,17 +1287,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForFilter(IFilter filter) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1296,17 +1309,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForLens(ILens lens) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1314,17 +1331,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForObserver(IObserver observer) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1332,17 +1353,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForImager(IImager imager) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1350,17 +1375,21 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public void createHTMLForTarget(ITarget target) {
      *
-     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" + begin.get(Calendar.YEAR) +
+     * // Build filename Calendar begin = session.getBegin(); String htmlName = "" +
+     * begin.get(Calendar.YEAR) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MONTH)+1) +
      * DateConverter.setLeadingZero(begin.get(Calendar.DAY_OF_MONTH)) + "_" +
      * DateConverter.setLeadingZero(begin.get(Calendar.HOUR_OF_DAY)) +
      * DateConverter.setLeadingZero(begin.get(Calendar.MINUTE)) +
-     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" + session.getSite().getName();
+     * DateConverter.setLeadingZero(begin.get(Calendar.SECOND)) + "_" +
+     * session.getSite().getName();
      *
-     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html"; File html = new
-     * File(fullFileName); int i=2; while( html.exists() ) { // Check if file exists (Two session (at same time) from
-     * different user... fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i
-     * +").html"; i++; html = new File(fullFileName); }
+     * String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar +
+     * htmlName + ".html"; File html = new File(fullFileName); int i=2; while(
+     * html.exists() ) { // Check if file exists (Two session (at same time) from
+     * different user... fullFileName = this.getCurrentXMLParentPath() +
+     * File.separatorChar + htmlName + "(" + i +").html"; i++; html = new
+     * File(fullFileName); }
      *
      * this.createHTMLForSchemaElement(session, html);
      *
@@ -1964,11 +1993,12 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * if( updateEntries.isEmpty() ) { return; }
      *
-     * // Download files into download folder underneath configDir File directory = new
-     * File(this.configuration.getConfigPath(this.configDir) + File.separator + "download"); if( !directory.exists() ) {
-     * directory.mkdir(); }
+     * // Download files into download folder underneath configDir File directory =
+     * new File(this.configuration.getConfigPath(this.configDir) + File.separator +
+     * "download"); if( !directory.exists() ) { directory.mkdir(); }
      *
-     * // Download files boolean result = this.downloadFiles(updateEntries, directory);
+     * // Download files boolean result = this.downloadFiles(updateEntries,
+     * directory);
      *
      * if( result == true ) {
      */// Download was successfull
@@ -1988,55 +2018,71 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * public boolean accept(File dir, String name) {
      *
-     * if( (name.endsWith(".zip")) && (name.startsWith("observationManager")) ) { return true; } return false; }
+     * if( (name.endsWith(".zip")) && (name.startsWith("observationManager")) ) {
+     * return true; } return false; }
      *
      * });
      *
-     * // Create ZIP file ZipFile zf = null; try { zf = new ZipFile(omFiles[0]); } catch( IOException ioe ) {
-     * System.err.println("Unable to access zip file: " + omFiles[0]); }
+     * // Create ZIP file ZipFile zf = null; try { zf = new ZipFile(omFiles[0]); }
+     * catch( IOException ioe ) { System.err.println("Unable to access zip file: " +
+     * omFiles[0]); }
      *
      *
-     * // Check whether we've write access in current installation to all files from zip file if(
-     * this.checkWriteAccess(zf, this.installDir, true) ) { System.out.println("Start update of Observation Manager");
+     * // Check whether we've write access in current installation to all files from
+     * zip file if( this.checkWriteAccess(zf, this.installDir, true) ) {
+     * System.out.println("Start update of Observation Manager");
      *
      *
      * // --- Observation Manager
      *
-     * // Do actual installation boolean omResult = true; // Initialize with TRUE as main file might not require update
-     * boolean extensionResult = true; // Initialize with TRUE as no extensions require update if( (omFiles != null) &&
+     * // Do actual installation boolean omResult = true; // Initialize with TRUE as
+     * main file might not require update boolean extensionResult = true; //
+     * Initialize with TRUE as no extensions require update if( (omFiles != null) &&
      * (omFiles.length > 0) ) { omResult = this.updateObservationManager(zf); }
      *
-     * // Delete OM file if( omResult && omFiles.length > 0 ) { // There was an OM update
-     * System.out.println("Update of Observation Manager successful."); omFiles[0].delete();
+     * // Delete OM file if( omResult && omFiles.length > 0 ) { // There was an OM
+     * update System.out.println("Update of Observation Manager successful.");
+     * omFiles[0].delete();
      *
-     * // Check whether there are also extensions to update if( this.getDownloadedOMEFiles(directory).length > 0 ) { //
-     * Mark the next start of OM as a "restart" update -> OME should try to autoinstall files
-     * this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART, "true"); this.createInfo(
+     * // Check whether there are also extensions to update if(
+     * this.getDownloadedOMEFiles(directory).length > 0 ) { // Mark the next start
+     * of OM as a "restart" update -> OME should try to autoinstall files
+     * this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART,
+     * "true"); this.createInfo(
      * "Update of ObservationManager successfull! Restart of Observation Manager required.\nExtensions will be updated automatically during next start of ObservationManager."
-     * ); System.out.println( "Update extensions during next startup. Shutdown ObservationManager now." ); } else {
-     * this.createInfo( "Update of ObservationManager successfull! Restart of Observation Manager required." ); }
+     * ); System.out.println(
+     * "Update extensions during next startup. Shutdown ObservationManager now." );
+     * } else { this.createInfo(
+     * "Update of ObservationManager successfull! Restart of Observation Manager required."
+     * ); }
      *
      * this.exit(); } else { // OM update failed System.err.println(
-     * "Update of ObservationManager failed. Please see log for details."); this.createWarning(
-     * "Update of ObservationManager failed. Please see log for details."); return; }
+     * "Update of ObservationManager failed. Please see log for details.");
+     * this.createWarning(
+     * "Update of ObservationManager failed. Please see log for details."); return;
+     * }
      *
      *
      *
      * // --- Extensions
      *
-     * // Only install extensions if Observation Manager update was OK File[] extFiles =
-     * this.getDownloadedOMEFiles(directory);
+     * // Only install extensions if Observation Manager update was OK File[]
+     * extFiles = this.getDownloadedOMEFiles(directory);
      *
-     * // Install extensions without prompting for restart if( (extFiles != null) && (extFiles.length > 0) ) {
-     * extensionResult = this.installExtension(extFiles, false); }
+     * // Install extensions without prompting for restart if( (extFiles != null) &&
+     * (extFiles.length > 0) ) { extensionResult = this.installExtension(extFiles,
+     * false); }
      *
-     * if( extensionResult && extFiles.length > 0 ) { // Update was successful this.createInfo(
-     * "Update of Extensions successfull! Restart of Observation Manager required." );
-     * System.out.println("Update of Extensions successful.");
+     * if( extensionResult && extFiles.length > 0 ) { // Update was successful
+     * this.createInfo(
+     * "Update of Extensions successfull! Restart of Observation Manager required."
+     * ); System.out.println("Update of Extensions successful.");
      *
-     * // Delete OME files for(int i=0; i < extFiles.length; i++) { extFiles[i].delete(); }
+     * // Delete OME files for(int i=0; i < extFiles.length; i++) {
+     * extFiles[i].delete(); }
      *
-     * this.exit(); } else { // Update failed System.err.println("Extension update failed."); this.createInfo(
+     * this.exit(); } else { // Update failed
+     * System.err.println("Extension update failed."); this.createInfo(
      * "Automatic update of Extensions not possible. Please update Extensions manually.\nExtension file(s) downloaded to: "
      * + directory.getAbsolutePath()); }
      *
@@ -2046,7 +2092,8 @@ public class ObservationManager extends JFrame implements ActionListener {
     // "\nPlease install manually.");
     // }
     /*
-     * } else { this.createWarning( "Problem while retrieving file(s). Please see log for details."); }
+     * } else { this.createWarning(
+     * "Problem while retrieving file(s). Please see log for details."); }
      */
     // }
 
@@ -2108,28 +2155,33 @@ public class ObservationManager extends JFrame implements ActionListener {
     /*
      * private void performRestartUpdate() {
      *
-     * boolean restartUpdate = Boolean.valueOf(this.configuration.getConfig(ObservationManager
+     * boolean restartUpdate =
+     * Boolean.valueOf(this.configuration.getConfig(ObservationManager
      * .CONFIG_UPDATE_RESTART)).booleanValue();
      *
-     * if( restartUpdate ) { System.out.println( "--- This is a restart update. Perform remaining update steps now...");
+     * if( restartUpdate ) { System.out.println(
+     * "--- This is a restart update. Perform remaining update steps now...");
      *
-     * // Remove restart required flag this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART, null);
+     * // Remove restart required flag
+     * this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART, null);
      */
     /*
      * // Check whether we've extensions to install File directory = new
-     * File(this.configuration.getConfigPath(this.configDir) + File.separator + "download"); File[] omeFiles =
-     * this.getDownloadedOMEFiles(directory);
+     * File(this.configuration.getConfigPath(this.configDir) + File.separator +
+     * "download"); File[] omeFiles = this.getDownloadedOMEFiles(directory);
      *
      * boolean extensionResult = this.installExtension(omeFiles, false);
      *
-     * if( extensionResult && omeFiles.length > 0 ) { // Update was successful this.createInfo(
-     * "Update of Extensions successfull! Restart of Observation Manager required again." );
-     * System.out.println("Update of Extensions successful.");
-     *
-     * // Delete OME files for(int i=0; i < omeFiles.length; i++) { omeFiles[i].delete(); }
-     *
-     * // Restart OM this.exit(); } else { // Update failed System.err.println("Extension updte failed.");
+     * if( extensionResult && omeFiles.length > 0 ) { // Update was successful
      * this.createInfo(
+     * "Update of Extensions successfull! Restart of Observation Manager required again."
+     * ); System.out.println("Update of Extensions successful.");
+     *
+     * // Delete OME files for(int i=0; i < omeFiles.length; i++) {
+     * omeFiles[i].delete(); }
+     *
+     * // Restart OM this.exit(); } else { // Update failed
+     * System.err.println("Extension updte failed."); this.createInfo(
      * "Automatic update of Extensions not possible. Please update Extensions manually.\nExtension file(s) downloaded to: "
      * + directory.getAbsolutePath()); }
      */
@@ -2162,9 +2214,11 @@ public class ObservationManager extends JFrame implements ActionListener {
     /*
      * private File[] getDownloadedOMEFiles(File directory) {
      *
-     * // Only install extensions if Observation Manager update was OK File[] extFiles = new File[] {};
+     * // Only install extensions if Observation Manager update was OK File[]
+     * extFiles = new File[] {};
      *
-     * // Get all extensions we've downloaded extFiles = directory.listFiles(new FilenameFilter() {
+     * // Get all extensions we've downloaded extFiles = directory.listFiles(new
+     * FilenameFilter() {
      *
      * public boolean accept(File dir, String name) {
      *
@@ -2180,28 +2234,35 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * Enumeration enumeration = zf.entries(); ZipEntry ze = null;
      *
-     * // Unpack all the ZIP file entries into install dir while( enumeration.hasMoreElements() ) { ze =
-     * (ZipEntry)enumeration.nextElement();
+     * // Unpack all the ZIP file entries into install dir while(
+     * enumeration.hasMoreElements() ) { ze = (ZipEntry)enumeration.nextElement();
      *
-     * InputStream istr = null; try { istr = zf.getInputStream(ze); } catch(IOException ioe) {
-     * System.err.println("Unable to open input stream from zip file: " + zf + " for entry: " + ze); return false; }
-     * BufferedInputStream bis = new BufferedInputStream(istr);
+     * InputStream istr = null; try { istr = zf.getInputStream(ze); }
+     * catch(IOException ioe) {
+     * System.err.println("Unable to open input stream from zip file: " + zf +
+     * " for entry: " + ze); return false; } BufferedInputStream bis = new
+     * BufferedInputStream(istr);
      *
-     * // Get destination file annd remove root Folder // Installation zip will have /observationManager as root folder.
-     * Need to remove that File file = this.getDestinationFile(ze.getName(), this.getInstallDir(), true); if( file ==
-     * null ) { continue; }
+     * // Get destination file annd remove root Folder // Installation zip will have
+     * /observationManager as root folder. Need to remove that File file =
+     * this.getDestinationFile(ze.getName(), this.getInstallDir(), true); if( file
+     * == null ) { continue; }
      *
-     * // Create new directories if( ze.isDirectory() ) { if( !file.exists() ) { // Directory doesn't exist already
-     * boolean createDir = false; createDir = file.mkdir(); if( !createDir ) {
-     * System.err.println("Unable to create directory: " + file); return false; } else { continue; } } else { continue;
-     * } }
+     * // Create new directories if( ze.isDirectory() ) { if( !file.exists() ) { //
+     * Directory doesn't exist already boolean createDir = false; createDir =
+     * file.mkdir(); if( !createDir ) {
+     * System.err.println("Unable to create directory: " + file); return false; }
+     * else { continue; } } else { continue; } }
      *
-     * // Update files FileOutputStream fos = null; try { fos = new FileOutputStream(file); }
-     * catch(FileNotFoundException fnfe) { System.err.println("Unable to create file: " + file + "\n" + fnfe); return
-     * false; } int sz = (int)ze.getSize(); final int N = 1024; byte buf[] = new byte[N]; int ln = 0; try { while( (sz >
-     * 0) // workaround for bug && ((ln = bis.read(buf, 0, Math.min(N, sz))) != -1) ) { fos.write(buf, 0, ln); sz -= ln;
-     * } bis.close(); fos.flush(); } catch(IOException ioe) { System.err.println("Unable to write file: " + ze + "\n" +
-     * ioe); return false; }
+     * // Update files FileOutputStream fos = null; try { fos = new
+     * FileOutputStream(file); } catch(FileNotFoundException fnfe) {
+     * System.err.println("Unable to create file: " + file + "\n" + fnfe); return
+     * false; } int sz = (int)ze.getSize(); final int N = 1024; byte buf[] = new
+     * byte[N]; int ln = 0; try { while( (sz > 0) // workaround for bug && ((ln =
+     * bis.read(buf, 0, Math.min(N, sz))) != -1) ) { fos.write(buf, 0, ln); sz -=
+     * ln; } bis.close(); fos.flush(); } catch(IOException ioe) {
+     * System.err.println("Unable to write file: " + ze + "\n" + ioe); return false;
+     * }
      *
      * }
      *
@@ -2209,64 +2270,6 @@ public class ObservationManager extends JFrame implements ActionListener {
      *
      * }
      */
-    private void parseArguments(String[] args) {
-
-        if (args != null) {
-            for (String arg : args) {
-                if (arg.startsWith(ObservationManager.INSTALL_DIR)) {
-                    this.installDir = new File(getArgValue(arg));
-                } else if (arg.startsWith(ObservationManager.LANGUAGE)) {
-                    if ("de".equals(getArgValue(arg))) {
-                        Locale.setDefault(Locale.GERMAN);
-                    } else {
-                        Locale.setDefault(Locale.ENGLISH);
-                    }
-                } else if (arg.startsWith(ObservationManager.NIGHTVISION)) {
-                    this.nightVisionOnStartup = Boolean.parseBoolean(getArgValue(arg));
-                } else if (arg.startsWith(ObservationManager.CONFIGURATION)) {
-                    this.configDir = getArgValue(arg);
-                } else if (arg.startsWith(ObservationManager.LOGGING)) {
-                    this.logDir = getArgValue(arg);
-                } else if (arg.startsWith(ObservationManager.DEBUG)) {
-                    this.debug = true;
-                }
-            }
-        }
-
-    }
-
-    private String getArgValue(String argument) {
-
-        return argument.substring(argument.indexOf("=") + 1);
-
-    }
-
-    private void setInstallDir() {
-
-        String extpath = System.getProperty("java.ext.dirs");
-        StringTokenizer tokenizer = new StringTokenizer(extpath, "" + File.pathSeparatorChar);
-        String entry = null;
-        while (tokenizer.hasMoreTokens()) {
-            entry = tokenizer.nextToken();
-            if (entry.lastIndexOf(ObservationManager.MAIN_JAR_NAME) != -1) {
-                // We found our main jar in the extpath, so we (hopefully!) can
-                // calculate the install dir
-                File jarPath = new File(entry);
-                // Get lib dir, and then get lib dirs parent dir, which should
-                // be the installation dir....hopefully
-                this.installDir = jarPath.getParentFile().getParentFile();
-            }
-        }
-
-        // Where we successfull?
-        if (this.installDir != null) {
-            return;
-        }
-
-        // If not set current user working dir and hope for the best ;-)
-        this.installDir = new File(System.getProperty("user.dir"));
-
-    }
 
     private void loadConfig() {
 
@@ -2365,7 +2368,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private void initMenuBar() {
 
-        String iconDir = this.getInstallDir().getAbsolutePath() + File.separatorChar + "images" + File.separatorChar;
+        String iconDir = this.installDir.getPathForFolder("images");
         int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
         this.menuBar = new JMenuBar();
@@ -2749,24 +2752,32 @@ public class ObservationManager extends JFrame implements ActionListener {
         Templates template = null;
 
         /*
-         * *********** AS WE PACK APACHE XALAN WITH OM (since 0.314) we don't need this any loner *************)
+         * *********** AS WE PACK APACHE XALAN WITH OM (since 0.314) we don't need this
+         * any loner *************)
          *
-         * // Classname (package) changed between JDK1.4 and JDK1.5 // So we check VM version and load the right class
-         * via reflection...hopefully String version = System.getProperty("java.version"); // String classname =
-         * "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl" ; // >= JDK1.5 String classname =
-         * "javax.xml.transform.TransformerFactory"; if( version.startsWith("1.4") ) { String classname =
+         * // Classname (package) changed between JDK1.4 and JDK1.5 // So we check VM
+         * version and load the right class via reflection...hopefully String version =
+         * System.getProperty("java.version"); // String classname =
+         * "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl" ; // >=
+         * JDK1.5 String classname = "javax.xml.transform.TransformerFactory"; if(
+         * version.startsWith("1.4") ) { String classname =
          * "org.apache.xalan.processor.TransformerFactoryImpl"; // JDK1.4 }
          *
-         * // Even if classname changed the class itself if the same, so we need only on block to load the class.... try
-         * { Class transformerClass = Class.forName(classname); Method newInstance =
-         * transformerClass.getMethod("newInstance", null); Object transformerClassImpl =
-         * newInstance.invoke(transformerClass, null); Method newTemplates =
-         * transformerClassImpl.getClass().getMethod("newTemplates", new Class[] { Source.class }); template =
-         * (Templates)newTemplates.invoke(transformerClassImpl, new StreamSource[] { xslSource }); } catch(
-         * ClassNotFoundException cnfe ) { System.out.println("--- Unable to load class: " + classname); } catch(
-         * NoSuchMethodException nsme ) { System.out.println("--- Unable to class: " + classname +
-         * " looks strange. What JDK version is this? " + version); } catch( IllegalAccessException iae ) {
-         * System.out.println("--- Unable to access class: " + classname); } catch( InvocationTargetException ite ) {
+         * // Even if classname changed the class itself if the same, so we need only on
+         * block to load the class.... try { Class transformerClass =
+         * Class.forName(classname); Method newInstance =
+         * transformerClass.getMethod("newInstance", null); Object transformerClassImpl
+         * = newInstance.invoke(transformerClass, null); Method newTemplates =
+         * transformerClassImpl.getClass().getMethod("newTemplates", new Class[] {
+         * Source.class }); template =
+         * (Templates)newTemplates.invoke(transformerClassImpl, new StreamSource[] {
+         * xslSource }); } catch( ClassNotFoundException cnfe ) {
+         * System.out.println("--- Unable to load class: " + classname); } catch(
+         * NoSuchMethodException nsme ) { System.out.println("--- Unable to class: " +
+         * classname + " looks strange. What JDK version is this? " + version); } catch(
+         * IllegalAccessException iae ) {
+         * System.out.println("--- Unable to access class: " + classname); } catch(
+         * InvocationTargetException ite ) {
          * System.out.println("--- Unable to invoke method on class: " + classname); }
          */
 
@@ -2952,8 +2963,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             selectedTemplate = "oal2html";
         }
 
-        File path = new File(this.installDir.getAbsolutePath() + File.separator + "xsl" + File.separator
-                + selectedTemplate + File.separator);
+        File path = new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator);
         if (!path.exists()) {
             this.createWarning(ObservationManager.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                     + path.getAbsolutePath());
@@ -3126,7 +3136,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         try {
             boolean checkResult = false;
             for (File file : files) {
-                checkResult = this.checkWriteAccess(new ZipFile(file), this.installDir);
+                checkResult = this.checkWriteAccess(new ZipFile(file), this.installDir.getInstallDir());
                 if (!checkResult) {
                     negativeResult.append(" ").append(file.getName());
                 } else {
@@ -3192,8 +3202,9 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         // Inform about restart (if any installation was successfull)
         /*
-         * if( successCounter > 0 ) { // Until we found a better way to handle extension, we need to restart... :-(
-         * this.createInfo(ObservationManager .bundle.getString("info.addExtensionRestart")); this.exit(); }
+         * if( successCounter > 0 ) { // Until we found a better way to handle
+         * extension, we need to restart... :-( this.createInfo(ObservationManager
+         * .bundle.getString("info.addExtensionRestart")); this.exit(); }
          */
 
         Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -3818,4 +3829,6 @@ class NightVisionTheme extends DefaultMetalTheme {
 
     }
 
+
+   
 }

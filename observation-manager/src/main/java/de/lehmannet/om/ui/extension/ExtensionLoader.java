@@ -492,7 +492,7 @@ public class ExtensionLoader {
     private boolean addOALExtenstionElement(IExtension extension) {
 
         // Get latest schema file
-        File schema = new File(this.om.getInstallDir().getAbsolutePath() + File.separator + "schema" + File.separator
+        File schema = new File(this.om.getInstallDir().getPathForFolder("schema")
                 + SchemaLoader.VERSIONS[SchemaLoader.VERSIONS.length - 1]);
 
         if (!schema.exists()) {

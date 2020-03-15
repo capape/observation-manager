@@ -134,11 +134,11 @@ public class LogDialog extends OMDialog implements ActionListener {
             SimpleAttributeSet attri = new SimpleAttributeSet();
             while ((line = this.bufferedReader.readLine()) != null) {
 
-                if (line.startsWith(ObservationManager.LOG_ERROR_PREFIX)) {
-                    StyleConstants.setForeground(attri, Color.RED);
-                } else if (line.startsWith(ObservationManager.LOG_DEFAULT_PREFIX)) {
-                    StyleConstants.setForeground(attri, Color.BLACK);
-                }
+                // if (line.startsWith(ObservationManager.LOG_ERROR_PREFIX)) {
+                //     StyleConstants.setForeground(attri, Color.RED);
+                // } else if (line.startsWith(ObservationManager.LOG_DEFAULT_PREFIX)) {
+                //     StyleConstants.setForeground(attri, Color.BLACK);
+                // }
 
                 doc.insertString(doc.getLength(), line + "\n", attri);
                 no++;

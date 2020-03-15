@@ -591,8 +591,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     private void initTree() {
 
-        String imagesDir = this.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images"
-                + File.separatorChar;
+        String imagesDir = this.om.getInstallDir().getPathForFolder( "images");
+                
         Icon expanded = null;
         Icon collapsed = null;
 
