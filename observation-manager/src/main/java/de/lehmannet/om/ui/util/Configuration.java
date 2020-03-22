@@ -29,22 +29,26 @@ public class Configuration {
 
     private boolean changed = false;
 
-    public Configuration() {
-
-        this(null);
-
-    }
+    private String configPath;
 
     public Configuration(String path) {
+        this.configPath = path;
 
         try {
-            this.loadConfiguration(path);
+            this.loadConfiguration(this.configPath);
         } catch (IOException ioe) {
             System.out.println("Cannot find configuration file " + path + "\n" + ioe);
         }
 
     }
 
+    public boolean saveConfiguration() {
+        return this.saveConfiguration(this.configPath);
+    }
+
+    public String getConfigPath() {
+        return this.configPath;
+    }
     private void loadConfiguration(String path) throws IOException {
 
         this.persistence = new Properties();
@@ -65,7 +69,7 @@ public class Configuration {
 
     }
 
-    public boolean saveConfiguration(String path) {
+    private boolean saveConfiguration(String path) {
 
         if (!this.changed) {
             return true;

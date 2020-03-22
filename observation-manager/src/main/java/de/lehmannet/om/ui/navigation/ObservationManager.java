@@ -10,7 +10,6 @@ package de.lehmannet.om.ui.navigation;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +18,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
@@ -30,15 +28,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -98,7 +95,6 @@ import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.dialog.LensDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
-import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ObservationDialog;
 import de.lehmannet.om.ui.dialog.ObserverDialog;
@@ -112,11 +108,13 @@ import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.navigation.observation.utils.ArgumentName;
 import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.update.UpdateChecker;
+
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
@@ -133,12 +131,12 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     // Config keys
     public static final String CONFIG_LASTDIR = "om.lastOpenedDir";
-    private static final String CONFIG_LASTXML = "om.lastOpenedXML";
+    public static final String CONFIG_LASTXML = "om.lastOpenedXML";
     public static final String CONFIG_OPENONSTARTUP = "om.lastOpenedXML.onStartup";
     public static final String CONFIG_CONTENTDEFAULTLANG = "om.content.language.default";
-    private static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
-    private static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
-    private static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
+    public static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
+    public static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
+    public static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
     public static final String CONFIG_IMAGESDIR_RELATIVE = "om.imagesDir.relaitve";
     public static final String CONFIG_UILANGUAGE = "om.language";
     public static final String CONFIG_DEFAULT_OBSERVER = "om.default.observer";
@@ -147,15 +145,15 @@ public class ObservationManager extends JFrame implements ActionListener {
     public static final String CONFIG_RETRIEVE_ENDDATE_FROM_SESSION = "om.retrieve.endDateFromSession";
     public static final String CONFIG_STATISTICS_USE_COOBSERVERS = "om.statistics.useCoObservers";
     public static final String CONFIG_XSL_TEMPLATE = "om.transform.xsl.template";
-    private static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
-    private static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
+    public static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
+    public static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
     public static final String CONFIG_CONSTELLATION_USEI18N = "om.constellation.useI18N";
     public static final String CONFIG_UPDATECHECK_STARTUP = "om.update.checkForUpdates";
-    private static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
+    public static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
     // public static final String CONFIG_UPDATE_RESTART = "om.update.restart";
 
     // ResourceBundle will be set in constructor after default locale is defined
-    private static PropertyResourceBundle bundle = null;
+    public static PropertyResourceBundle bundle = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
@@ -177,67 +175,63 @@ public class ObservationManager extends JFrame implements ActionListener {
     // ---------
     // Variables --------------------------------------------------------------
     // ---------
+    private JSplitPane hSplitPane;
+    private JSplitPane vSplitPane;
 
-    private JSplitPane hSplitPane = null;
-    private JSplitPane vSplitPane = null;
+    private JMenuBar menuBar;
+    private JMenuItem newFile;
+    private JMenuItem openFile;
+    // private JMenuItem openDir;
+    private JMenuItem saveFile;
+    private JMenuItem saveFileAs;
+    private JMenuItem importXML;
+    private JMenuItem exportHTML;
+    private JCheckBoxMenuItem nightVision;
+    private JMenuItem exit;
 
-    private JMenuBar menuBar = null;
-    private JMenuItem newFile = null;
-    private JMenuItem openFile = null;
-    // private JMenuItem openDir = null;
-    private JMenuItem saveFile = null;
-    private JMenuItem saveFileAs = null;
-    private JMenuItem importXML = null;
-    private JMenuItem exportHTML = null;
-    private JCheckBoxMenuItem nightVision = null;
-    private JMenuItem exit = null;
+    private JMenuItem createObservation;
+    private JMenuItem createObserver;
+    private JMenuItem createSite;
+    private JMenuItem createScope;
+    private JMenuItem createEyepiece;
+    private JMenuItem createImager;
+    private JMenuItem createFilter;
+    private JMenuItem createTarget;
+    private JMenuItem createSession;
+    private JMenuItem createLens;
+    private JMenuItem equipmentAvailability;
 
-    private JMenuItem createObservation = null;
-    private JMenuItem createObserver = null;
-    private JMenuItem createSite = null;
-    private JMenuItem createScope = null;
-    private JMenuItem createEyepiece = null;
-    private JMenuItem createImager = null;
-    private JMenuItem createFilter = null;
-    private JMenuItem createTarget = null;
-    private JMenuItem createSession = null;
-    private JMenuItem createLens = null;
-    private JMenuItem equipmentAvailability = null;
+    private JMenuItem showStatistics;
+    private JMenuItem preferences;
+    private JMenuItem didYouKnow;
+    private JMenuItem logMenuEntry;
+    private JMenuItem updateMenuEntry;
 
-    private JMenuItem showStatistics = null;
-    private JMenuItem preferences = null;
-    private JMenuItem didYouKnow = null;
-    private JMenuItem logMenuEntry = null;
-    private JMenuItem updateMenuEntry = null;
+    private JMenuItem extensionInfo;
+    private JMenuItem installExtension;
 
-    private JMenuItem extensionInfo = null;
-    private JMenuItem installExtension = null;
+    private JMenuItem aboutInfo;
 
-    private JMenuItem aboutInfo = null;
+    private TableView table;
+    private ItemView item;
+    private TreeView tree;
+    private ExtensionLoader extLoader;
 
-    private TableView table = null;
-    private ItemView item = null;
-    private TreeView tree = null;
+    private Configuration configuration;
+    private ProjectLoader projectLoader;
 
-    private XMLFileLoader xmlCache = null;
-    private ExtensionLoader extLoader = null;
-    private Map uiDataCache = null;
-    private Configuration configuration = null;
-    private ProjectLoader projectLoader = null;
+    private File logFile;
 
-    private String logDir = null;
-    private File logFile = null;
-    private File schemaPath = null;
-    private String configDir = null;
+    private String configDir;
 
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
-    private Boolean nightVisionOnStartup = null;
+    private Boolean nightVisionOnStartup;
 
-    private Thread splash = null;
+    private Thread splash;
 
-    private Thread waitForCatalogLoaderThread = null;
+    private Thread waitForCatalogLoaderThread;
 
     private boolean debug = false; // Show debug information
 
@@ -245,6 +239,12 @@ public class ObservationManager extends JFrame implements ActionListener {
     private ArgumentsParser argumentsParser;
 
     // this.installDir = new File(getArgValue(arg));
+
+    private XMLFileLoader xmlCache;
+
+    private ObservationManagerMenuFile menuFile;
+
+    private File schemaPath;
 
     // if ("de".equals(getArgValue(arg))) {
     // Locale.setDefault(Locale.GERMAN);
@@ -261,40 +261,37 @@ public class ObservationManager extends JFrame implements ActionListener {
         return this.installDir;
     }
 
-
-
     // -----------
     // Constructor ------------------------------------------------------------
     // -----------
 
     private ObservationManager(String[] args) {
 
+      
         // Get install dir and parse arguments
         this.argumentsParser = new ArgumentsParser.Builder(args).build();
 
         final String installDirName = this.argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
         this.installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
+        this.configDir = this.argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
 
         LOGGER.debug("Start: {}", new Date());
-        LOGGER.debug(this.printMemoryUsage());
+        LOGGER.debug(SystemInfo.printMemoryUsage());
 
-        // Try to set system default look and feel
-        // Do this pretty early as otherwise some components (LanguageBox) have
-        // different LookAndFeel as the rest :-)
-        /*
-         * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
-         * catch(UnsupportedLookAndFeelException lfe) { System.out.println(
-         * "--- Look and feel not supported. UI might look strange..."); }
-         * catch(InstantiationException ie) { System.out.println(
-         * "--- Look and feel cannot be instantiated. UI might look strange..." ); }
-         * catch(IllegalAccessException iae) { System.out.println(
-         * "--- Look and feel cannot be accessed. UI might look strange..."); }
-         * catch(ClassNotFoundException cnfe) { System.out.println(
-         * "--- Look and feel classes not found. UI might look strange..."); }
-         */
+        
 
         // Load configuration
         this.configuration = new Configuration(this.configDir);
+
+        this.schemaPath = new File(this.installDir.getPathForFile("schema"));
+        if (!this.schemaPath.exists()) {
+            System.err.println("--- Comast schema path not found: " + this.schemaPath + "\n. Need to quit...");
+        }
+        // Initialize Caches and loaders
+        this.xmlCache = new XMLFileLoader(this.schemaPath);
+
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache);
+
 
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
@@ -326,18 +323,13 @@ public class ObservationManager extends JFrame implements ActionListener {
         LOGGER.info("--- OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
-        // Get Schema File and check if it exists
-        this.schemaPath = new File(this.installDir.getPathForFile("schema"));
-        if (!this.schemaPath.exists()) {
-            System.err.println("--- Comast schema path not found: " + this.schemaPath + "\n. Need to quit...");
-        }
+        
 
-        // Initialize Caches and loaders
-        this.xmlCache = new XMLFileLoader(this.schemaPath);
         // this.loader = new SchemaUILoader(this);
         this.extLoader = new ExtensionLoader(this);
         // this.catLoader = new CatalogLoader(this.getInstallDir(), this);
-        this.uiDataCache = new HashMap();
+       
+
 
         // Init menu and disable it during startup
         this.initMenuBar();
@@ -372,32 +364,33 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "false"))) {
             UpdateChecker updateChecker = this.checkForUpdates();
-            List resultList = updateChecker.getResult();
-            if (resultList != null) {
-                if (!resultList.isEmpty()) {
-                    // Check whether we should download the new files
-                    new UpdateInfoDialog(this, resultList);
-                } else {
+            
+            if (updateChecker.isUpdateAvailable()) {
+                        new UpdateInfoDialog(this, updateChecker);
+            } else {
                     System.out.println("Checked for updates: No updates found.");
-                }
+                
             }
         }
 
-        // If we should show the hints on startup, do so now...
-        if (Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true"))) {
-            this.showDidYouKnow();
-        }
+    // If we should show the hints on startup, do so now...
+    if(Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP,"true")))
 
-        // Add shortcut key listener
-        this.addShortcuts();
+    {
+        this.showDidYouKnow();
+    }
 
-        // We're up an running, so enable menus now
-        this.enableMenus(true);
+    // Add shortcut key listener
+    this.addShortcuts();
 
-        if (this.debug) {
-            System.out.println("Up and running: " + new Date());
-            System.out.println(this.printMemoryUsage());
-        }
+    // We're up an running, so enable menus now
+    this.enableMenus(true);
+
+    if(this.debug)
+    {
+        System.out.println("Up and running: " + new Date());
+        System.out.println(SystemInfo.printMemoryUsage());
+    }
 
     }
 
@@ -411,18 +404,18 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (e.getSource() instanceof JMenuItem) {
             JMenuItem source = (JMenuItem) e.getSource();
             if (source.equals(this.exit)) {
-                this.exit();
+                this.menuFile.exit(this, this.changed);
             } else if (source.equals(this.newFile)) {
-                this.newFile();
+                this.menuFile.newFile(this, this.changed);
             } else if (source.equals(this.openFile)) {
-                this.openFile();
+                this.menuFile.openFile(this, this.changed);
                 /*
                  * } else if( source.equals(this.openDir) ) { this.openDir();
                  */
             } else if (source.equals(this.saveFile)) {
-                this.saveFile();
+                this.menuFile.saveFile(this);
             } else if (source.equals(this.saveFileAs)) {
-                this.saveFileAs();
+                this.menuFile.saveFileAs(this, this.changed);
             } else if (source.equals(this.importXML)) {
                 this.importXML();
             } else if (source.equals(this.exportHTML)) {
@@ -465,17 +458,13 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.logMenuEntry)) {
                 this.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
-                UpdateChecker checker = this.checkForUpdates();
-                List resultList = checker.getResult();
-                if (resultList != null) {
-                    if (resultList.isEmpty()) { // No updates found
-                        this.createInfo(ObservationManager.bundle.getString("updates.check.noAvailable"));
-                    } else {
-                        // Check whether we should download the new files
-                        new UpdateInfoDialog(this, resultList);
-                    }
+                UpdateChecker checker = this.checkForUpdates();               
+                if (checker.isUpdateAvailable()) {                               
+                        new UpdateInfoDialog(this, checker);
+                    
                 } else { // Something went wrong
-                    this.createWarning(ObservationManager.bundle.getString("updates.check.error"));
+                    this.createInfo(ObservationManager.bundle.getString("updates.check.noAvailable"));
+                    
                 }
             } else if (source.equals(this.aboutInfo)) {
                 this.showInfo();
@@ -497,7 +486,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 
-            if (this.exit()) {
+            if (this.menuFile.exit(this,this.changed)) {
                 super.processWindowEvent(e);
                 this.dispose();
             }
@@ -519,536 +508,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     // --------------
     // Public Methods ---------------------------------------------------------
     // --------------
-
-    private boolean exit() {
-
-        // Save before exit...
-        switch (this.saveBeforeExit()) {
-            case -1:
-                // 0 = Save was ok...continue
-                // 1 = No save wanted...continue
-            case 2: {
-                return false; // Save failed (message was provided). Stop here.
-            } // Cancel was pressed
-              // 3 = No save required...continue
-        }
-
-        // Write into log that we start now
-        System.out.println("--- Observation Manager shutting down...");
-
-        if (this.debug) {
-            System.out.println("Exit: " + new Date());
-            System.out.println(this.printMemoryUsage());
-        }
-
-        // Save window size and position and maximized state
-        if (this.getExtendedState() == Frame.MAXIMIZED_BOTH) {
-            this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(true));
-        } else {
-            this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, null); // Remove
-                                                                                                // maximzed
-        }
-        Dimension size = this.getSize();
-        String stringSize = size.width + "x" + size.height;
-        Point location = this.getLocation();
-        // SwingUtilities.convertPointToScreen(location, this);
-        String stringLocation = location.x + "," + location.y;
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE, stringSize);
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_POS, stringLocation);
-
-        // Save horizontal and vertical dividers position
-        float vertical = (float) this.getWidth() / (float) this.vSplitPane.getDividerLocation();
-        float horizontal = (float) this.getHeight() / (float) this.hSplitPane.getDividerLocation();
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL, "" + horizontal);
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_VERTICAL, "" + vertical);
-
-        // Save column settings to persistance
-        this.table.saveSettings();
-
-        // Try to save config...
-        boolean result = this.configuration.saveConfiguration(this.configDir);
-        if (!result) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveconfig"));
-        }
-
-        System.exit(0);
-
-        // Will never be reached, but is required, as we need to return
-        // something
-        return true;
-
-    }
-
-    private void saveFileAs() {
-
-        if (this.xmlCache.isEmpty()) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
-            return;
-        }
-
-        String oldPath = null;
-
-        String[] files = this.xmlCache.getAllOpenedFiles();
-        if ((files != null) && (files.length == 1)) { // @todo This works only
-                                                      // with ONE file open
-            oldPath = files[0];
-        }
-
-        final File f = this.saveDialog();
-
-        boolean result = false;
-        if (f != null) {
-            Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-            setCursor(hourglassCursor);
-
-            Worker calculation;
-
-            if (oldPath == null) {
-
-                calculation = new Worker() {
-
-                    private String message = null;
-                    private byte returnValue = Worker.RETURN_TYPE_OK;
-
-                    @Override
-                    public void run() {
-
-                        boolean result = ObservationManager.this.xmlCache.save(f.getAbsolutePath());
-                        if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
-                            returnValue = Worker.RETURN_TYPE_ERROR;
-                        }
-
-                    }
-
-                    @Override
-                    public String getReturnMessage() {
-
-                        return message;
-
-                    }
-
-                    @Override
-                    public byte getReturnType() {
-
-                        return returnValue;
-
-                    }
-
-                };
-
-            } else {
-
-                final String op = oldPath;
-
-                calculation = new Worker() {
-
-                    private String message = null;
-                    private byte returnValue = Worker.RETURN_TYPE_OK;
-
-                    @Override
-                    public void run() {
-
-                        boolean result = ObservationManager.this.xmlCache.saveAs(op, f.getAbsolutePath());
-                        if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
-                            returnValue = Worker.RETURN_TYPE_ERROR;
-                        }
-
-                    }
-
-                    @Override
-                    public String getReturnMessage() {
-
-                        return message;
-
-                    }
-
-                    @Override
-                    public byte getReturnType() {
-
-                        return returnValue;
-
-                    }
-
-                };
-
-            }
-
-            new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                    ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
-
-            if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-                if (calculation.getReturnMessage() != null) {
-                    this.createInfo(calculation.getReturnMessage());
-                }
-                result = true;
-            } else {
-                this.createWarning(calculation.getReturnMessage());
-                result = false;
-            }
-
-            // Update Tree
-            this.tree.updateTree();
-
-            // Unset changed
-            this.setChanged(false);
-
-            Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-            setCursor(defaultCursor);
-        }
-
-    }
-
-    private boolean saveFile() {
-
-        if (this.xmlCache.isEmpty()) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
-            return false;
-        }
-
-        final String[] files = this.xmlCache.getAllOpenedFiles();
-        boolean result = false;
-        if ((files == null) // No filename known yet...
-                || (files.length == 0)) {
-            final File f = this.saveDialog();
-
-            if (f != null) {
-                Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-                setCursor(hourglassCursor);
-
-                Worker calculation = new Worker() {
-
-                    private String message = null;
-                    private byte returnValue = Worker.RETURN_TYPE_OK;
-
-                    @Override
-                    public void run() {
-
-                        boolean result = ObservationManager.this.xmlCache.save(f.getAbsolutePath());
-                        if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
-                            returnValue = Worker.RETURN_TYPE_ERROR;
-                        }
-
-                    }
-
-                    @Override
-                    public String getReturnMessage() {
-
-                        return message;
-
-                    }
-
-                    @Override
-                    public byte getReturnType() {
-
-                        return returnValue;
-
-                    }
-
-                };
-
-                new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                        ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
-
-                if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-                    if (calculation.getReturnMessage() != null) {
-                        this.createInfo(calculation.getReturnMessage());
-                    }
-                    result = true;
-                } else {
-                    this.createWarning(calculation.getReturnMessage());
-                    result = false;
-                }
-
-                // Update Tree
-                this.tree.updateTree();
-
-                // Unset changed
-                this.setChanged(false);
-
-                Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                setCursor(defaultCursor);
-
-            }
-
-            return result;
-        }
-
-        // Filename already known...just save
-
-        Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-        setCursor(hourglassCursor);
-
-        if (this.debug) {
-            System.out.println("Save file: " + new Date());
-            System.out.println(this.printMemoryUsage());
-        }
-
-        // @todo This works only with ONE file opened
-        Worker calculation = new Worker() {
-
-            private String message = null;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
-
-            @Override
-            public void run() {
-
-                boolean result = ObservationManager.this.xmlCache.save(files[0]);
-                if (!result) {
-                    message = ObservationManager.bundle.getString("error.save");
-                    returnValue = Worker.RETURN_TYPE_ERROR;
-                }
-
-            }
-
-            @Override
-            public String getReturnMessage() {
-
-                return message;
-
-            }
-
-            @Override
-            public byte getReturnType() {
-
-                return returnValue;
-
-            }
-
-        };
-
-        new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
-
-        if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-            if (calculation.getReturnMessage() != null) {
-                this.createInfo(calculation.getReturnMessage());
-            }
-            result = true;
-        } else {
-            this.createWarning(calculation.getReturnMessage());
-            result = false;
-        }
-
-        if (this.debug) {
-            System.out.println("Saved: " + new Date());
-            System.out.println(this.printMemoryUsage());
-        }
-
-        // Update Tree
-        this.tree.updateTree();
-
-        // Unset changed
-        this.setChanged(false);
-
-        Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-        setCursor(defaultCursor);
-
-        return result;
-
-    }
-
-    private void newFile() {
-
-        // Save before exit...
-        switch (this.saveBeforeExit()) {
-            case -1:
-                // 1 = No save wanted...continue
-            case 2: {
-                return; // Save failed (message was provided)
-            }
-            case 0: {
-                // 0 = Save was ok...continue, but create message before
-                this.createInfo(ObservationManager.bundle.getString("ok.save"));
-                break;
-            } // Cancel was pressed
-              // 3 = No save required...continue
-        }
-
-        // Create dialog
-        NewDocumentDialog newDialog = new NewDocumentDialog(this);
-
-        // If user selected Cancel
-        int result = newDialog.getResult();
-        if (result == NewDocumentDialog.CANCEL) {
-            return;
-        }
-
-        // Get all selected schema elements
-        IImager[] imagers = (IImager[]) newDialog.getSchemaElements(SchemaElementConstants.IMAGER);
-        IEyepiece[] eyepieces = (IEyepiece[]) newDialog.getSchemaElements(SchemaElementConstants.EYEPIECE);
-        IFilter[] filters = (IFilter[]) newDialog.getSchemaElements(SchemaElementConstants.FILTER);
-        ILens[] lenses = (ILens[]) newDialog.getSchemaElements(SchemaElementConstants.LENS);
-        IObservation[] observations = (IObservation[]) newDialog.getSchemaElements(SchemaElementConstants.OBSERVATION);
-        IObserver[] observers = (IObserver[]) newDialog.getSchemaElements(SchemaElementConstants.OBSERVER);
-        IScope[] scopes = (IScope[]) newDialog.getSchemaElements(SchemaElementConstants.SCOPE);
-        ISession[] sessions = (ISession[]) newDialog.getSchemaElements(SchemaElementConstants.SESSION);
-        ISite[] sites = (ISite[]) newDialog.getSchemaElements(SchemaElementConstants.SITE);
-        ITarget[] targets = (ITarget[]) newDialog.getSchemaElements(SchemaElementConstants.TARGET);
-
-        // Clear XML cache, uiDataCache, tree
-        this.cleanUp();
-
-        // Add schema elements to (empty) cache
-        if (imagers != null) {
-            for (IImager imager : imagers) {
-                this.xmlCache.addSchemaElement(imager);
-            }
-        }
-
-        if (eyepieces != null) {
-            for (IEyepiece eyepiece : eyepieces) {
-                this.xmlCache.addSchemaElement(eyepiece);
-            }
-        }
-
-        if (filters != null) {
-            for (IFilter filter : filters) {
-                this.xmlCache.addSchemaElement(filter);
-            }
-        }
-
-        if (lenses != null) {
-            for (ILens lens : lenses) {
-                this.xmlCache.addSchemaElement(lens);
-            }
-        }
-
-        if (observers != null) {
-            for (IObserver observer : observers) {
-                this.xmlCache.addSchemaElement(observer);
-            }
-        }
-
-        if (scopes != null) {
-            for (IScope scope : scopes) {
-                this.xmlCache.addSchemaElement(scope);
-            }
-        }
-
-        if (sites != null) {
-            for (ISite site : sites) {
-                this.xmlCache.addSchemaElement(site);
-            }
-        }
-
-        if (sessions != null) {
-            for (ISession session : sessions) {
-                this.xmlCache.addSchemaElement(session);
-            }
-        }
-
-        if (targets != null) {
-            for (ITarget target : targets) {
-                this.xmlCache.addSchemaElement(target);
-            }
-        }
-
-        // !!! This must be the last entry to add, in order to find the
-        // observations
-        // under the other schemaElements in the TreeView !!!
-        if (observations != null) {
-            for (IObservation observation : observations) {
-                this.xmlCache.addSchemaElement(observation);
-            }
-        }
-
-        // Update views
-        this.table.showObservations(null, null);
-        this.tree.updateTree();
-
-        // Set content changed is elements were copied.
-        // (Force save on a blank document doesn't make sense)
-        if (result == NewDocumentDialog.OK_COPY) {
-            this.setChanged(true);
-        }
-
-    }
-
-    private void openFile() {
-
-        // Save before exit...
-        switch (this.saveBeforeExit()) {
-            case -1:
-                // 1 = No save wanted...continue
-            case 2: {
-                return; // Save failed (message was provided)
-            }
-            case 0: {
-                // 0 = Save was ok...continue, but create message before
-                this.createInfo(ObservationManager.bundle.getString("ok.save"));
-                break;
-            } // Cancel was pressed
-              // 3 = No save required...continue
-        }
-
-        JFileChooser chooser = new JFileChooser();
-        FileFilter xmlFileFilter = new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return (f.getName().endsWith(".xml")) || (f.isDirectory());
-            }
-
-            @Override
-            public String getDescription() {
-                return "OAL Files";
-            }
-        };
-        chooser.setFileFilter(xmlFileFilter);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
-        if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
-            if (dir.exists()) {
-                chooser.setCurrentDirectory(dir);
-            }
-        }
-        chooser.setMultiSelectionEnabled(true);
-        int returnVal = chooser.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File[] files = chooser.getSelectedFiles();
-
-            Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-            setCursor(hourglassCursor);
-
-            this.loadFiles(files);
-
-            Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-            setCursor(normalCursor);
-        }
-
-        // Make sure change flag is unset
-        this.setChanged(false);
-
-    }
-
-    public void openDir() {
-
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
-        if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
-            if (dir.exists()) {
-                chooser.setCurrentDirectory(dir);
-            }
-        }
-        int returnVal = chooser.showOpenDialog(this);
-        FilenameFilter xml = (dir, name) -> name.endsWith(".xml");
-        File[] files = null;
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File[] dirs = chooser.getSelectedFiles();
-
-            for (File dir : dirs) {
-                files = dir.listFiles(xml);
-            }
-
-            this.loadFiles(files);
-        }
-
-    }
 
     private void showInfo() {
 
@@ -1634,24 +1093,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void loadFiles(File[] files) {
-
-        if ((files == null) || (files.length == 0)) {
-            return;
-        }
-
-        for (File file : files) {
-            this.loadFile(file.getAbsolutePath());
-        }
-
-        this.configuration.setConfig(ObservationManager.CONFIG_LASTDIR, files[0].getParent());
-        this.configuration.setConfig(ObservationManager.CONFIG_LASTXML, files[files.length - 1].getAbsolutePath());
-
-        this.hSplitPane.updateUI();
-        this.vSplitPane.updateUI();
-
-    }
-
     public void loadFiles(String[] files) {
 
         if ((files == null) || (files.length == 0)) {
@@ -1674,12 +1115,12 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         if (this.debug) {
             System.out.println("Load File: " + new Date());
-            System.out.println(this.printMemoryUsage());
+            System.out.println(SystemInfo.printMemoryUsage());
         }
 
         Worker calculation = new Worker() {
 
-            private String message = null;
+            private String message;
             private byte returnValue = Worker.RETURN_TYPE_OK;
 
             @Override
@@ -1737,7 +1178,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         if (this.debug) {
             System.out.println("Loaded: " + new Date());
-            System.out.println(this.printMemoryUsage());
+            System.out.println(SystemInfo.printMemoryUsage());
         }
 
     }
@@ -1755,12 +1196,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     public XMLFileLoader getXmlCache() {
 
         return this.xmlCache;
-
-    }
-
-    public Map getUIDataCache() {
-
-        return this.uiDataCache;
 
     }
 
@@ -1956,7 +1391,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         // Get all keys that represent a window size
         Iterator keyIterator = this.getConfiguration().getConfigKeys().iterator();
-        String currentKey = null;
+        String currentKey;
         ArrayList removeKeys = new ArrayList();
         while (keyIterator.hasNext()) {
             currentKey = (String) keyIterator.next();
@@ -2100,10 +1535,10 @@ public class ObservationManager extends JFrame implements ActionListener {
     private boolean checkWriteAccess(ZipFile zipFile, File destinationRoot) {
 
         Enumeration enumeration = zipFile.entries();
-        ZipEntry ze = null;
+        ZipEntry ze;
 
         // Unpack all the ZIP file entries into install dir
-        File currentFile = null;
+        File currentFile;
         boolean result = true;
         while (enumeration.hasMoreElements()) {
 
@@ -2312,7 +1747,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private void cleanUp() {
 
-        this.uiDataCache.clear();
         this.xmlCache.clear();
         this.tree.updateTree();
 
@@ -2806,45 +2240,11 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private int saveBeforeExit() {
-
-        // Returns:
-        // -1 = save failed
-        // 0 = save ok
-        // 1 = no save wanted
-        // 2 = cancel pressed
-        // 3 = no save required at all
-
-        // Show question dialog, whether we should save
-        if (this.changed) {
-            JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.saveBeforeExit.question"),
-                    JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
-            JDialog dialog = pane.createDialog(this, ObservationManager.bundle.getString("info.saveBeforeExit.title"));
-            dialog.setVisible(true);
-            Object selectedValue = pane.getValue();
-            if ((selectedValue instanceof Integer)) {
-                if ((Integer) selectedValue == JOptionPane.YES_OPTION) {
-                    boolean result = this.saveFile(); // Try to save
-                    if (!result) {
-                        return -1; // save failed
-                    }
-                    return 0;
-                } else if ((Integer) selectedValue == JOptionPane.CANCEL_OPTION) {
-                    return 2;
-                }
-            }
-            return 1;
-        }
-
-        return 3;
-
-    }
-
     private boolean transformXML2HTML(final Document doc, final File htmlFile, final File xslFile) {
 
         Worker calculation = new Worker() {
 
-            private String message = null;
+            private String message;
             private byte returnValue = Worker.RETURN_TYPE_OK;
 
             @Override
@@ -2986,20 +2386,6 @@ public class ObservationManager extends JFrame implements ActionListener {
         }
 
         return xslFile;
-
-    }
-
-    private String printMemoryUsage() {
-
-        String mem = "Memory Usage:\n\t- Current Heap Size: ";
-
-        // Currently used memory
-        long fMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        mem = mem + fMem;
-
-        mem = mem + "\n\t- Max. Heap Size: " + Runtime.getRuntime().maxMemory();
-
-        return mem;
 
     }
 
@@ -3183,7 +2569,8 @@ public class ObservationManager extends JFrame implements ActionListener {
             // restart... :-(
             if (true) {
                 this.createInfo(ObservationManager.bundle.getString("info.addExtensionRestart"));
-                this.exit();
+                // this.exit();
+                this.menuFile.exit(this, this.changed);
             }
 
             result = true;
@@ -3612,7 +2999,8 @@ public class ObservationManager extends JFrame implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                ObservationManager.this.saveFile();
+
+                ObservationManager.this.menuFile.saveFile(ObservationManager.this);
             }
 
         });
@@ -3626,7 +3014,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                ObservationManager.this.openFile();
+                ObservationManager.this.menuFile.openFile(ObservationManager.this, ObservationManager.this.changed);
             }
 
         });
@@ -3829,6 +3217,4 @@ class NightVisionTheme extends DefaultMetalTheme {
 
     }
 
-
-   
 }

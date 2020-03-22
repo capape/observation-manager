@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -87,11 +88,11 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private ISite[] sites = null;
     private ITarget[] targets = null;
 
-    public NewDocumentDialog(ObservationManager om) {
+    public NewDocumentDialog(JFrame om) {
 
-        super(om, true);
+        super((ObservationManager) om, true);
 
-        this.om = om;
+        this.om = (ObservationManager) om;
 
         super.setTitle(this.bundle.getString("dialog.newDoc.title"));
         super.setSize(480, 480);

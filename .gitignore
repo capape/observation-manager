@@ -32,3 +32,6 @@ observation-manager/.factorypath
 observation-planner-api/.checkstyle
 observation-planner-api/.eclipse-pmd
 observation-planner-api/.factorypath
+
+
+.sts4-cache

@@ -21,7 +21,7 @@ public class UpdateChecker implements Runnable {
     private static final String UPDATEFILE_DOWNLOADURL = "downloadURL";
 
     private ObservationManager om = null;
-    private ArrayList result = new ArrayList();
+    private List<UpdateEntry> result = new ArrayList<>();
 
     public UpdateChecker(ObservationManager om) {
 
@@ -29,10 +29,14 @@ public class UpdateChecker implements Runnable {
 
     }
 
-    public List getResult() {
+    public List<UpdateEntry> getResult() {
 
         return this.result;
 
+    }
+
+    public boolean isUpdateAvailable() {
+        return this.result != null && !this.result.isEmpty();
     }
 
     @Override

@@ -64,7 +64,7 @@ public class ExtensionLoader {
     // Instance Variables ------------------------------------------------
     // ------------------
 
-    private final List extensions = new LinkedList();
+    private final List<IExtension> extensions = new LinkedList<>();
 
     private ObservationManager om = null;
 
@@ -165,15 +165,14 @@ public class ExtensionLoader {
 
     }
 
-    public List getExtensions() {
+    public List<IExtension> getExtensions() {
 
         // Create new list to force user to call our addExtension methods
         // when installing a new extension
-        ArrayList result = new ArrayList();
-        Iterator iterator = this.extensions.iterator();
-        IExtension current = null;
+        List<IExtension> result = new ArrayList<>();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         while (iterator.hasNext()) {
-            current = (IExtension) iterator.next();
+            IExtension current = iterator.next();
             // Do not add generic extension
             if (!GenericExtension.NAME.equals(current.getName())) {
                 result.add(current);
