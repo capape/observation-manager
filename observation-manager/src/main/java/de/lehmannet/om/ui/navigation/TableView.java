@@ -767,7 +767,7 @@ public class TableView extends JPanel {
             preferedWidth = current.getPreferredWidth();
             this.observationManager.getUIDataCache().put(
                     TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex(),
-                    preferedWidth);
+                    String.valueOf(preferedWidth));
         }
 
     }

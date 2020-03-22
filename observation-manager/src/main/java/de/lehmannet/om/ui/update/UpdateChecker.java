@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -16,6 +17,16 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.util.FloatUtil;
 
 public class UpdateChecker implements Runnable {
+
+
+    public static URL UPDATE_URL = null;
+    static {
+        try {
+            UPDATE_URL = new URL("http://observation.sourceforge.net/update");
+        } catch (MalformedURLException url) {
+            System.err.println("Malformed update check URL: " + UPDATE_URL);
+        }
+    }
 
     private static final String UPDATEFILE_LATESTVERSION = "latestVersion";
     private static final String UPDATEFILE_DOWNLOADURL = "downloadURL";
@@ -43,14 +54,14 @@ public class UpdateChecker implements Runnable {
     public void run() {
 
         // Check extensions
-        List extensions = this.om.getExtensionLoader().getExtensions();
-        ListIterator iterator = extensions.listIterator();
+        List<IExtension> extensions = this.om.getExtensionLoader().getExtensions();
+        ListIterator<IExtension> iterator = extensions.listIterator();
         IExtension currentExtension = null;
         URL currentExtensionURL = null;
         UpdateEntry currentResult = null;
         try {
             while (iterator.hasNext()) {
-                currentExtension = (IExtension) iterator.next();
+                currentExtension = iterator.next();
                 currentExtensionURL = currentExtension.getUpdateInformationURL();
                 if (currentExtensionURL != null) {
                     currentResult = this.checkForUpdates(currentExtension.getName(), currentExtension.getVersion(),
@@ -63,7 +74,7 @@ public class UpdateChecker implements Runnable {
 
             // Check OM itself
             currentResult = this.checkForUpdates("Observation Manager",
-                    FloatUtil.parseFloat(ObservationManager.VERSION), ObservationManager.UPDATE_URL);
+                    FloatUtil.parseFloat(ObservationManager.VERSION), UPDATE_URL);
             if (currentResult != null) { // New version found
                 result.add(currentResult);
             }

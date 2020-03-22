@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
-
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -160,15 +160,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     // Version
     public static final String VERSION = "1.421";
 
-    public static URL UPDATE_URL = null;
-    static {
-        try {
-            ObservationManager.UPDATE_URL = new URL("http://observation.sourceforge.net/update");
-        } catch (MalformedURLException url) {
-            System.err.println("Malformed update check URL: " + ObservationManager.UPDATE_URL);
-        }
-    }
-
+    
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
 
@@ -245,6 +237,8 @@ public class ObservationManager extends JFrame implements ActionListener {
     private ObservationManagerMenuFile menuFile;
 
     private File schemaPath;
+
+    private Map<String,String> uiDataCache = new HashMap<>();
 
     // if ("de".equals(getArgValue(arg))) {
     // Locale.setDefault(Locale.GERMAN);
@@ -1749,6 +1743,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         this.xmlCache.clear();
         this.tree.updateTree();
+        this.uiDataCache.clear();
 
     }
 
@@ -3020,6 +3015,11 @@ public class ObservationManager extends JFrame implements ActionListener {
         });
 
     }
+
+    public Map<String, String> getUIDataCache() {
+        return uiDataCache;
+    }
+
 
 }
 
