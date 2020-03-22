@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.ITarget;
 
-public class TargetComparator implements Comparator {
+public class TargetComparator implements Comparator<ITarget> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(ITarget o1, ITarget o2) {
 
         if ((o1 instanceof ITarget) && (o2 instanceof ITarget)) {
             ITarget t1 = (ITarget) o1;

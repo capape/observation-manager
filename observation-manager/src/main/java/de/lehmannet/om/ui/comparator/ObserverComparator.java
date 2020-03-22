@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.IObserver;
 
-public class ObserverComparator implements Comparator {
+public class ObserverComparator implements Comparator<IObserver> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IObserver o1, IObserver o2) {
 
         if ((o1 instanceof IObserver) && (o2 instanceof IObserver)) {
             IObserver ob1 = (IObserver) o1;

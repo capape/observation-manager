@@ -45,7 +45,7 @@ public class XMLFileLoader {
     // Maps, used to store File - XML Object relations
     // - Key = Path to XML File
     // - Value = Schema objects of xmlFile
-    private ArrayList cache = null;
+    private final List<CacheEntry> cache = new ArrayList<>();
 
     // Path to XML Schemas used to validate XML files
     private File schemaPath = null;
@@ -54,8 +54,6 @@ public class XMLFileLoader {
     private final SchemaLoader loader = new SchemaLoader();
 
     public XMLFileLoader(File schemaFile) {
-
-        this.cache = new ArrayList();
 
         this.schemaPath = schemaFile;
 
@@ -146,7 +144,7 @@ public class XMLFileLoader {
         }
 
         // @todo This only works for ONE file opened...
-        return ((CacheEntry) (this.cache.listIterator().next())).getXmlPath();
+        return this.cache.listIterator().next().getXmlPath();
 
     }
 
@@ -190,32 +188,6 @@ public class XMLFileLoader {
         return null;
 
     }
-
-    /*
-     * public Document getDocumentForSession(ISession session) {
-     * 
-     * RootElement root = new RootElement();
-     * 
-     * // @todo This only works for ONE file opened... if( session == null ) { // Nothing to save return null; }
-     * 
-     * // Get all observations CacheEntry entry = (CacheEntry)this.cache.listIterator().next(); IObservation
-     * observations[] = entry.getObservations(); ArrayList observationsFromSession = new ArrayList(observations.length);
-     * if( (observations != null) && (observations.length > 0) ) { for(int i=0; i < observations.length; i++) { if(
-     * session.equals(observations[i].getSession()) ) { observationsFromSession.add(observations[i]); } } } else {
-     * return null; // No observations at all }
-     * 
-     * if( observationsFromSession.isEmpty() ) { return null; // No observations for this session }
-     * 
-     * this.addObservationsAndDependentToRoot(observationsFromSession, root);
-     * 
-     * try { if( root != null ) { return root.getDocument(); } else {
-     * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
-     * System.err.println("Unable to retrieve DOM Document\n" + se); }
-     * 
-     * return null;
-     * 
-     * }
-     */
 
     public void addSchemaElement(ISchemaElement element) {
 
@@ -347,9 +319,9 @@ public class XMLFileLoader {
 
     }
 
-    public List removeSchemaElement(ISchemaElement element) {
+    public List<ISchemaElement> removeSchemaElement(ISchemaElement element) {
 
-        List resultList = new ArrayList();
+        List<ISchemaElement> resultList = new ArrayList<>();
 
         CacheEntry entry = null;
         if (this.cache.isEmpty()) {
@@ -439,11 +411,11 @@ public class XMLFileLoader {
     public String[] getAllOpenedFiles() {
 
         String[] files = new String[this.cache.size()];
-        ListIterator iterator = this.cache.listIterator();
+        ListIterator<CacheEntry> iterator = this.cache.listIterator();
         int x = 0;
         String path = null;
         while (iterator.hasNext()) {
-            path = ((CacheEntry) iterator.next()).getXmlPath();
+            path = iterator.next().getXmlPath();
             if (path != null) {
                 files[x++] = path;
             }
@@ -462,16 +434,16 @@ public class XMLFileLoader {
 
         IObserver[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getObservers();
+            result = this.cache.get(0).getObservers();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IObserver[] currentArray = null;
             IObserver[][] o = new IObserver[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getObservers();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -503,16 +475,16 @@ public class XMLFileLoader {
 
         IEyepiece[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getEyepieces();
+            result = this.cache.get(0).getEyepieces();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IEyepiece[] currentArray = null;
             IEyepiece[][] o = new IEyepiece[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current =  iterator.next();
                 currentArray = current.getEyepieces();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -544,16 +516,16 @@ public class XMLFileLoader {
 
         IImager[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getImagers();
+            result = this.cache.get(0).getImagers();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IImager[] currentArray = null;
             IImager[][] o = new IImager[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getImagers();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -585,16 +557,16 @@ public class XMLFileLoader {
 
         IFilter[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getFilters();
+            result = this.cache.get(0).getFilters();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IFilter[] currentArray = null;
             IFilter[][] o = new IFilter[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getFilters();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -626,16 +598,16 @@ public class XMLFileLoader {
 
         IObservation[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getObservations();
+            result = this.cache.get(0).getObservations();
         } else { // Several files open
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IObservation[] currentArray = null;
             IObservation[][] o = new IObservation[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getObservations();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -673,21 +645,21 @@ public class XMLFileLoader {
 
         IObservation[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            List list = ((CacheEntry) this.cache.get(0)).getReferedElements(element);
+            List<ISchemaElement> list = this.cache.get(0).getReferedElements(element);
             if (list == null) {
                 return null;
             }
             result = (IObservation[]) (list.toArray(new IObservation[] {}));
         } else { // Several files open
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IObservation[] currentArray = null;
             IObservation[][] o = new IObservation[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
-                List list = current.getReferedElements(element);
+                current = iterator.next();
+                List<ISchemaElement> list = current.getReferedElements(element);
                 if (list == null) {
                     return null;
                 }
@@ -727,21 +699,21 @@ public class XMLFileLoader {
 
         IObservation[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            List list = ((CacheEntry) this.cache.get(0)).getReferencedObservationsForCoObserver(observer);
+            List<ISchemaElement> list = this.cache.get(0).getReferencedObservationsForCoObserver(observer);
             if (list == null) {
                 return null;
             }
             result = (IObservation[]) (list.toArray(new IObservation[] {}));
         } else { // Several files open
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IObservation[] currentArray = null;
             IObservation[][] o = new IObservation[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
-                List list = current.getReferencedObservationsForCoObserver(observer);
+                current = iterator.next();
+                List<ISchemaElement> list = current.getReferencedObservationsForCoObserver(observer);
                 if (list == null) {
                     return null;
                 }
@@ -777,16 +749,16 @@ public class XMLFileLoader {
 
         IScope[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getScopes();
+            result = this.cache.get(0).getScopes();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             IScope[] currentArray = null;
             IScope[][] o = new IScope[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getScopes();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -818,16 +790,16 @@ public class XMLFileLoader {
 
         ISession[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getSessions();
+            result = this.cache.get(0).getSessions();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             ISession[] currentArray = null;
             ISession[][] o = new ISession[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getSessions();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -859,16 +831,16 @@ public class XMLFileLoader {
 
         ISite[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getSites();
+            result = this.cache.get(0).getSites();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             ISite[] currentArray = null;
             ISite[][] o = new ISite[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getSites();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -900,16 +872,16 @@ public class XMLFileLoader {
 
         ITarget[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getTargets();
+            result = this.cache.get(0).getTargets();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             ITarget[] currentArray = null;
             ITarget[][] o = new ITarget[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getTargets();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -941,16 +913,16 @@ public class XMLFileLoader {
 
         ILens[] result = null;
         if (this.cache.size() == 1) { // Only one file open
-            result = ((CacheEntry) this.cache.get(0)).getLenses();
+            result = this.cache.get(0).getLenses();
         } else {
-            ListIterator iterator = this.cache.listIterator();
+            ListIterator<CacheEntry> iterator = this.cache.listIterator();
             CacheEntry current = null;
             ILens[] currentArray = null;
             ILens[][] o = new ILens[this.cache.size()][];
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current = (CacheEntry) iterator.next();
+                current = iterator.next();
                 currentArray = current.getLenses();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -1093,10 +1065,10 @@ public class XMLFileLoader {
 
     }
 
-    private void addObservationsAndDependentToRoot(List observations, RootElement root) {
+    private void addObservationsAndDependentToRoot(List<IObservation> observations, RootElement root) {
 
-        for (Object observation : observations) {
-            this.addObservationAndDependentToRoot((IObservation) observation, root);
+        for (IObservation observation : observations) {
+            this.addObservationAndDependentToRoot(observation, root);
         }
 
     }
@@ -1239,7 +1211,7 @@ class CacheEntry {
         }
 
         this.target = new SchemaElementCacheEntry[target.length];
-        ArrayList helper = new ArrayList();
+        List<SchemaElementCacheEntry> helper = new ArrayList<>();
         for (int i = 0; i < target.length; i++) {
             this.target[i] = new SchemaElementCacheEntry(target[i]);
             if (target[i] instanceof ITargetContaining) { // Fill targetContaining Array (via ArrayList)
@@ -1272,7 +1244,7 @@ class CacheEntry {
 
     }
 
-    public List getReferedElements(ISchemaElement element) {
+    public List<ISchemaElement> getReferedElements(ISchemaElement element) {
 
         if (element instanceof IObservation) {
             for (SchemaElementCacheEntry schemaElementCacheEntry : this.observation) {
@@ -1340,11 +1312,11 @@ class CacheEntry {
 
     }
 
-    public List getReferencedObservationsForCoObserver(IObserver coObserver) {
+    public List<ISchemaElement> getReferencedObservationsForCoObserver(IObserver coObserver) {
 
         for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) {
             if (schemaElementCacheEntry.getSchemaElement().equals(coObserver)) {
-                List re = new ArrayList(schemaElementCacheEntry.getReferencedElements());
+                List<ISchemaElement> re = new ArrayList<ISchemaElement>(schemaElementCacheEntry.getReferencedElements());
                 re.removeIf(o -> o instanceof ISession);
                 return re;
             }
@@ -1633,14 +1605,14 @@ class CacheEntry {
         }
 
         // Iterate over each refered schemaElement from the cacheEntry
-        List referedElements = cacheEntry.getReferencedElements();
-        ListIterator iterator = referedElements.listIterator();
+        List<ISchemaElement> referedElements = cacheEntry.getReferencedElements();
+        ListIterator<ISchemaElement> iterator = referedElements.listIterator();
         ISchemaElement current = null;
 
         // Do remove and add via external lists when the while loop has finished.
         // Otherwise we screw up the iterator
-        ArrayList removeList = new ArrayList();
-        ArrayList addList = new ArrayList();
+        List<ISchemaElement> removeList = new ArrayList<>();
+        List<ISchemaElement> addList = new ArrayList<>();
         while (iterator.hasNext()) {
             current = (ISchemaElement) iterator.next();
 
@@ -2151,9 +2123,9 @@ class CacheEntry {
 
     }
 
-    public List removeEyepiece(IEyepiece eyepiece) {
+    public List<ISchemaElement> removeEyepiece(IEyepiece eyepiece) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.eyepiece.length - 1];
         boolean foundDependency = false;
@@ -2190,9 +2162,9 @@ class CacheEntry {
 
     }
 
-    public List removeImager(IImager imager) {
+    public List<ISchemaElement> removeImager(IImager imager) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.imager.length - 1];
         boolean foundDependency = false;
@@ -2229,9 +2201,9 @@ class CacheEntry {
 
     }
 
-    public List removeFilter(IFilter filter) {
+    public List<ISchemaElement> removeFilter(IFilter filter) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.filter.length - 1];
         boolean foundDependency = false;
@@ -2268,7 +2240,7 @@ class CacheEntry {
 
     }
 
-    public List removeObservation(IObservation observation) {
+    public List<ISchemaElement> removeObservation(IObservation observation) {
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.observation.length - 1];
         boolean foundElement = false;
@@ -2290,7 +2262,7 @@ class CacheEntry {
         if (foundElement) { // Observation was found
             this.observation = newArray;
         } else { // Observation was not found, stop here and return empty list
-            return new ArrayList();
+            return new ArrayList<ISchemaElement>();
         }
 
         // Remove observation from in all SchemaElement arrays
@@ -2431,13 +2403,13 @@ class CacheEntry {
         }
 
         // An observation doesn't have any dependencies, so always return empty list
-        return new ArrayList();
+        return new ArrayList<ISchemaElement>();
 
     }
 
-    public List removeObserver(IObserver observer) {
+    public List<ISchemaElement> removeObserver(IObserver observer) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.observer.length - 1];
         SchemaElementCacheEntry[] newCoObserverArray = new SchemaElementCacheEntry[this.coObserver.length - 1];
@@ -2492,9 +2464,9 @@ class CacheEntry {
 
     }
 
-    public List removeScope(IScope scope) {
+    public List<ISchemaElement> removeScope(IScope scope) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.scope.length - 1];
         boolean foundDependency = false;
@@ -2531,9 +2503,9 @@ class CacheEntry {
 
     }
 
-    public List removeSession(ISession session) {
+    public List<ISchemaElement> removeSession(ISession session) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.session.length - 1];
         boolean foundDependency = false;
@@ -2570,9 +2542,9 @@ class CacheEntry {
 
     }
 
-    public List removeSite(ISite site) {
+    public List<ISchemaElement> removeSite(ISite site) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.site.length - 1];
         boolean foundDependency = false;
@@ -2617,9 +2589,9 @@ class CacheEntry {
 
     }
 
-    public List removeTarget(ITarget target) {
+    public List<ISchemaElement> removeTarget(ITarget target) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         /*
          * IObserver creator = ((ITarget)element).getObserver(); // Delete only targets created/edited by Observers if(
@@ -2697,9 +2669,9 @@ class CacheEntry {
 
     }
 
-    public List removeLens(ILens lens) {
+    public List<ISchemaElement> removeLens(ILens lens) {
 
-        ArrayList dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.lens.length - 1];
         boolean foundDependency = false;
@@ -2963,7 +2935,7 @@ class CacheEntry {
 class SchemaElementCacheEntry {
 
     private ISchemaElement element = null;
-    private final ArrayList referenceList = new ArrayList();
+    private final List<ISchemaElement> referenceList = new ArrayList<>();
 
     public SchemaElementCacheEntry(ISchemaElement element) {
 
@@ -2971,7 +2943,7 @@ class SchemaElementCacheEntry {
 
     }
 
-    public List getReferencedElements() {
+    public List<ISchemaElement> getReferencedElements() {
 
         /*
          * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new ISchemaElement[] {});
@@ -3001,7 +2973,7 @@ class SchemaElementCacheEntry {
 
     }
 
-    public void addReferencedElements(Collection collection) {
+    public void addReferencedElements(Collection<ISchemaElement> collection) {
 
         if (collection == null) {
             return;
@@ -3017,7 +2989,7 @@ class SchemaElementCacheEntry {
 
     }
 
-    public void removeReferencedElements(Collection collection) {
+    public void removeReferencedElements(Collection<ISchemaElement> collection) {
 
         this.referenceList.removeAll(collection);
 

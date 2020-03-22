@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.IScope;
 
-public class ScopeComparator implements Comparator {
+public class ScopeComparator implements Comparator<IScope> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IScope o1, IScope o2) {
 
         if ((o1 instanceof IScope) && (o2 instanceof IScope)) {
             IScope s1 = (IScope) o1;
