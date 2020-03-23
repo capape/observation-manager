@@ -190,7 +190,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
      */
-    java.util.List getCoObservers();
+    java.util.List<IObserver> getCoObservers();
 
 /**
      * Returns a comment about this session.<br>

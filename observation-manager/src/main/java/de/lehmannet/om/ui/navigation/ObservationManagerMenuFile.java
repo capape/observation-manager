@@ -10,7 +10,6 @@ import java.util.Date;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javax.swing.filechooser.FileFilter;
@@ -43,18 +42,21 @@ public final class ObservationManagerMenuFile {
 
     private XMLFileLoader xmlCache = null;
     private final Configuration configuration;
+    private final ObservationManager observationManager;
     
 
     public ObservationManagerMenuFile(
         Configuration configuration,
-        XMLFileLoader xmlCache) {
+        XMLFileLoader xmlCache,
+        ObservationManager om) {
        
         // Load configuration
         this.configuration = configuration; 
         this.xmlCache = xmlCache;
+        this.observationManager = om;
     }
 
-    public int saveBeforeExit(ObservationManager component, boolean changed) {
+    public int saveBeforeExit( boolean changed) {
 
         // Returns:
         // -1 = save failed
@@ -67,13 +69,13 @@ public final class ObservationManagerMenuFile {
         if (changed) {
             JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.saveBeforeExit.question"),
                     JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
-            JDialog dialog = pane.createDialog(component,
+            JDialog dialog = pane.createDialog(observationManager,
                     ObservationManager.bundle.getString("info.saveBeforeExit.title"));
             dialog.setVisible(true);
             Object selectedValue = pane.getValue();
             if ((selectedValue instanceof Integer)) {
                 if ((Integer) selectedValue == JOptionPane.YES_OPTION) {
-                    boolean result = this.saveFile(component); // Try to save
+                    boolean result = this.saveFile(); // Try to save
                     if (!result) {
                         return -1; // save failed
                     }
@@ -89,10 +91,10 @@ public final class ObservationManagerMenuFile {
 
     }
 
-    public boolean exit(ObservationManager component, boolean changed) {
+    public boolean exit( boolean changed) {
 
         // Save before exit...
-        switch (this.saveBeforeExit(component, changed)) {
+        switch (this.saveBeforeExit(changed)) {
             case -1:
                 // 0 = Save was ok...continue
                 // 1 = No save wanted...continue
@@ -109,34 +111,34 @@ public final class ObservationManagerMenuFile {
         // LOGGER.debug(this.printMemoryUsage());
 
         // Save window size and position and maximized state
-        if (component.getExtendedState() == Frame.MAXIMIZED_BOTH) {
+        if (observationManager.getExtendedState() == Frame.MAXIMIZED_BOTH) {
             this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(true));
         } else {
             this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, null); // Remove
                                                                                                 // maximzed
         }
-        Dimension size = component.getSize();
+        Dimension size = observationManager.getSize();
         String stringSize = size.width + "x" + size.height;
-        Point location = component.getLocation();
+        Point location = observationManager.getLocation();
         // SwingUtilities.convertPointToScreen(location, this);
         String stringLocation = location.x + "," + location.y;
         this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE, stringSize);
         this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_POS, stringLocation);
 
         // Save horizontal and vertical dividers position
-        float vertical = (float) component.getWidth() / (float) component.getVerticalSplitPane().getDividerLocation();
-        float horizontal = (float) component.getHeight() / (float) component.getHorizontalSplitPane().getDividerLocation();
+        float vertical = (float) observationManager.getWidth() / (float) observationManager.getVerticalSplitPane().getDividerLocation();
+        float horizontal = (float) observationManager.getHeight() / (float) observationManager.getHorizontalSplitPane().getDividerLocation();
         this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL, "" + horizontal);
         this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_VERTICAL, "" + vertical);
 
         // Save column settings to persistance
-        component.getTableView().saveSettings();
+        observationManager.getTableView().saveSettings();
 
         // Try to save config...
 
         boolean result = this.configuration.saveConfiguration();
         if (!result) {
-            this.createWarning(component, ObservationManager.bundle.getString("error.saveconfig"));
+            this.createWarning(ObservationManager.bundle.getString("error.saveconfig"));
         }
 
         System.exit(0);
@@ -147,17 +149,17 @@ public final class ObservationManagerMenuFile {
 
     }
 
-    public void createWarning(JFrame component, String message) {
+    public void createWarning(String message) {
 
-        JOptionPane.showMessageDialog(component, message, ObservationManager.bundle.getString("title.warning"),
+        JOptionPane.showMessageDialog(observationManager, message, ObservationManager.bundle.getString("title.warning"),
                 JOptionPane.WARNING_MESSAGE);
 
     }
 
-    public void saveFileAs(ObservationManager component, boolean changed) {
+    public void saveFileAs( boolean changed) {
 
         if (this.xmlCache.isEmpty()) {
-            this.createWarning(component, ObservationManager.bundle.getString("error.saveEmpty"));
+            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
             return;
         }
 
@@ -169,12 +171,12 @@ public final class ObservationManagerMenuFile {
             oldPath = files[0];
         }
 
-        final File f = this.saveDialog(component);
+        final File f = this.saveDialog();
 
         
         if (f != null) {
             Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-            component.setCursor(hourglassCursor);
+            observationManager.setCursor(hourglassCursor);
 
             Worker calculation;
 
@@ -250,32 +252,32 @@ public final class ObservationManagerMenuFile {
 
             }
 
-            new ProgressDialog(component, ObservationManager.bundle.getString("progress.wait.title"),
+            new ProgressDialog(observationManager, ObservationManager.bundle.getString("progress.wait.title"),
                     ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
 
             if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
                 if (calculation.getReturnMessage() != null) {
-                    this.createInfo(component, calculation.getReturnMessage());
+                    this.createInfo(calculation.getReturnMessage());
                 }
                
             } else {
-                this.createWarning(component, calculation.getReturnMessage());
+                this.createWarning(calculation.getReturnMessage());
             
             }
 
             // Update Tree
-            component.getTreeView().updateTree();
+            observationManager.getTreeView().updateTree();
 
             // Unset changed
             this.setChanged(false);
 
             Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-            component.setCursor(defaultCursor);
+            observationManager.setCursor(defaultCursor);
         }
 
     }
 
-    private File saveDialog(JFrame component) {
+    private File saveDialog() {
 
         JFileChooser chooser = new JFileChooser();
 
@@ -287,7 +289,7 @@ public final class ObservationManagerMenuFile {
             }
         }
         chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        int returnValue = chooser.showSaveDialog(component);
+        int returnValue = chooser.showSaveDialog(this.observationManager);
         File file = null;
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             file = chooser.getSelectedFile();
@@ -300,10 +302,10 @@ public final class ObservationManagerMenuFile {
 
     }
 
-    public boolean saveFile(ObservationManager component) {
+    public boolean saveFile() {
 
         if (this.xmlCache.isEmpty()) {
-            this.createWarning(component, ObservationManager.bundle.getString("error.saveEmpty"));
+            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
             return false;
         }
 
@@ -311,11 +313,11 @@ public final class ObservationManagerMenuFile {
         boolean result = false;
         if ((files == null) // No filename known yet...
                 || (files.length == 0)) {
-            final File f = this.saveDialog(component);
+            final File f = this.saveDialog();
 
             if (f != null) {
                 Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-                component.setCursor(hourglassCursor);
+                this.observationManager.setCursor(hourglassCursor);
 
                 Worker calculation = new Worker() {
 
@@ -349,27 +351,27 @@ public final class ObservationManagerMenuFile {
 
                 };
 
-                new ProgressDialog(component, ObservationManager.bundle.getString("progress.wait.title"),
+                new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
                         ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
 
                 if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
                     if (calculation.getReturnMessage() != null) {
-                        this.createInfo(component, calculation.getReturnMessage());
+                        this.createInfo(calculation.getReturnMessage());
                     }
                     result = true;
                 } else {
-                    this.createWarning(component, calculation.getReturnMessage());
+                    this.createWarning(calculation.getReturnMessage());
                     result = false;
                 }
 
                 // Update Tree
-                component.getTreeView().updateTree();
+                this.observationManager.getTreeView().updateTree();
 
                 // Unset changed
                 this.setChanged(false);
 
                 Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                component.setCursor(defaultCursor);
+                this.observationManager.setCursor(defaultCursor);
 
             }
 
@@ -379,7 +381,7 @@ public final class ObservationManagerMenuFile {
         // Filename already known...just save
 
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-        component.setCursor(hourglassCursor);
+        this.observationManager.setCursor(hourglassCursor);
 
         if (LOGGER.isDebugEnabled()) {
             System.out.println("Save file: " + new Date());
@@ -419,16 +421,16 @@ public final class ObservationManagerMenuFile {
 
         };
 
-        new ProgressDialog(component, ObservationManager.bundle.getString("progress.wait.title"),
+        new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
                 ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                this.createInfo(component, calculation.getReturnMessage());
+                this.createInfo(calculation.getReturnMessage());
             }
             result = true;
         } else {
-            this.createWarning(component, calculation.getReturnMessage());
+            this.createWarning(calculation.getReturnMessage());
             result = false;
         }
 
@@ -438,13 +440,13 @@ public final class ObservationManagerMenuFile {
         }
 
         // Update Tree
-        component.getTreeView().updateTree();
+        this.observationManager.getTreeView().updateTree();
 
         // Unset changed
         this.setChanged(false);
 
         Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-        component.setCursor(defaultCursor);
+        this.observationManager.setCursor(defaultCursor);
 
         return result;
 
@@ -454,10 +456,10 @@ public final class ObservationManagerMenuFile {
         // TODO:
     }
 
-    public void newFile(ObservationManager component, boolean changed) {
+    public void newFile( boolean changed) {
 
         // Save before exit...
-        switch (this.saveBeforeExit(component, changed)) {
+        switch (this.saveBeforeExit(changed)) {
             case -1:
                 // 1 = No save wanted...continue
             case 2: {
@@ -465,14 +467,14 @@ public final class ObservationManagerMenuFile {
             }
             case 0: {
                 // 0 = Save was ok...continue, but create message before
-                this.createInfo(component, ObservationManager.bundle.getString("ok.save"));
+                this.createInfo(ObservationManager.bundle.getString("ok.save"));
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
         }
 
         // Create dialog
-        NewDocumentDialog newDialog = new NewDocumentDialog(component);
+        NewDocumentDialog newDialog = new NewDocumentDialog(observationManager);
 
         // If user selected Cancel
         int result = newDialog.getResult();
@@ -493,7 +495,7 @@ public final class ObservationManagerMenuFile {
         ITarget[] targets = (ITarget[]) newDialog.getSchemaElements(SchemaElementConstants.TARGET);
 
         // Clear XML cache, uiDataCache, tree
-        this.cleanUp(component);
+        this.cleanUp();
 
         // Add schema elements to (empty) cache
         if (imagers != null) {
@@ -560,8 +562,8 @@ public final class ObservationManagerMenuFile {
         }
 
         // Update views
-        component.getTableView().showObservations(null, null);
-        component.getTreeView().updateTree();
+        observationManager.getTableView().showObservations(null, null);
+        observationManager.getTreeView().updateTree();
 
         // Set content changed is elements were copied.
         // (Force save on a blank document doesn't make sense)
@@ -571,10 +573,10 @@ public final class ObservationManagerMenuFile {
 
     }
 
-    public void openFile(ObservationManager component, boolean changed) {
+    public void openFile( boolean changed) {
 
         // Save before exit...
-        switch (this.saveBeforeExit(component, changed)) {
+        switch (this.saveBeforeExit(changed)) {
             case -1:
                 // 1 = No save wanted...continue
             case 2: {
@@ -582,7 +584,7 @@ public final class ObservationManagerMenuFile {
             }
             case 0: {
                 // 0 = Save was ok...continue, but create message before
-                this.createInfo(component, ObservationManager.bundle.getString("ok.save"));
+                this.createInfo(ObservationManager.bundle.getString("ok.save"));
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
@@ -609,17 +611,17 @@ public final class ObservationManagerMenuFile {
             }
         }
         chooser.setMultiSelectionEnabled(true);
-        int returnVal = chooser.showOpenDialog(component);
+        int returnVal = chooser.showOpenDialog(observationManager);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File[] files = chooser.getSelectedFiles();
 
             Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-            component.setCursor(hourglassCursor);
+            observationManager.setCursor(hourglassCursor);
 
-            this.loadFiles(component, files);
+            this.loadFiles(files);
 
             Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-            component.setCursor(normalCursor);
+            observationManager.setCursor(normalCursor);
         }
 
         // Make sure change flag is unset
@@ -627,7 +629,7 @@ public final class ObservationManagerMenuFile {
 
     }
 
-    public void openDir(ObservationManager component) {
+    public void openDir() {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
@@ -639,7 +641,7 @@ public final class ObservationManagerMenuFile {
                 chooser.setCurrentDirectory(dir);
             }
         }
-        int returnVal = chooser.showOpenDialog(component);
+        int returnVal = chooser.showOpenDialog(this.observationManager);
         FilenameFilter xml = (dir, name) -> name.endsWith(".xml");
         File[] files = null;
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -649,50 +651,50 @@ public final class ObservationManagerMenuFile {
                 files = dir.listFiles(xml);
             }
 
-            this.loadFiles(component, files);
+            this.loadFiles(files);
         }
 
     }
 
-    public void createInfo(JFrame component, String message) {
+    public void createInfo(String message) {
 
-        JOptionPane.showMessageDialog(component, message, ObservationManager.bundle.getString("title.info"),
+        JOptionPane.showMessageDialog(observationManager, message, ObservationManager.bundle.getString("title.info"),
                 JOptionPane.INFORMATION_MESSAGE);
 
     }
 
-    private void cleanUp(ObservationManager component) {
+    private void cleanUp() {
 
         this.xmlCache.clear();
-        component.getTreeView().updateTree();
+        this.observationManager.getTreeView().updateTree();
 
     }
 
-    private void loadFiles(ObservationManager component, File[] files) {
+    private void loadFiles( File[] files) {
 
         if ((files == null) || (files.length == 0)) {
             return;
         }
 
         for (File file : files) {
-            this.loadFile(component, file.getAbsolutePath());
+            this.loadFile(file.getAbsolutePath());
         }
 
         this.configuration.setConfig(ObservationManager.CONFIG_LASTDIR, files[0].getParent());
         this.configuration.setConfig(ObservationManager.CONFIG_LASTXML, files[files.length - 1].getAbsolutePath());
 
-        component.getHorizontalSplitPane().updateUI();
-        component.getVerticalSplitPane().updateUI();
+        observationManager.getHorizontalSplitPane().updateUI();
+        observationManager.getVerticalSplitPane().updateUI();
 
     }
 
-    private void loadFile(ObservationManager component, final String file) {
+    private void loadFile( final String file) {
 
         if (file == null) {
             return;
         }
 
-        this.cleanUp(component);
+        this.cleanUp();
 
         if (LOGGER.isDebugEnabled()) {
             System.out.println("Load File: " + new Date());
@@ -713,8 +715,8 @@ public final class ObservationManagerMenuFile {
                     returnValue = Worker.RETURN_TYPE_ERROR;
                 }
 
-                component.getTableView().showObservations(null, null);
-                component.getTreeView().updateTree();
+                observationManager.getTableView().showObservations(null, null);
+                observationManager.getTreeView().updateTree();
 
             }
 
@@ -744,17 +746,17 @@ public final class ObservationManagerMenuFile {
         // loading the XML file. This seems to cause the problem. Clearing the
         // table like
         // below, seems to fix this strange problem
-        component.getTableView().showObservations(null, null);
+        observationManager.getTableView().showObservations(null, null);
 
-        new ProgressDialog(component, ObservationManager.bundle.getString("progress.wait.title"),
+        new ProgressDialog(observationManager, ObservationManager.bundle.getString("progress.wait.title"),
                 ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                this.createInfo(component, calculation.getReturnMessage());
+                this.createInfo(calculation.getReturnMessage());
             }
         } else {
-            this.createWarning(component, calculation.getReturnMessage());
+            this.createWarning(calculation.getReturnMessage());
         }
 
         if (LOGGER.isDebugEnabled()) {

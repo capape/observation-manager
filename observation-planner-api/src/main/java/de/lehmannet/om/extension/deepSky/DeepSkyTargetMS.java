@@ -239,9 +239,9 @@ public DeepSkyTargetMS(String starName, IObserver observer, List componentStars)
      *         components of this multiple star coundn't be found in the given array.
      */
     @Override
-    public List getComponentTargets(ITarget... targets) {
+    public List<ITarget> getComponentTargets(ITarget... targets) {
 
-        ArrayList result = new ArrayList();
+       List<ITarget> result = new ArrayList<>();
 
         if (targets == null) {
             return result;

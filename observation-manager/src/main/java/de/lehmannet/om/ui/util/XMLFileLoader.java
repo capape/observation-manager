@@ -1219,7 +1219,9 @@ class CacheEntry {
                 // with ITargetContaining as schemaElement and the component targets as
                 // refered elements
                 SchemaElementCacheEntry entry = new SchemaElementCacheEntry(target[i]);
-                entry.addReferencedElements(((ITargetContaining) target[i]).getComponentTargets(target));
+                List<ISchemaElement> data = new ArrayList<>();
+                data.addAll(((ITargetContaining) target[i]).getComponentTargets(target));
+                entry.addReferencedElements(data);
                 helper.add(entry);
             }
         }
@@ -1564,8 +1566,9 @@ class CacheEntry {
                         + 1];
                 System.arraycopy(this.targetContaining, 0, newContainingArray, 0, this.targetContaining.length);
                 newContainingArray[newContainingArray.length - 1] = new SchemaElementCacheEntry(target);
-                newContainingArray[newContainingArray.length - 1]
-                        .addReferencedElements(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                List<ISchemaElement> data = new ArrayList<>();
+                data.addAll(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                newContainingArray[newContainingArray.length - 1].addReferencedElements(data);
                 this.targetContaining = newContainingArray;
             }
 
@@ -1692,11 +1695,11 @@ class CacheEntry {
                         // Remove old coObserver references
                         if ((((ISession) current).getCoObservers() != null)
                                 && !(((ISession) current).getCoObservers().isEmpty())) {
-                            List coObservers = ((ISession) current).getCoObservers();
-                            ListIterator listIterator = coObservers.listIterator();
+                            List<IObserver> coObservers = ((ISession) current).getCoObservers();
+                            ListIterator<IObserver> listIterator = coObservers.listIterator();
                             IObserver currentObserver = null;
                             while (listIterator.hasNext()) { // Iterate over all coObservers
-                                currentObserver = (IObserver) listIterator.next();
+                                currentObserver = listIterator.next();
                                 for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterate
                                                                                                           // over all
                                                                                                           // coObservers
@@ -1720,11 +1723,11 @@ class CacheEntry {
                         // Add new coObserver references
                         if ((observation.getSession().getCoObservers() != null)
                                 && !(observation.getSession().getCoObservers().isEmpty())) {
-                            List coObservers = observation.getSession().getCoObservers();
-                            ListIterator listIterator = coObservers.listIterator();
+                            List<IObserver> coObservers = observation.getSession().getCoObservers();
+                            ListIterator<IObserver> listIterator = coObservers.listIterator();
                             IObserver currentObserver = null;
                             while (listIterator.hasNext()) { // Iterate over all coObservers
-                                currentObserver = (IObserver) listIterator.next();
+                                currentObserver = listIterator.next();
                                 for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterate
                                                                                                           // over all
                                                                                                           // coObservers
@@ -1784,12 +1787,12 @@ class CacheEntry {
                         // If the current target is a TargetContaining target, we need to remove also
                         // the observation references from the containing targets
                         if (elementCacheEntry.getSchemaElement() instanceof ITargetContaining) {
-                            List containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
+                            List<ITarget> containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
                                     .getComponentTargets(this.getTargets());
-                            ListIterator listIterator = containingTargets.listIterator();
+                            ListIterator<ITarget> listIterator = containingTargets.listIterator();
                             ITarget ct = null;
                             while (listIterator.hasNext()) {
-                                ct = (ITarget) listIterator.next();
+                                ct = listIterator.next();
                                 for (SchemaElementCacheEntry schemaElementCacheEntry : this.target) {
                                     if (schemaElementCacheEntry.getSchemaElement().equals(ct)) { // Found a depending
                                                                                                  // target
@@ -1806,12 +1809,12 @@ class CacheEntry {
                         // If the current target is a TargetContaining target, we need to add also
                         // the observation references from the containing targets
                         if (elementCacheEntry.getSchemaElement() instanceof ITargetContaining) {
-                            List containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
+                            List<ITarget> containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
                                     .getComponentTargets(this.getTargets());
-                            ListIterator listIterator = containingTargets.listIterator();
+                            ListIterator<ITarget>  listIterator = containingTargets.listIterator();
                             ITarget ct = null;
                             while (listIterator.hasNext()) {
-                                ct = (ITarget) listIterator.next();
+                                ct = listIterator.next();
                                 for (SchemaElementCacheEntry schemaElementCacheEntry : this.target) {
                                     if (schemaElementCacheEntry.getSchemaElement().equals(ct)) { // Found a depending
                                                                                                  // target
@@ -1928,11 +1931,11 @@ class CacheEntry {
                     // Add new coObserver references
                     if ((observation.getSession().getCoObservers() != null)
                             && !(observation.getSession().getCoObservers().isEmpty())) {
-                        List coObservers = observation.getSession().getCoObservers();
-                        ListIterator listIterator = coObservers.listIterator();
+                        List<IObserver> coObservers = observation.getSession().getCoObservers();
+                        ListIterator<IObserver>  listIterator = coObservers.listIterator();
                         IObserver currentObserver = null;
                         while (listIterator.hasNext()) { // Iterate over all coObservers
-                            currentObserver = (IObserver) listIterator.next();
+                            currentObserver = listIterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterate over
                                                                                                       // all coObservers
                                 if (schemaElementCacheEntry.getSchemaElement().equals(currentObserver)) {
@@ -1988,10 +1991,10 @@ class CacheEntry {
 
     public void updateSession(IObservation[] observations, ISession session) {
 
-        List oldReferedElements = null;
-        ListIterator oldReferedElementsIterator = null;
+        List<ISchemaElement> oldReferedElements = null;
+        ListIterator<ISchemaElement> oldReferedElementsIterator = null;
         ISchemaElement currentSE = null;
-        List removeList = new ArrayList();
+        List<ISchemaElement> removeList = new ArrayList<>();
         for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterator over all coObservers
 
             // -------- First remove old coObservers
@@ -2000,7 +2003,7 @@ class CacheEntry {
                                                                                   // sessions
             oldReferedElementsIterator = oldReferedElements.listIterator();
             while (oldReferedElementsIterator.hasNext()) {
-                currentSE = (ISchemaElement) oldReferedElementsIterator.next();
+                currentSE = oldReferedElementsIterator.next();
                 if (currentSE instanceof ISession) {
                     if (session.getID().equals(currentSE.getID())) { // Is referenced session the searched session?
                         if (!session.getCoObservers().contains(schemaElementCacheEntry.getSchemaElement())) { // coObserver
@@ -2046,11 +2049,11 @@ class CacheEntry {
     public void updateTarget(ITarget target) {
 
         // Check if component list has changed
-        List newComponents = ((ITargetContaining) target).getComponentTargets(this.getTargets());
-        List oldComponents = new ArrayList();
+        List<ITarget> newComponents = ((ITargetContaining) target).getComponentTargets(this.getTargets());
+        List<ISchemaElement> oldComponents = new ArrayList<>();
         for (SchemaElementCacheEntry elementCacheEntry : this.targetContaining) {
             if (elementCacheEntry.getSchemaElement().equals(target)) {
-                oldComponents = new ArrayList(elementCacheEntry.getReferencedElements());
+                oldComponents = new ArrayList<>(elementCacheEntry.getReferencedElements());
 
                 // Now we need to ensure that our cache stays up2date
                 // CAUTION! FROM NOW ON this.targetContaining[] shall be no longer accessed in
@@ -2060,8 +2063,9 @@ class CacheEntry {
                 // Remove all old references (to component targets)
                 elementCacheEntry.clearAllReferences();
                 // Add new referenced (to component targets)
-                elementCacheEntry
-                        .addReferencedElements(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                List<ISchemaElement> data = new ArrayList<>();
+                data.addAll(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                elementCacheEntry.addReferencedElements(data);
 
                 break;
             }
@@ -2072,12 +2076,12 @@ class CacheEntry {
         }
 
         // Something changed in the components lists...
-        ArrayList removedComponent = new ArrayList(oldComponents);
-        ArrayList addedComponent = new ArrayList();
-        ListIterator newIterator = newComponents.listIterator();
+        List<ISchemaElement> removedComponent = new ArrayList<>(oldComponents);
+        List<ISchemaElement> addedComponent = new ArrayList<>();
+        ListIterator<ITarget> newIterator = newComponents.listIterator();
         ITarget current = null;
         while (newIterator.hasNext()) {
-            current = (ITarget) newIterator.next();
+            current = newIterator.next();
             if (!removedComponent.contains(current)) { // Old list didn't know this Target, so this must be new
                 addedComponent.add(current);
             } else {
@@ -2090,7 +2094,7 @@ class CacheEntry {
         }
 
         // Add references to added components
-        ListIterator addedIterator = addedComponent.listIterator();
+        ListIterator<ISchemaElement> addedIterator = addedComponent.listIterator();
         ITarget addedTarget = null;
         while (addedIterator.hasNext()) {
             addedTarget = (ITarget) addedIterator.next();
@@ -2098,7 +2102,7 @@ class CacheEntry {
                 if (addedTarget.equals(schemaElementCacheEntry.getSchemaElement())) {
                     // Now we need to get all observations for this (ITargetContaining) target
                     // in order to add them also to the addedTarget
-                    List observation = this.getReferedElements(target);
+                    List<ISchemaElement> observation = this.getReferedElements(target);
                     schemaElementCacheEntry.addReferencedElements(observation);
                     break; // Continue with while loop
                 }
@@ -2106,7 +2110,7 @@ class CacheEntry {
         }
 
         // Remove references from removed added components
-        ListIterator removedterator = removedComponent.listIterator();
+        ListIterator<ISchemaElement> removedterator = removedComponent.listIterator();
         ITarget removedTarget = null;
         while (removedterator.hasNext()) {
             removedTarget = (ITarget) removedterator.next();
@@ -2114,7 +2118,7 @@ class CacheEntry {
                 if (removedTarget.equals(schemaElementCacheEntry.getSchemaElement())) {
                     // Now we need to get all observations for this (ITargetContaining) target
                     // in order to remove them also from the removedTarget
-                    List observation = this.getReferedElements(target);
+                    List<ISchemaElement> observation = this.getReferedElements(target);
                     schemaElementCacheEntry.removeReferencedElements(observation);
                     break; // Continue with while loop
                 }
@@ -2328,11 +2332,11 @@ class CacheEntry {
             for (int i = 0; i < this.session.length; i++) {
                 // Remove coObservers (if available)
                 if ((session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())) {
-                    List coObservers = session.getCoObservers();
-                    ListIterator iterator = coObservers.listIterator();
+                    List<IObserver> coObservers = session.getCoObservers();
+                    ListIterator<IObserver> iterator = coObservers.listIterator();
                     IObserver current = null;
                     while (iterator.hasNext()) { // Iterate over all coObservers
-                        current = (IObserver) iterator.next();
+                        current = iterator.next();
                         for (int x = 0; i < this.coObserver.length; x++) { // Iterate over all coObservers
                             if (this.coObserver[x].getSchemaElement().equals(current)) {
                                 // Remove Observation from coObservers refered elements
@@ -2372,12 +2376,12 @@ class CacheEntry {
                     // If the current target is a TargetContaining target, we need to remove also
                     // the observation references from the containing targets
                     if (elementCacheEntry.getSchemaElement() instanceof ITargetContaining) {
-                        List containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
+                        List<ITarget> containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
                                 .getComponentTargets(this.getTargets());
-                        ListIterator listIterator = containingTargets.listIterator();
+                        ListIterator<ITarget> listIterator = containingTargets.listIterator();
                         ITarget ct = null;
                         while (listIterator.hasNext()) {
-                            ct = (ITarget) listIterator.next();
+                            ct = listIterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.target) {
                                 if (schemaElementCacheEntry.getSchemaElement().equals(ct)) { // Found a depending target
                                     schemaElementCacheEntry.removeReferencedElement(observation);
@@ -2428,11 +2432,11 @@ class CacheEntry {
                     }
                 }
                 // Check dependencies in session elements
-                List coObs = null;
+                List<IObserver> coObs = null;
                 for (SchemaElementCacheEntry schemaElementCacheEntry : this.session) {
                     coObs = ((ISession) schemaElementCacheEntry.getSchemaElement()).getCoObservers();
                     if ((coObs != null) && !(coObs.isEmpty())) {
-                        for (Object coOb : coObs) {
+                        for (IObserver coOb : coObs) {
                             if (observer.equals(coOb)) {
                                 foundDependency = true;
                                 dependencyList.add(schemaElementCacheEntry.getSchemaElement());
@@ -2466,7 +2470,7 @@ class CacheEntry {
 
     public List<ISchemaElement> removeScope(IScope scope) {
 
-        List<ISchemaElement> dependencyList = new ArrayList();
+        List<ISchemaElement> dependencyList = new ArrayList<>();
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.scope.length - 1];
         boolean foundDependency = false;
@@ -2618,12 +2622,12 @@ class CacheEntry {
                 // the current target cache contains a target that refers to other targets.
                 // -> We need to check those refered Targets too...
                 if (this.target[i].getSchemaElement() instanceof ITargetContaining) {
-                    List containingTargets = ((ITargetContaining) this.target[i].getSchemaElement())
+                    List<ITarget> containingTargets = ((ITargetContaining) this.target[i].getSchemaElement())
                             .getComponentTargets(this.getTargets());
-                    ListIterator listIterator = containingTargets.listIterator();
+                    ListIterator<ITarget> listIterator = containingTargets.listIterator();
                     ITarget ct = null;
                     while (listIterator.hasNext()) {
-                        ct = (ITarget) listIterator.next();
+                        ct = listIterator.next();
                         if (ct.equals(target)) {
                             foundDependency = true;
                             dependencyList.add(this.target[i].getSchemaElement());
@@ -2654,7 +2658,7 @@ class CacheEntry {
             // in updateObservation or
             // deleteObservation)
             // So we only need to do some houseKeeping here and keep the cache Array clean
-            ArrayList tcList = new ArrayList(Arrays.asList(this.targetContaining));
+            List<SchemaElementCacheEntry> tcList = new ArrayList<>(Arrays.asList(this.targetContaining));
             for (SchemaElementCacheEntry schemaElementCacheEntry : this.targetContaining) {
                 if (target.equals(schemaElementCacheEntry.getSchemaElement())) {
                     tcList.remove(schemaElementCacheEntry);
@@ -2822,11 +2826,11 @@ class CacheEntry {
 
                     // Add coObservers (if available)
                     if ((s.getCoObservers() != null) && !(s.getCoObservers().isEmpty())) {
-                        List coObservers = s.getCoObservers();
-                        ListIterator iterator = coObservers.listIterator();
+                        List<IObserver> coObservers = s.getCoObservers();
+                        ListIterator<IObserver> iterator = coObservers.listIterator();
                         IObserver current = null;
                         while (iterator.hasNext()) { // Iterate over all coObservers
-                            current = (IObserver) iterator.next();
+                            current =  iterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterate over
                                                                                                       // all coObservers
                                 if (schemaElementCacheEntry.getSchemaElement().equals(current)) {
@@ -2884,13 +2888,13 @@ class CacheEntry {
                     elementCacheEntry.addReferencedElement(observation);
 
                     if (t instanceof ITargetContaining) { // This Target refers to additional other targets
-                        List containedTargets = ((ITargetContaining) t).getComponentTargets(this.getTargets());
-                        ListIterator iterator = containedTargets.listIterator();
+                        List<ITarget> containedTargets = ((ITargetContaining) t).getComponentTargets(this.getTargets());
+                        ListIterator<ITarget> iterator = containedTargets.listIterator();
                         ITarget ct = null;
                         // Go over all dependent targets and add a reference to this observation
                         // ! The observation itself won't get a reference to the additional Target !
                         while (iterator.hasNext()) {
-                            ct = (ITarget) iterator.next();
+                            ct =  iterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.target) {
                                 if (schemaElementCacheEntry.getSchemaElement().equals(ct)) {
                                     schemaElementCacheEntry.addReferencedElement(observation);
