@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -23,6 +25,7 @@ import de.lehmannet.om.IImager;
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
@@ -34,8 +37,9 @@ import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
+import de.lehmannet.om.util.SchemaLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
-
+import de.lehmannet.om.OALException;
 public final class ObservationManagerMenuFile {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);
@@ -762,6 +766,155 @@ public final class ObservationManagerMenuFile {
         if (LOGGER.isDebugEnabled()) {
             System.out.println("Loaded: " + new Date());
             System.out.println(SystemInfo.printMemoryUsage());
+        }
+
+    }
+    
+
+    public void importXML(boolean changed) {
+
+        // Let user select the XML file
+        JFileChooser chooser = new JFileChooser();
+        FileFilter xmlFileFilter = new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return (f.getName().endsWith(".xml")) || (f.isDirectory());
+            }
+
+            @Override
+            public String getDescription() {
+                return "OAL Files";
+            }
+        };
+        chooser.setFileFilter(xmlFileFilter);
+        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+        if ((last != null) && !("".equals(last.trim()))) {
+            File dir = new File(last);
+            if (dir.exists()) {
+                chooser.setCurrentDirectory(dir);
+            }
+        }
+        chooser.setMultiSelectionEnabled(true);
+        int returnVal = chooser.showOpenDialog(this.observationManager);
+        if (returnVal != JFileChooser.APPROVE_OPTION) { // User canceled import
+            return;
+        }
+        File file = chooser.getSelectedFile();
+
+        // Check if a file was selected
+        if (file == null) {
+            return;
+        }
+
+        // Create and start the worker thread to do the actual import
+        class ImportWorker implements Worker {
+
+            private File importFile = null;
+            private File schemaFile = null;
+            private ObservationManager om = null;
+
+            private String message = null;
+            private byte returnValue = Worker.RETURN_TYPE_OK;
+
+            ImportWorker(File importFile, File schemaFile, ObservationManager om) {
+
+                this.importFile = importFile;
+                this.schemaFile = schemaFile;
+                this.om = om;
+
+            }
+
+            @Override
+            public void run() {
+
+                // Load import file
+                SchemaLoader importer = new SchemaLoader();
+                try {
+                    importer.load(importFile, schemaFile);
+                } catch (OALException se) {
+                    returnValue = Worker.RETURN_TYPE_ERROR;
+                    message = ObservationManager.bundle.getString("error.import.xmlFile");
+                    return;
+                }
+
+                // Get imported elements (without observations)
+                ArrayList importedElements = new ArrayList();
+                importedElements.addAll(Arrays.asList(importer.getEyepieces()));
+                importedElements.addAll(Arrays.asList(importer.getFilters()));
+                importedElements.addAll(Arrays.asList(importer.getImagers()));
+                importedElements.addAll(Arrays.asList(importer.getObservers()));
+                importedElements.addAll(Arrays.asList(importer.getScopes()));
+                importedElements.addAll(Arrays.asList(importer.getSessions()));
+                importedElements.addAll(Arrays.asList(importer.getSites()));
+                importedElements.addAll(Arrays.asList(importer.getTargets()));
+                importedElements.addAll(Arrays.asList(importer.getLenses()));
+
+                // Add imported elements to current file
+                for (Object importedElement : importedElements) {
+                    this.om.getXmlCache().addSchemaElement((ISchemaElement) importedElement);
+                }
+
+                // Finally add observations
+                // If we add the observations before all other elements are
+                // known to the XMLLoader
+                // the references are not set correctly, as only adding
+                // observations, checks dependencies
+                // and adds references in the XMLLoader.
+                IObservation[] obs = importer.getObservations();
+                if ((obs != null) && (obs.length > 0)) {
+                    for (IObservation ob : obs) {
+                        this.om.getXmlCache().addSchemaElement(ob);
+                    }
+                }
+
+                // Refresh UI
+                this.om.updateLeft(); // Refreshes tree (without that, the new
+                                      // element won't appear on UI)
+
+                // Set success message
+                message = ObservationManager.bundle.getString("ok.import.xmlFile");
+
+            }
+
+            @Override
+            public String getReturnMessage() {
+
+                return message;
+
+            }
+
+            @Override
+            public byte getReturnType() {
+
+                return returnValue;
+
+            }
+
+        }
+
+    
+        ImportWorker calculation = new ImportWorker(file, this.observationManager.getSchemaPath(), this.observationManager);
+
+        // Change cursor, as import thread is about to start
+        Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
+        this.observationManager.setCursor(hourglassCursor);
+
+        new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
+                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
+
+        // Change cursor back
+        Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        this.observationManager.setCursor(normalCursor);
+
+        if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
+            if (calculation.getReturnMessage() != null) {
+                this.createInfo(calculation.getReturnMessage());
+            }
+
+            // Make sure change flag is set
+            this.setChanged(true);
+        } else {
+            this.createWarning(calculation.getReturnMessage());
         }
 
     }

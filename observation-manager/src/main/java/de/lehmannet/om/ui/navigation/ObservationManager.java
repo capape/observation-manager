@@ -83,7 +83,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
-import de.lehmannet.om.OALException;
+
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
@@ -119,7 +119,7 @@ import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
-import de.lehmannet.om.util.SchemaLoader;
+
 
 public class ObservationManager extends JFrame implements ActionListener {
 
@@ -272,7 +272,8 @@ public class ObservationManager extends JFrame implements ActionListener {
 
         this.schemaPath = new File(this.installDir.getPathForFile("schema"));
         if (!this.schemaPath.exists()) {
-            System.err.println("--- Comast schema path not found: " + this.schemaPath + "\n. Need to quit...");
+            LOGGER.error("Comast schema path not found:{} \n.", this.schemaPath);
+            LOGGER.error("Need to quit...");
         }
         // Initialize Caches and loaders
         this.xmlCache = new XMLFileLoader(this.schemaPath);
@@ -403,7 +404,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.saveFileAs)) {
                 this.menuFile.saveFileAs(this.changed);
             } else if (source.equals(this.importXML)) {
-                this.importXML();
+                this.menuFile.importXML(this.changed);
             } else if (source.equals(this.exportHTML)) {
                 this.createHTML();
             } else if (source.equals(this.nightVision)) {
@@ -2269,153 +2270,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void importXML() {
-
-        // Let user select the XML file
-        JFileChooser chooser = new JFileChooser();
-        FileFilter xmlFileFilter = new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return (f.getName().endsWith(".xml")) || (f.isDirectory());
-            }
-
-            @Override
-            public String getDescription() {
-                return "OAL Files";
-            }
-        };
-        chooser.setFileFilter(xmlFileFilter);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
-        if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
-            if (dir.exists()) {
-                chooser.setCurrentDirectory(dir);
-            }
-        }
-        chooser.setMultiSelectionEnabled(true);
-        int returnVal = chooser.showOpenDialog(this);
-        if (returnVal != JFileChooser.APPROVE_OPTION) { // User canceled import
-            return;
-        }
-        File file = chooser.getSelectedFile();
-
-        // Check if a file was selected
-        if (file == null) {
-            return;
-        }
-
-        // Create and start the worker thread to do the actual import
-        class ImportWorker implements Worker {
-
-            private File importFile = null;
-            private File schemaFile = null;
-            private ObservationManager om = null;
-
-            private String message = null;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
-
-            ImportWorker(File importFile, File schemaFile, ObservationManager om) {
-
-                this.importFile = importFile;
-                this.schemaFile = schemaFile;
-                this.om = om;
-
-            }
-
-            @Override
-            public void run() {
-
-                // Load import file
-                SchemaLoader importer = new SchemaLoader();
-                try {
-                    importer.load(importFile, schemaFile);
-                } catch (OALException se) {
-                    returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.import.xmlFile");
-                    return;
-                }
-
-                // Get imported elements (without observations)
-                ArrayList importedElements = new ArrayList();
-                importedElements.addAll(Arrays.asList(importer.getEyepieces()));
-                importedElements.addAll(Arrays.asList(importer.getFilters()));
-                importedElements.addAll(Arrays.asList(importer.getImagers()));
-                importedElements.addAll(Arrays.asList(importer.getObservers()));
-                importedElements.addAll(Arrays.asList(importer.getScopes()));
-                importedElements.addAll(Arrays.asList(importer.getSessions()));
-                importedElements.addAll(Arrays.asList(importer.getSites()));
-                importedElements.addAll(Arrays.asList(importer.getTargets()));
-                importedElements.addAll(Arrays.asList(importer.getLenses()));
-
-                // Add imported elements to current file
-                for (Object importedElement : importedElements) {
-                    this.om.getXmlCache().addSchemaElement((ISchemaElement) importedElement);
-                }
-
-                // Finally add observations
-                // If we add the observations before all other elements are
-                // known to the XMLLoader
-                // the references are not set correctly, as only adding
-                // observations, checks dependencies
-                // and adds references in the XMLLoader.
-                IObservation[] obs = importer.getObservations();
-                if ((obs != null) && (obs.length > 0)) {
-                    for (IObservation ob : obs) {
-                        this.om.getXmlCache().addSchemaElement(ob);
-                    }
-                }
-
-                // Refresh UI
-                this.om.updateLeft(); // Refreshes tree (without that, the new
-                                      // element won't appear on UI)
-
-                // Set success message
-                message = ObservationManager.bundle.getString("ok.import.xmlFile");
-
-            }
-
-            @Override
-            public String getReturnMessage() {
-
-                return message;
-
-            }
-
-            @Override
-            public byte getReturnType() {
-
-                return returnValue;
-
-            }
-
-        }
-
-        ImportWorker calculation = new ImportWorker(file, this.schemaPath, this);
-
-        // Change cursor, as import thread is about to start
-        Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
-        setCursor(hourglassCursor);
-
-        new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
-
-        // Change cursor back
-        Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
-        setCursor(normalCursor);
-
-        if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-            if (calculation.getReturnMessage() != null) {
-                this.createInfo(calculation.getReturnMessage());
-            }
-
-            // Make sure change flag is set
-            this.setChanged(true);
-        } else {
-            this.createWarning(calculation.getReturnMessage());
-        }
-
-    }
-
     private void loadProjectFiles() {
 
         // Create an own thread that waits for the catalog loader
@@ -2589,6 +2443,14 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     public Map<String, String> getUIDataCache() {
         return uiDataCache;
+    }
+
+    public File getSchemaPath() {
+        return schemaPath;
+    }
+
+    public void setSchemaPath(File schemaPath) {
+        this.schemaPath = schemaPath;
     }
 
 }
