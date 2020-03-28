@@ -393,12 +393,6 @@ public class ObservationManager extends JFrame implements ActionListener {
                 this.menuFile.importXML(this.changed);
             } else if (source.equals(this.exportHTML)) {
                 this.menuFile.createHTML();
-            } else if (source.equals(this.nightVision)) {
-                if (this.nightVision.isSelected()) {
-                    this.menuExtras.enableNightVisionTheme(true);
-                } else {
-                    this.menuExtras.enableNightVisionTheme(false);
-                }
             } else if (source.equals(this.createObservation)) {
                 this.menuData.createNewObservation();
             } else if (source.equals(this.createObserver)) {
@@ -422,12 +416,18 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.equipmentAvailability)) {
                 UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this);
                 this.setChanged(uqd.changedElements());
-            } else if (source.equals(this.showStatistics)) {
+            }  else if (source.equals(this.nightVision)) {
+                if (this.nightVision.isSelected()) {
+                    this.menuExtras.enableNightVisionTheme(true);
+                } else {
+                    this.menuExtras.enableNightVisionTheme(false);
+                }
+            }else if (source.equals(this.showStatistics)) {
                 this.menuExtras.showStatistics();
             } else if (source.equals(this.preferences)) {
                 this.menuExtras.showPreferencesDialog();
             } else if (source.equals(this.didYouKnow)) {
-                this.showDidYouKnow();
+                this.menuExtras.showDidYouKnow();
             } else if (source.equals(this.logMenuEntry)) {
                 this.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
@@ -535,11 +535,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     }
 
 
-    private void showDidYouKnow() {
-
-        new DidYouKnowDialog(this);
-
-    }
+  
 
     private void showLogDialog() {
 
