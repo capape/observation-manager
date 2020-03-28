@@ -18,9 +18,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -46,17 +44,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.MetalTheme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +64,6 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
-
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
@@ -100,7 +91,6 @@ import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.update.UpdateChecker;
-
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.SplashScreen;
@@ -220,6 +210,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private final ObservationManagerMenuFile menuFile;
     private final ObservationManagerMenuData menuData;
+    private final ObservationManagerMenuExtras menuExtras;
 
     private File schemaPath;
 
@@ -276,6 +267,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
 
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
@@ -318,7 +310,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Set nightvision theme
         if (nightVisionOnStartup) {
             this.nightVision.setSelected(true);
-            this.enableNightVisionTheme(true);
+            this.menuExtras.enableNightVisionTheme(true);
         }
 
         this.item = this.initItemView();
@@ -405,9 +397,9 @@ public class ObservationManager extends JFrame implements ActionListener {
                 this.menuFile.createHTML();
             } else if (source.equals(this.nightVision)) {
                 if (this.nightVision.isSelected()) {
-                    this.enableNightVisionTheme(true);
+                    this.menuExtras.enableNightVisionTheme(true);
                 } else {
-                    this.enableNightVisionTheme(false);
+                    this.menuExtras.enableNightVisionTheme(false);
                 }
             } else if (source.equals(this.createObservation)) {
                 this.menuData.createNewObservation();
@@ -1793,109 +1785,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void enableNightVisionTheme(boolean enable) {
-
-        if (enable) { // Turn on night vision theme
-
-            try {
-                // Check for Metal LAF
-                LookAndFeelInfo[] laf = UIManager.getInstalledLookAndFeels();
-                boolean found = false;
-                for (LookAndFeelInfo lookAndFeelInfo : laf) {
-                    if ("metal".equals(lookAndFeelInfo.getName().toLowerCase())) {
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    System.err.println(ObservationManager.bundle.getString("error.noMetalLAF"));
-                    this.createWarning(ObservationManager.bundle.getString("error.noNightVision"));
-                    return;
-                }
-
-                // Try to load MetalLookAndFeel
-                MetalLookAndFeel.setCurrentTheme(new NightVisionTheme());
-                UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-                SwingUtilities.updateComponentTreeUI(this);
-
-                // Make all frames and dialogs use the LookAndFeel
-
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                JDialog.setDefaultLookAndFeelDecorated(true);
-                this.dispose();
-                this.setUndecorated(true);
-                this.addNotify();
-                this.createBufferStrategy(2);
-                this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-                this.update(super.getGraphics());
-                this.configuration.setConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(true));
-                this.setVisible(true);
-
-            } catch (Exception e) {
-                System.err.println(e);
-                this.createWarning(ObservationManager.bundle.getString("error.noNightVision"));
-            }
-
-        } else { // Turn off night vision theme
-            try {
-
-                // Try to load (default) OceanThema (available since Java 1.5)
-                // with relfection
-                Class themeClass = null;
-                try {
-                    themeClass = ClassLoader.getSystemClassLoader().loadClass("javax.swing.plaf.metal.OceanTheme");
-                } catch (ClassNotFoundException cnfe) {
-                    // Can do nothing in here...defaultMetalTheme will be
-                    // loaded...
-                }
-
-                boolean problem = true;
-                if (themeClass != null) { // Check if load OceanTheme succeeded
-                    Constructor[] constructors = themeClass.getConstructors();
-                    if (constructors.length > 0) {
-                        Class[] parameters = null;
-                        for (Constructor constructor : constructors) {
-                            parameters = constructor.getParameterTypes();
-                            if (parameters.length == 0) { // Use default
-                                // constructor and
-                                // set theme
-                                MetalTheme theme = (MetalTheme) constructor.newInstance(null);
-                                MetalLookAndFeel.setCurrentTheme(theme);
-                                problem = false; // No problem -> no need to
-                                // load DefaultMetalTheme as
-                                // we can use OceanTheme
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (problem) { // Ocean Theme cannot be used for whatever reason
-                    MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
-                }
-
-                UIManager.setLookAndFeel(new MetalLookAndFeel());
-                SwingUtilities.updateComponentTreeUI(this);
-
-                // Make all frames and dialogs use the LookAndFeel
-                JFrame.setDefaultLookAndFeelDecorated(false);
-                JDialog.setDefaultLookAndFeelDecorated(false);
-                this.dispose();
-                this.setUndecorated(false);
-                this.addNotify();
-                this.createBufferStrategy(2);
-                this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-                this.update(super.getGraphics());
-                this.configuration.setConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(false));
-                this.setVisible(true);
-
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-        }
-
-    }
+   
 
     private void loadProjectFiles() {
 
