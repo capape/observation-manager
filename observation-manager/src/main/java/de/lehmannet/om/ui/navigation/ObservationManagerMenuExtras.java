@@ -15,6 +15,7 @@ import javax.swing.plaf.metal.MetalTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -157,6 +158,12 @@ public final class ObservationManagerMenuExtras {
         }
 
         new StatisticsDialog(this.observationManager);
+
+    }
+
+    public void showPreferencesDialog() {
+
+        new PreferencesDialog(this.observationManager, this.observationManager.getExtensionLoader().getPreferencesTabs());
 
     }
 

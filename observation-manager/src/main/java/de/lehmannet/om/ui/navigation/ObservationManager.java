@@ -86,7 +86,6 @@ import de.lehmannet.om.ui.navigation.observation.utils.ArgumentName;
 import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
-import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
 import de.lehmannet.om.ui.update.UpdateChecker;
@@ -426,7 +425,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.showStatistics)) {
                 this.menuExtras.showStatistics();
             } else if (source.equals(this.preferences)) {
-                this.showPreferencesDialog();
+                this.menuExtras.showPreferencesDialog();
             } else if (source.equals(this.didYouKnow)) {
                 this.showDidYouKnow();
             } else if (source.equals(this.logMenuEntry)) {
@@ -535,11 +534,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void showPreferencesDialog() {
-
-        new PreferencesDialog(this, this.extLoader.getPreferencesTabs());
-
-    }
 
     private void showDidYouKnow() {
 
