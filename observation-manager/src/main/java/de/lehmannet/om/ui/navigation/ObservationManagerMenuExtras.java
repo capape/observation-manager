@@ -15,6 +15,7 @@ import javax.swing.plaf.metal.MetalTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
@@ -142,4 +143,21 @@ public final class ObservationManagerMenuExtras {
         }
 
     }
+
+    public void showStatistics() {
+
+        if (this.observationManager.getXmlCache().getObservations().length == 0) {
+            this.observationManager.createWarning(ObservationManager.bundle.getString("error.noStatisticsData"));
+            return;
+        }
+
+        if (this.observationManager.getExtensionLoader().getExtensions().isEmpty()) {
+            this.observationManager.createInfo(ObservationManager.bundle.getString("info.noCatalogsInstalled"));
+            return;
+        }
+
+        new StatisticsDialog(this.observationManager);
+
+    }
+
 }

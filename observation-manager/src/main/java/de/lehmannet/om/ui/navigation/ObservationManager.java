@@ -89,7 +89,6 @@ import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
-import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
@@ -292,11 +291,11 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Set icon
         super.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
 
-        LOGGER.info("--- Observation Manager {} starting up...", VERSION);
+        LOGGER.info("Observation Manager {} starting up...", VERSION);
 
         // Write Java version into log
-        LOGGER.info("--- Java:\t {} {} , " + System.getProperty("java.vendor"), System.getProperty("java.version"));
-        LOGGER.info("--- OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
+        LOGGER.info("Java:\t {} {}  " , System.getProperty("java.vendor"), System.getProperty("java.version"));
+        LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
         // this.loader = new SchemaUILoader(this);
@@ -425,7 +424,7 @@ public class ObservationManager extends JFrame implements ActionListener {
                 UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this);
                 this.setChanged(uqd.changedElements());
             } else if (source.equals(this.showStatistics)) {
-                this.showStatistics();
+                this.menuExtras.showStatistics();
             } else if (source.equals(this.preferences)) {
                 this.showPreferencesDialog();
             } else if (source.equals(this.didYouKnow)) {
@@ -490,22 +489,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void showStatistics() {
-
-        if (this.getXmlCache().getObservations().length == 0) {
-            this.createWarning(ObservationManager.bundle.getString("error.noStatisticsData"));
-            return;
-        }
-
-        if (this.extLoader.getExtensions().isEmpty()) {
-            this.createInfo(ObservationManager.bundle.getString("info.noCatalogsInstalled"));
-            return;
-        }
-
-        new StatisticsDialog(this);
-
-    }
-
+    
     private void showExtensionInfo() {
 
         if (this.extLoader.getExtensions().isEmpty()) {
