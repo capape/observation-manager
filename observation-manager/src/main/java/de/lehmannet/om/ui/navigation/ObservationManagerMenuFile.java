@@ -5,25 +5,15 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
 import javax.swing.filechooser.FileFilter;
-import javax.xml.transform.Templates;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +29,15 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.OALException;
 import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
-
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
-import de.lehmannet.om.util.SchemaLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
-import de.lehmannet.om.OALException;
-
-import org.w3c.dom.Document;
+import de.lehmannet.om.util.SchemaLoader;
 public final class ObservationManagerMenuFile {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);

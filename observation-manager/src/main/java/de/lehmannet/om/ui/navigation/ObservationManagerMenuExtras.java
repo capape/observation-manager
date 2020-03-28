@@ -20,6 +20,8 @@ import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
+import de.lehmannet.om.ui.update.UpdateChecker;
+import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
@@ -185,5 +187,33 @@ public final class ObservationManagerMenuExtras {
         new LogDialog(this.observationManager, this.logFile);
 
     }
+
+    public void checkUpdates() {
+        UpdateChecker checker = this.checkForUpdates();
+        if (checker.isUpdateAvailable()) {
+            new UpdateInfoDialog(this.observationManager, checker);
+
+        } else { // Something went wrong
+            this.observationManager.createInfo(ObservationManager.bundle.getString("updates.check.noAvailable"));
+
+        }
+    }
+
+    private UpdateChecker checkForUpdates() {
+
+        // The updateChecker
+        UpdateChecker updateChecker = new UpdateChecker(this.observationManager);
+
+        if (true) {
+            updateChecker.run();
+        } else {
+            Thread updateThread = new Thread(updateChecker, "Check for Updates");
+            updateThread.start();
+        }
+
+        return updateChecker;
+
+    }
+
 
 }

@@ -66,12 +66,10 @@ import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
-import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
 import de.lehmannet.om.ui.dialog.FilterDialog;
 import de.lehmannet.om.ui.dialog.LensDialog;
-import de.lehmannet.om.ui.dialog.LogDialog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ObservationDialog;
 import de.lehmannet.om.ui.dialog.ObserverDialog;
@@ -88,8 +86,6 @@ import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
-import de.lehmannet.om.ui.update.UpdateChecker;
-import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.Worker;
@@ -207,6 +203,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     private final ObservationManagerMenuFile menuFile;
     private final ObservationManagerMenuData menuData;
     private final ObservationManagerMenuExtras menuExtras;
+    private final ObservationManagerMenuHelp menuHelp;
 
     private File schemaPath;
 
@@ -264,6 +261,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
+        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.xmlCache, this);
 
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
@@ -354,14 +352,8 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Check for updates
         if (Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "false"))) {
-            UpdateChecker updateChecker = this.checkForUpdates();
+             this.menuExtras.checkUpdates();
 
-            if (updateChecker.isUpdateAvailable()) {
-                new UpdateInfoDialog(this, updateChecker);
-            } else {
-                LOGGER.info("Checked for updates: No updates found.");
-
-            }
         }
     }
 
@@ -429,16 +421,9 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.logMenuEntry)) {
                 this.menuExtras.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
-                UpdateChecker checker = this.checkForUpdates();
-                if (checker.isUpdateAvailable()) {
-                    new UpdateInfoDialog(this, checker);
-
-                } else { // Something went wrong
-                    this.createInfo(ObservationManager.bundle.getString("updates.check.noAvailable"));
-
-                }
+               this.menuExtras.checkUpdates();
             } else if (source.equals(this.aboutInfo)) {
-                this.showInfo();
+                this.menuHelp.showInfo();
             } else if (source.equals(this.extensionInfo)) {
                 this.showExtensionInfo();
             } else if (source.equals(this.installExtension)) {
@@ -476,16 +461,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    // --------------
-    // Public Methods ---------------------------------------------------------
-    // --------------
-
-    private void showInfo() {
-
-        new AboutDialog(this);
-
-    }
-
+    
     
     private void showExtensionInfo() {
 
@@ -873,22 +849,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private UpdateChecker checkForUpdates() {
-
-        // The updateChecker
-        UpdateChecker updateChecker = new UpdateChecker(this);
-
-        if (true) {
-            updateChecker.run();
-        } else {
-            Thread updateThread = new Thread(updateChecker, "Check for Updates");
-            updateThread.start();
-        }
-
-        return updateChecker;
-
-    }
-
+    
     /*
      * public void updateInstallation(List updateEntries) {
      *
