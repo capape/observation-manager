@@ -266,7 +266,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
+        super.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
                 null);
 
     }
@@ -393,7 +393,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
+        super.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
                 getXSLFile());
 
     }

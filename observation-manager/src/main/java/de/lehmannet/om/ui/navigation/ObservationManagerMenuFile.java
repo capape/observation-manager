@@ -5,16 +5,25 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import javax.swing.filechooser.FileFilter;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,24 +49,29 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.SchemaLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
 import de.lehmannet.om.OALException;
+
+import org.w3c.dom.Document;
 public final class ObservationManagerMenuFile {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);
 
-    private XMLFileLoader xmlCache = null;
+    private final XMLFileLoader xmlCache;
     private final Configuration configuration;
     private final ObservationManager observationManager;
+    private final ObservationManagerHtmlHelper htmlHelper;
     
 
     public ObservationManagerMenuFile(
         Configuration configuration,
         XMLFileLoader xmlCache,
-        ObservationManager om) {
+        ObservationManager om,
+        ObservationManagerHtmlHelper htmlHelper) {
        
         // Load configuration
         this.configuration = configuration; 
         this.xmlCache = xmlCache;
         this.observationManager = om;
+        this.htmlHelper = htmlHelper;
     }
 
     public int saveBeforeExit( boolean changed) {
@@ -919,4 +933,14 @@ public final class ObservationManagerMenuFile {
 
     }
 
+
+    public void createHTML() {
+
+        this.htmlHelper.createHTML(null, null, null);
+
+    }
+
+    
+
+    
 }
