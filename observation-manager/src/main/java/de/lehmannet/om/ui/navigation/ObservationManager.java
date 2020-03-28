@@ -84,7 +84,6 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-
 public class ObservationManager extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = -9092637724048070172L;
@@ -222,7 +221,6 @@ public class ObservationManager extends JFrame implements ActionListener {
         return this.htmlHelper;
     }
 
-
     // -----------
     // Constructor ------------------------------------------------------------
     // -----------
@@ -282,7 +280,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         LOGGER.info("Observation Manager {} starting up...", VERSION);
 
         // Write Java version into log
-        LOGGER.info("Java:\t {} {}  " , System.getProperty("java.vendor"), System.getProperty("java.version"));
+        LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
@@ -345,7 +343,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Check for updates
         if (Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "false"))) {
-             this.menuExtras.checkUpdates();
+            this.menuExtras.checkUpdates();
 
         }
     }
@@ -399,13 +397,13 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.equipmentAvailability)) {
                 UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this);
                 this.setChanged(uqd.changedElements());
-            }  else if (source.equals(this.nightVision)) {
+            } else if (source.equals(this.nightVision)) {
                 if (this.nightVision.isSelected()) {
                     this.menuExtras.enableNightVisionTheme(true);
                 } else {
                     this.menuExtras.enableNightVisionTheme(false);
                 }
-            }else if (source.equals(this.showStatistics)) {
+            } else if (source.equals(this.showStatistics)) {
                 this.menuExtras.showStatistics();
             } else if (source.equals(this.preferences)) {
                 this.menuExtras.showPreferencesDialog();
@@ -414,8 +412,8 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.logMenuEntry)) {
                 this.menuExtras.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
-               this.menuExtras.checkUpdates();
-            }  else if (source.equals(this.extensionInfo)) {
+                this.menuExtras.checkUpdates();
+            } else if (source.equals(this.extensionInfo)) {
                 this.menuExtensions.showExtensionInfo();
             } else if (source.equals(this.installExtension)) {
                 this.menuExtensions.installExtension(null);
@@ -454,10 +452,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    
-    
-    
-
     public void reloadLanguage() {
 
         // Load new bundle
@@ -492,9 +486,6 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.tree.updateTree();
 
     }
-
-
-
 
     public void deleteSchemaElement(ISchemaElement element) {
 
@@ -638,7 +629,6 @@ public class ObservationManager extends JFrame implements ActionListener {
         return this.xmlCache;
 
     }
-
 
     public ExtensionLoader getExtensionLoader() {
 
@@ -837,234 +827,6 @@ public class ObservationManager extends JFrame implements ActionListener {
         }
 
     }
-
-    
-    /*
-     * public void updateInstallation(List updateEntries) {
-     *
-     * if( updateEntries.isEmpty() ) { return; }
-     *
-     * // Download files into download folder underneath configDir File directory =
-     * new File(this.configuration.getConfigPath(this.configDir) + File.separator +
-     * "download"); if( !directory.exists() ) { directory.mkdir(); }
-     *
-     * // Download files boolean result = this.downloadFiles(updateEntries,
-     * directory);
-     *
-     * if( result == true ) {
-     */// Download was successfull
-
-    // ------------------------------------------------------------------------------------------
-    // Auto. Updater doesn't work, as long as we cannot update Classloaders
-    // during runtime.
-    // Every change in ObservationManager.class would break the autom. update,
-    // as after unzipping
-    // the new version every new call will result in a ClassNotFoundException
-    // Therefore we can only provide semi automatic update at this time.
-    // ------------------------------------------------------------------------------------------
-
-    // Get ObservationManager main file
-    /*
-     * File[] omFiles = directory.listFiles(new FilenameFilter() {
-     *
-     * public boolean accept(File dir, String name) {
-     *
-     * if( (name.endsWith(".zip")) && (name.startsWith("observationManager")) ) {
-     * return true; } return false; }
-     *
-     * });
-     *
-     * // Create ZIP file ZipFile zf = null; try { zf = new ZipFile(omFiles[0]); }
-     * catch( IOException ioe ) { System.err.println("Unable to access zip file: " +
-     * omFiles[0]); }
-     *
-     *
-     * // Check whether we've write access in current installation to all files from
-     * zip file if( this.checkWriteAccess(zf, this.installDir, true) ) {
-     * System.out.println("Start update of Observation Manager");
-     *
-     *
-     * // --- Observation Manager
-     *
-     * // Do actual installation boolean omResult = true; // Initialize with TRUE as
-     * main file might not require update boolean extensionResult = true; //
-     * Initialize with TRUE as no extensions require update if( (omFiles != null) &&
-     * (omFiles.length > 0) ) { omResult = this.updateObservationManager(zf); }
-     *
-     * // Delete OM file if( omResult && omFiles.length > 0 ) { // There was an OM
-     * update System.out.println("Update of Observation Manager successful.");
-     * omFiles[0].delete();
-     *
-     * // Check whether there are also extensions to update if(
-     * this.getDownloadedOMEFiles(directory).length > 0 ) { // Mark the next start
-     * of OM as a "restart" update -> OME should try to autoinstall files
-     * this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART,
-     * "true"); this.createInfo(
-     * "Update of ObservationManager successfull! Restart of Observation Manager required.\nExtensions will be updated automatically during next start of ObservationManager."
-     * ); System.out.println(
-     * "Update extensions during next startup. Shutdown ObservationManager now." );
-     * } else { this.createInfo(
-     * "Update of ObservationManager successfull! Restart of Observation Manager required."
-     * ); }
-     *
-     * this.exit(); } else { // OM update failed System.err.println(
-     * "Update of ObservationManager failed. Please see log for details.");
-     * this.createWarning(
-     * "Update of ObservationManager failed. Please see log for details."); return;
-     * }
-     *
-     *
-     *
-     * // --- Extensions
-     *
-     * // Only install extensions if Observation Manager update was OK File[]
-     * extFiles = this.getDownloadedOMEFiles(directory);
-     *
-     * // Install extensions without prompting for restart if( (extFiles != null) &&
-     * (extFiles.length > 0) ) { extensionResult = this.installExtension(extFiles,
-     * false); }
-     *
-     * if( extensionResult && extFiles.length > 0 ) { // Update was successful
-     * this.createInfo(
-     * "Update of Extensions successfull! Restart of Observation Manager required."
-     * ); System.out.println("Update of Extensions successful.");
-     *
-     * // Delete OME files for(int i=0; i < extFiles.length; i++) {
-     * extFiles[i].delete(); }
-     *
-     * this.exit(); } else { // Update failed
-     * System.err.println("Extension update failed."); this.createInfo(
-     * "Automatic update of Extensions not possible. Please update Extensions manually.\nExtension file(s) downloaded to: "
-     * + directory.getAbsolutePath()); }
-     *
-     * } else { // We don't have all required permissions
-     */
-    // this.createInfo("File(s) downloaded to: " + directory.getAbsolutePath() +
-    // "\nPlease install manually.");
-    // }
-    /*
-     * } else { this.createWarning(
-     * "Problem while retrieving file(s). Please see log for details."); }
-     */
-    // }
-
-
-
-    // ---------------
-    // Private Methods --------------------------------------------------------
-    // ---------------
-
-    // ****************************************************************
-    // Only required for Auto. Updater, which is currently not supported
-    // Intension is here to update the new extensions during restart after
-    // Observation Manager has
-    // been automatically updated.
-    // ****************************************************************
-
-    /*
-     * private void performRestartUpdate() {
-     *
-     * boolean restartUpdate =
-     * Boolean.valueOf(this.configuration.getConfig(ObservationManager
-     * .CONFIG_UPDATE_RESTART)).booleanValue();
-     *
-     * if( restartUpdate ) { System.out.println(
-     * "--- This is a restart update. Perform remaining update steps now...");
-     *
-     * // Remove restart required flag
-     * this.configuration.setConfig(ObservationManager.CONFIG_UPDATE_RESTART, null);
-     */
-    /*
-     * // Check whether we've extensions to install File directory = new
-     * File(this.configuration.getConfigPath(this.configDir) + File.separator +
-     * "download"); File[] omeFiles = this.getDownloadedOMEFiles(directory);
-     *
-     * boolean extensionResult = this.installExtension(omeFiles, false);
-     *
-     * if( extensionResult && omeFiles.length > 0 ) { // Update was successful
-     * this.createInfo(
-     * "Update of Extensions successfull! Restart of Observation Manager required again."
-     * ); System.out.println("Update of Extensions successful.");
-     *
-     * // Delete OME files for(int i=0; i < omeFiles.length; i++) {
-     * omeFiles[i].delete(); }
-     *
-     * // Restart OM this.exit(); } else { // Update failed
-     * System.err.println("Extension updte failed."); this.createInfo(
-     * "Automatic update of Extensions not possible. Please update Extensions manually.\nExtension file(s) downloaded to: "
-     * + directory.getAbsolutePath()); }
-     */
-    /*
-     * }
-     *
-     * }
-     */
-
-    
-
-    // ****************************************************************
-    // Only required for Auto. Update which is currently not supported
-    // ****************************************************************
-
-    /*
-     * private File[] getDownloadedOMEFiles(File directory) {
-     *
-     * // Only install extensions if Observation Manager update was OK File[]
-     * extFiles = new File[] {};
-     *
-     * // Get all extensions we've downloaded extFiles = directory.listFiles(new
-     * FilenameFilter() {
-     *
-     * public boolean accept(File dir, String name) {
-     *
-     * if( name.endsWith(".ome") ) { return true; } return false; } });
-     *
-     * return extFiles;
-     *
-     * }
-     */
-
-    /*
-     * private boolean updateObservationManager(ZipFile zf) {
-     *
-     * Enumeration enumeration = zf.entries(); ZipEntry ze = null;
-     *
-     * // Unpack all the ZIP file entries into install dir while(
-     * enumeration.hasMoreElements() ) { ze = (ZipEntry)enumeration.nextElement();
-     *
-     * InputStream istr = null; try { istr = zf.getInputStream(ze); }
-     * catch(IOException ioe) {
-     * System.err.println("Unable to open input stream from zip file: " + zf +
-     * " for entry: " + ze); return false; } BufferedInputStream bis = new
-     * BufferedInputStream(istr);
-     *
-     * // Get destination file annd remove root Folder // Installation zip will have
-     * /observationManager as root folder. Need to remove that File file =
-     * this.getDestinationFile(ze.getName(), this.getInstallDir(), true); if( file
-     * == null ) { continue; }
-     *
-     * // Create new directories if( ze.isDirectory() ) { if( !file.exists() ) { //
-     * Directory doesn't exist already boolean createDir = false; createDir =
-     * file.mkdir(); if( !createDir ) {
-     * System.err.println("Unable to create directory: " + file); return false; }
-     * else { continue; } } else { continue; } }
-     *
-     * // Update files FileOutputStream fos = null; try { fos = new
-     * FileOutputStream(file); } catch(FileNotFoundException fnfe) {
-     * System.err.println("Unable to create file: " + file + "\n" + fnfe); return
-     * false; } int sz = (int)ze.getSize(); final int N = 1024; byte buf[] = new
-     * byte[N]; int ln = 0; try { while( (sz > 0) // workaround for bug && ((ln =
-     * bis.read(buf, 0, Math.min(N, sz))) != -1) ) { fos.write(buf, 0, ln); sz -=
-     * ln; } bis.close(); fos.flush(); } catch(IOException ioe) {
-     * System.err.println("Unable to write file: " + ze + "\n" + ioe); return false;
-     * }
-     *
-     * }
-     *
-     * return true;
-     *
-     * }
-     */
 
     private void loadConfig() {
 
@@ -1525,10 +1287,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    
-
-   
-
     private void loadProjectFiles() {
 
         // Create an own thread that waits for the catalog loader
@@ -1797,55 +1555,18 @@ class TeeLog extends PrintStream {
 class NightVisionTheme extends DefaultMetalTheme {
 
     // Red shades
-    private final ColorUIResource primary1 = new ColorUIResource(170, 30, 30); // Active
-                                                                               // internal
-                                                                               // window
-                                                                               // borders
-    private final ColorUIResource primary2 = new ColorUIResource(195, 34, 34); // Highlighting
-                                                                               // to
-                                                                               // indicate
-                                                                               // activation
-                                                                               // (for
-                                                                               // example,
-                                                                               // of
-                                                                               // menu
-                                                                               // titles
-                                                                               // and
-                                                                               // menu
-                                                                               // items);
-                                                                               // indication
-                                                                               // of
-                                                                               // keyboard
-                                                                               // focus
-    private final ColorUIResource primary3 = new ColorUIResource(255, 45, 45); // Large
-                                                                               // colored
-                                                                               // areas
-                                                                               // (for
-                                                                               // example,
-                                                                               // the
-                                                                               // active
-                                                                               // title
-                                                                               // bar)
-
+    // Active internal window borders
+    private final ColorUIResource primary1 = new ColorUIResource(170, 30, 30);
+    // Highlighting to indicate activation (for example, of menu titles and menu
+    // items); indication of keyboard focus
+    private final ColorUIResource primary2 = new ColorUIResource(195, 34, 34);
+    // Large colored areas (for example, the active title bar)
+    private final ColorUIResource primary3 = new ColorUIResource(255, 45, 45);
     private final ColorUIResource secondary1 = new ColorUIResource(92, 50, 50);
-    private final ColorUIResource secondary2 = new ColorUIResource(124, 68, 68); // Inactive
-                                                                                 // internal
-                                                                                 // window
-                                                                                 // borders;
-                                                                                 // dimmed
-                                                                                 // button
-                                                                                 // borders
-    private final ColorUIResource secondary3 = new ColorUIResource(181, 99, 99); // Canvas
-                                                                                 // color
-                                                                                 // (that
-                                                                                 // is,
-                                                                                 // normal
-                                                                                 // background
-                                                                                 // color);
-                                                                                 // inactive
-                                                                                 // title
-                                                                                 // bar
-
+    // Inactive internal window borders; dimmed button borders
+    private final ColorUIResource secondary2 = new ColorUIResource(124, 68, 68);
+    // Canvas color (that is, normal background color); inactive title bar
+    private final ColorUIResource secondary3 = new ColorUIResource(181, 99, 99);
     private final ColorUIResource white = new ColorUIResource(255, 175, 175);
 
     @Override
@@ -1854,10 +1575,6 @@ class NightVisionTheme extends DefaultMetalTheme {
         return "Night Vision";
 
     }
-
-    // -----------------
-    // DefaultMetalTheme ------------------------------------------------------
-    // -----------------
 
     @Override
     protected ColorUIResource getPrimary1() {
@@ -1882,30 +1599,22 @@ class NightVisionTheme extends DefaultMetalTheme {
 
     @Override
     protected ColorUIResource getSecondary1() {
-
         return secondary1;
-
     }
 
     @Override
     protected ColorUIResource getSecondary2() {
-
         return secondary2;
-
     }
 
     @Override
     protected ColorUIResource getSecondary3() {
-
         return secondary3;
-
     }
 
     @Override
     protected ColorUIResource getWhite() {
-
         return white;
-
     }
 
 }
