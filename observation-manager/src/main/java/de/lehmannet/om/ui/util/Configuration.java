@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -49,6 +51,8 @@ public class Configuration {
     public String getConfigPath() {
         return this.configPath;
     }
+
+
     private void loadConfiguration(String path) throws IOException {
 
         this.persistence = new Properties();
@@ -111,9 +115,9 @@ public class Configuration {
 
     }
 
-    public Set getConfigKeys() {
+    public Set<String> getConfigKeys() {
 
-        return this.persistence.keySet();
+        return this.persistence.stringPropertyNames();
 
     }
 
@@ -132,6 +136,23 @@ public class Configuration {
         path = path + File.separatorChar + ObservationManager.WORKING_DIR;
 
         return path;
+
+    }
+
+    public void deleteKeysStartingWith(String prefix) {
+
+        List<String> removeKeys = new ArrayList<>();
+        for (String currentKey : this.persistence.stringPropertyNames() ) {
+            if (currentKey.startsWith(prefix)) {
+                removeKeys.add(currentKey);
+            }
+        }
+
+        
+        // Delete all window size information
+        for (String removeKey : removeKeys) {
+            this.persistence.remove(removeKey);
+        }
 
     }
 

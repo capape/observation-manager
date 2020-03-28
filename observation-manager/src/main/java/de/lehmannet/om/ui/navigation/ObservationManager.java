@@ -810,21 +810,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     public void resetWindowSizes() {
 
-        // Get all keys that represent a window size
-        Iterator keyIterator = this.getConfiguration().getConfigKeys().iterator();
-        String currentKey;
-        ArrayList removeKeys = new ArrayList();
-        while (keyIterator.hasNext()) {
-            currentKey = (String) keyIterator.next();
-            if (currentKey.startsWith(OMDialog.DIALOG_SIZE_KEY)) {
-                removeKeys.add(currentKey);
-            }
-        }
-
-        // Delete all window size information
-        for (Object removeKey : removeKeys) {
-            this.getConfiguration().setConfig((String) removeKey, null);
-        }
+        this.configuration.deleteKeysStartingWith(OMDialog.DIALOG_SIZE_KEY);
 
     }
 
