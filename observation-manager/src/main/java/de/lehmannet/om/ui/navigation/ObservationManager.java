@@ -184,8 +184,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     private Configuration configuration;
     private ProjectLoader projectLoader;
 
-    private File logFile;
-
     private String configDir;
 
     private boolean changed = false; // Indicates if changed where made after
@@ -336,7 +334,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")))
 
         {
-            this.showDidYouKnow();
+            this.menuExtras.showDidYouKnow();
         }
 
         // Add shortcut key listener
@@ -429,7 +427,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.didYouKnow)) {
                 this.menuExtras.showDidYouKnow();
             } else if (source.equals(this.logMenuEntry)) {
-                this.showLogDialog();
+                this.menuExtras.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
                 UpdateChecker checker = this.checkForUpdates();
                 if (checker.isUpdateAvailable()) {
@@ -535,13 +533,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     }
 
 
-  
 
-    private void showLogDialog() {
-
-        new LogDialog(this, this.logFile);
-
-    }
 
     public void deleteSchemaElement(ISchemaElement element) {
 
@@ -1855,7 +1847,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ObservationManager.this.showDidYouKnow();
+                ObservationManager.this.menuExtras.showDidYouKnow();
 
             }
         });

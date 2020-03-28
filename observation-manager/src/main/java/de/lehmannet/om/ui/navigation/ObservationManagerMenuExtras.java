@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.navigation;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 
 import javax.swing.JDialog;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
+import de.lehmannet.om.ui.dialog.LogDialog;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.util.Configuration;
@@ -171,6 +173,16 @@ public final class ObservationManagerMenuExtras {
     public void showDidYouKnow() {
 
         new DidYouKnowDialog(this.observationManager);
+
+    }
+
+    private File logFile;
+
+  
+
+    public void showLogDialog() {
+
+        new LogDialog(this.observationManager, this.logFile);
 
     }
 
