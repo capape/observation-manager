@@ -17,10 +17,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -165,12 +163,12 @@ public class ObservationManager extends JFrame implements ActionListener {
     private TableView table;
     private ItemView item;
     private TreeView tree;
-    private ExtensionLoader extLoader;
+    private final ExtensionLoader extLoader;
 
-    private Configuration configuration;
+    private final Configuration configuration;
     private ProjectLoader projectLoader;
 
-    private String configDir;
+    private final String configDir;
 
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
@@ -181,14 +179,14 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private Thread waitForCatalogLoaderThread;
 
-    private boolean debug = false; // Show debug information
+    private final boolean debug = false; // Show debug information
 
-    private InstallDir installDir;
-    private ArgumentsParser argumentsParser;
+    private final InstallDir installDir;
+    private final ArgumentsParser argumentsParser;
 
     // this.installDir = new File(getArgValue(arg));
 
-    private XMLFileLoader xmlCache;
+    private final XMLFileLoader xmlCache;
 
     private final ObservationManagerMenuFile menuFile;
     private final ObservationManagerMenuData menuData;
@@ -198,9 +196,9 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private File schemaPath;
 
-    private Map<String, String> uiDataCache = new HashMap<>();
+    private final Map<String, String> uiDataCache = new HashMap<>();
 
-    private ObservationManagerHtmlHelper htmlHelper;
+    private final ObservationManagerHtmlHelper htmlHelper;
 
     // if ("de".equals(getArgValue(arg))) {
     // Locale.setDefault(Locale.GERMAN);
@@ -225,7 +223,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     // Constructor ------------------------------------------------------------
     // -----------
 
-    private ObservationManager(String[] args) {
+    private ObservationManager(final String[] args) {
 
         // Get install dir and parse arguments
         this.argumentsParser = new ArgumentsParser.Builder(args).build();
@@ -353,10 +351,10 @@ public class ObservationManager extends JFrame implements ActionListener {
     // --------------
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
 
         if (e.getSource() instanceof JMenuItem) {
-            JMenuItem source = (JMenuItem) e.getSource();
+            final JMenuItem source = (JMenuItem) e.getSource();
             if (source.equals(this.exit)) {
                 this.menuFile.exit(this.changed);
             } else if (source.equals(this.newFile)) {
@@ -395,7 +393,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             } else if (source.equals(this.createSession)) {
                 this.menuData.createNewSession();
             } else if (source.equals(this.equipmentAvailability)) {
-                UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this);
+                final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this);
                 this.setChanged(uqd.changedElements());
             } else if (source.equals(this.nightVision)) {
                 if (this.nightVision.isSelected()) {
@@ -429,7 +427,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     // ------
 
     @Override
-    protected void processWindowEvent(WindowEvent e) {
+    protected void processWindowEvent(final WindowEvent e) {
 
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 
@@ -446,7 +444,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     // Main -------------------------------------------------------------------
     // ----
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
         new ObservationManager(args);
 
@@ -487,25 +485,25 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void deleteSchemaElement(ISchemaElement element) {
+    public void deleteSchemaElement(final ISchemaElement element) {
 
         if (element == null) {
             return;
         }
 
         // Confirmation pop-up
-        JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.delete.question"),
+        final JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.delete.question"),
                 JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-        JDialog dialog = pane.createDialog(this, ObservationManager.bundle.getString("info.delete.title"));
+        final JDialog dialog = pane.createDialog(this, ObservationManager.bundle.getString("info.delete.title"));
         dialog.setVisible(true);
-        Object selectedValue = pane.getValue();
+        final Object selectedValue = pane.getValue();
         if ((selectedValue instanceof Integer)) {
             if ((Integer) selectedValue == JOptionPane.NO_OPTION) {
                 return; // don't delete
             }
         }
 
-        List<ISchemaElement> result = this.xmlCache.removeSchemaElement(element);
+        final List<ISchemaElement> result = this.xmlCache.removeSchemaElement(element);
         if (result == null) { // Deletion failed
             if (element instanceof ITarget) {
                 this.createWarning(ObservationManager.bundle.getString("error.deleteTargetFromCatalog"));
@@ -524,13 +522,13 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void loadFiles(String[] files) {
+    public void loadFiles(final String[] files) {
 
         if ((files == null) || (files.length == 0)) {
             return;
         }
 
-        for (String file : files) {
+        for (final String file : files) {
             this.loadFile(file);
         }
 
@@ -549,7 +547,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             System.out.println(SystemInfo.printMemoryUsage());
         }
 
-        Worker calculation = new Worker() {
+        final Worker calculation = new Worker() {
 
             private String message;
             private byte returnValue = Worker.RETURN_TYPE_OK;
@@ -557,7 +555,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             @Override
             public void run() {
 
-                boolean result = ObservationManager.this.xmlCache.loadObservations(file);
+                final boolean result = ObservationManager.this.xmlCache.loadObservations(file);
                 if (!result) {
                     message = ObservationManager.bundle.getString("error.loadXML") + " " + file;
                     returnValue = Worker.RETURN_TYPE_ERROR;
@@ -614,7 +612,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void loadFile(File file) {
+    private void loadFile(final File file) {
 
         if (file == null) {
             return;
@@ -644,7 +642,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     // parentElement can be null (in that case all available observations will
     // be shown)
-    public void updateRight(ISchemaElement element, ISchemaElement parentElement) {
+    public void updateRight(final ISchemaElement element, final ISchemaElement parentElement) {
 
         if (element != null) {
             // calling showObservations on table is sufficient, as this
@@ -695,7 +693,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void updateUI(ISchemaElement element) {
+    public void updateUI(final ISchemaElement element) {
 
         // Update UI
         this.tree.setSelection(element, null); // This is enough...the rest
@@ -704,7 +702,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void update(ISchemaElement element) {
+    public void update(final ISchemaElement element) {
 
         // Update cache
         this.xmlCache.updateSchemaElement(element);
@@ -717,7 +715,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void setChanged(boolean changed) {
+    public void setChanged(final boolean changed) {
 
         if ((changed) // From unchanged to changed
                 && (!this.changed)) {
@@ -759,14 +757,14 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public void createWarning(String message) {
+    public void createWarning(final String message) {
 
         JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.warning"),
                 JOptionPane.WARNING_MESSAGE);
 
     }
 
-    public void createInfo(String message) {
+    public void createInfo(final String message) {
 
         JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.info"),
                 JOptionPane.INFORMATION_MESSAGE);
@@ -797,7 +795,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (this.waitForCatalogLoaderThread.isAlive()) {
             try {
                 this.waitForCatalogLoaderThread.join();
-            } catch (InterruptedException ie) {
+            } catch (final InterruptedException ie) {
                 System.err.println(
                         "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.");
                 return null;
@@ -817,9 +815,10 @@ public class ObservationManager extends JFrame implements ActionListener {
     private void loadConfig() {
 
         // Check if we should load last loaded XML on startup
-        boolean load = Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP));
+        final boolean load = Boolean
+                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP));
         if (load) {
-            String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
+            final String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
             // Check if last file is set
             if ((lastFile != null) && !("".equals(lastFile))) {
                 this.loadFile(new File(lastFile));
@@ -841,7 +840,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Locale.default might be already set by parseArguments
 
         // Try to find value in config
-        String isoKey = this.configuration.getConfig(ObservationManager.CONFIG_UILANGUAGE);
+        final String isoKey = this.configuration.getConfig(ObservationManager.CONFIG_UILANGUAGE);
         if (isoKey != null) {
             Locale.setDefault(new Locale(isoKey, isoKey));
             System.setProperty("user.language", isoKey);
@@ -852,9 +851,9 @@ public class ObservationManager extends JFrame implements ActionListener {
         try {
             ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                     Locale.getDefault());
-        } catch (MissingResourceException mre) { // Unknown VM language (and
-                                                 // language not explicitly
-                                                 // set)
+        } catch (final MissingResourceException mre) { // Unknown VM language (and
+            // language not explicitly
+            // set)
             Locale.setDefault(Locale.ENGLISH);
             ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                     Locale.getDefault());
@@ -864,17 +863,17 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private void setTitle() {
 
-        Class toolkit = Toolkit.getDefaultToolkit().getClass();
+        final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
         if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
                                                                 // correct in
                                                                 // Linux/Gnome3
                                                                 // desktop
             try {
-                Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
+                final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
                 awtAppClassName.setAccessible(true);
                 awtAppClassName.set(null, "Observation Manager - " + ObservationManager.bundle.getString("version")
                         + " " + ObservationManager.VERSION);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 // Cannot do much here
             }
         }
@@ -886,13 +885,13 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private void initMenuBar() {
 
-        String iconDir = this.installDir.getPathForFolder("images");
-        int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final String iconDir = this.installDir.getPathForFolder("images");
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
         this.menuBar = new JMenuBar();
 
         // ----- File Menu
-        JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
+        final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
         fileMenu.setMnemonic('f');
         this.menuBar.add(fileMenu);
 
@@ -954,7 +953,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         fileMenu.add(exit);
 
         // ----- Data Menu
-        JMenu dataMenu = new JMenu(ObservationManager.bundle.getString("menu.data"));
+        final JMenu dataMenu = new JMenu(ObservationManager.bundle.getString("menu.data"));
         dataMenu.setMnemonic('d');
         this.menuBar.add(dataMenu);
 
@@ -1032,7 +1031,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         dataMenu.add(equipmentAvailability);
 
         // ----- Extras Menu
-        JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
+        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
         extraMenu.setMnemonic('e');
         this.menuBar.add(extraMenu);
 
@@ -1081,12 +1080,12 @@ public class ObservationManager extends JFrame implements ActionListener {
         extraMenu.add(updateMenuEntry);
 
         // ----- Extensions Menu
-        JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
+        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
         extensionMenu.setMnemonic('x');
         this.menuBar.add(extensionMenu);
 
-        JMenu[] menus = this.extLoader.getMenus();
-        for (JMenu menu : menus) {
+        final JMenu[] menus = this.extLoader.getMenus();
+        for (final JMenu menu : menus) {
             extensionMenu.add(menu);
         }
 
@@ -1107,7 +1106,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         extensionMenu.add(installExtension);
 
         // ----- About Menu
-        JMenu aboutMenu = new JMenu(ObservationManager.bundle.getString("menu.about"));
+        final JMenu aboutMenu = new JMenu(ObservationManager.bundle.getString("menu.about"));
         aboutMenu.setMnemonic('a');
         this.menuBar.add(aboutMenu);
 
@@ -1146,7 +1145,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (this.splash != null) { // In night mode there is no Splash screen
             try {
                 this.splash.join();
-            } catch (InterruptedException ie) {
+            } catch (final InterruptedException ie) {
                 System.out.println("Waiting for SplashScreen interrupted");
             }
         }
@@ -1158,10 +1157,10 @@ public class ObservationManager extends JFrame implements ActionListener {
     private void setLocationAndSize() {
 
         // Get the size of the screen
-        Dimension maxSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension maxSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Get last size
-        String stringSize = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE,
+        final String stringSize = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE,
                 maxSize.width + "x" + maxSize.height);
         int width = Integer.parseInt(stringSize.substring(0, stringSize.indexOf('x')));
         int height = Integer.parseInt(stringSize.substring(stringSize.indexOf('x') + 1));
@@ -1171,11 +1170,11 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (height > maxSize.height) {
             height = maxSize.height;
         }
-        Dimension size = new Dimension(width, height);
+        final Dimension size = new Dimension(width, height);
         this.setSize(size);
 
         // Location
-        String stringLocation = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_POS);
+        final String stringLocation = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_POS);
         int x = 0;
         int y = 0;
         if (stringLocation != null && !"".equals(stringLocation.trim())) {
@@ -1192,7 +1191,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.setLocation(x, y);
 
         // Check if we're maximized the last time, and if so, maximized again
-        boolean maximized = Boolean.parseBoolean(
+        final boolean maximized = Boolean.parseBoolean(
                 this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(false)));
         if (maximized) {
             this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -1212,8 +1211,8 @@ public class ObservationManager extends JFrame implements ActionListener {
             try {
                 vertical = FloatUtil.parseFloat(sVertical);
                 horizontal = FloatUtil.parseFloat(sHorizontal);
-            } catch (NumberFormatException nfe) { // In case of errors set
-                                                  // default values
+            } catch (final NumberFormatException nfe) { // In case of errors set
+                // default values
                 sVertical = null;
                 sHorizontal = null;
             }
@@ -1235,7 +1234,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private TableView initTableView() {
 
-        TableView table = new TableView(this);
+        final TableView table = new TableView(this);
         // table.setMinimumSize(new Dimension(this.getWidth()/2,
         // this.getHeight()));
         table.setVisible(true);
@@ -1246,7 +1245,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private ItemView initItemView() {
 
-        ItemView item = new ItemView(this);
+        final ItemView item = new ItemView(this);
         // item.setMinimumSize(new Dimension(this.getWidth()/2,
         // this.getHeight()));
         item.setVisible(true);
@@ -1257,7 +1256,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private TreeView initTreeView() {
 
-        TreeView tree = new TreeView(this);
+        final TreeView tree = new TreeView(this);
         tree.setMinimumSize(new Dimension(this.getWidth() / 8, this.getHeight()));
         tree.setVisible(true);
 
@@ -1265,7 +1264,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    private void enableMenus(boolean enabled) {
+    private void enableMenus(final boolean enabled) {
 
         for (int i = 0; i < this.menuBar.getMenuCount(); i++) {
             this.menuBar.getMenu(i).setEnabled(enabled);
@@ -1283,7 +1282,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
             private ObservationManager om = null;
 
-            WaitForCatalogLoader(ObservationManager om) {
+            WaitForCatalogLoader(final ObservationManager om) {
 
                 this.om = om;
 
@@ -1307,9 +1306,9 @@ public class ObservationManager extends JFrame implements ActionListener {
                         } else {
                             this.wait(300);
                         }
-                    } catch (InterruptedException ie) {
+                    } catch (final InterruptedException ie) {
                         System.err.println("Interrupted while waiting for Catalog Loader to finish.\n" + ie);
-                    } catch (IllegalMonitorStateException imse) {
+                    } catch (final IllegalMonitorStateException imse) {
                         // Ignore this
                     }
                 }
@@ -1326,7 +1325,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     private void addShortcuts() {
 
-        int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
         // New Observation
         this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -1336,7 +1335,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = 54338866832362257L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 ObservationManager.this.menuData.createNewObservation();
             }
 
@@ -1350,7 +1349,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = -5051798279720676416L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
 
                 ObservationManager.this.menuFile.createHTML();
 
@@ -1365,7 +1364,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = 2672501453219731894L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
 
                 ObservationManager.this.menuExtras.showDidYouKnow();
 
@@ -1380,13 +1379,13 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = 7853484982323650329L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                ISchemaElement element = ObservationManager.this.getSelectedTableElement();
+            public void actionPerformed(final ActionEvent e) {
+                final ISchemaElement element = ObservationManager.this.getSelectedTableElement();
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
                     new ObservationDialog(ObservationManager.this, (IObservation) element);
                 } else if (element instanceof ITarget) {
-                    ITarget target = (ITarget) element;
+                    final ITarget target = (ITarget) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
                             .getTargetDialog(target.getXSIType(), target, null);
                 } else if (element instanceof IScope) {
@@ -1394,7 +1393,7 @@ public class ObservationManager extends JFrame implements ActionListener {
                 } else if (element instanceof IEyepiece) {
                     new EyepieceDialog(ObservationManager.this, (IEyepiece) element);
                 } else if (element instanceof IImager) {
-                    IImager imager = (IImager) element;
+                    final IImager imager = (IImager) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
                             .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
                 } else if (element instanceof ISite) {
@@ -1421,7 +1420,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = -4045748682943270961L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
 
                 ObservationManager.this.menuFile.saveFile();
             }
@@ -1436,7 +1435,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             private static final long serialVersionUID = -8299917980145286282L;
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 ObservationManager.this.menuFile.openFile(ObservationManager.this.changed);
             }
 
@@ -1452,7 +1451,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         return schemaPath;
     }
 
-    public void setSchemaPath(File schemaPath) {
+    public void setSchemaPath(final File schemaPath) {
         this.schemaPath = schemaPath;
     }
 
@@ -1465,13 +1464,13 @@ class TeeLog extends PrintStream {
 
     private static final Object syncMe = new Object();
 
-    public TeeLog(PrintStream file) {
+    public TeeLog(final PrintStream file) {
 
         this(file, "");
 
     }
 
-    public TeeLog(PrintStream file, String prefix) {
+    public TeeLog(final PrintStream file, final String prefix) {
 
         // Parent class writes to file
         super(file);
@@ -1485,13 +1484,13 @@ class TeeLog extends PrintStream {
     }
 
     @Override
-    public void write(byte[] buf, int off, int len) {
+    public void write(final byte[] buf, final int off, final int len) {
 
         if ((buf == null) || (buf.length == 0)) {
             return;
         }
 
-        String now = "  " + new Date().toString() + "\t";
+        final String now = "  " + new Date().toString() + "\t";
         try {
             synchronized (TeeLog.syncMe) {
                 if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
@@ -1520,7 +1519,7 @@ class TeeLog extends PrintStream {
                 }
                 this.console.write(buf, off, len);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // Can't do anything in here
         }
 

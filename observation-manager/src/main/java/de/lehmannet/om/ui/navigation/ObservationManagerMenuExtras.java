@@ -107,13 +107,12 @@ public final class ObservationManagerMenuExtras {
                 if (themeClass != null) { // Check if load OceanTheme succeeded
                     Constructor[] constructors = themeClass.getConstructors();
                     if (constructors.length > 0) {
-                        Class[] parameters = null;
+                    
                         for (Constructor constructor : constructors) {
-                            parameters = constructor.getParameterTypes();
-                            if (parameters.length == 0) { // Use default
+                            if (constructor.getParameterTypes().length == 0) { // Use default
                                 // constructor and
                                 // set theme
-                                MetalTheme theme = (MetalTheme) constructor.newInstance(null);
+                                MetalTheme theme = (MetalTheme) constructor.newInstance();
                                 MetalLookAndFeel.setCurrentTheme(theme);
                                 problem = false; // No problem -> no need to
                                 // load DefaultMetalTheme as

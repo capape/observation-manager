@@ -169,7 +169,7 @@ public final class ObservationManagerMenuExtensions {
 
     private boolean checkWriteAccess(ZipFile zipFile, File destinationRoot) {
 
-        Enumeration enumeration = zipFile.entries();
+        Enumeration<? extends ZipEntry> enumeration = zipFile.entries();
         ZipEntry ze;
 
         // Unpack all the ZIP file entries into install dir

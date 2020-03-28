@@ -9,6 +9,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -274,7 +275,7 @@ public final class ObservationManagerMenuFile {
             observationManager.getTreeView().updateTree();
 
             // Unset changed
-            this.setChanged(false);
+            this.observationManager.setChanged(false);
 
             Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
             observationManager.setCursor(defaultCursor);
@@ -373,7 +374,7 @@ public final class ObservationManagerMenuFile {
                 this.observationManager.getTreeView().updateTree();
 
                 // Unset changed
-                this.setChanged(false);
+                this.observationManager.setChanged(false);
 
                 Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                 this.observationManager.setCursor(defaultCursor);
@@ -448,17 +449,13 @@ public final class ObservationManagerMenuFile {
         this.observationManager.getTreeView().updateTree();
 
         // Unset changed
-        this.setChanged(false);
+        this.observationManager.setChanged(false);
 
         Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
         this.observationManager.setCursor(defaultCursor);
 
         return result;
 
-    }
-
-    public void setChanged(boolean changed) {
-        // TODO:
     }
 
     public void newFile( boolean changed) {
@@ -573,7 +570,7 @@ public final class ObservationManagerMenuFile {
         // Set content changed is elements were copied.
         // (Force save on a blank document doesn't make sense)
         if (result == NewDocumentDialog.OK_COPY) {
-            this.setChanged(true);
+            this.observationManager.setChanged(true);
         }
 
     }
@@ -630,7 +627,7 @@ public final class ObservationManagerMenuFile {
         }
 
         // Make sure change flag is unset
-        this.setChanged(false);
+        this.observationManager.setChanged(false);
 
     }
 
@@ -839,7 +836,7 @@ public final class ObservationManagerMenuFile {
                 }
 
                 // Get imported elements (without observations)
-                ArrayList importedElements = new ArrayList();
+                List<ISchemaElement> importedElements = new ArrayList<>();
                 importedElements.addAll(Arrays.asList(importer.getEyepieces()));
                 importedElements.addAll(Arrays.asList(importer.getFilters()));
                 importedElements.addAll(Arrays.asList(importer.getImagers()));
@@ -913,7 +910,7 @@ public final class ObservationManagerMenuFile {
             }
 
             // Make sure change flag is set
-            this.setChanged(true);
+            this.observationManager.setChanged(true);
         } else {
             this.createWarning(calculation.getReturnMessage());
         }
