@@ -27,3 +27,11 @@ hs_err_pid*
 target
 .classpath
 .project
+observation-manager/.eclipse-pmd
+observation-manager/.factorypath
+observation-planner-api/.checkstyle
+observation-planner-api/.eclipse-pmd
+observation-planner-api/.factorypath
+
+
+.sts4-cache

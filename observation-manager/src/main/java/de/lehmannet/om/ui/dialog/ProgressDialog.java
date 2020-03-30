@@ -13,6 +13,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
@@ -27,9 +28,9 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
     private Thread calculation = null;
     private Thread watchdog = null;
 
-    public ProgressDialog(ObservationManager om, String title, String information, Worker runnable) {
+    public ProgressDialog(JFrame om, String title, String information, Worker runnable) {
 
-        super(om);
+        super((ObservationManager) om);
 
         super.setSize(ProgressDialog.serialVersionUID, 300, 100);
         super.setTitle(title);

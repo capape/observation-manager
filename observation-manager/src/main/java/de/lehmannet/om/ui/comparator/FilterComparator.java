@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.IFilter;
 
-public class FilterComparator implements Comparator {
+public class FilterComparator implements Comparator<IFilter> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IFilter o1, IFilter o2) {
 
         if ((o1 instanceof IFilter) && (o2 instanceof IFilter)) {
             IFilter i1 = (IFilter) o1;

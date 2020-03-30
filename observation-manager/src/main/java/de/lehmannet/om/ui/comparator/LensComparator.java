@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.ILens;
 
-public class LensComparator implements Comparator {
+public class LensComparator implements Comparator<ILens> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(ILens o1, ILens o2) {
 
         if ((o1 instanceof ILens) && (o2 instanceof ILens)) {
             ILens l1 = (ILens) o1;

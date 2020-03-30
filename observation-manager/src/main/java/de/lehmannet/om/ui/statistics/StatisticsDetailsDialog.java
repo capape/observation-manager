@@ -154,7 +154,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
                 List observations = null;
                 ListIterator iterator = null;
@@ -213,7 +213,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void exportObservedAsHTML() {
 
-        final XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+        final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
         // Create worker for first part of export
         Worker calculation = new Worker() {
@@ -266,7 +266,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
+        super.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
                 null);
 
     }
@@ -281,7 +281,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
                 for (TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() == null) {
@@ -340,7 +340,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
             private final String message = null;
 
-            private final XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+            private final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
             private Document document = null;
 
             @Override
@@ -393,7 +393,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
+        super.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
                 getXSLFile());
 
     }
@@ -406,7 +406,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                 && (super.observationManager.getXmlCache().getAllOpenedFiles().length > 0)) {
             path = new File(super.observationManager.getXmlCache().getAllOpenedFiles()[0]).getParent();
         } else {
-            path = super.observationManager.getInstallDir().getParent();
+            path = super.observationManager.getInstallDir().getInstallDir().getParent();
         }
         path = path + File.separator;
 
@@ -432,8 +432,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        File path = new File(super.observationManager.getInstallDir().getAbsolutePath() + File.separator + "xsl"
-                + File.separator + selectedTemplate + File.separator + "targetOnly");
+        File path = new File(super.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
             super.observationManager
                     .createWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"

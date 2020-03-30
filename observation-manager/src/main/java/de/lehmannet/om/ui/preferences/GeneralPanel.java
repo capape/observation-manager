@@ -200,7 +200,7 @@ public class GeneralPanel extends PreferencesPanel {
 
         this.xslTemplate = new JComboBox();
 
-        File path = new File(this.om.getInstallDir().getAbsolutePath() + File.separator + "xsl");
+        File path = new File(this.om.getInstallDir().getPathForFolder("xsl"));
         if (!path.exists()) { // Should never happen in a correct installation
             return;
         }

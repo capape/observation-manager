@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.ISite;
 
-public class SiteComparator implements Comparator {
+public class SiteComparator implements Comparator<ISite> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(ISite o1, ISite o2) {
 
         if ((o1 instanceof ISite) && (o2 instanceof ISite)) {
             ISite s1 = (ISite) o1;

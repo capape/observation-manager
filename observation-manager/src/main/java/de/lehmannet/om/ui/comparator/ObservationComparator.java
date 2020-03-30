@@ -14,7 +14,7 @@ import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
 
-public class ObservationComparator implements Comparator {
+public class ObservationComparator implements Comparator<IObservation> {
 
     private boolean reverse = false;
 
@@ -29,7 +29,7 @@ public class ObservationComparator implements Comparator {
     }
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IObservation o1, IObservation o2) {
 
         if ((o1 instanceof IObservation) && (o2 instanceof IObservation)) {
             IObservation ob1 = null;

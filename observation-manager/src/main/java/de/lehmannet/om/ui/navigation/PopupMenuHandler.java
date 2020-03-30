@@ -350,9 +350,9 @@ class PopupMenuHandler implements ActionListener {
             } else if (source.equals(this.delete)) {
                 this.observationManager.deleteSchemaElement(element);
             } else if (source.equals(this.createHTML)) {
-                this.observationManager.createHTMLForSchemaElement(element);
+                this.observationManager.getHtmlHelper().createHTMLForSchemaElement(element);
             } else if (source.equals(this.createXML)) {
-                this.observationManager.createXMLForSchemaElement(element);
+                this.observationManager.getHtmlHelper().createXMLForSchemaElement(element);
             } else if (source.equals(this.createNewObservation)) {
                 ObservationDialog dialog = null;
                 while (dialog == null || dialog.isCreateAdditionalObservation()) {

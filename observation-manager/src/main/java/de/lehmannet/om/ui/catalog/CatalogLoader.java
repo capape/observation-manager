@@ -146,7 +146,7 @@ public class CatalogLoader {
     private void loadCatalogues() {
 
         File catalogDir = new File(
-                this.observationManager.getInstallDir().getAbsolutePath() + File.separator + CatalogLoader.CATALOG_DIR);
+                this.observationManager.getInstallDir().getPathForFolder(CatalogLoader.CATALOG_DIR));
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {

@@ -71,8 +71,7 @@ public class ProjectLoader {
 
     private void loadProjects() {
 
-        File path = new File(this.observationManager.getInstallDir().getAbsolutePath() + File.separator
-                + ProjectLoader.PROJECTS_DIR);
+        File path = new File(this.observationManager.getInstallDir().getPathForFolder(ProjectLoader.PROJECTS_DIR));
         if (!path.exists()) {
             return;
         }

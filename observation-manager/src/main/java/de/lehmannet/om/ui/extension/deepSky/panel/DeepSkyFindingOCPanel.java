@@ -71,7 +71,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             }
         }
 
-        this.imagePath = super.om.getInstallDir().getAbsolutePath() + File.separatorChar + "images" + File.separatorChar
+        this.imagePath = super.om.getInstallDir().getPathForFolder("images")
                 + "deepSky" + File.separatorChar + "clusterTypes" + File.separatorChar;
 
         this.createOCPanel();

@@ -36,6 +36,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -66,7 +69,15 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TableView extends JPanel {
 
+  
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5954822521626021103L;
+
     private static final String CONFIG_TABLESETTINGS_PREFIX = "om.tableSetting.";
+    private static final Logger LOGGER = LoggerFactory.getLogger(TableView.class);
 
     private ObservationManager observationManager = null;
     private JTable table = null;
@@ -80,6 +91,8 @@ public class TableView extends JPanel {
     private ISchemaElement parentElement = null;
 
     public TableView(ObservationManager om) {
+
+        
 
         this.observationManager = om;
 
@@ -623,16 +636,14 @@ public class TableView extends JPanel {
 
     private void loadSettings() {
 
-        Configuration config = observationManager.getConfiguration();
-        Map cache = observationManager.getUIDataCache();
-        Set set = config.getConfigKeys();
-        Iterator iterator = set.iterator();
-        String currentKey = null;
-        while (iterator.hasNext()) {
-            currentKey = (String) iterator.next();
-            if (currentKey.startsWith(TableView.CONFIG_TABLESETTINGS_PREFIX)) {
-                cache.put(currentKey, Integer.parseInt(config.getConfig(currentKey)));
-            }
+        final Configuration config = this.observationManager.getConfiguration();
+        final Set<String> tableKeys = config.getKeysStartingWith(TableView.CONFIG_TABLESETTINGS_PREFIX);
+
+      
+        Map<String,String> cache = observationManager.getUIDataCache();
+       
+        for (String currentKey : tableKeys) {
+                cache.put(currentKey, config.getConfig(currentKey));
         }
 
         // Now set the loaded settings
@@ -767,7 +778,7 @@ public class TableView extends JPanel {
             preferedWidth = current.getPreferredWidth();
             this.observationManager.getUIDataCache().put(
                     TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex(),
-                    preferedWidth);
+                    String.valueOf(preferedWidth));
         }
 
     }
@@ -782,19 +793,19 @@ public class TableView extends JPanel {
         }
 
         TableColumnModel tcm = table.getColumnModel();
-        Enumeration en = tcm.getColumns();
-        TableColumn current = null;
-        Object o = null;
-        int preferedWidth;
+        Enumeration<TableColumn> en = tcm.getColumns();
         while (en.hasMoreElements()) {
-            current = (TableColumn) en.nextElement();
-            o = observationManager.getUIDataCache()
+            TableColumn current = en.nextElement();
+            String value = observationManager.getUIDataCache()
                     .get(TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex());
-            if (o == null)
+            if (value == null)
                 break;
-            preferedWidth = (Integer) o;
-
-            current.setPreferredWidth(preferedWidth);
+            try {
+                int preferedWidth = Integer.parseInt(value);
+                current.setPreferredWidth(preferedWidth);
+            } catch (NumberFormatException nfe) {
+                LOGGER.warn("Cannot read property {}", current, nfe);
+            }
         }
 
     }

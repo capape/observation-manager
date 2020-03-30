@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.IImager;
 
-public class ImagerComparator implements Comparator {
+public class ImagerComparator implements Comparator<IImager> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IImager o1, IImager o2) {
 
         if ((o1 instanceof IImager) && (o2 instanceof IImager)) {
             IImager i1 = (IImager) o1;

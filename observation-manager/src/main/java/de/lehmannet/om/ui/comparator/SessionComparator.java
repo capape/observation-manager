@@ -12,7 +12,7 @@ import java.util.Comparator;
 
 import de.lehmannet.om.ISession;
 
-public class SessionComparator implements Comparator {
+public class SessionComparator implements Comparator<ISession> {
 
     private boolean reverse = false;
 
@@ -26,7 +26,7 @@ public class SessionComparator implements Comparator {
     }
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(ISession o1, ISession o2) {
 
         if ((o1 instanceof ISession) && (o2 instanceof ISession)) {
             ISession s1 = null;

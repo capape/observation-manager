@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.IEyepiece;
 
-public class EyepieceComparator implements Comparator {
+public class EyepieceComparator implements Comparator<IEyepiece> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(IEyepiece o1, IEyepiece o2) {
 
         if ((o1 instanceof IEyepiece) && (o2 instanceof IEyepiece)) {
             IEyepiece e1 = (IEyepiece) o1;

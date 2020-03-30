@@ -146,8 +146,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private String getText() {
 
-        String path = this.om.getInstallDir().getAbsolutePath() + File.separatorChar + DidYouKnowDialog.TEXT_PATH
-                + File.separatorChar + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
+        String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH) + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
         File textDir = new File(path);
 
         File[] files = textDir.listFiles(); // Get all files in dir

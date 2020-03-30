@@ -45,14 +45,14 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
     private JTable infoTable = null;
 
     private ObservationManager om = null;
-    private List updateEntries = null;
+    private List<UpdateEntry> updateEntries = null;
 
-    public UpdateInfoDialog(ObservationManager om, List updateEntryList) {
+    public UpdateInfoDialog(ObservationManager om, UpdateChecker updateChecker) {
 
         super(om);
 
         this.om = om;
-        this.updateEntries = updateEntryList;
+        this.updateEntries = updateChecker.getResult();
 
         super.setTitle(this.bundle.getString("updateInfo.title"));
         super.setSize(UpdateInfoDialog.serialVersionUID, 390, 180);
