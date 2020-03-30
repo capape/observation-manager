@@ -168,8 +168,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     private final Configuration configuration;
     private ProjectLoader projectLoader;
 
-    private final String configDir;
-
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
@@ -182,7 +180,6 @@ public class ObservationManager extends JFrame implements ActionListener {
     private final boolean debug = false; // Show debug information
 
     private final InstallDir installDir;
-    private final ArgumentsParser argumentsParser;
 
     // this.installDir = new File(getArgValue(arg));
 
@@ -194,22 +191,9 @@ public class ObservationManager extends JFrame implements ActionListener {
     private final ObservationManagerMenuHelp menuHelp;
     private final ObservationManagerMenuExtensions menuExtensions;
 
-    private File schemaPath;
-
     private final Map<String, String> uiDataCache = new HashMap<>();
 
     private final ObservationManagerHtmlHelper htmlHelper;
-
-    // if ("de".equals(getArgValue(arg))) {
-    // Locale.setDefault(Locale.GERMAN);
-    // } else {
-    // Locale.setDefault(Locale.ENGLISH);
-    // }
-
-    // this.nightVisionOnStartup = Boolean.parseBoolean(getArgValue(arg));
-    // this.configDir = getArgValue(arg);
-    // this.logDir = getArgValue(arg);
-    // this.debug = true;
 
     public final InstallDir getInstallDir() {
         return this.installDir;
@@ -219,32 +203,37 @@ public class ObservationManager extends JFrame implements ActionListener {
         return this.htmlHelper;
     }
 
-    // -----------
-    // Constructor ------------------------------------------------------------
-    // -----------
-
-    private ObservationManager(final String[] args) {
+    public static void main(final String[] args) {
 
         // Get install dir and parse arguments
-        this.argumentsParser = new ArgumentsParser.Builder(args).build();
+        final ArgumentsParser argumentsParser = new ArgumentsParser.Builder(args).build();
+        
+        final String installDirName = argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
+        final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
 
-        final String installDirName = this.argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
-        this.installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
-        this.configDir = this.argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
+        final String configDir =argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
+        final Configuration configuration = new Configuration(configDir);
+
+        final String locale = argumentsParser.getArgumentValue(ArgumentName.LANGUAGE);
+        final String nightVision =argumentsParser.getArgumentValue(ArgumentName.NIGHTVISION);
+        final String logging =argumentsParser.getArgumentValue(ArgumentName.LOGGING);
+        
+
+        new ObservationManager(installDir, configuration);
+
+    }
+
+    private ObservationManager(InstallDir installDir, Configuration configuration) {
+
+        this.installDir = installDir;
+        this.configuration = configuration;
 
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
-        // Load configuration
-        this.configuration = new Configuration(this.configDir);
-
-        this.schemaPath = new File(this.installDir.getPathForFile("schema"));
-        if (!this.schemaPath.exists()) {
-            LOGGER.error("Comast schema path not found:{} \n.", this.schemaPath);
-            LOGGER.error("Need to quit...");
-        }
+        
         // Initialize Caches and loaders
-        this.xmlCache = new XMLFileLoader(this.schemaPath);
+        this.xmlCache = new XMLFileLoader(this.installDir.getPathForFile("schema"));
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
@@ -422,10 +411,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    // ------
-    // JFrame -----------------------------------------------------------------
-    // ------
-
     @Override
     protected void processWindowEvent(final WindowEvent e) {
 
@@ -437,16 +422,6 @@ public class ObservationManager extends JFrame implements ActionListener {
             }
 
         }
-
-    }
-
-    // ----
-    // Main -------------------------------------------------------------------
-    // ----
-
-    public static void main(final String[] args) {
-
-        new ObservationManager(args);
 
     }
 
@@ -820,7 +795,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (load) {
             final String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
             // Check if last file is set
-            if ((lastFile != null) && !("".equals(lastFile))) {
+            if ((lastFile != null) && !("".equals(lastFile.trim()))) {
                 this.loadFile(new File(lastFile));
             }
         }
@@ -1445,14 +1420,6 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     public Map<String, String> getUIDataCache() {
         return uiDataCache;
-    }
-
-    public File getSchemaPath() {
-        return schemaPath;
-    }
-
-    public void setSchemaPath(final File schemaPath) {
-        this.schemaPath = schemaPath;
     }
 
 }

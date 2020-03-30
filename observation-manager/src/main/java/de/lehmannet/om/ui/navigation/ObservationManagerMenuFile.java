@@ -814,10 +814,10 @@ public final class ObservationManagerMenuFile {
             private String message = null;
             private byte returnValue = Worker.RETURN_TYPE_OK;
 
-            ImportWorker(File importFile, File schemaFile, ObservationManager om) {
+            ImportWorker(File importFile, ObservationManager om) {
 
                 this.importFile = importFile;
-                this.schemaFile = schemaFile;
+                this.schemaFile = new File(om.getInstallDir().getPathForFile("schema"));
                 this.om = om;
 
             }
@@ -891,7 +891,7 @@ public final class ObservationManagerMenuFile {
         }
 
     
-        ImportWorker calculation = new ImportWorker(file, this.observationManager.getSchemaPath(), this.observationManager);
+        ImportWorker calculation = new ImportWorker(file, this.observationManager);
 
         // Change cursor, as import thread is about to start
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);

@@ -154,7 +154,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
                 List observations = null;
                 ListIterator iterator = null;
@@ -213,7 +213,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void exportObservedAsHTML() {
 
-        final XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+        final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
         // Create worker for first part of export
         Worker calculation = new Worker() {
@@ -281,7 +281,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
                 for (TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() == null) {
@@ -340,7 +340,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
             private final String message = null;
 
-            private final XMLFileLoader xmlHelper = new XMLFileLoader(new File(".exportTempFile"));
+            private final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
             private Document document = null;
 
             @Override

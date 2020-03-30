@@ -100,12 +100,12 @@ public class ExtensionLoader {
     public String addExtension(ZipFile extension) {
 
         // Unpack ZIP file
-        Enumeration enumeration = extension.entries();
+        Enumeration<? extends ZipEntry> enumeration = extension.entries();
         ZipEntry ze = null;
         File lastFile = null;
-        ArrayList jars = new ArrayList();
+        List<File> jars = new ArrayList<>();
         while (enumeration.hasMoreElements()) {
-            ze = (ZipEntry) enumeration.nextElement();
+            ze = enumeration.nextElement();
             lastFile = this.unpack(extension, ze);
             if (lastFile == null) {
                 return null;
@@ -116,8 +116,8 @@ public class ExtensionLoader {
         }
 
         // Update classloader
-        ListIterator iterator = jars.listIterator();
-        ArrayList urlArray = new ArrayList();
+        ListIterator<File> iterator = jars.listIterator();
+        List<URL> urlArray = new ArrayList<>();
         File current = null;
         try {
             while (iterator.hasNext()) {
@@ -186,12 +186,10 @@ public class ExtensionLoader {
 
     public void reloadLanguage() {
 
-        Iterator i = this.extensions.iterator();
-        IExtension current = null;
-        while (i.hasNext()) {
-            current = (IExtension) i.next();
-            current.reloadLanguage();
+        for (IExtension extension : this.extensions) {
+            extension.reloadLanguage();
         }
+
         this.cachedMenus = null;
         this.cachedPopupMenus = null;
 
@@ -213,18 +211,15 @@ public class ExtensionLoader {
 
         if (this.cachedMenus == null) {
 
-            Iterator iterator = this.extensions.iterator();
-            ArrayList result = new ArrayList();
+            List<JMenu> result = new ArrayList<>();
 
-            IExtension current = null;
-            while (iterator.hasNext()) {
-                current = (IExtension) iterator.next();
+            for (IExtension current : this.extensions) {
                 if (current.getMenu() != null) {
                     result.add(current.getMenu());
                 }
             }
 
-            this.cachedMenus = (JMenu[]) result.toArray(new JMenu[] {});
+            this.cachedMenus = result.toArray(new JMenu[] {});
 
         }
 
@@ -236,18 +231,15 @@ public class ExtensionLoader {
 
         if (this.cachedPopupMenus == null) {
 
-            Iterator iterator = this.extensions.iterator();
-            ArrayList result = new ArrayList();
+            List<PopupMenuExtension> result = new ArrayList<>();
 
-            IExtension current = null;
-            while (iterator.hasNext()) {
-                current = (IExtension) iterator.next();
+            for (IExtension current : this.extensions) {
                 if (current.getPopupMenu() != null) {
                     result.add(current.getPopupMenu());
                 }
             }
 
-            this.cachedPopupMenus = (PopupMenuExtension[]) result.toArray(new PopupMenuExtension[] {});
+            this.cachedPopupMenus = result.toArray(new PopupMenuExtension[] {});
 
         }
 
@@ -257,18 +249,15 @@ public class ExtensionLoader {
 
     public PreferencesPanel[] getPreferencesTabs() {
 
-        Iterator iterator = this.extensions.iterator();
-        ArrayList result = new ArrayList();
+        List<PreferencesPanel> result = new ArrayList<>();
 
-        IExtension current = null;
-        while (iterator.hasNext()) {
-            current = (IExtension) iterator.next();
+        for (IExtension current : this.extensions) {
             if (current.getPreferencesPanel() != null) {
                 result.add(current.getPreferencesPanel());
             }
         }
 
-        return (PreferencesPanel[]) result.toArray(new PreferencesPanel[] {});
+        return result.toArray(new PreferencesPanel[] {});
 
     }
 
@@ -313,40 +302,38 @@ public class ExtensionLoader {
 
     private String scanJarFile(File jar, boolean update) {
 
-        ZipFile archive = null;
-        try {
-            archive = new ZipFile(jar);
+        try (ZipFile archive = new ZipFile(jar)) {
+
+            Enumeration<? extends ZipEntry> enu = archive.entries();
+
+            String result = null;
+            String tempResult = null;
+            while (enu.hasMoreElements()) {
+                ZipEntry entry = enu.nextElement();
+                String name = entry.getName();
+
+                if (name.toUpperCase().equals(ExtensionLoader.EXTENSION_FILENAME)) {
+                    try (InputStream in = archive.getInputStream(entry)) {
+
+                        Properties prop = new Properties();
+                        prop.load(in);
+
+                        tempResult = this.addExtension(prop, update);
+                        result = tempResult == null ? result : tempResult;
+
+                    } catch (IOException ioe) {
+                        System.err.println("Error while accessing entry from JAR file.\n" + ioe);
+                        return null;
+                    }
+                    // we can't do anything here
+                }
+            }
+
+            return result;
         } catch (IOException zipEx) {
             System.err.println("Error while accessing JAR file.\n" + zipEx);
             return null;
         }
-
-        Enumeration enu = archive.entries();
-
-        String result = null;
-        String tempResult = null;
-        while (enu.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry) enu.nextElement();
-            String name = entry.getName();
-
-            if (name.toUpperCase().equals(ExtensionLoader.EXTENSION_FILENAME)) {
-                try (InputStream in = archive.getInputStream(entry)) {
-
-                    Properties prop = new Properties();
-                    prop.load(in);
-
-                    tempResult = this.addExtension(prop, update);
-                    result = tempResult == null ? result : tempResult;
-
-                } catch (IOException ioe) {
-                    System.err.println("Error while accessing entry from JAR file.\n" + ioe);
-                    return null;
-                }
-                // we can't do anything here
-            }
-        }
-
-        return result;
 
     }
 
@@ -358,7 +345,7 @@ public class ExtensionLoader {
         // --- Load extension main class
 
         // Get Java class
-        Class currentClass = null;
+        Class<?> currentClass = null;
         try { // First try default ClassLoader
             currentClass = Class.forName(className);
         } catch (ClassNotFoundException cnfe) {
@@ -371,16 +358,16 @@ public class ExtensionLoader {
         }
 
         // Get constructors for class
-        Constructor[] constructors = currentClass.getConstructors();
+        Constructor<?>[] constructors = currentClass.getConstructors();
         IExtension extension = null;
         if (constructors.length > 0) {
             try {
-                Class[] parameters = null;
-                for (Constructor constructor : constructors) {
+                Class<?>[] parameters = null;
+                for (Constructor<?> constructor : constructors) {
                     parameters = constructor.getParameterTypes();
 
                     if (parameters.length == 0) {
-                        extension = (IExtension) constructor.newInstance(null); // 0 parameters
+                        extension = (IExtension) constructor.newInstance(); // 0 parameters
                         break;
                     } else if ((parameters.length == 1) && (parameters[0].isInstance(this.om))) {
                         extension = (IExtension) constructor.newInstance(new Object[] { this.om });
@@ -462,29 +449,39 @@ public class ExtensionLoader {
 
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(file);
-        } catch (FileNotFoundException fnfe) {
-            System.err.println("Unable to create file: " + file + "\n" + fnfe);
-            return null;
-        }
-        int sz = (int) ze.getSize();
-        final int N = 1024;
-        byte[] buf = new byte[N];
-        int ln = 0;
-        try {
-            while ((sz > 0) // workaround for bug
-                    && ((ln = bis.read(buf, 0, Math.min(N, sz))) != -1)) {
-                fos.write(buf, 0, ln);
-                sz -= ln;
-            }
-            bis.close();
-            fos.flush();
-        } catch (IOException ioe) {
-            System.err.println("Unable to write file: " + ze + "\n" + ioe);
-            return null;
-        }
 
-        return file;
+            fos = new FileOutputStream(file);
+            int sz = (int) ze.getSize();
+            final int N = 1024;
+            byte[] buf = new byte[N];
+            int ln = 0;
+            try {
+                while ((sz > 0) // workaround for bug
+                        && ((ln = bis.read(buf, 0, Math.min(N, sz))) != -1)) {
+                    fos.write(buf, 0, ln);
+                    sz -= ln;
+                }
+                bis.close();
+                fos.flush();
+            } catch (IOException ioe) {
+                System.err.println("Unable to write file: " + ze + "\n" + ioe);
+                return null;
+            }
+
+            return file;
+        } catch (FileNotFoundException fnfe) {
+            System.err.println("Unable to create file: " + file + "\n" + fnfe);            
+            return null;
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 

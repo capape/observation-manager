@@ -8,8 +8,16 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.File;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import de.lehmannet.om.IEyepiece;
@@ -42,20 +50,29 @@ import de.lehmannet.om.util.SchemaLoader;
 // All get{SchemaElement} are extremly slow. Implement faster caching!
 public class XMLFileLoader {
 
+    
+
     // Maps, used to store File - XML Object relations
     // - Key = Path to XML File
     // - Value = Schema objects of xmlFile
     private final List<CacheEntry> cache = new ArrayList<>();
 
     // Path to XML Schemas used to validate XML files
-    private File schemaPath = null;
-
+    private File schemaPath;
+    
     // The schemaLoader to use
     private final SchemaLoader loader = new SchemaLoader();
+    private final Logger LOGGER = LoggerFactory.getLogger(XMLFileLoader.class);
 
-    public XMLFileLoader(File schemaFile) {
+    public XMLFileLoader(String pathFile) {
 
-        this.schemaPath = schemaFile;
+        this.schemaPath = new File(pathFile);
+        if (!this.schemaPath.exists()) {
+            LOGGER.error("Comast schema path not found:{} \n.", this.schemaPath);
+            LOGGER.error("Need to quit...");
+        }
+        
+
 
     }
 
@@ -1136,17 +1153,17 @@ public class XMLFileLoader {
 class CacheEntry {
 
     private String xmlPath = null;
-    private SchemaElementCacheEntry[] observation = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] eyepiece = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] imager = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] filter = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] coObserver = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] observer = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] scope = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] session = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] site = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] target = new SchemaElementCacheEntry[0];
-    private SchemaElementCacheEntry[] lens = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] observation = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] eyepiece = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] imager = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] filter = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] coObserver = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] observer = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] scope = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] session = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] site = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] target = new SchemaElementCacheEntry[0];
+    private SchemaElementCacheEntry<ISchemaElement>[] lens = new SchemaElementCacheEntry[0];
     // Contains only ITargetContaining targets
     // The refered elements are the contained targets
     // We need this to update the contained targets observation references in case
@@ -1163,6 +1180,7 @@ class CacheEntry {
 
     }
 
+    
     public CacheEntry(String xmlPath, IObservation[] observation, IEyepiece[] eyepiece, IFilter[] filter,
             IImager[] imager, IObserver[] observer, IScope[] scope, ISession[] session, ISite[] site, ITarget[] target,
             ILens[] lens) {
@@ -1369,7 +1387,6 @@ class CacheEntry {
         }
 
         return result;
-
     }
 
     public IObserver[] getObservers() {
@@ -2929,6 +2946,7 @@ class CacheEntry {
 
 }
 
+
 // Stores an ISchemaElement and list of refering elements
 // The refering elements will be the observations, beloning to the corresponding schemaElement
 // Or in case the element is an IObservation, then the refering elements are all elements
@@ -2936,18 +2954,17 @@ class CacheEntry {
 // Storing the refered IObservation elements makes sense in the updateSchemaElement method, as
 // the passed IObservation is already changed. Therefore we keep the last know references of an
 // IObservation here. Think of it like a double linked list.
-class SchemaElementCacheEntry {
+class SchemaElementCacheEntry<T extends ISchemaElement> {
 
-    private ISchemaElement element = null;
-    private final List<ISchemaElement> referenceList = new ArrayList<>();
+    private T element = null;
+    private final List<T> referenceList = new ArrayList<>();
 
-    public SchemaElementCacheEntry(ISchemaElement element) {
+    public SchemaElementCacheEntry(T element) {
 
         this.element = element;
+    }   
 
-    }
-
-    public List<ISchemaElement> getReferencedElements() {
+    public List<T> getReferencedElements() {
 
         /*
          * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new ISchemaElement[] {});
@@ -2961,13 +2978,13 @@ class SchemaElementCacheEntry {
 
     }
 
-    public ISchemaElement getSchemaElement() {
+    public T getSchemaElement() {
 
         return this.element;
 
     }
 
-    public void addReferencedElement(ISchemaElement se) {
+    public void addReferencedElement(T se) {
 
         if (se == null) {
             return;
@@ -2977,7 +2994,7 @@ class SchemaElementCacheEntry {
 
     }
 
-    public void addReferencedElements(Collection<ISchemaElement> collection) {
+    public void addReferencedElements(Collection<T> collection) {
 
         if (collection == null) {
             return;
@@ -2987,13 +3004,13 @@ class SchemaElementCacheEntry {
 
     }
 
-    public void removeReferencedElement(ISchemaElement se) {
+    public void removeReferencedElement(T se) {
 
         this.referenceList.remove(se);
 
     }
 
-    public void removeReferencedElements(Collection<ISchemaElement> collection) {
+    public void removeReferencedElements(Collection<T> collection) {
 
         this.referenceList.removeAll(collection);
 
@@ -3005,7 +3022,7 @@ class SchemaElementCacheEntry {
 
     }
 
-    public boolean contains(ISchemaElement se) {
+    public boolean contains(T se) {
 
         return this.referenceList.contains(se);
 

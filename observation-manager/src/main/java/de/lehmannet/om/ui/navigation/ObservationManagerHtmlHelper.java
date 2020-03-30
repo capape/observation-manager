@@ -172,7 +172,7 @@ public class ObservationManagerHtmlHelper {
 
     }
 
-    private void createXMLForSchemaElement(ISchemaElement schemaElement, File xmlFile) {
+    private void createXMLForSchemaElement(ISchemaElement schemaElement, String xmlFile) {
 
         /*
          * ProgressDialog progress = new ProgressDialog(this,
@@ -203,7 +203,7 @@ public class ObservationManagerHtmlHelper {
             xmlHelper.addSchemaElement(observation, true);
         }
 
-        boolean result = xmlHelper.save(xmlFile.getAbsolutePath());
+        boolean result = xmlHelper.save(xmlFile);
 
         // progress.close();
 
@@ -319,7 +319,7 @@ public class ObservationManagerHtmlHelper {
             xml = new File(fullFileName);
         }
 
-        this.createXMLForSchemaElement(schemaElement, xml);
+        this.createXMLForSchemaElement(schemaElement, xml.getAbsolutePath());
 
     }
 
