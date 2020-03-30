@@ -12,6 +12,11 @@ import de.lehmannet.om.ISchemaElement;
 
 public class LensBox extends AbstractBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     @Override
     public void addItem(ISchemaElement element) {
 

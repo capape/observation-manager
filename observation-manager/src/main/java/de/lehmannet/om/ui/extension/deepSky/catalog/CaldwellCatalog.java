@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import de.lehmannet.om.Angle;
@@ -49,7 +50,7 @@ public class CaldwellCatalog implements IListableCatalog {
 
     // Key = Caldwell Number
     // Value = ITarget
-    private final LinkedHashMap map = new LinkedHashMap();
+    private final LinkedHashMap<String, ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 
@@ -177,7 +178,7 @@ public class CaldwellCatalog implements IListableCatalog {
                     target = new DeepSkyTargetQS(caldwellNumber, CaldwellCatalog.DATASOURCE_ORIGIN);
                 }
 
-                ArrayList aliasNames = new ArrayList();
+                List<String> aliasNames = new ArrayList<>();
                 while (tokenizer.hasMoreTokens()) {
                     aliasNames.add(tokenizer.nextToken());
                 }
@@ -210,10 +211,10 @@ public class CaldwellCatalog implements IListableCatalog {
                         target.addAliasName(ngc);
                     }
 
-                    Iterator iterator = aliasNames.iterator();
+                    Iterator<String> iterator = aliasNames.iterator();
                     String nextEntry = null;
                     while (iterator.hasNext()) {
-                        nextEntry = (String) iterator.next();
+                        nextEntry = iterator.next();
                         if (!"".equals(nextEntry.trim())) {
                             target.addAliasName(nextEntry);
                         }

@@ -17,6 +17,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -49,7 +50,7 @@ public class MessierCatalog implements IListableCatalog {
 
     // Key = Messier Number
     // Value = Target
-    private final Map map = new LinkedHashMap();
+    private final Map<String,ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 
@@ -293,7 +294,7 @@ public class MessierCatalog implements IListableCatalog {
                     target = new DeepSkyTargetQS(messierNumber, MessierCatalog.DATASOURCE_ORIGIN);
                 }
 
-                ArrayList aliasNames = new ArrayList();
+                List<String> aliasNames = new ArrayList<>();
                 while (tokenizer.hasMoreTokens()) {
                     aliasNames.add(tokenizer.nextToken());
                 }

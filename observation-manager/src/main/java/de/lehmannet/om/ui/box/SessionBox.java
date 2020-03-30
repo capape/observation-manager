@@ -16,6 +16,11 @@ import de.lehmannet.om.ISession;
 
 public class SessionBox extends AbstractBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     @Override
     public void addItem(ISchemaElement element) {
 

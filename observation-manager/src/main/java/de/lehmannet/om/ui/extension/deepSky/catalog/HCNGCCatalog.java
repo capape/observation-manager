@@ -48,7 +48,7 @@ public class HCNGCCatalog implements IListableCatalog {
 
     // Key = NGC Number
     // Value = ITarget
-    private final Map map = new LinkedHashMap();
+    private final Map<String, ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 
