@@ -66,7 +66,7 @@ public class Session extends SchemaElement implements ISession {
     /**
      * @since 2.1
      */
-    private List images = new LinkedList();
+    private List<String> images = new LinkedList<>();
 
     // ------------
     // Constructors ------------------------------------------------------
@@ -462,7 +462,7 @@ public class Session extends SchemaElement implements ISession {
 
         if ((this.images != null) && (this.images.size() > 0)) {
             buffer.append(" Images=");
-            ListIterator imageIterator = images.listIterator();
+            ListIterator<String> imageIterator = images.listIterator();
             while (imageIterator.hasNext()) {
                 buffer.append(imageIterator.next());
                 if (imageIterator.hasNext()) {
@@ -549,10 +549,10 @@ public class Session extends SchemaElement implements ISession {
         site.addAsLinkToXmlElement(e_Session);
 
         if ((coObservers != null) && !(coObservers.isEmpty())) {
-            ListIterator iterator = coObservers.listIterator();
+            ListIterator<IObserver> iterator = coObservers.listIterator();
             IObserver coObserver = null;
             while (iterator.hasNext()) {
-                coObserver = (IObserver) iterator.next();
+                coObserver = iterator.next();
 
                 coObserver.addAsLinkToXmlElement(e_Session, ISession.XML_ELEMENT_COOBSERVER);
             }
@@ -580,7 +580,7 @@ public class Session extends SchemaElement implements ISession {
         }
 
         if ((this.images != null) && (!this.images.isEmpty())) {
-            ListIterator imagesIterator = this.images.listIterator();
+            ListIterator<String> imagesIterator = this.images.listIterator();
             Element e_currentImage = null;
             Node n_ImageText = null;
             String path = null;
@@ -798,7 +798,7 @@ public class Session extends SchemaElement implements ISession {
      * @return List of images or <code>null</code> if no images were set.
      */
     @Override
-    public List getImages() {
+    public List<String> getImages() {
 
         if ((this.images == null) || (this.images.isEmpty())) {
             return null;
@@ -914,7 +914,7 @@ public class Session extends SchemaElement implements ISession {
      *            The new List of coobservers of the session
      */
     @Override
-    public void setCoObservers(List coObservers) {
+    public void setCoObservers(List<IObserver> coObservers) {
 
         if (coObservers == null) {
             this.coObservers = null;
@@ -938,7 +938,7 @@ public class Session extends SchemaElement implements ISession {
      *         the existing list is not changed at all.
      */
     @Override
-    public boolean addCoObservers(List coObservers) {
+    public boolean addCoObservers(List<IObserver> coObservers) {
 
         if (coObservers == null) {
             return true;
@@ -1032,7 +1032,7 @@ public class Session extends SchemaElement implements ISession {
      *         list could not be added and the old list remains unchanged.
      */
     @Override
-    public boolean addImages(List images) {
+    public boolean addImages(List<String> images) {
 
         if ((images == null) || (images.isEmpty())) {
             return false;
@@ -1076,7 +1076,7 @@ public class Session extends SchemaElement implements ISession {
      *             if new image list is <code>null</code>
      */
     @Override
-    public void setImages(List imagesList) throws IllegalArgumentException {
+    public void setImages(List<String> imagesList) throws IllegalArgumentException {
 
         if (imagesList == null) {
             throw new IllegalArgumentException("Images list cannot be null. ");

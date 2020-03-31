@@ -114,94 +114,94 @@ public class RootElement {
     // ------------------
 
     // All obervation objects belonging to this RootElement group
-    private final List observationList = new ArrayList();
+    private final List<IObservation> observationList = new ArrayList<>();
 
     // All observer objects belonging to this RootElement group
-    private final List observerList = new ArrayList();
+    private final List<IObserver> observerList = new ArrayList<>();
 
     // All site objects belonging to this RootElement group
-    private final List siteList = new ArrayList();
+    private final List<ISite> siteList = new ArrayList<>();
 
     // All scope objects belonging to this RootElement group
-    private final List scopeList = new ArrayList();
+    private final List<IScope> scopeList = new ArrayList<>();
 
     // All eyepiece objects belonging to this RootElement group
-    private final List eyepieceList = new ArrayList();
+    private final List<IEyepiece> eyepieceList = new ArrayList<>();
 
     // All imager objects belonging to this RootElement group
-    private final List imagerList = new ArrayList();
+    private final List<IImager> imagerList = new ArrayList<>();
 
     // All session objects belonging to this RootElement group
-    private final List sessionList = new ArrayList();
+    private final List<ISession> sessionList = new ArrayList<>();
 
     // All target objects belonging to this RootElement group
-    private final List targetList = new ArrayList();
+    private final List<ITarget> targetList = new ArrayList<>();
 
     // All filter objects belonging to this RootElement group
-    private final List filterList = new ArrayList();
+    private final List<IFilter> filterList = new ArrayList<>();
 
     // All lens objects belonging to this RootElement group
-    private final List lensList = new ArrayList();
+    private final List<ILens> lensList = new ArrayList<>();
 
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
 
-public Collection getObservations() {
+public Collection<IObservation> getObservations() {
 
         return this.observationList;
 
     }
 
-public Collection getEyepieceList() {
+public Collection<IEyepiece> getEyepieceList() {
 
         return this.eyepieceList;
 
     }
 
-public Collection getImagerList() {
+public Collection<IImager> getImagerList() {
 
         return this.imagerList;
 
     }
 
-public Collection getObserverList() {
+public Collection<IObserver> getObserverList() {
 
         return this.observerList;
 
     }
 
-public Collection getScopeList() {
+public Collection<IScope> getScopeList() {
 
         return this.scopeList;
 
     }
 
-public Collection getSessionList() {
+public Collection<ISession> getSessionList() {
 
         return this.sessionList;
 
     }
 
-public Collection getSiteList() {
+public Collection<ISite> getSiteList() {
 
         return this.siteList;
 
     }
 
-public Collection getTargetList() {
+public Collection<ITarget> getTargetList() {
 
         return this.targetList;
 
     }
 
-public Collection getFilterList() {
+public Collection<IFilter> getFilterList() {
 
         return this.filterList;
 
     }
 
-public Collection getLensList() {
+public Collection<ILens> getLensList() {
 
         return this.lensList;
 
@@ -217,7 +217,7 @@ public void addObservation(IObservation observation) throws SchemaException {
 
     }
 
-public void addObservations(Collection observations) throws SchemaException {
+public void addObservations(Collection<IObservation> observations) throws SchemaException {
 
         if (observations != null) {
             observationList.addAll(observations);
@@ -237,7 +237,7 @@ public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
 
     }
 
-public void addEyepieces(Collection eyepieces) throws SchemaException {
+public void addEyepieces(Collection<IEyepiece> eyepieces) throws SchemaException {
 
         if (eyepieces != null) {
             this.eyepieceList.addAll(eyepieces);
@@ -257,7 +257,7 @@ public void addImager(IImager imager) throws SchemaException {
 
     }
 
-public void addImagers(Collection imagers) throws SchemaException {
+public void addImagers(Collection<IImager> imagers) throws SchemaException {
 
         if (imagers != null) {
             this.imagerList.addAll(imagers);
@@ -277,7 +277,7 @@ public void addSite(ISite site) throws SchemaException {
 
     }
 
-public void addSites(Collection sites) throws SchemaException {
+public void addSites(Collection<ISite> sites) throws SchemaException {
 
         if (sites != null) {
             this.siteList.addAll(sites);
@@ -297,7 +297,7 @@ public void addScope(IScope scope) throws SchemaException {
 
     }
 
-public void addScopes(Collection scopes) throws SchemaException {
+public void addScopes(Collection<IScope> scopes) throws SchemaException {
 
         if (scopes != null) {
             this.scopeList.addAll(scopes);
@@ -317,7 +317,7 @@ public void addSession(ISession session) throws SchemaException {
 
     }
 
-public void addSessions(Collection sessions) throws SchemaException {
+public void addSessions(Collection<ISession> sessions) throws SchemaException {
 
         if (sessions != null) {
             this.sessionList.addAll(sessions);
@@ -337,7 +337,7 @@ public void addObserver(IObserver observer) throws SchemaException {
 
     }
 
-public void addObservers(Collection observers) throws SchemaException {
+public void addObservers(Collection<IObserver> observers) throws SchemaException {
 
         if (observers != null) {
             this.observerList.addAll(observers);
@@ -357,7 +357,7 @@ public void addTarget(ITarget target) throws SchemaException {
 
     }
 
-public void addTargets(Collection targets) throws SchemaException {
+public void addTargets(Collection<ITarget> targets) throws SchemaException {
 
         if (targets != null) {
             this.targetList.addAll(targets);
@@ -377,7 +377,7 @@ public void addFilter(IFilter filter) throws SchemaException {
 
     }
 
-public void addFilters(Collection filters) throws SchemaException {
+public void addFilters(Collection<IFilter> filters) throws SchemaException {
 
         if (filters != null) {
             this.filterList.addAll(filters);
@@ -397,7 +397,7 @@ public void addLens(ILens lens) throws SchemaException {
 
     }
 
-public void addLenses(Collection lenses) throws SchemaException {
+public void addLenses(Collection<ILens> lenses) throws SchemaException {
 
         if (lenses != null) {
             this.lensList.addAll(lenses);
@@ -463,10 +463,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
 
         // This will persist all elements that are used by the observations
         // so almost all elements, except the not linked elements
-        Iterator iterator = observationList.iterator();
+        Iterator<IObservation> iterator = observationList.iterator();
         IObservation current = null;
         while (iterator.hasNext()) {
-            current = (IObservation) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(root);
         }
 
@@ -492,10 +492,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Eyepiece = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.eyepieceList.iterator();
+        Iterator<IEyepiece> iterator = this.eyepieceList.iterator();
         IEyepiece current = null;
         while (iterator.hasNext()) {
-            current = (IEyepiece) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Eyepiece);
         }
 
@@ -521,10 +521,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Imager = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.imagerList.iterator();
+        Iterator<IImager> iterator = this.imagerList.iterator();
         IImager current = null;
         while (iterator.hasNext()) {
-            current = (IImager) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Imager);
         }
 
@@ -550,10 +550,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Site = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.siteList.iterator();
+        Iterator<ISite> iterator = this.siteList.iterator();
         ISite current = null;
         while (iterator.hasNext()) {
-            current = (ISite) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Site);
         }
 
@@ -579,10 +579,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Observer = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.observerList.iterator();
+        Iterator<IObserver> iterator = this.observerList.iterator();
         IObserver current = null;
         while (iterator.hasNext()) {
-            current = (IObserver) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Observer);
         }
 
@@ -608,10 +608,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Target = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.targetList.iterator();
+        Iterator<ITarget> iterator = this.targetList.iterator();
         ITarget current = null;
         while (iterator.hasNext()) {
-            current = (ITarget) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Target);
         }
 
@@ -637,10 +637,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Filter = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.filterList.iterator();
+        Iterator<IFilter> iterator = this.filterList.iterator();
         IFilter current = null;
         while (iterator.hasNext()) {
-            current = (IFilter) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Filter);
         }
 
@@ -666,10 +666,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Lens = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.lensList.iterator();
+        Iterator<ILens> iterator = this.lensList.iterator();
         ILens current = null;
         while (iterator.hasNext()) {
-            current = (ILens) iterator.next();
+            current =  iterator.next();
             current.addToXmlElement(e_Lens);
         }
 
@@ -695,10 +695,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Session = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.sessionList.iterator();
+        Iterator<ISession> iterator = this.sessionList.iterator();
         ISession current = null;
         while (iterator.hasNext()) {
-            current = (ISession) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Session);
         }
 
@@ -724,10 +724,10 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
             e_Scope = (Element) nodeList.item(0); // there should be only one container element
         }
 
-        Iterator iterator = this.scopeList.iterator();
+        Iterator<IScope> iterator = this.scopeList.iterator();
         IScope current = null;
         while (iterator.hasNext()) {
-            current = (IScope) iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Scope);
         }
 
