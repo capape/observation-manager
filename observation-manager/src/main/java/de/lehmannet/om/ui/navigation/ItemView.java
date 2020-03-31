@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.navigation;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.io.File;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -47,6 +46,10 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ItemView extends JPanel implements ChangeListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3588994516307727926L;
     private static final TabIDComponent FINDING_TIC = new TabIDComponent((byte) 1);
     private static final TabIDComponent TARGET_TIC = new TabIDComponent((byte) 2);
     private static final TabIDComponent SITE_TIC = new TabIDComponent((byte) 3);
@@ -846,6 +849,10 @@ public class ItemView extends JPanel implements ChangeListener {
 // Dummy class as placeholder for real panel (as minimal as possible...must extend Component to add to TabbedPane)
 class TabIDComponent extends Component {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 350103099685046530L;
     private byte tabID = 0;
 
     public TabIDComponent(byte tabID) {
