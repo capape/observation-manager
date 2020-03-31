@@ -7,7 +7,13 @@
 
 package de.lehmannet.om;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +23,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -56,11 +61,11 @@ public class Observer extends SchemaElement implements IObserver {
     private String surname = "";
 
     // The sites latitude in degrees
-    private List contacts = new LinkedList();
+    private List<String> contacts = new LinkedList<>();
 
     // Usernames/UserIDs/accountNames of the observer in external
     // applications/websites
-    private Map accounts = new HashMap();
+    private Map<String, String> accounts = new HashMap<>();
 
     // Personal fst Offset of the observer
     private float fstOffset = Float.NaN;
@@ -211,7 +216,7 @@ public class Observer extends SchemaElement implements IObserver {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             fstOffset.append(textElements.item(te).getNodeValue());
                         }
-                        this.fstOffset = FloatUtil.parseFloat(fstOffset.toString());
+                        this.fstOffset = Float.parseFloat(fstOffset.toString());
                     }
                 } else {
                     log.error("Problem while retrieving fst Offset from observer: {} ", this.getID());
@@ -312,10 +317,10 @@ public class Observer extends SchemaElement implements IObserver {
 
         buffer.append(" Contacts=");
         if ((contacts != null) && (!contacts.isEmpty())) {
-            ListIterator iterator = contacts.listIterator();
+            ListIterator<String> iterator = contacts.listIterator();
             while (iterator.hasNext()) {
 
-                buffer.append((String) iterator.next());
+                buffer.append( iterator.next());
 
                 if (iterator.hasNext()) {
                     buffer.append(" --- ");
@@ -325,12 +330,12 @@ public class Observer extends SchemaElement implements IObserver {
 
         buffer.append(" Accounts=");
         if ((accounts != null) && (!accounts.isEmpty())) {
-            Iterator iterator = accounts.keySet().iterator();
+            Iterator<String> iterator = accounts.keySet().iterator();
             String key = null;
             String value = null;
             while (iterator.hasNext()) {
-                key = (String) iterator.next();
-                value = (String) accounts.get(key);
+                key = iterator.next();
+                value = accounts.get(key);
 
                 buffer.append(key).append(": ").append(value);
 
@@ -440,7 +445,7 @@ public class Observer extends SchemaElement implements IObserver {
 
         if ((contacts != null) && !(contacts.isEmpty())) {
             Element e_Contact = null;
-            ListIterator iterator = contacts.listIterator();
+            ListIterator<String> iterator = contacts.listIterator();
             String contact = null;
             while (iterator.hasNext()) {
 
@@ -456,12 +461,12 @@ public class Observer extends SchemaElement implements IObserver {
 
         if ((accounts != null) && !(accounts.isEmpty())) {
             Element e_Account = null;
-            Iterator iterator = accounts.keySet().iterator();
+            Iterator<String> iterator = accounts.keySet().iterator();
             String account = null;
             String value = null;
             while (iterator.hasNext()) {
-                account = (String) iterator.next();
-                value = (String) this.accounts.get(account);
+                account = iterator.next();
+                value = this.accounts.get(account);
 
                 e_Account = ownerDoc.createElement(XML_ELEMENT_ACCOUNT);
                 e_Account.setAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME, account);
@@ -578,7 +583,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @return a List with contact information of the observer, or <code>null</code> if not informations are given.
      */
     @Override
-    public List getContacts() {
+    public List<String> getContacts() {
 
         return contacts;
 
@@ -610,13 +615,13 @@ public class Observer extends SchemaElement implements IObserver {
      *            new list of contact informations
      */
     @Override
-    public void setContacts(List newContacts) {
+    public void setContacts(List<String> newContacts) {
 
         if (newContacts == null) {
             return;
         }
 
-        this.contacts = new LinkedList(newContacts);
+        this.contacts = new LinkedList<>(newContacts);
 
     }
 
@@ -728,7 +733,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public Map getAccounts() {
+    public Map<String, String> getAccounts() {
 
         return Collections.unmodifiableMap(this.accounts);
 
@@ -788,12 +793,12 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public void setAccounts(Map newAccounts) {
+    public void setAccounts(Map<String, String> newAccounts) {
 
         if (newAccounts == null) {
-            this.accounts = new HashMap();
+            this.accounts = new HashMap<>();
         } else {
-            this.accounts = new HashMap(newAccounts);
+            this.accounts = new HashMap<>(newAccounts);
         }
 
     }

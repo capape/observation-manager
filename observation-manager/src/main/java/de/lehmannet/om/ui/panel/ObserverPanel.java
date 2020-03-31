@@ -78,8 +78,8 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         this.surname.setText(this.observer.getSurname());
         this.surname.setEditable(super.isEditable());
 
-        List contacts = this.observer.getContacts();
-        ListIterator iterator = contacts.listIterator();
+        List<String> contacts = this.observer.getContacts();
+        ListIterator<String> iterator = contacts.listIterator();
         StringBuilder contactString = new StringBuilder();
         while (iterator.hasNext()) {
             contactString.append(iterator.next());

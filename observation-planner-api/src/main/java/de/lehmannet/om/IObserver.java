@@ -176,7 +176,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @return a List with contact information of the observer, or <code>null</code> if no informations are given.
      */
-    java.util.List getContacts();
+    List<String> getContacts();
 
 /**
      * Returns a Map with external account information of the observer<br>
@@ -189,7 +189,7 @@ public interface IObserver extends ISchemaElement {
      *         given.
      * @since 2.0
      */
-    java.util.Map getAccounts();
+    Map<String, String> getAccounts();
 
 /**
      * Returns the name of the observer<br>
@@ -260,7 +260,7 @@ public interface IObserver extends ISchemaElement {
      *            new list of account informations
      * @since 2.0
      */
-    void setAccounts(Map newAccounts);
+    void setAccounts(Map<String, String> newAccounts);
 
 /**
      * Returns the username/ID/User#/... belonging to the passed accountName, or <code>NULL</code> if the accountName
@@ -282,7 +282,7 @@ public interface IObserver extends ISchemaElement {
      * @param newContacts
      *            new list of contact informations
      */
-    void setContacts(List newContacts);
+    void setContacts(List<String> newContacts);
 
 /**
      * Sets the DeepSkyList (DSL) Code of the observer<br>

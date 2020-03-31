@@ -57,7 +57,7 @@ public class Session extends SchemaElement implements ISession {
     private String comments = null;
 
     // Coobservers of the session
-    private List coObservers = new LinkedList();
+    private List<IObserver> coObservers = new LinkedList<>();
 
     // Language (since 1.5)
     private String lang = null;
@@ -973,7 +973,7 @@ public class Session extends SchemaElement implements ISession {
      * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
      */
     @Override
-    public List getCoObservers() {
+    public List<IObserver> getCoObservers() {
 
         return this.coObservers;
 
