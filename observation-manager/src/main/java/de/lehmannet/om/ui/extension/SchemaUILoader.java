@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -94,7 +95,7 @@ public class SchemaUILoader {
 
         Iterator iterator = this.extensions.iterator();
         IExtension extension = null;
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
             extension = (IExtension) iterator.next();
             if (extension.getAllSupportedXSITypes() != null) {

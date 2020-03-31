@@ -41,7 +41,7 @@ public abstract class AbstractExtension implements IExtension {
     public abstract PreferencesPanel getPreferencesPanel();
 
     @Override
-    public abstract Set<Integer> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
+    public abstract Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
     @Override
     public abstract boolean isCreationAllowed(String xsiType);
@@ -53,10 +53,10 @@ public abstract class AbstractExtension implements IExtension {
     public abstract ICatalog[] getCatalogs(File catalogDir);
 
     @Override
-    public Set<Integer> getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        Set<Integer> result = new HashSet<>();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.FINDING));
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
 

@@ -107,10 +107,10 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedFindingXSITypes());
         result.addAll(this.getSupportedTargetXSITypes());
 
@@ -119,9 +119,9 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set result = null;
+        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
             result = this.getSupportedTargetXSITypes();
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
@@ -132,9 +132,9 @@ public class SolarSystemExtension extends AbstractExtension {
 
     }
 
-    private Set getSupportedTargetXSITypes() {
+    private Set<String> getSupportedTargetXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(SolarSystemTargetComet.XML_XSI_TYPE_VALUE);
         result.add(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE);
         result.add(SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
@@ -145,9 +145,9 @@ public class SolarSystemExtension extends AbstractExtension {
 
     }
 
-    private Set getSupportedFindingXSITypes() {
+    private Set<String> getSupportedFindingXSITypes() {
 
-        return new HashSet();
+        return new HashSet<>();
 
     }
 

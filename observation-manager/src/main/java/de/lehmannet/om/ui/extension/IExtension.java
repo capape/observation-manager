@@ -31,9 +31,9 @@ public interface IExtension {
 
     ICatalog[] getCatalogs(File catalogDir);
 
-    Set<Integer> getAllSupportedXSITypes();
+    Set<String> getAllSupportedXSITypes();
 
-    Set<Integer> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
+    Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
     String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant);
 
