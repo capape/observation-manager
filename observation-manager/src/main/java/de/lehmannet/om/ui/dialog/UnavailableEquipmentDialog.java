@@ -521,6 +521,10 @@ class CheckBoxEquipmentNode extends Vector {
 
 class EquipmentLeaf extends JCheckBox implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8497892001962915732L;
     private ISchemaElement se = null;
     private UnavailableEquipmentDialog dialog = null;
     private CheckBoxEquipmentNode parentNode = null;

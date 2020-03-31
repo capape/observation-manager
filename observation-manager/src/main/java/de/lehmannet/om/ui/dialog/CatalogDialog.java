@@ -104,7 +104,11 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
 
 class CatalogPanel extends AbstractPanel implements ActionListener {
 
-    private final JComboBox catalogBox = new JComboBox();
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8388323169559287306L;
+    private final JComboBox<String> catalogBox = new JComboBox<>();
     private JButton searchButton = null;
 
     private ICatalog selectedCatalog = null;
@@ -211,7 +215,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         // Change table if different catalog is selected
         if (e.getSource() instanceof JComboBox) {
-            JComboBox box = (JComboBox) e.getSource();
+            JComboBox box =  (JComboBox) e.getSource();
             if (this.catalogBox.equals(box)) {
                 String selected = (String) this.catalogBox.getSelectedItem();
                 this.selectedCatalog = this.loader.getCatalog(selected);

@@ -110,7 +110,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                     this.om.createInfo(this.uiBundle.getString("info.noObservationsFound"));
                     return;
                 }
-                ArrayList preselectedObservations = new ArrayList();
+                List<IObservation> preselectedObservations = new ArrayList<>();
                 for (IObservation allObservation : allObservations) {
                     // Only the variable star observations are of interest
                     if (TargetVariableStar.XML_XSI_TYPE_VALUE.equals(allObservation.getTarget().getXSIType())) {
@@ -362,7 +362,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private void initFindingPanels() {
 
-        HashMap findingPanels = new HashMap();
+        Map<String, String> findingPanels = new HashMap<>();
 
         findingPanels.put(FindingVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel");
