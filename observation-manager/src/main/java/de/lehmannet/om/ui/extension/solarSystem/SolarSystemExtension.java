@@ -119,7 +119,7 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         Set result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {

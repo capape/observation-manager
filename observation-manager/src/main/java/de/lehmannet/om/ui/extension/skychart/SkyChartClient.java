@@ -678,7 +678,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public PopupMenuExtension getPopupMenu() {
 
-        return new PopupMenuExtension(new int[] { SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET },
+        return new PopupMenuExtension(new SchemaElementConstants[] { SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET },
                 this.popupMenu);
 
     }
@@ -739,7 +739,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
         return null;
 
@@ -753,14 +753,14 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
         return null;
 
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         return null;
 

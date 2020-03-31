@@ -310,7 +310,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         Set result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {

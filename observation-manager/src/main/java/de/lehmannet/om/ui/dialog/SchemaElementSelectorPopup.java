@@ -36,7 +36,7 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
     private ExtendedSchemaTableModel tableModel = null;
 
     public SchemaElementSelectorPopup(ObservationManager om, String title, String xsiType, List preSelectedElements,
-            boolean multipleSelection, int schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
+            boolean multipleSelection, SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
                                                                                                                     // SchemaElementConstants
 
         super(om);
@@ -48,43 +48,43 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
         ISchemaElement[] elements = null;
         switch (schemaElement) {
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             elements = om.getXmlCache().getImagers();
             break;
         }
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             elements = om.getXmlCache().getEyepieces();
             break;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             elements = om.getXmlCache().getFilters();
             break;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             elements = om.getXmlCache().getLenses();
             break;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             elements = om.getXmlCache().getObservations();
             break;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             elements = om.getXmlCache().getObservers();
             break;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             elements = om.getXmlCache().getScopes();
             break;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             elements = om.getXmlCache().getSessions();
             break;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             elements = om.getXmlCache().getSites();
             break;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             elements = om.getXmlCache().getTargets();
             break;
         }

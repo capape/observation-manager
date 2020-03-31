@@ -42,11 +42,11 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     private boolean result = false;
 
-    private int schemaElementConstant = -1;
+    private SchemaElementConstants schemaElementConstant = SchemaElementConstants.NONE;
 
     private SchemaUILoader loader = null;
 
-    public ExtenableSchemaElementSelector(JDialog parent, SchemaUILoader loader, int schemaElementConstant) {
+    public ExtenableSchemaElementSelector(JDialog parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 
@@ -57,7 +57,7 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     }
 
-    public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader, int schemaElementConstant) {
+    public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 

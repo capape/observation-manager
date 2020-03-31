@@ -9,19 +9,21 @@ package de.lehmannet.om.ui.extension;
 
 import javax.swing.JMenu;
 
+import de.lehmannet.om.util.SchemaElementConstants;
+
 public class PopupMenuExtension {
 
-    private int[] schemaElement = null;
+    private SchemaElementConstants[] schemaElement = null;
     private JMenu menu = null;
 
-    public PopupMenuExtension(int[] schemaElementTypes, JMenu menu) {
+    public PopupMenuExtension(SchemaElementConstants[] schemaElementTypes, JMenu menu) {
 
         this.schemaElement = schemaElementTypes;
         this.menu = menu;
 
     }
 
-    public int[] getSchemaElementTypes() {
+    public SchemaElementConstants[] getSchemaElementTypes() {
 
         return this.schemaElement;
 

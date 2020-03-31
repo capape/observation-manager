@@ -28,7 +28,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
-    public ExtendedSchemaTableModel(ISchemaElement[] elements, int schemaElementType, String xsiFilter,
+    public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType, String xsiFilter,
             boolean multipleSelection, List preSelectedTargets) {
 
         this.multipleSelection = multipleSelection;
@@ -36,46 +36,48 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         // Load comparator
         Comparator comparator = null;
         switch (schemaElementType) {
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             comparator = new ImagerComparator();
             break;
         }
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             comparator = new EyepieceComparator();
             break;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             comparator = new FilterComparator();
             break;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             comparator = new LensComparator();
             break;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             comparator = new ObservationComparator();
             break;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             comparator = new ObserverComparator();
             break;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             comparator = new ScopeComparator();
             break;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             comparator = new SessionComparator();
             break;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             comparator = new SiteComparator();
             break;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             comparator = new TargetComparator();
             break;
         }
+        default:
+            break;
         }
 
         // Initialize TreeMap

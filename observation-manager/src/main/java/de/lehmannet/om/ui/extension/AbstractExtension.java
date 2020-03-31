@@ -41,7 +41,7 @@ public abstract class AbstractExtension implements IExtension {
     public abstract PreferencesPanel getPreferencesPanel();
 
     @Override
-    public abstract Set getSupportedXSITypes(int schemaElementConstant);
+    public abstract Set<Integer> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
     @Override
     public abstract boolean isCreationAllowed(String xsiType);
@@ -53,10 +53,10 @@ public abstract class AbstractExtension implements IExtension {
     public abstract ICatalog[] getCatalogs(File catalogDir);
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<Integer> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<Integer> result = new HashSet<>();
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.FINDING));
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
 
@@ -65,7 +65,7 @@ public abstract class AbstractExtension implements IExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
         Object o = this.panels.get(schemaElementConstant);
 
@@ -79,7 +79,7 @@ public abstract class AbstractExtension implements IExtension {
     }
 
     @Override
-    public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
         Object o = this.dialogs.get(schemaElementConstant);
 

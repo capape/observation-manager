@@ -74,7 +74,7 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractPanel getSchemaElementPanel(String xsiType, int schemaElementConstant, ISchemaElement schemaElement,
+    public AbstractPanel getSchemaElementPanel(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
             boolean editable) {
 
         return (AbstractPanel) this.getSchemaElementUIObject(xsiType, schemaElementConstant, schemaElement, editable,
@@ -82,7 +82,7 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractDialog getSchemaElementDialog(String xsiType, int schemaElementConstant,
+    public AbstractDialog getSchemaElementDialog(String xsiType, SchemaElementConstants schemaElementConstant,
             ISchemaElement schemaElement, boolean editable) {
 
         return (AbstractDialog) this.getSchemaElementUIObject(xsiType, schemaElementConstant, schemaElement, editable,
@@ -106,7 +106,7 @@ public class SchemaUILoader {
 
     }
 
-    private String[] getAllXSITypes(int schemaElementConstants) {
+    private String[] getAllXSITypes(SchemaElementConstants schemaElementConstants) {
 
         Iterator iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -122,7 +122,7 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSIDisplayNames(int schemaElementConstants) {
+    public String[] getAllXSIDisplayNames(SchemaElementConstants schemaElementConstants) {
 
         String[] types = this.getAllXSITypes(schemaElementConstants);
 
@@ -144,7 +144,7 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSIDisplayNamesForCreation(int schemaElementConstants) {
+    public String[] getAllXSIDisplayNamesForCreation(SchemaElementConstants schemaElementConstants) {
 
         String[] types = this.getAllXSITypes(schemaElementConstants);
 
@@ -360,49 +360,51 @@ public class SchemaUILoader {
 
     }
 
-    private Class getExampleClass(int schemaElementConstant) {
+    private Class getExampleClass(SchemaElementConstants schemaElementConstant) {
 
         switch (schemaElementConstant) {
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             return IEyepiece.class;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             return IFilter.class;
         }
-        case SchemaElementConstants.FINDING: {
+        case FINDING: {
             return IFinding.class;
         }
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             return IImager.class;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             return ILens.class;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             return IObservation.class;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             return IObserver.class;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             return IScope.class;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             return ISession.class;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             return ISite.class;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             return ITarget.class;
         }
+        default:
+            break;
         }
 
         return null;
 
     }
 
-    private Object getSchemaElementUIObject(String xsiType, int schemaElementConstant, ISchemaElement schemaElement,
+    private Object getSchemaElementUIObject(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
             boolean editable, boolean dialog) {
 
         Iterator iterator = this.extensions.iterator();

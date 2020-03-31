@@ -137,7 +137,7 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         Set result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
@@ -311,7 +311,7 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, int schemaElementConstants) {
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.FINDING == schemaElementConstants) {
             return (String) this.findingPanels.get(xsiType);
@@ -324,7 +324,7 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public String getDialogForXSIType(String xsiType, int schemaElementConstants) {
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.TARGET == schemaElementConstants) {
             return (String) this.targetDialogs.get(xsiType);

@@ -145,7 +145,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     }
 
-    public ISchemaElement[] getSchemaElements(int schemaElementCode) {
+    public ISchemaElement[] getSchemaElements(SchemaElementConstants schemaElementCode) {
 
         // Always return NULL if cancel was pressed or creation of blank document was
         // requested
@@ -154,34 +154,34 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         switch (schemaElementCode) {
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             return this.imagers;
         }
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             return this.eyepieces;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             return this.filters;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             return this.lenses;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             return this.observations;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             return this.observers;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             return this.scopes;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             return this.sessions;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             return this.sites;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             return this.targets;
         }
         default:

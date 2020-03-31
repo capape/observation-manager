@@ -435,7 +435,7 @@ public IImager[] getImagers() {
      *            Needed for Target Objects, can be <code>null</code> for Findings
      */
     private static Object getObjectFromXSIType(String xsiType, Node currentNode, IObserver[] observers,
-            int schemaElementType) throws SchemaException {
+        SchemaElementConstants schemaElementType) throws SchemaException {
 
         // Resolve xsiType to java classname
         String classname = null;

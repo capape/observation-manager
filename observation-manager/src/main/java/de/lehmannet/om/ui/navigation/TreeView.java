@@ -139,7 +139,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                         SchemaElementConstants.NONE,
                                         TreeView.this.observationManager.getExtensionLoader().getPopupMenus());
                             } else if (node instanceof DefaultMutableTreeNode) {
-                                int type = SchemaElementConstants.NONE;
+                                SchemaElementConstants type = SchemaElementConstants.NONE;
                                 Object o = selPath.getLastPathComponent();
 
                                 if (o.equals(TreeView.this.observationManager.getTreeView().eyepiece)) {

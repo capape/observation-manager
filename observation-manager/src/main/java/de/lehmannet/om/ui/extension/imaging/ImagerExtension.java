@@ -100,7 +100,7 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstants) {
+    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.IMAGER == schemaElementConstants) {
             HashSet hs = new HashSet();
