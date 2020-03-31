@@ -87,7 +87,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
             // Create minimalistic FindingVariableStar from given IFinding (must be a
             // IFinding instance due to parameter definition)
-            ArrayList dummy = new ArrayList();
+            List<String> dummy = new ArrayList<>();
             dummy.add("-999.99");
             FindingVariableStar fvs = new FindingVariableStar(-999.99f, dummy, "---");
             fvs.setDescription(finding.getDescription());
@@ -175,7 +175,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             return null;
         }
 
-        List compStars = this.getComparismStars();
+        List<String> compStars = this.getComparismStars();
         if (compStars != null) {
             this.finding.setComparismStars(compStars);
         } else {
@@ -269,7 +269,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             return null;
         }
 
-        List compStars = this.getComparismStars();
+        List<String> compStars = this.getComparismStars();
         if (compStars == null) {
             super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setCompStars"));
             return null;
@@ -567,8 +567,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         this.chartDate.setText(this.finding.getChartDate());
         this.chartDate.setEditable(super.isEditable());
 
-        List compStars = this.finding.getComparismStars();
-        ListIterator iterator = compStars.listIterator();
+        List<String> compStars = this.finding.getComparismStars();
+        ListIterator<String> iterator = compStars.listIterator();
         StringBuilder compStarText = new StringBuilder();
         while (iterator.hasNext()) {
             compStarText.append(iterator.next());
@@ -617,14 +617,14 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     }
 
-    private List getComparismStars() {
+    private List<String> getComparismStars() {
 
         String compStarText = this.comparismStars.getText();
         if ((compStarText == null) || ("".equals(compStarText.trim()))) {
             return null;
         }
 
-        ArrayList result = new ArrayList(4);
+        List<String> result = new ArrayList<>(4);
         StringTokenizer tokenizer = new StringTokenizer(compStarText,
                 VariableStarFindingPanel.DELIMITER_COMPARISM_STAR);
         while (tokenizer.hasMoreTokens()) {
