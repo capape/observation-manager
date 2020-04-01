@@ -100,10 +100,10 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstants) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.IMAGER == schemaElementConstants) {
-            HashSet hs = new HashSet();
+            Set<String> hs = new HashSet<>();
             hs.add(CCDImager.XML_ATTRIBUTE_CCDIMAGER);
 
             return hs;
@@ -114,7 +114,7 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         return this.getSupportedXSITypes(SchemaElementConstants.IMAGER);
 

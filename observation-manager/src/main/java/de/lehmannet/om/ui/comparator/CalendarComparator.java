@@ -10,10 +10,10 @@ package de.lehmannet.om.ui.comparator;
 import java.util.Calendar;
 import java.util.Comparator;
 
-public class CalendarComparator implements Comparator {
+public class CalendarComparator implements Comparator<Calendar> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(Calendar o1, Calendar o2) {
 
         if ((o1 instanceof Calendar) && (o2 instanceof Calendar)) {
             Calendar c1 = (Calendar) o1;

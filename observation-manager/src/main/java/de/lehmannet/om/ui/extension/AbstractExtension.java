@@ -73,7 +73,7 @@ public abstract class AbstractExtension implements IExtension {
             return null;
         }
 
-        HashMap hm = (HashMap) o;
+        Map hm = (HashMap) o;
         return (String) hm.get(xsiType);
 
     }

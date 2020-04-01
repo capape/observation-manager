@@ -23,6 +23,11 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 class EquPositionContainer extends Container {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4434903051968591296L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 

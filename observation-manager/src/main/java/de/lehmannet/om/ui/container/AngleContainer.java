@@ -24,6 +24,10 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class AngleContainer extends Container {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String UNIT_KEY_PREFIX = "Angle.Unit.";
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
@@ -46,7 +50,7 @@ public class AngleContainer extends Container {
     private final JTextField arcMinValue = new JTextField();
     private final JTextField arcSecValue = new JTextField();
 
-    private final Map unitI18Nmap = new HashMap();
+    private final Map<String,String> unitI18Nmap = new HashMap<>();
 
     public AngleContainer(Angle angle, boolean editable) {
 
@@ -349,7 +353,11 @@ public class AngleContainer extends Container {
 
     private static class AngleUnitBox extends JComboBox {
 
-        private final List list = new ArrayList();
+        /**
+         *
+         */
+        private static final long serialVersionUID = 7549558268570152814L;
+        private final List<String> list = new ArrayList<>();
 
         // ---------
         // JComboBox ----------------------------------------------------------

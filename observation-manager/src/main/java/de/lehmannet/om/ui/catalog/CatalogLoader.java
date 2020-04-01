@@ -33,20 +33,20 @@ public class CatalogLoader {
     private static final String CATALOG_DIR = "catalog";
 
     private ObservationManager observationManager = null;
-    private List extensions = null;
+    private List<IExtension> extensions = null;
 
     // Key: Catalog name (String)
     // Value: Catalog (ICatalog)
-    private final Map catalogMap = new HashMap();
+    private final Map<String, ICatalog> catalogMap = new HashMap<>();
 
     // Key: Extension name (String)
     // Value: Extension version (Float)
-    private final Map knownExtensions = new HashMap();
+    private final Map<String, Float> knownExtensions = new HashMap<>();
 
     // Used to load catalogs in parallel
     private final ThreadGroup loadCatalogs = new ThreadGroup("Load all catalogs");
 
-    public CatalogLoader(ObservationManager om, List extensions) {
+    public CatalogLoader(ObservationManager om, List<IExtension> extensions) {
 
         this.observationManager = om;
         this.extensions = extensions;
@@ -67,13 +67,13 @@ public class CatalogLoader {
 
         this.waitForCatalogLoaders();
 
-        Iterator iterator = this.catalogMap.keySet().iterator();
+        Iterator<String> iterator = this.catalogMap.keySet().iterator();
         ICatalog cat = null;
         String currentKey = null;
-        ArrayList result = new ArrayList();
+        List<String> result = new ArrayList<>();
         while (iterator.hasNext()) {
-            currentKey = (String) iterator.next();
-            cat = (ICatalog) this.catalogMap.get(currentKey);
+            currentKey = iterator.next();
+            cat = this.catalogMap.get(currentKey);
             if (cat instanceof IListableCatalog) {
                 result.add(currentKey);
             }
@@ -103,10 +103,10 @@ public class CatalogLoader {
 
         if (!this.catalogMap.containsKey(catalogName)) {
             if (catalogName != null) { // Search for abbreviation
-                Iterator catIterator = this.catalogMap.values().iterator();
+                Iterator<ICatalog> catIterator = this.catalogMap.values().iterator();
                 ICatalog current = null;
                 while (catIterator.hasNext()) {
-                    current = (ICatalog) catIterator.next();
+                    current = catIterator.next();
                     if (catalogName.equals(current.getAbbreviation())) {
                         return current;
                     }
@@ -156,9 +156,9 @@ public class CatalogLoader {
             }
         }
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension current = null;
-        ArrayList catalogs = new ArrayList();
+        List<Thread> catalogs = new ArrayList<>();
         while (iterator.hasNext()) {
             current = (IExtension) iterator.next();
 
@@ -198,11 +198,11 @@ public class CatalogLoader {
 class CatalogLoaderRunnable implements Runnable {
 
     private IExtension extension = null;
-    private Map resultMap = null;
+    private Map<String,ICatalog> resultMap = null;
     private File catalogDir = null;
     private boolean debug = false;
 
-    public CatalogLoaderRunnable(IExtension extension, Map resultMap, File catalogDir, boolean debug) {
+    public CatalogLoaderRunnable(IExtension extension, Map<String,ICatalog> resultMap, File catalogDir, boolean debug) {
 
         this.extension = extension;
         this.resultMap = resultMap;

@@ -24,6 +24,11 @@ import de.lehmannet.om.util.FloatUtil;
 
 public class SurfaceBrightnessContainer extends Container {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4743410983946178443L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 

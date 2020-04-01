@@ -869,7 +869,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
             setCursor(hourglassCursor);
 
-            List images = Arrays.asList(files);
+            
+            List<String> images = new ArrayList<>(files.length);
+            for(File file : files ) {
+                images.add(file.getAbsolutePath());
+            }  
             this.imageContainer.addImages(images);
             this.repaint();
             this.updateUI();
