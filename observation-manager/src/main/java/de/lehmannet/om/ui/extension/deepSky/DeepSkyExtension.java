@@ -53,9 +53,9 @@ public class DeepSkyExtension implements IExtension {
         }
     }
 
-    private final Map findingPanels = new HashMap();
-    private final Map targetPanels = new HashMap();
-    private final Map targetDialogs = new HashMap();
+    private final Map<String, String> findingPanels = new HashMap<>();
+    private final Map<String, String> targetPanels = new HashMap<>();
+    private final Map<String, String> targetDialogs = new HashMap<>();
 
     private final String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
 
@@ -137,9 +137,9 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set result = null;
+        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
             result = this.getSupportedTargetXSITypes();
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
@@ -150,9 +150,9 @@ public class DeepSkyExtension implements IExtension {
 
     }
 
-    private Set getSupportedTargetXSITypes() {
+    private Set<String> getSupportedTargetXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(DeepSkyTargetDN.XML_XSI_TYPE_VALUE);
         result.add(DeepSkyTargetDS.XML_XSI_TYPE_VALUE);
         result.add(DeepSkyTargetGC.XML_XSI_TYPE_VALUE);
@@ -171,9 +171,9 @@ public class DeepSkyExtension implements IExtension {
 
     }
 
-    private Set getSupportedFindingXSITypes() {
+    private Set<String> getSupportedFindingXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(DeepSkyFinding.XML_XSI_TYPE_VALUE);
         result.add(DeepSkyFindingOC.XML_XSI_TYPE_VALUE);
         result.add(DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
@@ -299,10 +299,10 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedFindingXSITypes());
         result.addAll(this.getSupportedTargetXSITypes());
 

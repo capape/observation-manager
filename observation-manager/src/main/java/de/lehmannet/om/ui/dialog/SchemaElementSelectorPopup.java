@@ -35,7 +35,7 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
     private ExtendedSchemaTableModel tableModel = null;
 
-    public SchemaElementSelectorPopup(ObservationManager om, String title, String xsiType, List preSelectedElements,
+    public SchemaElementSelectorPopup(ObservationManager om, String title, String xsiType, List<? extends ISchemaElement> preSelectedElements,
             boolean multipleSelection, SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
                                                                                                                     // SchemaElementConstants
 
@@ -124,7 +124,7 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
     }
 
-    public List getAllSelectedElements() {
+    public List<ISchemaElement> getAllSelectedElements() {
 
         if (this.tableModel == null) {
             return null;

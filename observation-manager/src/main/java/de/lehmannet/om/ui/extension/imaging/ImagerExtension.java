@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -136,7 +137,7 @@ public class ImagerExtension extends AbstractExtension {
 
     private void initPanels() {
 
-        HashMap panels = new HashMap();
+        Map<String,String> panels = new HashMap<>();
 
         panels.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel");
 
@@ -146,7 +147,7 @@ public class ImagerExtension extends AbstractExtension {
 
     private void initDialogs() {
 
-        HashMap dialogs = new HashMap();
+        Map<String,String> dialogs = new HashMap<>();
 
         dialogs.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog");
 

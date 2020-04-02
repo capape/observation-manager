@@ -21,10 +21,15 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ExtendedSchemaTableModel extends AbstractTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
-    private Map elementMap = null;
+    private Map<ISchemaElement, Boolean> elementMap = null;
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
@@ -221,15 +226,15 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
 
     }
 
-    public List getAllSelectedElements() {
+    public List<ISchemaElement> getAllSelectedElements() {
 
-        ArrayList result = new ArrayList();
+        List<ISchemaElement> result = new ArrayList();
 
-        Iterator keyIterator = this.elementMap.keySet().iterator();
+        Iterator<ISchemaElement> keyIterator = this.elementMap.keySet().iterator();
         ISchemaElement current = null;
         Boolean currentValue = null;
         while (keyIterator.hasNext()) {
-            current = (ISchemaElement) keyIterator.next();
+            current =keyIterator.next();
             currentValue = (Boolean) this.elementMap.get(current);
             if (currentValue) {
                 result.add(current);

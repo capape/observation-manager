@@ -18,6 +18,11 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 
 public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "DeepSky";
 
     private static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle

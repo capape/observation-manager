@@ -29,12 +29,16 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 //NO LONGER NEEDED - REPLACED BY SCHEMAELEMENTSELECTORPOPUP
 class TargetSelectorPopup extends JDialog implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private JButton ok = null;
     private JButton cancel = null;
 
     private TargetSelectionModel tableModel = null;
 
-    public TargetSelectorPopup(ObservationManager om, String title, String targetType, List preSelectedTargets) {
+    public TargetSelectorPopup(ObservationManager om, String title, String targetType, List<ITarget> preSelectedTargets) {
 
         super(om, true);
 
@@ -71,7 +75,7 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
 
     }
 
-    public List getSelectedTargets() {
+    public List<ITarget> getSelectedTargets() {
 
         if (this.tableModel == null) {
             return null;
@@ -122,11 +126,15 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
 
 class TargetSelectionModel extends AbstractTableModel {
 
-    private Map targetMap = null;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Map<ITarget, Boolean> targetMap = null;
 
-    public TargetSelectionModel(ITarget[] targets, String targetFilter, List preSelectedTargets) {
+    public TargetSelectionModel(ITarget[] targets, String targetFilter, List<ITarget> preSelectedTargets) {
 
-        this.targetMap = new TreeMap(new TargetComparator());
+        this.targetMap = new TreeMap<ITarget, Boolean>(new TargetComparator());
         for (ITarget target : targets) {
             if (target.getXSIType().equals(targetFilter)) {
                 if (preSelectedTargets.contains(target)) {
@@ -199,7 +207,7 @@ class TargetSelectionModel extends AbstractTableModel {
     }
 
     @Override
-    public Class getColumnClass(int c) {
+    public Class<?> getColumnClass(int c) {
 
         switch (c) {
         case 0: {
@@ -222,16 +230,16 @@ class TargetSelectionModel extends AbstractTableModel {
 
     }
 
-    public List getAllSelectedTargets() {
+    public List<ITarget> getAllSelectedTargets() {
 
-        ArrayList result = new ArrayList();
+        List<ITarget> result = new ArrayList<>();
 
-        Iterator keyIterator = this.targetMap.keySet().iterator();
+        Iterator<ITarget> keyIterator = this.targetMap.keySet().iterator();
         ITarget current = null;
         Boolean currentValue = null;
         while (keyIterator.hasNext()) {
-            current = (ITarget) keyIterator.next();
-            currentValue = (Boolean) this.targetMap.get(current);
+            current =  keyIterator.next();
+            currentValue = this.targetMap.get(current);
             if (currentValue) {
                 result.add(current);
             }

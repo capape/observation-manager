@@ -355,9 +355,9 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     // --------------------------------------------------------------------------
 
     @Override
-    protected JComboBox getVisualRatingBox() {
+    protected JComboBox<String> getVisualRatingBox() {
 
-        JComboBox box = new JComboBox();
+        JComboBox<String> box = new JComboBox<>();
         box.addItem("----");
         box.addItem(this.bundle.getString("panel.ocfinding.dropdown.rating.1"));
         box.addItem(this.bundle.getString("panel.ocfinding.dropdown.rating.2"));
