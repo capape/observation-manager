@@ -18,13 +18,13 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -91,9 +91,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private ImageContainer imageContainer = null;
     private JButton newImage = null;
 
-    private Map cache = null; // Non-persistant cache
+    private Map<String, String> cache = null; // Non-persistant cache
 
-    private final List coObserversList = new ArrayList();
+    private final List<IObserver> coObserversList = new ArrayList<>();
 
     // Requires ObservationManager to load Observers
     public SessionPanel(ObservationManager manager, ISession session, boolean editable) {
@@ -168,16 +168,19 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager,
                         AbstractPanel.bundle.getString("dialog.coObserver.title"), null, this.coObserversList, true,
                         SchemaElementConstants.OBSERVER);
-                List selected = new ArrayList();
+                List<ISchemaElement> selected = new ArrayList<>();
                 if (this.coObsSelector.getAllSelectedElements() != null) {
-                    selected = new ArrayList(this.coObsSelector.getAllSelectedElements()); // Create new list instance,
+                    selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements()); // Create new list instance,
                                                                                            // as
                                                                                            // otherwise the clear()
                                                                                            // below, will
                                                                                            // clear selection
                 }
                 this.coObserversList.clear(); // Remove entries first
-                this.fillCoObserverTextField(selected);
+                List<IObserver> result =
+                    selected.stream().map(x-> { return (IObserver) x;}).collect(Collectors.toList());
+                    
+                this.fillCoObserverTextField(result);
             } else if (sourceButton.equals(this.beginPicker)) {
                 DatePicker dp = null;
                 if (this.beginDate != null) {
@@ -780,10 +783,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     }
 
-    private void fillCoObserverTextField(List coObservers) {
+    private void fillCoObserverTextField(List<IObserver> coObservers) {
 
         this.coObservers.setText("");
-        Iterator iterator = coObservers.iterator();
+        Iterator<IObserver> iterator = coObservers.iterator();
         IObserver current = null;
         while (iterator.hasNext()) {
             current = (IObserver) iterator.next();
@@ -803,10 +806,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private void createObserverPanel() {
 
-        Iterator iterator = this.session.getCoObservers().iterator();
+        Iterator<IObserver> iterator = this.session.getCoObservers().iterator();
         IObserver current = null;
         while (iterator.hasNext()) {
-            current = (IObserver) iterator.next();
+            current = iterator.next();
             ObserverPanel observerPanel = new ObserverPanel(current, false);
             this.coObserverTabbedPane.add(current.getDisplayName(), observerPanel);
         }
@@ -858,7 +861,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         };
         chooser.setFileFilter(imageFileFilter);
         chooser.setMultiSelectionEnabled(true);
-        File last = (File) this.cache.get(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
+        File last = new File(this.cache.get(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR));
         if ((last != null) && (last.exists()) && (last.isDirectory())) {
             chooser.setCurrentDirectory(last);
         }
@@ -879,7 +882,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.updateUI();
 
             if (files.length > 0) {
-                this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile());
+                this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile().getAbsolutePath());
             }
 
             Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);

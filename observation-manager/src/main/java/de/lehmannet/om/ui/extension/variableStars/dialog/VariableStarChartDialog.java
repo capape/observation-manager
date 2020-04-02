@@ -46,7 +46,7 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
     private static final long serialVersionUID = 3386387945098447550L;
 
-    public VariableStarChartDialog(ObservationManager om, IObservation[] observations, Map colorMap) {
+    public VariableStarChartDialog(ObservationManager om, IObservation[] observations, Map<IObserver, Color> colorMap) {
 
         super(om);
 
@@ -58,7 +58,7 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
         super.setModal(true);
 
         // Sort observations by date
-        TreeSet sortedObervations = new TreeSet(new ObservationComparator(true));
+        TreeSet<IObservation> sortedObervations = new TreeSet<>(new ObservationComparator(true));
         sortedObervations.addAll(Arrays.asList(observations));
 
         MagnitudeDiagramm diagramm = new MagnitudeDiagramm(om, sortedObervations, colorMap);
@@ -129,6 +129,11 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
 class MagnitudeDiagramm extends JPanel implements MouseListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
@@ -142,10 +147,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     private ObservationManager om = null;
 
     // The data to be drawn
-    private SortedSet observations = null;
+    private SortedSet<IObservation> observations = null;
 
     // The observer / color assignment
-    private Map colorMap = null;
+    private Map<IObserver, Color> colorMap = null;
 
     // The 2D Graphics object on which we'll paint
     private Graphics2D g2d = null;
@@ -176,7 +181,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     // All spots which indicate a observation in the diagramm
     private DataSpot[] dataSpots = null;
 
-    public MagnitudeDiagramm(ObservationManager om, SortedSet observations, Map colorMap) {
+    public MagnitudeDiagramm(ObservationManager om, SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
 
         this.om = om;
 
@@ -503,10 +508,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         float currentValueXPos = 0;
         float currentValueYPos = 0;
         int i = 0;
-        Iterator iterator = this.observations.iterator();
+        Iterator<IObservation> iterator = this.observations.iterator();
         IObservation current = null;
         while (iterator.hasNext()) {
-            current = (IObservation) iterator.next();
+            current = iterator.next();
 
             // Set color for painting
             g2d.setPaint((Color) this.colorMap.get(current.getObserver()));
@@ -756,10 +761,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     private float getMaxY() {
 
         float max = Float.MIN_VALUE;
-        Iterator iterator = this.observations.iterator();
+        Iterator<IObservation> iterator = this.observations.iterator();
         float mag = 0.0f;
         while (iterator.hasNext()) {
-            mag = ((FindingVariableStar) (((IObservation) (iterator.next())).getResults().get(0))).getMagnitude();
+            mag = ((FindingVariableStar) (( iterator.next()).getResults().get(0))).getMagnitude();
             max = Math.max(mag, max);
         }
 
@@ -770,10 +775,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     private float getMinY() {
 
         float min = Float.MAX_VALUE;
-        Iterator iterator = this.observations.iterator();
+        Iterator<IObservation> iterator = this.observations.iterator();
         float mag = 0.0f;
         while (iterator.hasNext()) {
-            mag = ((FindingVariableStar) (((IObservation) (iterator.next())).getResults().get(0))).getMagnitude();
+            mag = ((FindingVariableStar) ((iterator.next()).getResults().get(0))).getMagnitude();
             min = Math.min(mag, min);
         }
 
@@ -862,9 +867,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     }
 
-    private SortedSet getObservations(SortedSet observations, Map colorMap) {
+    private SortedSet<IObservation> getObservations(SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
 
-        Iterator iterator = observations.iterator();
+        Iterator<IObservation> iterator = observations.iterator();
         IObservation current = null;
         while (iterator.hasNext()) {
             current = (IObservation) iterator.next();
@@ -881,6 +886,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
 class DataSpot extends Ellipse2D.Float {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private IObservation observation = null;
 
     public DataSpot(float x, float y, float w, float h, IObservation observation) {

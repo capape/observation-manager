@@ -42,7 +42,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
     private JCheckBox[] catalogCheckBoxes = null;
 
-    private ArrayList result = null;
+    private ArrayList<ICatalog> result = null;
 
     public StatisticsQueryDialog(ObservationManager om) {
 
@@ -63,7 +63,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
         this.catalogs = new ICatalog[catalogNumber]; // All catalogs
         this.catalogCheckBoxes = new JCheckBox[catalogNumber]; // All catalog UI checkboxes
-        this.result = new ArrayList(catalogNumber); // All selected checkboxes that are used to create stats
+        this.result = new ArrayList<>(catalogNumber); // All selected checkboxes that are used to create stats
 
         // Load all "real" catalogs
         for (int i = 0; i < catalogNames.length; i++) {
@@ -119,7 +119,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
     }
 
-    public List getSelectedCatalogs() {
+    public List<ICatalog> getSelectedCatalogs() {
 
         return this.result;
 

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -173,7 +174,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initFindingPanels() {
 
-        HashMap findingPanels = new HashMap();
+        Map<String, String> findingPanels = new HashMap<>();
 
         findingPanels.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         findingPanels.put(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE,
@@ -188,7 +189,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initTargetPanels() {
 
-        HashMap targetPanels = new HashMap();
+        Map<String, String> targetPanels = new HashMap<>();
 
         targetPanels.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetCometPanel");
@@ -207,7 +208,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initTargetDialogs() {
 
-        HashMap targetDialogs = new HashMap();
+        Map<String, String> targetDialogs = new HashMap<>();
 
         targetDialogs.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.dialog.SolarSystemTargetCometDialog");

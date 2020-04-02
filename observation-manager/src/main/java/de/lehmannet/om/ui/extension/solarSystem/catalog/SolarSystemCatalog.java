@@ -7,7 +7,11 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.catalog;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;
@@ -17,7 +21,6 @@ import de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
-import de.lehmannet.om.util.SchemaException;
 
 public class SolarSystemCatalog implements IListableCatalog {
 
@@ -38,7 +41,7 @@ public class SolarSystemCatalog implements IListableCatalog {
 
     // Key = Name
     // Value = Target
-    private final Map map = new LinkedHashMap();
+    private final Map<String,ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
     private Locale lastKnownDefaultLocale = Locale.getDefault();
@@ -181,6 +184,10 @@ public class SolarSystemCatalog implements IListableCatalog {
 
 class SolarSystemTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "SolSys";
 
     public SolarSystemTableModel(SolarSystemCatalog catalog) {
