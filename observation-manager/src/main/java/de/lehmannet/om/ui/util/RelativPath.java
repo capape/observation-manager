@@ -29,8 +29,8 @@ public class RelativPath {
             home = new File(home.getParent());
         }
 
-        List homelist = RelativPath.getPathList(home);
-        List filelist = RelativPath.getPathList(f);
+        List<String> homelist = RelativPath.getPathList(home);
+        List<String> filelist = RelativPath.getPathList(f);
 
         return RelativPath.matchPathLists(homelist, filelist);
 
@@ -44,9 +44,9 @@ public class RelativPath {
      *            input file
      * @return a List collection with the individual elements of the path in reverse order
      */
-    private static List getPathList(File f) {
+    private static List<String> getPathList(File f) {
 
-        List l = new ArrayList();
+        List<String> l = new ArrayList<>();
         File r;
 
         try {
@@ -72,7 +72,7 @@ public class RelativPath {
      * @param f
      *            path of file
      */
-    private static String matchPathLists(List r, List f) {
+    private static String matchPathLists(List<String> r, List<String> f) {
 
         int i;
         int j;

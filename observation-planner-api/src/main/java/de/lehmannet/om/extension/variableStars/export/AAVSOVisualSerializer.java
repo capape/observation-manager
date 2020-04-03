@@ -98,7 +98,7 @@ public class AAVSOVisualSerializer implements ISerializer {
 
     // List of variable star observations (IObservation) which should be written
     // into file
-    private List variableStarObservations = new ArrayList(0);
+    private List<IObservation> variableStarObservations = new ArrayList<>(0);
 
     // ------------
     // Constructors -----------------------------------------------------------
@@ -113,7 +113,7 @@ public class AAVSOVisualSerializer implements ISerializer {
      * @param variableStarObservations
      *            List of IObservation elements for serialization
      */
-    public AAVSOVisualSerializer(String softwareName, List variableStarObservations) {
+    public AAVSOVisualSerializer(String softwareName, List<IObservation> variableStarObservations) {
 
         this.softwareName = softwareName;
         this.variableStarObservations = variableStarObservations;
@@ -134,13 +134,13 @@ public class AAVSOVisualSerializer implements ISerializer {
         // Write header
         stream.write(this.getHeader().getBytes());
 
-        ListIterator iterator = this.variableStarObservations.listIterator();
+        ListIterator<IObservation> iterator = this.variableStarObservations.listIterator();
         IObservation currentObservation = null;
         IObserver currentObserver = null;
         String initials = "";
         int counter = 0;
         while (iterator.hasNext()) {
-            currentObservation = (IObservation) iterator.next();
+            currentObservation = iterator.next();
             currentObserver = currentObservation.getObserver();
 
             // Get Variable Star Finding
@@ -198,8 +198,8 @@ public class AAVSOVisualSerializer implements ISerializer {
 
             // Write comparism star data (only first and second here. Rest goes into
             // comments)
-            List comparismStars = fvs.getComparismStars();
-            String cs1 = (String) comparismStars.get(0);
+            List<String> comparismStars = fvs.getComparismStars();
+            String cs1 = comparismStars.get(0);
             stream.write(cs1.getBytes());
             stream.write(AAVSOVisualSerializer.DELIMITER);
             if (comparismStars.size() == 1) { // Only one comparism star
@@ -225,9 +225,9 @@ public class AAVSOVisualSerializer implements ISerializer {
 
             // If there are more comp. stars add them here
             if (comparismStars.size() > 2) {
-                ListIterator compStarItertor = comparismStars.listIterator(2);
+                ListIterator<String> compStarItertor = comparismStars.listIterator(2);
                 while (compStarItertor.hasNext()) {
-                    notes.append((String) compStarItertor.next()).append(","); // This delimiter must be !=
+                    notes.append(compStarItertor.next()).append(","); // This delimiter must be !=
                     // AAVSOVisualSerializer.DELIMITER
                 }
                 notes.append(" - ");

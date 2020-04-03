@@ -317,13 +317,13 @@ public class BehaviourPanel extends PreferencesPanel {
     private void setLanguageForAllFindings(String isoLanguage) {
 
         IObservation[] observations = this.om.getXmlCache().getObservations();
-        List findings = null;
-        Iterator iter = null;
+        List<IFinding> findings = null;
+        Iterator<IFinding> iter = null;
         for (IObservation observation : observations) {
             findings = observation.getResults();
             iter = findings.listIterator();
             while (iter.hasNext()) {
-                ((IFinding) iter.next()).setLanguage(isoLanguage);
+                iter.next().setLanguage(isoLanguage);
             }
         }
 

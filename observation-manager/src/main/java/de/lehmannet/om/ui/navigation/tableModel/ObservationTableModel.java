@@ -18,6 +18,11 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class ObservationTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Observation";
 
     private ObservationManager om = null;
@@ -94,9 +99,9 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0: {

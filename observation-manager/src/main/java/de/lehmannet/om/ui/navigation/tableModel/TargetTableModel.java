@@ -8,11 +8,18 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class TargetTableModel extends AbstractSchemaTableModel {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     private static final String MODEL_ID = "Target";
 
@@ -166,7 +173,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void addTarget(ITarget target) {
 
-        ArrayList list = new ArrayList(java.util.Arrays.asList(super.elements));
+        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(super.elements));
         list.add(target);
         super.elements = (ITarget[]) list.toArray(new ITarget[] {});
 
@@ -174,7 +181,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void deleteTarget(ITarget target) {
 
-        ArrayList list = new ArrayList(java.util.Arrays.asList(super.elements));
+        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(super.elements));
         list.remove(target);
         super.elements = (ITarget[]) list.toArray(new ITarget[] {});
 

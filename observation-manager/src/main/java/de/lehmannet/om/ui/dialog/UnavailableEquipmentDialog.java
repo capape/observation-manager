@@ -240,6 +240,10 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
 class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final Color selectionForeground;
     private final Color selectionBackground;
     private final Color textForeground;
@@ -405,6 +409,10 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
 
 class CheckBoxEquipmentNode extends Vector {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String text = null;
     private boolean selected = false;
 

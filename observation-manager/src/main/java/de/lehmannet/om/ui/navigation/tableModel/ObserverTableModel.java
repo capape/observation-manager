@@ -13,6 +13,10 @@ import de.lehmannet.om.IObserver;
 
 public class ObserverTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Observer";
 
     public ObserverTableModel(IObserver[] observer) {
@@ -66,7 +70,7 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 2: {
-            Iterator i = observer.getContacts().iterator();
+            Iterator<String> i = observer.getContacts().iterator();
             while (i.hasNext()) {
                 value.append(i.next());
                 if (i.hasNext()) {

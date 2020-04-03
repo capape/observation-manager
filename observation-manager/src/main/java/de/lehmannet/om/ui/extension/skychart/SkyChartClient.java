@@ -725,7 +725,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     // --------------
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         return null;
 
@@ -760,7 +760,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public Set getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         return null;
 

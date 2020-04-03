@@ -185,13 +185,13 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         this.observer.setSurname(surname);
 
         String contacts = this.contacts.getText();
-        this.observer.setContacts(new ArrayList()); // Clear contacts
+        this.observer.setContacts(new ArrayList<>()); // Clear contacts
         if ((contacts != null) && !("".equals(contacts))) {
             this.observer.addContact(contacts); // Add all contacts again
         }
 
         // Add optional fields
-        Map accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
+        Map<String, String> accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
         // if( !accounts.isEmpty() ) {
         this.observer.setAccounts(accounts);
         // }
@@ -232,7 +232,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             this.observer.addContact(contacts);
         }
 
-        Map accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
+        Map<String, String> accounts = ((AccountTableModel) this.accounts.getModel()).getAllEntries();
         if (!accounts.isEmpty()) {
             this.observer.setAccounts(accounts);
         }
@@ -351,11 +351,11 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         String[] accountBoxItems = null;
         JComboBox accountBox = null;
         if ((this.observer == null) || (this.observer.getAccounts() == null)) {
-            accountBoxItems = this.getAccountBoxItems(new HashMap());
+            accountBoxItems = this.getAccountBoxItems(new HashMap<>());
             accountBox = new JComboBox(accountBoxItems);
-            this.accounts = new JTable(new AccountTableModel(new HashMap(), super.isEditable(), accountBox));
+            this.accounts = new JTable(new AccountTableModel(new HashMap<>(), super.isEditable(), accountBox));
         } else {
-            HashMap a = new HashMap(this.observer.getAccounts());
+            Map<String, String> a = new HashMap<>(this.observer.getAccounts());
             accountBoxItems = this.getAccountBoxItems(a);
             accountBox = new JComboBox(accountBoxItems);
             this.accounts = new JTable(new AccountTableModel(a, super.isEditable(), accountBox));
@@ -391,9 +391,9 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
 
     }
 
-    private String[] getAccountBoxItems(Map accounts) {
+    private String[] getAccountBoxItems(Map<String, String> accounts) {
 
-        List items = new ArrayList();
+        List<String> items = new ArrayList<>();
 
         // Add default items
         items.add(AccountListRenderer.EMPTY_LIST_ENTRY);
@@ -433,20 +433,20 @@ class AccountTableModel extends AbstractTableModel {
     private boolean tableEditable = false;
     private JComboBox box = null;
 
-    public AccountTableModel(Map map, boolean tableEditable, JComboBox box) {
+    public AccountTableModel(Map<String, String> map, boolean tableEditable, JComboBox box) {
 
         // Make sure both lists indicies are always equal
         if (map.size() > this.accounts.length) {
             this.accounts = new String[map.size()];
             this.userNames = new String[map.size()];
         }
-        Iterator iterator = map.keySet().iterator();
+        Iterator<String> iterator = map.keySet().iterator();
         String currentAccount = null;
         int i = 0;
         while (iterator.hasNext()) {
-            currentAccount = (String) iterator.next();
+            currentAccount = iterator.next();
             accounts[i] = currentAccount;
-            userNames[i++] = (String) map.get(currentAccount);
+            userNames[i++] = map.get(currentAccount);
         }
 
         this.tableEditable = tableEditable;
@@ -537,9 +537,9 @@ class AccountTableModel extends AbstractTableModel {
 
     }
 
-    public Map getAllEntries() {
+    public Map<String, String> getAllEntries() {
 
-        Map result = new HashMap();
+        Map<String, String> result = new HashMap<>();
 
         String account = null;
         String user = null;
@@ -588,10 +588,10 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         // Delete entry with help of ArrayList
-        ArrayList list = new ArrayList(Arrays.asList(this.accounts));
+        List<String> list = new ArrayList<>(Arrays.asList(this.accounts));
         list.remove(row);
         this.accounts = (String[]) list.toArray(new String[] {});
-        ArrayList list2 = new ArrayList(Arrays.asList(this.userNames));
+        List<String> list2 = new ArrayList<>(Arrays.asList(this.userNames));
         list2.remove(row);
         this.userNames = (String[]) list2.toArray(new String[] {});
 

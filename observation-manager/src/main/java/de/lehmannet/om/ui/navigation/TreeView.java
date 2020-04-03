@@ -49,6 +49,11 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TreeView extends JPanel implements TreeSelectionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
@@ -74,7 +79,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
     // Used for faster access in setSelection
     // Key=ISchemaElement - Value: SchemaElementMutableTreeNode
-    private final Map nodes = new HashMap();
+    private final Map<ISchemaElement,SchemaElementMutableTreeNode> nodes = new HashMap<>();
 
     public TreeView(ObservationManager om) {
 
@@ -467,7 +472,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
                             // Add coObserver observations to other observations (and remove doublicates via
                             // HashSet)
-                            ArrayList obs = new ArrayList(Arrays.asList(observations));
+                            List<IObservation> obs = new ArrayList<>(Arrays.asList(observations));
                             int coObsLength = coObserver.length;
                             for (IObservation iObservation : coObserver) {
                                 if (!obs.contains(iObservation)) { // New observation
@@ -504,6 +509,10 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
 class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private ISchemaElement element = null;
 
     public SchemaElementMutableTreeNode(ISchemaElement element) {
@@ -544,6 +553,10 @@ class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
 
 class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private TreeView treeView = null;
     private String imagesDir = null;
     private ObservationManager om = null;

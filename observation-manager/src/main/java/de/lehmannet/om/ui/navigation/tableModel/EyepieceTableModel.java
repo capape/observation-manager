@@ -16,6 +16,11 @@ import de.lehmannet.om.IEyepiece;
 
 public class EyepieceTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Eyepiece";
 
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
@@ -52,9 +57,9 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0:

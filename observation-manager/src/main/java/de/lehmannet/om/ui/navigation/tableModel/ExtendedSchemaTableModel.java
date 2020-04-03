@@ -34,12 +34,12 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
     public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType, String xsiFilter,
-            boolean multipleSelection, List preSelectedTargets) {
+            boolean multipleSelection, List<? extends ISchemaElement> preSelectedTargets) {
 
         this.multipleSelection = multipleSelection;
 
         // Load comparator
-        Comparator comparator = null;
+        Comparator<? extends ISchemaElement> comparator = null;
         switch (schemaElementType) {
         case IMAGER: {
             comparator = new ImagerComparator();
@@ -228,7 +228,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
 
     public List<ISchemaElement> getAllSelectedElements() {
 
-        List<ISchemaElement> result = new ArrayList();
+        List<ISchemaElement> result = new ArrayList<>();
 
         Iterator<ISchemaElement> keyIterator = this.elementMap.keySet().iterator();
         ISchemaElement current = null;
