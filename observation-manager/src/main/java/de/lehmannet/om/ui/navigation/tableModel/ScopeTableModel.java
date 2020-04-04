@@ -12,6 +12,10 @@ import de.lehmannet.om.IScope;
 
 public class ScopeTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Scope";
 
     public ScopeTableModel(IScope[] scopes) {
@@ -45,9 +49,9 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0:

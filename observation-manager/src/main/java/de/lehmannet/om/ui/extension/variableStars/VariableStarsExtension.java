@@ -43,6 +43,7 @@ import javax.swing.table.TableCellEditor;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
@@ -110,7 +111,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                     this.om.createInfo(this.uiBundle.getString("info.noObservationsFound"));
                     return;
                 }
-                ArrayList preselectedObservations = new ArrayList();
+                List<IObservation> preselectedObservations = new ArrayList<>();
                 for (IObservation allObservation : allObservations) {
                     // Only the variable star observations are of interest
                     if (TargetVariableStar.XML_XSI_TYPE_VALUE.equals(allObservation.getTarget().getXSIType())) {
@@ -126,7 +127,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                         this.uiBundle.getString("popup.exportAAVSO.selectObservations"),
                         TargetVariableStar.XML_XSI_TYPE_VALUE, preselectedObservations, true,
                         SchemaElementConstants.OBSERVATION);
-                List variableStarObservations = popup.getAllSelectedElements();
+                List<ISchemaElement> variableStarObservations = popup.getAllSelectedElements();
                 if ((variableStarObservations == null) || (variableStarObservations.isEmpty())) {
                     return;
                 }
@@ -232,7 +233,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
                 // Show color selection
                 ColorSelectionDialog colorDialog = new ColorSelectionDialog(this.om, observations);
-                Map colorMap = colorDialog.getColorMap();
+                Map<IObserver, Color> colorMap = colorDialog.getColorMap();
 
                 // Show chart
                 if (colorMap != null) {
@@ -310,9 +311,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set result = null;
+        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
             result = this.getSupportedTargetXSITypes();
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
@@ -323,18 +324,18 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     }
 
-    private Set getSupportedTargetXSITypes() {
+    private Set<String> getSupportedTargetXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(TargetVariableStar.XML_XSI_TYPE_VALUE);
 
         return result;
 
     }
 
-    private Set getSupportedFindingXSITypes() {
+    private Set<String> getSupportedFindingXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(FindingVariableStar.XML_XSI_TYPE_VALUE);
 
         return result;
@@ -362,7 +363,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private void initFindingPanels() {
 
-        HashMap findingPanels = new HashMap();
+        Map<String, String> findingPanels = new HashMap<>();
 
         findingPanels.put(FindingVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel");
@@ -375,7 +376,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private void initTargetPanels() {
 
-        HashMap targetPanels = new HashMap();
+        Map<String, String> targetPanels = new HashMap<>();
 
         targetPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel");
@@ -386,7 +387,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private void initTargetDialogs() {
 
-        HashMap targetDialogs = new HashMap();
+        Map<String, String> targetDialogs = new HashMap<>();
 
         targetDialogs.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarTargetDialog");
@@ -406,6 +407,11 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
 class ColorSelectionDialog extends JDialog implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
@@ -416,7 +422,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
     private JButton cancel = null;
 
-    private Map result = null;
+    private Map<IObserver, Color> result = null;
 
     public ColorSelectionDialog(ObservationManager om, IObservation[] observations) {
 
@@ -500,13 +506,13 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
     }
 
-    public Map getColorMap() {
+    public Map<IObserver, Color> getColorMap() {
 
         return this.result;
 
     }
 
-    private Map createMap() {
+    private Map<IObserver, Color> createMap() {
 
         ObserverColorTableModel model = (ObserverColorTableModel) this.table.getModel();
 
@@ -517,7 +523,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
     private IObserver[] getObservers() {
 
         // Make sure we only show the observers, which contributed a observation
-        ArrayList list = new ArrayList();
+        List<IObserver> list = new ArrayList<>();
         for (IObservation observation : this.observations) {
             if (!list.contains(observation.getObserver())) {
                 // Make sure the default observer is the top entry
@@ -537,6 +543,11 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 }
 
 class ObserverColorTableModel extends AbstractTableModel {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
@@ -602,9 +613,9 @@ class ObserverColorTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0: {
@@ -648,9 +659,9 @@ class ObserverColorTableModel extends AbstractTableModel {
 
     }
 
-    public Map getResult() {
+    public Map<IObserver, Color> getResult() {
 
-        Map map = new HashMap();
+        Map<IObserver, Color> map = new HashMap<>();
 
         for (int i = 0; i < this.observers.length; i++) {
             if (this.colors[i] != null) {
@@ -670,6 +681,11 @@ class ObserverColorTableModel extends AbstractTableModel {
 }
 
 class ColorEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
@@ -744,6 +760,10 @@ class ColorEditor extends AbstractCellEditor implements TableCellEditor, ActionL
 
 class VariableStarSelectorPopup extends JDialog implements ActionListener, TableModelListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private JButton ok = null;
     private JButton cancel = null;
 
@@ -819,7 +839,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
                 // Get observations in a sorted way (newest observation at the beginning)
                 ObservationComparator comparator = new ObservationComparator(true);
-                TreeSet set = new TreeSet(comparator);
+                TreeSet<IObservation> set = new TreeSet<>(comparator);
                 set.addAll(Arrays.asList(observations));
 
                 this.beginDate = ((IObservation) set.first()).getBegin();
@@ -858,7 +878,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
                 if ((observations != null) && (observations.length > 0)) {
                     // Get observations in a sorted way
                     ObservationComparator comparator = new ObservationComparator(true);
-                    TreeSet set = new TreeSet(comparator);
+                    TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
                     Calendar first = ((IObservation) set.first()).getBegin();
@@ -892,7 +912,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
                 if ((observations != null) && (observations.length > 0)) {
                     // Get observations in a sorted way
                     ObservationComparator comparator = new ObservationComparator();
-                    TreeSet set = new TreeSet(comparator);
+                    TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
                     Calendar first = ((IObservation) set.first()).getBegin();
@@ -919,7 +939,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
             return null;
         }
 
-        List selectedStars = this.tableModel.getAllSelectedElements();
+        List<ISchemaElement> selectedStars = this.tableModel.getAllSelectedElements();
         if ((selectedStars == null) || (selectedStars.isEmpty())) {
             return new IObservation[] {};
         }
@@ -927,7 +947,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
         IObservation[] observations = this.om.getXmlCache().getObservations(selectedStar);
 
         // Filter by start/end date
-        ArrayList result = new ArrayList();
+        List<IObservation> result = new ArrayList<>();
         for (IObservation observation : observations) {
             if ((observation.getBegin().before(this.beginDate)) || (observation.getBegin().after(this.endDate))) {
                 // Observation not in selected time period

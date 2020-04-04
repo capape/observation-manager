@@ -9,6 +9,8 @@ package de.lehmannet.om;
 
 import java.util.List;
 
+import java.util.Calendar;
+
 import org.w3c.dom.Element;
 
 /**
@@ -182,7 +184,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns the start date of the session
      */
-    java.util.Calendar getBegin();
+    Calendar getBegin();
 
 /**
      * Returns a List of coobservers who joined this session.<br>
@@ -190,7 +192,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
      */
-    java.util.List<IObserver> getCoObservers();
+    List<IObserver> getCoObservers();
 
 /**
      * Returns a comment about this session.<br>
@@ -205,7 +207,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns the end date of the session
      */
-    java.util.Calendar getEnd();
+    Calendar getEnd();
 
 /**
      * Returns the site of the session.<br>
@@ -252,7 +254,7 @@ public interface ISession extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new start date is <code>null</code>
      */
-    void setBegin(java.util.Calendar begin) throws IllegalArgumentException;
+    void setBegin(Calendar begin) throws IllegalArgumentException;
 
 /**
      * Sets the end date of the session.<br>
@@ -262,7 +264,7 @@ public interface ISession extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new end date is <code>null</code>
      */
-    void setEnd(java.util.Calendar end) throws IllegalArgumentException;
+    void setEnd(Calendar end) throws IllegalArgumentException;
 
 /**
      * Sets a site (location) where the session took place.<br>
@@ -297,12 +299,12 @@ public interface ISession extends ISchemaElement {
 /**
      * Sets a new List of coobservers to this session.<br>
      * The old List of coobservers will be overwritten. If you want to add one ore more coobservers to the existing list
-     * use addCoObservers(java.util.List) or addCoObserver(IObserver) instead.
+     * use addCoObservers(List) or addCoObserver(IObserver) instead.
      * 
      * @param coObservers
      *            The new List of coobservers of the session
      */
-    void setCoObservers(List coObservers);
+    void setCoObservers(List<IObserver> coObservers);
 
 /**
      * Adds a List of coobservers to this session.<br>
@@ -315,7 +317,7 @@ public interface ISession extends ISchemaElement {
      *         e.g. one of the lists elements does not implement the IObserver interface. If <b>false</b> is returned
      *         the existing list is not changed at all.
      */
-    boolean addCoObservers(java.util.List coObservers);
+    boolean addCoObservers(List<IObserver> coObservers);
 
 /**
      * Adds a single coobserver to this session.<br>
@@ -348,19 +350,19 @@ public interface ISession extends ISchemaElement {
 /**
      * Sets a List of images (path as String) for this session.<br>
      * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
-     * addImages(java.util.List) or addImage(String).<br>
+     * addImages(List) or addImage(String).<br>
      * If the new list of images was successfully attached to this session, the method will return <b>true</b>. If one
      * of the elements in the list isn't a java.lang.String object <b>false</b> is returned.<br>
      * If the new list is <code>null</code>, an IllegalArgumentException is thrown.
      * 
      * @param imagesList
      *            The new (String) list of images for this session
-     * @see de.lehmannet.om.ISession#addImages(java.util.List images)
+     * @see de.lehmannet.om.ISession#addImages(List images)
      * @see de.lehmannet.om.ISession#addImage(String image)
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code>
      */
-    void setImages(List imagesList) throws IllegalArgumentException;
+    void setImages(List<String> imagesList) throws IllegalArgumentException;
 
 /**
      * Adds a new image (path) to this session.<br>
@@ -373,7 +375,7 @@ public interface ISession extends ISchemaElement {
 /**
      * Adds a List of image paths (String) to this session.<br>
      * The new list of images will be added to the existing list of images belonging to this session. If you want to
-     * replace the old images list use setImages(java.util.List).<br>
+     * replace the old images list use setImages(List).<br>
      * If the new list of images was successfully added to the old images list, the method will return <b>true</b>. If
      * the list is empty or <code>null</code>, the old result list will remain unchanged.
      * 
@@ -382,7 +384,7 @@ public interface ISession extends ISchemaElement {
      * @return <b>true</b> if the given list was successfully added to this session images list. <b>false</b> if the new
      *         list could not be added and the old list remains unchanged.
      */
-    boolean addImages(List images);
+    boolean addImages(List<String> images);
 
 /**
      * Returns a list of images (relativ path to images), taken at this session. Might return <code>null</code> if
@@ -390,6 +392,6 @@ public interface ISession extends ISchemaElement {
      * 
      * @return List of images or <code>null</code> if no images were set.
      */
-    List getImages();
+    List<String> getImages();
 
 }

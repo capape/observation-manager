@@ -15,7 +15,12 @@ import javax.swing.JList;
 
 import de.lehmannet.om.Constellation;
 
-public class ConstellationBox extends JComboBox {
+public class ConstellationBox extends JComboBox<String> {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -90389064765087999L;
 
     private static final String EMPTY_ENTRY = "----";
 
@@ -48,7 +53,7 @@ public class ConstellationBox extends JComboBox {
         this.addEmptyItem();
 
         for (int i = 0; i < ConstellationBox.cache.length; i++) {
-            super.addItem(ConstellationBox.cache[i]);
+            super.addItem(ConstellationBox.cache[i].name());
         }
 
         if (useI18Nnames) {
@@ -141,8 +146,13 @@ public class ConstellationBox extends JComboBox {
 
 class ConstellationRenderer extends DefaultListCellRenderer {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2469467850811602651L;
+
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
             boolean cellHasFocus) {
 
         Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

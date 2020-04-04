@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -305,7 +306,7 @@ public class TableView extends JPanel {
                 if (coObserver != null) {
                     // Add coObserver observations to other observations (and remove doublicates via
                     // HashSet)
-                    ArrayList obsList = new ArrayList(Arrays.asList(obs));
+                    List<IObservation> obsList= new ArrayList<>(Arrays.asList(obs));
                     int coObsLength = coObserver.length;
                     for (IObservation iObservation : coObserver) {
                         if (!obsList.contains(iObservation)) { // New observation
@@ -622,11 +623,11 @@ public class TableView extends JPanel {
         this.saveCurrentTableModelSettings();
 
         Configuration config = observationManager.getConfiguration();
-        Map cache = observationManager.getUIDataCache();
-        Iterator iterator = cache.keySet().iterator();
+        Map<String,String> cache = observationManager.getUIDataCache();
+        Iterator<String> iterator = cache.keySet().iterator();
         String currentKey = null;
         while (iterator.hasNext()) {
-            currentKey = (String) iterator.next();
+            currentKey = iterator.next();
             if (currentKey.startsWith(TableView.CONFIG_TABLESETTINGS_PREFIX)) {
                 config.setConfig(currentKey, "" + cache.get(currentKey));
             }
@@ -770,11 +771,11 @@ public class TableView extends JPanel {
         }
 
         TableColumnModel tcm = table.getColumnModel();
-        Enumeration en = tcm.getColumns();
+        Enumeration<TableColumn> en = tcm.getColumns();
         TableColumn current = null;
         int preferedWidth;
         while (en.hasMoreElements()) {
-            current = (TableColumn) en.nextElement();
+            current = en.nextElement();
             preferedWidth = current.getPreferredWidth();
             this.observationManager.getUIDataCache().put(
                     TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex(),

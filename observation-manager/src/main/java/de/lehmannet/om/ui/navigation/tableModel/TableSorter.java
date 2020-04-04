@@ -57,6 +57,11 @@ import de.lehmannet.om.ui.comparator.TargetComparator;
 
 public class TableSorter extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Sorter";
 
     private AbstractSchemaTableModel tableModel;
@@ -67,8 +72,8 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static final Directive EMPTY_DIRECTIVE = new Directive(-1, NOT_SORTED);
 
-    private static final Comparator COMPARABLE_COMAPRATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
-    private static final Comparator LEXICAL_COMPARATOR = (o1, o2) -> {
+    private static final Comparator<?> COMPARABLE_COMAPRATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
+    private static final Comparator<?> LEXICAL_COMPARATOR = (o1, o2) -> {
 
         String o1S = o1.toString();
         String o2S = o2.toString();
@@ -128,8 +133,8 @@ public class TableSorter extends AbstractSchemaTableModel {
     private JTableHeader tableHeader;
     private final MouseListener mouseListener;
     private final TableModelListener tableModelListener;
-    private final Map columnComparators = new HashMap();
-    private final List sortingColumns = new ArrayList();
+    private final Map columnComparators = new HashMap<>();
+    private final List sortingColumns = new ArrayList<>();
 
     private TableSorter() {
 
@@ -278,7 +283,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     }
 
-    public void setColumnComparator(Class type, Comparator comparator) {
+    public void setColumnComparator(Class<?> type, Comparator<?> comparator) {
 
         if (comparator == null) {
             columnComparators.remove(type);

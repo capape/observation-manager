@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.Locale;
@@ -241,6 +240,10 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
 class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final Color selectionForeground;
     private final Color selectionBackground;
     private final Color textForeground;
@@ -406,6 +409,10 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
 
 class CheckBoxEquipmentNode extends Vector {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String text = null;
     private boolean selected = false;
 
@@ -522,6 +529,10 @@ class CheckBoxEquipmentNode extends Vector {
 
 class EquipmentLeaf extends JCheckBox implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8497892001962915732L;
     private ISchemaElement se = null;
     private UnavailableEquipmentDialog dialog = null;
     private CheckBoxEquipmentNode parentNode = null;

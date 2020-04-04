@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.lehmannet.om.Angle;
@@ -44,7 +45,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
     // Key = NGC/IC Number
     // Value = ITarget
-    private final Map map = new LinkedHashMap();
+    private final Map<String, ITarget>  map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 
@@ -132,7 +133,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
         String positionAngle = null;
         String type = null;
         String pgcNumber = null;
-        ArrayList aliasNames = new ArrayList();
+        List<String> aliasNames = new ArrayList<>();
 
         // Get each line and create target
         String line = null;

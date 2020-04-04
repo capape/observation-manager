@@ -220,7 +220,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return List of images or <code>null</code> if no images were set.
      */
-    java.util.List getImages();
+    List<String> getImages();
 
 /**
      * Returns the seeing during this observation.<br>
@@ -244,7 +244,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return A List containing the results of the observation.
      */
-    java.util.List getResults();
+    List<IFinding> getResults();
 
 /**
      * Returns the scope that was used for the observation.<br>
@@ -320,7 +320,7 @@ public interface IObservation extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new results list is <code>null</code> or empty
      */
-    boolean setResults(java.util.List results) throws IllegalArgumentException;
+    boolean setResults(List<IFinding> results) throws IllegalArgumentException;
 
 /**
      * Adds a List of results for this observation.<br>
@@ -335,7 +335,7 @@ public interface IObservation extends ISchemaElement {
      *         the new list could not be added and the old list remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
-    boolean addResults(java.util.List results);
+    boolean addResults(List<IFinding> results);
 
 /**
      * Adds a new result to this observation.<br>
@@ -358,7 +358,7 @@ public interface IObservation extends ISchemaElement {
      *         the new list could not be added and the old list remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
-    boolean addImages(java.util.List images);
+    boolean addImages(List<String> images);
 
 /**
      * Adds a new image (path) to this observation.<br>
@@ -383,7 +383,7 @@ public interface IObservation extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code> or empty
      */
-    void setImages(List imagesList) throws IllegalArgumentException;
+    void setImages(List<String> imagesList) throws IllegalArgumentException;
 
 /**
      * Sets an imager used for this observation.<br>

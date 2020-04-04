@@ -193,10 +193,10 @@ public class ObservationItemPanel extends AbstractPanel {
             this.accessories.setText(acc);
         }
 
-        List images = observation.getImages();
+        List<String> images = observation.getImages();
         if ((images != null) && !(images.isEmpty())) {
             StringBuilder imagesString = new StringBuilder();
-            Iterator iterator = images.iterator();
+            Iterator<String> iterator = images.iterator();
             while (iterator.hasNext()) {
                 imagesString.append(iterator.next());
                 if (iterator.hasNext()) {

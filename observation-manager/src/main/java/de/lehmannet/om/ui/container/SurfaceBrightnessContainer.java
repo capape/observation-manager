@@ -24,6 +24,11 @@ import de.lehmannet.om.util.FloatUtil;
 
 public class SurfaceBrightnessContainer extends Container {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4743410983946178443L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
@@ -40,7 +45,7 @@ public class SurfaceBrightnessContainer extends Container {
     private boolean editable = false;
 
     // Stores all possible units (Key: Constant; Value: DisplayName)
-    private final Map units = new HashMap();
+    private final Map<String, String> units = new HashMap<>();
 
     private JLabel Lunit = new JLabel();
     private final JComboBox unitBox = new JComboBox();
@@ -221,10 +226,10 @@ public class SurfaceBrightnessContainer extends Container {
             return null;
         }
 
-        Iterator iterator = this.units.keySet().iterator();
+        Iterator<String> iterator = this.units.keySet().iterator();
         String currentKey = null;
         while (iterator.hasNext()) {
-            currentKey = (String) iterator.next();
+            currentKey = iterator.next();
             if (this.units.get(currentKey).equals(label)) {
                 return currentKey;
             }

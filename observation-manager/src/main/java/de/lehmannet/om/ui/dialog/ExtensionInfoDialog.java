@@ -115,9 +115,9 @@ class ExtensionTableModel extends AbstractTableModel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
-    private List extensions = null;
+    private List<IExtension> extensions = null;
 
-    public ExtensionTableModel(List extensions) {
+    public ExtensionTableModel(List<IExtension> extensions) {
 
         this.extensions = extensions;
 

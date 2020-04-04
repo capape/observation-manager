@@ -48,6 +48,8 @@ public final class ObservationManagerMenuExtras {
 
     public void enableNightVisionTheme(boolean enable) {
 
+        LOGGER.debug("Night vision enabled: {}", enable);
+
         if (enable) { // Turn on night vision theme
 
             try {
@@ -95,7 +97,7 @@ public final class ObservationManagerMenuExtras {
 
                 // Try to load (default) OceanThema (available since Java 1.5)
                 // with relfection
-                Class themeClass = null;
+                Class<?> themeClass = null;
                 try {
                     themeClass = ClassLoader.getSystemClassLoader().loadClass("javax.swing.plaf.metal.OceanTheme");
                 } catch (ClassNotFoundException cnfe) {
@@ -105,10 +107,10 @@ public final class ObservationManagerMenuExtras {
 
                 boolean problem = true;
                 if (themeClass != null) { // Check if load OceanTheme succeeded
-                    Constructor[] constructors = themeClass.getConstructors();
+                    Constructor<?>[] constructors = themeClass.getConstructors();
                     if (constructors.length > 0) {
                     
-                        for (Constructor constructor : constructors) {
+                        for (Constructor<?> constructor : constructors) {
                             if (constructor.getParameterTypes().length == 0) { // Use default
                                 // constructor and
                                 // set theme
@@ -203,13 +205,8 @@ public final class ObservationManagerMenuExtras {
         // The updateChecker
         UpdateChecker updateChecker = new UpdateChecker(this.observationManager);
 
-        if (true) {
-            updateChecker.run();
-        } else {
-            Thread updateThread = new Thread(updateChecker, "Check for Updates");
-            updateThread.start();
-        }
-
+        updateChecker.run();
+        
         return updateChecker;
 
     }

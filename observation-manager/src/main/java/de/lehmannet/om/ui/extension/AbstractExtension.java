@@ -25,8 +25,8 @@ public abstract class AbstractExtension implements IExtension {
     // Key: SchemaElementConstant Value: HashMap of xsiTypes
     // HashMap of xsiTypes:
     // Key: xsiType (String) Value: Panel/Dialog classname as String
-    protected final Map panels = new HashMap();
-    protected final Map dialogs = new HashMap();
+    protected final Map<SchemaElementConstants, Map<String,String>> panels = new HashMap<>();
+    protected final Map<SchemaElementConstants, Map<String,String>> dialogs = new HashMap<>();
 
     @Override
     public abstract String getName();
@@ -41,7 +41,7 @@ public abstract class AbstractExtension implements IExtension {
     public abstract PreferencesPanel getPreferencesPanel();
 
     @Override
-    public abstract Set getSupportedXSITypes(int schemaElementConstant);
+    public abstract Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
     @Override
     public abstract boolean isCreationAllowed(String xsiType);
@@ -53,10 +53,10 @@ public abstract class AbstractExtension implements IExtension {
     public abstract ICatalog[] getCatalogs(File catalogDir);
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.FINDING));
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
 
@@ -65,30 +65,26 @@ public abstract class AbstractExtension implements IExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, int schemaElementConstant) {
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
-        Object o = this.panels.get(schemaElementConstant);
+        Map<String,String> o = this.panels.get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
         }
-
-        HashMap hm = (HashMap) o;
-        return (String) hm.get(xsiType);
+        return o.get(xsiType);
 
     }
 
     @Override
-    public String getDialogForXSIType(String xsiType, int schemaElementConstant) {
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
-        Object o = this.dialogs.get(schemaElementConstant);
+        Map<String,String> o = this.dialogs.get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
         }
-
-        HashMap hm = (HashMap) o;
-        return (String) hm.get(xsiType);
+        return o.get(xsiType);
 
     }
 

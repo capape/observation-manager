@@ -15,6 +15,11 @@ import de.lehmannet.om.ILens;
 
 public class LensTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Lens";
 
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
@@ -51,9 +56,9 @@ public class LensTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0:

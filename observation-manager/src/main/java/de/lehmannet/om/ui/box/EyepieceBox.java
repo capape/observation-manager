@@ -12,6 +12,11 @@ import de.lehmannet.om.ISchemaElement;
 
 public class EyepieceBox extends AbstractBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 9104691133403828696L;
+
     @Override
     public void addItem(ISchemaElement element) {
 

@@ -11,10 +11,10 @@ import java.util.Comparator;
 
 import de.lehmannet.om.Angle;
 
-public class AngleComparator implements Comparator {
+public class AngleComparator implements Comparator<Angle> {
 
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(Angle o1, Angle o2) {
 
         if ((o1 instanceof Angle) && (o2 instanceof Angle)) {
             Angle ao1 = (Angle) o1;

@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
@@ -57,6 +56,10 @@ import de.lehmannet.om.util.SchemaElementConstants;
 // Better way then forwarding parent object references would be to use events, but anyway...it works :-)
 public class NewDocumentDialog extends JDialog implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     // Result constants
     public static final int CANCEL = -1;
     private static final int OK_BLANK = 0;
@@ -145,7 +148,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     }
 
-    public ISchemaElement[] getSchemaElements(int schemaElementCode) {
+    public ISchemaElement[] getSchemaElements(SchemaElementConstants schemaElementCode) {
 
         // Always return NULL if cancel was pressed or creation of blank document was
         // requested
@@ -154,34 +157,34 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         switch (schemaElementCode) {
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             return this.imagers;
         }
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             return this.eyepieces;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             return this.filters;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             return this.lenses;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             return this.observations;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             return this.observers;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             return this.scopes;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             return this.sessions;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             return this.sites;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             return this.targets;
         }
         default:
@@ -209,7 +212,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                 if (((DefaultMutableTreeNode) node).getUserObject() instanceof CheckBoxNode) { // Node is selected?
                     Object uo = ((DefaultMutableTreeNode) node).getUserObject();
                     if (((CheckBoxNode) uo).isSelected()) {
-                        ArrayList resultList = new ArrayList();
+                        List<ISchemaElement> resultList = new ArrayList<>();
                         for (int j = 0; j < model.getChildCount(node); j++) { // Iterate over all children
                             leaf = model.getChild(node, j);
                             if (leaf instanceof DefaultMutableTreeNode) {
@@ -471,11 +474,11 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                     }
                 }
                 // --- Observer
-                List coObservers = session.getCoObservers();
-                Iterator iterator = coObservers.iterator();
+                List<IObserver> coObservers = session.getCoObservers();
+                Iterator<IObserver> iterator = coObservers.iterator();
                 IObserver observer = null;
                 while (iterator.hasNext()) {
-                    observer = (IObserver) iterator.next();
+                    observer = iterator.next();
                     if (observer != null) {
                         if ((this.observers != null) && (this.observers.length > 0)) {
                             boolean found = false;
@@ -850,6 +853,10 @@ class CheckBoxNodeEditor extends DefaultTreeCellEditor {
 
 class CheckBoxNode extends Vector {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String text = null;
     private boolean selected = false;
 
@@ -891,7 +898,7 @@ class CheckBoxNode extends Vector {
         selected = newValue;
         Iterator iterator = super.iterator();
         while (iterator.hasNext()) {
-            ((SchemaElementLeaf) iterator.next()).setSelected(newValue);
+            ((SchemaElementLeaf)iterator.next()).setSelected(newValue);
         }
 
         if (newValue) {

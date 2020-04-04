@@ -33,7 +33,12 @@ import de.lehmannet.om.ui.util.EditPopupHandler;
 
 public class FindingContainer extends Container implements MouseListener {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 6234708970033440904L;
+
+	private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
     private IFinding finding = null;

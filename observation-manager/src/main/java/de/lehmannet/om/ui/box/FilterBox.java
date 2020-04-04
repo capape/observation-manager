@@ -12,6 +12,11 @@ import de.lehmannet.om.ISchemaElement;
 
 public class FilterBox extends AbstractBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -151938708804895271L;
+
     @Override
     public void addItem(ISchemaElement element) {
 

@@ -47,7 +47,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // ------------------
 
     // List of component stars as TargetStar unique IDs
-    private List components = null;
+    private List<String> components = null;
 
     // ------------
     // Constructors ------------------------------------------------------
@@ -80,7 +80,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
         // Get list of component stars
         children = target.getElementsByTagName(DeepSkyTargetMS.XML_ELEMENT_COMPONENT);
-        ArrayList componentTargetIDs = new ArrayList();
+        List<String> componentTargetIDs = new ArrayList<>();
         if (children != null) {
             if (children.getLength() > 0) {
                 for (int i = 0; i < children.getLength(); i++) {
@@ -101,14 +101,14 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     }
 
-public DeepSkyTargetMS(String starName, String datasource, List componentStars) {
+public DeepSkyTargetMS(String starName, String datasource, List<String> componentStars) {
 
         super(starName, datasource);
         this.setComponents(componentStars);
 
     }
 
-public DeepSkyTargetMS(String starName, IObserver observer, List componentStars) {
+public DeepSkyTargetMS(String starName, IObserver observer, List<String>  componentStars) {
 
         super(starName, observer);
         this.setComponents(componentStars);
@@ -197,12 +197,12 @@ public DeepSkyTargetMS(String starName, IObserver observer, List componentStars)
         // Add all components
         // Cannot use addAsLinkToXMLElement as we're dealing with unique ID links only
         // here
-        List ct = this.getComponents();
+        List<String> ct = this.getComponents();
         if (ct != null) {
-            ListIterator iterator = ct.listIterator();
+            ListIterator<String> iterator = ct.listIterator();
             String current = null;
             while (iterator.hasNext()) {
-                current = (String) iterator.next();
+                current = iterator.next();
 
                 // Create the link element
                 Element e_Link = ownerDoc.createElement(DeepSkyTargetMS.XML_ELEMENT_COMPONENT);
@@ -225,9 +225,9 @@ public DeepSkyTargetMS(String starName, IObserver observer, List componentStars)
      *
      * @return A list with all components of this multiple star, as unique IDs.
      */
-    private List getComponents() {
+    private List<String> getComponents() {
 
-        return new ArrayList(this.components);
+        return new ArrayList<>(this.components);
 
     }
 
@@ -274,22 +274,22 @@ public DeepSkyTargetMS(String starName, IObserver observer, List componentStars)
      *            the components of this multiple star system
      * @return <code>true</code> only if operation succeeded.
      */
-    public boolean setComponents(List newComponents) {
+    public boolean setComponents(List<String> newComponents) {
 
         if ((newComponents == null) || newComponents.isEmpty()) {
             return false;
         }
 
         // Make sure all entries are from type de.lehmannet.om.TargetStar or String
-        ListIterator iterator = newComponents.listIterator();
+        ListIterator<String> iterator = newComponents.listIterator();
         Object current = null;
-        ArrayList resultList = new ArrayList();
+        List<String> resultList = new ArrayList<>();
         while (iterator.hasNext()) {
             current = iterator.next();
             if (current instanceof TargetStar) {
                 resultList.add(((TargetStar) current).getID()); // Add only the ID of the target
             } else if (current instanceof String) {
-                resultList.add(current);
+                resultList.add(current.toString());
             } else {
                 log.error("DeepSkyTargetMS cannot add: {} as component. Continue with next entry...", current);
             }
@@ -317,22 +317,22 @@ public DeepSkyTargetMS(String starName, IObserver observer, List componentStars)
      *            A list of new components stars
      * @return <code>true</code> only if operation succeeded.
      */
-    public boolean addComponents(List additionalComponents) {
+    public boolean addComponents(List<String> additionalComponents) {
 
         if ((additionalComponents == null) || additionalComponents.isEmpty()) {
             return false;
         }
 
         // Make sure all entries are from type de.lehmannet.om.TargetStar
-        ListIterator iterator = additionalComponents.listIterator();
+        ListIterator<String> iterator = additionalComponents.listIterator();
         Object current = null;
-        ArrayList resultList = new ArrayList();
+        List<String> resultList = new ArrayList<>();
         while (iterator.hasNext()) {
             current = iterator.next();
             if (current instanceof TargetStar) {
                 resultList.add(((TargetStar) current).getID()); // Only add ID
             } else if (current instanceof String) {
-                resultList.add(current);
+                resultList.add(current.toString());
             }
         }
 

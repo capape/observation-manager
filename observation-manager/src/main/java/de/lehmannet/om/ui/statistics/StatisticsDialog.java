@@ -24,6 +24,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
@@ -49,7 +51,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             .getBundle("ObservationManager", Locale.getDefault());
 
     // The observers for which the statistics will be shown
-    private List observers = null;
+    private List<IObserver> observers = null;
 
     private CatalogTargets[] catalogTargets = null;
 
@@ -63,7 +65,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     private ObservationManager om = null;
 
     // All selected catalogs
-    private List selectedCatalogs = null;
+    private List<ICatalog> selectedCatalogs = null;
 
     private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
@@ -98,7 +100,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             // Get default observer for preselection
             String defaultObserverDisplayName = this.om.getConfiguration()
                     .getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
-            List preselectedObserver = new ArrayList();
+            List<IObserver> preselectedObserver = new ArrayList<>();
             for (IObserver observer : observers) {
                 if (observer.getDisplayName().equals(defaultObserverDisplayName)) {
                     preselectedObserver.add(observer);
@@ -109,7 +111,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om,
                     this.bundle.getString("dialog.statistics.observerPopup.title"), null, preselectedObserver, true,
                     SchemaElementConstants.OBSERVER);
-            this.observers = popup.getAllSelectedElements();
+            this.observers = popup.getAllSelectedElements().stream().map(x->{return (IObserver) x;}).collect(Collectors.toList());
             if ((this.observers == null) || (this.observers.isEmpty())) {
                 return;
             }
@@ -157,7 +159,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                     current = catButton;
                     if (source.equals(current)) {
                         // We set the Catalogname as ActionCommand
-                        ListIterator iterator = this.selectedCatalogs.listIterator();
+                        ListIterator<ICatalog> iterator = this.selectedCatalogs.listIterator();
                         boolean found = false;
                         IListableCatalog currentCat = null;
                         while (iterator.hasNext() && !found) {
@@ -242,7 +244,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
     private void createCatalogueStatistics() {
 
-        Iterator iterator = this.selectedCatalogs.iterator();
+        Iterator<ICatalog> iterator = this.selectedCatalogs.iterator();
         IListableCatalog current = null;
         IObservation[] observations = this.om.getXmlCache().getObservations();
 
@@ -412,14 +414,14 @@ class CatalogChecker implements Runnable {
     private IListableCatalog catalog = null;
     private IObservation[] observations = null;
     private CatalogTargets catalogTargets = null;
-    private List selectedObservers = null;
+    private List<IObserver> selectedObservers = null;
     private boolean useCoObservers = true;
 
     private boolean run = true; // Set to false to stop thread
 
     private JProgressBar progressBar = null;
 
-    public CatalogChecker(IListableCatalog catalog, IObservation[] observations, List observers, boolean useCoObservers,
+    public CatalogChecker(IListableCatalog catalog, IObservation[] observations, List<IObserver> observers, boolean useCoObservers,
             JProgressBar progress) {
 
         this.catalog = catalog;
@@ -483,12 +485,12 @@ class CatalogChecker implements Runnable {
                         if (this.observations[i].getSession() != null) {
                             if ((this.observations[i].getSession().getCoObservers() != null)
                                     && !(this.observations[i].getSession().getCoObservers().isEmpty())) {
-                                List coObservers = this.observations[i].getSession().getCoObservers();
-                                ListIterator iterator = coObservers.listIterator();
+                                List<IObserver> coObservers = this.observations[i].getSession().getCoObservers();
+                                ListIterator<IObserver> iterator = coObservers.listIterator();
                                 IObserver current = null;
                                 boolean found = false;
                                 while (iterator.hasNext()) {
-                                    current = (IObserver) iterator.next();
+                                    current = iterator.next();
                                     if (this.selectedObservers.contains(current)) {
                                         found = true; // Keep in mind that we found something
                                         break; // Break while loop
@@ -510,10 +512,10 @@ class CatalogChecker implements Runnable {
                 }
 
                 // Iterate over all findings to findout whether the target was seen at all
-                ListIterator findingIterator = this.observations[i].getResults().listIterator();
+                ListIterator<IFinding> findingIterator = this.observations[i].getResults().listIterator();
                 boolean findingSeen = false;
                 while (findingIterator.hasNext()) {
-                    if (((IFinding) findingIterator.next()).wasSeen()) {
+                    if (findingIterator.next().wasSeen()) {
                         findingSeen = true;
                         break;
                     }

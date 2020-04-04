@@ -16,9 +16,14 @@ import de.lehmannet.om.ISchemaElement;
 
 public abstract class AbstractBox extends JComboBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 800092920666294074L;
+
     private static final String EMPTY_ENTRY = "----";
 
-    private final Map map = new HashMap();
+    private final Map<String , ISchemaElement> map = new HashMap<>();
 
     // ---------
     // JComboBox --------------------------------------------------------------

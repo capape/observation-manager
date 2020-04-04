@@ -39,7 +39,7 @@ public class ProjectLoader {
 
     private ObservationManager observationManager = null;
 
-    private final List projectList = new ArrayList();
+    private final List<ProjectCatalog> projectList = new ArrayList<>();
 
     // Used to load projects in parallel
     private final ThreadGroup loadProjects = new ThreadGroup("Load all projects");
@@ -90,7 +90,7 @@ public class ProjectLoader {
         }
 
         // Load all targets, created by observer
-        List userTargets = this.loadUserTargets();
+        List<ITarget> userTargets = this.loadUserTargets();
 
         // Create a thread for all projects, where the projects will be loaded in.
         // As projects are loaded during startup and loading of projects can take some
@@ -99,7 +99,7 @@ public class ProjectLoader {
         // It must be ensured that catalogs are loaded completely before the projects,
         // as projects
         // refer to catalogs
-        ArrayList projectThreads = new ArrayList();
+        List<Thread> projectThreads = new ArrayList<>();
         File projectFile = null;
         for (String project : projects) {
             projectFile = new File(path.getAbsolutePath() + File.separator + project);
@@ -116,9 +116,9 @@ public class ProjectLoader {
 
     }
 
-    private List loadUserTargets() {
+    private List<ITarget> loadUserTargets() {
 
-        ArrayList userTargets = new ArrayList();
+        List<ITarget> userTargets = new ArrayList<>();
 
         ITarget[] targets = this.observationManager.getXmlCache().getTargets();
         for (ITarget target : targets) {
@@ -135,13 +135,13 @@ public class ProjectLoader {
 
 class ProjectLoaderRunnable implements Runnable {
 
-    private List projectList = null;
+    private List<ProjectCatalog> projectList = null;
     private File projectFile = null;
     private ObservationManager om = null;
-    private List userTargets = null;
+    private List<ITarget> userTargets = null;
     private boolean debug = false;
 
-    public ProjectLoaderRunnable(ObservationManager om, List projectList, List userTargets, File projectFile,
+    public ProjectLoaderRunnable(ObservationManager om, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile,
             boolean debug) {
 
         this.om = om;
@@ -198,10 +198,10 @@ class ProjectLoaderRunnable implements Runnable {
             String t_name = this.formatName(targetName);
 
             if (!this.userTargets.isEmpty()) { // There are userTargets at all
-                ListIterator iterator = this.userTargets.listIterator();
+                ListIterator<ITarget> iterator = this.userTargets.listIterator();
                 ITarget current = null;
                 while (iterator.hasNext()) {
-                    current = (ITarget) iterator.next();
+                    current =iterator.next();
 
                     ut_name = this.formatName(current.getName());
                     if (ut_name.equals(t_name)) { // Target names match
@@ -281,7 +281,7 @@ class ProjectLoaderRunnable implements Runnable {
         }
 
         // Try to read file line by line
-        ArrayList targets = new ArrayList();
+        List<ITarget> targets = new ArrayList<>();
         ITarget target = null;
         String name = null;
         try {

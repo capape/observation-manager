@@ -135,7 +135,7 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        List acceptedLanguages = this.getInstalledLanguages();
+        List<String> acceptedLanguages = this.getInstalledLanguages();
         this.uiLanguage = new LanguageBox(acceptedLanguages, Locale.getDefault().getLanguage(), false);
         this.uiLanguage.setEnabled(true);
         this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
@@ -234,9 +234,9 @@ public class GeneralPanel extends PreferencesPanel {
 
     // Installed languages get determined by accessing the observationManager.jar
     // and getting all locales for ObservationManager_??.properties
-    private List getInstalledLanguages() {
+    private List<String> getInstalledLanguages() {
 
-        ArrayList result = new ArrayList();
+        List<String> result = new ArrayList<>();
 
         // Get JARs from classpath
         String sep = System.getProperty("path.separator");
@@ -272,32 +272,28 @@ public class GeneralPanel extends PreferencesPanel {
 
     }
 
-    private ArrayList scanJarFile(File jarFile) {
+    private List<String> scanJarFile(File jarFile) {
 
-        ArrayList result = new ArrayList();
 
-        ZipFile archive = null;
-        try {
-            archive = new ZipFile(jarFile);
+        try (ZipFile archive = new ZipFile(jarFile)) {
+            List<String> result = new ArrayList<>();
+            Enumeration<? extends ZipEntry> enu = archive.entries();
+            Locale l = null;
+            while (enu.hasMoreElements()) {
+                ZipEntry entry = (ZipEntry) enu.nextElement();
+                String name = entry.getName();
+
+                if ((name.startsWith("ObservationManager_")) && (name.endsWith(".properties"))) {
+                    l = new Locale(name.substring(name.indexOf("_") + 1, name.indexOf(".")));
+                    result.add(l.getLanguage());
+                }
+            }
+
+            return result;
         } catch (IOException zipEx) {
             System.err.println("Error while accessing JAR file.\n" + zipEx);
             return null;
+
         }
-
-        Enumeration enu = archive.entries();
-        Locale l = null;
-        while (enu.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry) enu.nextElement();
-            String name = entry.getName();
-
-            if ((name.startsWith("ObservationManager_")) && (name.endsWith(".properties"))) {
-                l = new Locale(name.substring(name.indexOf("_") + 1, name.indexOf(".")));
-                result.add(l.getLanguage());
-            }
-        }
-
-        return result;
-
     }
-
 }

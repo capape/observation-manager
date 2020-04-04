@@ -101,7 +101,7 @@ public class FindingVariableStar extends Finding {
     // The label of the first comparison star used. Could be the magnitude label on
     // the chart, and auid,
     // or something else.
-    private final List comparismStars = new ArrayList(4);
+    private final List<String> comparismStars = new ArrayList<>(4);
 
     // Flag indicating whether this finding was already exported into the AAVSO
     // format
@@ -310,7 +310,7 @@ public FindingVariableStar(Node findingElement) throws SchemaException {
 
     }
 
-public FindingVariableStar(float magnitude, List comparismStars, String chartDate) {
+public FindingVariableStar(float magnitude, List<String> comparismStars, String chartDate) {
 
         super("");
 
@@ -364,7 +364,7 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
         buffer.append(" Chart date=");
         buffer.append(this.getChartDate());
         buffer.append(" Comparism stars=");
-        ListIterator iterator = this.comparismStars.listIterator();
+        ListIterator<String> iterator = this.comparismStars.listIterator();
         while (iterator.hasNext()) {
             buffer.append(iterator.next());
             if (iterator.hasNext()) {
@@ -496,7 +496,7 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
         e_Finding.appendChild(e_visMag);
 
         // (Iterate over all) Comparism stars
-        ListIterator compStarIterator = this.comparismStars.listIterator();
+        ListIterator<String> compStarIterator = this.comparismStars.listIterator();
         Element e_currentCompStar = null;
         Node e_currentCompStarText = null;
         while (compStarIterator.hasNext()) {
@@ -601,9 +601,9 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
      * 
      * @return java.lang.List containing java.lang.String objects representing the comparism star
      */
-    public List getComparismStars() {
+    public List<String> getComparismStars() {
 
-        return new ArrayList(this.comparismStars);
+        return new ArrayList<>(this.comparismStars);
 
     }
 
@@ -707,7 +707,7 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
      * @throws IllegalArgumentException
      *             if the given new List doesn't contain at least one entry
      */
-    public void setComparismStars(List comparismStars) throws IllegalArgumentException {
+    public void setComparismStars(List<String> comparismStars) throws IllegalArgumentException {
 
         // List is null or empty
         if ((comparismStars == null) || comparismStars.isEmpty()) {
@@ -755,7 +755,7 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
      *            A List of comparism star which will be added to the existing List of comparism star which is stored in
      *            the finding
      */
-    private void addAllComparismStars(List comparismStars) {
+    private void addAllComparismStars(List<String> comparismStars) {
 
         // List is null or empty
         if ((comparismStars == null) || comparismStars.isEmpty()) {
@@ -763,10 +763,10 @@ public FindingVariableStar(float magnitude, List comparismStars, String chartDat
         }
 
         // Add each entry seperatly to ensure it is a Float and not Float.NaN
-        ListIterator iterator = comparismStars.listIterator();
+        ListIterator<String> iterator = comparismStars.listIterator();
         String current = null;
         while (iterator.hasNext()) {
-            current = (String) iterator.next();
+            current = iterator.next();
             current = current.trim();
             this.addComparismStar(current);
         }

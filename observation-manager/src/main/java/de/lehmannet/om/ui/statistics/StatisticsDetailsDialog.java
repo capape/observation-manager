@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -35,7 +34,6 @@ import org.w3c.dom.Document;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
-import de.lehmannet.om.ui.catalog.CatalogLoader;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
@@ -156,8 +154,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
                 XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
 
-                List observations = null;
-                ListIterator iterator = null;
+                List<IObservation> observations = null;
+                ListIterator<IObservation> iterator = null;
                 for (TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() != null) {
                         observations = targetObservation.getObservations();
@@ -223,14 +221,14 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                List observations = null;
-                ListIterator iterator = null;
+                List<IObservation> observations = null;
+                ListIterator<IObservation> iterator = null;
                 for (TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() != null) {
                         observations = targetObservation.getObservations();
                         iterator = observations.listIterator();
                         while (iterator.hasNext()) {
-                            xmlHelper.addSchemaElement((IObservation) iterator.next(), true);
+                            xmlHelper.addSchemaElement(iterator.next(), true);
                         }
                     }
                 }
@@ -463,6 +461,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
 class DetailPanel extends AbstractPanel implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;

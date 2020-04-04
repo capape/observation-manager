@@ -46,7 +46,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     private String name = "";
 
     // Alternative names of the astronomical object
-    private final List aliasNames = new LinkedList();
+    private final List<String> aliasNames = new LinkedList<>();
 
     // Celestial position of the astronomical object
     private EquPosition position = null;
@@ -540,7 +540,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            An array with new alias name
      */
     @Override
-    public void setAliasNames(String[] newAliasNames) {
+    public void setAliasNames(String ... newAliasNames) {
 
         if ((newAliasNames == null) || (newAliasNames.length == 0)) {
             this.aliasNames.clear();
@@ -855,11 +855,11 @@ public abstract class Target extends SchemaElement implements ITarget {
         if (!aliasNames.isEmpty()) {
 
             Element e_Alias = null;
-            ListIterator iterator = aliasNames.listIterator();
+            ListIterator<String> iterator = aliasNames.listIterator();
             String alias = null;
             while (iterator.hasNext()) {
 
-                alias = (String) iterator.next();
+                alias = iterator.next();
 
                 e_Alias = ownerDoc.createElement(XML_ELEMENT_ALIASNAME);
                 Node n_AliasText = ownerDoc.createCDATASection(alias);

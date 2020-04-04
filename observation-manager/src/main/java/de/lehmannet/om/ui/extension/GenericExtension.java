@@ -24,9 +24,9 @@ public class GenericExtension implements IExtension {
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("genericTargetDisplayNames", Locale.getDefault());
 
-    private final Map findingPanels = new HashMap();
-    private final Map targetPanels = new HashMap();
-    private final Map targetDialogs = new HashMap();
+    private final Map<String, String> findingPanels = new HashMap<>();
+    private final Map<String, String> targetPanels = new HashMap<>();
+    private final Map<String, String> targetDialogs = new HashMap<>();
 
     public GenericExtension() {
 
@@ -88,10 +88,10 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedFindingXSITypes());
         result.addAll(this.getSupportedTargetXSITypes());
 
@@ -100,9 +100,9 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set result = null;
+        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
             result = this.getSupportedTargetXSITypes();
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
@@ -113,9 +113,9 @@ public class GenericExtension implements IExtension {
 
     }
 
-    private Set getSupportedTargetXSITypes() {
+    private Set<String> getSupportedTargetXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(GenericTarget.XML_XSI_TYPE_VALUE);
         result.add(TargetStar.XML_XSI_TYPE_VALUE);
 
@@ -123,9 +123,9 @@ public class GenericExtension implements IExtension {
 
     }
 
-    private Set getSupportedFindingXSITypes() {
+    private Set<String> getSupportedFindingXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(GenericFinding.XML_XSI_TYPE_VALUE);
 
         return result;
@@ -133,7 +133,7 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, int schemaElementConstants) {
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.FINDING == schemaElementConstants) {
             return (String) this.findingPanels.get(xsiType);
@@ -146,7 +146,7 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public String getDialogForXSIType(String xsiType, int schemaElementConstants) {
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.TARGET == schemaElementConstants) {
             return (String) this.targetDialogs.get(xsiType);

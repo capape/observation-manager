@@ -12,6 +12,11 @@ import de.lehmannet.om.ITarget;
 
 public class TargetBox extends AbstractBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7187306084567226194L;
+
     @Override
     public void addItem(ISchemaElement element) {
 

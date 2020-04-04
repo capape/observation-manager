@@ -17,6 +17,7 @@ import org.w3c.dom.Element;
 
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.util.SchemaElementConstants;
 
 public interface IExtension {
 
@@ -30,13 +31,13 @@ public interface IExtension {
 
     ICatalog[] getCatalogs(File catalogDir);
 
-    Set getAllSupportedXSITypes();
+    Set<String> getAllSupportedXSITypes();
 
-    Set getSupportedXSITypes(int schemaElementConstant);
+    Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
-    String getPanelForXSIType(String xsiType, int schemaElementConstant);
+    String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant);
 
-    String getDialogForXSIType(String xsiType, int schemaElementConstant);
+    String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant);
 
     boolean isCreationAllowed(String xsiType);
 

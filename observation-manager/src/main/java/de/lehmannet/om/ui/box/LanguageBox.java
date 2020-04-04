@@ -13,15 +13,20 @@ import javax.swing.JComboBox;
 
 public class LanguageBox extends JComboBox {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1072100720767774207L;
+
     private static final String EMPTY_ENTRY = "----";
 
     // Allow empty entry
     private boolean allowEmptyEntry = true;
 
     // Use tree map for sorting
-    private final Map map = new TreeMap();
+    private final Map<String, String> map = new TreeMap<>();
 
-    private LanguageBox(List acceptedLanguages, boolean acceptEmptyEntry) {
+    private LanguageBox(List<String> acceptedLanguages, boolean acceptEmptyEntry) {
 
         // Load language file (default locale is set by OM)
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("contentLanguages",
@@ -36,11 +41,11 @@ public class LanguageBox extends JComboBox {
 
         // Put all isoKeys and language strings in a TreeMap which will sort them
         if (this.map.size() == 0) { // Do only once (static)
-            Enumeration e = bundle.getKeys();
+            Enumeration<String> e = bundle.getKeys();
             String isoKey = null;
             String lang = null;
             while (e.hasMoreElements()) {
-                isoKey = (String) e.nextElement();
+                isoKey = e.nextElement();
                 if (!acceptedLanguages.isEmpty()) { // An empty list = accept all languages
                     if (!acceptedLanguages.contains(isoKey)) { // Check if language is allowed
                         continue;
@@ -52,10 +57,10 @@ public class LanguageBox extends JComboBox {
         }
 
         // Add all languagestrings to super class (now as they're sorted)
-        Iterator i = map.keySet().iterator();
+        Iterator<String> i = map.keySet().iterator();
         String key = null;
         while (i.hasNext()) {
-            key = (String) i.next();
+            key = i.next();
             super.addItem(key);
         }
 
@@ -69,18 +74,18 @@ public class LanguageBox extends JComboBox {
 
     public LanguageBox(boolean allowEmptyEntry) {
 
-        this(new ArrayList(), allowEmptyEntry);
+        this(new ArrayList<String>(), allowEmptyEntry);
 
     }
 
     public LanguageBox(String isoKey, boolean allowEmptyEntry) {
 
-        this(new ArrayList(), allowEmptyEntry);
+        this(new ArrayList<String>(), allowEmptyEntry);
         this.setLanguage(isoKey);
 
     }
 
-    public LanguageBox(List acceptedLanguages, String isoKey, boolean allowEmptyEntry) {
+    public LanguageBox(List<String> acceptedLanguages, String isoKey, boolean allowEmptyEntry) {
 
         this(acceptedLanguages, allowEmptyEntry);
         this.setLanguage(isoKey);
@@ -111,10 +116,10 @@ public class LanguageBox extends JComboBox {
 
         isoKey = isoKey.toLowerCase().trim();
         if (this.map.containsValue(isoKey)) {
-            Iterator i = this.map.keySet().iterator();
+            Iterator<String> i = this.map.keySet().iterator();
             String current = null;
             while (i.hasNext()) {
-                current = (String) i.next();
+                current = i.next();
                 if (isoKey.equals(this.map.get(current))) {
                     super.setSelectedItem(current);
                     return;

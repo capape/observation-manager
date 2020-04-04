@@ -27,6 +27,11 @@ import de.lehmannet.om.util.Ephemerides;
 
 public class MoonDetailContainer extends JLabel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8924593147222865850L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 

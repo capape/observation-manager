@@ -19,13 +19,18 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 
 public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Statistics";
 
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
     private CatalogTargets catalogTargets = null;
-    private ArrayList rowIndexMapping = null;
+    private List<TargetObservation> rowIndexMapping = null;
 
     public ObservationStatisticsTableModel(CatalogTargets catalogTargets) {
 
@@ -33,7 +38,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
         // Build row index map
         // Maps the table row against the array index of the catalogTarget array
-        this.rowIndexMapping = new ArrayList();
+        this.rowIndexMapping = new ArrayList<>();
         TargetObservations[] to = this.catalogTargets.getTargetObservations();
         int rowNumber = 0;
         int obsNumber = 0;
@@ -72,9 +77,9 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0: {
@@ -117,7 +122,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 1: {
-            List l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
+            List<IObservation> l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
             if (l != null) {
                 value = l.get(to.observtionIndex);
             }

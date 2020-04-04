@@ -37,6 +37,11 @@ import de.lehmannet.om.ui.util.RelativPath;
 
 public class ImageContainer extends Container implements MouseListener, Scrollable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
@@ -54,7 +59,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     private int numberOfImages = 0;
 
-    public ImageContainer(List files, ObservationManager om, boolean editable) {
+    public ImageContainer(List<String> files, ObservationManager om, boolean editable) {
 
         this.om = om;
         this.editable = editable;
@@ -65,7 +70,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     }
 
-    public void addImages(List images) {
+    public void addImages(List<String> images) {
 
         if ((images == null) || (images.size() <= 0)) {
             return;
@@ -80,19 +85,19 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         for (; i < images.size(); i++) {
 
             // The given list can contain File or String objects
-            if (images.get(i) instanceof String) {
+            // if (images.get(i) instanceof String) {
                 path = (String) images.get(i);
                 if (path.startsWith("." + File.separator)) { // Path is relative
                     path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
                             + File.separator + path;
                 }
-            } else {
-                path = ((File) images.get(i)).getAbsolutePath();
-                if (path.startsWith("." + File.separator)) { // Path is relative
-                    path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
-                            + File.separator + path;
-                }
-            }
+            // } else {
+            //     path = ((File) images.get(i)).getAbsolutePath();
+            //     if (path.startsWith("." + File.separator)) { // Path is relative
+            //         path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
+            //                 + File.separator + path;
+            //     }
+            // }
 
             if (!((path.endsWith(".fits")) || (path.endsWith(".fit")) || (path.endsWith(".fts")))) {
                 image = Toolkit.getDefaultToolkit().getImage(path);
@@ -136,11 +141,11 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     }
 
-    public List getImages(String homeDir) {
+    public List<String> getImages(String homeDir) {
 
         // No images were set
         if (super.getComponents() == null) {
-            return new ArrayList();
+            return new ArrayList<String>();
         }
 
         // Find out whether images path should be returned relative or absolute
@@ -152,7 +157,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
         // Add each image individually
         Component[] comps = super.getComponents();
-        ArrayList result = new ArrayList(comps.length);
+        List<String> result = new ArrayList<>(comps.length);
         for (Component comp : comps) {
             MyImageLabel l = null;
             if (comp instanceof MyImageLabel) {
@@ -272,6 +277,10 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
 class MyImageLabel extends JLabel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1770949789891300L;
     private String path = null;
     private JLabel deleteButton = null;
 

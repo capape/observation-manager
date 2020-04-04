@@ -16,6 +16,10 @@ import de.lehmannet.om.Site;
 
 public class SiteTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Site";
 
     public SiteTableModel(ISite[] sites) {
@@ -49,9 +53,9 @@ public class SiteTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0: {

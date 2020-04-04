@@ -15,6 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -207,7 +208,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     public String[] getAliasNames() {
 
-        ArrayList list = new ArrayList();
+        List<String> list = new ArrayList<>();
 
         String aliasNames = this.targetAliasNames.getText();
         if ((aliasNames != null) && !("".equals(aliasNames))) {

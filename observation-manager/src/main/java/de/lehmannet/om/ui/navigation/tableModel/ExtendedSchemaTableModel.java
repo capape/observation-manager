@@ -21,61 +21,68 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ExtendedSchemaTableModel extends AbstractTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
-    private Map elementMap = null;
+    private Map<ISchemaElement, Boolean> elementMap = null;
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
-    public ExtendedSchemaTableModel(ISchemaElement[] elements, int schemaElementType, String xsiFilter,
-            boolean multipleSelection, List preSelectedTargets) {
+    public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType, String xsiFilter,
+            boolean multipleSelection, List<? extends ISchemaElement> preSelectedTargets) {
 
         this.multipleSelection = multipleSelection;
 
         // Load comparator
-        Comparator comparator = null;
+        Comparator<? extends ISchemaElement> comparator = null;
         switch (schemaElementType) {
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             comparator = new ImagerComparator();
             break;
         }
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             comparator = new EyepieceComparator();
             break;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             comparator = new FilterComparator();
             break;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             comparator = new LensComparator();
             break;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             comparator = new ObservationComparator();
             break;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             comparator = new ObserverComparator();
             break;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             comparator = new ScopeComparator();
             break;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             comparator = new SessionComparator();
             break;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             comparator = new SiteComparator();
             break;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             comparator = new TargetComparator();
             break;
         }
+        default:
+            break;
         }
 
         // Initialize TreeMap
@@ -219,15 +226,15 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
 
     }
 
-    public List getAllSelectedElements() {
+    public List<ISchemaElement> getAllSelectedElements() {
 
-        ArrayList result = new ArrayList();
+        List<ISchemaElement> result = new ArrayList<>();
 
-        Iterator keyIterator = this.elementMap.keySet().iterator();
+        Iterator<ISchemaElement> keyIterator = this.elementMap.keySet().iterator();
         ISchemaElement current = null;
         Boolean currentValue = null;
         while (keyIterator.hasNext()) {
-            current = (ISchemaElement) keyIterator.next();
+            current =keyIterator.next();
             currentValue = (Boolean) this.elementMap.get(current);
             if (currentValue) {
                 result.add(current);

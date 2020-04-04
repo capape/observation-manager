@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -100,10 +101,10 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstants) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstants) {
 
         if (SchemaElementConstants.IMAGER == schemaElementConstants) {
-            HashSet hs = new HashSet();
+            Set<String> hs = new HashSet<>();
             hs.add(CCDImager.XML_ATTRIBUTE_CCDIMAGER);
 
             return hs;
@@ -114,7 +115,7 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         return this.getSupportedXSITypes(SchemaElementConstants.IMAGER);
 
@@ -136,7 +137,7 @@ public class ImagerExtension extends AbstractExtension {
 
     private void initPanels() {
 
-        HashMap panels = new HashMap();
+        Map<String,String> panels = new HashMap<>();
 
         panels.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel");
 
@@ -146,7 +147,7 @@ public class ImagerExtension extends AbstractExtension {
 
     private void initDialogs() {
 
-        HashMap dialogs = new HashMap();
+        Map<String,String> dialogs = new HashMap<>();
 
         dialogs.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog");
 

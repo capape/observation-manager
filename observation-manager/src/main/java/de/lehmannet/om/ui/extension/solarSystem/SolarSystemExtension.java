@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -107,10 +108,10 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getAllSupportedXSITypes() {
+    public Set<String> getAllSupportedXSITypes() {
 
         // Return all XSI types which are supported by this extension
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.addAll(this.getSupportedFindingXSITypes());
         result.addAll(this.getSupportedTargetXSITypes());
 
@@ -119,9 +120,9 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public Set getSupportedXSITypes(int schemaElementConstant) {
+    public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set result = null;
+        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
             result = this.getSupportedTargetXSITypes();
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
@@ -132,9 +133,9 @@ public class SolarSystemExtension extends AbstractExtension {
 
     }
 
-    private Set getSupportedTargetXSITypes() {
+    private Set<String> getSupportedTargetXSITypes() {
 
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         result.add(SolarSystemTargetComet.XML_XSI_TYPE_VALUE);
         result.add(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE);
         result.add(SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
@@ -145,9 +146,9 @@ public class SolarSystemExtension extends AbstractExtension {
 
     }
 
-    private Set getSupportedFindingXSITypes() {
+    private Set<String> getSupportedFindingXSITypes() {
 
-        return new HashSet();
+        return new HashSet<>();
 
     }
 
@@ -173,7 +174,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initFindingPanels() {
 
-        HashMap findingPanels = new HashMap();
+        Map<String, String> findingPanels = new HashMap<>();
 
         findingPanels.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         findingPanels.put(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE,
@@ -188,7 +189,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initTargetPanels() {
 
-        HashMap targetPanels = new HashMap();
+        Map<String, String> targetPanels = new HashMap<>();
 
         targetPanels.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetCometPanel");
@@ -207,7 +208,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private void initTargetDialogs() {
 
-        HashMap targetDialogs = new HashMap();
+        Map<String, String> targetDialogs = new HashMap<>();
 
         targetDialogs.put(SolarSystemTargetComet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.dialog.SolarSystemTargetCometDialog");

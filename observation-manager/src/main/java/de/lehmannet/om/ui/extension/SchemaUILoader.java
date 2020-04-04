@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -35,9 +36,9 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class SchemaUILoader {
 
     private ObservationManager observationManager = null;
-    private List extensions = null;
+    private List<IExtension> extensions = null;
 
-    public SchemaUILoader(ObservationManager om, List extensions) {
+    public SchemaUILoader(ObservationManager om, List<IExtension> extensions) {
 
         this.observationManager = om;
         this.extensions = extensions;
@@ -74,7 +75,7 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractPanel getSchemaElementPanel(String xsiType, int schemaElementConstant, ISchemaElement schemaElement,
+    public AbstractPanel getSchemaElementPanel(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
             boolean editable) {
 
         return (AbstractPanel) this.getSchemaElementUIObject(xsiType, schemaElementConstant, schemaElement, editable,
@@ -82,7 +83,7 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractDialog getSchemaElementDialog(String xsiType, int schemaElementConstant,
+    public AbstractDialog getSchemaElementDialog(String xsiType, SchemaElementConstants schemaElementConstant,
             ISchemaElement schemaElement, boolean editable) {
 
         return (AbstractDialog) this.getSchemaElementUIObject(xsiType, schemaElementConstant, schemaElement, editable,
@@ -92,11 +93,11 @@ public class SchemaUILoader {
 
     private String[] getAllXSITypes() {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             if (extension.getAllSupportedXSITypes() != null) {
                 result.addAll(extension.getAllSupportedXSITypes());
             }
@@ -106,13 +107,13 @@ public class SchemaUILoader {
 
     }
 
-    private String[] getAllXSITypes(int schemaElementConstants) {
+    private String[] getAllXSITypes(SchemaElementConstants schemaElementConstants) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
-        HashSet result = new HashSet();
+        Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension =  iterator.next();
             if (extension.getSupportedXSITypes(schemaElementConstants) != null) {
                 result.addAll(extension.getSupportedXSITypes(schemaElementConstants));
             }
@@ -122,16 +123,16 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSIDisplayNames(int schemaElementConstants) {
+    public String[] getAllXSIDisplayNames(SchemaElementConstants schemaElementConstants) {
 
         String[] types = this.getAllXSITypes(schemaElementConstants);
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
-        ArrayList result = new ArrayList();
+        List<String> result = new ArrayList<>();
         String dispName = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             for (String type : types) {
                 dispName = extension.getDisplayNameForXSIType(type);
                 if (dispName != null) {
@@ -144,16 +145,16 @@ public class SchemaUILoader {
 
     }
 
-    public String[] getAllXSIDisplayNamesForCreation(int schemaElementConstants) {
+    public String[] getAllXSIDisplayNamesForCreation(SchemaElementConstants schemaElementConstants) {
 
         String[] types = this.getAllXSITypes(schemaElementConstants);
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
-        ArrayList result = new ArrayList();
+        List<String> result = new ArrayList<>();
         String dispName = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             for (String type : types) {
                 if (extension.isCreationAllowed(type)) {
                     dispName = extension.getDisplayNameForXSIType(type);
@@ -170,11 +171,11 @@ public class SchemaUILoader {
 
     public String getDisplayNameForType(String type) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension currentExtension = null;
         String result = null;
         while (iterator.hasNext()) {
-            currentExtension = (IExtension) iterator.next();
+            currentExtension = iterator.next();
             result = currentExtension.getDisplayNameForXSIType(type);
             if (result != null) {
                 return result;
@@ -194,11 +195,11 @@ public class SchemaUILoader {
         // Get all known types
         String[] types = this.getAllXSITypes();
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
         String dispName = null;
         while (iterator.hasNext()) { // Iterator over all extensions
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             for (String type : types) { // Iterate over all types
                 dispName = extension.getDisplayNameForXSIType(type); // Check if extension knows a displayname for
                 // this type
@@ -219,11 +220,11 @@ public class SchemaUILoader {
     private AbstractPanel getFindingPanelFromXSIType(String xsiType, IFinding finding, ISession s, ITarget t,
             boolean editable) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
         String classname = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.FINDING);
             if (classname != null) {
                 break;
@@ -242,11 +243,11 @@ public class SchemaUILoader {
 
     private AbstractPanel getTargetPanelFromXSIType(String xsiType, ITarget target, IObservation o, boolean editable) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
         String classname = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.TARGET);
             if (classname != null) {
                 break;
@@ -265,11 +266,11 @@ public class SchemaUILoader {
 
     private ITargetDialog getTargetDailogFromXSIType(String xsiType, ITarget target, IObservation o) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
         String classname = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             classname = extension.getDialogForXSIType(xsiType, SchemaElementConstants.TARGET);
             if (classname != null) {
                 break;
@@ -286,12 +287,12 @@ public class SchemaUILoader {
 
     }
 
-    private Object loadByReflection(String classname, Class exampleClass, Object findingOrTarget,
-            Class additionalParameterClass1, Object additionalParameter1, Class additionalParameterClass2,
+    private Object loadByReflection(String classname, Class<?> exampleClass, Object findingOrTarget,
+            Class<?> additionalParameterClass1, Object additionalParameter1, Class<?> additionalParameterClass2,
             Object additionalParameter2, boolean editable) {
 
         // Get Java class
-        Class currentClass = null;
+        Class<?> currentClass = null;
         try {
             currentClass = Class.forName(classname);
         } catch (ClassNotFoundException cnfe) {
@@ -304,12 +305,12 @@ public class SchemaUILoader {
         }
 
         // Get constructors for class
-        Constructor[] constructors = currentClass.getConstructors();
+        Constructor<?>[] constructors = currentClass.getConstructors();
         Object object = null;
         if (constructors.length > 0) {
             try {
-                Class[] parameters = null;
-                for (Constructor constructor : constructors) {
+                Class<?>[] parameters = null;
+                for (Constructor<?> constructor : constructors) {
                     parameters = constructor.getParameterTypes();
                     if ((parameters.length == 2) && (parameters[0].isAssignableFrom(exampleClass))
                             && (parameters[1].isInstance(Boolean.FALSE))) {
@@ -360,56 +361,58 @@ public class SchemaUILoader {
 
     }
 
-    private Class getExampleClass(int schemaElementConstant) {
+    private Class<?> getExampleClass(SchemaElementConstants schemaElementConstant) {
 
         switch (schemaElementConstant) {
-        case SchemaElementConstants.EYEPIECE: {
+        case EYEPIECE: {
             return IEyepiece.class;
         }
-        case SchemaElementConstants.FILTER: {
+        case FILTER: {
             return IFilter.class;
         }
-        case SchemaElementConstants.FINDING: {
+        case FINDING: {
             return IFinding.class;
         }
-        case SchemaElementConstants.IMAGER: {
+        case IMAGER: {
             return IImager.class;
         }
-        case SchemaElementConstants.LENS: {
+        case LENS: {
             return ILens.class;
         }
-        case SchemaElementConstants.OBSERVATION: {
+        case OBSERVATION: {
             return IObservation.class;
         }
-        case SchemaElementConstants.OBSERVER: {
+        case OBSERVER: {
             return IObserver.class;
         }
-        case SchemaElementConstants.SCOPE: {
+        case SCOPE: {
             return IScope.class;
         }
-        case SchemaElementConstants.SESSION: {
+        case SESSION: {
             return ISession.class;
         }
-        case SchemaElementConstants.SITE: {
+        case SITE: {
             return ISite.class;
         }
-        case SchemaElementConstants.TARGET: {
+        case TARGET: {
             return ITarget.class;
         }
+        default:
+            break;
         }
 
         return null;
 
     }
 
-    private Object getSchemaElementUIObject(String xsiType, int schemaElementConstant, ISchemaElement schemaElement,
+    private Object getSchemaElementUIObject(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
             boolean editable, boolean dialog) {
 
-        Iterator iterator = this.extensions.iterator();
+        Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
         String classname = null;
         while (iterator.hasNext()) {
-            extension = (IExtension) iterator.next();
+            extension = iterator.next();
             if (dialog) {
                 classname = extension.getDialogForXSIType(xsiType, schemaElementConstant);
             } else {
@@ -425,7 +428,7 @@ public class SchemaUILoader {
             return null;
         }
 
-        Class exampleClass = this.getExampleClass(schemaElementConstant);
+        Class<?> exampleClass = this.getExampleClass(schemaElementConstant);
 
         return this.loadByReflection(classname, exampleClass, schemaElement, null, null, null, null, editable);
 

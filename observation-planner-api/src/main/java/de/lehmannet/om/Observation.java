@@ -63,7 +63,7 @@ public class Observation extends SchemaElement implements IObservation {
     private int seeing = -1;
 
     // Relative paths to an image (list of String)
-    private List images = new LinkedList();
+    private List<String> images = new LinkedList<>();
 
     // Imager used for this observation
     private IImager imager = null;
@@ -96,7 +96,7 @@ public class Observation extends SchemaElement implements IObservation {
     private ILens lens = null;
 
     // The results (IFinding) of the observation as List
-    private List results = new LinkedList();
+    private List<IFinding> results = new LinkedList<>();
 
     // ------------
     // Constructors ------------------------------------------------------
@@ -724,7 +724,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code> or the result list is empty
      */
-    public Observation(Calendar begin, ITarget target, IObserver observer, List results)
+    public Observation(Calendar begin, ITarget target, IObserver observer, List<IFinding> results)
             throws IllegalArgumentException {
 
         if (begin == null) {
@@ -765,7 +765,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
-    public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, List results)
+    public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, List<IFinding> results)
             throws IllegalArgumentException {
 
         this(begin, target, observer, results);
@@ -901,7 +901,7 @@ public class Observation extends SchemaElement implements IObservation {
      */
     public Observation(Calendar begin, Calendar end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
-            IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, List results)
+            IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, List<IFinding> results)
             throws IllegalArgumentException {
 
         this(begin, end, target, observer, results);
@@ -975,7 +975,7 @@ public class Observation extends SchemaElement implements IObservation {
         buffer.append(observer);
 
         buffer.append(" Results=");
-        ListIterator iterator = results.listIterator();
+        ListIterator<IFinding> iterator = results.listIterator();
         while (iterator.hasNext()) {
             buffer.append(iterator.next());
             if (iterator.hasNext()) {
@@ -985,7 +985,7 @@ public class Observation extends SchemaElement implements IObservation {
 
         if ((this.images != null) && (this.images.size() > 0)) {
             buffer.append(" Images=");
-            ListIterator imageIterator = images.listIterator();
+            ListIterator<String> imageIterator = images.listIterator();
             while (imageIterator.hasNext()) {
                 buffer.append(imageIterator.next());
                 if (imageIterator.hasNext()) {
@@ -1190,15 +1190,15 @@ public class Observation extends SchemaElement implements IObservation {
             e_Observation = imager.addAsLinkToXmlElement(e_Observation);
         }
 
-        ListIterator iterator = this.results.listIterator();
+        ListIterator<IFinding> iterator = this.results.listIterator();
         IFinding result = null;
         while (iterator.hasNext()) {
-            result = (IFinding) iterator.next();
+            result = iterator.next();
             e_Observation = result.addToXmlElement(e_Observation);
         }
 
         if ((this.images != null) && (!this.images.isEmpty())) {
-            ListIterator imagesIterator = this.images.listIterator();
+            ListIterator<String> imagesIterator = this.images.listIterator();
             Element e_currentImage = null;
             Node n_ImageText = null;
             String path = null;
@@ -1358,7 +1358,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return List of images or <code>null</code> if no images were set.
      */
     @Override
-    public List getImages() {
+    public List<String> getImages() {
 
         if ((this.images == null) || (this.images.isEmpty())) {
             return null;
@@ -1417,7 +1417,7 @@ public class Observation extends SchemaElement implements IObservation {
             throw new IllegalArgumentException("Result cannot be null. ");
         }
 
-        this.results = new LinkedList();
+        this.results = new LinkedList<IFinding>();
         this.results.add(result);
 
     }
@@ -1441,7 +1441,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if new results list is <code>null</code> or empty
      */
     @Override
-    public boolean setResults(List results) {
+    public boolean setResults(List<IFinding> results) {
 
         if ((results == null) || (results.isEmpty())) {
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
@@ -1488,7 +1488,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if new image list is <code>null</code>
      */
     @Override
-    public void setImages(List imagesList) throws IllegalArgumentException {
+    public void setImages(List<String> imagesList) throws IllegalArgumentException {
 
         if (imagesList == null) {
             throw new IllegalArgumentException("Images list cannot be null. ");
@@ -1530,7 +1530,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
     @Override
-    public boolean addResults(List results) {
+    public boolean addResults(List<IFinding> results) {
 
         if ((results == null) || (results.isEmpty())) {
             return false;
@@ -1572,7 +1572,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
     @Override
-    public boolean addImages(List images) {
+    public boolean addImages(List<String> images) {
 
         if ((images == null) || (images.isEmpty())) {
             return false;
@@ -1607,7 +1607,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return A List containing the results of the observation.
      */
     @Override
-    public List getResults() {
+    public List<IFinding> getResults() {
 
         return this.results;
 

@@ -101,7 +101,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                 SchemaElementSelectorPopup targetSelector = new SchemaElementSelectorPopup(this.observationManager,
                         this.bundle.getString("popup.ms.addExistingStars"), TargetStar.XML_XSI_TYPE_VALUE,
                         Arrays.asList(this.tableModel.getAllTargets()), true, SchemaElementConstants.TARGET);
-                List selectedTargets = targetSelector.getAllSelectedElements();
+                List<ISchemaElement> selectedTargets = targetSelector.getAllSelectedElements();
                 if (selectedTargets == null) {
                     return;
                 }
@@ -184,7 +184,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
     private void loadSchemaElement() {
 
-        List targets = this.target.getComponentTargets(this.observationManager.getXmlCache().getTargets());
+        List<ITarget> targets = this.target.getComponentTargets(this.observationManager.getXmlCache().getTargets());
         if ((targets != null) && !(targets.isEmpty())) {
             this.tableModel = new TargetTableModel((ITarget[]) targets.toArray(new ITarget[] {}),
                     this.observationManager);

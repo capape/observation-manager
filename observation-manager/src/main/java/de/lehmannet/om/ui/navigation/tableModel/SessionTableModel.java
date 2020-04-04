@@ -16,6 +16,10 @@ import de.lehmannet.om.Site;
 
 public class SessionTableModel extends AbstractSchemaTableModel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Session";
 
     public SessionTableModel(ISession[] session) {
@@ -49,9 +53,9 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
 
-        Class c = null;
+        Class<?> c = null;
 
         switch (columnIndex) {
         case 0:
@@ -103,14 +107,14 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             break;
         }
         case 4: {
-            Iterator i = session.getCoObservers().iterator();
+            Iterator<IObserver> i = session.getCoObservers().iterator();
             if (!session.getCoObservers().isEmpty()) {
                 value = new StringBuilder(); // Otherwise the coObservers are prefixed with NULL
             } else {
                 value = new StringBuilder("NULL");
             }
             while (i.hasNext()) {
-                value.append(((IObserver) i.next()).getDisplayName());
+                value.append( i.next().getDisplayName());
                 if (i.hasNext()) {
                     value.append("; ");
                 }

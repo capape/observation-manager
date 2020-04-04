@@ -34,6 +34,11 @@ import de.lehmannet.om.ui.util.TristateCheckbox;
 
 public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
@@ -42,7 +47,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     ObservationManager om = null;
 
     DeepSkyFinding finding = null;
-    private JComboBox rating = null;
+    private JComboBox<String> rating = null;
 
     FindingContainer findingContainer = null;
 
@@ -453,9 +458,9 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
     }
 
-    JComboBox getVisualRatingBox() {
+    JComboBox<String> getVisualRatingBox() {
 
-        JComboBox box = new JComboBox();
+        JComboBox<String> box = new JComboBox<>();
         box.addItem("----");
         box.addItem(this.bundle.getString("panel.finding.dropdown.rating.1"));
         box.addItem(this.bundle.getString("panel.finding.dropdown.rating.2"));

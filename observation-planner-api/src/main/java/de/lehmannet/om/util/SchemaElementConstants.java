@@ -7,21 +7,31 @@
 
 package de.lehmannet.om.util;
 
-public interface SchemaElementConstants {
+public enum SchemaElementConstants {
 
     // SchemaElement types represented as constants
 
-    int NONE = -1;
-    int EYEPIECE = 0;
-    int SCOPE = 1;
-    int OBSERVATION = 2;
-    int IMAGER = 3;
-    int SITE = 4;
-    int SESSION = 5;
-    int OBSERVER = 6;
-    int TARGET = 7;
-    int FILTER = 8;
-    int LENS = 9;
-    int FINDING = 10;
+    NONE(-1),
+    EYEPIECE(0),
+    SCOPE(1),
+    OBSERVATION(2),
+    IMAGER(3),
+    SITE(4),
+    SESSION(5),
+    OBSERVER(6),
+    TARGET(7),
+    FILTER(8),
+    LENS(9),
+    FINDING(10);
+
+    private final int value;
+
+    private SchemaElementConstants(int val) {
+        this.value = val;
+    }
+
+    public int getValue() {
+        return this.value;
+    }
 
 }
