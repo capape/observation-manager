@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -148,7 +149,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             super.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
         }
-        this.target.setComponents(java.util.Arrays.asList(targets));
+        List<String> components = Arrays.asList(targets).stream().map( x -> x.getID()).collect(Collectors.toList());
+        this.target.setComponents(components);
 
         return this.target;
 
@@ -172,10 +174,11 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             return null;
         }
 
+        List<String> components = Arrays.asList(targets).stream().map( x -> x.getID()).collect(Collectors.toList());
         if (observer != null) {
-            this.target = new DeepSkyTargetMS(name, observer, java.util.Arrays.asList(targets));
+            this.target = new DeepSkyTargetMS(name, observer, components);
         } else {
-            this.target = new DeepSkyTargetMS(name, datasource, java.util.Arrays.asList(targets));
+            this.target = new DeepSkyTargetMS(name, datasource, components);
         }
 
         return this.target;

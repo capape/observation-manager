@@ -104,11 +104,11 @@ public class SchemaLoader {
     // Add doublicate catalog targets in here
     // Key is the doublicate target entry, value is the "new" target which
     // will be used to replace the doublicate target in the corsp. observations
-    private final Map doublicateTargets = new HashMap();
+    private final Map<ITarget, ITarget> doublicateTargets = new HashMap<>();
 
     // List of additional classLoader which can be used to find classes using
     // reflection
-    private static final List extensionClassLoaders = new ArrayList();
+    private static final List<ClassLoader> extensionClassLoaders = new ArrayList<>();
 
     // ---------------------
     // Public Static Methods ---------------------------------------------
@@ -455,7 +455,7 @@ public IImager[] getImagers() {
         }
 
         // Get Java class
-        Class currentClass = null;
+        Class<?> currentClass = null;
         try { // First try default ClassLoader
             currentClass = Class.forName(classname);
         } catch (ClassNotFoundException cnfe) {
@@ -478,12 +478,12 @@ public IImager[] getImagers() {
         }
 
         // Get constructors for class
-        Constructor[] constructors = currentClass.getConstructors();
+        Constructor<?>[] constructors = currentClass.getConstructors();
         Object object = null;
         if (constructors.length > 0) {
             try {
-                Class[] parameters = null;
-                for (Constructor constructor : constructors) {
+                Class<?>[] parameters = null;
+                for (Constructor<?> constructor : constructors) {
                     parameters = constructor.getParameterTypes();
                     if (observers == null) { // create IFinding (Constructor has one parameter)
                         if ((parameters.length == 1) && (parameters[0].isInstance(currentNode))) {
@@ -526,7 +526,7 @@ private IObservation[] createObservationElements(Node observations) {
         // Cannot use array here as loading of observation might fail (target loading
         // might fail cause of XSI type,
         // so this might cause observation loading to fail as well....
-        ArrayList obs = new ArrayList(observationList.getLength());
+        List<IObservation> obs = new ArrayList<>(observationList.getLength());
 
         for (int i = 0; i < observationList.getLength(); i++) {
 
@@ -550,7 +550,7 @@ private ITarget[] createTargetElements(Node targets, IObserver... observers) thr
 
         // As loading of target might fail (unknown XSI type) we do not know the amount
         // of successfuly loaded elements..
-        ArrayList targetElements = new ArrayList(targetList.getLength());
+        List<ITarget> targetElements = new ArrayList<>(targetList.getLength());
 
         // Helper classes
         Node currentNode = null;
@@ -732,7 +732,7 @@ private IImager[] createImagerElements(Node imagers) throws SchemaException {
 
         // As loading of imagers might fail (unknown XSI type) we do not know the amount
         // of successfuly loaded elements..
-        ArrayList imagerElements = new ArrayList(imagerList.getLength());
+        List<IImager> imagerElements = new ArrayList<>(imagerList.getLength());
 
         // Helper classes
         Node currentNode = null;
@@ -814,7 +814,7 @@ private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
             return;
         }
 
-        Iterator keyIterator = null;
+        Iterator<ITarget> keyIterator = null;
         ITarget current = null;
         Object dT = null;
         for (IObservation observation : this.observations) {
@@ -833,8 +833,8 @@ private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
         }
 
         // Remove targets from targets array (cache)
-        ArrayList targetElements = new ArrayList(Arrays.asList(this.targets));
-        ListIterator iterator = targetElements.listIterator();
+        List<ITarget> targetElements = new ArrayList<>(Arrays.asList(this.targets));
+        ListIterator<ITarget> iterator = targetElements.listIterator();
         while (iterator.hasNext()) {
             current = (ITarget) iterator.next();
             keyIterator = this.doublicateTargets.keySet().iterator();

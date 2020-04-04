@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
@@ -132,8 +133,10 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                     return;
                 }
 
+                List<IObservation> results = variableStarObservations.stream().map(x -> (IObservation)x).collect(Collectors.toList());
+
                 AAVSOVisualSerializer aavsoExport = new AAVSOVisualSerializer(
-                        "Observation Manager - " + ObservationManager.VERSION, variableStarObservations);
+                        "Observation Manager - " + ObservationManager.VERSION, results);
 
                 // Create export file path
                 String[] files = this.om.getXmlCache().getAllOpenedFiles();

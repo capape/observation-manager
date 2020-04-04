@@ -15,8 +15,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
- * are found, it can provide easy access to the config information.
+ * The ConfigLoader is used to find config files inside the classpath (and the
+ * extension directory), and if config files are found, it can provide easy
+ * access to the config information.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -41,33 +42,32 @@ public class ConfigLoader {
     // Instance variables ------------------------------------------------
     // ------------------
     // All target xsi:types as key and Java classname as value
-    private static final Map targets = new HashMap();
+    private static final Map<String, String> targets = new HashMap<>();
     // All finding xsi:types as key and Java classname as value
-    private static final Map findings = new HashMap();
+    private static final Map<String, String> findings = new HashMap<>();
     // All target xsi:types as key and finding xsi:types as value
-    private static final Map target_findings = new HashMap();
+    private static final Map<String, String> target_findings = new HashMap<>();
 
     // --------------
     // Public methods ----------------------------------------------------
     // --------------
-/**
-     * Returns the java classname for a target that matches the given xsi:type attribute, which can be found at
-     * additional schema elements<br>
+    /**
+     * Returns the java classname for a target that matches the given xsi:type
+     * attribute, which can be found at additional schema elements<br>
      * E.g.:<br>
      * <target id="someID" <b>xsi:type="oal:deepSkyGX"</b>><br>
      * // More Target data goes here<br>
      * </target><br>
-     * If for example the type "oal:deepSkyGX" would be passed to this method, it would return the classname:
-     * "de.lehmannet.om.deepSky.DeepSkyTarget". The classname may then be used to load the corresponding java class via
-     * java reflection API for a given schema element.
+     * If for example the type "oal:deepSkyGX" would be passed to this method, it
+     * would return the classname: "de.lehmannet.om.deepSky.DeepSkyTarget". The
+     * classname may then be used to load the corresponding java class via java
+     * reflection API for a given schema element.
      * 
-     * @param ptype
-     *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
-     *            target xsi_type)
-     * @return The corresponding target java classname for the given type, or <code>null</code> if the type could not be
-     *         resolved.
-     * @throws ConfigException
-     *             if problems occured during load of config
+     * @param ptype The xsi:type value which can be found at additional schema
+     *              elements (can be a finding xsi:type or an target xsi_type)
+     * @return The corresponding target java classname for the given type, or
+     *         <code>null</code> if the type could not be resolved.
+     * @throws ConfigException if problems occured during load of config
      */
     public static String getTargetClassnameFromType(String ptype) throws ConfigException {
         if (ptype == null) {
@@ -81,13 +81,13 @@ public class ConfigLoader {
         String type = ConfigLoader.checkAncestorTypes(ptype);
 
         if (!targets.containsKey(type)) { // Given type is finding type...try to get target type
-            Collection c = target_findings.keySet();
-            Iterator i = c.iterator();
+            Collection<String> c = target_findings.keySet();
+            Iterator<String> i = c.iterator();
             String currentKey = null;
             String currentValue = null;
             while (i.hasNext()) {
-                currentKey = (String) i.next();
-                currentValue = (String) target_findings.get(currentKey);
+                currentKey = i.next();
+                currentValue = target_findings.get(currentKey);
                 if (type.equals(currentValue)) {
                     type = currentKey;
                     break;
@@ -103,24 +103,24 @@ public class ConfigLoader {
         return classname;
     }
 
-/**
-     * Returns the java classname for a finding that matches the given xsi:type attribute, which can be found at
-     * additional schema elements<br>
+    /**
+     * Returns the java classname for a finding that matches the given xsi:type
+     * attribute, which can be found at additional schema elements<br>
      * E.g.:<br>
      * <result id="someID" <b>xsi:type="oal:findingsDeepSky"</b>><br>
      * // More finding data goes here<br>
      * </result><br>
-     * If for example the type "oal:findingsDeepSky" would be passed to this method, it would return the classname:
-     * "de.lehmannet.om.extension.deepSky.DeepSkyFinding". The classname may then be used to load the corresponding java
-     * class via java reflection API for a given schema element.
+     * If for example the type "oal:findingsDeepSky" would be passed to this method,
+     * it would return the classname:
+     * "de.lehmannet.om.extension.deepSky.DeepSkyFinding". The classname may then be
+     * used to load the corresponding java class via java reflection API for a given
+     * schema element.
      * 
-     * @param ptype
-     *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
-     *            target xsi_type)
-     * @return The corresponding finding java classname for the given type, or <code>null</code> if the type could not
-     *         be resolved.
-     * @throws ConfigException
-     *             if problems occured during load of config
+     * @param ptype The xsi:type value which can be found at additional schema
+     *              elements (can be a finding xsi:type or an target xsi_type)
+     * @return The corresponding finding java classname for the given type, or
+     *         <code>null</code> if the type could not be resolved.
+     * @throws ConfigException if problems occured during load of config
      */
     public static String getFindingClassnameFromType(String ptype) throws ConfigException {
         if (ptype == null) {
@@ -134,13 +134,13 @@ public class ConfigLoader {
         String type = ConfigLoader.checkAncestorTypes(ptype);
 
         if (!findings.containsKey(type)) { // Given type is target type...try to get finding type
-            Collection c = target_findings.keySet();
-            Iterator i = c.iterator();
+            Collection<String> c = target_findings.keySet();
+            Iterator<String> i = c.iterator();
             String currentKey = null;
             String currentValue = null;
             while (i.hasNext()) {
-                currentKey = (String) i.next();
-                currentValue = (String) target_findings.get(currentKey);
+                currentKey = i.next();
+                currentValue = target_findings.get(currentKey);
                 if (type.equals(currentKey)) {
                     type = currentValue;
                     break;
@@ -156,11 +156,10 @@ public class ConfigLoader {
         return classname;
     }
 
-/**
+    /**
      * Scans the java classpath again for valid configfile.
      * 
-     * @throws ConfigException
-     *             if problems occured during load of config
+     * @throws ConfigException if problems occured during load of config
      */
     public static void reloadConfig() throws ConfigException {
         // Delete old entries
@@ -175,7 +174,7 @@ public class ConfigLoader {
     // ---------------
     // Private methods ---------------------------------------------------
     // ---------------
-private static void loadConfig() throws ConfigException {
+    private static void loadConfig() throws ConfigException {
         // Add fixed generic elements (no extenstion package required)
         ConfigLoader.addGenericElements();
 
@@ -204,32 +203,32 @@ private static void loadConfig() throws ConfigException {
 
     }
 
-private static void scanJarFile(File jar) throws ConfigException {
-        ZipFile archive = null;
-        try {
-            archive = new ZipFile(jar);
+    private static void scanJarFile(File jar) throws ConfigException {
+
+        try (ZipFile archive = new ZipFile(jar)) {
+            Enumeration<? extends ZipEntry> enu = archive.entries();
+            while (enu.hasMoreElements()) {
+                ZipEntry entry = enu.nextElement();
+                String name = entry.getName();
+                if (name.toUpperCase().equals(MANIFEST_FILENAME)) {
+                    try (InputStream in = archive.getInputStream(entry)) {
+
+                        Properties prop = new Properties();
+                        prop.load(in);
+                        addConfig(prop);
+                    } catch (IOException ioe) {
+                        throw new ConfigException("Error while accessing entry from JAR file. ", ioe);
+                    }
+                    // we can't do anything here
+                }
+            }
         } catch (IOException zipEx) {
             throw new ConfigException("Error while accessing JAR file. ", zipEx);
         }
-        Enumeration enu = archive.entries();
-        while (enu.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry) enu.nextElement();
-            String name = entry.getName();
-            if (name.toUpperCase().equals(MANIFEST_FILENAME)) {
-                try (InputStream in = archive.getInputStream(entry)) {
 
-                    Properties prop = new Properties();
-                    prop.load(in);
-                    addConfig(prop);
-                } catch (IOException ioe) {
-                    throw new ConfigException("Error while accessing entry from JAR file. ", ioe);
-                }
-                // we can't do anything here
-            }
-        }
     }
 
-private static void addConfig(Properties newProperties) {
+    private static void addConfig(Properties newProperties) {
         Iterator keys = newProperties.keySet().iterator();
         String currentKey = null;
         String prefix = null;
@@ -276,7 +275,7 @@ private static void addConfig(Properties newProperties) {
 
     }
 
-private static void addGenericElements() {
+    private static void addGenericElements() {
 
         // This is the most simple element relation
         final String target_type = "oal:observationTargetType";
@@ -320,7 +319,7 @@ private static void addGenericElements() {
 
     }
 
-// Check on old xsi types/names (before OAL 2.0)
+    // Check on old xsi types/names (before OAL 2.0)
     private static String checkAncestorTypes(String type) {
 
         if (type.startsWith("fgca")) {
