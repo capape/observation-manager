@@ -611,48 +611,19 @@ public class Observation extends SchemaElement implements IObservation {
 
         e_Observation = target.addAsLinkToXmlElement(e_Observation, null);
 
-        Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
-        Node n_BeginText = ownerDoc.createTextNode(DateConverter.toISO8601(begin));
-        e_Begin.appendChild(n_BeginText);
-        e_Observation.appendChild(e_Begin);
+        addBegin(ownerDoc, e_Observation);
+        addEnd(ownerDoc, e_Observation);
+        addFaintestStar(ownerDoc, e_Observation);
 
-        if (end != null) {
-            Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
-            Node n_EndText = ownerDoc.createTextNode(DateConverter.toISO8601(end));
-            e_End.appendChild(n_EndText);
-            e_Observation.appendChild(e_End);
-        }
+        addSqm(ownerDoc, e_Observation);
 
-        if (!Float.isNaN(faintestStar)) {
-            Element e_FaintestStar = ownerDoc.createElement(XML_ELEMENT_FAINTESTSTAR);
-            Node n_FaintestStarText = ownerDoc.createTextNode(String.valueOf(faintestStar));
-            e_FaintestStar.appendChild(n_FaintestStarText);
-            e_Observation.appendChild(e_FaintestStar);
-        }
-
-        if (sqmValue != null) {
-            Element e_SQMValue = ownerDoc.createElement(XML_ELEMENT_SKYQUALITY_NEW);
-            e_SQMValue = sqmValue.setToXmlElement(e_SQMValue);
-            e_Observation.appendChild(e_SQMValue);
-        }
-
-        if (seeing != -1) {
-            Element e_Seeing = ownerDoc.createElement(XML_ELEMENT_SEEING);
-            Node n_SeeingText = ownerDoc.createTextNode(String.valueOf(seeing));
-            e_Seeing.appendChild(n_SeeingText);
-            e_Observation.appendChild(e_Seeing);
-        }
+        addSeeing(ownerDoc, e_Observation);
 
         if (scope != null) {
             e_Observation = scope.addAsLinkToXmlElement(e_Observation);
         }
 
-        if (this.accessories != null) {
-            Element e_Accessories = ownerDoc.createElement(XML_ELEMENT_ACCESSORIES);
-            Node n_AccessoriesText = ownerDoc.createCDATASection(String.valueOf(this.accessories));
-            e_Accessories.appendChild(n_AccessoriesText);
-            e_Observation.appendChild(e_Accessories);
-        }
+        addAccesories(ownerDoc, e_Observation);
 
         if (eyepiece != null) {
             e_Observation = eyepiece.addAsLinkToXmlElement(e_Observation);
@@ -666,12 +637,7 @@ public class Observation extends SchemaElement implements IObservation {
             e_Observation = filter.addAsLinkToXmlElement(e_Observation);
         }
 
-        if (!Float.isNaN(this.magnification)) {
-            Element e_Magnification = ownerDoc.createElement(XML_ELEMENT_MAGNIFICATION);
-            Node n_MagnificationText = ownerDoc.createTextNode(String.valueOf(this.magnification));
-            e_Magnification.appendChild(n_MagnificationText);
-            e_Observation.appendChild(e_Magnification);
-        }
+        addMagnification(ownerDoc, e_Observation);
 
         if (imager != null) {
             e_Observation = imager.addAsLinkToXmlElement(e_Observation);
@@ -684,6 +650,14 @@ public class Observation extends SchemaElement implements IObservation {
             e_Observation = result.addToXmlElement(e_Observation);
         }
 
+        addImages(ownerDoc, e_Observation);
+
+        // Add element here so that XML sequence fits forward references
+        parent.appendChild(e_Observation);
+
+    }
+
+    private void addImages(Document ownerDoc, Element e_Observation) {
         if ((this.images != null) && (!this.images.isEmpty())) {
             ListIterator<String> imagesIterator = this.images.listIterator();
             Element e_currentImage = null;
@@ -700,10 +674,66 @@ public class Observation extends SchemaElement implements IObservation {
                 e_Observation.appendChild(e_currentImage);
             }
         }
+    }
 
-        // Add element here so that XML sequence fits forward references
-        parent.appendChild(e_Observation);
+    private void addMagnification(Document ownerDoc, Element e_Observation) {
+        if (!Float.isNaN(this.magnification)) {
+            Element e_Magnification = ownerDoc.createElement(XML_ELEMENT_MAGNIFICATION);
+            Node n_MagnificationText = ownerDoc.createTextNode(String.valueOf(this.magnification));
+            e_Magnification.appendChild(n_MagnificationText);
+            e_Observation.appendChild(e_Magnification);
+        }
+    }
 
+    private void addAccesories(Document ownerDoc, Element e_Observation) {
+        if (this.accessories != null) {
+            Element e_Accessories = ownerDoc.createElement(XML_ELEMENT_ACCESSORIES);
+            Node n_AccessoriesText = ownerDoc.createCDATASection(String.valueOf(this.accessories));
+            e_Accessories.appendChild(n_AccessoriesText);
+            e_Observation.appendChild(e_Accessories);
+        }
+    }
+
+    private void addSeeing(Document ownerDoc, Element e_Observation) {
+        if (seeing != -1) {
+            Element e_Seeing = ownerDoc.createElement(XML_ELEMENT_SEEING);
+            Node n_SeeingText = ownerDoc.createTextNode(String.valueOf(seeing));
+            e_Seeing.appendChild(n_SeeingText);
+            e_Observation.appendChild(e_Seeing);
+        }
+    }
+
+    private void addSqm(Document ownerDoc, Element e_Observation) {
+        if (sqmValue != null) {
+            Element e_SQMValue = ownerDoc.createElement(XML_ELEMENT_SKYQUALITY_NEW);
+            e_SQMValue = sqmValue.setToXmlElement(e_SQMValue);
+            e_Observation.appendChild(e_SQMValue);
+        }
+    }
+
+    private void addFaintestStar(Document ownerDoc, Element e_Observation) {
+        if (!Float.isNaN(faintestStar)) {
+            Element e_FaintestStar = ownerDoc.createElement(XML_ELEMENT_FAINTESTSTAR);
+            Node n_FaintestStarText = ownerDoc.createTextNode(String.valueOf(faintestStar));
+            e_FaintestStar.appendChild(n_FaintestStarText);
+            e_Observation.appendChild(e_FaintestStar);
+        }
+    }
+
+    private void addEnd(Document ownerDoc, Element e_Observation) {
+        if (end != null) {
+            Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
+            Node n_EndText = ownerDoc.createTextNode(DateConverter.toISO8601(end));
+            e_End.appendChild(n_EndText);
+            e_Observation.appendChild(e_End);
+        }
+    }
+
+    private void addBegin(Document ownerDoc, Element e_Observation) {
+        Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
+        Node n_BeginText = ownerDoc.createTextNode(DateConverter.toISO8601(begin));
+        e_Begin.appendChild(n_BeginText);
+        e_Observation.appendChild(e_Begin);
     }
 
     /**
