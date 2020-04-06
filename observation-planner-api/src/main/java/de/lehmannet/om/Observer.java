@@ -23,6 +23,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.mapper.ObserverMapper;
+
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -94,163 +98,20 @@ public class Observer extends SchemaElement implements IObserver {
         // Cast to element as we need some methods from it
         Element observerElement = (Element) observer;
 
-        // Helper classes
-        Element child = null;
-        NodeList children = null;
-
-        // Getting data
-        // First mandatory stuff and down below optional data
-
-        // Get ID from element
-        NamedNodeMap attributes = observerElement.getAttributes();
-        if ((attributes == null) || (attributes.getLength() == 0)) {
-            throw new SchemaException("Observer must have a unique ID. ");
-        }
-        String ID = observerElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        super.setID(ID);
-
-        // Get mandatory name
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_NAME);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Observer must have exact one name. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder name = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Observer must have a name. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                // name = child.getFirstChild().getNodeValue();
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        name.append(textElements.item(te).getNodeValue());
-                    }
-                    this.setName(name.toString());
-                }
-            } else {
-                // Some applications (like DSP) don't set a name, which is OK with OAL
-                this.setName("");
-                // throw new SchemaException("Observer cannot have a empty name. ");
-            }
-        }
-
-        // Get mandatory surname
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_SURNAME);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Observer must have exact one surname. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder surname = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Observer must have a surname. ");
-        } else {
-            // surname = child.getFirstChild().getNodeValue();
-            NodeList textElements = child.getChildNodes();
-            if ((textElements != null) && (textElements.getLength() > 0)) {
-                for (int te = 0; te < textElements.getLength(); te++) {
-                    surname.append(textElements.item(te).getNodeValue());
-                }
-                this.setSurname(surname.toString());
-            }
-        }
-
-        // Get optional contacts
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_CONTACT);
-        if (children != null) {
-            for (int x = 0; x < children.getLength(); x++) {
-                child = (Element) children.item(x);
-                if (child != null) {
-                    StringBuilder contactEntry = new StringBuilder();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            contactEntry.append(textElements.item(te).getNodeValue());
-                        }
-                        this.addContact(contactEntry.toString());
-                    }
-                } else {
-                    throw new SchemaException("Problem retrieving contact information from Observer. ");
-                }
-            }
-        }
-
-        // Get optional DSL code (eventhough it's deprecated)
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_DSL);
-        StringBuilder DSLCode = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    // DSLCode = child.getFirstChild().getNodeValue();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            DSLCode.append(textElements.item(te).getNodeValue());
-                        }
-                        this.accounts.put(Observer.ACCOUNT_DSL, DSLCode.toString());
-                    }
-                } else {
-                    log.error(
-                            "Problem while retrieving DSL code from observer: {} \n As this element is deprecated, error will be ignored.",
-                            this.getID());
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Observer can have only one DSL Code. ");
-            }
-        }
-
-        // Get optional fstOffset
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_FST_OFFSET);
-        StringBuilder fstOffset = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            fstOffset.append(textElements.item(te).getNodeValue());
-                        }
-                        this.fstOffset = Float.parseFloat(fstOffset.toString());
-                    }
-                } else {
-                    log.error("Problem while retrieving fst Offset from observer: {} ", this.getID());
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Observer can have only one fst Offset. ");
-            }
-        }
-
-        // Get optional accounts
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_ACCOUNT);
-        if (children != null) {
-            for (int x = 0; x < children.getLength(); x++) {
-                child = (Element) children.item(x);
-                if (child != null) {
-                    String accountName = child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME);
-                    StringBuilder accountID = new StringBuilder();// child.getFirstChild().getNodeValue();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            accountID.append(textElements.item(te).getNodeValue());
-                        }
-                        this.addAccount(accountName, accountID.toString());
-                    }
-                } else {
-                    throw new SchemaException("Problem retrieving account information from Observer. " + this.getID());
-                }
-            }
-        }
+        
+        this.setID(ObserverMapper.getMandatoryID(observerElement));
+        this.setName(ObserverMapper.getMandatoryName(observerElement));
+        this.setSurname(ObserverMapper.getMandatorySurname(observerElement));
+        this.setContacts(ObserverMapper.getOptionalContacts(observerElement));
+        this.setDSLCode(ObserverMapper.getOptionalDSL(observerElement));
+        this.accounts.put(ACCOUNT_DSL,this.getDSLCode());
+        this.setFSTOffset(ObserverMapper.getOptionalFstOffset(observerElement));
+        this.accounts.putAll(ObserverMapper.getOptionalAccounts(observerElement));
 
     }
 
-/**
+
+    /**
      * Constructs a new instance of an Observer.
      *
      * @param name
