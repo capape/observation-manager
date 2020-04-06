@@ -219,7 +219,7 @@ public class ObservationMapper {
                 throw new SchemaException("Observation can have only one seeing value. ");
             }
         }
-        return 0;
+        return -1;
     }
 
     public static String getOptionalAccesories(Element observationElement) throws SchemaException {
@@ -271,7 +271,7 @@ public class ObservationMapper {
                 throw new SchemaException("Observation can have only one magnification value. ");
             }
         }
-        return 0.0f;
+        return Float.NaN;
     }
 
     public static SurfaceBrightness getNewSkyQualityMeter(Element observationElement) throws SchemaException {
@@ -340,7 +340,7 @@ public class ObservationMapper {
                 throw new SchemaException("Observation can have only one faintest star. ");
             }
         }
-        return 99.99f;
+        return Float.NaN;
     }
 
     public static List<String> getOptionalImages(Element observationElement) throws SchemaException {
@@ -469,9 +469,10 @@ public class ObservationMapper {
     }
 
     public static List<IFinding> getMandatoryResult(Element observationElement, ITarget target) throws SchemaException {
-        Element child;
+   
         NodeList children;
         // Get mandatory result
+        Element child;
         child = null;
         children = observationElement.getElementsByTagName(IFinding.XML_ELEMENT_FINDING);
         if ((children == null) || (children.getLength() == 0)) {

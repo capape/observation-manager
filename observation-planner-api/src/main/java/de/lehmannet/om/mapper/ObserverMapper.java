@@ -76,7 +76,7 @@ public class ObserverMapper {
             }
         }
 
-        return 0.0f;
+        return Float.NaN;
     }
 
     public static String getOptionalDSL(Element observerElement) throws SchemaException {
@@ -161,7 +161,7 @@ public class ObserverMapper {
                 return surname.toString();
             }
         }
-        return null;
+        return "";
     }
 
     public static String getMandatoryName(Element observerElement) throws SchemaException {

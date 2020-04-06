@@ -65,7 +65,7 @@ public class EyePieceMapper {
                 throw new SchemaException("Eyepiece can have only one max focal length. ");
             }
         }
-        return 0.0f;
+        return Float.NaN;
     }
 
     public static String getOptionalVendor(Element eyepieceElement) throws SchemaException {
@@ -121,7 +121,7 @@ public class EyePieceMapper {
             }
         }
     
-        return false;
+        return true;
     }
 
     public static float getMandatoryFocalLength(Element eyepieceElement) throws SchemaException {
@@ -170,7 +170,7 @@ public class EyePieceMapper {
                 throw new SchemaException("Eyepiece cannot have an empty model name. ");
             }
         }
-        return null;
+        return "";
     }
 
  

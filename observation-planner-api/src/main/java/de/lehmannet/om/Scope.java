@@ -10,6 +10,7 @@ package de.lehmannet.om;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +18,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.mapper.ScopeMapper;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
@@ -119,217 +121,24 @@ public class Scope extends SchemaElement implements IScope {
 
         // Cast to element as we need some methods from it
         Element scopeElement = (Element) scope;
-
-        // Helper classes
-        Element child = null;
-        NodeList children = null;
-
-        // Getting data
-        // First mandatory stuff and down below optional data
-
-        // Get ID from element
-        String ID = scopeElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
-            throw new SchemaException("DeepSkyTarget must have a ID. ");
-        }
-        super.setID(ID);
-
-        // Search for optional availability comment within nodes
-        NodeList list = scopeElement.getChildNodes();
-        for (int i = 0; i < list.getLength(); i++) {
-            Node c = list.item(i);
-            if (c.getNodeType() == Node.COMMENT_NODE) {
-                if (IEquipment.XML_COMMENT_ELEMENT_NOLONGERAVAILABLE.equals(c.getNodeValue())) {
-                    this.available = false;
-                    break;
-                }
-            }
+        
+        this.setID(ScopeMapper.getMandatoryID(scopeElement));
+        this.setAvailability(ScopeMapper.getOptionalAvailability(scopeElement));
+        this.setFocalLength(ScopeMapper.getOptionalFocalLength(scopeElement));
+        this.setMagnification(ScopeMapper.getOptionalMagnification(scopeElement));
+        if (!Float.isNaN(this.getMagnification())) {
+            this.setTrueFieldOfView(ScopeMapper.getOptionalTrueViewOfField(scopeElement));
         }
 
-        // Get optional focalLength
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_FOCALLENGTH);
-        String focalLength = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    focalLength = child.getFirstChild().getNodeValue();
-                    this.setFocalLength(FloatUtil.parseFloat(focalLength));
-                } else {
-                    throw new SchemaException("Problem while retrieving focalLength from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one focal length. ");
-            }
-        }
+        this.setModel(ScopeMapper.getMandatoryModel(scopeElement));
+        this.setAperture(ScopeMapper.getMandatoryAperture(scopeElement));
+        this.setType( ScopeMapper.getOptionalType(scopeElement));
+        this.setVendor(ScopeMapper.getOptionalVendor(scopeElement));
 
-        // Get optional magnification
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_MAGNIFICATION);
-        String magnification = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    if (focalLength != null) {
-                        throw new SchemaException("Scope can only have a focalLength entry OR a magnification entry! ");
-                    }
-                    magnification = child.getFirstChild().getNodeValue();
-                    this.setMagnification(FloatUtil.parseFloat(magnification));
+        this.setLightGrasp(ScopeMapper.getOptionalLightGrasp(scopeElement));
 
-                    children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_TRUEFIELD);
-                    if (children != null) {
-                        if (children.getLength() == 1) {
-                            child = (Element) children.item(0);
-                            if (child != null) {
-                                Angle trueField = new Angle(child);
-                                // Check whether true FOV is > 0
-                                // Do this with a copy of the retrieved Angle as otherwise the original object
-                                // will
-                                // change it's unit to ArcSec
-                                Angle checkAngle = new Angle(trueField.getValue(), trueField.getUnit());
-                                if (checkAngle.toArcSec() < 0) {
-                                    throw new SchemaException(
-                                            "Problem while retrieving true field of view from scope. Value cannot be nagative. ");
-                                }
-                                this.setTrueFieldOfView(trueField);
-                            } else {
-                                throw new SchemaException("Problem while retrieving true field of view from scope. ");
-                            }
-                        } else if (children.getLength() > 1) {
-                            throw new SchemaException("Scope can have only one true field of view. ");
-                        }
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving magnification from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one magnification. ");
-            }
-        }
-
-        // Get mandatory model
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_MODEL);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Scope must have exact one model name. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder model = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Scope must have a model name. ");
-        } else {
-            // model = child.getFirstChild().getNodeValue();
-            NodeList textElements = child.getChildNodes();
-            if ((textElements != null) && (textElements.getLength() > 0)) {
-                for (int te = 0; te < textElements.getLength(); te++) {
-                    model.append(textElements.item(te).getNodeValue());
-                }
-                this.setModel(model.toString());
-            }
-        }
-
-        // Get mandatory aperture
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_APERTURE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Scope must have exact one aperture. ");
-        }
-        child = (Element) children.item(0);
-        String aperture = null;
-        if (child == null) {
-            throw new SchemaException("Scope must have a aperture. ");
-        } else {
-            aperture = child.getFirstChild().getNodeValue();
-            this.setAperture(FloatUtil.parseFloat(aperture));
-        }
-
-        // Get optional type
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_TYPE);
-        StringBuilder type = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    // type = child.getFirstChild().getNodeValue();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            type.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setType(type.toString());
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving type from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one type. ");
-            }
-        }
-
-        // Get optional vendor
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_VENDOR);
-        StringBuilder vendor = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    // vendor = child.getFirstChild().getNodeValue();
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setVendor(vendor.toString());
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one vendor. ");
-            }
-        }
-
-        // Get optional lightGrasp
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_LIGHTGRASP);
-        String lightGrasp = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    lightGrasp = child.getFirstChild().getNodeValue();
-                    this.setLightGrasp(FloatUtil.parseFloat(lightGrasp));
-                } else {
-                    throw new SchemaException("Problem while retrieving light grasp from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one light grasp. ");
-            }
-        }
-
-        // Get optional orientation
-        child = null;
-        children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_ORENTATION);
-        String ori_Erect = null;
-        String ori_Truesided = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT).trim().toLowerCase();
-                    ori_Truesided = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_TRUESIDED).trim()
-                            .toLowerCase();
-                    this.setOrientation(Boolean.parseBoolean(ori_Erect), Boolean.parseBoolean(ori_Truesided));
-                } else {
-                    throw new SchemaException("Problem while retrieving orientation element from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one orientation. ");
-            }
-        }
-
+        Pair<Boolean,Boolean> pair = ScopeMapper.getOptionalOrientation(scopeElement);
+        this.setOrientation(pair.getLeft(), pair.getRight());
     }
 
 /**
@@ -354,7 +163,6 @@ public class Scope extends SchemaElement implements IScope {
         this.setFocalLength(focalLength);
 
     }
-
 /**
      * Constructs a new instance of a Scope.
      * 

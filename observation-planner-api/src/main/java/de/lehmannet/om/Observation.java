@@ -7,10 +7,7 @@
 
 package de.lehmannet.om;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,15 +16,12 @@ import java.util.Locale;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.mapper.ObservationMapper;
 import de.lehmannet.om.util.DateConverter;
-import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
-import de.lehmannet.om.util.SchemaLoader;
 
 /**
  * An IObservation describes an astronomical oberservation of exactly one

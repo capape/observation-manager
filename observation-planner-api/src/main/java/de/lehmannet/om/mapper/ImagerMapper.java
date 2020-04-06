@@ -86,7 +86,7 @@ public class ImagerMapper {
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static String getMandatoryModel(Element imagerElement) throws SchemaException {
@@ -115,7 +115,7 @@ public class ImagerMapper {
                 throw new SchemaException("Imager cannot have an empty model name. ");
             }
         }
-        return null;
+        return "";
     }
 
     public static String getMandatoryID(Element imagerElement) throws SchemaException {

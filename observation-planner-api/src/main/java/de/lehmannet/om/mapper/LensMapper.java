@@ -56,7 +56,7 @@ public class LensMapper {
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static float getMandatoryFactor(Element lensElement) throws SchemaException {

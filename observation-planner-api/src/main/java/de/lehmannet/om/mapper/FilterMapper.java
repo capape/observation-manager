@@ -145,7 +145,7 @@ public class FilterMapper {
                 }
             }
         }
-        return false;
+        return true;
     }
     
     public static String getMandatoryType(Element filterElement) throws SchemaException {
@@ -175,7 +175,7 @@ public class FilterMapper {
                 throw new SchemaException("Filter cannot have an empty type. ");
             }
         }
-        return null;
+        return "";
     }
     
     public static String getMadatoryModel(Element filterElement) throws SchemaException {
@@ -204,7 +204,7 @@ public class FilterMapper {
                 throw new SchemaException("Filter cannot have an empty model name. ");
             }
         }
-        return null;
+        return "";
     }
     
     public static String getID(Element filterElement) throws SchemaException {
