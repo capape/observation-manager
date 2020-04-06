@@ -13,7 +13,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.lehmannet.om.util.FloatUtil;
+import de.lehmannet.om.mapper.SiteMapper;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -72,129 +72,17 @@ public class Site extends SchemaElement implements ISite {
         // Cast to element as we need some methods from it
         Element siteElement = (Element) site;
 
-        // Helper classes
-        Element child = null;
-        NodeList children = null;
 
         // Getting data
         // First mandatory stuff and down below optional data
 
-        // Get ID from element
-        String ID = siteElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
-            throw new SchemaException("Site must have a ID. ");
-        }
-        super.setID(ID);
-
-        // Get mandatory name
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_NAME);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Site must have exact one name. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder name = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Site must have a name. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                // name = child.getFirstChild().getNodeValue();
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        name.append(textElements.item(te).getNodeValue());
-                    }
-                    this.setName(name.toString());
-                }
-            } else {
-                throw new SchemaException("Site cannot have an empty name. ");
-            }
-
-        }
-
-        // Get mandatory longitude
-        child = null;
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_LONGITUDE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Site must have exact one longitude. ");
-        }
-        child = (Element) children.item(0);
-        Angle longitude = null;
-        if (child == null) {
-            throw new SchemaException("Site must have a longitude. ");
-        } else {
-            String value = child.getFirstChild().getNodeValue();
-            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-            longitude = new Angle(Double.parseDouble(value), unit);
-            this.setLongitude(longitude);
-        }
-
-        // Get mandatory latitude
-        child = null;
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_LATITUDE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Site must have exact one latitude. ");
-        }
-        child = (Element) children.item(0);
-        Angle latitude = null;
-        if (child == null) {
-            throw new SchemaException("Site must have a latitude. ");
-        } else {
-            String value = child.getFirstChild().getNodeValue();
-            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-            latitude = new Angle(Double.parseDouble(value), unit);
-            this.setLatitude(latitude);
-        }
-
-        // Get mandatory timezone
-        child = null;
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_TIMEZONE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Site must have exact one timezone. ");
-        }
-        child = (Element) children.item(0);
-        String timezone = null;
-        if (child == null) {
-            throw new SchemaException("Site must have a timezone. ");
-        } else {
-            timezone = child.getFirstChild().getNodeValue();
-            this.setTimezone(Integer.parseInt(timezone));
-        }
-
-        // Get optional elevation
-        child = null;
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_ELEVATION);
-        String elevation = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    elevation = child.getFirstChild().getNodeValue();
-                    this.setElevation(FloatUtil.parseFloat(elevation));
-                } else {
-                    throw new SchemaException("Problem while retrieving elevation from site. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Site can have only one elevation level. ");
-            }
-        }
-
-        // Get optional iauCode
-        child = null;
-        children = siteElement.getElementsByTagName(ISite.XML_ELEMENT_IAUCODE);
-        String iauCode = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    iauCode = child.getFirstChild().getNodeValue();
-                    this.setIAUCode(iauCode);
-                } else {
-                    throw new SchemaException("Problem while retrieving IAU code from site. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Site can have only one IAU code. ");
-            }
-        }
+        this.setID(SiteMapper.getMandatoryID(siteElement));
+        this.setName(SiteMapper.getMandatoryName(siteElement));
+        this.setLongitude(SiteMapper.getMandatoryLongitude(siteElement));
+        this.setLatitude(SiteMapper.getMandatoryLatitude(siteElement));
+        this.setTimezone(SiteMapper.getMandatoryTimeZone(siteElement));
+        this.setElevation(SiteMapper.getOptionalElevation(siteElement));
+        this.setIAUCode(SiteMapper.getOptionalIauCode(siteElement));
 
     }
 
