@@ -14,6 +14,7 @@ import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.Imager;
+import de.lehmannet.om.mapper.CCDImagerMapper;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
@@ -37,27 +38,27 @@ public class CCDImager extends Imager {
     /**
      * Constant for XML representation: pixels on x axis
      */
-    private static final String XML_ELEMENT_XPIXELS = "pixelsX";
+    public static final String XML_ELEMENT_XPIXELS = "pixelsX";
 
     /**
      * Constant for XML representation: pixels on y axis
      */
-    private static final String XML_ELEMENT_YPIXELS = "pixelsY";
+    public static final String XML_ELEMENT_YPIXELS = "pixelsY";
 
     /**
      * Constant for XML representation: pixel size on x axis
      */
-    private static final String XML_ELEMENT_XPIXELS_SIZE = "pixelXSize";
+    public static final String XML_ELEMENT_XPIXELS_SIZE = "pixelXSize";
 
     /**
      * Constant for XML representation: pixel site on y axis
      */
-    private static final String XML_ELEMENT_YPIXELS_SIZE = "pixelYSize";
+    public static final String XML_ELEMENT_YPIXELS_SIZE = "pixelYSize";
 
     /**
      * Constant for XML representation: binning value
      */
-    private static final String XML_ELEMENT_BINNING = "binning";
+    public static final String XML_ELEMENT_BINNING = "binning";
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -98,126 +99,16 @@ public class CCDImager extends Imager {
 
         Element imager = (Element) imagerElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
-        // Get xPixels
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("CCDImager must have exact one x pixels element. ");
-        }
-        child = (Element) children.item(0);
-        String x = null;
-        if (child == null) {
-            throw new SchemaException("CCDImager must have a x pixel element. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                x = child.getFirstChild().getNodeValue(); // Get xPixels from text node
-            } else {
-                throw new SchemaException("CCDImager cannot have an empty xPixels element. ");
-            }
-
-            this.setXPixels(Integer.parseInt(x));
-        }
-
-        // Get yPixels
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_YPIXELS);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("CCDImager must have exact one y pixels element. ");
-        }
-        child = (Element) children.item(0);
-        String y = null;
-        if (child == null) {
-            throw new SchemaException("CCDImager must have a y pixel element. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                y = child.getFirstChild().getNodeValue(); // Get yPixels from text node
-            } else {
-                throw new SchemaException("CCDImager cannot have an empty yPixels element. ");
-            }
-
-            this.setYPixels(Integer.parseInt(y));
-        }
-
-        // Get optional x-Pixel size
-        child = null;
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS_SIZE);
-        StringBuilder xSize = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            xSize.append(textElements.item(te).getNodeValue());
-                        }
-                        float xS = FloatUtil.parseFloat(xSize.toString());
-                        if (xS > 0.0) {
-                            this.setXPixelSize(xS);
-                        }
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving x pixel size from CCD Imager. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("CCDImager can have only one x pixel size value. ");
-            }
-        }
-
-        // Get optional y-Pixel size
-        child = null;
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_YPIXELS_SIZE);
-        StringBuilder ySize = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            ySize.append(textElements.item(te).getNodeValue());
-                        }
-                        float yS = FloatUtil.parseFloat(ySize.toString());
-                        if (yS > 0.0) {
-                            this.setYPixelSize(yS);
-                        }
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving y pixel size from CCD Imager. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("CCDImager can have only one y pixel size value. ");
-            }
-        }
-
-        // Get binning value
-        child = null;
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_BINNING);
-        StringBuilder sBin = new StringBuilder();
-        if (children != null) { // Use default value of 1
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            sBin.append(textElements.item(te).getNodeValue());
-                        }
-                        byte b = Byte.parseByte(sBin.toString());
-                        this.setBinning(b);
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving binning value from CCD Imager. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("CCDImager can have only one binning value. ");
-            }
-        }
+        this.setXPixels(CCDImagerMapper.getXPixels(imager));
+        this.setYPixels(CCDImagerMapper.getYPixels(imager));
+        this.setXPixelSize(CCDImagerMapper.getXPixelSize(imager));
+        this.setYPixelSize(CCDImagerMapper.getYPixelSize(imager));
+        this.setBinning(CCDImagerMapper.getBinningValue(imager));
 
     }
+
 
 /**
      * Constructs a new instance of a CCDImager.<br>
