@@ -329,78 +329,17 @@ public IImager[] getImagers() {
         Node element = null;
         NodeList elementContainer = null;
 
-        // --------- Observer -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_OBSERVER_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_OBSERVER_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        observers = createObserverElements(element);
+        loadObserver(rootElement);
+        loadTargets(rootElement);
+        loadSite(rootElement);
+        loadScopes(rootElement);
+        loadLenses(rootElement);
+        loadEyePieces(rootElement);
+        loadFilters(rootElement);
 
-        // --------- Target -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_TARGET_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_TARGET_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        targets = createTargetElements(element, observers);
+        loadImager(rootElement);
 
-        // --------- Site -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SITE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SITE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        sites = createSiteElements(element);
-
-        // --------- Scope -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SCOPE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SCOPE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        scopes = createScopeElements(element);
-
-        // --------- Lens -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_LENS_CONTAINER);
-        if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.7 won't have a lens element, so 0 is ok
-            throw new OALException("Schema XML can only have one " + RootElement.XML_LENS_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        lenses = createLensElements(element);
-
-        // --------- Eyepiece -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_EYEPIECE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_EYEPIECE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        eyepieces = createEyepieceElements(element);
-
-        // --------- Filter -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_FILTER_CONTAINER);
-        if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.5 won't have a filter element, so 0 is ok
-            throw new OALException("Schema XML can only have one " + RootElement.XML_FILTER_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        filters = createFilterElements(element);
-
-        // --------- Imager -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_IMAGER_CONTAINER);
-        if (elementContainer.getLength() > 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_IMAGER_CONTAINER + " element. ");
-        } else if (elementContainer.getLength() == 1) {
-            element = elementContainer.item(0);
-            imagers = createImagerElements(element);
-        }
-
-        // --------- Session -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SESSION_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SESSION_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        sessions = createSessionElements(element);
+        loadSession(rootElement);
 
         // --------- Observation -----------
         this.observations = createObservationElements(rootElement);
@@ -419,6 +358,115 @@ public IImager[] getImagers() {
         return obs;
 
     }
+
+private void loadSession(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Session -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SESSION_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SESSION_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    sessions = createSessionElements(element);
+}
+
+private void loadImager(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Imager -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_IMAGER_CONTAINER);
+    if (elementContainer.getLength() > 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_IMAGER_CONTAINER + " element. ");
+    } else if (elementContainer.getLength() == 1) {
+        element = elementContainer.item(0);
+        imagers = createImagerElements(element);
+    }
+}
+
+private void loadFilters(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Filter -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_FILTER_CONTAINER);
+    if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.5 won't have a filter element, so 0 is ok
+        throw new OALException("Schema XML can only have one " + RootElement.XML_FILTER_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    filters = createFilterElements(element);
+}
+
+private void loadEyePieces(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Eyepiece -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_EYEPIECE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_EYEPIECE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    eyepieces = createEyepieceElements(element);
+}
+
+private void loadLenses(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Lens -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_LENS_CONTAINER);
+    if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.7 won't have a lens element, so 0 is ok
+        throw new OALException("Schema XML can only have one " + RootElement.XML_LENS_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    lenses = createLensElements(element);
+}
+
+private void loadScopes(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Scope -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SCOPE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SCOPE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    scopes = createScopeElements(element);
+}
+
+private void loadSite(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Site -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SITE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SITE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    sites = createSiteElements(element);
+}
+
+private void loadTargets(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Target -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_TARGET_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_TARGET_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    targets = createTargetElements(element, observers);
+}
+
+private void loadObserver(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Observer -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_OBSERVER_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_OBSERVER_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    observers = createObserverElements(element);
+}
 
     // ----------------------
     // Private Static Methods --------------------------------------------
