@@ -343,45 +343,10 @@ public class FindingVariableStar extends Finding {
 
         // ----- Set mandatory elements
 
-        // Observed magnitude with attributes for fainterThan and uncertain values
-        Element e_visMag = ownerDoc.createElement(XML_ELEMENT_VISMAG);
-        Node e_visMagText = ownerDoc.createTextNode(Float.toString(this.magnitude));
-        e_visMag.appendChild(e_visMagText);
+        addMagnitudeData(ownerDoc, e_Finding);
 
-        if (this.isMagnitudeFainterThan()) {
-            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_FAINTERTHAN,
-                    Boolean.toString(this.isMagnitudeFainterThan()));
-        }
-
-        if (this.isMagnitudeUncertain()) {
-            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_UNCERTAIN,
-                    Boolean.toString(this.isMagnitudeUncertain()));
-        }
-
-        e_Finding.appendChild(e_visMag);
-
-        // (Iterate over all) Comparism stars
-        ListIterator<String> compStarIterator = this.comparismStars.listIterator();
-        Element e_currentCompStar = null;
-        Node e_currentCompStarText = null;
-        while (compStarIterator.hasNext()) {
-            e_currentCompStar = ownerDoc.createElement(XML_ELEMENT_COMPARISMSTAR);
-            e_currentCompStarText = ownerDoc.createTextNode((String) compStarIterator.next());
-            e_currentCompStar.appendChild(e_currentCompStarText);
-
-            e_Finding.appendChild(e_currentCompStar);
-        }
-
-        // Chart ID
-        Element e_chart = ownerDoc.createElement(XML_ELEMENT_CHARTID);
-        Node e_chartText = ownerDoc.createTextNode(this.getChartDate());
-        e_chart.appendChild(e_chartText);
-
-        if (this.isNonAAVSOchart()) {
-            e_chart.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_NONAAVSOCHART, Boolean.toString(this.isNonAAVSOchart()));
-        }
-
-        e_Finding.appendChild(e_chart);
+        addComparismStars(ownerDoc, e_Finding);
+        addChartData(ownerDoc, e_Finding);
 
         // ----- Set optional elements
 
@@ -428,6 +393,55 @@ public class FindingVariableStar extends Finding {
 
         return parent;
 
+    }
+
+    private void addMagnitudeData(Document ownerDoc, Element e_Finding) {
+        // Observed magnitude with attributes for fainterThan and uncertain values
+        Element e_visMag = ownerDoc.createElement(XML_ELEMENT_VISMAG);
+        Node e_visMagText = ownerDoc.createTextNode(Float.toString(this.magnitude));
+        e_visMag.appendChild(e_visMagText);
+
+        if (this.isMagnitudeFainterThan()) {
+            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_FAINTERTHAN,
+                    Boolean.toString(this.isMagnitudeFainterThan()));
+        }
+
+        if (this.isMagnitudeUncertain()) {
+            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_UNCERTAIN,
+                    Boolean.toString(this.isMagnitudeUncertain()));
+        }
+
+        e_Finding.appendChild(e_visMag);
+    }
+
+    private void addChartData(Document ownerDoc, Element e_Finding) {
+        // Chart ID
+        Element e_chart = ownerDoc.createElement(XML_ELEMENT_CHARTID);
+        Node e_chartText = ownerDoc.createTextNode(this.getChartDate());
+        e_chart.appendChild(e_chartText);
+
+        if (this.isNonAAVSOchart()) {
+            e_chart.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_NONAAVSOCHART, Boolean.toString(this.isNonAAVSOchart()));
+        }
+
+        e_Finding.appendChild(e_chart);
+    }
+
+    private void addComparismStars(Document ownerDoc, Element e_Finding) {
+       
+        for(String compStar : this.getComparismStars())  {
+            addComparismStar(ownerDoc, e_Finding, compStar);
+        }
+    }
+
+    private void addComparismStar(Document ownerDoc, Element e_Finding, String compStar) {
+        Element e_currentCompStar;
+        Node e_currentCompStarText;
+        e_currentCompStar = ownerDoc.createElement(XML_ELEMENT_COMPARISMSTAR);
+        e_currentCompStarText = ownerDoc.createTextNode(compStar);
+        e_currentCompStar.appendChild(e_currentCompStarText);
+
+        e_Finding.appendChild(e_currentCompStar);
     }
 
     // -------------
