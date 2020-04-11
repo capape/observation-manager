@@ -8,8 +8,6 @@
 package de.lehmannet.om;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,19 +17,23 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * The RootElement element is the root element of a schema element. All other schema elements are grouped below
- * RootElement.<br>
- * The object itself contains no astronomical data but provides XML namespaces, and schema element containers. A schema
- * element container groups multiple schema elements of one and the same type.<br>
+ * The RootElement element is the root element of a schema element. All other
+ * schema elements are grouped below RootElement.<br>
+ * The object itself contains no astronomical data but provides XML namespaces,
+ * and schema element containers. A schema element container groups multiple
+ * schema elements of one and the same type.<br>
  * E.g.<br>
  * <observers><br>
  * <observer><br>
@@ -43,13 +45,17 @@ import de.lehmannet.om.util.SchemaException;
  * <i>More observer stuff goes here</i><br>
  * </observer><br>
  * </observers><br>
- * In this example <observers> is the container element of multiple <observer> elements.<br>
- * Also the RootElement object contains the serializeToSchema() method, that will create a schema valid XML file.
+ * In this example <observers> is the container element of multiple <observer>
+ * elements.<br>
+ * Also the RootElement object contains the serializeToSchema() method, that
+ * will create a schema valid XML file.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
 public class RootElement {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RootElement.class);
 
     // ---------
     // Constants ---------------------------------------------------------
@@ -147,67 +153,67 @@ public class RootElement {
     // Public methods ----------------------------------------------------
     // --------------
 
-public Collection<IObservation> getObservations() {
+    public Collection<IObservation> getObservations() {
 
         return this.observationList;
 
     }
 
-public Collection<IEyepiece> getEyepieceList() {
+    public Collection<IEyepiece> getEyepieceList() {
 
         return this.eyepieceList;
 
     }
 
-public Collection<IImager> getImagerList() {
+    public Collection<IImager> getImagerList() {
 
         return this.imagerList;
 
     }
 
-public Collection<IObserver> getObserverList() {
+    public Collection<IObserver> getObserverList() {
 
         return this.observerList;
 
     }
 
-public Collection<IScope> getScopeList() {
+    public Collection<IScope> getScopeList() {
 
         return this.scopeList;
 
     }
 
-public Collection<ISession> getSessionList() {
+    public Collection<ISession> getSessionList() {
 
         return this.sessionList;
 
     }
 
-public Collection<ISite> getSiteList() {
+    public Collection<ISite> getSiteList() {
 
         return this.siteList;
 
     }
 
-public Collection<ITarget> getTargetList() {
+    public Collection<ITarget> getTargetList() {
 
         return this.targetList;
 
     }
 
-public Collection<IFilter> getFilterList() {
+    public Collection<IFilter> getFilterList() {
 
         return this.filterList;
 
     }
 
-public Collection<ILens> getLensList() {
+    public Collection<ILens> getLensList() {
 
         return this.lensList;
 
     }
 
-public void addObservation(IObservation observation) throws SchemaException {
+    public void addObservation(IObservation observation) throws SchemaException {
 
         if (observation != null) {
             observationList.add(observation);
@@ -217,7 +223,7 @@ public void addObservation(IObservation observation) throws SchemaException {
 
     }
 
-public void addObservations(Collection<IObservation> observations) throws SchemaException {
+    public void addObservations(Collection<IObservation> observations) throws SchemaException {
 
         if (observations != null) {
             observationList.addAll(observations);
@@ -227,7 +233,7 @@ public void addObservations(Collection<IObservation> observations) throws Schema
 
     }
 
-public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
+    public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
 
         if (eyepiece != null) {
             this.eyepieceList.add(eyepiece);
@@ -237,7 +243,7 @@ public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
 
     }
 
-public void addEyepieces(Collection<IEyepiece> eyepieces) throws SchemaException {
+    public void addEyepieces(Collection<IEyepiece> eyepieces) throws SchemaException {
 
         if (eyepieces != null) {
             this.eyepieceList.addAll(eyepieces);
@@ -247,7 +253,7 @@ public void addEyepieces(Collection<IEyepiece> eyepieces) throws SchemaException
 
     }
 
-public void addImager(IImager imager) throws SchemaException {
+    public void addImager(IImager imager) throws SchemaException {
 
         if (imager != null) {
             this.imagerList.add(imager);
@@ -257,7 +263,7 @@ public void addImager(IImager imager) throws SchemaException {
 
     }
 
-public void addImagers(Collection<IImager> imagers) throws SchemaException {
+    public void addImagers(Collection<IImager> imagers) throws SchemaException {
 
         if (imagers != null) {
             this.imagerList.addAll(imagers);
@@ -267,7 +273,7 @@ public void addImagers(Collection<IImager> imagers) throws SchemaException {
 
     }
 
-public void addSite(ISite site) throws SchemaException {
+    public void addSite(ISite site) throws SchemaException {
 
         if (site != null) {
             this.siteList.add(site);
@@ -277,7 +283,7 @@ public void addSite(ISite site) throws SchemaException {
 
     }
 
-public void addSites(Collection<ISite> sites) throws SchemaException {
+    public void addSites(Collection<ISite> sites) throws SchemaException {
 
         if (sites != null) {
             this.siteList.addAll(sites);
@@ -287,7 +293,7 @@ public void addSites(Collection<ISite> sites) throws SchemaException {
 
     }
 
-public void addScope(IScope scope) throws SchemaException {
+    public void addScope(IScope scope) throws SchemaException {
 
         if (scope != null) {
             this.scopeList.add(scope);
@@ -297,7 +303,7 @@ public void addScope(IScope scope) throws SchemaException {
 
     }
 
-public void addScopes(Collection<IScope> scopes) throws SchemaException {
+    public void addScopes(Collection<IScope> scopes) throws SchemaException {
 
         if (scopes != null) {
             this.scopeList.addAll(scopes);
@@ -307,7 +313,7 @@ public void addScopes(Collection<IScope> scopes) throws SchemaException {
 
     }
 
-public void addSession(ISession session) throws SchemaException {
+    public void addSession(ISession session) throws SchemaException {
 
         if (session != null) {
             this.sessionList.add(session);
@@ -317,7 +323,7 @@ public void addSession(ISession session) throws SchemaException {
 
     }
 
-public void addSessions(Collection<ISession> sessions) throws SchemaException {
+    public void addSessions(Collection<ISession> sessions) throws SchemaException {
 
         if (sessions != null) {
             this.sessionList.addAll(sessions);
@@ -327,7 +333,7 @@ public void addSessions(Collection<ISession> sessions) throws SchemaException {
 
     }
 
-public void addObserver(IObserver observer) throws SchemaException {
+    public void addObserver(IObserver observer) throws SchemaException {
 
         if (observer != null) {
             this.observerList.add(observer);
@@ -337,7 +343,7 @@ public void addObserver(IObserver observer) throws SchemaException {
 
     }
 
-public void addObservers(Collection<IObserver> observers) throws SchemaException {
+    public void addObservers(Collection<IObserver> observers) throws SchemaException {
 
         if (observers != null) {
             this.observerList.addAll(observers);
@@ -347,7 +353,7 @@ public void addObservers(Collection<IObserver> observers) throws SchemaException
 
     }
 
-public void addTarget(ITarget target) throws SchemaException {
+    public void addTarget(ITarget target) throws SchemaException {
 
         if (target != null) {
             this.targetList.add(target);
@@ -357,7 +363,7 @@ public void addTarget(ITarget target) throws SchemaException {
 
     }
 
-public void addTargets(Collection<ITarget> targets) throws SchemaException {
+    public void addTargets(Collection<ITarget> targets) throws SchemaException {
 
         if (targets != null) {
             this.targetList.addAll(targets);
@@ -367,7 +373,7 @@ public void addTargets(Collection<ITarget> targets) throws SchemaException {
 
     }
 
-public void addFilter(IFilter filter) throws SchemaException {
+    public void addFilter(IFilter filter) throws SchemaException {
 
         if (filter != null) {
             this.filterList.add(filter);
@@ -377,7 +383,7 @@ public void addFilter(IFilter filter) throws SchemaException {
 
     }
 
-public void addFilters(Collection<IFilter> filters) throws SchemaException {
+    public void addFilters(Collection<IFilter> filters) throws SchemaException {
 
         if (filters != null) {
             this.filterList.addAll(filters);
@@ -387,7 +393,7 @@ public void addFilters(Collection<IFilter> filters) throws SchemaException {
 
     }
 
-public void addLens(ILens lens) throws SchemaException {
+    public void addLens(ILens lens) throws SchemaException {
 
         if (lens != null) {
             this.lensList.add(lens);
@@ -397,7 +403,7 @@ public void addLens(ILens lens) throws SchemaException {
 
     }
 
-public void addLenses(Collection<ILens> lenses) throws SchemaException {
+    public void addLenses(Collection<ILens> lenses) throws SchemaException {
 
         if (lenses != null) {
             this.lensList.addAll(lenses);
@@ -407,7 +413,7 @@ public void addLenses(Collection<ILens> lenses) throws SchemaException {
 
     }
 
-public void serializeAsXml(File xmlFile) throws SchemaException {
+    public void serializeAsXml(File xmlFile) throws SchemaException {
 
         if (xmlFile == null) {
             throw new SchemaException("File cannot be null. ");
@@ -415,21 +421,33 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
 
         Document newSchema = this.getDocument();
 
-        // Create OutputFormat for document, with default encoding (UTF-8) and pretty
-        // print (intent)
-        OutputFormat outputFormat = new OutputFormat(newSchema, "ISO-8859-1", true);
-        XMLSerializer serializer = new XMLSerializer(outputFormat);
+        DOMImplementationRegistry registry;
         try {
-            FileOutputStream fos = new FileOutputStream(xmlFile);
-            serializer.setOutputByteStream(fos);
-            serializer.serialize(newSchema);
-            fos.close();
-        } catch (FileNotFoundException fnfe) {
-            throw new SchemaException("File not found: " + xmlFile.getAbsolutePath(), fnfe);
-        } catch (IOException ioe) {
-            throw new SchemaException("Error while serializing. Nested Exception is: ", ioe);
+            registry = DOMImplementationRegistry.newInstance();
+
+            DOMImplementationLS domImplLS = (DOMImplementationLS) registry.getDOMImplementation("LS");
+
+            LSSerializer writer = domImplLS.createLSSerializer();
+
+        
+
+            writer.writeToURI(newSchema, xmlFile.toURI().toURL().toString());
+        } catch (IOException ex) {
+            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
+                    ex);
+        } catch (ClassNotFoundException e) {
+            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
+            e);
+           throw new SchemaException(e.toString(),e);
+        } catch (InstantiationException e) {
+            throw new SchemaException(e.toString(),e);
+        } catch (IllegalAccessException e) {
+            throw new SchemaException(e.toString(),e);
+        } catch (ClassCastException e) {
+            throw new SchemaException(e.toString(),e);
         }
 
+       
     }
 
     public Document getDocument() throws SchemaException {
@@ -669,7 +687,7 @@ public void serializeAsXml(File xmlFile) throws SchemaException {
         Iterator<ILens> iterator = this.lensList.iterator();
         ILens current = null;
         while (iterator.hasNext()) {
-            current =  iterator.next();
+            current = iterator.next();
             current.addToXmlElement(e_Lens);
         }
 

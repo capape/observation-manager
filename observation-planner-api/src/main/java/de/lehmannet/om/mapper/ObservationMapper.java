@@ -390,8 +390,7 @@ public class ObservationMapper {
                     String scopeID = child.getFirstChild().getNodeValue();
 
                     if ((scopes != null) && (scopes.length > 0)) {
-                        // Check if scope exits
-                        boolean found = false;
+                        
                         for (IScope iScope : scopes) {
                             if (iScope.getID().equals(scopeID)) {
                                 return iScope;
@@ -472,8 +471,6 @@ public class ObservationMapper {
    
         NodeList children;
         // Get mandatory result
-        Element child;
-        child = null;
         children = observationElement.getElementsByTagName(IFinding.XML_ELEMENT_FINDING);
         if ((children == null) || (children.getLength() == 0)) {
             throw new SchemaException("Observation must have one or more results. ");

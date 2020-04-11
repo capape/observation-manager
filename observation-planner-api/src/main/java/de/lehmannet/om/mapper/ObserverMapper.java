@@ -80,15 +80,12 @@ public class ObserverMapper {
     }
 
     public static String getOptionalDSL(Element observerElement) throws SchemaException {
-        Element child;
-        NodeList children;
-        // Get optional DSL code (eventhough it's deprecated)
-        child = null;
-        children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_DSL);
+        
+        NodeList children = observerElement.getElementsByTagName(IObserver.XML_ELEMENT_DSL);
         StringBuilder DSLCode = new StringBuilder();
         if (children != null) {
             if (children.getLength() == 1) {
-                child = (Element) children.item(0);
+                Element child = (Element) children.item(0);
                 if (child != null) {
                     // DSLCode = child.getFirstChild().getNodeValue();
                     NodeList textElements = child.getChildNodes();
@@ -108,7 +105,7 @@ public class ObserverMapper {
                 throw new SchemaException("Observer can have only one DSL Code. ");
             }
         }
-        return null;
+        return "";
     }
 
     public static List<String> getOptionalContacts(Element observerElement) throws SchemaException {

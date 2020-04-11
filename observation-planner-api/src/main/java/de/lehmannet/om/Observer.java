@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -24,9 +25,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.mapper.ObserverMapper;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -104,7 +102,11 @@ public class Observer extends SchemaElement implements IObserver {
         this.setSurname(ObserverMapper.getMandatorySurname(observerElement));
         this.setContacts(ObserverMapper.getOptionalContacts(observerElement));
         this.setDSLCode(ObserverMapper.getOptionalDSL(observerElement));
-        this.accounts.put(ACCOUNT_DSL,this.getDSLCode());
+        final String dslCode = this.getDSLCode();
+        if (!StringUtils.isBlank(dslCode)) {
+            this.accounts.put(ACCOUNT_DSL,dslCode);
+        }
+        
         this.setFSTOffset(ObserverMapper.getOptionalFstOffset(observerElement));
         this.accounts.putAll(ObserverMapper.getOptionalAccounts(observerElement));
 

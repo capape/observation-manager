@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.StringEscapeUtils; //GMB
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.util.DateConverter;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,7 +164,7 @@ public class AAVSOVisualSerializer implements ISerializer {
                  */
             }
 
-            wroteObserver(stream, initials);
+            writeObserver(stream, initials);
 
             writeName(stream, currentObservation);
 
@@ -306,7 +306,7 @@ public class AAVSOVisualSerializer implements ISerializer {
         stream.write(AAVSOVisualSerializer.DELIMITER);
     }
 
-    private void wroteObserver(OutputStream stream, String initials) throws IOException {
+    private void writeObserver(OutputStream stream, String initials) throws IOException {
         // Write observer AAVSO initals to stream (in case the observer initials changed
         // since last loop)
         if (!initials.equals(this.lastAavsoInitals)) {
