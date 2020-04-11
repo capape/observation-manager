@@ -132,9 +132,10 @@ public class ObservationItemPanel extends AbstractPanel {
         IObserver observer = observation.getObserver();
         this.observer.setText(observer.getDisplayName());
 
-        IFinding finding = (IFinding) observation.getResults().get(0); // @todo: Works only with one finding!
-        this.finding.setText(finding.getDescription());
-
+        if (!observation.getResults().isEmpty()) {
+            IFinding finding = (IFinding) observation.getResults().get(0); // @todo: Works only with one finding!
+            this.finding.setText(finding.getDescription());
+        }
         // Load optional stuff
         Calendar end = observation.getEnd();
         if (end != null) {

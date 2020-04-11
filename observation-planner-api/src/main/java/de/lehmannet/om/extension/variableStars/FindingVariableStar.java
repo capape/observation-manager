@@ -167,7 +167,7 @@ public class FindingVariableStar extends Finding {
         this.setOutburst(FindingVariableStarMapper.getOptionalOutburst(finding));
         this.setPoorSeeing(FindingVariableStarMapper.getOptionalPoorSeeing(finding));
         this.setStarIdentificationUncertain(FindingVariableStarMapper.getOptionalStarIdentificationUncertain(finding));
-        this.setUnusualActivity(FindingVariableStarMapper.extracted6(finding));
+        this.setUnusualActivity(FindingVariableStarMapper.getOptionalUnsualActivity(finding));
 
     }
 
@@ -915,4 +915,5 @@ public class FindingVariableStar extends Finding {
 
     }
 
+    
 }

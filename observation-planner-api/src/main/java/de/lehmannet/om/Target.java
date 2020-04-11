@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -506,7 +507,12 @@ public abstract class Target extends SchemaElement implements ITarget {
     @Override
     public void setConstellation(String constellation) {
 
-        this.constellation = Constellation.getConstellationByAbbOrName(constellation);
+        if (StringUtils.isBlank(constellation)) {
+            this.constellation = null;
+        } else {
+
+            this.constellation = Constellation.getConstellationByAbbOrName(constellation);
+        }
 
     }
 

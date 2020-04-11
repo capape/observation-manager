@@ -44,7 +44,7 @@ public class ScopeMapper {
                 throw new SchemaException("Scope can have only one orientation. ");
             }
         }
-        return Pair.of(null, null);
+        return Pair.of(false, false);
     }
 
     public static float getOptionalLightGrasp(Element scopeElement) throws SchemaException {
