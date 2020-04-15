@@ -124,11 +124,12 @@ public class Scope extends SchemaElement implements IScope {
 
         this.setID(ScopeMapper.getMandatoryID(scopeElement));
         this.setAvailability(ScopeMapper.getOptionalAvailability(scopeElement));
-        this.setFocalLength(ScopeMapper.getOptionalFocalLength(scopeElement));
-        this.setMagnification(ScopeMapper.getOptionalMagnification(scopeElement));
+        this.setFocalLengthNoCheckingMagnification(ScopeMapper.getOptionalFocalLength(scopeElement));
+        
+        this.setMagnificationNoCheckingFocalLength(ScopeMapper.getOptionalMagnification(scopeElement));
         if (!Float.isNaN(this.getMagnification())) {
             this.setTrueFieldOfView(ScopeMapper.getOptionalTrueViewOfField(scopeElement));
-        }
+        } 
 
         this.setModel(ScopeMapper.getMandatoryModel(scopeElement));
         this.setAperture(ScopeMapper.getMandatoryAperture(scopeElement));
@@ -835,6 +836,21 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
+    private void setFocalLengthNoCheckingMagnification(float focalLength) throws IllegalArgumentException {
+
+        if (!Float.isNaN(focalLength)) {
+
+            if (focalLength <= 0.0) {
+                throw new IllegalArgumentException("Focal length cannot be <= 0.0 ");
+            }
+
+            this.magnification = Float.NaN;
+            this.trueFieldOfView = null;
+            this.focalLength = focalLength;
+        }
+
+    }
+
     /**
      * Sets the light grasp value of the scope.<br>
      * The light grasp must be a positive float value between 0.0 and 1.0 (including
@@ -877,6 +893,14 @@ public class Scope extends SchemaElement implements IScope {
         this.magnification = magnification;
 
     }
+
+    private void setMagnificationNoCheckingFocalLength(float magnification) throws IllegalArgumentException {
+
+        this.focalLength = Float.NaN;
+        this.magnification = magnification;
+
+    }
+
 
     /**
      * Sets the true field of view, if magnification is given.<br>
