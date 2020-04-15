@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.StringEscapeUtils; //GMB
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.util.DateConverter;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,8 +151,7 @@ public class AAVSOVisualSerializer implements ISerializer {
                 this.closeStreamOnError(stream, message);
                 throw new Exception(message);
             }
-            FindingVariableStar fvs = (FindingVariableStar) finding;
-
+          
             // Get AAVSO observer initals
             initials = currentObserver.getUsernameForAccount(Observer.ACCOUNT_AAVSO);
             if ((initials == null) || ("".equals(initials.trim()))) {
@@ -165,98 +164,30 @@ public class AAVSOVisualSerializer implements ISerializer {
                  */
             }
 
-            // Write observer AAVSO initals to stream (in case the observer initials changed
-            // since last loop)
-            if (!initials.equals(this.lastAavsoInitals)) {
-                String obsCodeParameter = AAVSOVisualSerializer.PARAMETER_OBSERVERCODE + initials + "\n";
-                stream.write(obsCodeParameter.getBytes());
-                this.lastAavsoInitals = initials;
-            }
+            writeObserver(stream, initials);
 
-            // Write variable star name
-            stream.write(currentObservation.getTarget().getName().getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
+            writeName(stream, currentObservation);
 
-            // Get observation julian date and write it into stream
-            String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin());
-            stream.write(obsDate.getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
+            writeObservation(stream, currentObservation);
 
-            // Write magnitude
-            String mag = "";
-            if (fvs.isMagnitudeFainterThan()) {
-                mag = "<";
-            }
-            mag = mag + fvs.getMagnitude();
-            stream.write(mag.getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
+            FindingVariableStar fvs = (FindingVariableStar) finding;
 
-            // Write comment codes
-            String comments = this.getCommentCode(fvs);
-            stream.write(comments.getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
+            writeMagnitude(stream, fvs);
+
+            writeComments(stream, fvs);
 
             // Write comparism star data (only first and second here. Rest goes into
             // comments)
-            List<String> comparismStars = fvs.getComparismStars();
-            String cs1 = comparismStars.get(0);
-            stream.write(cs1.getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
-            if (comparismStars.size() == 1) { // Only one comparism star
-                stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
-                stream.write(AAVSOVisualSerializer.DELIMITER);
-            } else if (comparismStars.size() > 1) { // At least two comparism stars
-                String cs2 = (String) comparismStars.get(1);
-                if (cs2 != null) {
-                    stream.write(cs2.getBytes());
-                    stream.write(AAVSOVisualSerializer.DELIMITER);
-                } else {
-                    stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
-                    stream.write(AAVSOVisualSerializer.DELIMITER);
-                }
-            }
+          
+            writeComparismData(stream, fvs);
 
-            // Write chart
-            stream.write(fvs.getChartDate().getBytes());
-            stream.write(AAVSOVisualSerializer.DELIMITER);
+            writeChartDate(stream, fvs);
 
-            // Write notes
-            StringBuilder notes = new StringBuilder();
-
-            // If there are more comp. stars add them here
-            if (comparismStars.size() > 2) {
-                ListIterator<String> compStarItertor = comparismStars.listIterator(2);
-                while (compStarItertor.hasNext()) {
-                    notes.append(compStarItertor.next()).append(","); // This delimiter must be !=
-                    // AAVSOVisualSerializer.DELIMITER
-                }
-                notes.append(" - ");
-            }
-            notes.append(fvs.getDescription());
-
-            // GMB - escaping non-ASCII chars to html4 entities and replaces CR LF with
-            // dashes
-            String rawNotes = "";
-            rawNotes = StringEscapeUtils.escapeHtml4(notes.toString());
-            rawNotes = rawNotes.replace('\n', NOTES_LINE_SEP);
-            rawNotes = rawNotes.replace('\r', NOTES_LINE_SEP);
-            notes = new StringBuilder(rawNotes);
-            // GMB - end patch
-
-            // Make sure notes are not longer then 100 characters
-            if (notes.length() > 100) {
-                notes = new StringBuilder(notes.substring(0, 100));
-            }
-
-            // If there's no note/description, set na
-            if ("".equals(notes.toString())) {
-                notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
-            }
-
+           
+            writeNotes(stream, fvs);
             // The finding status to exported
             fvs.setAlreadyExportedToAAVSO(true);
 
-            stream.write(notes.toString().getBytes());
 
             // Next line for next observation
             stream.write("\n".getBytes());
@@ -271,6 +202,118 @@ public class AAVSOVisualSerializer implements ISerializer {
 
         return counter;
 
+    }
+
+    private String writeObservation(OutputStream stream, IObservation currentObservation) throws IOException {
+        // Get observation julian date and write it into stream
+        String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin());
+        stream.write(obsDate.getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+        return obsDate;
+    }
+
+    private String writeComparismData(OutputStream stream, FindingVariableStar fvs) throws IOException {
+
+        List<String> comparismStars = fvs.getComparismStars();
+        String cs1 = comparismStars.get(0);
+        stream.write(cs1.getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+        if (comparismStars.size() == 1) { // Only one comparism star
+            stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
+            stream.write(AAVSOVisualSerializer.DELIMITER);
+        } else if (comparismStars.size() > 1) { // At least two comparism stars
+            String cs2 = (String) comparismStars.get(1);
+            if (cs2 != null) {
+                stream.write(cs2.getBytes());
+                stream.write(AAVSOVisualSerializer.DELIMITER);
+            } else {
+                stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
+                stream.write(AAVSOVisualSerializer.DELIMITER);
+            }
+        }
+        return cs1;
+    }
+
+    private void writeNotes(OutputStream stream, FindingVariableStar fvs)
+    throws IOException {
+         // Write notes
+         StringBuilder notes = new StringBuilder();
+
+
+        List<String> comparismStars = fvs.getComparismStars();
+         // If there are more comp. stars add them here
+         if (comparismStars.size() > 2) {
+             ListIterator<String> compStarItertor = comparismStars.listIterator(2);
+             while (compStarItertor.hasNext()) {
+                 notes.append(compStarItertor.next()).append(","); // This delimiter must be !=
+                 // AAVSOVisualSerializer.DELIMITER
+             }
+             notes.append(" - ");
+         }
+         notes.append(fvs.getDescription());
+
+         // GMB - escaping non-ASCII chars to html4 entities and replaces CR LF with
+         // dashes
+         String rawNotes = "";
+         rawNotes = StringEscapeUtils.escapeHtml4(notes.toString());
+         rawNotes = rawNotes.replace('\n', NOTES_LINE_SEP);
+         rawNotes = rawNotes.replace('\r', NOTES_LINE_SEP);
+         notes = new StringBuilder(rawNotes);
+         // GMB - end patch
+
+         // Make sure notes are not longer then 100 characters
+         if (notes.length() > 100) {
+             notes = new StringBuilder(notes.substring(0, 100));
+         }
+
+         // If there's no note/description, set na
+         if ("".equals(notes.toString())) {
+             notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
+         }
+
+         stream.write(notes.toString().getBytes());
+    }
+
+    private void writeChartDate(OutputStream stream, FindingVariableStar fvs) throws IOException {
+        // Write chart
+        stream.write(fvs.getChartDate().getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+    }
+
+    private String writeComments(OutputStream stream, FindingVariableStar fvs) throws IOException {
+        // Write comment codes
+        String comments = this.getCommentCode(fvs);
+        stream.write(comments.getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+        return comments;
+    }
+
+    private String writeMagnitude(OutputStream stream, FindingVariableStar fvs) throws IOException {
+        // Write magnitude
+        String mag = "";
+        if (fvs.isMagnitudeFainterThan()) {
+            mag = "<";
+        }
+        mag = mag + fvs.getMagnitude();
+        stream.write(mag.getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+        return mag;
+    }
+
+    private void writeName(OutputStream stream, IObservation currentObservation) throws IOException {
+        // Write variable star name
+        stream.write(currentObservation.getTarget().getName().getBytes());
+        stream.write(AAVSOVisualSerializer.DELIMITER);
+    }
+
+    private void writeObserver(OutputStream stream, String initials) throws IOException {
+        // Write observer AAVSO initals to stream (in case the observer initials changed
+        // since last loop)
+        if (!initials.equals(this.lastAavsoInitals)) {
+            String obsCodeParameter = AAVSOVisualSerializer.PARAMETER_OBSERVERCODE + initials + "\n";
+            stream.write(obsCodeParameter.getBytes());
+            this.lastAavsoInitals = initials;
+        }
     }
 
     // ---------------

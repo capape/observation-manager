@@ -16,9 +16,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +32,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -54,7 +61,8 @@ import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
 
 /**
- * The SchemaLoader provides loading facilities to load (parse) a XML Schema file.<br>
+ * The SchemaLoader provides loading facilities to load (parse) a XML Schema
+ * file.<br>
  * You can see this as a Factory of the Schema Objects.
  *
  * @author doergn@users.sourceforge.net
@@ -63,7 +71,7 @@ import de.lehmannet.om.Site;
 public class SchemaLoader {
 
     private static Logger log = LoggerFactory.getLogger(SchemaLoader.class);
-// XML Schema Filenames
+    // XML Schema Filenames
     public static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
             "comast17.xsd", "oal20.xsd", "oal21.xsd" };
 
@@ -114,18 +122,17 @@ public class SchemaLoader {
     // Public Static Methods ---------------------------------------------
     // ---------------------
 
-/**
+    /**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
      *
-     * @param xsiType
-     *            The unique xsi:Type that identifies the object/element
-     * @param currentNode
-     *            The XML Node that represents the object e.g. <target>...</target>
-     * @param observers
-     *            A array of Observers that are needed to instanciate a object of type Target
+     * @param xsiType     The unique xsi:Type that identifies the object/element
+     * @param currentNode The XML Node that represents the object e.g.
+     *                    <target>...</target>
+     * @param observers   A array of Observers that are needed to instanciate a
+     *                    object of type Target
      * @return A ITarget that represents the given node as Java object
-     * @throws SchemaException
-     *             if the given node is not well formed according to the Schema specifications
+     * @throws SchemaException if the given node is not well formed according to the
+     *                         Schema specifications
      */
     private static ITarget getTargetFromXSIType(String xsiType, Node currentNode, IObserver... observers)
             throws SchemaException {
@@ -135,16 +142,15 @@ public class SchemaLoader {
 
     }
 
-/**
+    /**
      * Gets a IFinding object (e.g. DeepSkyFinding) from a given xsiType.
      *
-     * @param xsiType
-     *            The unique xsi:Type that identifies the object/element
-     * @param currentNode
-     *            The XML Node that represents the object e.g. <result>...</result>
+     * @param xsiType     The unique xsi:Type that identifies the object/element
+     * @param currentNode The XML Node that represents the object e.g.
+     *                    <result>...</result>
      * @return A IFinding that represents the given node as Java object
-     * @throws SchemaException
-     *             if the given node is not well formed according to the Schema specifications
+     * @throws SchemaException if the given node is not well formed according to the
+     *                         Schema specifications
      */
     public static IFinding getFindingFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
@@ -152,16 +158,15 @@ public class SchemaLoader {
 
     }
 
-/**
+    /**
      * Gets a IImager object (e.g. CCDImager) from a given xsiType.
      *
-     * @param xsiType
-     *            The unique xsi:Type that identifies the object/element
-     * @param currentNode
-     *            The XML Node that represents the object e.g. <imager>...</imager>
+     * @param xsiType     The unique xsi:Type that identifies the object/element
+     * @param currentNode The XML Node that represents the object e.g.
+     *                    <imager>...</imager>
      * @return A IImager that represents the given node as Java object
-     * @throws SchemaException
-     *             if the given node is not well formed according to the Schema specifications
+     * @throws SchemaException if the given node is not well formed according to the
+     *                         Schema specifications
      */
     private static IImager getImagerFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
@@ -173,75 +178,72 @@ public class SchemaLoader {
     // Public Methods ----------------------------------------------------
     // --------------
 
-public IObservation[] getObservations() {
+    public IObservation[] getObservations() {
 
         return this.observations.clone();
 
     }
 
-public ISession[] getSessions() {
+    public ISession[] getSessions() {
 
         return this.sessions.clone();
 
     }
 
-public ITarget[] getTargets() {
+    public ITarget[] getTargets() {
 
         return this.targets.clone();
 
     }
 
-public IObserver[] getObservers() {
+    public IObserver[] getObservers() {
 
         return this.observers.clone();
 
     }
 
-public ISite[] getSites() {
+    public ISite[] getSites() {
 
         return this.sites.clone();
 
     }
 
-public IScope[] getScopes() {
+    public IScope[] getScopes() {
 
         return this.scopes.clone();
 
     }
 
-public IEyepiece[] getEyepieces() {
+    public IEyepiece[] getEyepieces() {
 
         return this.eyepieces.clone();
 
     }
 
-public IFilter[] getFilters() {
+    public IFilter[] getFilters() {
 
         return this.filters.clone();
 
     }
 
-public ILens[] getLenses() {
+    public ILens[] getLenses() {
 
         return this.lenses.clone();
 
     }
 
-public IImager[] getImagers() {
+    public IImager[] getImagers() {
 
         return this.imagers.clone();
 
     }
 
-/**
+    /**
      * Loads/parses a XML File
      *
-     * @param schemaPath
-     *            The path to the XML Schemas
-     * @throws OALException
-     *             if schema File cannot be accessed
-     * @throws SchemaException
-     *             if XML File is not valid
+     * @param schemaPath The path to the XML Schemas
+     * @throws OALException    if schema File cannot be accessed
+     * @throws SchemaException if XML File is not valid
      */
     public RootElement load(File xmlFile, File schemaPath) throws OALException, SchemaException {
 
@@ -258,18 +260,33 @@ public IImager[] getImagers() {
             System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
                     "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setValidating(true);
+            dbf.setValidating(false);
             dbf.setNamespaceAware(true);
             dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
                     "http://www.w3.org/2001/XMLSchema");
             dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource", schemaFile.getAbsoluteFile());
 
+            try {
+                SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+                java.net.URL fileUrl = Thread.currentThread().getContextClassLoader().getResource("schema/oal21.xsd");
+
+                Schema schema = factory.newSchema(new File(fileUrl.getFile()));
+                javax.xml.validation.Validator validator = schema.newValidator();
+
+            
+                validator.validate(new StreamSource(xmlFile));
+            } catch (IOException | SAXException e) {
+                log.error("Error parsing xml file: {}", e.getLocalizedMessage());
+               //  throw new SchemaException("Unable to parse xml file");
+            }
+            
+
             DocumentBuilder db = dbf.newDocumentBuilder();
             Validator handler = new Validator();
             db.setErrorHandler(handler);
-
-            Document doc = db.parse(new FileInputStream(xmlFile), schemaFile.getAbsolutePath());
-
+            
+            Document doc = db.parse(new FileInputStream(xmlFile));
             return this.load(doc);
 
         } catch (SAXException sax) {
@@ -329,78 +346,17 @@ public IImager[] getImagers() {
         Node element = null;
         NodeList elementContainer = null;
 
-        // --------- Observer -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_OBSERVER_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_OBSERVER_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        observers = createObserverElements(element);
+        loadObserver(rootElement);
+        loadTargets(rootElement);
+        loadSite(rootElement);
+        loadScopes(rootElement);
+        loadLenses(rootElement);
+        loadEyePieces(rootElement);
+        loadFilters(rootElement);
 
-        // --------- Target -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_TARGET_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_TARGET_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        targets = createTargetElements(element, observers);
+        loadImager(rootElement);
 
-        // --------- Site -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SITE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SITE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        sites = createSiteElements(element);
-
-        // --------- Scope -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SCOPE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SCOPE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        scopes = createScopeElements(element);
-
-        // --------- Lens -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_LENS_CONTAINER);
-        if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.7 won't have a lens element, so 0 is ok
-            throw new OALException("Schema XML can only have one " + RootElement.XML_LENS_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        lenses = createLensElements(element);
-
-        // --------- Eyepiece -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_EYEPIECE_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_EYEPIECE_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        eyepieces = createEyepieceElements(element);
-
-        // --------- Filter -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_FILTER_CONTAINER);
-        if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.5 won't have a filter element, so 0 is ok
-            throw new OALException("Schema XML can only have one " + RootElement.XML_FILTER_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        filters = createFilterElements(element);
-
-        // --------- Imager -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_IMAGER_CONTAINER);
-        if (elementContainer.getLength() > 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_IMAGER_CONTAINER + " element. ");
-        } else if (elementContainer.getLength() == 1) {
-            element = elementContainer.item(0);
-            imagers = createImagerElements(element);
-        }
-
-        // --------- Session -----------
-        elementContainer = rootElement.getElementsByTagName(RootElement.XML_SESSION_CONTAINER);
-        if (elementContainer.getLength() != 1) {
-            throw new OALException("Schema XML can only have one " + RootElement.XML_SESSION_CONTAINER + " element. ");
-        }
-        element = elementContainer.item(0);
-        sessions = createSessionElements(element);
+        loadSession(rootElement);
 
         // --------- Observation -----------
         this.observations = createObservationElements(rootElement);
@@ -419,6 +375,115 @@ public IImager[] getImagers() {
         return obs;
 
     }
+
+private void loadSession(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Session -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SESSION_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SESSION_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    sessions = createSessionElements(element);
+}
+
+private void loadImager(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Imager -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_IMAGER_CONTAINER);
+    if (elementContainer.getLength() > 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_IMAGER_CONTAINER + " element. ");
+    } else if (elementContainer.getLength() == 1) {
+        element = elementContainer.item(0);
+        imagers = createImagerElements(element);
+    }
+}
+
+private void loadFilters(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Filter -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_FILTER_CONTAINER);
+    if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.5 won't have a filter element, so 0 is ok
+        throw new OALException("Schema XML can only have one " + RootElement.XML_FILTER_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    filters = createFilterElements(element);
+}
+
+private void loadEyePieces(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Eyepiece -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_EYEPIECE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_EYEPIECE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    eyepieces = createEyepieceElements(element);
+}
+
+private void loadLenses(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Lens -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_LENS_CONTAINER);
+    if (elementContainer.getLength() > 1) { // <-- All XML files prio 1.7 won't have a lens element, so 0 is ok
+        throw new OALException("Schema XML can only have one " + RootElement.XML_LENS_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    lenses = createLensElements(element);
+}
+
+private void loadScopes(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Scope -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SCOPE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SCOPE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    scopes = createScopeElements(element);
+}
+
+private void loadSite(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Site -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_SITE_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_SITE_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    sites = createSiteElements(element);
+}
+
+private void loadTargets(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Target -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_TARGET_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_TARGET_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    targets = createTargetElements(element, observers);
+}
+
+private void loadObserver(Element rootElement) throws OALException, SchemaException {
+    Node element;
+    NodeList elementContainer;
+    // --------- Observer -----------
+    elementContainer = rootElement.getElementsByTagName(RootElement.XML_OBSERVER_CONTAINER);
+    if (elementContainer.getLength() != 1) {
+        throw new OALException("Schema XML can only have one " + RootElement.XML_OBSERVER_CONTAINER + " element. ");
+    }
+    element = elementContainer.item(0);
+    observers = createObserverElements(element);
+}
 
     // ----------------------
     // Private Static Methods --------------------------------------------

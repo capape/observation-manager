@@ -14,6 +14,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.mapper.ImagerMapper;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -48,7 +49,7 @@ public abstract class Imager extends SchemaElement implements IImager {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of an Imager from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
@@ -68,123 +69,11 @@ public abstract class Imager extends SchemaElement implements IImager {
         // Cast to element as we need some methods from it
         Element imagerElement = (Element) imager;
 
-        // Helper classes
-        NodeList children = null;
-        Element child = null;
-
-        // Getting data
-        // First mandatory stuff and down below optional data
-
-        // Get ID from element
-        String ID = imagerElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
-            throw new SchemaException("Imager must have a ID. ");
-        }
-        super.setID(ID);
-
-        // Get mandatory model
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_MODEL);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Imager must have exact one model name. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder model = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Imager must have a model name. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                // model = child.getFirstChild().getNodeValue();
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        model.append(textElements.item(te).getNodeValue());
-                    }
-                    this.setModel(model.toString());
-                }
-            } else {
-                throw new SchemaException("Imager cannot have an empty model name. ");
-            }
-        }
-
-        // Search for optional availability comment within nodes
-        NodeList list = imagerElement.getChildNodes();
-        for (int i = 0; i < list.getLength(); i++) {
-            Node c = list.item(i);
-            if (c.getNodeType() == Node.COMMENT_NODE) {
-                if (IEquipment.XML_COMMENT_ELEMENT_NOLONGERAVAILABLE.equals(c.getNodeValue())) {
-                    this.available = false;
-                    break;
-                }
-            }
-        }
-
-        // Get optional vendor
-        child = null;
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_VENDOR);
-        StringBuilder vendor = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setVendor(vendor.toString());
-                    }
-                    /*
-                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) { this.setVendor(vendor); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor from imager. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Imager can have only one vendor. ");
-            }
-        }
-
-        // Get optional type
-        /*
-         * child = null; children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_TYPE); String type = ""; if(
-         * children != null ) { if( children.getLength() == 1 ) { child = (Element)children.item(0); if( child != null )
-         * { NodeList textElements = child.getChildNodes(); if( (textElements != null) && (textElements.getLength() > 0)
-         * ) { for(int te=0; te < textElements.getLength(); te++) { type = type + textElements.item(te).getNodeValue();
-         * } this.setType(type); }
-         */
-        /*
-         * type = child.getFirstChild().getNodeValue(); if( type != null ) { this.setType(type); }
-         */
-        /*
-         * } else { throw new SchemaException("Problem while retrieving type from imager. "); } } else if(
-         * children.getLength() > 1 ) { throw new SchemaException("Imager can have only one type. "); } }
-         */
-
-        // Get optional remarks
-        child = null;
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_REMARKS);
-        StringBuilder remarks = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            remarks.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setRemarks(remarks.toString());
-                    }
-                    /*
-                     * remarks = child.getFirstChild().getNodeValue(); if( type != null ) { this.setRemarks(remarks); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving remarks from imager. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Imager can have only one remark element. ");
-            }
-        }
+        this.setID(ImagerMapper.getMandatoryID(imagerElement));
+        this.setModel(ImagerMapper.getMandatoryModel(imagerElement));
+        this.setAvailability(ImagerMapper.getOptionalAvailability(imagerElement));
+        this.setVendor(ImagerMapper.getOptionalVendor(imagerElement));
+        this.setRemarks(ImagerMapper.getOptionalRemarks(imagerElement));
 
     }
 

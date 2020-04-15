@@ -36,9 +36,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
 import de.lehmannet.om.ui.catalog.CatalogLoader;
@@ -59,6 +62,8 @@ public class ExtensionLoader {
 
     // Config file key for extension major class
     private static final String CONFIG_FILE_ENTRY_EXTENSION_CLASS = "Extension_Class";
+
+    private static final Logger LOG = LoggerFactory.getLogger(ExtensionLoader.class);
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -125,7 +130,7 @@ public class ExtensionLoader {
                 urlArray.add(new URL("file:" + current.getAbsolutePath()));
             }
         } catch (MalformedURLException urle) {
-            System.out.println("Unable to add jar file to classloader: " + current);
+            LOG.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
             return null;
         }
         if (this.extensionClassLoader != null) { // Add already loaded extensions as well
@@ -401,11 +406,11 @@ public class ExtensionLoader {
         // --- Store extension main class
         if (extension != null) {
             if (this.extensions.contains(extension)) {
-                System.out.println("Already loaded extension: " + extension.getName());
+                LOG.info("Already loaded extension: {} ", extension.getName());
                 return extension.getName();
             }
             this.extensions.add(extension);
-            System.out.println("Successfully loaded extension: " + extension.getName());
+            LOG.info("Successfully loaded extension: {} ", extension.getName());
             return extension.getName();
         }
 
@@ -470,7 +475,7 @@ public class ExtensionLoader {
 
             return file;
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Unable to create file: " + file + "\n" + fnfe);            
+            System.err.println("Unable to create file: " + file + "\n" + fnfe);
             return null;
         } finally {
             if (fos != null) {
@@ -519,20 +524,31 @@ public class ExtensionLoader {
 
         boolean result = extension.addOALExtensionElement(doc.getDocumentElement());
 
-        OutputFormat outputFormat = new OutputFormat(doc, "ISO-8859-1", true);
-        XMLSerializer serializer = new XMLSerializer(outputFormat);
         try {
-            serializer.setOutputByteStream(new FileOutputStream(schema));
-            serializer.serialize(doc);
-        } catch (FileNotFoundException fnfe) {
-            System.err.println("File not found: " + schema.getAbsolutePath() + "\n" + fnfe);
+            DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+
+            DOMImplementationLS domImplLS = (DOMImplementationLS) registry.getDOMImplementation("LS");
+
+            LSSerializer writer = domImplLS.createLSSerializer();
+
+            writer.writeToURI(doc, schema.toURI().toURL().toString());
+            return result;
+        } catch (IOException ex) {
+            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), ex);
             return false;
-        } catch (IOException ioe) {
-            System.err.println("Error while serializing. Nested Exception is: \n" + ioe);
+        } catch (ClassNotFoundException e) {
+            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            return false;
+        } catch (InstantiationException e) {
+            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            return false;
+        } catch (IllegalAccessException e) {
+            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            return false;
+        } catch (ClassCastException e) {
+            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         }
-
-        return result;
 
     }
 

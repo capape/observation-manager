@@ -14,6 +14,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.mapper.FilterMapper;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -82,177 +83,17 @@ public class Filter extends SchemaElement implements IFilter {
 
         // Getting data
         // First mandatory stuff and down below optional data
-
-        // Get ID from element
-        String ID = filterElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
-            throw new SchemaException("Filter must have a ID. ");
-        }
-        super.setID(ID);
-
-        // Get mandatory model
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_MODEL);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Filter must have exact one model name. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder model = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Filter must have a model name. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        model.append(textElements.item(te).getNodeValue());
-                    }
-                    this.setModel(model.toString());
-                }
-                // model = child.getFirstChild().getNodeValue();
-            } else {
-                throw new SchemaException("Filter cannot have an empty model name. ");
-            }
-        }
-
-        // Get mandatory type
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_TYPE);
-        if ((children == null) || (children.getLength() != 1)) {
-            throw new SchemaException("Filter must have exact one type. ");
-        }
-        child = (Element) children.item(0);
-        StringBuilder type = new StringBuilder();
-        if (child == null) {
-            throw new SchemaException("Filter must have a type. ");
-        } else {
-            if (child.getFirstChild() != null) {
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        type.append(textElements.item(te).getNodeValue());
-                    }
-                    this.setType(type.toString());
-                }
-                // type = child.getFirstChild().getNodeValue();
-            } else {
-                throw new SchemaException("Filter cannot have an empty type. ");
-            }
-        }
-
-        // Search for optional availability comment within nodes
-        NodeList list = filterElement.getChildNodes();
-        for (int i = 0; i < list.getLength(); i++) {
-            Node c = list.item(i);
-            if (c.getNodeType() == Node.COMMENT_NODE) {
-                if (IEquipment.XML_COMMENT_ELEMENT_NOLONGERAVAILABLE.equals(c.getNodeValue())) {
-                    this.available = false;
-                    break;
-                }
-            }
-        }
-
-        // Get optional color
-        child = null;
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_COLOR);
-        StringBuilder color = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            color.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setColor(color.toString());
-                    }
-                    /*
-                     * color = child.getFirstChild().getNodeValue(); if( color != null ) { this.setColor(color); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving color from filter. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one color. ");
-            }
-        }
-
-        // Get optional wratten value
-        child = null;
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_WRATTEN);
-        StringBuilder wratten = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            wratten.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setWratten(wratten.toString());
-                    }
-                    /*
-                     * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) { this.setWratten(wratten);
-                     * }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving wratten value from filter. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one wratten value. ");
-            }
-        }
-
-        // Get optional schott value
-        child = null;
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_SCHOTT);
-        StringBuilder schott = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            schott.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setSchott(schott.toString());
-                    }
-                    /*
-                     * schott = child.getFirstChild().getNodeValue(); if( schott != null ) { this.setSchott(schott); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving schott value from filter. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one schott value. ");
-            }
-        }
-
-        // Get optional vendor name
-        child = null;
-        children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_VENDOR);
-        StringBuilder vendor = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        this.setVendor(vendor.toString());
-                    }
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor name from filter. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one vendor name. ");
-            }
-        }
+        this.setID(FilterMapper.getID(filterElement));
+        this.setModel(FilterMapper.getMadatoryModel(filterElement));
+        this.setType(FilterMapper.getMandatoryType(filterElement));
+        this.setAvailability(FilterMapper.getOptionalAvailability(filterElement));
+        this.setColor(FilterMapper.getOptionalColor(filterElement));
+        this.setWratten(FilterMapper.getOptionalWrattenValue(filterElement));
+        this.setSchott(FilterMapper.getOptionalSchottValue(filterElement));
+        this.setVendor(FilterMapper.getOptionalVendorName(filterElement));
 
     }
+
 
 /**
      * Constructs a new instance of a Filter.<br>
