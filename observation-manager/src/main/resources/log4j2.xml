@@ -12,9 +12,9 @@
     </Appenders>
 
     <Loggers>
-        <AsyncRoot level="INFO">
+        <Root level="INFO">
             <AppenderRef ref="console" />
-        </AsyncRoot>
+        </Root>
 
         <Logger name="org.apache.xerces" level="trace" additivity="false">
             <AppenderRef ref="console" />

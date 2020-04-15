@@ -277,7 +277,7 @@ public class SchemaLoader {
             
                 validator.validate(new StreamSource(xmlFile));
             } catch (IOException | SAXException e) {
-                log.error("Exception: {} ", e.getLocalizedMessage(), e);
+                log.error("Error parsing xml file: {}", e.getLocalizedMessage());
                //  throw new SchemaException("Unable to parse xml file");
             }
             
