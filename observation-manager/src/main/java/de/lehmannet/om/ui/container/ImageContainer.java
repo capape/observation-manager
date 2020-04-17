@@ -19,11 +19,14 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -31,6 +34,7 @@ import javax.swing.Scrollable;
 
 import de.lehmannet.om.ui.dialog.FITSImageDialog;
 import de.lehmannet.om.ui.dialog.ImageDialog;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.RelativPath;
@@ -58,10 +62,12 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     private final GridBagLayout layout = new GridBagLayout();
 
     private int numberOfImages = 0;
+    private final ImageResolver imageResolver;
 
-    public ImageContainer(List<String> files, ObservationManager om, boolean editable) {
+    public ImageContainer(List<File> files, ObservationManager om, boolean editable, ImageResolver resolver) {
 
         this.om = om;
+        this.imageResolver = resolver;
         this.editable = editable;
 
         this.createContainer();
@@ -70,7 +76,13 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     }
 
-    public void addImages(List<String> images) {
+    public void addImagesFromPath(List<String> images) {
+
+        this.addImages(this.getFilesFromPath(images));
+
+    }
+
+    public void addImages(List<File> images) {
 
         if ((images == null) || (images.size() <= 0)) {
             return;
@@ -84,20 +96,11 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         int i = 0;
         for (; i < images.size(); i++) {
 
-            // The given list can contain File or String objects
-            // if (images.get(i) instanceof String) {
-                path = (String) images.get(i);
-                if (path.startsWith("." + File.separator)) { // Path is relative
-                    path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
-                            + File.separator + path;
-                }
-            // } else {
-            //     path = ((File) images.get(i)).getAbsolutePath();
-            //     if (path.startsWith("." + File.separator)) { // Path is relative
-            //         path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
-            //                 + File.separator + path;
-            //     }
-            // }
+            path = ((File) images.get(i)).getAbsolutePath();
+            if (path.startsWith("." + File.separator)) { // Path is relative
+                path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
+                        + File.separator + path;
+            }
 
             if (!((path.endsWith(".fits")) || (path.endsWith(".fit")) || (path.endsWith(".fts")))) {
                 image = Toolkit.getDefaultToolkit().getImage(path);
@@ -105,8 +108,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
                 thumb = image.getScaledInstance(ImageContainer.THUMBNAIL_SIZE_WIDTH,
                         ImageContainer.THUMBNAIL_SIZE_HEIGHT, Image.SCALE_FAST);
             } else {
-                thumb = Toolkit.getDefaultToolkit().getImage(this.om.getInstallDir() + File.separator + "images"
-                        + File.separator + ImageContainer.THUMBNAIL_NAME_FITS);
+                URL urlThumbFits = this.imageResolver.getImageURL(ImageContainer.THUMBNAIL_NAME_FITS).orElse(null);
+                thumb = Toolkit.getDefaultToolkit().getImage(urlThumbFits);
             }
 
             // Only save thumbnail image, to avoid OutOfMemory exceptions
@@ -120,7 +123,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
             super.add(label);
 
             if (this.editable) {
-                JLabel delete = new JLabel(this.bundle.getString("imageContainer.deleteImage"));
+                String labelText = this.bundle.getString("imageContainer.deleteImage");
+                JLabel delete = new JLabel(labelText);
 
                 delete.setForeground(Color.BLUE);
 
@@ -271,6 +275,22 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
         return 1;
 
+    }
+
+    private List<File> getFilesFromPath(List<String> imagePath) {
+        if (imagePath == null) {
+            return Collections.emptyList();
+        }
+        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
+    }
+
+    private File createPath(String x) {
+        if (x.startsWith("." + File.separator)) {
+            return new File(this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
+                    + File.separator + x);
+        } else {
+            return new File(x);
+        }
     }
 
 }

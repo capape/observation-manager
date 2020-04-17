@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -568,8 +569,7 @@ public class ObservationItemPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 7, 9, 1, 4, 1, 1);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.EAST;
-        MoonDetailContainer moonContainer = new MoonDetailContainer(this.observation,
-                new File(this.om.getInstallDir().getPathForFolder("images")));
+        MoonDetailContainer moonContainer = new MoonDetailContainer(this.observation);
         moonContainer.setHorizontalAlignment(SwingConstants.RIGHT);
         gridbag.setConstraints(moonContainer, constraints);
         this.add(moonContainer);
@@ -631,7 +631,8 @@ public class ObservationItemPanel extends AbstractPanel {
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
-            ImageContainer imageContainer = new ImageContainer(this.observation.getImages(), this.om, false);
+            ImageContainer imageContainer = new ImageContainer(this.getFilesFromPath(this.observation.getImages()),
+                 this.om, false, this.om.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
@@ -646,4 +647,16 @@ public class ObservationItemPanel extends AbstractPanel {
 
     }
 
+    private List<File> getFilesFromPath(List<String> imagePath) {
+        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
+    }
+    
+    private  File createPath (String x ) {
+        if (x.startsWith("." + File.separator)) { 
+            return new File(this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
+        + File.separator + x);
+        } else {
+            return new File(x);
+        }
+    }
 }

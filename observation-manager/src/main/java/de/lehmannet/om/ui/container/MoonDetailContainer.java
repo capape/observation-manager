@@ -10,6 +10,7 @@ package de.lehmannet.om.ui.container;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
@@ -23,6 +24,8 @@ import javax.swing.SwingConstants;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISite;
+import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.util.Ephemerides;
 
 public class MoonDetailContainer extends JLabel {
@@ -43,9 +46,11 @@ public class MoonDetailContainer extends JLabel {
     private IObservation observation = null;
     private File imagePath = null;
 
-    public MoonDetailContainer(IObservation obs, File imagePath) {
+    private final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images" + File.separatorChar +  "moon" + File.separatorChar);
 
-        this.imagePath = imagePath;
+    public MoonDetailContainer(IObservation obs) {
+
+      
         this.observation = obs;
 
         this.setImage();
@@ -61,8 +66,7 @@ public class MoonDetailContainer extends JLabel {
 
     private void setImage() {
 
-        String path = this.imagePath.getAbsolutePath() + File.separatorChar + "moon" + File.separatorChar;
-
+        
         ISite site = this.observation.getSite();
         if (site == null) {
             return;
@@ -70,6 +74,7 @@ public class MoonDetailContainer extends JLabel {
 
         Calendar date = this.observation.getBegin();
 
+        String path = "";
         if (Ephemerides.isMoonAboveHorizon(date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {
 
             double phase = Ephemerides.getMoonPhase(date) * 100;
@@ -125,7 +130,8 @@ public class MoonDetailContainer extends JLabel {
         }
 
         // Load & set image
-        Image image = Toolkit.getDefaultToolkit().getImage(path);
+        URL urlImage = this.moonImages.getImageURL(path).orElse(null);
+        Image image = Toolkit.getDefaultToolkit().getImage(urlImage);
         ImageIcon icon = new ImageIcon(image);
 
         super.setHorizontalAlignment(SwingConstants.LEFT);

@@ -48,6 +48,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -56,6 +57,9 @@ import de.lehmannet.om.util.SchemaElementConstants;
 // Better way then forwarding parent object references would be to use events, but anyway...it works :-)
 public class NewDocumentDialog extends JDialog implements ActionListener {
 
+    private static final String DESCRIPTION = "-";
+    private static final String DEFAULT_COLLAPSED_ICON_TEXT = "+";
+    private static final String OBSERVATION_EXPANDED_ICON = "observation_e.png";
     /**
      *
      */
@@ -90,12 +94,15 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private ISession[] sessions = null;
     private ISite[] sites = null;
     private ITarget[] targets = null;
+    private final ImageResolver imageResolver;
 
-    public NewDocumentDialog(JFrame om) {
+    public NewDocumentDialog(JFrame om, ImageResolver resolver) {
 
         super((ObservationManager) om, true);
 
         this.om = (ObservationManager) om;
+
+        this.imageResolver = resolver;
 
         super.setTitle(this.bundle.getString("dialog.newDoc.title"));
         super.setSize(480, 480);
@@ -595,7 +602,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     private void initTree() {
 
-        String imagesDir = this.om.getInstallDir().getPathForFolder( "images");
+       
                 
         Icon expanded = null;
         Icon collapsed = null;
@@ -604,62 +611,62 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         CheckBoxNode root = new CheckBoxNode(this, this.bundle.getString("treeRoot"), false, null, null, null);
 
         // Create all schema element nodes
-        expanded = new ImageIcon(imagesDir + "observation_e.png");
-        collapsed = new ImageIcon(imagesDir + "observation_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL(OBSERVATION_EXPANDED_ICON).orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode observations = new CheckBoxNode(this, this.bundle.getString("observations"), false,
                 this.om.getXmlCache().getObservations(), expanded, collapsed);
         root.add(observations);
 
-        expanded = new ImageIcon(imagesDir + "target_e.png");
-        collapsed = new ImageIcon(imagesDir + "target_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode targets = new CheckBoxNode(this, this.bundle.getString("targets"), false,
                 this.om.getXmlCache().getTargets(), expanded, collapsed);
         root.add(targets);
 
-        expanded = new ImageIcon(imagesDir + "scope_e.png");
-        collapsed = new ImageIcon(imagesDir + "scope_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode scopes = new CheckBoxNode(this, this.bundle.getString("scopes"), true,
                 this.om.getXmlCache().getScopes(), expanded, collapsed);
         root.add(scopes);
 
-        expanded = new ImageIcon(imagesDir + "imager_e.png");
-        collapsed = new ImageIcon(imagesDir + "imager_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode imagers = new CheckBoxNode(this, this.bundle.getString("imagers"), true,
                 this.om.getXmlCache().getImagers(), expanded, collapsed);
         root.add(imagers);
 
-        expanded = new ImageIcon(imagesDir + "filter_e.png");
-        collapsed = new ImageIcon(imagesDir + "filter_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode filters = new CheckBoxNode(this, this.bundle.getString("filters"), true,
                 this.om.getXmlCache().getFilters(), expanded, collapsed);
         root.add(filters);
 
-        expanded = new ImageIcon(imagesDir + "eyepiece_e.png");
-        collapsed = new ImageIcon(imagesDir + "eyepiece_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode eyepieces = new CheckBoxNode(this, this.bundle.getString("eyepieces"), true,
                 this.om.getXmlCache().getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
-        expanded = new ImageIcon(imagesDir + "lens_e.png");
-        collapsed = new ImageIcon(imagesDir + "lens_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode lenses = new CheckBoxNode(this, this.bundle.getString("lenses"), true,
                 this.om.getXmlCache().getLenses(), expanded, collapsed);
         root.add(lenses);
 
-        expanded = new ImageIcon(imagesDir + "site_e.png");
-        collapsed = new ImageIcon(imagesDir + "site_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null),DESCRIPTION);
         CheckBoxNode sites = new CheckBoxNode(this, this.bundle.getString("sites"), true,
                 this.om.getXmlCache().getSites(), expanded, collapsed);
         root.add(sites);
 
-        expanded = new ImageIcon(imagesDir + "session_e.png");
-        collapsed = new ImageIcon(imagesDir + "session_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode sessions = new CheckBoxNode(this, this.bundle.getString("sessions"), false,
                 this.om.getXmlCache().getSessions(), expanded, collapsed);
         root.add(sessions);
 
-        expanded = new ImageIcon(imagesDir + "observer_e.png");
-        collapsed = new ImageIcon(imagesDir + "observer_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null),DESCRIPTION);
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
         CheckBoxNode observers = new CheckBoxNode(this, this.bundle.getString("observers"), true,
                 this.om.getXmlCache().getObservers(), expanded, collapsed);
         root.add(observers);
