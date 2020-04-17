@@ -6,28 +6,43 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.io.File;
+import java.net.URL;
 
 import javax.swing.JFrame;
 
+import de.lehmannet.om.ui.image.ImageResolver;
+
 public class SplashScreen extends JFrame implements Runnable {
 
-    private Image image = null;
+   
+    private static final String SPLASH_PNG = "splash.png";
+    private static final long serialVersionUID = 1L;
+    private Image image;
+    private final ImageResolver imageResolver;
 
-    public SplashScreen(String installPath) {
+    public SplashScreen(ImageResolver resolver) {
 
-        String imageFile = installPath + File.separatorChar + "images" + File.separatorChar + "splash.png";
+        this.imageResolver = resolver;
+        this.init();
+       
+    }
 
-        this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
+    private void init() {
 
-        MediaTracker mt = new MediaTracker(this);
-        mt.addImage(this.image, 0);
-        try {
-            mt.waitForAll();
-        } catch (InterruptedException ie) {
-            // Interrupted while loading image
-            System.err.println("Interrupted while loading SplashScreen");
-        }
+        this.imageResolver.getImageURL(SPLASH_PNG).ifPresent(
 
+            imageFile -> {
+                this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
+    
+                MediaTracker mt = new MediaTracker(this);
+                mt.addImage(this.image, 0);
+                try {
+                    mt.waitForAll();
+                } catch (InterruptedException ie) {
+                    // Interrupted while loading image
+                    System.err.println("Interrupted while loading SplashScreen");
+                }
+            });
     }
 
     @Override

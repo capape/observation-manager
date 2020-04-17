@@ -31,6 +31,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.EyepiecePanel;
 import de.lehmannet.om.ui.panel.FilterPanel;
@@ -86,14 +87,13 @@ public class ItemView extends JPanel implements ChangeListener {
     // is shown)
     private IObservation currentObseration = null;
 
-    private String imagesDir = null;
+    private final ImageResolver imageResolver;
 
-    public ItemView(ObservationManager main) {
+    public ItemView(ObservationManager main, ImageResolver resolver) {
 
-        this.imagesDir = main.getInstallDir().getPathForFolder("images");
-
+        
         this.main = main;
-
+        this.imageResolver = resolver;
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addChangeListener(this);
 
@@ -430,7 +430,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
         this.overviewPanel = new ObservationItemPanel(this.main, observation);
         this.tabbedPane.addTab(this.bundle.getString("observation"),
-                new ImageIcon(this.imagesDir + "observation_l.png"), this.overviewPanel);
+                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null)), this.overviewPanel);
 
     }
 
@@ -493,12 +493,12 @@ public class ItemView extends JPanel implements ChangeListener {
 
             if (SwingUtilities.isEventDispatchThread()) {
                 this.tabbedPane.addTab(this.bundle.getString("finding"),
-                        new ImageIcon(this.imagesDir + "finding_l.png"), ItemView.FINDING_TIC);
+                        new ImageIcon(ItemView.this.imageResolver.getImageURL("finding_l.png").orElse(null)), ItemView.FINDING_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("finding"),
-                                    new ImageIcon(ItemView.this.imagesDir + "finding_l.png"), ItemView.FINDING_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("finding_l.png").orElse(null)), ItemView.FINDING_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -514,7 +514,7 @@ public class ItemView extends JPanel implements ChangeListener {
         if (this.findingPanel != null) {
             if (index <= 0) {
                 this.tabbedPane.addTab(this.bundle.getString("finding"),
-                        new ImageIcon(this.imagesDir + "finding_l.png"), this.findingPanel);
+                        new ImageIcon(this.imageResolver.getImageURL("finding_l.png").orElse(null)), this.findingPanel);
             } else {
                 // index = this.tabbedPane.getSelectedIndex();
                 this.tabbedPane.setComponentAt(index, this.findingPanel);
@@ -529,13 +529,13 @@ public class ItemView extends JPanel implements ChangeListener {
             this.loadTargetPanel(target, o, index);
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(this.bundle.getString("target"), new ImageIcon(this.imagesDir + "target_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("target"), new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null)),
                         ItemView.TARGET_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("target"),
-                                    new ImageIcon(ItemView.this.imagesDir + "target_l.png"), ItemView.TARGET_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("target_l.png").orElse(null)), ItemView.TARGET_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -550,7 +550,7 @@ public class ItemView extends JPanel implements ChangeListener {
                 target, o, false);
         if (this.targetPanel != null) {
             if (index <= 0) {
-                this.tabbedPane.addTab(this.bundle.getString("target"), new ImageIcon(this.imagesDir + "target_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("target"), new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null)),
                         this.targetPanel);
             } else {
                 // index = this.tabbedPane.getSelectedIndex();
@@ -566,13 +566,13 @@ public class ItemView extends JPanel implements ChangeListener {
             this.loadSitePanel(site, index);
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(this.bundle.getString("site"), new ImageIcon(this.imagesDir + "site_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("site"), new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null)),
                         ItemView.SITE_TIC);
             } else {
                 try {
                     SwingUtilities
                             .invokeAndWait(() -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("site"),
-                                    new ImageIcon(ItemView.this.imagesDir + "site_l.png"), ItemView.SITE_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("site_l.png").orElse(null)), ItemView.SITE_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -585,7 +585,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
         this.sitePanel = new SitePanel(site, false);
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("site"), new ImageIcon(this.imagesDir + "site_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("site"), new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null)),
                     this.sitePanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -601,12 +601,12 @@ public class ItemView extends JPanel implements ChangeListener {
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
                 this.tabbedPane.addTab(this.bundle.getString("session"),
-                        new ImageIcon(this.imagesDir + "session_l.png"), ItemView.SESSION_TIC);
+                        new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null)), ItemView.SESSION_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("session"),
-                                    new ImageIcon(ItemView.this.imagesDir + "session_l.png"), ItemView.SESSION_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("session_l.png").orElse(null)), ItemView.SESSION_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -619,7 +619,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
         this.sessionPanel = new SessionPanel(this.main, session, false);
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("session"), new ImageIcon(this.imagesDir + "session_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("session"), new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null)),
                     this.sessionPanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -634,13 +634,13 @@ public class ItemView extends JPanel implements ChangeListener {
             this.loadScopePanel(scope, index);
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(this.bundle.getString("scope"), new ImageIcon(this.imagesDir + "scope_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("scope"), new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null)),
                         ItemView.SCOPE_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("scope"),
-                                    new ImageIcon(ItemView.this.imagesDir + "scope_l.png"), ItemView.SCOPE_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("scope_l.png").orElse(null)), ItemView.SCOPE_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -652,7 +652,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
         this.scopePanel = new ScopePanel(scope, false);
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("scope"), new ImageIcon(this.imagesDir + "scope_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("scope"), new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null)),
                     this.scopePanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -668,12 +668,12 @@ public class ItemView extends JPanel implements ChangeListener {
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
                 this.tabbedPane.addTab(this.bundle.getString("observer"),
-                        new ImageIcon(this.imagesDir + "observer_l.png"), ItemView.OBSERVER_TIC);
+                        new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null)), ItemView.OBSERVER_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("observer"),
-                                    new ImageIcon(ItemView.this.imagesDir + "observer_l.png"), ItemView.OBSERVER_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("observer_l.png").orElse(null)), ItemView.OBSERVER_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -686,7 +686,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
         this.observerPanel = new ObserverPanel(observer, false);
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("observer"), new ImageIcon(this.imagesDir + "observer_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("observer"), new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null)),
                     this.observerPanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -702,12 +702,12 @@ public class ItemView extends JPanel implements ChangeListener {
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
                 this.tabbedPane.addTab(this.bundle.getString("eyepiece"),
-                        new ImageIcon(this.imagesDir + "eyepiece_l.png"), ItemView.EYEPIECE_TIC);
+                        new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null)), ItemView.EYEPIECE_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("eyepiece"),
-                                    new ImageIcon(ItemView.this.imagesDir + "eyepiece_l.png"), ItemView.EYEPIECE_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("eyepiece_l.png").orElse(null)), ItemView.EYEPIECE_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -721,7 +721,7 @@ public class ItemView extends JPanel implements ChangeListener {
         this.eyepiecePanel = new EyepiecePanel(eyepiece);
 
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("eyepiece"), new ImageIcon(this.imagesDir + "eyepiece_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("eyepiece"), new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null)),
                     this.eyepiecePanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -736,13 +736,13 @@ public class ItemView extends JPanel implements ChangeListener {
             this.loadFilterPanel(filter, index);
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(this.bundle.getString("filter"), new ImageIcon(this.imagesDir + "filter_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("filter"), new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null)),
                         ItemView.FILTER_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("filter"),
-                                    new ImageIcon(ItemView.this.imagesDir + "filter_l.png"), ItemView.FILTER_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("filter_l.png").orElse(null)), ItemView.FILTER_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -756,7 +756,7 @@ public class ItemView extends JPanel implements ChangeListener {
         this.filterPanel = new FilterPanel(filter, false);
 
         if (index <= 0) {
-            this.tabbedPane.addTab(this.bundle.getString("filter"), new ImageIcon(this.imagesDir + "filter_l.png"),
+            this.tabbedPane.addTab(this.bundle.getString("filter"), new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null)),
                     this.filterPanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
@@ -771,13 +771,13 @@ public class ItemView extends JPanel implements ChangeListener {
             this.loadImagerPanel(imager, index);
         } else { // Show complete observation (load panel later on user request)
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(this.bundle.getString("imager"), new ImageIcon(this.imagesDir + "imager_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("imager"), new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null)),
                         ItemView.IMAGER_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(
                             () -> ItemView.this.tabbedPane.addTab(ItemView.this.bundle.getString("imager"),
-                                    new ImageIcon(ItemView.this.imagesDir + "imager_l.png"), ItemView.IMAGER_TIC));
+                                    new ImageIcon(ItemView.this.imageResolver.getImageURL("imager_l.png").orElse(null)), ItemView.IMAGER_TIC));
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
                 }
@@ -792,7 +792,7 @@ public class ItemView extends JPanel implements ChangeListener {
                 SchemaElementConstants.IMAGER, imager, false);
         if (this.imagerPanel != null) {
             if (index <= 0) {
-                this.tabbedPane.addTab(this.bundle.getString("imager"), new ImageIcon(this.imagesDir + "imager_l.png"),
+                this.tabbedPane.addTab(this.bundle.getString("imager"), new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null)),
                         this.imagerPanel);
             } else {
                 // index = this.tabbedPane.getSelectedIndex();
@@ -814,13 +814,13 @@ public class ItemView extends JPanel implements ChangeListener {
                 tabTitle = this.bundle.getString("lens.sharpley");
             }
             if (SwingUtilities.isEventDispatchThread()) {
-                this.tabbedPane.addTab(tabTitle, new ImageIcon(this.imagesDir + "lens_l.png"), ItemView.LENS_TIC);
+                this.tabbedPane.addTab(tabTitle, new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null)), ItemView.LENS_TIC);
             } else {
                 try {
                     SwingUtilities.invokeAndWait(() -> {
                         String tabTitle1 = ItemView.this.bundle.getString("lens");
                         ItemView.this.tabbedPane.addTab(tabTitle1,
-                                new ImageIcon(ItemView.this.imagesDir + "lens_l.png"), ItemView.LENS_TIC);
+                                new ImageIcon(ItemView.this.imageResolver.getImageURL("lens_l.png").orElse(null)), ItemView.LENS_TIC);
                     });
                 } catch (Exception e) {
                     System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
@@ -841,7 +841,7 @@ public class ItemView extends JPanel implements ChangeListener {
             } else if (lens.getFactor() < 1) {
                 tabTitle = this.bundle.getString("lens.sharpley");
             }
-            this.tabbedPane.addTab(tabTitle, new ImageIcon(this.imagesDir + "lens_l.png"), this.lensPanel);
+            this.tabbedPane.addTab(tabTitle, new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null)), this.lensPanel);
         } else {
             // index = this.tabbedPane.getSelectedIndex();
             this.tabbedPane.setComponentAt(index, this.lensPanel);

@@ -76,6 +76,7 @@ import de.lehmannet.om.ui.dialog.ScopeDialog;
 import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.extension.SchemaUILoader;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -152,16 +153,20 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JComboBox seeing = null;
     private JTextField accessories = null;
 
+    private final ImageResolver imageResolver;
+
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
     // values
-    public ObservationDialogPanel(ObservationManager om, IObservation observation, ISchemaElement se) {
+    public ObservationDialogPanel(ObservationManager om, IObservation observation, ISchemaElement se,
+    ImageResolver resolver) {
 
         super(true);
 
         super.setVisible(true);
 
         this.observationManager = om;
+        this.imageResolver = resolver;
         this.observation = observation;
 
         this.cache = this.observationManager.getUIDataCache();
@@ -1189,7 +1194,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         this.newImager.setEnabled(super.isEditable());
 
-        this.imageContainer.addImages(this.observation.getImages());
+        this.imageContainer.addImagesFromPath(this.observation.getImages());
 
     }
 
@@ -1551,7 +1556,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(LimageContainer);
         ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager, true);
+        this.imageContainer = new ImageContainer(null, this.observationManager, true,
+        this.imageResolver);
         JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);

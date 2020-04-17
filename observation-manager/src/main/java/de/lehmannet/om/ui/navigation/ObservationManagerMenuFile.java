@@ -33,6 +33,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.OALException;
 import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.Worker;
@@ -47,19 +48,21 @@ public final class ObservationManagerMenuFile {
     private final Configuration configuration;
     private final ObservationManager observationManager;
     private final ObservationManagerHtmlHelper htmlHelper;
-    
+    private final ImageResolver imageResolver;
 
     public ObservationManagerMenuFile(
         Configuration configuration,
         XMLFileLoader xmlCache,
         ObservationManager om,
-        ObservationManagerHtmlHelper htmlHelper) {
+        ObservationManagerHtmlHelper htmlHelper,
+        ImageResolver imageResolver) {
        
         // Load configuration
         this.configuration = configuration; 
         this.xmlCache = xmlCache;
         this.observationManager = om;
         this.htmlHelper = htmlHelper;
+        this.imageResolver = imageResolver;
     }
 
     public int saveBeforeExit( boolean changed) {
@@ -476,7 +479,7 @@ public final class ObservationManagerMenuFile {
         }
 
         // Create dialog
-        NewDocumentDialog newDialog = new NewDocumentDialog(observationManager);
+        NewDocumentDialog newDialog = new NewDocumentDialog(observationManager, imageResolver);
 
         // If user selected Cancel
         int result = newDialog.getResult();

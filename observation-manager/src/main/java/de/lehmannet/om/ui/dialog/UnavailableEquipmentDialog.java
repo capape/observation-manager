@@ -33,6 +33,7 @@ import javax.swing.tree.TreeModel;
 
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
@@ -52,12 +53,14 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
     private boolean changedElements = false; // Indicates whether user did change some elements
 
-    public UnavailableEquipmentDialog(ObservationManager om) {
+    private final ImageResolver imageResolver;
+
+    public UnavailableEquipmentDialog(ObservationManager om, ImageResolver resolver) {
 
         super(om);
 
         this.om = om;
-
+        this.imageResolver = resolver;
         super.setTitle(this.bundle.getString("dialog.unavailableEquipment.title"));
         super.setSize(UnavailableEquipmentDialog.serialVersionUID, 380, 360);
         super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -174,7 +177,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
     private void initTree() {
 
-        String imagesDir = this.om.getInstallDir().getPathForFolder( "images");
         Icon expanded = null;
         Icon collapsed = null;
 
@@ -183,32 +185,32 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
                 null);
 
         // Create all schema element nodes
-        expanded = new ImageIcon(imagesDir + "scope_e.png");
-        collapsed = new ImageIcon(imagesDir + "scope_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null));
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null));
         CheckBoxEquipmentNode scopes = new CheckBoxEquipmentNode(this, this.bundle.getString("scopes"),
                 this.om.getXmlCache().getScopes(), expanded, collapsed);
         root.add(scopes);
 
-        expanded = new ImageIcon(imagesDir + "imager_e.png");
-        collapsed = new ImageIcon(imagesDir + "imager_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null));
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null));
         CheckBoxEquipmentNode imagers = new CheckBoxEquipmentNode(this, this.bundle.getString("imagers"),
                 this.om.getXmlCache().getImagers(), expanded, collapsed);
         root.add(imagers);
 
-        expanded = new ImageIcon(imagesDir + "filter_e.png");
-        collapsed = new ImageIcon(imagesDir + "filter_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null));
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null));
         CheckBoxEquipmentNode filters = new CheckBoxEquipmentNode(this, this.bundle.getString("filters"),
                 this.om.getXmlCache().getFilters(), expanded, collapsed);
         root.add(filters);
 
-        expanded = new ImageIcon(imagesDir + "eyepiece_e.png");
-        collapsed = new ImageIcon(imagesDir + "eyepiece_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null));
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null));
         CheckBoxEquipmentNode eyepieces = new CheckBoxEquipmentNode(this, this.bundle.getString("eyepieces"),
                 this.om.getXmlCache().getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
-        expanded = new ImageIcon(imagesDir + "lens_e.png");
-        collapsed = new ImageIcon(imagesDir + "lens_c.png");
+        expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null));
+        collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null));
         CheckBoxEquipmentNode lenses = new CheckBoxEquipmentNode(this, this.bundle.getString("lenses"),
                 this.om.getXmlCache().getLenses(), expanded, collapsed);
         root.add(lenses);

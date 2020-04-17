@@ -45,6 +45,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TreeView extends JPanel implements TreeSelectionListener {
@@ -81,9 +82,12 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     // Key=ISchemaElement - Value: SchemaElementMutableTreeNode
     private final Map<ISchemaElement,SchemaElementMutableTreeNode> nodes = new HashMap<>();
 
-    public TreeView(ObservationManager om) {
+    private final ImageResolver imageResolver;
+
+    public TreeView(ObservationManager om, ImageResolver resolver) {
 
         this.observationManager = om;
+        this.imageResolver = resolver;
 
         this.root = new DefaultMutableTreeNode(this.bundle.getString("treeRoot"));
         this.observation = new DefaultMutableTreeNode(this.bundle.getString("tree.observations"));
@@ -111,7 +115,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         this.initTree();
 
         this.tree = new JTree(this.root);
-        this.tree.setCellRenderer(new SchemaElementTreeCellRenderer(this, this.observationManager));
+        this.tree.setCellRenderer(new SchemaElementTreeCellRenderer(this, this.observationManager, this.imageResolver));
         this.tree.addTreeSelectionListener(this);
         this.tree.setExpandsSelectedPaths(true);
 
@@ -558,14 +562,16 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
      */
     private static final long serialVersionUID = 1L;
     private TreeView treeView = null;
-    private String imagesDir = null;
+  
     private ObservationManager om = null;
+    private final ImageResolver imageResolver;
 
-    public SchemaElementTreeCellRenderer(TreeView treeView, ObservationManager om) {
+    public SchemaElementTreeCellRenderer(TreeView treeView, ObservationManager om, ImageResolver resolver) {
 
         this.treeView = treeView;
         this.om = om;
-        this.imagesDir = this.om.getInstallDir().getPathForFolder("images");
+        this.imageResolver = resolver;
+        
 
     }
 
@@ -604,19 +610,19 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     super.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imagesDir + "eyepiece_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISession) {
-                icon = new ImageIcon(this.imagesDir + "session_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISite) {
-                icon = new ImageIcon(this.imagesDir + "site_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -632,19 +638,19 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     super.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imagesDir + "scope_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
                 return this;
             } else if (se instanceof ITarget) {
-                icon = new ImageIcon(this.imagesDir + "target_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
                 return this;
             } else if (se instanceof IObserver) {
-                icon = new ImageIcon(this.imagesDir + "observer_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -673,7 +679,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     }
                 }
 
-                icon = new ImageIcon(this.imagesDir + "observation_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -689,7 +695,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     super.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imagesDir + "imager_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -705,7 +711,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     super.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imagesDir + "filter_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -721,7 +727,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     super.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imagesDir + "lens_l.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null),"");
                 super.setToolTipText("");
                 super.setIcon(icon);
 
@@ -736,91 +742,91 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         if (this.treeView.eyepiece.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "eyepiece_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "eyepiece_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.session.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "session_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "session_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.site.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "site_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "site_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.scope.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "scope_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "scope_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.target.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "target_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "target_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.observer.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "observer_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "observer_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.observation.equals(node)) {
 
             super.setFont(new Font("Arial", Font.BOLD, 12));
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "observation_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "observation_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.imager.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "imager_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "imager_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null),"");
             }
         } else if (this.treeView.filter.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "filter_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "filter_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null),"");
             }
         } else if (this.treeView.lens.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imagesDir + "lens_e.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null),"");
             } else {
-                icon = new ImageIcon(this.imagesDir + "lens_c.png");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null),"");
             }
 
         } else if (this.treeView.root.equals(node)) {
 
-            icon = new ImageIcon(this.imagesDir + "root.png");
+            icon = new ImageIcon(this.imageResolver.getImageURL("root.png").orElse(null),"");
 
         }
 
         // Check if node is empty
         if (node.children().equals(DefaultMutableTreeNode.EMPTY_ENUMERATION)) {
-            icon = new ImageIcon(this.imagesDir + "empty.png");
+            icon = new ImageIcon(this.imageResolver.getImageURL("empty.png").orElse(null),"");
         }
 
         super.setIcon(icon);

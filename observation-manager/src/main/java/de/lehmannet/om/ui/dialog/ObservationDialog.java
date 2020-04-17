@@ -35,7 +35,7 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
 
     public ObservationDialog(ObservationManager om, IObservation observation, ISchemaElement se) {
 
-        super(om, new ObservationDialogPanel(om, observation, se));
+        super(om, new ObservationDialogPanel(om, observation, se, om.getImageResolver()));
 
         if (observation == null) {
             super.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));
