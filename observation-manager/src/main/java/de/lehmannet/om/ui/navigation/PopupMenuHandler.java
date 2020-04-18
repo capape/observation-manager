@@ -216,7 +216,7 @@ class PopupMenuHandler implements ActionListener {
             for (PopupMenuExtension extension : extensions) {
                 schemaElementTypes = extension.getSchemaElementTypes();
                 // Check if schemaElementType is requested by the PopupMenuExtension
-                contained = Arrays.binarySearch(schemaElementTypes, seType.getValue());
+                contained = Arrays.binarySearch(schemaElementTypes, seType);
                 if (contained >= 0) { // Found
                     // Add Menu separator only once
                     if (!found) {

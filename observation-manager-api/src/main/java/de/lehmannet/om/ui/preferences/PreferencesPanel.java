@@ -2,13 +2,13 @@ package de.lehmannet.om.ui.preferences;
 
 import javax.swing.JPanel;
 
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 
 public abstract class PreferencesPanel extends JPanel {
 
-    protected Configuration configuration = null;
+    protected IConfiguration configuration;
 
-    protected PreferencesPanel(Configuration config) {
+    protected PreferencesPanel(IConfiguration config) {
 
         this.configuration = config;
 

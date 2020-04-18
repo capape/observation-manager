@@ -291,7 +291,7 @@ public class ExtensionLoader {
         }
 
         // Get JARs under extension path
-        String extPath = System.getProperty("java.ext.dirs");
+        String extPath = System.getProperty("extension.dirs");
         File ext = new File(extPath);
         if (ext.exists()) {
             File[] jars = ext.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));

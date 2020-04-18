@@ -15,15 +15,21 @@ import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 
 import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 
 public abstract class AbstractSchemaTableModel extends AbstractTableModel {
 
-    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3423592371149917442L;
+
+    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+            .getBundle("ObservationManager",
             Locale.getDefault());
 
     protected ISchemaElement[] elements = null;
-    protected ObservationManager observationManager = null;
+  
 
     public ISchemaElement getSchemaElement(int row) {
 

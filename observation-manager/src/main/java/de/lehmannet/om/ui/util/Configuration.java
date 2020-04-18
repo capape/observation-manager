@@ -21,7 +21,7 @@ import java.util.Set;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
-public class Configuration {
+public class Configuration implements IConfiguration {
 
     private static final String CONFIG_FILE = "config";
 
