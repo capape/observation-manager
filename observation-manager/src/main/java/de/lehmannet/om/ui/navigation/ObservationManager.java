@@ -78,6 +78,7 @@ import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
 import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -235,6 +236,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
+        LoggerConfig.initLogs();
         
         // Initialize Caches and loaders
         this.xmlCache = new XMLFileLoader(this.installDir.getPathForFile("schema"));

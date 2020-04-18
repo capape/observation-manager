@@ -20,25 +20,27 @@ public class LensDialog extends AbstractDialog {
         super(om, new LensPanel(editableLens, true));
 
         if (editableLens == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.lens.title"));
+            setTitle(AbstractDialog.bundle.getString("dialog.lens.title"));
         } else {
             if (editableLens.getFactor() >= 1) {
-                super.setTitle(AbstractDialog.bundle.getString("dialog.lens.barlow.titleEdit") + " "
+                setTitle(AbstractDialog.bundle.getString("dialog.lens.barlow.titleEdit") + " "
                         + editableLens.getDisplayName());
             } else {
-                super.setTitle(AbstractDialog.bundle.getString("dialog.lens.shapley.titleEdit") + " "
+                setTitle(AbstractDialog.bundle.getString("dialog.lens.shapley.titleEdit") + " "
                         + editableLens.getDisplayName());
             }
         }
 
-        super.setSize(LensDialog.serialVersionUID, 710, 130);
-        super.setVisible(true);
+       setSize(LensDialog.serialVersionUID, 710, 130);
+        pack();
+        setVisible(true);
+        
 
     }
 
     public ILens getLens() {
 
-        if (super.schemaElement != null) {
+        if (this.schemaElement != null) {
             return (ILens) this.schemaElement;
         }
 

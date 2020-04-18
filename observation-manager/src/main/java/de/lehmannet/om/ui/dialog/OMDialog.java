@@ -25,27 +25,29 @@ public class OMDialog extends JDialog {
 
     public void setSize(long uniqueDialogID, int width, int height) {
 
-        this.dialogID = uniqueDialogID;
+        // this.dialogID = uniqueDialogID;
 
-        // Read size from configuration
-        String sizeString = this.observationManager.getConfiguration()
-                .getConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID);
-        if (sizeString != null) {
-            String x = sizeString.substring(0, sizeString.indexOf("x"));
-            String y = sizeString.substring(sizeString.indexOf("x") + 1);
-            try {
-                int w = Integer.parseInt(x);
-                int h = Integer.parseInt(y);
+        // // Read size from configuration
+        // String sizeString = this.observationManager.getConfiguration()
+        //         .getConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID);
+        // if (sizeString != null) {
+        //     String x = sizeString.substring(0, sizeString.indexOf("x"));
+        //     String y = sizeString.substring(sizeString.indexOf("x") + 1);
+        //     try {
+        //         int w = Integer.parseInt(x);
+        //         int h = Integer.parseInt(y);
 
-                super.setSize(w, h);
-            } catch (NumberFormatException nfe) {
-                super.setSize(width, height); // Size from config is malformed
-            }
+        //         super.setSize(w, h);
+        //     } catch (NumberFormatException nfe) {
+        //         super.setSize(width, height); // Size from config is malformed
+        //     }
 
-        } else { // No size configured...use default size
-            super.setSize(width, height);
-        }
-
+        // } else { // No size configured...use default size
+        //     super.setSize(width, height);
+        // }
+         setSize(width, height);
+        pack();
+        //  setVisible(true);
     }
 
     @Override
@@ -58,15 +60,15 @@ public class OMDialog extends JDialog {
 
     private void saveWindowSize() {
 
-        if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
+        // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
 
-            // Save current size
-            Dimension size = super.getSize();
+        //     // Save current size
+        //     Dimension size = super.getSize();
 
-            this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
-                    size.width + "x" + size.height);
+        //     this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
+        //             size.width + "x" + size.height);
 
-        }
+        // }
 
     }
 

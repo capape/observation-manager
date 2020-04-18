@@ -164,6 +164,6 @@ public final class ObservationManagerMenuData {
                            // won't appear on UI)
         this.observationManager.updateUI(dialog.getLens()); // Sets selection in tree (and table)
                                          // on new element
-
+       
     }
 }

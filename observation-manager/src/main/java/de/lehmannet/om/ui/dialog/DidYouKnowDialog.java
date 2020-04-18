@@ -56,14 +56,15 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         this.om = om;
 
         super.setTitle(this.bundle.getString("didyouknow.title"));
-        super.setSize(DidYouKnowDialog.serialVersionUID, 440, 211);
+       // super.setSize(DidYouKnowDialog.serialVersionUID, 440, 211);
+        super.setSize(440,211);
         super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         super.setLocationRelativeTo(om);
 
         this.initDialog();
 
         this.setVisible(true);
-        // this.pack();
+        this.pack();
 
     }
 
