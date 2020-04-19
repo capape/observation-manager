@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
 
@@ -30,7 +30,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
     public ProgressDialog(JFrame om, String title, String information, Worker runnable) {
 
-        super((ObservationManager) om);
+        super(om);
 
         super.setSize(ProgressDialog.serialVersionUID, 300, 100);
         super.setTitle(title);

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public final class ObservationManagerMenuExtensions {
@@ -24,12 +25,12 @@ public final class ObservationManagerMenuExtensions {
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtensions.class);
 
     private final XMLFileLoader xmlCache;
-    private final Configuration configuration;
+    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     
 
     public ObservationManagerMenuExtensions(        
-        Configuration configuration,
+        IConfiguration configuration,
         XMLFileLoader xmlCache,
         ObservationManager om) {
        

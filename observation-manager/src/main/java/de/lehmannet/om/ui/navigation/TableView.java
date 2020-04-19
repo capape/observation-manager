@@ -66,6 +66,7 @@ import de.lehmannet.om.ui.navigation.tableModel.SiteTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.TableSorter;
 import de.lehmannet.om.ui.navigation.tableModel.TargetTableModel;
 import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TableView extends JPanel {
@@ -622,7 +623,7 @@ public class TableView extends JPanel {
         // Make sure current settings are saved as well
         this.saveCurrentTableModelSettings();
 
-        Configuration config = observationManager.getConfiguration();
+        IConfiguration config = observationManager.getConfiguration();
         Map<String,String> cache = observationManager.getUIDataCache();
         Iterator<String> iterator = cache.keySet().iterator();
         String currentKey = null;
@@ -637,7 +638,7 @@ public class TableView extends JPanel {
 
     private void loadSettings() {
 
-        final Configuration config = this.observationManager.getConfiguration();
+        final IConfiguration config = this.observationManager.getConfiguration();
         final Set<String> tableKeys = config.getKeysStartingWith(TableView.CONFIG_TABLESETTINGS_PREFIX);
 
       

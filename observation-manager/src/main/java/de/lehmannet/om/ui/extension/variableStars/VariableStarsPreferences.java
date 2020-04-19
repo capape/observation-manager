@@ -17,8 +17,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 
 public class VariableStarsPreferences extends PreferencesPanel {
 
@@ -30,7 +30,7 @@ public class VariableStarsPreferences extends PreferencesPanel {
 
     private JCheckBox cacheEnabled = null;
 
-    public VariableStarsPreferences(Configuration config) {
+    public VariableStarsPreferences(IConfiguration config) {
 
         super(config);
 

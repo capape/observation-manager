@@ -20,8 +20,8 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.box.ObserverBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 
 public class BehaviourPanel extends PreferencesPanel {
@@ -41,7 +41,7 @@ public class BehaviourPanel extends PreferencesPanel {
     private JCheckBox useCoObserverInStatistics = null;
     private JCheckBox useLatinConstellationNames = null;
 
-    public BehaviourPanel(Configuration config, ObservationManager om) {
+    public BehaviourPanel(IConfiguration config, ObservationManager om) {
 
         super(config);
 

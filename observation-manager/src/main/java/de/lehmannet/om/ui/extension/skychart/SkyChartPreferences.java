@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class SkyChartPreferences extends PreferencesPanel {
@@ -40,7 +40,7 @@ public class SkyChartPreferences extends PreferencesPanel {
     private JTextField serverPort = null;
     private JTextField applicationPath = null;
 
-    public SkyChartPreferences(Configuration config) {
+    public SkyChartPreferences(IConfiguration config) {
 
         super(config);
 

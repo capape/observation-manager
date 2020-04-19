@@ -13,7 +13,7 @@ import de.lehmannet.om.ui.dialog.ObserverDialog;
 import de.lehmannet.om.ui.dialog.ScopeDialog;
 import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -23,12 +23,12 @@ public final class ObservationManagerMenuData {
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuData.class);
 
     private final XMLFileLoader xmlCache;
-    private final Configuration configuration;
+    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     
 
     public ObservationManagerMenuData(        
-        Configuration configuration,
+        IConfiguration configuration,
         XMLFileLoader xmlCache,
         ObservationManager om) {
        

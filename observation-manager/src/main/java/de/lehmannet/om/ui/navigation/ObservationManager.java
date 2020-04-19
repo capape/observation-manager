@@ -78,6 +78,7 @@ import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
 import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.Worker;
@@ -85,7 +86,8 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class ObservationManager extends JFrame implements ActionListener {
+public class ObservationManager extends JFrame 
+implements ActionListener, IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
 
@@ -168,7 +170,7 @@ public class ObservationManager extends JFrame implements ActionListener {
     private TreeView tree;
     private final ExtensionLoader extLoader;
 
-    private final Configuration configuration;
+    private final IConfiguration configuration;
     private ProjectLoader projectLoader;
 
     private boolean changed = false; // Indicates if changed where made after
@@ -754,7 +756,7 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     }
 
-    public Configuration getConfiguration() {
+    public IConfiguration getConfiguration() {
 
         return this.configuration;
 
@@ -1431,6 +1433,13 @@ public class ObservationManager extends JFrame implements ActionListener {
 
     public ImageResolver getImageResolver() {
         return imageResolver;
+    }
+
+    @Override
+    public void createProgressDialog(Worker worker, String title,
+    String loadingMessage) {
+        new ProgressDialog(this, title, loadingMessage, worker);
+
     }
 
 }

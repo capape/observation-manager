@@ -3,6 +3,7 @@ package de.lehmannet.om.ui.dialog;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
@@ -12,10 +13,10 @@ public class OMDialog extends JDialog {
 
     public static final String DIALOG_SIZE_KEY = "dialog.size.";
 
-    private ObservationManager observationManager = null;
+    private JFrame observationManager = null;
     private long dialogID = -1;
 
-    protected OMDialog(ObservationManager om) {
+    protected OMDialog(JFrame om) {
 
         super(om, true);
 

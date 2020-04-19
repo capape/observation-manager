@@ -35,7 +35,7 @@ import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -45,13 +45,13 @@ public final class ObservationManagerMenuFile {
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);
 
     private final XMLFileLoader xmlCache;
-    private final Configuration configuration;
+    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private final ObservationManagerHtmlHelper htmlHelper;
     private final ImageResolver imageResolver;
 
     public ObservationManagerMenuFile(
-        Configuration configuration,
+        IConfiguration configuration,
         XMLFileLoader xmlCache,
         ObservationManager om,
         ObservationManagerHtmlHelper htmlHelper,

@@ -32,8 +32,8 @@ import de.lehmannet.om.ui.extension.variableStars.VariableStarsPreferences;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IFindingPanel;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 
@@ -639,7 +639,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         if ((super.isEditable()) && (this.finding != null) && (Boolean
                 .parseBoolean(this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))) {
-            Configuration config = this.om.getConfiguration();
+            IConfiguration config = this.om.getConfiguration();
             config.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
             config.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); // Use
                                                                                                                    // JTextField
@@ -679,7 +679,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
                         this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))
                 && (targetName.equals(this.om.getConfiguration()
                         .getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
-            Configuration config = this.om.getConfiguration();
+            IConfiguration config = this.om.getConfiguration();
 
             String lastChartDate = config.getConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE);
             if ((lastChartDate != null) && !("".equals(lastChartDate.trim()))) {
