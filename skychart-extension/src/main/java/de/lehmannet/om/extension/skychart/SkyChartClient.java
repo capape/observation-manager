@@ -29,6 +29,8 @@ import java.util.StringTokenizer;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import de.lehmannet.om.Angle;
@@ -38,10 +40,9 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.DateConverter;
@@ -61,16 +62,17 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.skychart.Skychart", Locale.getDefault());
+            .getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.getDefault());
 
-    private ObservationManager om = null;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SkyChartClient.class);
+    private IObservationManagerJFrame om = null;
     private JMenu mainMenu = null;
     private JMenuItem mainMoveTo = null;
 
     private JMenu popupMenu = null;
     private JMenuItem popupMoveTo = null;
 
-    public SkyChartClient(ObservationManager om) {
+    public SkyChartClient(IObservationManagerJFrame om) {
 
         this.om = om;
 
@@ -281,8 +283,8 @@ public class SkyChartClient implements IExtension, ActionListener {
                     objectName = objectName.replaceAll(" ", "");
                     objectName = objectName.trim().toUpperCase();
                     if (objectName.equals(target.getName().toUpperCase())) {
-                        if (this.om.isDebug()) {
-                            System.out.println("Found " + target.getName() + " by name");
+                        if (LOGGER.isDebugEnabled()) {
+                           LOGGER.debug("Found " + target.getName() + " by name");
                         }
                         return true; // Names match. We found our object
                     }
@@ -290,7 +292,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     if ((aliasNames != null) && (aliasNames.length > 0)) {
                         for (String aliasName : aliasNames) {
                             if (objectName.equals(aliasName.toUpperCase())) {
-                                if (this.om.isDebug()) {
+                                if (LOGGER.isDebugEnabled()) {
                                     System.out.println("Found " + target.getName() + " by aliasname " + aliasName);
                                 }
                                 return true; // Names match. We found our object
@@ -309,16 +311,16 @@ public class SkyChartClient implements IExtension, ActionListener {
                     } catch (IllegalArgumentException iae) { // RA, DEC string
                         // my be
                         // malformed
-                        if (this.om.isDebug()) {
-                            System.out.println("RA or DEC string is malformed: RA: " + ra + "\tDEC: " + dec);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("RA or DEC string is malformed: RA: " + ra + "\tDEC: " + dec);
                         }
                         continue;
                     }
                     EquPosition targetEp = target.getPosition();
 
                     if (targetEp == null) {
-                        if (this.om.isDebug()) {
-                            System.out.println("Cannot find " + target.getName() + " as target position is NULL");
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("Cannot find " + target.getName() + " as target position is NULL");
                         }
                         continue;
                     }
@@ -331,7 +333,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                     double raDiff = Math.abs(epRaDegree - targetEpRaDegree);
                     if (raDiff > 0.5) {
-                        if (this.om.isDebug()) {
+                        if (LOGGER.isDebugEnabled()) {
                             System.out
                                     .println("Found wrong " + target.getName() + " as RA differs more than 0.5 degree");
                         }
@@ -347,8 +349,8 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                     double decDiff = Math.abs(epDecDegree - targetEpDecDegree);
                     if (decDiff > 0.5) {
-                        if (this.om.isDebug()) {
-                            System.out.println(
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug(
                                     "Found wrong " + target.getName() + " as DEC differs more than 0.5 degree");
                         }
                         continue; // This is most propably not the object we're
@@ -357,8 +359,8 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                     // If we come here the found object is max 0.5 degree (in RA
                     // or DEC) away from our target, so we stop searching
-                    if (this.om.isDebug()) {
-                        System.out.println(
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
                                 "Found " + target.getName() + " as RA and DEC do not differ more than 0.5 degree");
                     }
                     return true;
@@ -438,7 +440,7 @@ public class SkyChartClient implements IExtension, ActionListener {
         // Create Socket
         StarchartSocket socket = null;
         try {
-            socket = new StarchartSocket(ip, port, this.om.isDebug());
+            socket = new StarchartSocket(ip, port);
         } catch (UnknownHostException uhe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed.host"));
             System.err.println("Unable to reach Skychart application. Host unknown.\n" + uhe);
@@ -457,7 +459,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                         "Unable to reach Skychart application and unable to start it as no application path is provided.\n"
                                 + ce);
             } else { // Try to start it
-                System.out.println("Unable to reach Skychart application. Try to launch it.");
+                LOGGER.info("Unable to reach Skychart application. Try to launch it.");
 
                 Worker startApplication = new Worker() {
 
@@ -504,11 +506,11 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                 };
 
-                new ProgressDialog(this.om, this.bundle.getString("skychart.application.start.title"),
-                        this.bundle.getString("skychart.application.start.loading"), startApplication);
+                this.om.createProgressDialog(startApplication, this.bundle.getString("skychart.application.start.title"),
+                        this.bundle.getString("skychart.application.start.loading"));
 
                 try {
-                    socket = new StarchartSocket(ip, port, this.om.isDebug());
+                    socket = new StarchartSocket(ip, port);
                 } catch (IOException ioe) {
                     om.createWarning(this.bundle.getString("skychart.communication.failed"));
                     System.err.println("Unable to reach Skychart application.\n" + ioe);
@@ -777,105 +779,6 @@ public class SkyChartClient implements IExtension, ActionListener {
     public boolean addOALExtensionElement(Element docElement) {
 
         return true;
-
-    }
-
-}
-
-class StarchartSocket extends Socket {
-
-    public static final String SERVER_RESPONSE_OK = "OK!";
-    private static final String SERVER_RESPONSE_FAILED = "Failed!";
-    private static final String SERVER_RESPONSE_NOTFOUND = "Not found!";
-
-    private boolean verbose = true;
-
-    private PrintWriter out = null;
-    private BufferedReader in = null;
-
-    public StarchartSocket(String ip, int port, boolean verbose) throws IOException {
-
-        super(ip, port);
-
-        this.verbose = verbose;
-
-        this.out = new PrintWriter(super.getOutputStream(), true);
-        this.in = new BufferedReader(new InputStreamReader(super.getInputStream()));
-
-        String response = this.in.readLine();
-        if (this.verbose) {
-            System.out.println("Socket creation response from Skychart: " + response);
-        }
-
-    }
-
-    public String send(String command) throws IOException {
-
-        // Add CR+LF (Byte 10 and 13) to end of command as PrintWriter.println()
-        // uses system
-        // line separator which is 13+10 on windows and e.g. only 10 on Linux.
-        // Skycharts expects 13+10 so we've to make sure the CR+LF comes as
-        // expected to Skychart
-        byte[] b = command.getBytes();
-        byte[] lfB = new byte[b.length + 2];
-        System.arraycopy(b, 0, lfB, 0, b.length);
-        lfB[lfB.length - 2] = 13;
-        lfB[lfB.length - 1] = 10;
-        command = new String(lfB);
-        StringBuilder byteString = new StringBuilder();
-        if (this.verbose) {
-            System.out.println("Skychart command is: " + command);
-            System.out.println("Skychart command as byte array: ");
-            for (byte value : lfB) {
-                byteString.append(" ").append(value);
-            }
-            System.out.println(byteString);
-        }
-
-        // Send the data
-        this.out.print(command);
-        this.out.flush();
-
-        // Get the response
-        String r = "";
-        StringBuilder response = new StringBuilder();
-
-        // Check the response and wait on OK or Failure message from Skychart
-        int index = 0;
-        do {
-            r = this.in.readLine();
-            if (this.verbose) {
-                System.out.println("Skychart response: " + r);
-            }
-            response.append(r);
-            index++;
-        } while ((r != null && (!r.contains(StarchartSocket.SERVER_RESPONSE_OK))
-                && (!r.contains(StarchartSocket.SERVER_RESPONSE_NOTFOUND))
-                && (!r.contains(StarchartSocket.SERVER_RESPONSE_FAILED))) && (index <= 3) // Wait for 3 responses
-                                                                                          // for a OK or Failure
-                                                                                          // from
-                                                                                          // Skychart
-        );
-
-        return response.toString();
-
-    }
-
-    @Override
-    public void close() throws IOException {
-
-        try {
-            if (out != null) {
-                this.out.close();
-            }
-            if (in != null) {
-                this.in.close();
-            }
-        } catch (IllegalStateException ise) {
-            // Readers and writers cannot be closed...can't do anything here
-        }
-
-        super.close();
 
     }
 

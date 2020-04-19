@@ -1,12 +1,16 @@
 package de.lehmannet.om.ui.preferences;
 
+import java.util.Optional;
+
 import javax.swing.JPanel;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.lehmannet.om.ui.util.IConfiguration;
 
 public abstract class PreferencesPanel extends JPanel {
 
-    protected IConfiguration configuration;
+    private IConfiguration configuration;
 
     protected PreferencesPanel(IConfiguration config) {
 
@@ -17,5 +21,20 @@ public abstract class PreferencesPanel extends JPanel {
     public abstract void writeConfig();
 
     public abstract String getTabTitle();
+
+    public void setConfig(String key, String value) {
+        this.configuration.setConfig(key, value);
+    }
+
+    public Optional<String> getConfig(String key) {
+
+        final String value = this.configuration.getConfig(key);
+
+        if (StringUtils.isBlank(value)) {
+            return Optional.empty();
+        }
+        return Optional.of(value);
+    }
+
 
 }

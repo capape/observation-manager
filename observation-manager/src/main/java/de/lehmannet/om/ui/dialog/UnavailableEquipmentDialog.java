@@ -61,17 +61,17 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         this.om = om;
         this.imageResolver = resolver;
-        super.setTitle(this.bundle.getString("dialog.unavailableEquipment.title"));
-        super.setSize(UnavailableEquipmentDialog.serialVersionUID, 380, 360);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("dialog.unavailableEquipment.title"));
+        this.setSize(UnavailableEquipmentDialog.serialVersionUID, 700, 360);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initTree();
 
         this.initDialog();
-
+        this.pack();
         this.setVisible(true);
-        // this.pack();
+       
 
     }
 

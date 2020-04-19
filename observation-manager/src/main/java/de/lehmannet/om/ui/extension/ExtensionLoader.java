@@ -90,13 +90,15 @@ public class ExtensionLoader {
     public ExtensionLoader(ObservationManager om) {
 
         this.om = om;
-
+        this.extensionClassLoader = URLClassLoader.newInstance(new URL[0],  ClassLoader.getSystemClassLoader());
         this.loadExtensions();
 
         this.catalogLoader = new CatalogLoader(this.om, this.extensions);
         this.schemaUILoader = new SchemaUILoader(this.om, this.extensions);
+        
 
     }
+    
 
     // --------------
     // Public Methods ----------------------------------------------------
@@ -120,29 +122,11 @@ public class ExtensionLoader {
             }
         }
 
-        // Update classloader
-        ListIterator<File> iterator = jars.listIterator();
-        List<URL> urlArray = new ArrayList<>();
-        File current = null;
-        try {
-            while (iterator.hasNext()) {
-                current = (File) iterator.next();
-                urlArray.add(new URL("file:" + current.getAbsolutePath()));
-            }
-        } catch (MalformedURLException urle) {
-            LOG.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
+       
+        List<URL> urlArray = addJarsToClassLoader(jars);
+        if (urlArray.isEmpty()) {
             return null;
         }
-        if (this.extensionClassLoader != null) { // Add already loaded extensions as well
-            URL[] oldURLs = this.extensionClassLoader.getURLs();
-            urlArray.addAll(Arrays.asList(oldURLs));
-        }
-        this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
-                ClassLoader.getSystemClassLoader());
-
-        // Add classloader to XMLCache (-> API SchemaLoader) to make sure extension
-        // classes can be found
-        SchemaLoader.addClassloader(this.extensionClassLoader);
         try {
             ConfigLoader.reloadConfig();
         } catch (ConfigException ce) {
@@ -150,6 +134,7 @@ public class ExtensionLoader {
         }
 
         // Load/add new extension (IExtension implementation)
+        ListIterator<File> iterator;
         iterator = jars.listIterator();
         String result = null;
         String tempResult = null;
@@ -168,6 +153,53 @@ public class ExtensionLoader {
 
         return result;
 
+    }
+
+
+    private List<URL> addJarToClassLoader(File jar) {
+        List<File> files = new ArrayList<>(1);
+        files.add(jar);
+        return addJarsToClassLoader(files);  
+    }
+
+    private List<URL> addJarsToClassLoader(List<File> jars) {
+        List<URL> urlArray = getClassesToLoad(jars);
+        
+        this.updateExtensionClassLoader(urlArray);
+        // classes can be found
+        SchemaLoader.addClassloader(this.extensionClassLoader);
+        return urlArray;
+    }
+
+
+    private List<URL> getClassesToLoad(List<File> jars) {
+        // Update classloader
+        ListIterator<File> iterator = jars.listIterator();
+        List<URL> urlArray = new ArrayList<>();
+        File current = null;
+        try {
+            while (iterator.hasNext()) {
+                current = (File) iterator.next();
+                urlArray.add(new URL("file:" + current.getAbsolutePath()));
+            }
+        } catch (MalformedURLException urle) {
+            LOG.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
+        
+        }
+        return urlArray;
+    }
+
+
+    private void updateExtensionClassLoader(List<URL> urlArray) {
+        if (this.extensionClassLoader != null) { // Add already loaded extensions as well
+            URL[] oldURLs = this.extensionClassLoader.getURLs();
+            urlArray.addAll(Arrays.asList(oldURLs));
+           
+        }
+        this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
+                ClassLoader.getSystemClassLoader());
+
+        // Add classloader to XMLCache (-> API SchemaLoader) to make sure extension
     }
 
     public List<IExtension> getExtensions() {
@@ -318,6 +350,8 @@ public class ExtensionLoader {
                 String name = entry.getName();
 
                 if (name.toUpperCase().equals(ExtensionLoader.EXTENSION_FILENAME)) {
+
+                    addJarToClassLoader(jar);
                     try (InputStream in = archive.getInputStream(entry)) {
 
                         Properties prop = new Properties();

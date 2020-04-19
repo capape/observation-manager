@@ -43,17 +43,18 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.om = om;
 
-        super.setTitle(this.bundle.getString("dialog.preferences.title"));
-        super.setSize(PreferencesDialog.serialVersionUID, 750, 267);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+       this.setTitle(this.bundle.getString("dialog.preferences.title"));
+       this.setSize(PreferencesDialog.serialVersionUID, 750, 350);
+       this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+       this.setLocationRelativeTo(om);
 
         this.initDialog();
 
         for (PreferencesPanel additionalPanel : additionalPanels) {
             this.addPreferencesTab(additionalPanel);
         }
-
+        
+        this.pack();       
         this.setVisible(true);
 
     }
