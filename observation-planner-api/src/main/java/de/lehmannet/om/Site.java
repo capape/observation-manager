@@ -220,7 +220,7 @@ public class Site extends SchemaElement implements ISite {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -228,7 +228,7 @@ public class Site extends SchemaElement implements ISite {
 
         // Create the new site element
         Element e_Site = ownerDoc.createElement(XML_ELEMENT_SITE);
-        e_Site.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Site.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(e_Site);
 
@@ -301,7 +301,7 @@ public class Site extends SchemaElement implements ISite {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(XML_ELEMENT_SITE);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

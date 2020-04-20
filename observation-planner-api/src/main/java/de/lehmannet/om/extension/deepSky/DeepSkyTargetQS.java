@@ -101,7 +101,7 @@ public class DeepSkyTargetQS extends DeepSkyTarget {
             return;
         }
 
-        super.createXmlDeepSkyTargetElement(element, DeepSkyTargetQS.XML_XSI_TYPE_VALUE);
+        this.createXmlDeepSkyTargetElement(element, DeepSkyTargetQS.XML_XSI_TYPE_VALUE);
 
     }
 

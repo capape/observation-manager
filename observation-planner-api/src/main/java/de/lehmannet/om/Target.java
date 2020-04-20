@@ -319,7 +319,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(xmlElementName);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);
@@ -695,7 +695,7 @@ public abstract class Target extends SchemaElement implements ITarget {
         Document ownerDoc = parent.getOwnerDocument();
 
         Element e_Target = ownerDoc.createElement(XML_ELEMENT_TARGET);
-        e_Target.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Target.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         parent.appendChild(e_Target);
 

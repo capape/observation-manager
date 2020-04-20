@@ -221,7 +221,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(IImager.XML_ELEMENT_IMAGER);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         parent.appendChild(e_Link);
@@ -414,7 +414,7 @@ public abstract class Imager extends SchemaElement implements IImager {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return parent;
                 }
             }
@@ -422,7 +422,7 @@ public abstract class Imager extends SchemaElement implements IImager {
 
         // Create the new imager element
         Element e_Imager = ownerDoc.createElement(IImager.XML_ELEMENT_IMAGER);
-        e_Imager.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Imager.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         parent.appendChild(e_Imager);
 

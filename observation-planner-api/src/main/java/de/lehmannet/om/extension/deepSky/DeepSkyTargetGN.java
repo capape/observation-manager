@@ -157,7 +157,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
             return;
         }
 
-        Element e_DSTarget = super.createXmlDeepSkyTargetElement(element, DeepSkyTargetGN.XML_XSI_TYPE_VALUE);
+        Element e_DSTarget = this.createXmlDeepSkyTargetElement(element, DeepSkyTargetGN.XML_XSI_TYPE_VALUE);
 
         // Check if element already exists
         if (e_DSTarget == null) {

@@ -304,7 +304,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
         Document ownerDoc = parent.getOwnerDocument();
 
-        Element e_Finding = super.createXmlFindingElement(parent);
+        Element e_Finding = this.createXmlFindingElement(parent);
 
         // Set XSI:Type
         e_Finding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, DeepSkyFindingDS.XML_XSI_TYPE_VALUE);

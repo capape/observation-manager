@@ -256,7 +256,7 @@ public class DeepSkyFinding extends Finding {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("DeepSkyFinding: Description=");
-        buffer.append(super.getDescription());
+        buffer.append(this.getDescription());
         buffer.append(" Rating=");
         buffer.append(rating);
 
@@ -584,9 +584,9 @@ public class DeepSkyFinding extends Finding {
         }
 
         if (rating == 7) { // Object was not seen
-            super.setSeen(false);
+            this.setSeen(false);
         } else {
-            super.setSeen(true); // Object was seen
+            this.setSeen(true); // Object was seen
         }
 
         this.rating = rating;

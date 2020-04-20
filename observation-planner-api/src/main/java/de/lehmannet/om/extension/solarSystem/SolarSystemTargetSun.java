@@ -120,7 +120,7 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
             return;
         }
 
-        super.createXmlSolarSystemTargetElement(element, SolarSystemTargetSun.XML_XSI_TYPE_VALUE);
+        this.createXmlSolarSystemTargetElement(element, SolarSystemTargetSun.XML_XSI_TYPE_VALUE);
 
     }
 

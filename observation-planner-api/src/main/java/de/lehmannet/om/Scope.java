@@ -389,7 +389,7 @@ public class Scope extends SchemaElement implements IScope {
 
         // Create the new scope element
         Element e_Scope = ownerDoc.createElement(XML_ELEMENT_SCOPE);
-        e_Scope.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Scope.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(e_Scope);
 
@@ -549,7 +549,7 @@ public class Scope extends SchemaElement implements IScope {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(XML_ELEMENT_SCOPE);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

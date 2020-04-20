@@ -91,11 +91,11 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
                 boolean setComponentsResult = this.setComponents(componentTargetIDs);
                 if (!setComponentsResult) {
                     throw new SchemaException(
-                            "DeepSkyTargetMS is unable to add TargetStars as components. (ID: " + super.getID() + ")");
+                            "DeepSkyTargetMS is unable to add TargetStars as components. (ID: " + this.getID() + ")");
                 }
             } else if (children.getLength() < 3) {
                 throw new SchemaException(
-                        "DeepSkyTargetMS must have at least three component stars. (ID: " + super.getID() + ")");
+                        "DeepSkyTargetMS must have at least three component stars. (ID: " + this.getID() + ")");
             }
         }
 
@@ -174,7 +174,7 @@ public DeepSkyTargetMS(String starName, IObserver observer, List<String>  compon
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -184,7 +184,7 @@ public DeepSkyTargetMS(String starName, IObserver observer, List<String>  compon
         }
 
         // Create the new target element
-        Element e_MSTarget = super.createXmlTargetElement(e_Targets);
+        Element e_MSTarget = this.createXmlTargetElement(e_Targets);
         e_Targets.appendChild(e_MSTarget);
 
         // Check if element already exists

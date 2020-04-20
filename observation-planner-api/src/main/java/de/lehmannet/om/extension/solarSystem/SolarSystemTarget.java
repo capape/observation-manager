@@ -194,21 +194,21 @@ public abstract class SolarSystemTarget extends Target {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("SolarSystemTarget: Name=");
-        buffer.append(super.getName());
+        buffer.append(this.getName());
 
-        if ((super.getAliasNames() != null) && (super.getAliasNames().length > 0)) {
+        if ((this.getAliasNames() != null) && (this.getAliasNames().length > 0)) {
             buffer.append(" Alias names=");
-            buffer.append(Arrays.toString(super.getAliasNames()));
+            buffer.append(Arrays.toString(this.getAliasNames()));
         }
 
-        if (super.getPosition() != null) {
+        if (this.getPosition() != null) {
             buffer.append(" Position=");
-            buffer.append(super.getPosition());
+            buffer.append(this.getPosition());
         }
 
-        if (super.getConstellation() != null) {
+        if (this.getConstellation() != null) {
             buffer.append(" Constellation=");
-            buffer.append(super.getConstellation());
+            buffer.append(this.getConstellation());
         }
 
         return buffer.toString();
@@ -335,7 +335,7 @@ public abstract class SolarSystemTarget extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -345,7 +345,7 @@ public abstract class SolarSystemTarget extends Target {
         }
 
         // Create the new target element
-        Element e_Target = super.createXmlTargetElement(e_Targets);
+        Element e_Target = this.createXmlTargetElement(e_Targets);
         e_Targets.appendChild(e_Target);
 
         // Set XSI:Type
@@ -387,7 +387,7 @@ private void setI18NName() {
             this.i18nName = bundle.getString("catalog.neptune");
             break;
         default:
-            this.i18nName = super.getName();
+            this.i18nName = this.getName();
             break;
         }
 

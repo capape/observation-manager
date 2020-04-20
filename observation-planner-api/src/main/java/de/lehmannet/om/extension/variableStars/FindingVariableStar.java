@@ -329,7 +329,7 @@ public class FindingVariableStar extends Finding {
 
         Document ownerDoc = parent.getOwnerDocument();
 
-        Element e_Finding = super.createXmlFindingElement(parent);
+        Element e_Finding = this.createXmlFindingElement(parent);
 
         // ----- Set XSI:Type
         e_Finding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, FindingVariableStar.XML_XSI_TYPE_VALUE);
