@@ -42,16 +42,16 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
 
         super(om, true);
 
-        super.setTitle(title);
-        super.setSize(400, 210);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
+        this.setTitle(title);
+        this.setSize(400, 210);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
         this.tableModel = new TargetSelectionModel(om.getXmlCache().getTargets(), targetType, preSelectedTargets);
 
         this.initDialog();
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -62,9 +62,9 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         if (source instanceof JButton) {
             JButton sourceButton = (JButton) source;
             if (sourceButton.equals(this.ok)) {
-                super.dispose();
+                this.dispose();
             } else if (sourceButton.equals(this.cancel)) {
-                super.dispose();
+                this.dispose();
                 this.tableModel = null; // Set TableModel = null to indicate canceled UI
             }
         } /*
@@ -90,7 +90,7 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 90, 90);
         constraints.fill = GridBagConstraints.BOTH;
@@ -104,21 +104,21 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         table.setToolTipText(AbstractDialog.bundle.getString("popup.targetSelector.table.tooltip"));
         JScrollPane scrollPane = new JScrollPane(table);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 5, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.ok = new JButton(AbstractDialog.bundle.getString("dialog.button.ok"));
         this.ok.addActionListener(this);
         gridbag.setConstraints(this.ok, constraints);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 5, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.cancel = new JButton(AbstractDialog.bundle.getString("dialog.button.cancel"));
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

@@ -89,7 +89,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         if (!"".equals(amountStars)) {
             int aS = Integer.parseInt(amountStars);
             if (aS < 1) {
-                super.createWarning(this.bundle.getString("panel.oc.warning.amount.positive"));
+                this.createWarning(this.bundle.getString("panel.oc.warning.amount.positive"));
             }
             this.target.setAmountOfStars(aS);
         }
@@ -144,17 +144,17 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         if (this.target.getAmountOfStars() != -1) {
             this.stars.setText("" + this.target.getAmountOfStars());
         }
-        this.stars.setEditable(super.isEditable());
+        this.stars.setEditable(this.isEditable());
 
         if (!Double.isNaN(this.target.getBrightestStar())) {
             this.brightestStar.setText("" + this.target.getBrightestStar());
         }
-        this.brightestStar.setEditable(super.isEditable());
+        this.brightestStar.setEditable(this.isEditable());
 
         if (this.target.getClusterClassification() != null) {
             this.clusterClassification.setText(this.target.getClusterClassification());
         }
-        this.clusterClassification.setEditable(super.isEditable());
+        this.clusterClassification.setEditable(this.isEditable());
 
     }
 
@@ -168,7 +168,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -185,7 +185,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 45, 1);
         this.stars = new JTextField();
         this.stars.setToolTipText(this.bundle.getString("panel.oc.tooltip.amount"));
-        this.stars.setEditable(super.isEditable());
+        this.stars.setEditable(this.isEditable());
         gridbag.setConstraints(this.stars, constraints);
         this.add(this.stars);
 
@@ -198,7 +198,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 45, 1);
         this.brightestStar = new JTextField();
         this.brightestStar.setToolTipText(this.bundle.getString("panel.oc.tooltip.brightestStar"));
-        this.brightestStar.setEditable(super.isEditable());
+        this.brightestStar.setEditable(this.isEditable());
         gridbag.setConstraints(this.brightestStar, constraints);
         this.add(this.brightestStar);
 
@@ -210,7 +210,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 45, 1);
         this.clusterClassification = new JTextField();
         this.clusterClassification.setToolTipText(this.bundle.getString("panel.oc.tooltip.classification"));
-        this.clusterClassification.setEditable(super.isEditable());
+        this.clusterClassification.setEditable(this.isEditable());
         gridbag.setConstraints(this.clusterClassification, constraints);
         this.add(this.clusterClassification);
 

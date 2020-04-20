@@ -24,7 +24,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
 
     public SiteTableModel(ISite[] sites) {
 
-        super.elements = sites;
+        this.elements = sites;
 
     }
 
@@ -45,10 +45,10 @@ public class SiteTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -90,11 +90,11 @@ public class SiteTableModel extends AbstractSchemaTableModel {
 
         Object value = null;
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return null;
         }
 
-        ISite site = (ISite) super.elements[rowIndex];
+        ISite site = (ISite) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

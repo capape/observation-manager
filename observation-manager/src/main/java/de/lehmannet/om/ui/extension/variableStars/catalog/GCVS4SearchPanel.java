@@ -19,15 +19,15 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
         this.catalog = catalog;
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
-        super.setGeneralInfoText(bundle.getString("panel.search.label.searchInfo"));
-        super.createPanel();
+        this.setGeneralInfoText(bundle.getString("panel.search.label.searchInfo"));
+        this.createPanel();
 
         // Set cached values
         if (Boolean.parseBoolean(catalog.observationManager.getConfiguration()
                 .getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED))) {
             String cachedSearchTerm = catalog.observationManager.getConfiguration().getConfig(CONFIG_LAST_SEARCHTERM);
             if ((cachedSearchTerm != null) && (!"".equals(cachedSearchTerm))) {
-                super.searchText.setText(cachedSearchTerm);
+                this.searchText.setText(cachedSearchTerm);
             }
         }
 
@@ -46,7 +46,7 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
             return;
         }
 
-        super.searchResult = this.catalog.getTarget(searchString);
+        this.searchResult = this.catalog.getTarget(searchString);
 
     }
 

@@ -26,23 +26,23 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.targetStar.title"));
+            this.setTitle(bundle.getString("dialog.targetStar.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(TargetStarDialog.serialVersionUID, 590, 313);
+        this.setSize(TargetStarDialog.serialVersionUID, 590, 313);
 
-        // super.pack();
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

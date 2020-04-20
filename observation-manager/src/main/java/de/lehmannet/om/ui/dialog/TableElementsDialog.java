@@ -45,12 +45,13 @@ public class TableElementsDialog extends AbstractDialog {
 
         super(om, new TableElementsPanel(schemaElements, om), true);
 
-        super.setTitle(AbstractDialog.bundle.getString("dialog.tableElements.title"));
-        super.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
-        super.setModal(false);
+        this.setTitle(AbstractDialog.bundle.getString("dialog.tableElements.title"));
+        this.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
+        this.setModal(false);
 
-        super.setSize(TableElementsDialog.serialVersionUID, 450, 280);
-        super.setVisible(true);
+        this.setSize(TableElementsDialog.serialVersionUID, 450, 280);
+        this.pack();
+        this.setVisible(true);
 
     }
 
@@ -175,7 +176,7 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
     public SimpleSchemaElementModel(ISchemaElement[] elements) {
 
-        super.elements = elements;
+        this.elements = elements;
 
     }
 
@@ -196,10 +197,10 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -208,11 +209,11 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
         String value = "";
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value;
         }
 
-        ISchemaElement element = super.elements[rowIndex];
+        ISchemaElement element = this.elements[rowIndex];
 
         if (element instanceof IEyepiece) {
             value = this.bundle.getString("eyepiece");

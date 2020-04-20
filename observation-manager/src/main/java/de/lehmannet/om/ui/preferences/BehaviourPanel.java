@@ -125,7 +125,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 GridBagLayout gridbag = new GridBagLayout();
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.anchor = GridBagConstraints.WEST;
-                super.setLayout(gridbag);
+                this.setLayout(gridbag);
 
                 // ------------------
 
@@ -136,7 +136,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 imagesPathRelativeLabel
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.imagesPathRelative"));
                 gridbag.setConstraints(imagesPathRelativeLabel, constraints);
-                super.add(imagesPathRelativeLabel);
+                this.add(imagesPathRelativeLabel);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -149,7 +149,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.imagesPathRelative
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.imagesPathRelative"));
                 gridbag.setConstraints(this.imagesPathRelative, constraints);
-                super.add(this.imagesPathRelative);
+                this.add(this.imagesPathRelative);
 
                 // ------------------
 
@@ -160,7 +160,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 contentDefaultLanguageLabel
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.contentDefaultLang"));
                 gridbag.setConstraints(contentDefaultLanguageLabel, constraints);
-                super.add(contentDefaultLanguageLabel);
+                this.add(contentDefaultLanguageLabel);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -174,7 +174,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.defaultContentLanguage
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.contentDefaultLang"));
                 gridbag.setConstraints(this.defaultContentLanguage, constraints);
-                super.add(this.defaultContentLanguage);
+                this.add(this.defaultContentLanguage);
 
                 // ------------------
 
@@ -185,7 +185,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 defaultObserverLabel
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultObserver"));
                 gridbag.setConstraints(defaultObserverLabel, constraints);
-                super.add(defaultObserverLabel);
+                this.add(defaultObserverLabel);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -196,7 +196,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.defaultObserver
                                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultObserver"));
                 gridbag.setConstraints(this.defaultObserver, constraints);
-                super.add(this.defaultObserver);
+                this.add(this.defaultObserver);
 
                 // ------------------
 
@@ -206,7 +206,7 @@ public class BehaviourPanel extends PreferencesPanel {
                                 this.bundle.getString("dialog.preferences.label.defaultCatalog"), true);
                 defaultCatalogLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultCatalog"));
                 gridbag.setConstraints(defaultCatalogLabel, constraints);
-                super.add(defaultCatalogLabel);
+                this.add(defaultCatalogLabel);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -216,7 +216,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.fillCatalogBox();
                 this.catalogBox.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultCatalog"));
                 gridbag.setConstraints(this.catalogBox, constraints);
-                super.add(this.catalogBox);
+                this.add(this.catalogBox);
 
                 // ------------------
 
@@ -227,7 +227,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 LretrieveEndDateFromSession.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
                 gridbag.setConstraints(LretrieveEndDateFromSession, constraints);
-                super.add(LretrieveEndDateFromSession);
+                this.add(LretrieveEndDateFromSession);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -238,7 +238,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.retrieveEndDateFromSession.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
                 gridbag.setConstraints(this.retrieveEndDateFromSession, constraints);
-                super.add(this.retrieveEndDateFromSession);
+                this.add(this.retrieveEndDateFromSession);
 
                 // ------------------
 
@@ -249,7 +249,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 LuseCoObserverInStatistics.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
                 gridbag.setConstraints(LuseCoObserverInStatistics, constraints);
-                super.add(LuseCoObserverInStatistics);
+                this.add(LuseCoObserverInStatistics);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -261,7 +261,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.useCoObserverInStatistics.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
                 gridbag.setConstraints(this.useCoObserverInStatistics, constraints);
-                super.add(this.useCoObserverInStatistics);
+                this.add(this.useCoObserverInStatistics);
 
                 // ------------------
 
@@ -272,7 +272,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 LuseLatinConstellationNames.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
                 gridbag.setConstraints(LuseLatinConstellationNames, constraints);
-                super.add(LuseLatinConstellationNames);
+                this.add(LuseLatinConstellationNames);
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.anchor = GridBagConstraints.WEST;
@@ -283,7 +283,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.useLatinConstellationNames.setToolTipText(
                                 this.bundle.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
                 gridbag.setConstraints(this.useLatinConstellationNames, constraints);
-                super.add(this.useLatinConstellationNames);
+                this.add(this.useLatinConstellationNames);
 
         }
 

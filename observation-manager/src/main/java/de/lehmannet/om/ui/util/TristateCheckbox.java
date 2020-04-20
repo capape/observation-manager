@@ -36,15 +36,15 @@ public class TristateCheckbox extends JPanel {
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());
-        super.add(new JLabel(bundle.getString("checkbox.label.false")));
-        super.add(new JLabel(bundle.getString("checkbox.label.na")));
-        super.add(new JLabel(bundle.getString("checkbox.label.true")));
+        this.add(new JLabel(bundle.getString("checkbox.label.false")));
+        this.add(new JLabel(bundle.getString("checkbox.label.na")));
+        this.add(new JLabel(bundle.getString("checkbox.label.true")));
 
-        super.add(this.falseValue);
-        super.add(this.naValue);
-        super.add(this.trueValue);
+        this.add(this.falseValue);
+        this.add(this.naValue);
+        this.add(this.trueValue);
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 

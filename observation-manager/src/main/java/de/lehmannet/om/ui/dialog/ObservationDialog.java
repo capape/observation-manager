@@ -38,44 +38,45 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
         super(om, new ObservationDialogPanel(om, observation, se, om.getImageResolver()));
 
         if (observation == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));
         } else {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.observation.titleEdit") + " "
+            this.setTitle(AbstractDialog.bundle.getString("dialog.observation.titleEdit") + " "
                     + observation.getDisplayName());
         }
 
         // Add additional next button
-        GridBagLayout gridbag = (GridBagLayout) super.getContentPane().getLayout();
+        GridBagLayout gridbag = (GridBagLayout) this.getContentPane().getLayout();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.EAST;
         constraints.fill = GridBagConstraints.BOTH;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         // Set next button as second button
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 100, 5);
         this.next = new JButton(AbstractDialog.bundle.getString("dialog.button.next"));
         this.next.addActionListener(this);
         gridbag.setConstraints(this.next, constraints);
-        super.getContentPane().add(this.next);
+        this.getContentPane().add(this.next);
 
         // Move cancel button to third position
-        super.getContentPane().remove(super.cancel);
+        this.getContentPane().remove(this.cancel);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 100, 5);
-        gridbag.setConstraints(super.cancel, constraints);
-        super.getContentPane().add(super.cancel);
+        gridbag.setConstraints(this.cancel, constraints);
+        this.getContentPane().add(this.cancel);
 
-        super.setSize(ObservationDialog.serialVersionUID, om.getSize().width - 200, 620);
-        super.setLocationRelativeTo(om);
+        this.setSize(ObservationDialog.serialVersionUID, om.getSize().width - 200, 620);
+        this.setLocationRelativeTo(om);
 
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
     public IObservation getObservation() {
 
-        if (super.schemaElement != null) {
-            return (IObservation) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (IObservation) this.schemaElement;
         }
 
         return null;
@@ -91,7 +92,7 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
                 // Flag dialog so that after closure it'll open again for next observation
                 this.createAdditionalObservation = true;
                 // Trigger OK event so that current observation gets created
-                super.actionPerformed(new ActionEvent(super.positive, ActionEvent.ACTION_PERFORMED, "Next pressed"));
+                this.actionPerformed(new ActionEvent(this.positive, ActionEvent.ACTION_PERFORMED, "Next pressed"));
                 return;
             }
         }

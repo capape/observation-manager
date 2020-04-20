@@ -97,8 +97,8 @@ public class ItemView extends JPanel implements ChangeListener {
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addChangeListener(this);
 
-        super.setLayout(new BorderLayout());
-        super.add(this.tabbedPane);
+        this.setLayout(new BorderLayout());
+        this.add(this.tabbedPane);
 
     }
 

@@ -82,14 +82,14 @@ public class GeneralPanel extends PreferencesPanel {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel loadLastXMLLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.loadLastXML"), true);
         loadLastXMLLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(loadLastXMLLabel, constraints);
-        super.add(loadLastXMLLabel);
+        this.add(loadLastXMLLabel);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
@@ -99,7 +99,7 @@ public class GeneralPanel extends PreferencesPanel {
                 Boolean.parseBoolean(this.getConfig(ObservationManager.CONFIG_OPENONSTARTUP).orElse("false")));
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
-        super.add(this.loadLastFile);
+        this.add(this.loadLastFile);
 
         // ------------------
 
@@ -110,7 +110,7 @@ public class GeneralPanel extends PreferencesPanel {
         checkForUpdates
                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(checkForUpdates, constraints);
-        super.add(checkForUpdates);
+        this.add(checkForUpdates);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
@@ -121,7 +121,7 @@ public class GeneralPanel extends PreferencesPanel {
         this.checkForUpdates
                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);
-        super.add(this.checkForUpdates);
+        this.add(this.checkForUpdates);
 
         // ------------------
 
@@ -130,7 +130,7 @@ public class GeneralPanel extends PreferencesPanel {
         OMLabel uiLanguageLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.uiLanguage"), true);
         uiLanguageLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
         gridbag.setConstraints(uiLanguageLabel, constraints);
-        super.add(uiLanguageLabel);
+        this.add(uiLanguageLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -140,7 +140,7 @@ public class GeneralPanel extends PreferencesPanel {
         this.uiLanguage.setEnabled(true);
         this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
         gridbag.setConstraints(this.uiLanguage, constraints);
-        super.add(this.uiLanguage);
+        this.add(this.uiLanguage);
 
         // ------------------
 
@@ -149,7 +149,7 @@ public class GeneralPanel extends PreferencesPanel {
         OMLabel LxslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
         LxslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
         gridbag.setConstraints(LxslTemplate, constraints);
-        super.add(LxslTemplate);
+        this.add(LxslTemplate);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -158,7 +158,7 @@ public class GeneralPanel extends PreferencesPanel {
         this.xslTemplate.setEnabled(true);
         this.xslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
         gridbag.setConstraints(this.xslTemplate, constraints);
-        super.add(this.xslTemplate);
+        this.add(this.xslTemplate);
 
         // ------------------
 
@@ -168,7 +168,7 @@ public class GeneralPanel extends PreferencesPanel {
                 true);
         LresetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(LresetWindowsSizes, constraints);
-        super.add(LresetWindowsSizes);
+        this.add(LresetWindowsSizes);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -184,7 +184,7 @@ public class GeneralPanel extends PreferencesPanel {
         });
         resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(resetWindowSizes, constraints);
-        super.add(resetWindowSizes);
+        this.add(resetWindowSizes);
 
         // ------------------
 
@@ -192,7 +192,7 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.fill = GridBagConstraints.BOTH;
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
-        super.add(Lfill);
+        this.add(Lfill);
 
     }
 

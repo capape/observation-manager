@@ -53,7 +53,7 @@ public class ConstellationBox extends JComboBox<String> {
         this.addEmptyItem();
 
         for (int i = 0; i < ConstellationBox.cache.length; i++) {
-            super.addItem(ConstellationBox.cache[i].name());
+            this.addItem(ConstellationBox.cache[i].name());
         }
 
         if (useI18Nnames) {
@@ -64,7 +64,7 @@ public class ConstellationBox extends JComboBox<String> {
 
     public Constellation getSelectedConstellation() {
 
-        Object cons = super.getSelectedItem();
+        Object cons = this.getSelectedItem();
         if (ConstellationBox.EMPTY_ENTRY.equals(cons)) {
             return null;
         } else {
@@ -76,7 +76,7 @@ public class ConstellationBox extends JComboBox<String> {
     /*
      * public String getSelectedConstellationAbbreviation() {
      * 
-     * Object cons = super.getSelectedItem(); if( ConstellationBox.EMPTY_ENTRY.equals(cons) ) { return null; } else {
+     * Object cons = this.getSelectedItem(); if( ConstellationBox.EMPTY_ENTRY.equals(cons) ) { return null; } else {
      * return ((Constellation)cons).getAbbreviation(); }
      * 
      * }
@@ -91,7 +91,7 @@ public class ConstellationBox extends JComboBox<String> {
 
         for (int i = 0; i < ConstellationBox.cache.length; i++) {
             if (ConstellationBox.cache[i].equals(constellation)) {
-                super.setSelectedItem(ConstellationBox.cache[i]);
+                this.setSelectedItem(ConstellationBox.cache[i]);
                 return;
             }
         }
@@ -131,14 +131,14 @@ public class ConstellationBox extends JComboBox<String> {
 
     private void selectEmptyItem() {
 
-        super.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
+        this.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
 
     }
 
     private void addEmptyItem() {
 
-        super.addItem(ConstellationBox.EMPTY_ENTRY);
-        super.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
+        this.addItem(ConstellationBox.EMPTY_ENTRY);
+        this.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
 
     }
 
@@ -158,7 +158,7 @@ class ConstellationRenderer extends DefaultListCellRenderer {
         Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (value instanceof Constellation) {
             Constellation constellation = (Constellation) value;
-            super.setText(constellation.getDisplayName() + " (" + constellation.getAbbreviation() + ")");
+            this.setText(constellation.getDisplayName() + " (" + constellation.getAbbreviation() + ")");
         }
 
         return c;

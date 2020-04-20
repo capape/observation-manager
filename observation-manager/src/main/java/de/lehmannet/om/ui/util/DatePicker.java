@@ -57,13 +57,13 @@ public class DatePicker extends JDialog {
         this.initDialog();
         this.setDates();
 
-        super.setTitle(title);
-        super.setSize(500, 330);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
-
-        super.setVisible(true);
-        super.setResizable(false);
+        this.setTitle(title);
+        this.setSize(500, 330);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
+        this.setVisible(true);
+        this.setResizable(false);
 
     }
 
@@ -76,13 +76,13 @@ public class DatePicker extends JDialog {
         this.initDialog();
         this.setDates();
 
-        super.setTitle(title);
-        super.setSize(500, 250);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
-
-        super.setVisible(true);
-        super.setResizable(false);
+        this.setTitle(title);
+        this.setSize(500, 250);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
+        this.setVisible(true);
+        this.setResizable(false);
 
     }
 
@@ -97,13 +97,13 @@ public class DatePicker extends JDialog {
         this.initDialog();
         this.setDates();
 
-        super.setTitle(title);
-        super.setSize(500, 250);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
-
-        super.setVisible(true);
-        super.setResizable(false);
+        this.setTitle(title);
+        this.setSize(500, 250);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
+        this.setVisible(true);
+        this.setResizable(false);
 
     }
 
@@ -120,13 +120,14 @@ public class DatePicker extends JDialog {
         this.initDialog();
         this.setDates();
 
-        super.setTitle(title);
-        super.setSize(500, 250);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
+        this.setTitle(title);
+        this.setSize(500, 250);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
-        super.setVisible(true);
-        super.setResizable(false);
+        this.pack();
+        this.setVisible(true);
+        this.setResizable(false);
 
     }
 
@@ -161,7 +162,7 @@ public class DatePicker extends JDialog {
         for (String s : header) {
             headerPanel.add(new JLabel(s, SwingConstants.CENTER));
         }
-        super.getContentPane().add(headerPanel, BorderLayout.NORTH);
+        this.getContentPane().add(headerPanel, BorderLayout.NORTH);
 
         // Set day matrix
         JPanel centerPanel = new JPanel(new GridLayout(6, 7));
@@ -178,7 +179,7 @@ public class DatePicker extends JDialog {
             this.fields[x] = currentButton;
             centerPanel.add(this.fields[x]);
         }
-        super.getContentPane().add(centerPanel, BorderLayout.CENTER);
+        this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -259,9 +260,9 @@ public class DatePicker extends JDialog {
         gridbag.setConstraints(julianDateButton, constraints);
         footerPanel.add(julianDateButton);
 
-        super.getContentPane().add(footerPanel, BorderLayout.SOUTH);
+        this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
-        super.pack();
+       
 
     }
 
@@ -293,7 +294,7 @@ public class DatePicker extends JDialog {
             fields[x].setEnabled(true);
         }
 
-        super.getContentPane().repaint();
+        this.getContentPane().repaint();
 
     }
 
@@ -317,10 +318,10 @@ class JulianDateDialog extends JDialog implements ActionListener {
 
         this.timeZone = tz;
 
-        super.setTitle(this.bundle.getString("julianDateDialog.title"));
-        super.setSize(350, 90);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(dp);
+        this.setTitle(this.bundle.getString("julianDateDialog.title"));
+        this.setSize(350, 90);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(dp);
 
         this.initDialog();
 
@@ -365,14 +366,14 @@ class JulianDateDialog extends JDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         JLabel jdLabel = new JLabel(this.bundle.getString("julianDateDialog.label.JDField"));
         jdLabel.setToolTipText(this.bundle.getString("julianDateDialog.tooltip.JDField"));
         gridbag.setConstraints(jdLabel, constraints);
-        super.getContentPane().add(jdLabel);
+        this.getContentPane().add(jdLabel);
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 30, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.jdString = new JTextField();
@@ -382,21 +383,21 @@ class JulianDateDialog extends JDialog implements ActionListener {
         jdString.setEditable(true);
         jdString.setToolTipText(this.bundle.getString("julianDateDialog.tooltip.JDField"));
         gridbag.setConstraints(jdString, constraints);
-        super.getContentPane().add(jdString);
+        this.getContentPane().add(jdString);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 30, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.ok = new JButton(this.bundle.getString("dialog.button.ok"));
         this.ok.addActionListener(this);
         gridbag.setConstraints(this.ok, constraints);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 30, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

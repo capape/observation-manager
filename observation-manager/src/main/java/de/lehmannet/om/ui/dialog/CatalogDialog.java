@@ -52,17 +52,18 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
         this.panel = new CatalogPanel(om);
         this.panel.addComponentListener(this);
 
-        super.getContentPane().add(this.panel);
+        this.getContentPane().add(this.panel);
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());
-        super.setTitle(bundle.getString("dialog.catalog.title"));
-        super.setModal(true);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setSize(CatalogDialog.serialVersionUID, 660, 340);
-        super.setLocationRelativeTo(om);
+        this.setTitle(bundle.getString("dialog.catalog.title"));
+        this.setModal(true);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setSize(CatalogDialog.serialVersionUID, 660, 340);
+        this.setLocationRelativeTo(om);
 
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
@@ -75,7 +76,7 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
-        super.dispose();
+        this.dispose();
 
     }
 

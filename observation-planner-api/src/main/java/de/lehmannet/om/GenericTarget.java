@@ -63,11 +63,11 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("GenericTarget Name=");
-        buffer.append(super.getName());
+        buffer.append(this.getName());
 
-        if ((super.getAliasNames() != null) && (super.getAliasNames().length > 0)) {
+        if ((this.getAliasNames() != null) && (this.getAliasNames().length > 0)) {
             buffer.append(" Alias names=");
-            String[] an = super.getAliasNames();
+            String[] an = this.getAliasNames();
             for (int i = 0; i < an.length; i++) {
                 buffer.append(an[i]);
                 if (i <= an.length - 2) {
@@ -76,9 +76,9 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
             }
         }
 
-        if (super.getPosition() != null) {
+        if (this.getPosition() != null) {
             buffer.append(" Position=");
-            buffer.append(super.getPosition());
+            buffer.append(this.getPosition());
         }
 
         return buffer.toString();
@@ -111,7 +111,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
             return false;
         }
 
-        return (super.getName().toLowerCase().equals(targetName.toLowerCase()))
+        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }
@@ -158,7 +158,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -168,7 +168,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
         }
 
         // Create the new target element
-        Element e_Target = super.createXmlTargetElement(e_Targets);
+        Element e_Target = this.createXmlTargetElement(e_Targets);
         e_Targets.appendChild(e_Target);
 
         // Set XSI:Type

@@ -21,7 +21,7 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
 
     public ObserverTableModel(IObserver[] observer) {
 
-        super.elements = observer;
+        this.elements = observer;
 
     }
 
@@ -42,10 +42,10 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -54,11 +54,11 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
 
         StringBuilder value = new StringBuilder();
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value.toString();
         }
 
-        IObserver observer = (IObserver) super.elements[rowIndex];
+        IObserver observer = (IObserver) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

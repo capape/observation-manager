@@ -67,28 +67,28 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
     private void loadSchemaElement() {
 
         this.type.setText(this.scope.getType());
-        this.type.setEditable(super.isEditable());
+        this.type.setEditable(this.isEditable());
 
         this.vendor.setText(this.scope.getVendor());
-        this.vendor.setEditable(super.isEditable());
+        this.vendor.setEditable(this.isEditable());
 
         this.model.setText(this.scope.getModel());
-        this.model.setEditable(super.isEditable());
+        this.model.setEditable(this.isEditable());
 
         float fl = this.scope.getFocalLength();
         if (!Float.isNaN(fl)) {
             this.focalLength.setText("" + fl);
         }
-        this.focalLength.setEditable(super.isEditable());
+        this.focalLength.setEditable(this.isEditable());
 
         this.aperture.setText(String.valueOf(this.scope.getAperture()));
-        this.aperture.setEditable(super.isEditable());
+        this.aperture.setEditable(this.isEditable());
 
         float mg = this.scope.getMagnification();
         if (!Float.isNaN(mg)) {
             this.magnification.setText("" + mg);
 
-            if (!super.isEditable()) { // Exit pupil is only shown in display mode
+            if (!this.isEditable()) { // Exit pupil is only shown in display mode
                 float ep = OpticsUtil.getExitPupil(this.scope);
                 if (!Float.isNaN(ep)) {
                     // Output format
@@ -98,20 +98,20 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
                     df.setDecimalFormatSymbols(dfs);
 
                     this.exitPupil.setText(df.format(ep));
-                    this.exitPupil.setEditable(super.isEditable());
+                    this.exitPupil.setEditable(this.isEditable());
                 }
             }
         }
-        this.magnification.setEditable(super.isEditable());
+        this.magnification.setEditable(this.isEditable());
 
         float lg = this.scope.getLightGrasp();
         if (!Float.isNaN(lg)) {
             this.lightGrasp.setText("" + lg);
         }
-        this.lightGrasp.setEditable(super.isEditable());
+        this.lightGrasp.setEditable(this.isEditable());
 
         this.trueFOV.setAngle(this.scope.getTrueFieldOfView());
-        this.trueFOV.setEditable(super.isEditable());
+        this.trueFOV.setEditable(this.isEditable());
 
         boolean erectedSet = false;
         try {
@@ -142,9 +142,9 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             }
         }
 
-        this.orientation.setEnabled(super.isEditable());
-        this.orientationTruesided.setEnabled(super.isEditable());
-        this.orientationErect.setEnabled(super.isEditable());
+        this.orientation.setEnabled(this.isEditable());
+        this.orientationTruesided.setEnabled(this.isEditable());
+        this.orientationErect.setEnabled(this.isEditable());
 
     }
 
@@ -188,12 +188,12 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             try {
                 float lg = FloatUtil.parseFloat(lightGrasp);
                 if ((lg < 0.0) || (lg > 1.0)) {
-                    super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspInvalid"));
+                    this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspInvalid"));
                     return null;
                 }
                 this.scope.setLightGrasp(lg);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspNumeric"));
                 return null;
             }
         }
@@ -202,17 +202,17 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         try {
             trueFieldOfView = this.trueFOV.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.trueFOVNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.trueFOVNoNumber"));
             return null;
         }
         if (trueFieldOfView != null) {
             double tfoV = trueFieldOfView.getValue();
             if (tfoV < 0.0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVpositive"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVpositive"));
                 return null;
             }
             if (!Float.isNaN(this.scope.getFocalLength())) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVNoMagnification"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVNoMagnification"));
                 return null;
             }
             this.scope.setTrueFieldOfView(trueFieldOfView);
@@ -263,12 +263,12 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             try {
                 float lg = FloatUtil.parseFloat(lightGrasp);
                 if ((lg < 0.0) || (lg > 1.0)) {
-                    super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspInvalid"));
+                    this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspInvalid"));
                     return null;
                 }
                 this.scope.setLightGrasp(lg);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.lightGraspNumeric"));
                 return null;
             }
         }
@@ -277,17 +277,17 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         try {
             trueFieldOfView = this.trueFOV.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.trueFOVNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.trueFOVNoNumber"));
             return null;
         }
         if (trueFieldOfView != null) {
             double tfoV = trueFieldOfView.getValue();
             if (tfoV < 0.0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVpositive"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVpositive"));
                 return null;
             }
             if (!Float.isNaN(this.scope.getFocalLength())) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVNoMagnification"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.trueFoVNoMagnification"));
                 return null;
             }
             this.scope.setTrueFieldOfView(trueFieldOfView);
@@ -349,11 +349,11 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
                 try {
                     ma = FloatUtil.parseFloat(magnification);
                 } catch (NumberFormatException nfe) {
-                    super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationNumeric"));
+                    this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationNumeric"));
                     return null;
                 }
                 if (ma < 0) {
-                    super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationPositive"));
+                    this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationPositive"));
                     return null;
                 }
                 if (update) {
@@ -363,7 +363,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
                     scope = new Scope(aperture, ma, modelName);
                 }
             } else {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationOrAperture"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationOrAperture"));
                 return null;
             }
         } else if ((magnification == null) || ("".equals(magnification.trim()))) {
@@ -371,11 +371,11 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             try {
                 fl = FloatUtil.parseFloat(focalLength);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.focalLnegthNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.focalLnegthNumeric"));
                 return null;
             }
             if (fl < 0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.focalLnegthPositive"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.focalLnegthPositive"));
                 return null;
             }
             if (update) {
@@ -385,7 +385,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
                 scope = new Scope(modelName, aperture, fl);
             }
         } else {
-            super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationOrApertureNotBoth"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.magnificationOrApertureNotBoth"));
             return null;
         }
 
@@ -397,18 +397,18 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         String aperture = this.aperture.getText();
         if ((aperture == null) || ("".equals(aperture))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.noAperture"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.noAperture"));
             return Float.NaN;
         }
         float ap = 0.0f;
         try {
             ap = FloatUtil.parseFloat(aperture);
             if (ap <= 0.0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.aperturePositive"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.aperturePositive"));
                 return Float.NaN;
             }
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.apertureNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.scope.warning.apertureNumeric"));
             return Float.NaN;
         }
 
@@ -472,7 +472,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 5, 1);
         OMLabel LfocalLength = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength") + "*",
                     SwingConstants.RIGHT, true);
         } else {
@@ -482,7 +482,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         LfocalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(LfocalLength, constraints);
         // Only show focal length in creation mode, or focal length is set
-        if ((super.isEditable()) // Edit mode -> Show focal length
+        if ((this.isEditable()) // Edit mode -> Show focal length
                 || !(Float.isNaN(this.scope.getFocalLength())) // Display mode -> Only show when set
         ) {
             this.add(LfocalLength);
@@ -493,7 +493,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.focalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(this.focalLength, constraints);
         // Only show focal length in creation mode, or focal length is set
-        if ((super.isEditable()) // Edit mode -> Show focal length
+        if ((this.isEditable()) // Edit mode -> Show focal length
                 || !(Float.isNaN(this.scope.getFocalLength())) // Display mode -> Only show when set
         ) {
             this.add(this.focalLength);
@@ -512,7 +512,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
         OMLabel Lmagnification = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             Lmagnification = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.magnification") + "*",
                     SwingConstants.RIGHT, true);
         } else {
@@ -522,7 +522,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         Lmagnification.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.magnification"));
         gridbag.setConstraints(Lmagnification, constraints);
         // Only show magnification in creation mode, or magnification is set
-        if ((super.isEditable()) // Edit mode -> Show magnification
+        if ((this.isEditable()) // Edit mode -> Show magnification
                 || !(Float.isNaN(this.scope.getMagnification())) // Display mode -> Only show when set
         ) {
             this.add(Lmagnification);
@@ -532,7 +532,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.magnification.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.magnification"));
         gridbag.setConstraints(this.magnification, constraints);
         // Only show magnification in creation mode, or magnification is set
-        if ((super.isEditable()) // Edit mode -> Show magnification
+        if ((this.isEditable()) // Edit mode -> Show magnification
                 || !(Float.isNaN(this.scope.getMagnification())) // Display mode -> Only show when set
         ) {
             this.add(this.magnification);
@@ -555,17 +555,17 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         gridbag.setConstraints(LtfoV, constraints);
         LtfoV.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.trueFoV"));
         // Only show trueFoV in creation mode, or magnification is set
-        if ((super.isEditable()) // Edit mode -> Show magnification
+        if ((this.isEditable()) // Edit mode -> Show magnification
                 || !(Float.isNaN(this.scope.getMagnification())) // Display mode -> Only show when set
         ) {
             this.add(LtfoV);
         }
         ConstraintsBuilder.buildConstraints(constraints, 3, 3, 1, 1, 45, 1);
-        this.trueFOV = new AngleContainer(Angle.DEGREE, super.isEditable());
+        this.trueFOV = new AngleContainer(Angle.DEGREE, this.isEditable());
         this.trueFOV.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.trueFoV"));
         gridbag.setConstraints(this.trueFOV, constraints);
         // Only show trueFoV in creation mode, or magnification is set
-        if ((super.isEditable()) // Edit mode -> Show magnification
+        if ((this.isEditable()) // Edit mode -> Show magnification
                 || !(Float.isNaN(this.scope.getMagnification())) // Display mode -> Only show when set
         ) {
             this.add(this.trueFOV);
@@ -573,7 +573,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         int rowCounter = 4;
 
-        if (!super.isEditable()) { // Only show in display mode
+        if (!this.isEditable()) { // Only show in display mode
             if ((this.scope != null) && (!Float.isNaN(this.scope.getMagnification()))) {
                 ConstraintsBuilder.buildConstraints(constraints, 0, rowCounter, 1, 1, 5, 1);
                 JLabel LexitPupil = new JLabel(AbstractPanel.bundle.getString("panel.scope.label.exitPupil"));
@@ -625,7 +625,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         // Add hint on how to use focal length and magnification, when we're in edit
         // mode
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 0, rowCounter++, 4, 1, 45, 80);
             OMLabel focalLengthMagnificationHint = new OMLabel(
                     AbstractPanel.bundle.getString("panel.scope.label.focalLengthMagnificationHint"), true);

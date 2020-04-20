@@ -104,12 +104,12 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
             try {
                 byte binning = Byte.parseByte(this.binning.getText());
                 if ((binning < 1) || (binning > 9)) {
-                    super.createWarning(this.bundle.getString("panel.ccdimager.warning.invalidBinning"));
+                    this.createWarning(this.bundle.getString("panel.ccdimager.warning.invalidBinning"));
                     return null;
                 }
                 this.imager.setBinning(binning);
             } catch (NumberFormatException nfe) {
-                super.createWarning(this.bundle.getString("panel.ccdimager.warning.binning.numberFormat"));
+                this.createWarning(this.bundle.getString("panel.ccdimager.warning.binning.numberFormat"));
                 return null;
             }
         }
@@ -175,12 +175,12 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
             try {
                 byte binning = Byte.parseByte(this.binning.getText());
                 if ((binning < 1) || (binning > 9)) {
-                    super.createWarning(this.bundle.getString("panel.ccdimager.warning.invalidBinning"));
+                    this.createWarning(this.bundle.getString("panel.ccdimager.warning.invalidBinning"));
                     return null;
                 }
                 this.imager.setBinning(binning);
             } catch (NumberFormatException nfe) {
-                super.createWarning(this.bundle.getString("panel.ccdimager.warning.binning.numberFormat"));
+                this.createWarning(this.bundle.getString("panel.ccdimager.warning.binning.numberFormat"));
                 return null;
             }
         }
@@ -238,7 +238,7 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
 
         String modelName = this.model.getText();
         if ((modelName == null) || ("".equals(modelName))) {
-            super.createWarning(bundle.getString("panel.ccd.warning.noModel"));
+            this.createWarning(bundle.getString("panel.ccd.warning.noModel"));
             return null;
         }
 
@@ -250,19 +250,19 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
 
         String xPix = this.xPixels.getText();
         if ((xPix == null) || ("".equals(xPix))) {
-            super.createWarning(bundle.getString("panel.ccd.warning.noXAxis"));
+            this.createWarning(bundle.getString("panel.ccd.warning.noXAxis"));
             return -1;
         }
         int x = -1;
         try {
             x = Integer.parseInt(xPix);
         } catch (NumberFormatException nfe) {
-            super.createWarning(bundle.getString("panel.ccd.warning.XAxisNumeric"));
+            this.createWarning(bundle.getString("panel.ccd.warning.XAxisNumeric"));
             return -1;
         }
 
         if (x < 1) {
-            super.createWarning(bundle.getString("panel.ccd.warning.XAxisNegative"));
+            this.createWarning(bundle.getString("panel.ccd.warning.XAxisNegative"));
             return -1;
         }
 
@@ -274,19 +274,19 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
 
         String yPix = this.yPixels.getText();
         if ((yPix == null) || ("".equals(yPix))) {
-            super.createWarning(bundle.getString("panel.ccd.warning.noYAxis"));
+            this.createWarning(bundle.getString("panel.ccd.warning.noYAxis"));
             return -1;
         }
         int y = -1;
         try {
             y = Integer.parseInt(yPix);
         } catch (NumberFormatException nfe) {
-            super.createWarning(bundle.getString("panel.ccd.warning.YAxisNumeric"));
+            this.createWarning(bundle.getString("panel.ccd.warning.YAxisNumeric"));
             return -1;
         }
 
         if (y < 1) {
-            super.createWarning(bundle.getString("panel.ccd.warning.YAxisNegative"));
+            this.createWarning(bundle.getString("panel.ccd.warning.YAxisNegative"));
             return -1;
         }
 
@@ -305,12 +305,12 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         try {
             x = FloatUtil.parseFloat(xPix);
         } catch (NumberFormatException nfe) {
-            super.createWarning(bundle.getString("panel.ccd.warning.XAxisSizeNumeric"));
+            this.createWarning(bundle.getString("panel.ccd.warning.XAxisSizeNumeric"));
             throw nfe;
         }
 
         if (x < 0.0) {
-            super.createWarning(bundle.getString("panel.ccd.warning.XAxisSizeNegative"));
+            this.createWarning(bundle.getString("panel.ccd.warning.XAxisSizeNegative"));
             throw new NumberFormatException("X Axis pixel size cannot be < 0.0");
         }
 
@@ -329,12 +329,12 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         try {
             y = FloatUtil.parseFloat(yPix);
         } catch (NumberFormatException nfe) {
-            super.createWarning(bundle.getString("panel.ccd.warning.YAxisSizeNumeric"));
+            this.createWarning(bundle.getString("panel.ccd.warning.YAxisSizeNumeric"));
             throw nfe;
         }
 
         if (y < 0.0) {
-            super.createWarning(bundle.getString("panel.ccd.warning.YAxisSizeNegative"));
+            this.createWarning(bundle.getString("panel.ccd.warning.YAxisSizeNegative"));
             throw new NumberFormatException("Y Axis pixel size cannot be < 0.0");
         }
 
@@ -347,38 +347,38 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         // Set mandatory
 
         this.model.setText(this.imager.getModel());
-        this.model.setEditable(super.isEditable());
+        this.model.setEditable(this.isEditable());
 
         this.xPixels.setText("" + this.imager.getXPixels());
-        this.xPixels.setEditable(super.isEditable());
+        this.xPixels.setEditable(this.isEditable());
 
         this.yPixels.setText("" + this.imager.getYPixels());
-        this.yPixels.setEditable(super.isEditable());
+        this.yPixels.setEditable(this.isEditable());
 
         // Set optional
 
         this.vendor.setText(this.imager.getVendor());
-        this.vendor.setEditable(super.isEditable());
+        this.vendor.setEditable(this.isEditable());
 
         this.remarks.setText(this.imager.getRemarks());
-        this.remarks.setEditable(super.isEditable());
+        this.remarks.setEditable(this.isEditable());
         this.remarks.setLineWrap(true);
-        if (!super.isEditable()) {
+        if (!this.isEditable()) {
             this.remarks.setBackground(Color.LIGHT_GRAY);
         }
 
         if (!Float.isNaN(this.imager.getXPixelSize())) {
             this.xPixelSize.setText("" + this.imager.getXPixelSize());
         }
-        this.xPixelSize.setEditable(super.isEditable());
+        this.xPixelSize.setEditable(this.isEditable());
 
         if (!Float.isNaN(this.imager.getYPixelSize())) {
             this.yPixelSize.setText("" + this.imager.getYPixelSize());
         }
-        this.yPixelSize.setEditable(super.isEditable());
+        this.yPixelSize.setEditable(this.isEditable());
 
         this.binning.setText("" + this.imager.getBinning());
-        this.binning.setEditable(super.isEditable());
+        this.binning.setEditable(this.isEditable());
 
     }
 

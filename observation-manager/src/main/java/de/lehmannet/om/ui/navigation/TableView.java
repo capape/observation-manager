@@ -142,9 +142,9 @@ public class TableView extends JPanel {
         });
 
         this.table.setDoubleBuffered(true);
-        super.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         this.scrollTable = new JScrollPane(this.table);
-        super.add(scrollTable);
+        this.add(scrollTable);
 
         table.setDefaultRenderer(Angle.class, (table, value, isSelected, hasFocus, row, column) -> {
 

@@ -52,31 +52,31 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             if (!(finding instanceof DeepSkyFindingOC)) {
                 // DeepSkyFindingPanel might already have converted the Finding into a
                 // DeepSkyFinding
-                finding = super.finding;
+                finding = this.finding;
 
                 try { // Might be old (< 1.5) DeepSkyFinding
                     if (finding != null) {
-                        super.finding = new DeepSkyFindingOC(finding.getDescription(),
+                        this.finding = new DeepSkyFindingOC(finding.getDescription(),
                                 ((DeepSkyFinding) finding).getRating());
                     } else { // Finding was something else. So recycle description and use 99 as default
                              // rating
-                        super.finding = new DeepSkyFindingOC(finding.getDescription(), 99);
+                        this.finding = new DeepSkyFindingOC(finding.getDescription(), 99);
                     }
                 } catch (ClassCastException cce) {
                     throw new IllegalArgumentException(
                             "Passed IFinding must derive from de.lehmannet.om.extension.deepSky.DeepSkyFindingOC\n");
                 }
             } else {
-                super.finding = (DeepSkyFindingOC) finding;
+                this.finding = (DeepSkyFindingOC) finding;
             }
         }
 
-        this.imagePath = super.om.getInstallDir().getPathForFolder("images")
+        this.imagePath = this.om.getInstallDir().getPathForFolder("images")
                 + "deepSky" + File.separatorChar + "clusterTypes" + File.separatorChar;
 
         this.createOCPanel();
 
-        if (super.finding != null) {
+        if (this.finding != null) {
             this.loadSchemaElementOC();
         }
 
@@ -146,7 +146,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             return null;
         }
 
-        DeepSkyFindingOC finding = (DeepSkyFindingOC) super.updateSchemaElement();
+        DeepSkyFindingOC finding = (DeepSkyFindingOC) this.updateSchemaElement();
 
         // Something went wrong here. Maybe given values are malformed
         if (finding == null) {
@@ -186,34 +186,34 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             finding.setColorContrasts(null);
         }
 
-        super.finding = finding;
+        this.finding = finding;
 
-        return super.finding;
+        return this.finding;
 
     }
 
     @Override
     public ISchemaElement createSchemaElement() {
 
-        int rating = super.getRating();
+        int rating = this.getRating();
         if (rating == -1) {
-            super.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
+            this.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
             return null;
         }
 
-        super.finding = new DeepSkyFindingOC(super.findingContainer.getDescription(), rating);
+        this.finding = new DeepSkyFindingOC(this.findingContainer.getDescription(), rating);
 
         // Something went wrong. Maybe entered values were malformed...
 
         // Set all other fields
-        super.finding = (DeepSkyFinding) this.updateSchemaElement();
+        this.finding = (DeepSkyFinding) this.updateSchemaElement();
 
         // Something went wrong. Maybe entered values were malformed...
-        if (super.finding == null) {
+        if (this.finding == null) {
             return null;
         }
 
-        return super.finding;
+        return this.finding;
 
     }
 
@@ -221,10 +221,10 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     // this (if called by our constructor)
     private void createOCPanel() {
 
-        // super.createPanel(); <--- will be called via our constructor -> super ->
+        // this.createPanel(); <--- will be called via our constructor -> super ->
         // createPanel()
 
-        GridBagLayout gridbag = (GridBagLayout) super.getLayout();
+        GridBagLayout gridbag = (GridBagLayout) this.getLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         // this.setLayout(gridbag); <-- already set by super class
@@ -303,12 +303,12 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
     private void loadSchemaElementOC() {
 
-        super.loadSchemaElement();
+        this.loadSchemaElement();
 
-        DeepSkyFindingOC findingOC = (DeepSkyFindingOC) super.finding;
+        DeepSkyFindingOC findingOC = (DeepSkyFindingOC) this.finding;
 
         this.character = findingOC.getCharacter();
-        this.characterButton.setEnabled(super.isEditable());
+        this.characterButton.setEnabled(this.isEditable());
 
         try {
             if (findingOC.getUnusualShape()) {
@@ -320,7 +320,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             // Value was never set
             this.unusualShape.setNASelected();
         }
-        this.unusualShape.setEditable(super.isEditable());
+        this.unusualShape.setEditable(this.isEditable());
 
         try {
             if (findingOC.getColorContrasts()) {
@@ -332,7 +332,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             // Value was never set
             this.colorContrasts.setNASelected();
         }
-        this.colorContrasts.setEditable(super.isEditable());
+        this.colorContrasts.setEditable(this.isEditable());
 
         try {
             if (findingOC.getPartlyUnresolved()) {
@@ -344,7 +344,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             // Value was never set
             this.partlyUnresolved.setNASelected();
         }
-        this.partlyUnresolved.setEditable(super.isEditable());
+        this.partlyUnresolved.setEditable(this.isEditable());
 
     }
 

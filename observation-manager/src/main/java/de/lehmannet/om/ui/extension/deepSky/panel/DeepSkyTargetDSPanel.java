@@ -102,11 +102,11 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
                     p = Integer.parseInt(pA);
 
                     if ((p < 0) || (p > 359)) {
-                        super.createWarning(this.bundle.getString("panel.ds.warning.posAngle.invalid"));
+                        this.createWarning(this.bundle.getString("panel.ds.warning.posAngle.invalid"));
                         return null;
                     }
                 } catch (NumberFormatException nfe) {
-                    super.createWarning(this.bundle.getString("panel.ds.warning.posAngle.invalid"));
+                    this.createWarning(this.bundle.getString("panel.ds.warning.posAngle.invalid"));
                     return null;
                 }
             }
@@ -118,7 +118,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         try {
             sep = this.separation.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(this.bundle.getString("panel.warning.separationNoNumber"));
+            this.createWarning(this.bundle.getString("panel.warning.separationNoNumber"));
             return null;
         }
         // if( sep != null ) {
@@ -164,17 +164,17 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         if (!Double.isNaN(this.target.getCompanionMag())) {
             this.magComp.setText("" + this.target.getCompanionMag());
         }
-        this.magComp.setEditable(super.isEditable());
+        this.magComp.setEditable(this.isEditable());
 
         if (this.target.getPositionAngle() != -1) {
             this.positionAngle.setText("" + this.target.getPositionAngle());
         }
-        this.positionAngle.setEditable(super.isEditable());
+        this.positionAngle.setEditable(this.isEditable());
 
         if (this.target.getSeparation() != null) {
             this.separation.setAngle(this.target.getSeparation());
         }
-        this.separation.setEditable(super.isEditable());
+        this.separation.setEditable(this.isEditable());
 
     }
 
@@ -188,7 +188,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -205,7 +205,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 45, 1);
         this.magComp = new JTextField();
         this.magComp.setToolTipText(this.bundle.getString("panel.ds.tooltip.magnitude"));
-        this.magComp.setEditable(super.isEditable());
+        this.magComp.setEditable(this.isEditable());
         gridbag.setConstraints(this.magComp, constraints);
         this.add(this.magComp);
 
@@ -227,7 +227,7 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         gridbag.setConstraints(LseparationAngle, constraints);
         this.add(LseparationAngle);
         ConstraintsBuilder.buildConstraints(constraints, 3, 3, 1, 1, 45, 1);
-        this.separation = new AngleContainer(Angle.ARCSECOND, super.isEditable());
+        this.separation = new AngleContainer(Angle.ARCSECOND, this.isEditable());
         this.separation.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
         this.separation.setToolTipText(this.bundle.getString("panel.ds.tooltip.separation"));
         gridbag.setConstraints(this.separation, constraints);

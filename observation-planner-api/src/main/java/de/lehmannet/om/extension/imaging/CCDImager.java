@@ -163,7 +163,7 @@ public class CCDImager extends Imager {
 
         Document ownerDoc = element.getOwnerDocument();
 
-        Element e_Imager = super.createXmlImagerElement(element);
+        Element e_Imager = this.createXmlImagerElement(element);
         if (e_Imager == element) {
             return; // Already added
         }

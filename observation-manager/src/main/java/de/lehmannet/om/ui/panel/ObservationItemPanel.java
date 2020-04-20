@@ -107,7 +107,7 @@ public class ObservationItemPanel extends AbstractPanel {
 
         this.loadSchemaElement();
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -273,7 +273,7 @@ public class ObservationItemPanel extends AbstractPanel {
             float ep = OpticsUtil.getExitPupil(sc, actualFocalLength, le);
             if (!Float.isNaN(ep)) {
                 this.exitPupil.setText(df.format(ep));
-                this.exitPupil.setEditable(super.isEditable());
+                this.exitPupil.setEditable(this.isEditable());
             }
         }
 

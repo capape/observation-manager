@@ -39,7 +39,7 @@ public abstract class AbstractBox extends JComboBox {
 
     public ISchemaElement getSelectedSchemaElement() {
 
-        Object si = super.getSelectedItem();
+        Object si = this.getSelectedItem();
         if (AbstractBox.EMPTY_ENTRY.equals(si)) {
             return null;
         } else {
@@ -50,14 +50,14 @@ public abstract class AbstractBox extends JComboBox {
 
     public void addEmptyItem() {
 
-        super.addItem(AbstractBox.EMPTY_ENTRY);
-        super.setSelectedItem(AbstractBox.EMPTY_ENTRY);
+        this.addItem(AbstractBox.EMPTY_ENTRY);
+        this.setSelectedItem(AbstractBox.EMPTY_ENTRY);
 
     }
 
     public void selectEmptyItem() {
 
-        super.setSelectedItem(AbstractBox.EMPTY_ENTRY);
+        this.setSelectedItem(AbstractBox.EMPTY_ENTRY);
 
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractBox extends JComboBox {
         if (element == null) {
             this.addEmptyItem();
         } else {
-            super.setSelectedItem(this.getKey(element));
+            this.setSelectedItem(this.getKey(element));
         }
 
     }
@@ -79,13 +79,13 @@ public abstract class AbstractBox extends JComboBox {
 
         // Item already exists
         if (this.map.containsKey(key)) {
-            super.setSelectedItem(key);
+            this.setSelectedItem(key);
             return;
         }
 
         this.map.put(key, element);
         super.addItem(key);
-        super.setSelectedItem(key);
+        this.setSelectedItem(key);
 
     }
 

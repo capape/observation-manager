@@ -129,7 +129,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
         if (!Float.isNaN(this.target.getMagnitudeOf10thBrightestMember())) {
             this.magnitude10th.setText("" + this.target.getMagnitudeOf10thBrightestMember());
         }
-        this.magnitude10th.setEditable(super.isEditable());
+        this.magnitude10th.setEditable(this.isEditable());
 
     }
 
@@ -143,7 +143,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -160,7 +160,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 2, 1, 45, 1);
         this.magnitude10th = new JTextField();
         this.magnitude10th.setToolTipText(this.bundle.getString("panel.cg.tooltip.magnitude10th"));
-        this.magnitude10th.setEditable(super.isEditable());
+        this.magnitude10th.setEditable(this.isEditable());
         gridbag.setConstraints(this.magnitude10th, constraints);
         this.add(this.magnitude10th);
 

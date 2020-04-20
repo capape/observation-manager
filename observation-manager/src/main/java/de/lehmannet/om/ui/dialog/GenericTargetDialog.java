@@ -26,23 +26,23 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.genericTarget.title"));
+            this.setTitle(bundle.getString("dialog.genericTarget.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.genericTarget.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.genericTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(GenericTargetDialog.serialVersionUID, 590, 260);
+        this.setSize(GenericTargetDialog.serialVersionUID, 590, 260);
 
-        // super.pack();
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

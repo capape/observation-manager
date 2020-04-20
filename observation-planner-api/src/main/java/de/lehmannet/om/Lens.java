@@ -223,7 +223,7 @@ public class Lens extends SchemaElement implements ILens {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -231,7 +231,7 @@ public class Lens extends SchemaElement implements ILens {
 
         // Create the new lens element
         Element e_Lens = ownerDoc.createElement(XML_ELEMENT_LENS);
-        e_Lens.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Lens.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(e_Lens);
 
@@ -298,7 +298,7 @@ public class Lens extends SchemaElement implements ILens {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(XML_ELEMENT_LENS);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

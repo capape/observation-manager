@@ -36,7 +36,7 @@ public class LanguageBox extends JComboBox {
 
         // Add empty item (as first entry)
         if (this.allowEmptyEntry) {
-            super.addItem(LanguageBox.EMPTY_ENTRY);
+            this.addItem(LanguageBox.EMPTY_ENTRY);
         }
 
         // Put all isoKeys and language strings in a TreeMap which will sort them
@@ -61,7 +61,7 @@ public class LanguageBox extends JComboBox {
         String key = null;
         while (i.hasNext()) {
             key = i.next();
-            super.addItem(key);
+            this.addItem(key);
         }
 
         // Preselect EMPTY_ENTRY or default language
@@ -98,7 +98,7 @@ public class LanguageBox extends JComboBox {
 
     public String getSelectedISOLanguage() {
 
-        Object si = super.getSelectedItem();
+        Object si = this.getSelectedItem();
         if (LanguageBox.EMPTY_ENTRY.equals(si)) {
             return null;
         } else {
@@ -121,7 +121,7 @@ public class LanguageBox extends JComboBox {
             while (i.hasNext()) {
                 current = i.next();
                 if (isoKey.equals(this.map.get(current))) {
-                    super.setSelectedItem(current);
+                    this.setSelectedItem(current);
                     return;
                 }
             }
@@ -136,7 +136,7 @@ public class LanguageBox extends JComboBox {
     private void setDefaultEntry() {
 
         if (this.allowEmptyEntry) {
-            super.setSelectedItem(LanguageBox.EMPTY_ENTRY);
+            this.setSelectedItem(LanguageBox.EMPTY_ENTRY);
         } else { // Cannot set EMPTY_VALUE
             if (this.map.containsValue(Locale.getDefault().getLanguage())) { // Try to set VM language
                 this.setLanguage(Locale.getDefault().getLanguage());

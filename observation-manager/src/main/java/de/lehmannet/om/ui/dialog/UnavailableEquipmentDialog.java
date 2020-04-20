@@ -71,7 +71,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         this.initDialog();
         this.pack();
         this.setVisible(true);
-       
 
     }
 
@@ -84,7 +83,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         }
 
         // Close window
-        super.dispose();
+        this.dispose();
 
     }
 
@@ -145,7 +144,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         this.tree.setEnabled(true);
         this.tree.setToolTipText(this.bundle.getString("dialog.unavailableEquipment.tooltip.tree"));
@@ -155,7 +154,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 50, 92);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
-        super.getContentPane().add(scrollPanel);
+        this.getContentPane().add(scrollPanel);
 
         JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
         ok.setActionCommand(UnavailableEquipmentDialog.AC_OK);
@@ -163,7 +162,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 25, 4);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(ok, constraints);
-        super.getContentPane().add(ok);
+        this.getContentPane().add(ok);
 
         JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
         cancel.setActionCommand(UnavailableEquipmentDialog.AC_CANCEL);
@@ -171,7 +170,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 4);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(cancel, constraints);
-        super.getContentPane().add(cancel);
+        this.getContentPane().add(cancel);
 
     }
 
@@ -403,7 +402,7 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
     public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
             boolean leaf, int row) {
 
-        return super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
+        return this.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
 
     }
 
@@ -437,7 +436,7 @@ class CheckBoxEquipmentNode extends Vector {
 
         if (elements != null) {
             for (ISchemaElement element : elements) {
-                super.add(new EquipmentLeaf(this.dialog, this, element));
+                this.add(new EquipmentLeaf(this.dialog, this, element));
                 if (((IEquipment) element).isAvailable()) {
                     noAvailable++;
                 }
@@ -461,13 +460,13 @@ class CheckBoxEquipmentNode extends Vector {
     public void setSelected(boolean newValue) {
 
         selected = newValue;
-        Iterator iterator = super.iterator();
+        Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
             ((EquipmentLeaf) iterator.next()).setSelected(newValue);
         }
 
         if (newValue) {
-            this.selectedChildren = super.size();
+            this.selectedChildren = this.size();
         } else {
             this.selectedChildren = 0;
         }
@@ -544,9 +543,9 @@ class EquipmentLeaf extends JCheckBox implements ActionListener {
         this.dialog = dialog;
         this.parentNode = node;
         this.se = se;
-        super.setSelected(((IEquipment) se).isAvailable());
+        this.setSelected(((IEquipment) se).isAvailable());
 
-        super.addActionListener(this);
+        this.addActionListener(this);
 
     }
 
@@ -581,7 +580,7 @@ class EquipmentLeaf extends JCheckBox implements ActionListener {
             return;
         }
 
-        if (super.isSelected()) {
+        if (this.isSelected()) {
             this.parentNode.childChangedToSelected();
         } else {
             this.parentNode.childChangedToUnselected();

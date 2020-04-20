@@ -70,16 +70,16 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         if (height > (dim.getHeight() - 20)) {
             height = (int) dim.getHeight() - 20;
         }
-        super.setSize(width, height);
+        this.setSize(width, height);
 
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.addKeyListener(this);
 
         this.initDialog();
 
-        super.setTitle(this.bundle.getString("dialog.image.title"));
+        this.setTitle(this.bundle.getString("dialog.image.title"));
 
         this.setVisible(true);
 
@@ -129,7 +129,7 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         ImageIcon icon = new ImageIcon(this.image);
         this.imageLabel.setIcon(icon);
         imageLabel.setPreferredSize(new Dimension(image.getWidth(this), image.getHeight(this)));
-        super.update(super.getGraphics());
+        this.update(this.getGraphics());
 
     }
 
@@ -140,7 +140,7 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         ImageIcon icon = new ImageIcon(this.image);
         this.imageLabel.setIcon(icon);
         imageLabel.setPreferredSize(new Dimension(image.getWidth(this), image.getHeight(this)));
-        super.update(super.getGraphics());
+        this.update(this.getGraphics());
 
     }
 

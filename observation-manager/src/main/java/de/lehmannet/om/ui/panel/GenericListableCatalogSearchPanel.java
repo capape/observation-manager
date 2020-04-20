@@ -10,7 +10,7 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
     public GenericListableCatalogSearchPanel(IListableCatalog catalog) {
 
         this.catalog = catalog;
-        super.createPanel();
+        this.createPanel();
 
     }
 
@@ -27,12 +27,12 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
         }
 
         // Format search string, so that it matches most catalog names
-        searchText = super.formatName(searchText);
+        searchText = this.formatName(searchText);
 
         // Most simple way to "search"...so try this first
-        super.searchResult = this.catalog.getTarget(searchText);
+        this.searchResult = this.catalog.getTarget(searchText);
 
-        if (super.searchResult != null) { // We directly found an entry, so quit here
+        if (this.searchResult != null) { // We directly found an entry, so quit here
             return;
         }
 
@@ -47,9 +47,9 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
                 continue;
             }
             for (String currentTargetAliasName : currentTargetAliasNames) {
-                if (searchText.equals(super.formatName(currentTargetAliasName))) { // Found string within alias
+                if (searchText.equals(this.formatName(currentTargetAliasName))) { // Found string within alias
                     // names
-                    super.searchResult = currentTarget;
+                    this.searchResult = currentTarget;
                     return;
                 }
             }

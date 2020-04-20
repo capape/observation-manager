@@ -91,12 +91,12 @@ public class TargetVariableStar extends TargetStar {
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException(
                             "Maximal apparent magnitude of TargetVariableStar must be a numeric value. (ID: "
-                                    + super.getID() + ")",
+                                    + this.getID() + ")",
                             nfe);
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
-                        "TargetVariableStar can only have one maximal apparent magnitude. (ID: " + super.getID() + ")");
+                        "TargetVariableStar can only have one maximal apparent magnitude. (ID: " + this.getID() + ")");
             }
         }
 
@@ -116,7 +116,7 @@ public class TargetVariableStar extends TargetStar {
                 }
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
-                        "TargetVariableStar can only have one variable star type. (ID: " + super.getID() + ")");
+                        "TargetVariableStar can only have one variable star type. (ID: " + this.getID() + ")");
             }
         }
 
@@ -131,10 +131,10 @@ public class TargetVariableStar extends TargetStar {
                     this.setPeriod(period);
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException(
-                            "Period of TargetVariableStar must be a numeric value. (ID: " + super.getID() + ")", nfe);
+                            "Period of TargetVariableStar must be a numeric value. (ID: " + this.getID() + ")", nfe);
                 }
             } else if (children.getLength() > 1) {
-                throw new SchemaException("TargetVariableStar can only have one period. (ID: " + super.getID() + ")");
+                throw new SchemaException("TargetVariableStar can only have one period. (ID: " + this.getID() + ")");
             }
         }
 
@@ -208,7 +208,7 @@ public TargetVariableStar(String starName, IObserver observer) {
         }
 
         // Create TargetStar element
-        Element e_VSTarget = super.createXmlTargetStarElement(element, TargetVariableStar.XML_XSI_TYPE_VALUE);
+        Element e_VSTarget = this.createXmlTargetStarElement(element, TargetVariableStar.XML_XSI_TYPE_VALUE);
 
         // Check if element already exists
         if (e_VSTarget == null) {

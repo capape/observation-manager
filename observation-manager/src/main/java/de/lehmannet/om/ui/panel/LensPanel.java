@@ -71,7 +71,7 @@ public class LensPanel extends AbstractPanel {
             return null;
         }
         if (factor <= 0) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.factorGreater"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.factorGreater"));
             return null;
         }
         this.lens.setFactor(factor);
@@ -97,7 +97,7 @@ public class LensPanel extends AbstractPanel {
             return null;
         }
         if (factor < 0) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.factorGreater"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.factorGreater"));
             return null;
         }
 
@@ -118,7 +118,7 @@ public class LensPanel extends AbstractPanel {
 
         String modelName = this.model.getText();
         if ((modelName == null) || ("".equals(modelName))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.noModelName"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.noModelName"));
             return null;
         }
 
@@ -130,14 +130,14 @@ public class LensPanel extends AbstractPanel {
 
         String factor = this.factor.getText();
         if ((factor == null) || ("".equals(factor))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.noFactor"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.noFactor"));
             return Float.NaN;
         }
         float f = 0.0f;
         try {
             f = FloatUtil.parseFloat(factor);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.FactorNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.lens.warning.FactorNumeric"));
             return Float.NaN;
         }
 
@@ -148,13 +148,13 @@ public class LensPanel extends AbstractPanel {
     private void loadSchemaElement() {
 
         this.vendor.setText(this.lens.getVendor());
-        this.vendor.setEditable(super.isEditable());
+        this.vendor.setEditable(this.isEditable());
 
         this.model.setText(this.lens.getModel());
-        this.model.setEditable(super.isEditable());
+        this.model.setEditable(this.isEditable());
 
         this.factor.setText(String.valueOf(this.lens.getFactor()));
-        this.factor.setEditable(super.isEditable());
+        this.factor.setEditable(this.isEditable());
 
     }
 
@@ -191,7 +191,7 @@ public class LensPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 5, 1);
         OMLabel Lfactor = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             Lfactor = new OMLabel(AbstractPanel.bundle.getString("panel.lens.label.factor") + "*", false);
         } else {
             Lfactor = new OMLabel(AbstractPanel.bundle.getString("panel.lens.label.factor"), false);
@@ -206,7 +206,7 @@ public class LensPanel extends AbstractPanel {
         this.add(this.factor);
 
         int rowCounter = 2;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 0, rowCounter++, 4, 1, 45, 1);
             OMLabel Lhint = new OMLabel("* " + AbstractPanel.bundle.getString("panel.lens.label.hint"), true);
             gridbag.setConstraints(Lhint, constraints);

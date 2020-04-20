@@ -91,7 +91,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
         this.om = om;
 
-        super.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_VariableStars.xsd";
+        this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_VariableStars.xsd";
 
         this.initFindingPanels();
         this.initTargetPanels();
@@ -373,7 +373,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         findingPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel");
 
-        super.panels.put(SchemaElementConstants.FINDING, findingPanels);
+        this.panels.put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -384,7 +384,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel");
 
-        super.panels.put(SchemaElementConstants.TARGET, targetPanels);
+        this.panels.put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -395,7 +395,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetDialogs.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarTargetDialog");
 
-        super.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
+        this.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 
@@ -434,16 +434,16 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
         this.observations = observations;
 
         this.om = om;
-        super.setTitle(this.bundle.getString("popup.observerColor.title"));
-        super.setModal(true);
+        this.setTitle(this.bundle.getString("popup.observerColor.title"));
+        this.setModal(true);
 
-        super.setSize(550, 200);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setSize(550, 200);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -456,7 +456,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
             this.result = this.createMap();
         }
 
-        super.dispose();
+        this.dispose();
 
     }
 
@@ -464,7 +464,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 100, 100);
         constraints.fill = GridBagConstraints.BOTH;
@@ -791,10 +791,10 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
         this.om = om;
 
-        super.setTitle(this.uiBundle.getString("popup.selectVariableStar.title"));
-        super.setSize(500, 250);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(null);
+        this.setTitle(this.uiBundle.getString("popup.selectVariableStar.title"));
+        this.setSize(500, 250);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
         ITarget[] elements = om.getXmlCache().getTargets();
 
@@ -811,7 +811,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
 
         this.initDialog();
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -862,9 +862,9 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
         if (source instanceof JButton) {
             JButton sourceButton = (JButton) source;
             if (sourceButton.equals(this.ok)) {
-                super.dispose();
+                this.dispose();
             } else if (sourceButton.equals(this.cancel)) {
-                super.dispose();
+                this.dispose();
                 this.tableModel = null; // Set TableModel = null to indicate canceled UI
             } else if (sourceButton.equals(this.beginPicker)) {
                 DatePicker dp = null;
@@ -968,7 +968,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 6, 1, 90, 90);
         constraints.fill = GridBagConstraints.BOTH;
@@ -982,63 +982,63 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
         table.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.table.tooltip"));
         JScrollPane scrollPane = new JScrollPane(table);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 2, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         JLabel beginLabel = new JLabel(this.uiBundle.getString("popup.selectVariableStar.label.beginDate"));
         beginLabel.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.tooltip.beginDate"));
         gridbag.setConstraints(beginLabel, constraints);
-        super.getContentPane().add(beginLabel);
+        this.getContentPane().add(beginLabel);
         this.beginField = new JTextField();
         this.beginField.setEditable(false);
         this.beginField.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.label.beginDate"));
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 10, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(beginField, constraints);
-        super.getContentPane().add(beginField);
+        this.getContentPane().add(beginField);
         this.beginPicker = new JButton("...");
         this.beginPicker.addActionListener(this);
         this.beginPicker.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.button.beginDate"));
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 2, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.beginPicker, constraints);
-        super.getContentPane().add(this.beginPicker);
+        this.getContentPane().add(this.beginPicker);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 2, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         JLabel endLabel = new JLabel(this.uiBundle.getString("popup.selectVariableStar.label.endDate"));
         endLabel.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.tooltip.endDate"));
         gridbag.setConstraints(endLabel, constraints);
-        super.getContentPane().add(endLabel);
+        this.getContentPane().add(endLabel);
         this.endField = new JTextField();
         this.endField.setEditable(false);
         this.endField.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.label.endDate"));
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 10, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(endField, constraints);
-        super.getContentPane().add(endField);
+        this.getContentPane().add(endField);
         this.endPicker = new JButton("...");
         this.endPicker.addActionListener(this);
         this.endPicker.setToolTipText(this.uiBundle.getString("popup.selectVariableStar.button.endDate"));
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 2, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.endPicker, constraints);
-        super.getContentPane().add(this.endPicker);
+        this.getContentPane().add(this.endPicker);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 3, 1, 5, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.ok = new JButton(this.uiBundle.getString("dialog.button.ok"));
         this.ok.addActionListener(this);
         gridbag.setConstraints(this.ok, constraints);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 3, 1, 5, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.cancel = new JButton(this.uiBundle.getString("dialog.button.cancel"));
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

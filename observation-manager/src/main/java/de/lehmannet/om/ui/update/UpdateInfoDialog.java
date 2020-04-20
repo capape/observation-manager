@@ -54,14 +54,14 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         this.om = om;
         this.updateEntries = updateChecker.getResult();
 
-        super.setTitle(this.bundle.getString("updateInfo.title"));
-        super.setSize(UpdateInfoDialog.serialVersionUID, 390, 180);
-        super.setModal(true);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("updateInfo.title"));
+        this.setSize(UpdateInfoDialog.serialVersionUID, 390, 180);
+        this.setModal(true);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
-
+        this.pack();
         this.setVisible(true);
         // this.pack();
 
@@ -113,7 +113,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 5, 20, 98);
         constraints.anchor = GridBagConstraints.WEST;
@@ -141,19 +141,19 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane(this.infoTable);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 20, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.download.addActionListener(this);
         gridbag.setConstraints(this.download, constraints);
-        super.getContentPane().add(this.download);
+        this.getContentPane().add(this.download);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 5, 1, 1, 50, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 
@@ -313,7 +313,7 @@ class UpdateTableModel extends AbstractTableModel {
                 }
 
                 this.checkBoxes[row] = !this.checkBoxes[row];
-                super.fireTableDataChanged();
+                this.fireTableDataChanged();
             }
         }
 

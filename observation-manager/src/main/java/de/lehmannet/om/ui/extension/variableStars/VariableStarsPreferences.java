@@ -58,14 +58,14 @@ public class VariableStarsPreferences extends PreferencesPanel {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         JLabel cacheEnabledLabel = new JLabel(this.bundle.getString("preferences.label.cacheEnabled"));
         cacheEnabledLabel.setToolTipText(this.bundle.getString("preferences.tooltip.cacheEnabled"));
         gridbag.setConstraints(cacheEnabledLabel, constraints);
-        super.add(cacheEnabledLabel);
+        this.add(cacheEnabledLabel);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
@@ -75,7 +75,7 @@ public class VariableStarsPreferences extends PreferencesPanel {
                 .parseBoolean(this.getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED).orElse("true")));
         this.cacheEnabled.setToolTipText(this.bundle.getString("preferences.tooltip.cacheEnabled"));
         gridbag.setConstraints(this.cacheEnabled, constraints);
-        super.add(this.cacheEnabled);
+        this.add(this.cacheEnabled);
 
         // ------------------
 
@@ -83,7 +83,7 @@ public class VariableStarsPreferences extends PreferencesPanel {
         constraints.fill = GridBagConstraints.BOTH;
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
-        super.add(Lfill);
+        this.add(Lfill);
 
     }
 

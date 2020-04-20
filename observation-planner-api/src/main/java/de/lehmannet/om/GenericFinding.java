@@ -85,7 +85,7 @@ public GenericFinding(String ID, String description) {
     @Override
     public String toString() {
 
-        return "GenericFinding: Description=" + super.getDescription();
+        return "GenericFinding: Description=" + this.getDescription();
 
     }
 
@@ -152,7 +152,7 @@ public GenericFinding(String ID, String description) {
             return null;
         }
 
-        Element eFinding = super.createXmlFindingElement(parent);
+        Element eFinding = this.createXmlFindingElement(parent);
 
         // Set XSI:Type
         eFinding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, GenericFinding.XML_XSI_TYPE_VALUE);

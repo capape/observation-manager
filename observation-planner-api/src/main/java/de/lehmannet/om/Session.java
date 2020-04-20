@@ -107,7 +107,7 @@ public class Session extends SchemaElement implements ISession {
         if ((ID != null) && ("".equals(ID.trim()))) {
             throw new SchemaException("Session must have a ID. ");
         }
-        super.setID(ID);
+        this.setID(ID);
 
         getBeginDate(sessionElement);
 
@@ -524,7 +524,7 @@ public class Session extends SchemaElement implements ISession {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return element;
                 }
             }
@@ -532,7 +532,7 @@ public class Session extends SchemaElement implements ISession {
 
         // Create the new session element
         Element e_Session = ownerDoc.createElement(XML_ELEMENT_SESSION);
-        e_Session.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Session.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(e_Session);
 
@@ -641,7 +641,7 @@ public class Session extends SchemaElement implements ISession {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(XML_ELEMENT_SESSION);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

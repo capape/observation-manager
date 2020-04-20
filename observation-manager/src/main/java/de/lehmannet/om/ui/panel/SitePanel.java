@@ -53,7 +53,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
             this.loadSchemaElement();
         }
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -76,22 +76,22 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         if (!Float.isNaN(elevation)) {
             this.elevation.setText(String.valueOf(elevation));
         }
-        this.elevation.setEditable(super.isEditable());
+        this.elevation.setEditable(this.isEditable());
 
         this.iauCode.setText(this.site.getIAUCode());
-        this.iauCode.setEditable(super.isEditable());
+        this.iauCode.setEditable(this.isEditable());
 
         this.latitude.setAngle(this.site.getLatitude());
-        this.latitude.setEditable(super.isEditable());
+        this.latitude.setEditable(this.isEditable());
 
         this.longitude.setAngle(this.site.getLongitude());
-        this.longitude.setEditable(super.isEditable());
+        this.longitude.setEditable(this.isEditable());
 
         this.name.setText(this.site.getName());
-        this.name.setEditable(super.isEditable());
+        this.name.setEditable(this.isEditable());
 
         this.timezone.setText(String.valueOf(this.site.getTimezone()));
-        this.timezone.setEditable(super.isEditable());
+        this.timezone.setEditable(this.isEditable());
 
     }
 
@@ -119,40 +119,40 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
         Angle longitude = this.getLongitude();
         if (longitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
             return null;
         }
         if ((longitude.getValue() > 180) || (longitude.getValue() < -180)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LongitudeInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LongitudeInvalid"));
             return null;
         }
         this.site.setLongitude(longitude);
 
         Angle latitude = this.getLatitude();
         if (latitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
             return null;
         }
         if ((latitude.getValue() > 90) || (latitude.getValue() < -90)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LatitudeInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LatitudeInvalid"));
             return null;
         }
         this.site.setLatitude(latitude);
 
         String timezone = this.getTimezone();
         if (timezone == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
             return null;
         }
         int tz = 0;
         try {
             tz = Integer.parseInt(timezone);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
             return null;
         }
         if ((tz > 720) || (tz < -720)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneInvalid"));
             return null;
         }
         this.site.setTimezone(tz);
@@ -164,7 +164,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
                 float e = FloatUtil.parseFloat(elevation);
                 this.site.setElevation(e);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.ElevationNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.ElevationNumeric"));
                 return null;
             }
         }
@@ -190,38 +190,38 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
         Angle longitude = this.getLongitude();
         if (longitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
             return null;
         }
         if ((longitude.getValue() > 180) || (longitude.getValue() < -180)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LongitudeInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LongitudeInvalid"));
             return null;
         }
 
         Angle latitude = this.getLatitude();
         if (latitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
             return null;
         }
         if ((latitude.getValue() > 90) || (latitude.getValue() < -90)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LatitudeInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.LatitudeInvalid"));
             return null;
         }
 
         String timezone = this.getTimezone();
         if (timezone == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
             return null;
         }
         int tz = 0;
         try {
             tz = Integer.parseInt(timezone);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
             return null;
         }
         if ((tz > 720) || (tz < -720)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneInvalid"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneInvalid"));
             return null;
         }
 
@@ -234,7 +234,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
                 float e = FloatUtil.parseFloat(elevation);
                 this.site.setElevation(e);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.ElevationNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.ElevationNumeric"));
                 return null;
             }
         }
@@ -266,11 +266,11 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         try {
             longitude = this.longitude.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.longitudeNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.longitudeNoNumber"));
             return null;
         }
         if (longitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLongitude"));
             return null;
         }
 
@@ -284,11 +284,11 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         try {
             latitude = this.latitude.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.latitudeNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.latitudeNoNumber"));
             return null;
         }
         if (latitude == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noLatitude"));
             return null;
         }
 
@@ -300,14 +300,14 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
         String timezone = this.timezone.getText();
         if ((timezone == null) || ("".equals(timezone))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.noTimezone"));
             return null;
         }
 
         try {
             Integer.parseInt(timezone);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.site.warning.timezoneNumeric"));
             return null;
         }
 
@@ -353,7 +353,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         gridbag.setConstraints(llongitude, constraints);
         this.add(llongitude);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 2, 1, 35, 1);
-        this.longitude = new AngleContainer(Angle.DEGREE, super.isEditable());
+        this.longitude = new AngleContainer(Angle.DEGREE, this.isEditable());
         this.longitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.longitude"));
         gridbag.setConstraints(this.longitude, constraints);
         this.add(this.longitude);
@@ -365,12 +365,12 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         gridbag.setConstraints(llatitude, constraints);
         this.add(llatitude);
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 2, 1, 35, 1);
-        this.latitude = new AngleContainer(Angle.DEGREE, super.isEditable());
+        this.latitude = new AngleContainer(Angle.DEGREE, this.isEditable());
         this.latitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.latitude"));
         gridbag.setConstraints(this.latitude, constraints);
         this.add(this.latitude);
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 5, 1);
             this.changeArcDec = new JButton(AbstractPanel.bundle.getString("panel.site.button.arcDec"));
             this.changeArcDec.addActionListener(this);

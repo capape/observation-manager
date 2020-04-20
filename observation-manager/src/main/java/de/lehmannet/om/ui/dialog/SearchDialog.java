@@ -27,20 +27,21 @@ class SearchDialog extends OMDialog implements ComponentListener {
 
         super(om);
 
-        super.setTitle(title);
-        super.setModal(true);
+        this.setTitle(title);
+        this.setModal(true);
 
-        super.setSize(SearchDialog.serialVersionUID, 370, 110);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(parentComponent);
+        this.setSize(SearchDialog.serialVersionUID, 370, 110);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(parentComponent);
 
         this.panel = panel;
 
-        super.getContentPane().add(this.panel);
+        this.getContentPane().add(this.panel);
         this.getRootPane().setDefaultButton(this.panel.getDefaultButton());
         this.panel.addComponentListener(this);
 
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
@@ -53,7 +54,7 @@ class SearchDialog extends OMDialog implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
-        super.dispose();
+        this.dispose();
 
     }
 

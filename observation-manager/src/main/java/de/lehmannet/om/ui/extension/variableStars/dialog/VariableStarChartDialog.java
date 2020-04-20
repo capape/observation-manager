@@ -52,10 +52,10 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
-        super.setTitle(bundle.getString("chart.title") + " " + observations[0].getTarget().getName());
+        this.setTitle(bundle.getString("chart.title") + " " + observations[0].getTarget().getName());
 
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setModal(true);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setModal(true);
 
         // Sort observations by date
         TreeSet<IObservation> sortedObervations = new TreeSet<>(new ObservationComparator(true));
@@ -63,15 +63,17 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
         MagnitudeDiagramm diagramm = new MagnitudeDiagramm(om, sortedObervations, colorMap);
         diagramm.addPropertyChangeListener("exit", this);
-        super.setContentPane(diagramm);
-        super.setSize(VariableStarChartDialog.serialVersionUID, 830, 600);
+        this.setContentPane(diagramm);
+        this.setSize(VariableStarChartDialog.serialVersionUID, 830, 600);
         // Check resize and make sure, minimum size is respected.
         // As we're supporting 1.4 we need to go this way.
         // With 1.6 we could use setMinimumSize()
-        super.addComponentListener(this);
+        this.addComponentListener(this);
 
-        super.setLocationRelativeTo(om);
-        super.setVisible(true);
+        this.setLocationRelativeTo(om);
+        this.pack();
+        
+        this.setVisible(true);
 
     }
 
@@ -80,7 +82,7 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
         // As we only listen to the exit property...no need to check anything in here.
         // Just close the dialog
-        super.dispose();
+        this.dispose();
 
     }
 
@@ -190,9 +192,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         this.colorMap = colorMap;
 
         if (this.om.isNightVisionEnabled()) {
-            super.setBackground(new Color(255, 175, 175));
+            this.setBackground(new Color(255, 175, 175));
         } else {
-            super.setBackground(Color.white);
+            this.setBackground(Color.white);
         }
 
         this.addMouseListener(this);
@@ -202,7 +204,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     @Override
     public void paint(Graphics g) {
 
-        super.paintComponent(g);
+        this.paintComponent(g);
         this.g2d = (Graphics2D) g;
 
         this.paintTitle();
@@ -306,13 +308,13 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         String toDate = format.format(((IObservation) (this.observations.last())).getBegin().getTime());
 
         // ---- Print large box as border
-        this.g2d.drawRect(0, 0, (int) super.getSize().getWidth(), BORDER_TOP - 10);
+        this.g2d.drawRect(0, 0, (int) this.getSize().getWidth(), BORDER_TOP - 10);
 
         // ---- Print star name
 
         // Create font for star name
         Font starNameFont = new Font("Arial", Font.BOLD, 20);
-        FontMetrics starNameFontMetric = super.getFontMetrics(starNameFont);
+        FontMetrics starNameFontMetric = this.getFontMetrics(starNameFont);
         g2d.setFont(starNameFont);
 
         // Get metrics
@@ -328,11 +330,11 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         // ---- Print From - To Date
 
         Font labelFont = new Font("Arial", Font.BOLD, 14);
-        FontMetrics labelFontMetric = super.getFontMetrics(labelFont);
+        FontMetrics labelFontMetric = this.getFontMetrics(labelFont);
         g2d.setFont(labelFont);
 
         Font valueFont = new Font("Arial", Font.ITALIC, 14);
-        FontMetrics valueFontMetric = super.getFontMetrics(valueFont);
+        FontMetrics valueFontMetric = this.getFontMetrics(valueFont);
 
         // Get metrics
         int valueWidthFromLabel = labelFontMetric.stringWidth(fromDateLabel);
@@ -445,7 +447,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
                 // Create popup text and prepare font
                 Font valueFont = new Font("Arial", Font.BOLD, 12);
-                FontMetrics valueFontMetric = super.getFontMetrics(valueFont);
+                FontMetrics valueFontMetric = this.getFontMetrics(valueFont);
                 g2d.setFont(valueFont);
 
                 // The popup text
@@ -472,7 +474,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
                 g2d.setPaint(Color.BLUE);
 
                 int width = valueWidth + 8;
-                if ((Math.round(this.xPopup + dataSpot.width * 2) + width + 4) >= super.getWidth()) { // Popup doesn't
+                if ((Math.round(this.xPopup + dataSpot.width * 2) + width + 4) >= this.getWidth()) { // Popup doesn't
                                                                                                       // fit into frame
                     // Paint popup
                     this.g2d.drawRect(Math.round(this.xPopup - (dataSpot.width * 2) - width), this.yPopup + 2, width,
@@ -542,7 +544,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Create popup text and prepare font
         Font labelFont = new Font("Arial", Font.PLAIN, 12);
-        FontMetrics labelFontMetric = super.getFontMetrics(labelFont);
+        FontMetrics labelFontMetric = this.getFontMetrics(labelFont);
         g2d.setFont(labelFont);
 
         int rowGap = labelFontMetric.getHeight() + 5; // Between rows
@@ -561,7 +563,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             }
 
             // Check if this line should start (make a forecast here)
-            if ((currentX + CIRCLE_DIAMETER + 15 + labelFontMetric.stringWidth(currentObserverLabel)) >= super.getSize()
+            if ((currentX + CIRCLE_DIAMETER + 15 + labelFontMetric.stringWidth(currentObserverLabel)) >= this.getSize()
                     .getWidth() - BORDER_RIGHT) {
                 rowNo++;
                 currentX = BORDER_LEFT + gap;
@@ -572,7 +574,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
             // Paint spot
             Shape spot = new Ellipse2D.Float(currentX,
-                    (int) (super.getSize().getHeight() - (BORDER_BOTTOM / 1.4) + (rowGap * rowNo)), CIRCLE_DIAMETER,
+                    (int) (this.getSize().getHeight() - (BORDER_BOTTOM / 1.4) + (rowGap * rowNo)), CIRCLE_DIAMETER,
                     CIRCLE_DIAMETER);
             g2d.draw(spot);
             g2d.fill(spot);
@@ -583,7 +585,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             g2d.setPaint(Color.BLACK);
 
             // Paint observer name
-            this.g2d.drawString(currentObserverLabel, currentX, (int) (super.getSize().getHeight()
+            this.g2d.drawString(currentObserverLabel, currentX, (int) (this.getSize().getHeight()
                     - (BORDER_BOTTOM / 1.4) + (rowGap * rowNo) + (labelFontMetric.getHeight() / 2)));
 
             currentX = currentX + labelFontMetric.stringWidth(currentObserverLabel) + gap;
@@ -593,8 +595,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     private void paintAxis() {
 
-        double width = super.getSize().getWidth();
-        double height = super.getSize().getHeight();
+        double width = this.getSize().getWidth();
+        double height = this.getSize().getHeight();
 
         // Set axis origin
         this.xTransformValue = BORDER_LEFT;
@@ -635,7 +637,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Get width and height of (max) x axis label
         Font labelFont = new Font("Arial", Font.PLAIN, 12);
-        FontMetrics labelFontMetric = super.getFontMetrics(labelFont);
+        FontMetrics labelFontMetric = this.getFontMetrics(labelFont);
         g2d.setFont(labelFont);
 
         DecimalFormat formatX = new DecimalFormat("0.0");
@@ -669,7 +671,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
         // Draw X axis label
         Font axisLabelFont = new Font("Arial", Font.BOLD, 14);
-        FontMetrics axisLabelFontMetric = super.getFontMetrics(axisLabelFont);
+        FontMetrics axisLabelFontMetric = this.getFontMetrics(axisLabelFont);
         g2d.setFont(axisLabelFont);
 
         String xAxisLabel = this.bundle.getString("chart.label.xAxis");
@@ -837,10 +839,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
         setCursor(hourglassCursor);
 
-        BufferedImage awtImage = new BufferedImage(super.getWidth(), super.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage awtImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 
         Graphics g = awtImage.getGraphics();
-        super.printAll(g);
+        this.printAll(g);
 
         boolean error = false;
         try {

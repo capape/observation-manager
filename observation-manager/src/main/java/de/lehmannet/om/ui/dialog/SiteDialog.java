@@ -20,20 +20,21 @@ public class SiteDialog extends AbstractDialog {
         super(om, new SitePanel(editableSite, true));
 
         if (editableSite == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.site.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.site.title"));
         } else {
-            super.setTitle(
+            this.setTitle(
                     AbstractDialog.bundle.getString("dialog.site.titleEdit") + " " + editableSite.getDisplayName());
         }
 
-        super.setSize(SiteDialog.serialVersionUID, 550, 140);
-        super.setVisible(true);
+        this.setSize(SiteDialog.serialVersionUID, 550, 140);
+        this.pack();
+        this.setVisible(true);
 
     }
 
     public ISite getSite() {
 
-        if (super.schemaElement != null) {
+        if (this.schemaElement != null) {
             return (ISite) this.schemaElement;
         }
 

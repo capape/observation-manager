@@ -351,7 +351,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(XML_ELEMENT_EYEPIECE);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

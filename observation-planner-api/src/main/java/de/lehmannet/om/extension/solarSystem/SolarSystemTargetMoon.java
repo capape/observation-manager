@@ -120,7 +120,7 @@ public class SolarSystemTargetMoon extends SolarSystemTarget {
             return;
         }
 
-        super.createXmlSolarSystemTargetElement(element, SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
+        this.createXmlSolarSystemTargetElement(element, SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
 
     }
 

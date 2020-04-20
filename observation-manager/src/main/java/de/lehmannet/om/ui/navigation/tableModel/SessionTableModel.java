@@ -24,7 +24,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
 
     public SessionTableModel(ISession[] session) {
 
-        super.elements = session;
+        this.elements = session;
 
     }
 
@@ -45,10 +45,10 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -83,12 +83,12 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     @Override
     public String getValueAt(int rowIndex, int columnIndex) {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return null;
         }
 
         StringBuilder value = new StringBuilder();
-        ISession session = (ISession) super.elements[rowIndex];
+        ISession session = (ISession) this.elements[rowIndex];
         switch (columnIndex) {
         case 0: {
             value.append(session.getBegin().toString());
