@@ -98,11 +98,11 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
                     p = Integer.parseInt(pA);
 
                     if ((p < 0) || (p > 359)) {
-                        super.createWarning(this.bundle.getString("panel.gn.warning.posAngle.invalid"));
+                        this.createWarning(this.bundle.getString("panel.gn.warning.posAngle.invalid"));
                         return null;
                     }
                 } catch (NumberFormatException nfe) {
-                    super.createWarning(this.bundle.getString("panel.gn.warning.posAngle.invalid"));
+                    this.createWarning(this.bundle.getString("panel.gn.warning.posAngle.invalid"));
                     return null;
                 }
             }
@@ -149,12 +149,12 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
         if (this.target.getNebulaType() != null) {
             this.nebulaType.setText("" + this.target.getNebulaType());
         }
-        this.nebulaType.setEditable(super.isEditable());
+        this.nebulaType.setEditable(this.isEditable());
 
         if (this.target.getPositionAngle() != -1) {
             this.positionAngle.setText("" + this.target.getPositionAngle());
         }
-        this.positionAngle.setEditable(super.isEditable());
+        this.positionAngle.setEditable(this.isEditable());
 
     }
 
@@ -168,7 +168,7 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -185,7 +185,7 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 45, 1);
         this.nebulaType = new JTextField();
         this.nebulaType.setToolTipText(this.bundle.getString("panel.gn.tooltip.type"));
-        this.nebulaType.setEditable(super.isEditable());
+        this.nebulaType.setEditable(this.isEditable());
         gridbag.setConstraints(this.nebulaType, constraints);
         this.add(this.nebulaType);
 

@@ -120,7 +120,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
             ConstraintsBuilder.buildConstraints(c, i + this.numberOfImages, 0, 1, 1, 1, 1);
             this.layout.setConstraints(label, c);
 
-            super.add(label);
+            this.add(label);
 
             if (this.editable) {
                 String labelText = this.bundle.getString("imageContainer.deleteImage");
@@ -136,7 +136,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
                 ConstraintsBuilder.buildConstraints(c, i + this.numberOfImages, 1, 1, 1, 1, 1);
                 this.layout.setConstraints(delete, c);
 
-                super.add(delete);
+                this.add(delete);
             }
 
         }
@@ -148,7 +148,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     public List<String> getImages(String homeDir) {
 
         // No images were set
-        if (super.getComponents() == null) {
+        if (this.getComponents() == null) {
             return new ArrayList<String>();
         }
 
@@ -160,7 +160,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         }
 
         // Add each image individually
-        Component[] comps = super.getComponents();
+        Component[] comps = this.getComponents();
         List<String> result = new ArrayList<>(comps.length);
         for (Component comp : comps) {
             MyImageLabel l = null;
@@ -181,7 +181,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     private void createContainer() {
 
-        super.setLayout(this.layout);
+        this.setLayout(this.layout);
 
     }
 
@@ -203,15 +203,15 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
                 }
             } else {
                 JLabel b = (JLabel) e.getSource();
-                Component[] comps = super.getComponents();
+                Component[] comps = this.getComponents();
                 for (Component comp : comps) {
                     MyImageLabel l = null;
                     if (comp instanceof MyImageLabel) {
                         l = (MyImageLabel) comp;
                         if (l.getDeleteButton().equals(b)) {
-                            super.remove(l);
-                            super.remove(b);
-                            super.repaint();
+                            this.remove(l);
+                            this.remove(b);
+                            this.repaint();
                         }
                     }
                 }

@@ -30,7 +30,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     public ObservationTableModel(IObservation[] observations, ObservationManager om) {
 
         this.om = om;
-        super.elements = observations;
+        this.elements = observations;
 
     }
 
@@ -51,10 +51,10 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 30;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -140,12 +140,12 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         Object value = null;
 
-        if ((super.elements == null) || (rowIndex < 0) // Might happen during load of an XML file
+        if ((this.elements == null) || (rowIndex < 0) // Might happen during load of an XML file
         ) {
             return null;
         }
 
-        IObservation observation = (IObservation) super.elements[rowIndex];
+        IObservation observation = (IObservation) this.elements[rowIndex];
         switch (columnIndex) {
         case 0: {
             value = observation.getBegin();

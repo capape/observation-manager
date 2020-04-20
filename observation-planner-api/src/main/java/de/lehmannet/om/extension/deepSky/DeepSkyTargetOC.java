@@ -179,7 +179,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
         Document ownerDoc = element.getOwnerDocument();
 
-        Element e_DSTarget = super.createXmlDeepSkyTargetElement(element, DeepSkyTargetOC.XML_XSI_TYPE_VALUE);
+        Element e_DSTarget = this.createXmlDeepSkyTargetElement(element, DeepSkyTargetOC.XML_XSI_TYPE_VALUE);
 
         // Check if element already exists
         if (e_DSTarget == null) {

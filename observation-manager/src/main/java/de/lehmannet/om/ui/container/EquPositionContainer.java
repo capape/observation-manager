@@ -140,14 +140,14 @@ class EquPositionContainer extends Container {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 7, 1, 100, 1);
         JLabel Lposition = new JLabel(this.bundle.getString("equPosition.label.position"));
         Lposition.setToolTipText(this.bundle.getString("equPosition.label.coordinates"));
         Lposition.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
         gridbag.setConstraints(Lposition, constraints);
-        super.add(Lposition);
+        this.add(Lposition);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 1);
         constraints.fill = GridBagConstraints.NONE;
@@ -155,7 +155,7 @@ class EquPositionContainer extends Container {
         JLabel LRA = new JLabel(this.bundle.getString("equPosition.label.ra"));
         LRA.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(LRA, constraints);
-        super.add(LRA);
+        this.add(LRA);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -163,34 +163,34 @@ class EquPositionContainer extends Container {
         gridbag.setConstraints(this.raHourValue, constraints);
         this.raHourValue.setEditable(this.editable);
         this.raHourValue.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
-        super.add(this.raHourValue);
+        this.add(this.raHourValue);
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 5, 1);
         JLabel raHourLabel = new JLabel(EquPosition.RA_HOUR);
         raHourLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(raHourLabel, constraints);
-        super.add(raHourLabel);
+        this.add(raHourLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
         this.raMinValue.setEditable(this.editable);
         this.raMinValue.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(this.raMinValue, constraints);
-        super.add(this.raMinValue);
+        this.add(this.raMinValue);
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 5, 1);
         JLabel raMinLabel = new JLabel(EquPosition.RA_MIN);
         raMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(raMinLabel, constraints);
-        super.add(raMinLabel);
+        this.add(raMinLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 25, 1);
         this.raSecValue.setEditable(this.editable);
         this.raSecValue.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(this.raSecValue, constraints);
-        super.add(this.raSecValue);
+        this.add(this.raSecValue);
         ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 5, 1);
         JLabel raSecLabel = new JLabel(EquPosition.RA_SEC);
         raSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.ra"));
         gridbag.setConstraints(raSecLabel, constraints);
-        super.add(raSecLabel);
+        this.add(raSecLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 1);
         constraints.fill = GridBagConstraints.NONE;
@@ -198,7 +198,7 @@ class EquPositionContainer extends Container {
         JLabel LDEC = new JLabel(this.bundle.getString("equPosition.label.dec"));
         LDEC.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(LDEC, constraints);
-        super.add(LDEC);
+        this.add(LDEC);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -206,34 +206,34 @@ class EquPositionContainer extends Container {
         this.decDegreeValue.setEditable(this.editable);
         this.decDegreeValue.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(this.decDegreeValue, constraints);
-        super.add(this.decDegreeValue);
+        this.add(this.decDegreeValue);
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
         JLabel decDegreeLabel = new JLabel(EquPosition.DEC_DEG);
         decDegreeLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(decDegreeLabel, constraints);
-        super.add(decDegreeLabel);
+        this.add(decDegreeLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 25, 1);
         this.decMinValue.setEditable(this.editable);
         this.decMinValue.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(this.decMinValue, constraints);
-        super.add(this.decMinValue);
+        this.add(this.decMinValue);
         ConstraintsBuilder.buildConstraints(constraints, 4, 2, 1, 1, 5, 1);
         JLabel decMinLabel = new JLabel(EquPosition.DEC_MIN);
         decMinLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(decMinLabel, constraints);
-        super.add(decMinLabel);
+        this.add(decMinLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 2, 1, 1, 25, 1);
         this.decSecValue.setEditable(this.editable);
         this.decSecValue.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(this.decSecValue, constraints);
-        super.add(this.decSecValue);
+        this.add(this.decSecValue);
         ConstraintsBuilder.buildConstraints(constraints, 6, 2, 1, 1, 5, 1);
         JLabel decSecLabel = new JLabel(EquPosition.DEC_SEC);
         decSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(decSecLabel, constraints);
-        super.add(decSecLabel);
+        this.add(decSecLabel);
 
     }
 

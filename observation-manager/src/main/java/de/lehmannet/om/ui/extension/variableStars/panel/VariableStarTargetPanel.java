@@ -98,7 +98,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         if (!"".equals(magnitude)) {
             float mag = FloatUtil.parseFloat(magnitude);
             if (mag > this.target.getMagnitudeApparent()) { // Greater value means less brightness
-                super.createWarning(this.bundle.getString("panel.variableStarTarget.warning.maxSmallerMin"));
+                this.createWarning(this.bundle.getString("panel.variableStarTarget.warning.maxSmallerMin"));
                 return null;
             }
             this.target.setMaxMagnitudeApparent(mag);
@@ -156,7 +156,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         } else {
             this.type.setText("");
         }
-        this.type.setEditable(super.isEditable());
+        this.type.setEditable(this.isEditable());
 
         float maxAppMag = this.target.getMaxApparentMag();
         if (!Float.isNaN(maxAppMag)) {
@@ -164,7 +164,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         } else {
             this.maxApparentMag.setText("");
         }
-        this.maxApparentMag.setEditable(super.isEditable());
+        this.maxApparentMag.setEditable(this.isEditable());
 
         float period = this.target.getPeriod();
         if (!Float.isNaN(period)) {
@@ -172,7 +172,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         } else {
             this.period.setText("");
         }
-        this.period.setEditable(super.isEditable());
+        this.period.setEditable(this.isEditable());
 
     }
 
@@ -186,7 +186,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.observationManager, this.target, super.isEditable());
+        this.targetContainer = new TargetStarContainer(this.observationManager, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container

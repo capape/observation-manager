@@ -55,15 +55,16 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         this.om = om;
 
-        super.setTitle(this.bundle.getString("didyouknow.title"));
-        super.setSize(DidYouKnowDialog.serialVersionUID, 440, 211);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("didyouknow.title"));
+        this.setSize(DidYouKnowDialog.serialVersionUID, 440, 211);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 
+        this.pack();
         this.setVisible(true);
-        // this.pack();
+        
 
     }
 
@@ -97,7 +98,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 20);
         constraints.anchor = GridBagConstraints.CENTER;
@@ -105,7 +106,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         Icon icon = UIManager.getIcon("OptionPane.questionIcon");
         JLabel iconLabel = new JLabel(icon);
         gridbag.setConstraints(iconLabel, constraints);
-        super.getContentPane().add(iconLabel);
+        this.getContentPane().add(iconLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 2, 3, 70, 70);
         constraints.anchor = GridBagConstraints.EAST;
@@ -118,7 +119,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(this.text, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 2, 1, 10, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
@@ -126,21 +127,21 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         this.showOnStartup.setSelected(Boolean.parseBoolean(
                 this.om.getConfiguration().getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")));
         gridbag.setConstraints(this.showOnStartup, constraints);
-        super.getContentPane().add(this.showOnStartup);
+        this.getContentPane().add(this.showOnStartup);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 6, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.next.addActionListener(this);
         gridbag.setConstraints(this.next, constraints);
-        super.getContentPane().add(this.next);
+        this.getContentPane().add(this.next);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 10, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 

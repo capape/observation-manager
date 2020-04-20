@@ -112,7 +112,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
             return;
         }
 
-        super.createXmlDeepSkyTargetElement(element, DeepSkyTargetNA.XML_XSI_TYPE_VALUE);
+        this.createXmlDeepSkyTargetElement(element, DeepSkyTargetNA.XML_XSI_TYPE_VALUE);
 
     }
 

@@ -28,23 +28,23 @@ public class DeepSkyTargetGXDialog extends AbstractDialog implements ITargetDial
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.gx.title"));
+            this.setTitle(bundle.getString("dialog.gx.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.gx.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.gx.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(DeepSkyTargetGXDialog.serialVersionUID, 575, 360);
+        this.setSize(DeepSkyTargetGXDialog.serialVersionUID, 575, 360);
 
-        // super.pack();
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

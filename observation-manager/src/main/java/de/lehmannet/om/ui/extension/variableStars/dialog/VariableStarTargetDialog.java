@@ -28,23 +28,23 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.variableTarget.title"));
+            this.setTitle(bundle.getString("dialog.variableTarget.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.variableTarget.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.variableTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(VariableStarTargetDialog.serialVersionUID, 575, 375);
+        this.setSize(VariableStarTargetDialog.serialVersionUID, 575, 375);
 
-        // super.pack();
-        super.setVisible(true);
+         this.pack();
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

@@ -137,12 +137,12 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         if (!Double.isNaN(this.target.getMagnitude())) {
             this.magnitude.setText("" + this.target.getMagnitude());
         }
-        this.magnitude.setEditable(super.isEditable());
+        this.magnitude.setEditable(this.isEditable());
 
         if (this.target.getConcentration() != null) {
             this.concentration.setText(this.target.getConcentration());
         }
-        this.concentration.setEditable(super.isEditable());
+        this.concentration.setEditable(this.isEditable());
 
     }
 
@@ -157,7 +157,7 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 1, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -176,7 +176,7 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.concentration = new JTextField();
         this.concentration.setToolTipText(this.bundle.getString("panel.gc.tooltip.concentration"));
-        this.concentration.setEditable(super.isEditable());
+        this.concentration.setEditable(this.isEditable());
         gridbag.setConstraints(this.concentration, constraints);
         this.add(this.concentration);
 
@@ -191,7 +191,7 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.magnitude = new JTextField();
         this.magnitude.setToolTipText(this.bundle.getString("panel.gc.tooltip.magnitude"));
-        this.magnitude.setEditable(super.isEditable());
+        this.magnitude.setEditable(this.isEditable());
         gridbag.setConstraints(this.magnitude, constraints);
         this.add(this.magnitude);
 

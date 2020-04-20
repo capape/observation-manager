@@ -132,7 +132,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
         int rating = this.getRating();
         if (rating == -1) {
-            super.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
+            this.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
             return null;
         }
         if (rating == (this.rating.getItemCount() - 1)) { // 99 = unknown rating
@@ -145,12 +145,12 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         try {
             small = this.smallDiameter.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(this.bundle.getString("panel.warning.smallDiameterNoNumber"));
+            this.createWarning(this.bundle.getString("panel.warning.smallDiameterNoNumber"));
             return null;
         }
         if (small != null) {
             if (small.getValue() < 0) {
-                super.createWarning(this.bundle.getString("panel.finding.warning.smallDiameterPositive"));
+                this.createWarning(this.bundle.getString("panel.finding.warning.smallDiameterPositive"));
                 return null;
             }
         }
@@ -160,12 +160,12 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         try {
             large = this.largeDiameter.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(this.bundle.getString("panel.warning.largeDiameterNoNumber"));
+            this.createWarning(this.bundle.getString("panel.warning.largeDiameterNoNumber"));
             return null;
         }
         if (large != null) {
             if (large.getValue() < 0) {
-                super.createWarning(this.bundle.getString("panel.finding.warning.largeDiameterPositive"));
+                this.createWarning(this.bundle.getString("panel.finding.warning.largeDiameterPositive"));
                 return null;
             }
         }
@@ -226,7 +226,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
         int rating = this.getRating();
         if (rating == -1) {
-            super.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
+            this.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
             return null;
         }
         if (rating == (this.rating.getItemCount() - 1)) { // 99 = unknown rating
@@ -274,7 +274,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.rating = this.getVisualRatingBox();
         this.ratingField = new JTextField();
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             this.rating.setToolTipText(this.bundle.getString("panel.finding.tooltip.rating"));
             gridbag.setConstraints(this.rating, constraints);
             this.add(this.rating);
@@ -290,7 +290,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         gridbag.setConstraints(LsmallDiameter, constraints);
         this.add(LsmallDiameter);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 15, 1);
-        this.smallDiameter = new AngleContainer(Angle.ARCSECOND, super.isEditable());
+        this.smallDiameter = new AngleContainer(Angle.ARCSECOND, this.isEditable());
         this.smallDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.smallDiameter"));
         this.smallDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -304,7 +304,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         gridbag.setConstraints(LlargeDiameter, constraints);
         this.add(LlargeDiameter);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 5, 1);
-        this.largeDiameter = new AngleContainer(Angle.ARCSECOND, super.isEditable());
+        this.largeDiameter = new AngleContainer(Angle.ARCSECOND, this.isEditable());
         this.largeDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.largeDiameter"));
         this.largeDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
         // constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -361,7 +361,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 6, 4, 1, 14, 87);
         constraints.fill = GridBagConstraints.BOTH;
-        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, super.isEditable());
+        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, this.isEditable());
         gridbag.setConstraints(this.findingContainer, constraints);
         this.add(this.findingContainer);
 
@@ -376,10 +376,10 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     void loadSchemaElement() {
 
         this.smallDiameter.setAngle(this.finding.getSmallDiameter());
-        this.smallDiameter.setEditable(super.isEditable());
+        this.smallDiameter.setEditable(this.isEditable());
 
         this.largeDiameter.setAngle(this.finding.getLargeDiameter());
-        this.largeDiameter.setEditable(super.isEditable());
+        this.largeDiameter.setEditable(this.isEditable());
 
         // Since 0.91:
         // Rating for e.g. DoubleStars only contains 3 values
@@ -388,21 +388,21 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding.setRating(99);
         }
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             if (this.finding.getRating() == 99) {
                 this.rating.setSelectedIndex(this.rating.getItemCount() - 1);
             } else {
                 this.rating.setSelectedIndex(this.finding.getRating());
             }
 
-            this.rating.setEditable(super.isEditable());
+            this.rating.setEditable(this.isEditable());
         } else {
             if (this.finding.getRating() == 99) { // Get last item
                 this.ratingField.setText("" + this.rating.getItemAt(this.rating.getItemCount() - 1));
             } else {
                 this.ratingField.setText("" + this.rating.getItemAt(this.finding.getRating()));
             }
-            this.ratingField.setEditable(super.isEditable());
+            this.ratingField.setEditable(this.isEditable());
         }
 
         try {
@@ -449,7 +449,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.extended.setNASelected();
         }
 
-        if (!super.isEditable()) {
+        if (!this.isEditable()) {
             this.stellar.setEditable(false);
             this.resolved.setEditable(false);
             this.mottled.setEditable(false);

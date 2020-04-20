@@ -29,21 +29,23 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.sun.title"));
+            this.setTitle(bundle.getString("dialog.sun.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.sun.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.sun.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 260);
-        super.setVisible(true);
+        this.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 260);
+        this.pack();
+        
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

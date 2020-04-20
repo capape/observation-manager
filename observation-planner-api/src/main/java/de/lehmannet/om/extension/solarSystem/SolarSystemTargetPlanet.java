@@ -121,7 +121,7 @@ public class SolarSystemTargetPlanet extends SolarSystemTarget {
             return;
         }
 
-        super.createXmlSolarSystemTargetElement(element, SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE);
+        this.createXmlSolarSystemTargetElement(element, SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE);
 
     }
 

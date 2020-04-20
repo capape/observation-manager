@@ -63,21 +63,21 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         Cursor defaultCursor = new Cursor(Cursor.WAIT_CURSOR);
         om.setCursor(defaultCursor);
-        super.setCursor(defaultCursor);
+        this.setCursor(defaultCursor);
 
-        super.setTitle(AbstractDialog.bundle.getString("dialog.statistics.title"));
-        super.cancel.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
+        this.setTitle(AbstractDialog.bundle.getString("dialog.statistics.title"));
+        this.cancel.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
 
-        super.setSize(StatisticsDetailsDialog.serialVersionUID, 400, 310);
+        this.setSize(StatisticsDetailsDialog.serialVersionUID, 400, 310);
 
         defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
         om.setCursor(defaultCursor);
-        super.setCursor(defaultCursor);
+        this.setCursor(defaultCursor);
 
         this.createMenu();
 
-        // super.pack();
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
@@ -138,7 +138,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             }
         }
 
-        super.actionPerformed(e);
+        this.actionPerformed(e);
 
     }
 
@@ -201,10 +201,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                super.observationManager.createInfo(calculation.getReturnMessage());
+                this.observationManager.createInfo(calculation.getReturnMessage());
             }
         } else {
-            super.observationManager.createWarning(calculation.getReturnMessage());
+            this.observationManager.createWarning(calculation.getReturnMessage());
         }
 
     }
@@ -257,14 +257,14 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                super.observationManager.createInfo(calculation.getReturnMessage());
+                this.observationManager.createInfo(calculation.getReturnMessage());
             }
         } else {
-            super.observationManager.createWarning(calculation.getReturnMessage());
+            this.observationManager.createWarning(calculation.getReturnMessage());
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
+        this.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
                 null);
 
     }
@@ -322,10 +322,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                super.observationManager.createInfo(calculation.getReturnMessage());
+                this.observationManager.createInfo(calculation.getReturnMessage());
             }
         } else {
-            super.observationManager.createWarning(calculation.getReturnMessage());
+            this.observationManager.createWarning(calculation.getReturnMessage());
         }
 
     }
@@ -384,14 +384,14 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                super.observationManager.createInfo(calculation.getReturnMessage());
+                this.observationManager.createInfo(calculation.getReturnMessage());
             }
         } else {
-            super.observationManager.createWarning(calculation.getReturnMessage());
+            this.observationManager.createWarning(calculation.getReturnMessage());
         }
 
         // Call OM and let him to the second part of the export
-        super.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
+        this.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
                 getXSLFile());
 
     }
@@ -400,11 +400,11 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         String path = null;
 
-        if ((super.observationManager.getXmlCache().getAllOpenedFiles() != null)
-                && (super.observationManager.getXmlCache().getAllOpenedFiles().length > 0)) {
-            path = new File(super.observationManager.getXmlCache().getAllOpenedFiles()[0]).getParent();
+        if ((this.observationManager.getXmlCache().getAllOpenedFiles() != null)
+                && (this.observationManager.getXmlCache().getAllOpenedFiles().length > 0)) {
+            path = new File(this.observationManager.getXmlCache().getAllOpenedFiles()[0]).getParent();
         } else {
-            path = super.observationManager.getInstallDir().getInstallDir().getParent();
+            path = this.observationManager.getInstallDir().getInstallDir().getParent();
         }
         path = path + File.separator;
 
@@ -421,7 +421,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         String XSLFILENAME = "targetsOnly";
 
-        String selectedTemplate = super.observationManager.getConfiguration()
+        String selectedTemplate = this.observationManager.getConfiguration()
                 .getConfig(ObservationManager.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
@@ -430,9 +430,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        File path = new File(super.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        File path = new File(this.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
-            super.observationManager
+            this.observationManager
                     .createWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                             + path.getAbsolutePath());
             return null;
@@ -444,7 +444,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         if (!xslFile.exists()) { // OK, maybe a language independent file can be found...
             xslFile = new File(path.getAbsolutePath() + File.separator + XSLFILENAME + ".xsl");
             if (!xslFile.exists()) { // Nothing found, raise warning
-                super.observationManager
+                this.observationManager
                         .createWarning(AbstractDialog.bundle.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
                                 + path.getAbsolutePath() + File.separator + "targetsOnly" + ".xsl\n"
                                 + path.getAbsolutePath() + File.separator + "targetsOnly" + "_"

@@ -29,21 +29,23 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.moon.title"));
+            this.setTitle(bundle.getString("dialog.moon.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);
-        super.setVisible(true);
+        this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);
+        this.pack();
+        
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

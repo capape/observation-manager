@@ -52,9 +52,9 @@ public class SkyChartPreferences extends PreferencesPanel {
     public void writeConfig() {
 
         // Use cache
-        super.configuration.setConfig(SkyChartPreferences.CONFIG_SERVER_IP_KEY, "" + this.getServerIP());
-        super.configuration.setConfig(SkyChartPreferences.CONFIG_SERVER_PORT_KEY, "" + this.getServerPort());
-        super.configuration.setConfig(SkyChartPreferences.CONFIG_APPLICATION_PATH, "" + this.getApplicationPath());
+        this.configuration.setConfig(SkyChartPreferences.CONFIG_SERVER_IP_KEY, "" + this.getServerIP());
+        this.configuration.setConfig(SkyChartPreferences.CONFIG_SERVER_PORT_KEY, "" + this.getServerPort());
+        this.configuration.setConfig(SkyChartPreferences.CONFIG_APPLICATION_PATH, "" + this.getApplicationPath());
 
     }
 
@@ -69,52 +69,52 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 15);
         constraints.anchor = GridBagConstraints.WEST;
         JLabel pathLabel = new JLabel(this.bundle.getString("preferences.label.path"));
         pathLabel.setToolTipText(this.bundle.getString("preferences.tooltip.path"));
         gridbag.setConstraints(pathLabel, constraints);
-        super.add(pathLabel);
+        this.add(pathLabel);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 15);
         this.applicationPath = new JTextField(
-                super.configuration.getConfig(SkyChartPreferences.CONFIG_APPLICATION_PATH));
+                this.configuration.getConfig(SkyChartPreferences.CONFIG_APPLICATION_PATH));
         this.applicationPath.setToolTipText(this.bundle.getString("preferences.tooltip.path"));
         gridbag.setConstraints(this.applicationPath, constraints);
-        super.add(this.applicationPath);
+        this.add(this.applicationPath);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 5, 15);
         constraints.anchor = GridBagConstraints.WEST;
         JLabel ipLabel = new JLabel(this.bundle.getString("preferences.label.ip"));
         ipLabel.setToolTipText(this.bundle.getString("preferences.tooltip.ip"));
         gridbag.setConstraints(ipLabel, constraints);
-        super.add(ipLabel);
+        this.add(ipLabel);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 20, 15);
-        this.serverIP = new JTextField(super.configuration.getConfig(SkyChartPreferences.CONFIG_SERVER_IP_KEY,
+        this.serverIP = new JTextField(this.configuration.getConfig(SkyChartPreferences.CONFIG_SERVER_IP_KEY,
                 SkyChartPreferences.SERVER_DEFAULT_IP));
         this.serverIP.setToolTipText(this.bundle.getString("preferences.tooltip.ip"));
         gridbag.setConstraints(this.serverIP, constraints);
-        super.add(this.serverIP);
+        this.add(this.serverIP);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 5, 15);
         constraints.anchor = GridBagConstraints.WEST;
         JLabel portLabel = new JLabel(this.bundle.getString("preferences.label.port"));
         portLabel.setToolTipText(this.bundle.getString("preferences.tooltip.port"));
         gridbag.setConstraints(portLabel, constraints);
-        super.add(portLabel);
+        this.add(portLabel);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 20, 15);
-        this.serverPort = new JTextField(super.configuration.getConfig(SkyChartPreferences.CONFIG_SERVER_PORT_KEY,
+        this.serverPort = new JTextField(this.configuration.getConfig(SkyChartPreferences.CONFIG_SERVER_PORT_KEY,
                 "" + SkyChartPreferences.SERVER_DEFAULT_PORT));
         this.serverPort.setToolTipText(this.bundle.getString("preferences.tooltip.port"));
         gridbag.setConstraints(this.serverPort, constraints);
-        super.add(this.serverPort);
+        this.add(this.serverPort);
 
         // ------------------
 
@@ -122,7 +122,7 @@ public class SkyChartPreferences extends PreferencesPanel {
         constraints.fill = GridBagConstraints.BOTH;
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
-        super.add(Lfill);
+        this.add(Lfill);
 
     }
 

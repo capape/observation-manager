@@ -34,10 +34,10 @@ public class AboutDialog extends OMDialog implements ActionListener {
 
         super(om);
 
-        super.setTitle(this.bundle.getString("about.button.title"));
-        super.setSize(AboutDialog.serialVersionUID, 400, 260);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("about.button.title"));
+        this.setSize(AboutDialog.serialVersionUID, 400, 260);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         // Try to set system default look and feel
         /*
@@ -47,8 +47,9 @@ public class AboutDialog extends OMDialog implements ActionListener {
          */
 
         this.initDialog();
-
+        this.pack();
         this.setVisible(true);
+
 
     }
 
@@ -72,7 +73,7 @@ public class AboutDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 5, 1, 99);
         constraints.anchor = GridBagConstraints.WEST;
@@ -86,13 +87,13 @@ public class AboutDialog extends OMDialog implements ActionListener {
                 + "Please see file LICENSE-2.0.txt\n\n"
                 + "This product includes software developed by\nThe Apache Software Foundation (http://www.apache.org/)");
         gridbag.setConstraints(text, constraints);
-        super.getContentPane().add(text);
+        this.getContentPane().add(text);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 

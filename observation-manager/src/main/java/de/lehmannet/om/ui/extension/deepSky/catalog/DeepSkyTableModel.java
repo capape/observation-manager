@@ -36,7 +36,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             targets[i] = catalog.getTarget(index[i]);
         }
 
-        super.elements = targets;
+        this.elements = targets;
 
     }
 
@@ -57,10 +57,10 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -69,11 +69,11 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
         String value = "";
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value;
         }
 
-        ITarget target = (ITarget) super.elements[rowIndex];
+        ITarget target = (ITarget) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {
@@ -160,7 +160,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         }
         }
 
-        return super.getColumnSize(columnIndex);
+        return this.getColumnSize(columnIndex);
 
     }
 

@@ -233,7 +233,7 @@ class DeepSkyTargetContainer extends Container {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 7, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;

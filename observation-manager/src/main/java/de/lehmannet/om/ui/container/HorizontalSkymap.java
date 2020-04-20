@@ -63,7 +63,7 @@ public class HorizontalSkymap extends JLabel {
         this.paintLabel(image);
         this.paintObjectPosition(image);
 
-        super.setIcon(new ImageIcon(image));
+        this.setIcon(new ImageIcon(image));
 
     }
 
@@ -98,7 +98,7 @@ public class HorizontalSkymap extends JLabel {
         dfs.setDecimalSeparator('.');
         df.setDecimalFormatSymbols(dfs);
 
-        super.setToolTipText("<html>" + this.bundle.getString("horizontalSkymap.azimut") + ": " + df.format(azimut)
+        this.setToolTipText("<html>" + this.bundle.getString("horizontalSkymap.azimut") + ": " + df.format(azimut)
                 + "<br>" + this.bundle.getString("horizontalSkymap.altitude") + ": " + df.format(altitude) + "</html>");
 
         // Calculate some helpers

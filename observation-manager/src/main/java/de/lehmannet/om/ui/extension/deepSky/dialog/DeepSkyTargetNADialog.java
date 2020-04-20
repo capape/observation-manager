@@ -28,23 +28,23 @@ public class DeepSkyTargetNADialog extends AbstractDialog implements ITargetDial
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
         if (editableTarget == null) {
-            super.setTitle(bundle.getString("dialog.na.title"));
+            this.setTitle(bundle.getString("dialog.na.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.na.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.na.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        super.setSize(DeepSkyTargetNADialog.serialVersionUID, 590, 330);
+        this.setSize(DeepSkyTargetNADialog.serialVersionUID, 590, 330);
 
-        // super.pack();
-        super.setVisible(true);
+         this.pack();
+        this.setVisible(true);
 
     }
 
     @Override
     public ITarget getTarget() {
 
-        if (super.schemaElement != null) {
-            return (ITarget) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (ITarget) this.schemaElement;
         }
 
         return null;

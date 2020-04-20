@@ -114,13 +114,13 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         // Check mandatory fields
         String modelName = this.model.getText();
         if ((modelName == null) || ("".equals(modelName))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noModel"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noModel"));
             return null;
         }
 
         String t = this.getType();
         if (t == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noType"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noType"));
             return null;
         }
 
@@ -157,13 +157,13 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         // Check mandatory fields
         String modelName = this.model.getText();
         if ((modelName == null) || ("".equals(modelName))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noModel"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noModel"));
             return null;
         }
 
         String t = this.getType();
         if (t == null) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noType"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.filter.warning.noType"));
             return null;
         }
 
@@ -199,7 +199,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
     private String getType() {
 
         Object t = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             t = ((JComboBox) this.type).getSelectedItem();
             BoxItem bi = (BoxItem) t;
             if (Objects.requireNonNull(bi).isEmptyItem()) {
@@ -217,7 +217,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
     private String getColorType() {
 
         Object t = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             t = ((JComboBox) this.colorType).getSelectedItem();
             BoxItem bi = (BoxItem) t;
             if (Objects.requireNonNull(bi).isEmptyItem()) {
@@ -237,29 +237,29 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         // Set mandatory
 
         this.model.setText(this.filter.getModel());
-        this.model.setEditable(super.isEditable());
+        this.model.setEditable(this.isEditable());
 
         if (this.filter.getVendor() != null) {
             this.vendor.setText(this.filter.getVendor());
         }
-        this.vendor.setEditable(super.isEditable());
+        this.vendor.setEditable(this.isEditable());
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ((JComboBox) this.type).setSelectedItem(new BoxItem(this.filter.getType()));
-            this.type.setEnabled(super.isEditable());
+            this.type.setEnabled(this.isEditable());
         } else {
             ((JTextField) this.type).setText(BoxItem.getI18NString(this.filter.getType()));
-            ((JTextField) this.type).setEditable(super.isEditable());
+            ((JTextField) this.type).setEditable(this.isEditable());
         }
 
         if (this.filter.getColor() != null) {
-            if (super.isEditable()) {
-                this.colorType.setEnabled(super.isEditable());
+            if (this.isEditable()) {
+                this.colorType.setEnabled(this.isEditable());
             } else {
-                ((JTextField) this.colorType).setEditable(super.isEditable());
+                ((JTextField) this.colorType).setEditable(this.isEditable());
             }
 
-            if (super.isEditable()) {
+            if (this.isEditable()) {
                 ((JComboBox) this.colorType).setSelectedItem(new BoxItem(this.filter.getColor()));
             } else {
                 ((JTextField) this.colorType).setText(BoxItem.getI18NString(this.filter.getColor()));
@@ -268,12 +268,12 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
             if ((this.filter.getWratten() != null) && !("".equals(this.filter.getWratten()))) {
                 this.wratten.setText(this.filter.getWratten());
             }
-            this.wratten.setEditable(super.isEditable());
+            this.wratten.setEditable(this.isEditable());
 
             if ((this.filter.getSchott() != null) && !("".equals(this.filter.getSchott()))) {
                 this.schott.setText(this.filter.getSchott());
             }
-            this.schott.setEditable(super.isEditable());
+            this.schott.setEditable(this.isEditable());
 
         }
 
@@ -313,7 +313,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         gridbag.setConstraints(Ltype, constraints);
         this.add(Ltype);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 45, 1);
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             this.type = new JComboBox();
             ((JComboBox) this.type).addItemListener(this);
         } else {
@@ -329,7 +329,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         gridbag.setConstraints(LcolorType, constraints);
         this.add(LcolorType);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 45, 1);
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             this.colorType = new JComboBox();
             this.colorType.setEnabled(false); // Will be activated if type Color gets selected
         } else {
@@ -378,7 +378,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Add empty value only on creation
         BoxItem typeEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
-        if ((super.isEditable()) && (this.filter == null)) {
+        if ((this.isEditable()) && (this.filter == null)) {
             t.addItem(typeEmptyItem);
         }
 
@@ -401,7 +401,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Add empty value only on creation
         BoxItem colorEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
-        if ((super.isEditable()) && (this.filter == null)) {
+        if ((this.isEditable()) && (this.filter == null)) {
             c.addItem(colorEmptyItem);
         }
 

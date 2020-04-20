@@ -183,9 +183,9 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         };
         this.tree.addMouseListener(ml);
 
-        super.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         this.scrollTree = new JScrollPane(this.tree);
-        super.add(this.scrollTree);
+        this.add(this.scrollTree);
 
     }
 
@@ -542,13 +542,13 @@ class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
 
         if (size >= 0) {
             if (secondValue > 0) {
-                super.setUserObject("<html>" + element.getDisplayName() + " (" + size + " / <font color=\"#afafaf\">"
+                this.setUserObject("<html>" + element.getDisplayName() + " (" + size + " / <font color=\"#afafaf\">"
                         + secondValue + "</font>)</html>");
             } else {
-                super.setUserObject(element.getDisplayName() + " (" + size + ")");
+                this.setUserObject(element.getDisplayName() + " (" + size + ")");
             }
         } else {
-            super.setUserObject(element.getDisplayName());
+            this.setUserObject(element.getDisplayName());
         }
 
     }
@@ -584,13 +584,13 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         Icon icon = null;
 
         // Set default font
-        super.setFont(new Font("Arial", Font.PLAIN, 12));
+        this.setFont(new Font("Arial", Font.PLAIN, 12));
         // Set default (text) color
-        super.setForeground(Color.DARK_GRAY);
+        this.setForeground(Color.DARK_GRAY);
         if (this.om.isNightVisionEnabled()) {
-            super.setBackgroundNonSelectionColor(new Color(255, 175, 175));
+            this.setBackgroundNonSelectionColor(new Color(255, 175, 175));
         } else {
-            super.setBackgroundNonSelectionColor(Color.WHITE);
+            this.setBackgroundNonSelectionColor(Color.WHITE);
         }
 
         // Check leafs
@@ -603,56 +603,56 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
 
                 // Change color is equipment is no longer available
                 if (((IEquipment) se).isAvailable()) {
-                    super.setForeground(Color.DARK_GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.DARK_GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 } else { // Unavailable
-                    super.setForeground(Color.GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISession) {
                 icon = new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISite) {
                 icon = new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IScope) {
 
                 // Change color is equipment is no longer available
                 if (((IEquipment) se).isAvailable()) {
-                    super.setForeground(Color.DARK_GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.DARK_GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 } else { // Unavailable
-                    super.setForeground(Color.GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ITarget) {
                 icon = new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IObserver) {
                 icon = new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IObservation) {
@@ -666,70 +666,70 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                             .getSchemaElement();
                     if (parentSE instanceof IObserver) {
                         if (parentSE.equals(((IObservation) se).getObserver())) { // "Main" Observer
-                            super.setForeground(Color.GRAY);
-                            super.setFont(new Font("Arial", Font.ITALIC, 12));
+                            this.setForeground(Color.GRAY);
+                            this.setFont(new Font("Arial", Font.ITALIC, 12));
                         } else { // CoObserver
-                            super.setForeground(new Color(175, 175, 175)); // Matches <font color=\"#afafaf\"> in
+                            this.setForeground(new Color(175, 175, 175)); // Matches <font color=\"#afafaf\"> in
                                                                            // MutableTreeNode
-                            super.setFont(new Font("Arial", Font.ITALIC, 12));
+                            this.setFont(new Font("Arial", Font.ITALIC, 12));
                         }
                     } else { // Not an IObserver
-                        super.setForeground(Color.GRAY);
-                        super.setFont(new Font("Arial", Font.ITALIC, 12));
+                        this.setForeground(Color.GRAY);
+                        this.setFont(new Font("Arial", Font.ITALIC, 12));
                     }
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IImager) {
 
                 // Change color is equipment is no longer available
                 if (((IEquipment) se).isAvailable()) {
-                    super.setForeground(Color.DARK_GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.DARK_GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 } else { // Unavailable
-                    super.setForeground(Color.GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IFilter) {
 
                 // Change color is equipment is no longer available
                 if (((IEquipment) se).isAvailable()) {
-                    super.setForeground(Color.DARK_GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.DARK_GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 } else { // Unavailable
-                    super.setForeground(Color.GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ILens) {
 
                 // Change color is equipment is no longer available
                 if (((IEquipment) se).isAvailable()) {
-                    super.setForeground(Color.DARK_GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.DARK_GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 } else { // Unavailable
-                    super.setForeground(Color.GRAY);
-                    super.setFont(new Font("Arial", Font.PLAIN, 12));
+                    this.setForeground(Color.GRAY);
+                    this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
                 icon = new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null),"");
-                super.setToolTipText("");
-                super.setIcon(icon);
+                this.setToolTipText("");
+                this.setIcon(icon);
 
                 return this;
             }
@@ -789,7 +789,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
 
         } else if (this.treeView.observation.equals(node)) {
 
-            super.setFont(new Font("Arial", Font.BOLD, 12));
+            this.setFont(new Font("Arial", Font.BOLD, 12));
             if (expanded) {
                 icon = new ImageIcon(this.imageResolver.getImageURL("observation_e.png").orElse(null),"");
             } else {
@@ -829,7 +829,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
             icon = new ImageIcon(this.imageResolver.getImageURL("empty.png").orElse(null),"");
         }
 
-        super.setIcon(icon);
+        this.setIcon(icon);
 
         return this;
 

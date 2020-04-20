@@ -80,7 +80,7 @@ public class TargetStar extends Target {
                 this.setMagnitudeApparent(FloatUtil.parseFloat(value));
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
-                        "TargetStar can only have one apparent magnitude. (ID: " + super.getID() + ")");
+                        "TargetStar can only have one apparent magnitude. (ID: " + this.getID() + ")");
             }
         }
 
@@ -93,7 +93,7 @@ public class TargetStar extends Target {
                 this.setStellarClassification(value);
             } else if (children.getLength() > 1) {
                 throw new SchemaException(
-                        "TargetStar can only have one stellar classification. (ID: " + super.getID() + ")");
+                        "TargetStar can only have one stellar classification. (ID: " + this.getID() + ")");
             }
         }
 
@@ -127,29 +127,29 @@ public class TargetStar extends Target {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("TargetStar Name=");
-        buffer.append(super.getName());
+        buffer.append(this.getName());
 
-        if (super.getPosition() != null) {
+        if (this.getPosition() != null) {
             buffer.append("\nPosition:");
-            buffer.append(super.getPosition());
+            buffer.append(this.getPosition());
         }
 
-        if (super.getDatasource() != null) {
+        if (this.getDatasource() != null) {
             buffer.append("\nDatasource:");
-            buffer.append(super.getDatasource());
+            buffer.append(this.getDatasource());
         } else {
             buffer.append("\nObserver:");
-            buffer.append(super.getObserver());
+            buffer.append(this.getObserver());
         }
 
-        if (super.getConstellation() != null) {
+        if (this.getConstellation() != null) {
             buffer.append("\nConstellation:");
-            buffer.append(super.getConstellation());
+            buffer.append(this.getConstellation());
         }
 
-        if (super.getAliasNames() != null) {
+        if (this.getAliasNames() != null) {
             buffer.append("\nAlias Names: ");
-            String[] an = super.getAliasNames();
+            String[] an = this.getAliasNames();
             for (String s : an) {
                 buffer.append(s).append("  ");
             }
@@ -195,7 +195,7 @@ public class TargetStar extends Target {
             return false;
         }
 
-        return (super.getName().toLowerCase().equals(targetName.toLowerCase()))
+        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }
@@ -357,7 +357,7 @@ public class TargetStar extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -367,7 +367,7 @@ public class TargetStar extends Target {
         }
 
         // Create the new target element
-        Element e_Target = super.createXmlTargetElement(e_Targets);
+        Element e_Target = this.createXmlTargetElement(e_Targets);
         e_Targets.appendChild(e_Target);
 
         // Set XSI:Type

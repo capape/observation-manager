@@ -20,7 +20,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
 
     public ScopeTableModel(IScope[] scopes) {
 
-        super.elements = scopes;
+        this.elements = scopes;
 
     }
 
@@ -41,10 +41,10 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -82,11 +82,11 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
 
         Object value = null;
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return null;
         }
 
-        IScope scope = (IScope) super.elements[rowIndex];
+        IScope scope = (IScope) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

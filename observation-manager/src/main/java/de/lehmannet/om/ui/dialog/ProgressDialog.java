@@ -32,10 +32,10 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
         super((ObservationManager) om);
 
-        super.setSize(ProgressDialog.serialVersionUID, 300, 100);
-        super.setTitle(title);
-        super.setLocationRelativeTo(om);
-        super.addComponentListener(this);
+        this.setSize(ProgressDialog.serialVersionUID, 300, 100);
+        this.setTitle(title);
+        this.setLocationRelativeTo(om);
+        this.addComponentListener(this);
 
         this.initDialog(information);
 
@@ -131,14 +131,14 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
         JLabel information1 = new JLabel(information);
         gridbag.setConstraints(information1, constraints);
-        super.getContentPane().add(information1);
+        this.getContentPane().add(information1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 1, 50);
         constraints.anchor = GridBagConstraints.WEST;
@@ -146,7 +146,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         gridbag.setConstraints(progressBar, constraints);
-        super.getContentPane().add(progressBar);
+        this.getContentPane().add(progressBar);
 
     }
 

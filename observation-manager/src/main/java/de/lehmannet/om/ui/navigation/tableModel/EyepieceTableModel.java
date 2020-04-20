@@ -28,7 +28,7 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
 
     public EyepieceTableModel(IEyepiece[] eyepiece) {
 
-        super.elements = eyepiece;
+        this.elements = eyepiece;
 
     }
 
@@ -49,10 +49,10 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -83,11 +83,11 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
 
         Object value = null;
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return null;
         }
 
-        IEyepiece eyepiece = (IEyepiece) super.elements[rowIndex];
+        IEyepiece eyepiece = (IEyepiece) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

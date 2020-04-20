@@ -104,18 +104,18 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         this.imageResolver = resolver;
 
-        super.setTitle(this.bundle.getString("dialog.newDoc.title"));
-        super.setSize(480, 480);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("dialog.newDoc.title"));
+        this.setSize(480, 480);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initTree();
 
         this.initDialog();
 
-        this.setVisible(true);
         this.pack();
-
+        this.setVisible(true);
+        
     }
 
     @Override
@@ -130,13 +130,13 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         } else if (NewDocumentDialog.AC_OK.equals(e.getActionCommand())) {
             boolean success = this.prepareResult();
             if (success) {
-                super.dispose();
+                this.dispose();
             }
         } else {
             this.blank = null; // Indicates cancel
 
             // Close window
-            super.dispose();
+            this.dispose();
         }
 
     }
@@ -548,7 +548,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -562,7 +562,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         this.blank = Boolean.TRUE;
         buttonGroup.add(newBlankDocument);
         gridbag.setConstraints(newBlankDocument, constraints);
-        super.getContentPane().add(newBlankDocument);
+        this.getContentPane().add(newBlankDocument);
 
         JRadioButton newDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.new"));
         newDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.new"));
@@ -571,7 +571,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         newDocument.addActionListener(this);
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 2, 1, 25, 2);
         gridbag.setConstraints(newDocument, constraints);
-        super.getContentPane().add(newDocument);
+        this.getContentPane().add(newDocument);
 
         this.tree.setEnabled(false); // Disable as we've preselected new blank document
         this.tree.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.tree"));
@@ -580,7 +580,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
-        super.getContentPane().add(scrollPanel);
+        this.getContentPane().add(scrollPanel);
 
         JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
         ok.setActionCommand(NewDocumentDialog.AC_OK);
@@ -588,7 +588,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 25, 4);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(ok, constraints);
-        super.getContentPane().add(ok);
+        this.getContentPane().add(ok);
 
         JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
         cancel.setActionCommand(NewDocumentDialog.AC_CANCEL);
@@ -596,7 +596,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 25, 4);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(cancel, constraints);
-        super.getContentPane().add(cancel);
+        this.getContentPane().add(cancel);
 
     }
 
@@ -852,7 +852,7 @@ class CheckBoxNodeEditor extends DefaultTreeCellEditor {
     public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
             boolean leaf, int row) {
 
-        return super.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
+        return this.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
 
     }
 
@@ -885,7 +885,7 @@ class CheckBoxNode extends Vector {
 
         if (elements != null) {
             for (ISchemaElement element : elements) {
-                super.add(new SchemaElementLeaf(this.dialog, this, element, selected));
+                this.add(new SchemaElementLeaf(this.dialog, this, element, selected));
             }
             if (selected) {
                 this.selectedChildren = elements.length;
@@ -903,13 +903,13 @@ class CheckBoxNode extends Vector {
     public void setSelected(boolean newValue) {
 
         selected = newValue;
-        Iterator iterator = super.iterator();
+        Iterator iterator = this.iterator();
         while (iterator.hasNext()) {
             ((SchemaElementLeaf)iterator.next()).setSelected(newValue);
         }
 
         if (newValue) {
-            this.selectedChildren = super.size();
+            this.selectedChildren = this.size();
         } else {
             this.selectedChildren = 0;
         }
@@ -982,9 +982,9 @@ class SchemaElementLeaf extends JCheckBox implements ActionListener {
         this.dialog = dialog;
         this.parentNode = node;
         this.se = se;
-        super.setSelected(selected);
+        this.setSelected(selected);
 
-        super.addActionListener(this);
+        this.addActionListener(this);
 
     }
 
@@ -1019,7 +1019,7 @@ class SchemaElementLeaf extends JCheckBox implements ActionListener {
             return;
         }
 
-        if (super.isSelected()) {
+        if (this.isSelected()) {
             this.parentNode.childChangedToSelected();
         } else {
             this.parentNode.childChangedToUnselected();

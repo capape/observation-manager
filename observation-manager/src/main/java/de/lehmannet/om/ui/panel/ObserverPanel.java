@@ -73,10 +73,10 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
     private void loadSchemaElement() {
 
         this.name.setText(this.observer.getName());
-        this.name.setEditable(super.isEditable());
+        this.name.setEditable(this.isEditable());
 
         this.surname.setText(this.observer.getSurname());
-        this.surname.setEditable(super.isEditable());
+        this.surname.setEditable(this.isEditable());
 
         List<String> contacts = this.observer.getContacts();
         ListIterator<String> iterator = contacts.listIterator();
@@ -89,9 +89,9 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
         this.contacts.setText(contactString.toString());
         /*
-         * if( (this.observer != null) && !(super.isEditable()) ) { this.contacts.setBackground(Color.LIGHT_GRAY); }
+         * if( (this.observer != null) && !(this.isEditable()) ) { this.contacts.setBackground(Color.LIGHT_GRAY); }
          */
-        this.contacts.setEditable(super.isEditable());
+        this.contacts.setEditable(this.isEditable());
 
         if (!Float.isNaN(this.observer.getFSTOffset())) {
             // Output format
@@ -101,7 +101,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             df.setDecimalFormatSymbols(dfs);
             this.fstOffset.setText(df.format(this.observer.getFSTOffset()));
         }
-        this.fstOffset.setEditable(super.isEditable());
+        this.fstOffset.setEditable(this.isEditable());
 
         // Accounts is initialized in createPanel due to TableModel
 
@@ -202,7 +202,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
                 float fo = FloatUtil.parseFloat(fstO);
                 this.observer.setFSTOffset(fo);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.fstOffsetNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.fstOffsetNumeric"));
                 return null;
             }
         }
@@ -243,7 +243,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
                 float fo = FloatUtil.parseFloat(fstO);
                 this.observer.setFSTOffset(fo);
             } catch (NumberFormatException nfe) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.fstOffsetNumeric"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.fstOffsetNumeric"));
                 return null;
             }
         }
@@ -270,7 +270,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         if ((surname == null)
         // || ("".equals(surname)) DeepSkyLog requires this :-)
         ) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.noSurename"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.observer.warning.noSurename"));
             return null;
         }
 
@@ -353,12 +353,12 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         if ((this.observer == null) || (this.observer.getAccounts() == null)) {
             accountBoxItems = this.getAccountBoxItems(new HashMap<>());
             accountBox = new JComboBox(accountBoxItems);
-            this.accounts = new JTable(new AccountTableModel(new HashMap<>(), super.isEditable(), accountBox));
+            this.accounts = new JTable(new AccountTableModel(new HashMap<>(), this.isEditable(), accountBox));
         } else {
             Map<String, String> a = new HashMap<>(this.observer.getAccounts());
             accountBoxItems = this.getAccountBoxItems(a);
             accountBox = new JComboBox(accountBoxItems);
-            this.accounts = new JTable(new AccountTableModel(a, super.isEditable(), accountBox));
+            this.accounts = new JTable(new AccountTableModel(a, this.isEditable(), accountBox));
         }
         TableColumn col = this.accounts.getColumnModel().getColumn(0);
         accountBox.setRenderer(new AccountListRenderer());
@@ -369,7 +369,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         gridbag.setConstraints(scrollPane, constraints);
         this.add(scrollPane);
 
-        if (super.isEditable()) { // Only show buttons in edit mode
+        if (this.isEditable()) { // Only show buttons in edit mode
             ConstraintsBuilder.buildConstraints(constraints, 0, 6, 2, 1, 25, 1);
             this.addAccountRow = new JButton(AbstractPanel.bundle.getString("panel.observer.button.newAccount"));
             this.addAccountRow.addActionListener(this);
@@ -621,7 +621,7 @@ class AccountListRenderer extends DefaultListCellRenderer {
             }
         }
 
-        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        Component c = this.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         c.setFont(f);
 
         return c;

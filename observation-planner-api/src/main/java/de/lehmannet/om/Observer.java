@@ -285,14 +285,14 @@ public class Observer extends SchemaElement implements IObserver {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return;
                 }
             }
         }
 
         Element e_Observer = ownerDoc.createElement(XML_ELEMENT_OBSERVER);
-        e_Observer.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Observer.setAttribute(XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(e_Observer);
 
@@ -391,7 +391,7 @@ public class Observer extends SchemaElement implements IObserver {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(nameOfLinkElement);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);

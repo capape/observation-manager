@@ -590,7 +590,7 @@ public class Observation extends SchemaElement implements IObservation {
         Element e_Observation = ownerDoc.createElement(IObservation.XML_ELEMENT_OBSERVATION);
 
         // Create the link attribute
-        e_Observation.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        e_Observation.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         // Don't change the sequence, as otherwise E&T cannot load the schema :-)
         e_Observation = observer.addAsLinkToXmlElement(e_Observation, IObserver.XML_ELEMENT_OBSERVER);

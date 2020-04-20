@@ -268,7 +268,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.setTitle();
 
         // Set icon
-        super.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
+        this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
 
         LOGGER.info("Observation Manager {} starting up...", VERSION);
 
@@ -423,7 +423,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 
             if (this.menuFile.exit(this.changed)) {
-                super.processWindowEvent(e);
+                this.processWindowEvent(e);
                 this.dispose();
             }
 
@@ -442,7 +442,7 @@ public class ObservationManager extends JFrame implements ActionListener {
         // Remove old UI components
         this.hSplitPane.removeAll();
         this.vSplitPane.removeAll();
-        super.getContentPane().removeAll();
+        this.getContentPane().removeAll();
 
         // Tell the extensions about the switch
         this.extLoader.reloadLanguage();
@@ -859,7 +859,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             }
         }
 
-        super.setTitle("Observation Manager - " + ObservationManager.bundle.getString("version") + " "
+        this.setTitle("Observation Manager - " + ObservationManager.bundle.getString("version") + " "
                 + ObservationManager.VERSION);
 
     }
@@ -1108,13 +1108,13 @@ public class ObservationManager extends JFrame implements ActionListener {
         this.hSplitPane.setTopComponent(this.table);
         this.hSplitPane.setBottomComponent(this.item);
         this.hSplitPane.setContinuousLayout(true);
-        super.getContentPane().add(hSplitPane);
+        this.getContentPane().add(hSplitPane);
 
         this.vSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         this.vSplitPane.setLeftComponent(this.tree);
         this.vSplitPane.setRightComponent(this.hSplitPane);
         this.vSplitPane.setContinuousLayout(true);
-        super.getContentPane().add(vSplitPane);
+        this.getContentPane().add(vSplitPane);
 
         this.hSplitPane.setVisible(true);
         this.vSplitPane.setVisible(true);
@@ -1130,7 +1130,7 @@ public class ObservationManager extends JFrame implements ActionListener {
             }
         }
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -1477,10 +1477,10 @@ class TeeLog extends PrintStream {
                                                   // send we do not put date & prefix
                                                   // in advance
                 ) {
-                    super.write(this.prefix, 0, this.prefix.length);
-                    super.write(now.getBytes(), 0, now.length());
+                    this.write(this.prefix, 0, this.prefix.length);
+                    this.write(now.getBytes(), 0, now.length());
                 }
-                super.write(buf, off, len);
+                this.write(buf, off, len);
 
                 if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
                                             // cr is send we do not put date &
@@ -1504,7 +1504,7 @@ class TeeLog extends PrintStream {
     @Override
     public void flush() {
 
-        super.flush();
+        this.flush();
         synchronized (TeeLog.syncMe) {
             this.console.flush();
         }

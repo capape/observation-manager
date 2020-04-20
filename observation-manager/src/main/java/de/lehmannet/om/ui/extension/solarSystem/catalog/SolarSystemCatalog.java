@@ -198,7 +198,7 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
             targets[i] = catalog.getTarget(index[i]);
         }
 
-        super.elements = targets;
+        this.elements = targets;
 
     }
 
@@ -219,10 +219,10 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -231,11 +231,11 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
 
         String value = "";
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value;
         }
 
-        ITarget target = (ITarget) super.elements[rowIndex];
+        ITarget target = (ITarget) this.elements[rowIndex];
 
         if (target != null) {
             if (columnIndex == 0) {
@@ -269,7 +269,7 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
             return 100;
         }
 
-        return super.getColumnSize(columnIndex);
+        return this.getColumnSize(columnIndex);
 
     }
 

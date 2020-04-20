@@ -146,7 +146,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         // Update specific fields
         ITarget[] targets = this.tableModel.getAllTargets();
         if ((targets == null) || (targets.length < 3)) {
-            super.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
+            this.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
         }
         List<String> components = Arrays.asList(targets).stream().map( x -> x.getID()).collect(Collectors.toList());
@@ -170,7 +170,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         ITarget[] targets = this.tableModel.getAllTargets();
         if ((targets == null) || (targets.length < 3)) {
-            super.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
+            this.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
         }
 
@@ -193,7 +193,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                     this.observationManager);
             this.componentStars.setModel(this.tableModel);
         } else {
-            super.createWarning(this.bundle.getString("panel.ms.warning.componentsNotFound"));
+            this.createWarning(this.bundle.getString("panel.ms.warning.componentsNotFound"));
         }
 
     }
@@ -242,7 +242,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 15, 1);
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, super.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -260,7 +260,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         int y = 3;
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 0, y++, 4, 1, 5, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             JLabel Lnote = new JLabel(this.bundle.getString("panel.ms.note.doubleStar"), SwingConstants.CENTER);
@@ -279,7 +279,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         this.add(componentStarScroll);
 
         // If we're in edit mode, add buttons
-        if (super.isEditable()) {
+        if (this.isEditable()) {
 
             // Add existing
             ConstraintsBuilder.buildConstraints(constraints, 0, y, 1, 1, 10, 1);
@@ -334,7 +334,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
     private void activateChangeButtons(boolean enabled) {
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             this.editStar.setEnabled(enabled);
             this.deleteStar.setEnabled(enabled);
         }

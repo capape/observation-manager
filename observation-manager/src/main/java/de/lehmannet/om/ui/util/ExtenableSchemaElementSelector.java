@@ -52,9 +52,11 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         this.schemaElementConstant = schemaElementConstant;
 
-        super.setTitle(this.bundle.getString("selector.title"));
+        this.setTitle(this.bundle.getString("selector.title"));
         this.init(parent, loader);
 
+        this.pack();
+        this.setVisible(true);
     }
 
     public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
@@ -63,9 +65,12 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         this.schemaElementConstant = schemaElementConstant;
 
-        super.setTitle(this.bundle.getString("selector.title"));
+        this.setTitle(this.bundle.getString("selector.title"));
         this.init(parent, loader);
+       
 
+        this.pack();
+        this.setVisible(true);
     }
 
     private void init(Window window, SchemaUILoader loader) {
@@ -81,16 +86,15 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
             return;
         }
 
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setSize(300, 80);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setSize(300, 80);
         // Calculate center
         Point obsLocation = window.getLocationOnScreen();
         Dimension obsSize = window.getSize();
-        int x = obsLocation.x + (obsSize.width / 2) - (super.getSize().width / 2);
-        int y = obsLocation.y + (obsSize.height / 2) - (super.getSize().height / 2);
-        super.setLocation(x, y);
+        int x = obsLocation.x + (obsSize.width / 2) - (this.getSize().width / 2);
+        int y = obsLocation.y + (obsSize.height / 2) - (this.getSize().height / 2);
+        this.setLocation(x, y);
 
-        super.setVisible(true);
 
     }
 
@@ -127,28 +131,28 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 100, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.selector = new JComboBox();
         gridbag.setConstraints(this.selector, constraints);
         this.fillSelector();
-        super.getContentPane().add(this.selector);
+        this.getContentPane().add(this.selector);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 50, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.ok = new JButton(this.bundle.getString("selector.button.select"));
         gridbag.setConstraints(this.ok, constraints);
         this.ok.addActionListener(this);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 50, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.cancel = new JButton(this.bundle.getString("selector.button.cancel"));
         gridbag.setConstraints(this.cancel, constraints);
         this.cancel.addActionListener(this);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

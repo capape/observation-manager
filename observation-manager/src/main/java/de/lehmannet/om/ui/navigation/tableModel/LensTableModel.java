@@ -27,7 +27,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
 
     public LensTableModel(ILens[] lenses) {
 
-        super.elements = lenses;
+        this.elements = lenses;
 
     }
 
@@ -48,10 +48,10 @@ public class LensTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -81,11 +81,11 @@ public class LensTableModel extends AbstractSchemaTableModel {
 
         Object value = null;
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return null;
         }
 
-        ILens lens = (ILens) super.elements[rowIndex];
+        ILens lens = (ILens) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {
