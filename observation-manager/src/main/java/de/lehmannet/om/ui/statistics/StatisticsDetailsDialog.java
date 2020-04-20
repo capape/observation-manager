@@ -76,7 +76,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         this.createMenu();
 
-        // this.pack();
+        this.pack();
         this.setVisible(true);
 
     }

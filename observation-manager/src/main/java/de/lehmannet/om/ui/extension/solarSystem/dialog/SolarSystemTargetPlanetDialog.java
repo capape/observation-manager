@@ -36,7 +36,7 @@ public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITa
 
         this.setSize(SolarSystemTargetPlanetDialog.serialVersionUID, 550, 260);
 
-        // this.pack();
+        this.pack();
         this.setVisible(true);
 
     }

@@ -28,6 +28,7 @@ public class SessionDialog extends AbstractDialog {
 
         this.setSize(SessionDialog.serialVersionUID, 1090, 610);
         this.setLocationRelativeTo(om);
+        this.pack();
         this.setVisible(true);
 
     }

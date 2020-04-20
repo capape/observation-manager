@@ -62,6 +62,7 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
         this.setSize(CatalogDialog.serialVersionUID, 660, 340);
         this.setLocationRelativeTo(om);
 
+        this.pack();
         this.setVisible(true);
 
     }

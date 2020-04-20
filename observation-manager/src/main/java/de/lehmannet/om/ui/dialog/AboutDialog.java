@@ -47,8 +47,9 @@ public class AboutDialog extends OMDialog implements ActionListener {
          */
 
         this.initDialog();
-
+        this.pack();
         this.setVisible(true);
+
 
     }
 

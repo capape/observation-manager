@@ -75,8 +75,9 @@ public class LogDialog extends OMDialog implements ActionListener {
 
         this.setText();
 
+        this.pack();
         this.setVisible(true);
-        // this.pack();
+       
 
     }
 

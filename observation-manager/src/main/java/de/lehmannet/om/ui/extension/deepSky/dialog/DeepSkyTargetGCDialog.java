@@ -35,7 +35,7 @@ public class DeepSkyTargetGCDialog extends AbstractDialog implements ITargetDial
 
         this.setSize(DeepSkyTargetGCDialog.serialVersionUID, 575, 360);
 
-        // this.pack();
+        this.pack();
         this.setVisible(true);
 
     }

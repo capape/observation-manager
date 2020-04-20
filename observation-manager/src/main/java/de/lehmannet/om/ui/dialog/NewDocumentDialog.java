@@ -113,9 +113,9 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         this.initDialog();
 
-        this.setVisible(true);
         this.pack();
-
+        this.setVisible(true);
+        
     }
 
     @Override

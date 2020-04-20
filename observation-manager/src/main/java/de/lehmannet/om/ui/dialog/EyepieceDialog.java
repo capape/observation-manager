@@ -27,6 +27,7 @@ public class EyepieceDialog extends AbstractDialog {
         }
 
         this.setSize(EyepieceDialog.serialVersionUID, 530, 155);
+        this.pack();
         this.setVisible(true);
 
     }

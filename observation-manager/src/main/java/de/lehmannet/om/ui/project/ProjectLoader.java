@@ -362,13 +362,13 @@ class WaitPopup extends OMDialog {
         this.getContentPane().add(progressBar, BorderLayout.CENTER);
 
         this.setSize(WaitPopup.serialVersionUID, 250, 60);
-        // this.pack();
+      
 
         Runnable wait = WaitPopup.this::waitForCatalogLoaders;
 
         Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
         waitThread.start();
-
+        this.pack();
         this.setVisible(true);
 
     }

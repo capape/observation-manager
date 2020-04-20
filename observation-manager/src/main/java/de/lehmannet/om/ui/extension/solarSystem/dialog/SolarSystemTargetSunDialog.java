@@ -35,6 +35,8 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
         }
 
         this.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 260);
+        this.pack();
+        
         this.setVisible(true);
 
     }

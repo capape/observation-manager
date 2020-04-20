@@ -35,7 +35,7 @@ public class SolarSystemTargetMinorPlanetDialog extends AbstractDialog implement
 
         this.setSize(SolarSystemTargetMinorPlanetDialog.serialVersionUID, 550, 260);
 
-        // this.pack();
+        this.pack();
         this.setVisible(true);
 
     }

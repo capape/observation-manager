@@ -61,7 +61,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         this.setLocationRelativeTo(om);
 
         this.initDialog();
-
+        this.pack();
         this.setVisible(true);
         // this.pack();
 

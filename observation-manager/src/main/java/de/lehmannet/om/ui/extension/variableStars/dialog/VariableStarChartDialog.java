@@ -71,6 +71,8 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
         this.addComponentListener(this);
 
         this.setLocationRelativeTo(om);
+        this.pack();
+        
         this.setVisible(true);
 
     }

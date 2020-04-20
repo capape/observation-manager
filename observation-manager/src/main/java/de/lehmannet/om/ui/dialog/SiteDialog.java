@@ -27,6 +27,7 @@ public class SiteDialog extends AbstractDialog {
         }
 
         this.setSize(SiteDialog.serialVersionUID, 550, 140);
+        this.pack();
         this.setVisible(true);
 
     }

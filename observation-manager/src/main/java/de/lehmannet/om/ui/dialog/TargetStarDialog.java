@@ -33,7 +33,7 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
 
         this.setSize(TargetStarDialog.serialVersionUID, 590, 313);
 
-        // this.pack();
+        this.pack();
         this.setVisible(true);
 
     }

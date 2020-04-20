@@ -55,6 +55,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         this.setTitle(this.bundle.getString("selector.title"));
         this.init(parent, loader);
 
+        this.pack();
+        this.setVisible(true);
     }
 
     public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
@@ -65,7 +67,10 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         this.setTitle(this.bundle.getString("selector.title"));
         this.init(parent, loader);
+       
 
+        this.pack();
+        this.setVisible(true);
     }
 
     private void init(Window window, SchemaUILoader loader) {
@@ -90,7 +95,6 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         int y = obsLocation.y + (obsSize.height / 2) - (this.getSize().height / 2);
         this.setLocation(x, y);
 
-        this.setVisible(true);
 
     }
 

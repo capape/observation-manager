@@ -35,6 +35,8 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
         }
 
         this.setSize(CCDImagerDialog.serialVersionUID, 520, 240);
+        this.pack();
+        
         this.setVisible(true);
 
     }
