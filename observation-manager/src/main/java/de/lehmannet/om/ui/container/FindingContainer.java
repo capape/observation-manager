@@ -113,7 +113,7 @@ public class FindingContainer extends Container implements MouseListener {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.BOTH;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 20, 1);
         JLabel Ldescription = new JLabel(this.bundle.getString("finding.label.description"));

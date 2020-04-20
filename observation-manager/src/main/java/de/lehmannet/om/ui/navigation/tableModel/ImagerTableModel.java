@@ -15,7 +15,7 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
 
     public ImagerTableModel(IImager[] imagers) {
 
-        super.elements = imagers;
+        this.elements = imagers;
 
     }
 
@@ -36,10 +36,10 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -48,11 +48,11 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
 
         String value = "";
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value;
         }
 
-        IImager imager = (IImager) super.elements[rowIndex];
+        IImager imager = (IImager) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

@@ -20,20 +20,20 @@ public class FilterDialog extends AbstractDialog {
         super(om, new FilterPanel(filter, true));
 
         if (filter == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.filter.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.filter.title"));
         } else {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.filter.titleEdit") + " " + filter.getDisplayName());
+            this.setTitle(AbstractDialog.bundle.getString("dialog.filter.titleEdit") + " " + filter.getDisplayName());
         }
 
-        super.setSize(FilterDialog.serialVersionUID, 490, 130);
-        super.setVisible(true);
+        this.setSize(FilterDialog.serialVersionUID, 490, 130);
+        this.setVisible(true);
 
     }
 
     public IFilter getFilter() {
 
-        if (super.schemaElement != null) {
-            return (IFilter) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (IFilter) this.schemaElement;
         }
 
         return null;

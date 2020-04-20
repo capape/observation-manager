@@ -78,7 +78,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
         om.setCursor(defaultCursor);
-        super.setCursor(defaultCursor);
+        this.setCursor(defaultCursor);
 
         if ((this.selectedCatalogs == null) || (this.selectedCatalogs.isEmpty())) {
             return;
@@ -86,10 +86,10 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         this.om = om;
 
-        super.setSize(StatisticsDialog.serialVersionUID, 600, 170);
-        super.addComponentListener(this); // Make sure we have a certain width at least
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setSize(StatisticsDialog.serialVersionUID, 600, 170);
+        this.addComponentListener(this); // Make sure we have a certain width at least
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         // Check how many observers exist...
         // If only one observer use this one, if several create pop-up for selection
@@ -119,7 +119,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             this.observers = Arrays.asList(observers);
         }
 
-        super.setTitle(this.bundle.getString("dialog.statistics.title.prefix"));
+        this.setTitle(this.bundle.getString("dialog.statistics.title.prefix"));
 
         // Show dialog
         this.initDialog();
@@ -184,7 +184,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     @Override
     protected void processWindowEvent(WindowEvent e) {
 
-        super.processWindowEvent(e);
+        this.processWindowEvent(e);
 
         // Catch window closing (via x Button)
         // and stop threads
@@ -292,22 +292,22 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         // Remove progressbar and replace it with button
         // Get Layout
-        GridBagLayout gridbag = (GridBagLayout) super.getContentPane().getLayout();
+        GridBagLayout gridbag = (GridBagLayout) this.getContentPane().getLayout();
         // Get constraints from progressbar and remove progress bar
         GridBagConstraints constraints = gridbag.getConstraints(this.catProgress[index]);
-        super.getContentPane().remove(this.catProgress[index]);
+        this.getContentPane().remove(this.catProgress[index]);
         this.catProgress[index] = null;
         // Use constraints for button and add button
         gridbag.setConstraints(this.catButtons[index], constraints);
-        super.getContentPane().add(this.catButtons[index]);
-        if (super.getGraphics() != null) { // Might be null if window is already closed
-            super.getContentPane().update(super.getGraphics());
+        this.getContentPane().add(this.catButtons[index]);
+        if (this.getGraphics() != null) { // Might be null if window is already closed
+            this.getContentPane().update(this.getGraphics());
         }
 
-        super.invalidate();
-        super.validate();
-        super.pack();
-        super.repaint();
+        this.invalidate();
+        this.validate();
+        this.pack();
+        this.repaint();
 
         return true;
 
@@ -332,14 +332,14 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         // Set Headers
         constraints.fill = GridBagConstraints.NONE;
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 100, 1);
         JLabel headerLabel = new JLabel(this.bundle.getString("dialog.statistics.label.catalogs"));
         gridbag.setConstraints(headerLabel, constraints);
-        super.getContentPane().add(headerLabel);
+        this.getContentPane().add(headerLabel);
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         constraints.anchor = GridBagConstraints.CENTER;
@@ -347,13 +347,13 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         JLabel catNameLabel = new JLabel(this.bundle.getString("dialog.statistics.label.catalogName"));
         catNameLabel.setFont(new Font("Arial", Font.ITALIC + Font.BOLD, 12));
         gridbag.setConstraints(catNameLabel, constraints);
-        super.getContentPane().add(catNameLabel);
+        this.getContentPane().add(catNameLabel);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 50, 1);
         JLabel catResultLabel = new JLabel(this.bundle.getString("dialog.statistics.label.result"));
         catResultLabel.setFont(new Font("Arial", Font.ITALIC + Font.BOLD, 12));
         gridbag.setConstraints(catResultLabel, constraints);
-        super.getContentPane().add(catResultLabel);
+        this.getContentPane().add(catResultLabel);
         constraints.anchor = GridBagConstraints.WEST;
 
         int size = this.selectedCatalogs.size();
@@ -374,14 +374,14 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             catLabels[i] = new JLabel(current.getName());
             catLabels[i].setFont(new Font("Arial", Font.PLAIN, 12));
             gridbag.setConstraints(catLabels[i], constraints);
-            super.getContentPane().add(catLabels[i]);
+            this.getContentPane().add(catLabels[i]);
 
             // Set Result Label
             ConstraintsBuilder.buildConstraints(constraints, 2, i + 2, 1, 1, 33, 1);
             resultLabels[i] = new JLabel();
             resultLabels[i].setFont(new Font("Arial", Font.PLAIN, 12));
             gridbag.setConstraints(resultLabels[i], constraints);
-            super.getContentPane().add(resultLabels[i]);
+            this.getContentPane().add(resultLabels[i]);
 
             // Prepare Button (show them when calculation is done (replaceing progressbar)
             this.catButtons[i] = new JButton(this.bundle.getString("dialog.statistics.button.details"));
@@ -394,7 +394,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             this.catProgress[i] = new JProgressBar();
             this.catProgress[i].setStringPainted(true);
             gridbag.setConstraints(this.catProgress[i], constraints);
-            super.getContentPane().add(this.catProgress[i]);
+            this.getContentPane().add(this.catProgress[i]);
 
             i++;
 
@@ -403,7 +403,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         ConstraintsBuilder.buildConstraints(constraints, 0, i + 2, 4, 1, 100, 1);
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 

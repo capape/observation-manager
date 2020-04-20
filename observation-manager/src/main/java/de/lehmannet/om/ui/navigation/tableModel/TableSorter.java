@@ -183,7 +183,7 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         if (this.tableModel != null) {
-            super.elements = this.tableModel.elements;
+            this.elements = this.tableModel.elements;
         }
 
         if (clear) {

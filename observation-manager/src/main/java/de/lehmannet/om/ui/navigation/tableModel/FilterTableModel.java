@@ -23,7 +23,7 @@ public class FilterTableModel extends AbstractSchemaTableModel {
 
     public FilterTableModel(IFilter[] filter) {
 
-        super.elements = filter;
+        this.elements = filter;
 
     }
 
@@ -44,10 +44,10 @@ public class FilterTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return 5;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -56,11 +56,11 @@ public class FilterTableModel extends AbstractSchemaTableModel {
 
         String value = "";
 
-        if (super.elements == null) {
+        if (this.elements == null) {
             return value;
         }
 
-        IFilter filter = (IFilter) super.elements[rowIndex];
+        IFilter filter = (IFilter) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {

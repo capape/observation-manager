@@ -20,21 +20,21 @@ public class ObserverDialog extends AbstractDialog {
         super(om, new ObserverPanel(editableObserver, true));
 
         if (editableObserver == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.observer.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.observer.title"));
         } else {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.observer.titleEdit") + " "
+            this.setTitle(AbstractDialog.bundle.getString("dialog.observer.titleEdit") + " "
                     + editableObserver.getDisplayName());
         }
 
-        super.setSize(ObserverDialog.serialVersionUID, 500, 300);
-        super.setVisible(true);
+        this.setSize(ObserverDialog.serialVersionUID, 500, 300);
+        this.setVisible(true);
 
     }
 
     public IObserver getObserver() {
 
-        if (super.schemaElement != null) {
-            return (IObserver) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (IObserver) this.schemaElement;
         }
 
         return null;

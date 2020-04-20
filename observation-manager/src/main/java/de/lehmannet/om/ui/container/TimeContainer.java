@@ -180,44 +180,44 @@ public class TimeContainer extends Container implements FocusListener {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 1);
         JLabel Ltime = new JLabel(this.bundle.getString("time.label.time"), SwingConstants.RIGHT);
         gridbag.setConstraints(Ltime, constraints);
-        super.add(Ltime);
+        this.add(Ltime);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 1);
         this.h.setEditable(this.editable);
         this.h.addFocusListener(this);
         gridbag.setConstraints(this.h, constraints);
-        super.add(this.h);
+        this.add(this.h);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
         JLabel LhmDelimiter = new JLabel(":");
         gridbag.setConstraints(LhmDelimiter, constraints);
-        super.add(LhmDelimiter);
+        this.add(LhmDelimiter);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 20, 1);
         this.m.setEditable(this.editable);
         this.m.addFocusListener(this);
         gridbag.setConstraints(this.m, constraints);
-        super.add(this.m);
+        this.add(this.m);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 5, 1);
         JLabel LmsDelimiter = new JLabel(":");
         gridbag.setConstraints(LmsDelimiter, constraints);
-        super.add(LmsDelimiter);
+        this.add(LmsDelimiter);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 0, 1, 1, 20, 1);
         this.s.setEditable(this.editable);
         this.s.addFocusListener(this);
         gridbag.setConstraints(this.s, constraints);
-        super.add(this.s);
+        this.add(this.s);
 
         /*
          * ConstraintsBuilder.buildConstraints(constraints, 6, 0, 2, 1, 95, 1); JLabel dummy = new JLabel("");
-         * gridbag.setConstraints(dummy, constraints); super.add(dummy);
+         * gridbag.setConstraints(dummy, constraints); this.add(dummy);
          */
 
     }

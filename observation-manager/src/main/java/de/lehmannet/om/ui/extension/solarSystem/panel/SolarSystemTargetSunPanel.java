@@ -115,8 +115,8 @@ public class SolarSystemTargetSunPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, super.isEditable(), true);
-        if ((!super.isEditable()) && (this.observation != null)) {
+        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.isEditable(), true);
+        if ((!this.isEditable()) && (this.observation != null)) {
             this.targetContainer.setPosition(Ephemerides.getSunPosition(this.observation.getBegin()));
         }
         gridbag.setConstraints(this.targetContainer, constraints);

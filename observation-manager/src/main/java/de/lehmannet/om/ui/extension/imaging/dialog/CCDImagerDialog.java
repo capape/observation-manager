@@ -29,21 +29,21 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());
         if (editableImager == null) {
-            super.setTitle(bundle.getString("dialog.ccdImager.title"));
+            this.setTitle(bundle.getString("dialog.ccdImager.title"));
         } else {
-            super.setTitle(bundle.getString("dialog.ccdImager.titleEdit") + " " + editableImager.getDisplayName());
+            this.setTitle(bundle.getString("dialog.ccdImager.titleEdit") + " " + editableImager.getDisplayName());
         }
 
-        super.setSize(CCDImagerDialog.serialVersionUID, 520, 240);
-        super.setVisible(true);
+        this.setSize(CCDImagerDialog.serialVersionUID, 520, 240);
+        this.setVisible(true);
 
     }
 
     @Override
     public IImager getImager() {
 
-        if (super.schemaElement != null) {
-            return (CCDImager) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (CCDImager) this.schemaElement;
         }
 
         return null;

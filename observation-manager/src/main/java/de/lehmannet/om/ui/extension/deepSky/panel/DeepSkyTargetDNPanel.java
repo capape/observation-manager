@@ -88,7 +88,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         if (!"".equals(opacity)) {
             int o = Integer.parseInt(opacity);
             if ((o < 1) || (o > 6)) {
-                super.createWarning(this.bundle.getString("panel.dn.warning.opacity.invalid"));
+                this.createWarning(this.bundle.getString("panel.dn.warning.opacity.invalid"));
                 return null;
             }
             this.target.setOpacity(o);
@@ -103,11 +103,11 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
                     p = Integer.parseInt(pA);
 
                     if ((p < 0) || (p > 359)) {
-                        super.createWarning(this.bundle.getString("panel.dn.warning.posAngle.invalid"));
+                        this.createWarning(this.bundle.getString("panel.dn.warning.posAngle.invalid"));
                         return null;
                     }
                 } catch (NumberFormatException nfe) {
-                    super.createWarning(this.bundle.getString("panel.dn.warning.posAngle.invalid"));
+                    this.createWarning(this.bundle.getString("panel.dn.warning.posAngle.invalid"));
                     return null;
                 }
             }
@@ -154,12 +154,12 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         if (this.target.getOpacity() != -1) {
             this.opacity.setText("" + this.target.getOpacity());
         }
-        this.opacity.setEditable(super.isEditable());
+        this.opacity.setEditable(this.isEditable());
 
         if (this.target.getPositionAngle() != -1) {
             this.positionAngle.setText("" + this.target.getPositionAngle());
         }
-        this.positionAngle.setEditable(super.isEditable());
+        this.positionAngle.setEditable(this.isEditable());
 
     }
 
@@ -173,7 +173,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 6, 100, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -190,7 +190,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 7, 1, 1, 45, 1);
         this.opacity = new JTextField();
         this.opacity.setToolTipText(this.bundle.getString("panel.dn.tooltip.opacity"));
-        this.opacity.setEditable(super.isEditable());
+        this.opacity.setEditable(this.isEditable());
         gridbag.setConstraints(this.opacity, constraints);
         this.add(this.opacity);
 

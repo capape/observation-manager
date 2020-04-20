@@ -20,21 +20,21 @@ public class ScopeDialog extends AbstractDialog {
         super(om, new ScopePanel(editableScope, true));
 
         if (editableScope == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.scope.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.scope.title"));
         } else {
-            super.setTitle(
+            this.setTitle(
                     AbstractDialog.bundle.getString("dialog.scope.titleEdit") + " " + editableScope.getDisplayName());
         }
 
-        super.setSize(ScopeDialog.serialVersionUID, 650, 250);
-        super.setVisible(true);
+        this.setSize(ScopeDialog.serialVersionUID, 650, 250);
+        this.setVisible(true);
 
     }
 
     public IScope getScope() {
 
-        if (super.schemaElement != null) {
-            return (IScope) super.schemaElement;
+        if (this.schemaElement != null) {
+            return (IScope) this.schemaElement;
         }
 
         return null;

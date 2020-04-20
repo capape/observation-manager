@@ -57,10 +57,10 @@ public class LogDialog extends OMDialog implements ActionListener {
 
         this.logfile = logFile;
 
-        super.setTitle(this.bundle.getString("log.title"));
-        super.setSize(LogDialog.serialVersionUID, 630, 370);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("log.title"));
+        this.setSize(LogDialog.serialVersionUID, 630, 370);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 
@@ -100,7 +100,7 @@ public class LogDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 5, 1, 99);
         constraints.anchor = GridBagConstraints.WEST;
@@ -114,13 +114,13 @@ public class LogDialog extends OMDialog implements ActionListener {
         this.text.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(this.text);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 

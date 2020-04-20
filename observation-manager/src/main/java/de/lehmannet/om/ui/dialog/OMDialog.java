@@ -37,13 +37,13 @@ public class OMDialog extends JDialog {
                 int w = Integer.parseInt(x);
                 int h = Integer.parseInt(y);
 
-                super.setSize(w, h);
+                this.setSize(w, h);
             } catch (NumberFormatException nfe) {
-                super.setSize(width, height); // Size from config is malformed
+                this.setSize(width, height); // Size from config is malformed
             }
 
         } else { // No size configured...use default size
-            super.setSize(width, height);
+            this.setSize(width, height);
         }
 
     }
@@ -61,7 +61,7 @@ public class OMDialog extends JDialog {
         if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
 
             // Save current size
-            Dimension size = super.getSize();
+            Dimension size = this.getSize();
 
             this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
                     size.width + "x" + size.height);

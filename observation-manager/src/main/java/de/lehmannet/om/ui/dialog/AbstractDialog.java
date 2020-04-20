@@ -68,9 +68,9 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
             this.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
         }
 
-        super.setSize(550, 450);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setSize(550, 450);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         // Try to set system default look and feel
         /*
@@ -79,7 +79,7 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
          * catch(IllegalAccessException iae) { } catch(ClassNotFoundException cnfe) { }
          */
 
-        super.getRootPane().setDefaultButton(this.positive);
+        this.getRootPane().setDefaultButton(this.positive);
 
         this.oneButton = oneButton;
 
@@ -135,24 +135,24 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 100, 90);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(this.panel, constraints);
-        super.getContentPane().add(this.panel);
+        this.getContentPane().add(this.panel);
 
         if (!this.oneButton) {
             ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 100, 5);
             this.positive.addActionListener(this);
             gridbag.setConstraints(this.positive, constraints);
-            super.getContentPane().add(this.positive);
+            this.getContentPane().add(this.positive);
         }
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 100, 5);
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

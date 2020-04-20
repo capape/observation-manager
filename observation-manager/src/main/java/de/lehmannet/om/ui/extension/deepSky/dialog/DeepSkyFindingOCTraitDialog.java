@@ -42,15 +42,15 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
         this.panel = new TraitPanel(this, imagePath, character);
         this.initDialog();
 
-        super.setModal(true);
+        this.setModal(true);
 
-        super.setTitle(this.bundle.getString("dialog.oc.trait.title"));
-        super.setSize(DeepSkyFindingOCTraitDialog.serialVersionUID, 770, 710);
+        this.setTitle(this.bundle.getString("dialog.oc.trait.title"));
+        this.setSize(DeepSkyFindingOCTraitDialog.serialVersionUID, 770, 710);
 
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -65,12 +65,12 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 100, 90);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(this.panel, constraints);
-        super.getContentPane().add(this.panel);
+        this.getContentPane().add(this.panel);
 
     }
 

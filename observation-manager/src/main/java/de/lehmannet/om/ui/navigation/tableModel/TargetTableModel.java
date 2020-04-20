@@ -28,7 +28,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     public TargetTableModel(ITarget[] target, ObservationManager om) {
 
         this.om = om;
-        super.elements = target;
+        this.elements = target;
 
     }
 
@@ -49,10 +49,10 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if ((super.elements == null) || (super.elements.length == 0)) {
+        if ((this.elements == null) || (this.elements.length == 0)) {
             return 3;
         }
-        return super.elements.length;
+        return this.elements.length;
 
     }
 
@@ -61,15 +61,15 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
         StringBuilder value = new StringBuilder();
 
-        if ((super.elements == null) || (super.elements.length == 0)) {
+        if ((this.elements == null) || (this.elements.length == 0)) {
             return value.toString();
         }
 
-        if (rowIndex >= super.elements.length) {
+        if (rowIndex >= this.elements.length) {
             return value.toString();
         }
 
-        ITarget target = (ITarget) super.elements[rowIndex];
+        ITarget target = (ITarget) this.elements[rowIndex];
 
         switch (columnIndex) {
         case 0: {
@@ -173,29 +173,29 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void addTarget(ITarget target) {
 
-        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(super.elements));
+        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
         list.add(target);
-        super.elements = (ITarget[]) list.toArray(new ITarget[] {});
+        this.elements = (ITarget[]) list.toArray(new ITarget[] {});
 
     }
 
     public void deleteTarget(ITarget target) {
 
-        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(super.elements));
+        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
         list.remove(target);
-        super.elements = (ITarget[]) list.toArray(new ITarget[] {});
+        this.elements = (ITarget[]) list.toArray(new ITarget[] {});
 
     }
 
     public void setTargets(ITarget[] targets) {
 
-        super.elements = targets;
+        this.elements = targets;
 
     }
 
     public ITarget[] getAllTargets() {
 
-        return (ITarget[]) super.elements;
+        return (ITarget[]) this.elements;
 
     }
 

@@ -115,7 +115,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.loadSchemaElement();
         }
 
-        super.setVisible(true);
+        this.setVisible(true);
 
     }
 
@@ -246,7 +246,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private void loadSchemaElement() {
 
         SimpleDateFormat format = null;
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             format = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
         } else {
             format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
@@ -255,37 +255,37 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.beginDate = this.session.getBegin();
         format.setCalendar(this.beginDate); // Important! Otherwiese Timezone will not be used for formatting!
         this.begin.setText(format.format(this.beginDate.getTime()));
-        this.begin.setEditable(super.isEditable());
+        this.begin.setEditable(this.isEditable());
         this.beginTime.setTime(this.beginDate.get(Calendar.HOUR_OF_DAY), this.beginDate.get(Calendar.MINUTE),
                 this.beginDate.get(Calendar.SECOND));
-        this.beginTime.setEditable(super.isEditable());
+        this.beginTime.setEditable(this.isEditable());
 
         this.endDate = this.session.getEnd();
 
         format.setCalendar(this.endDate); // Important! Otherwiese Timezone will not be used for formatting!
         this.end.setText(format.format(this.endDate.getTime()));
-        this.end.setEditable(super.isEditable());
+        this.end.setEditable(this.isEditable());
         this.endTime.setTime(this.endDate.get(Calendar.HOUR_OF_DAY), this.endDate.get(Calendar.MINUTE),
                 this.endDate.get(Calendar.SECOND));
-        this.endTime.setEditable(super.isEditable());
+        this.endTime.setEditable(this.isEditable());
 
         this.weather.setText(this.session.getWeather());
-        this.weather.setEditable(super.isEditable());
+        this.weather.setEditable(this.isEditable());
 
         this.equipment.setText(this.session.getEquipment());
-        this.equipment.setEditable(super.isEditable());
+        this.equipment.setEditable(this.isEditable());
 
         this.comments.setText(this.session.getComments());
-        this.comments.setEditable(super.isEditable());
+        this.comments.setEditable(this.isEditable());
 
         /*
-         * if( !super.isEditable() ) { this.weather.setBackground(Color.LIGHT_GRAY);
+         * if( !this.isEditable() ) { this.weather.setBackground(Color.LIGHT_GRAY);
          * this.equipment.setBackground(Color.LIGHT_GRAY);
          * this.comments.setBackground(Color.LIGHT_GRAY); }
          */
 
         this.language.setLanguage(this.session.getLanguage());
-        this.language.setEditable(super.isEditable());
+        this.language.setEditable(this.isEditable());
 
         this.fillCoObserverTextField(this.session.getCoObservers());
 
@@ -482,7 +482,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.begin.setEditable(false);
         gridbag.setConstraints(this.begin, constraints);
         this.add(this.begin);
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 2, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.beginPicker = new JButton("...");
@@ -493,12 +493,12 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.beginTime = new TimeContainer(0, 0, 0, super.isEditable());
+        this.beginTime = new TimeContainer(0, 0, 0, this.isEditable());
         this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
         gridbag.setConstraints(this.beginTime, constraints);
         this.add(this.beginTime);
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 3, 1);
             constraints.anchor = GridBagConstraints.WEST;
             this.beginNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.beginNow"));
@@ -524,7 +524,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         ConstraintsBuilder.buildConstraints(constraints, 12, 0, 1, 1, 15, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.language.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
-        this.language.setEnabled(super.isEditable());
+        this.language.setEnabled(this.isEditable());
         gridbag.setConstraints(this.language, constraints);
         this.add(this.language);
 
@@ -543,7 +543,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.end.setEditable(false);
         gridbag.setConstraints(this.end, constraints);
         this.add(this.end);
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 2, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.endPicker = new JButton("...");
@@ -554,12 +554,12 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.endTime = new TimeContainer(0, 0, 0, super.isEditable());
+        this.endTime = new TimeContainer(0, 0, 0, this.isEditable());
         this.endTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
         gridbag.setConstraints(this.endTime, constraints);
         this.add(this.endTime);
 
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 3, 1);
             constraints.anchor = GridBagConstraints.WEST;
             this.endNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.endNow"));
@@ -632,7 +632,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
          */
 
         if ((this.session != null) // Show
-                && !(super.isEditable())) {
+                && !(this.isEditable())) {
 
             SitePanel sitePanel = new SitePanel(this.session.getSite(), false);
             ConstraintsBuilder.buildConstraints(constraints, 0, 10, 13, 1, 15, 1);

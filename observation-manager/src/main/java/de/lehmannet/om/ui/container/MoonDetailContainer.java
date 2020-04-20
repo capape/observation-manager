@@ -82,10 +82,10 @@ public class MoonDetailContainer extends JLabel {
 
             if (absPhase <= 5.0) { // New moon
                 path = path + MoonDetailContainer.NEW_MOON;
-                super.setToolTipText(this.bundle.getString("moonDetail.newMoon"));
+                this.setToolTipText(this.bundle.getString("moonDetail.newMoon"));
             } else if (absPhase > 95.0) { // Full moon
                 path = path + MoonDetailContainer.FULL_MOON;
-                super.setToolTipText(this.bundle.getString("moonDetail.fullMoon"));
+                this.setToolTipText(this.bundle.getString("moonDetail.fullMoon"));
             } else {
                 // Moon waning or waxing?
                 if (phase <= 0) {
@@ -121,12 +121,12 @@ public class MoonDetailContainer extends JLabel {
                 dfs.setDecimalSeparator('.');
                 df.setDecimalFormatSymbols(dfs);
 
-                super.setToolTipText(this.bundle.getString("moonDetail.moonIllumination") + df.format(absPhase));
+                this.setToolTipText(this.bundle.getString("moonDetail.moonIllumination") + df.format(absPhase));
             }
 
         } else { // Moon is below horizon
             path = path + MoonDetailContainer.BELOW_HORIZON;
-            super.setToolTipText(this.bundle.getString("moonDetail.moonBelowHorizon"));
+            this.setToolTipText(this.bundle.getString("moonDetail.moonBelowHorizon"));
         }
 
         // Load & set image
@@ -134,8 +134,8 @@ public class MoonDetailContainer extends JLabel {
         Image image = Toolkit.getDefaultToolkit().getImage(urlImage);
         ImageIcon icon = new ImageIcon(image);
 
-        super.setHorizontalAlignment(SwingConstants.LEFT);
-        super.setIcon(icon);
+        this.setHorizontalAlignment(SwingConstants.LEFT);
+        this.setIcon(icon);
 
     }
 

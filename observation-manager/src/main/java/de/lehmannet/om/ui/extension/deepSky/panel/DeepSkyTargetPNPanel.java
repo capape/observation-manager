@@ -128,7 +128,7 @@ public class DeepSkyTargetPNPanel extends AbstractPanel {
         if (!Double.isNaN(this.target.getCentralStarMagnitude())) {
             this.magnitude.setText("" + this.target.getCentralStarMagnitude());
         }
-        this.magnitude.setEditable(super.isEditable());
+        this.magnitude.setEditable(this.isEditable());
 
     }
 
@@ -142,7 +142,7 @@ public class DeepSkyTargetPNPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -159,7 +159,7 @@ public class DeepSkyTargetPNPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 2, 1, 45, 1);
         this.magnitude = new JTextField();
         this.magnitude.setToolTipText(this.bundle.getString("panel.pn.tooltip.centralStarMagnitude"));
-        this.magnitude.setEditable(super.isEditable());
+        this.magnitude.setEditable(this.isEditable());
         gridbag.setConstraints(this.magnitude, constraints);
         this.add(this.magnitude);
 

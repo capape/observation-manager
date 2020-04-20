@@ -44,10 +44,10 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
         this.om = om;
 
-        super.setTitle(this.bundle.getString("extensionInfo.title"));
-        super.setSize(ExtensionInfoDialog.serialVersionUID, 390, 180);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("extensionInfo.title"));
+        this.setSize(ExtensionInfoDialog.serialVersionUID, 390, 180);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         // Try to set system default look and feel
         /*
@@ -83,7 +83,7 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 5, 1, 99);
         constraints.anchor = GridBagConstraints.WEST;
@@ -96,13 +96,13 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane(infoTable);
         gridbag.setConstraints(scrollPane, constraints);
-        super.getContentPane().add(scrollPane);
+        this.getContentPane().add(scrollPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
-        super.getContentPane().add(this.close);
+        this.getContentPane().add(this.close);
 
     }
 

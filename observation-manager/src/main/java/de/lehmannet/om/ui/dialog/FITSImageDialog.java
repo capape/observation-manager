@@ -38,10 +38,10 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
 
         this.fitsImageFile = fitsFile;
 
-        super.setTitle(this.bundle.getString("dialog.image.title"));
+        this.setTitle(this.bundle.getString("dialog.image.title"));
 
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 

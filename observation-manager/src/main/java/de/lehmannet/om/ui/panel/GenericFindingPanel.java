@@ -110,7 +110,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 45, 50);
         constraints.fill = GridBagConstraints.BOTH;
-        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, super.isEditable());
+        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, this.isEditable());
         gridbag.setConstraints(this.findingContainer, constraints);
         this.add(this.findingContainer);
 

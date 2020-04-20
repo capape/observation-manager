@@ -64,7 +64,7 @@ public class DeepSkyExtension implements IExtension {
 
     public DeepSkyExtension() {
 
-        // super.OAL_EXTENSION_FILE = "./extensions/ext_DeepSky.xsd";
+        // this.OAL_EXTENSION_FILE = "./extensions/ext_DeepSky.xsd";
 
         this.initFindingPanels();
         this.initTargetPanels();

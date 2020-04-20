@@ -177,13 +177,13 @@ public class SurfaceBrightnessContainer extends Container {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 80, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.valueField.setEditable(this.editable);
         gridbag.setConstraints(this.valueField, constraints);
-        super.add(this.valueField);
+        this.add(this.valueField);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -193,11 +193,11 @@ public class SurfaceBrightnessContainer extends Container {
              * iterator.hasNext() ) { this.unitBox.addItem(iterator.next()); }
              */
             gridbag.setConstraints(this.unitBox, constraints);
-            super.add(this.unitBox);
+            this.add(this.unitBox);
         } else {
             this.Lunit = new JLabel(this.getUnitLabel(this.unit));
             gridbag.setConstraints(this.Lunit, constraints);
-            super.add(this.Lunit);
+            this.add(this.Lunit);
         }
 
     }

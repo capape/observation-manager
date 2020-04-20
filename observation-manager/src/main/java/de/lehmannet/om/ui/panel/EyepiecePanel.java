@@ -116,7 +116,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
             return null;
         }
         if (focalLength < 0) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.focalLengthGreater"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.focalLengthGreater"));
             return null;
         }
         this.eyepiece.setFocalLength(focalLength);
@@ -128,11 +128,11 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         try {
             afov = this.apparentFOV.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.apparentFOVNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.apparentFOVNoNumber"));
             return null;
         }
         if ((afov != null) && (afov.getValue() < 0)) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.apparentFoVGreater"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.apparentFoVGreater"));
             return null;
         }
         this.eyepiece.setApparentFOV(afov);
@@ -144,11 +144,11 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
                 return null;
             }
             if (maxFL < 0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthGreater"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthGreater"));
                 return null;
             }
             if (maxFL < focalLength) {
-                super.createWarning(
+                this.createWarning(
                         AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthSmallerFocalLength"));
                 return null;
             }
@@ -173,7 +173,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
             return null;
         }
         if (focalLength < 0) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.focalLengthGreater"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.focalLengthGreater"));
             return null;
         }
 
@@ -185,12 +185,12 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         try {
             afov = this.apparentFOV.getAngle();
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.warning.apparentFOVNoNumber"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.warning.apparentFOVNoNumber"));
             return null;
         }
         if (afov != null) {
             if (afov.getValue() < 0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.apparentFoVGreater"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.apparentFoVGreater"));
                 return null;
             }
             eyepiece.setApparentFOV(afov);
@@ -208,11 +208,11 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
                 return null;
             }
             if (maxFL < 0) {
-                super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthGreater"));
+                this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthGreater"));
                 return null;
             }
             if (maxFL < focalLength) {
-                super.createWarning(
+                this.createWarning(
                         AbstractPanel.bundle.getString("panel.eyepiece.warning.maxFocalLengthSmallerFocalLength"));
                 return null;
             }
@@ -227,7 +227,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
 
         String modelName = this.model.getText();
         if ((modelName == null) || ("".equals(modelName))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noModelName"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noModelName"));
             return null;
         }
 
@@ -239,14 +239,14 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
 
         String focalLength = this.focalLength.getText();
         if ((focalLength == null) || ("".equals(focalLength))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noFocalLength"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noFocalLength"));
             return Float.NaN;
         }
         float fl = 0.0f;
         try {
             fl = FloatUtil.parseFloat(focalLength);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.FocalLengthNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.FocalLengthNumeric"));
             return Float.NaN;
         }
 
@@ -258,14 +258,14 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
 
         String maxFocalLength = this.maxFocalLength.getText();
         if ((maxFocalLength == null) || ("".equals(maxFocalLength))) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noMaxFocalLength"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.noMaxFocalLength"));
             return Float.NaN;
         }
         float fl = 0.0f;
         try {
             fl = FloatUtil.parseFloat(maxFocalLength);
         } catch (NumberFormatException nfe) {
-            super.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.MaxFocalLengthNumeric"));
+            this.createWarning(AbstractPanel.bundle.getString("panel.eyepiece.warning.MaxFocalLengthNumeric"));
             return Float.NaN;
         }
 
@@ -276,17 +276,17 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
     private void loadSchemaElement() {
 
         this.vendor.setText(this.eyepiece.getVendor());
-        this.vendor.setEditable(super.isEditable());
+        this.vendor.setEditable(this.isEditable());
 
         this.model.setText(this.eyepiece.getModel());
-        this.model.setEditable(super.isEditable());
+        this.model.setEditable(this.isEditable());
 
         this.focalLength.setText(String.valueOf(this.eyepiece.getFocalLength()));
-        this.focalLength.setEditable(super.isEditable());
+        this.focalLength.setEditable(this.isEditable());
 
         if (!Float.isNaN(this.eyepiece.getMaxFocalLength())) { // Is this a zoom eyepiece
             this.maxFocalLength.setText("" + this.eyepiece.getMaxFocalLength());
-            this.maxFocalLength.setEditable(super.isEditable());
+            this.maxFocalLength.setEditable(this.isEditable());
             this.zoomEyepiece.setSelected(true);
         }
 
@@ -294,7 +294,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
             Angle afov = new Angle(this.eyepiece.getApparentFOV().toDegree(), Angle.DEGREE);
             this.apparentFOV.setAngle(afov);
         }
-        this.apparentFOV.setEditable(super.isEditable());
+        this.apparentFOV.setEditable(this.isEditable());
 
     }
 
@@ -332,7 +332,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 50, 1);
         this.zoomEyepiece = new JCheckBox(AbstractPanel.bundle.getString("panel.eyepiece.label.zoomEyepiece"), false);
         this.zoomEyepiece.addItemListener(this);
-        if (super.isEditable()) {
+        if (this.isEditable()) {
             this.zoomEyepiece.setEnabled(true);
         } else {
             this.zoomEyepiece.setEnabled(false);
@@ -372,7 +372,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         gridbag.setConstraints(LapparentFOVName, constraints);
         this.add(LapparentFOVName);
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 45, 1);
-        this.apparentFOV = new AngleContainer(Angle.DEGREE, super.isEditable());
+        this.apparentFOV = new AngleContainer(Angle.DEGREE, this.isEditable());
         this.apparentFOV.setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.apparentFoV"));
         gridbag.setConstraints(this.apparentFOV, constraints);
         this.add(this.apparentFOV);

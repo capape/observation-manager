@@ -346,20 +346,20 @@ class WaitPopup extends OMDialog {
     public WaitPopup(ThreadGroup threadGroup, ObservationManager om) {
 
         super(om);
-        super.setLocationRelativeTo(om);
+        this.setLocationRelativeTo(om);
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());
-        super.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
+        this.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
 
         this.threadGroup = threadGroup;
 
-        super.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().setLayout(new BorderLayout());
 
         JProgressBar progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
         progressBar.setIndeterminate(true);
 
-        super.getContentPane().add(progressBar, BorderLayout.CENTER);
+        this.getContentPane().add(progressBar, BorderLayout.CENTER);
 
         this.setSize(WaitPopup.serialVersionUID, 250, 60);
         // this.pack();

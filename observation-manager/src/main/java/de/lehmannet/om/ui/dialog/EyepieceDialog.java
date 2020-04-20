@@ -20,20 +20,20 @@ public class EyepieceDialog extends AbstractDialog {
         super(om, new EyepiecePanel(editableEyepiece, true));
 
         if (editableEyepiece == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.eyepiece.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.eyepiece.title"));
         } else {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.eyepiece.titleEdit") + " "
+            this.setTitle(AbstractDialog.bundle.getString("dialog.eyepiece.titleEdit") + " "
                     + editableEyepiece.getDisplayName());
         }
 
-        super.setSize(EyepieceDialog.serialVersionUID, 530, 155);
-        super.setVisible(true);
+        this.setSize(EyepieceDialog.serialVersionUID, 530, 155);
+        this.setVisible(true);
 
     }
 
     public IEyepiece getEyepiece() {
 
-        if (super.schemaElement != null) {
+        if (this.schemaElement != null) {
             return (IEyepiece) this.schemaElement;
         }
 

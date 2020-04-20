@@ -159,11 +159,11 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
                 float magnitudeFloat = FloatUtil.parseFloat(mag);
                 this.finding.setMagnitude(magnitudeFloat);
             } catch (NumberFormatException nfe) {
-                super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.magnitudeNotANumber"));
+                this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.magnitudeNotANumber"));
                 return null;
             }
         } else {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setMagnitude"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setMagnitude"));
             return null;
         }
 
@@ -171,7 +171,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         if ((chartD != null) && !("".equals(chartD.trim()))) {
             this.finding.setChartDate(chartD);
         } else {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setChartDate"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setChartDate"));
             return null;
         }
 
@@ -179,7 +179,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         if (compStars != null) {
             this.finding.setComparismStars(compStars);
         } else {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setCompStars"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setCompStars"));
             return null;
         }
 
@@ -255,23 +255,23 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             try {
                 magnitudeFloat = FloatUtil.parseFloat(mag);
             } catch (NumberFormatException nfe) {
-                super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.magnitudeNotANumber"));
+                this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.magnitudeNotANumber"));
                 return null;
             }
         } else {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setMagnitude"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setMagnitude"));
             return null;
         }
 
         String chartD = this.chartDate.getText();
         if ((chartD == null) || ("".equals(chartD.trim()))) {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setChartDate"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setChartDate"));
             return null;
         }
 
         List<String> compStars = this.getComparismStars();
         if (compStars == null) {
-            super.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setCompStars"));
+            this.createWarning(this.bundle.getString("panel.variableStarFinding.warning.setCompStars"));
             return null;
         }
 
@@ -547,7 +547,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 10, 1, 18, 87);
         constraints.fill = GridBagConstraints.BOTH;
-        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, super.isEditable());
+        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, this.isEditable());
         gridbag.setConstraints(this.findingContainer, constraints);
         this.add(this.findingContainer);
 
@@ -562,10 +562,10 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private void loadSchemaElement() {
 
         this.magnitude.setText("" + this.finding.getMagnitude());
-        this.magnitude.setEditable(super.isEditable());
+        this.magnitude.setEditable(this.isEditable());
 
         this.chartDate.setText(this.finding.getChartDate());
-        this.chartDate.setEditable(super.isEditable());
+        this.chartDate.setEditable(this.isEditable());
 
         List<String> compStars = this.finding.getComparismStars();
         ListIterator<String> iterator = compStars.listIterator();
@@ -577,43 +577,43 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             }
         }
         this.comparismStars.setText(compStarText.toString());
-        this.comparismStars.setEditable(super.isEditable());
+        this.comparismStars.setEditable(this.isEditable());
 
         this.magnitudeFainterThan.setSelected(this.finding.isMagnitudeFainterThan());
-        this.magnitudeFainterThan.setEnabled(super.isEditable());
+        this.magnitudeFainterThan.setEnabled(this.isEditable());
 
         this.brightSky.setSelected(this.finding.isBrightSky());
-        this.brightSky.setEnabled(super.isEditable());
+        this.brightSky.setEnabled(this.isEditable());
 
         this.clouds.setSelected(this.finding.isClouds());
-        this.clouds.setEnabled(super.isEditable());
+        this.clouds.setEnabled(this.isEditable());
 
         this.poorSeeing.setSelected(this.finding.isPoorSeeing());
-        this.poorSeeing.setEnabled(super.isEditable());
+        this.poorSeeing.setEnabled(this.isEditable());
 
         this.nearHorizion.setSelected(this.finding.isNearHorizion());
-        this.nearHorizion.setEnabled(super.isEditable());
+        this.nearHorizion.setEnabled(this.isEditable());
 
         this.unusualActivity.setSelected(this.finding.isUnusualActivity());
-        this.unusualActivity.setEnabled(super.isEditable());
+        this.unusualActivity.setEnabled(this.isEditable());
 
         this.outburst.setSelected(this.finding.isOutburst());
-        this.outburst.setEnabled(super.isEditable());
+        this.outburst.setEnabled(this.isEditable());
 
         this.nonAAVSOchart.setSelected(this.finding.isNonAAVSOchart());
-        this.nonAAVSOchart.setEnabled(super.isEditable());
+        this.nonAAVSOchart.setEnabled(this.isEditable());
 
         this.comparismSequenceProblem.setSelected(this.finding.isComparismSequenceProblem());
-        this.comparismSequenceProblem.setEnabled(super.isEditable());
+        this.comparismSequenceProblem.setEnabled(this.isEditable());
 
         this.magnitudeUncertain.setSelected(this.finding.isMagnitudeUncertain());
-        this.magnitudeUncertain.setEnabled(super.isEditable());
+        this.magnitudeUncertain.setEnabled(this.isEditable());
 
         this.starIdentificationUncertain.setSelected(this.finding.isStarIdentificationUncertain());
-        this.starIdentificationUncertain.setEnabled(super.isEditable());
+        this.starIdentificationUncertain.setEnabled(this.isEditable());
 
         this.faintStar.setSelected(this.finding.isFaintStar());
-        this.faintStar.setEnabled(super.isEditable());
+        this.faintStar.setEnabled(this.isEditable());
 
     }
 
@@ -637,7 +637,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     private void writeToCache() {
 
-        if ((super.isEditable()) && (this.finding != null) && (Boolean
+        if ((this.isEditable()) && (this.finding != null) && (Boolean
                 .parseBoolean(this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))) {
             Configuration config = this.om.getConfiguration();
             config.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
@@ -674,7 +674,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             targetName = this.target.getName().toLowerCase();
         }
 
-        if ((super.isEditable())
+        if ((this.isEditable())
                 && (Boolean.parseBoolean(
                         this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))
                 && (targetName.equals(this.om.getConfiguration()

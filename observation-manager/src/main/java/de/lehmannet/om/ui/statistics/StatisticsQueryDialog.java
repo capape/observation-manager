@@ -47,7 +47,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
     public StatisticsQueryDialog(ObservationManager om) {
 
         super(om);
-        super.setTitle(this.bundle.getString("dialog.statisticsQuery.title"));
+        this.setTitle(this.bundle.getString("dialog.statisticsQuery.title"));
 
         // Init catalogs and arrays
         String[] catalogNames = om.getExtensionLoader().getCatalogLoader().getListableCatalogNames();
@@ -78,9 +78,9 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
             }
         }
 
-        super.setSize(StatisticsQueryDialog.serialVersionUID, 540, 170);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setSize(StatisticsQueryDialog.serialVersionUID, 540, 170);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         // Try to set system default look and feel
         /*
@@ -91,8 +91,8 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
 
-        super.pack();
-        super.setVisible(true);
+        this.pack();
+        this.setVisible(true);
 
     }
 
@@ -130,14 +130,14 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         // Set Header
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 100, 1);
         constraints.fill = GridBagConstraints.CENTER;
         JLabel headerLabel = new JLabel(this.bundle.getString("dialog.statisticsQuery.header"));
         gridbag.setConstraints(headerLabel, constraints);
-        super.getContentPane().add(headerLabel);
+        this.getContentPane().add(headerLabel);
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         int i = 0;
@@ -147,7 +147,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
             this.catalogCheckBoxes[i] = new JCheckBox(this.catalogs[i].getName(), true);
             this.catalogCheckBoxes[i].setFont(new Font("Arial", Font.ITALIC + Font.BOLD, 12));
             gridbag.setConstraints(this.catalogCheckBoxes[i], constraints);
-            super.getContentPane().add(this.catalogCheckBoxes[i]);
+            this.getContentPane().add(this.catalogCheckBoxes[i]);
 
         }
 
@@ -158,7 +158,7 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
         JLabel note = new JLabel(this.bundle.getString("dialog.statisticsQuery.note"));
         note.setFont(new Font("Arial", Font.ITALIC, 10));
         gridbag.setConstraints(note, constraints);
-        super.getContentPane().add(note);
+        this.getContentPane().add(note);
 
         i++;
 
@@ -166,12 +166,12 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.ok, constraints);
         this.ok.addActionListener(this);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, i, 2, 1, 50, 1);
         gridbag.setConstraints(this.cancel, constraints);
         this.cancel.addActionListener(this);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

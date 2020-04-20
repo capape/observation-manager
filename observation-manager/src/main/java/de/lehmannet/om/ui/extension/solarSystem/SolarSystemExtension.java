@@ -46,7 +46,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     public SolarSystemExtension() {
 
-        super.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_SolarSystem.xsd";
+        this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_SolarSystem.xsd";
 
         this.initFindingPanels();
         this.initTargetPanels();
@@ -183,7 +183,7 @@ public class SolarSystemExtension extends AbstractExtension {
         findingPanels.put(SolarSystemTargetSun.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         findingPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
 
-        super.panels.put(SchemaElementConstants.FINDING, findingPanels);
+        this.panels.put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -202,7 +202,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel");
 
-        super.panels.put(SchemaElementConstants.TARGET, targetPanels);
+        this.panels.put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -221,7 +221,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetDialogs.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.dialog.SolarSystemTargetPlanetDialog");
 
-        super.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
+        this.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 

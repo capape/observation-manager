@@ -20,21 +20,21 @@ public class SessionDialog extends AbstractDialog {
         super(om, new SessionPanel(om, editableSession, true));
 
         if (editableSession == null) {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.session.title"));
+            this.setTitle(AbstractDialog.bundle.getString("dialog.session.title"));
         } else {
-            super.setTitle(AbstractDialog.bundle.getString("dialog.session.titleEdit") + " "
+            this.setTitle(AbstractDialog.bundle.getString("dialog.session.titleEdit") + " "
                     + editableSession.getDisplayName());
         }
 
-        super.setSize(SessionDialog.serialVersionUID, 1090, 610);
-        super.setLocationRelativeTo(om);
-        super.setVisible(true);
+        this.setSize(SessionDialog.serialVersionUID, 1090, 610);
+        this.setLocationRelativeTo(om);
+        this.setVisible(true);
 
     }
 
     public ISession getSession() {
 
-        if (super.schemaElement != null) {
+        if (this.schemaElement != null) {
             return (ISession) this.schemaElement;
         }
 

@@ -181,7 +181,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
                 } else { // Deselect all other entries
                     this.setSingleSelection(row, ((Boolean) o));
                 }
-                super.fireTableDataChanged();
+                this.fireTableDataChanged();
             }
         }
 

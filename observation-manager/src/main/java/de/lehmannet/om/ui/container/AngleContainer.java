@@ -204,7 +204,7 @@ public class AngleContainer extends Container {
         }
 
         // Recreate container, as this method is not called after constructor
-        super.removeAll();
+        this.removeAll();
         this.createContainer();
 
     }
@@ -222,7 +222,7 @@ public class AngleContainer extends Container {
         this.useArc = enabled;
 
         // Recreate container, as this method is not called after constructor
-        super.removeAll();
+        this.removeAll();
         this.createContainer();
 
     }
@@ -232,39 +232,39 @@ public class AngleContainer extends Container {
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        super.setLayout(gridbag);
+        this.setLayout(gridbag);
 
         if ((this.editable) && (this.useArc)) {
             ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 28, 100);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.arcDegreeValue.setEditable(this.editable);
             gridbag.setConstraints(this.arcDegreeValue, constraints);
-            super.add(this.arcDegreeValue);
+            this.add(this.arcDegreeValue);
             ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 5, 100);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             JLabel arcDegreeLabel = new JLabel(EquPosition.DEC_DEG);
             gridbag.setConstraints(arcDegreeLabel, constraints);
-            super.add(arcDegreeLabel);
+            this.add(arcDegreeLabel);
 
             ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 28, 100);
             this.arcMinValue.setEditable(this.editable);
             gridbag.setConstraints(this.arcMinValue, constraints);
-            super.add(this.arcMinValue);
+            this.add(this.arcMinValue);
             ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 5, 100);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             JLabel arcMinLabel = new JLabel(EquPosition.DEC_MIN);
             gridbag.setConstraints(arcMinLabel, constraints);
-            super.add(arcMinLabel);
+            this.add(arcMinLabel);
 
             ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 28, 100);
             this.arcSecValue.setEditable(this.editable);
             gridbag.setConstraints(this.arcSecValue, constraints);
-            super.add(this.arcSecValue);
+            this.add(this.arcSecValue);
             ConstraintsBuilder.buildConstraints(constraints, 5, 0, 1, 1, 5, 100);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             JLabel arcSecLabel = new JLabel(EquPosition.DEC_SEC);
             gridbag.setConstraints(arcSecLabel, constraints);
-            super.add(arcSecLabel);
+            this.add(arcSecLabel);
 
         } else {
             ConstraintsBuilder.buildConstraints(constraints, 0, 0, 6, 1, 90, 100);
@@ -274,7 +274,7 @@ public class AngleContainer extends Container {
             }
             this.decValue.setEditable(this.editable);
             gridbag.setConstraints(this.decValue, constraints);
-            super.add(this.decValue);
+            this.add(this.decValue);
 
             ConstraintsBuilder.buildConstraints(constraints, 6, 0, 1, 1, 10, 100);
             constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -285,11 +285,11 @@ public class AngleContainer extends Container {
                 }
 
                 gridbag.setConstraints(this.unitBox, constraints);
-                super.add(this.unitBox);
+                this.add(this.unitBox);
             } else {
                 this.unit = new JLabel(this.getI18NUnit(this.angleUnit));
                 gridbag.setConstraints(this.unit, constraints);
-                super.add(this.unit);
+                this.add(this.unit);
             }
         }
 
@@ -367,13 +367,13 @@ public class AngleContainer extends Container {
 
             // Item already exists
             if (this.list.contains(angleUnit)) {
-                super.setSelectedItem(angleUnit);
+                this.setSelectedItem(angleUnit);
                 return;
             }
 
             this.list.add(angleUnit);
             super.addItem(angleUnit);
-            super.setSelectedItem(angleUnit);
+            this.setSelectedItem(angleUnit);
 
         }
 

@@ -43,10 +43,10 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.om = om;
 
-        super.setTitle(this.bundle.getString("dialog.preferences.title"));
-        super.setSize(PreferencesDialog.serialVersionUID, 750, 267);
-        super.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        super.setLocationRelativeTo(om);
+        this.setTitle(this.bundle.getString("dialog.preferences.title"));
+        this.setSize(PreferencesDialog.serialVersionUID, 750, 267);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 
@@ -97,7 +97,7 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        super.getContentPane().setLayout(gridbag);
+        this.getContentPane().setLayout(gridbag);
 
         this.tabbedPane = new JTabbedPane();
 
@@ -109,21 +109,21 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.tabbedPane, constraints);
-        super.getContentPane().add(this.tabbedPane);
+        this.getContentPane().add(this.tabbedPane);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 33, 33);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.SOUTH;
         this.ok.addActionListener(this);
         gridbag.setConstraints(this.ok, constraints);
-        super.getContentPane().add(this.ok);
+        this.getContentPane().add(this.ok);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 33, 33);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.SOUTH;
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
-        super.getContentPane().add(this.cancel);
+        this.getContentPane().add(this.cancel);
 
     }
 

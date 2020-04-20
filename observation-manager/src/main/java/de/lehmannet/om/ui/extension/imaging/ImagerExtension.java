@@ -39,7 +39,7 @@ public class ImagerExtension extends AbstractExtension {
 
     public ImagerExtension() {
 
-        super.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
+        this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
 
         this.initPanels();
         this.initDialogs();
@@ -141,7 +141,7 @@ public class ImagerExtension extends AbstractExtension {
 
         panels.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel");
 
-        super.panels.put(SchemaElementConstants.IMAGER, panels);
+        this.panels.put(SchemaElementConstants.IMAGER, panels);
 
     }
 
@@ -151,7 +151,7 @@ public class ImagerExtension extends AbstractExtension {
 
         dialogs.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog");
 
-        super.dialogs.put(SchemaElementConstants.IMAGER, dialogs);
+        this.dialogs.put(SchemaElementConstants.IMAGER, dialogs);
 
     }
 

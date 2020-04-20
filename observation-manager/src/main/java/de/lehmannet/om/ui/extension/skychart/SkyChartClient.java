@@ -799,8 +799,8 @@ class StarchartSocket extends Socket {
 
         this.verbose = verbose;
 
-        this.out = new PrintWriter(super.getOutputStream(), true);
-        this.in = new BufferedReader(new InputStreamReader(super.getInputStream()));
+        this.out = new PrintWriter(this.getOutputStream(), true);
+        this.in = new BufferedReader(new InputStreamReader(this.getInputStream()));
 
         String response = this.in.readLine();
         if (this.verbose) {
@@ -875,7 +875,7 @@ class StarchartSocket extends Socket {
             // Readers and writers cannot be closed...can't do anything here
         }
 
-        super.close();
+        this.close();
 
     }
 

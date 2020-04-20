@@ -93,11 +93,11 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
                     p = Integer.parseInt(pA);
 
                     if ((p < 0) || (p > 359)) {
-                        super.createWarning(this.bundle.getString("panel.as.warning.posAngle.invalid"));
+                        this.createWarning(this.bundle.getString("panel.as.warning.posAngle.invalid"));
                         return null;
                     }
                 } catch (NumberFormatException nfe) {
-                    super.createWarning(this.bundle.getString("panel.as.warning.posAngle.invalid"));
+                    this.createWarning(this.bundle.getString("panel.as.warning.posAngle.invalid"));
                     return null;
                 }
             }
@@ -144,7 +144,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
         if (this.target.getPositionAngle() != -1) {
             this.positionAngle.setText("" + this.target.getPositionAngle());
         }
-        this.positionAngle.setEditable(super.isEditable());
+        this.positionAngle.setEditable(this.isEditable());
 
     }
 
@@ -158,7 +158,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
-                super.isEditable());
+                this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
