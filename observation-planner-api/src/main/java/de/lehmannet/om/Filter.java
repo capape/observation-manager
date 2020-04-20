@@ -271,7 +271,7 @@ public class Filter extends SchemaElement implements IFilter {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(super.getID().trim()))) {
+                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -279,7 +279,7 @@ public class Filter extends SchemaElement implements IFilter {
 
         // Create the new filter element
         Element eFilter = ownerDoc.createElement(IFilter.XML_ELEMENT_FILTER);
-        eFilter.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, super.getID());
+        eFilter.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         element.appendChild(eFilter);
 
@@ -367,7 +367,7 @@ public class Filter extends SchemaElement implements IFilter {
 
         // Create the link element
         Element e_Link = ownerDoc.createElement(IFilter.XML_ELEMENT_FILTER);
-        Node n_LinkText = ownerDoc.createTextNode(super.getID());
+        Node n_LinkText = ownerDoc.createTextNode(this.getID());
         e_Link.appendChild(n_LinkText);
 
         element.appendChild(e_Link);
