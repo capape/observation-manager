@@ -14,6 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ListIterator;
@@ -42,6 +43,7 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
+import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class StatisticsDetailsDialog extends AbstractDialog {
 
@@ -54,7 +56,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     private JMenuItem exportMissingOAL = null;
     private JMenuItem exportMissingHTML = null;
 
-    public StatisticsDetailsDialog(ObservationManager om, ObservationStatisticsTableModel model) {
+    public StatisticsDetailsDialog(final ObservationManager om, final ObservationStatisticsTableModel model) {
 
         super(om, new DetailPanel(om, model), true);
 
@@ -83,17 +85,17 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void createMenu() {
 
-        JMenuBar menuBar = new JMenuBar();
+        final JMenuBar menuBar = new JMenuBar();
 
-        JMenu exportMenu = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.title"));
+        final JMenu exportMenu = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.title"));
         exportMenu.setMnemonic('e');
         menuBar.add(exportMenu);
 
-        JMenu exportObserved = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.observed"));
+        final JMenu exportObserved = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.observed"));
         exportObserved.setMnemonic('o');
         exportMenu.add(exportObserved);
 
-        JMenu exportMissing = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.missing"));
+        final JMenu exportMissing = new JMenu(AbstractDialog.bundle.getString("dialog.statistics.menu.missing"));
         exportMissing.setMnemonic('m');
         exportMenu.add(exportMissing);
 
@@ -123,9 +125,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
 
-        Object source = e.getSource();
+        final Object source = e.getSource();
         if (source instanceof JMenuItem) {
             if (source.equals(exportObservedOAL)) {
                 exportObservedAsXML();
@@ -144,7 +146,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void exportObservedAsXML() {
 
-        Worker calculation = new Worker() {
+        final Worker calculation = new Worker() {
 
             private String message = null;
             private byte returnValue = Worker.RETURN_TYPE_OK;
@@ -152,11 +154,11 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
+                final XMLFileLoader xmlHelper = XMLFileLoaderImpl.newInstance(".exportTempFile");
 
                 List<IObservation> observations = null;
                 ListIterator<IObservation> iterator = null;
-                for (TargetObservations targetObservation : targetObservations) {
+                for (final TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() != null) {
                         observations = targetObservation.getObservations();
                         iterator = observations.listIterator();
@@ -166,9 +168,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                String file = getExportFile(catalogName + "_observed", "xml").getAbsolutePath();
+                final String file = getExportFile(catalogName + "_observed", "xml").getAbsolutePath();
 
-                boolean result = xmlHelper.save(file);
+                final boolean result = xmlHelper.save(file);
 
                 if (result) {
                     this.message = AbstractDialog.bundle.getString("dialog.statistics.observed.export.ok") + file;
@@ -211,10 +213,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void exportObservedAsHTML() {
 
-        final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
+        final XMLFileLoader xmlHelper = XMLFileLoaderImpl.newInstance(".exportTempFile");
 
         // Create worker for first part of export
-        Worker calculation = new Worker() {
+        final Worker calculation = new Worker() {
 
             private final String message = null;
 
@@ -223,7 +225,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
                 List<IObservation> observations = null;
                 ListIterator<IObservation> iterator = null;
-                for (TargetObservations targetObservation : targetObservations) {
+                for (final TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() != null) {
                         observations = targetObservation.getObservations();
                         iterator = observations.listIterator();
@@ -271,7 +273,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private void exportMissingTargetAsXML() {
 
-        Worker calculation = new Worker() {
+        final Worker calculation = new Worker() {
 
             private String message = null;
             private byte returnValue = Worker.RETURN_TYPE_OK;
@@ -279,17 +281,17 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             @Override
             public void run() {
 
-                XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
+                final XMLFileLoader xmlHelper = XMLFileLoaderImpl.newInstance(".exportTempFile");
 
-                for (TargetObservations targetObservation : targetObservations) {
+                for (final TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() == null) {
                         xmlHelper.addSchemaElement(targetObservation.getTarget());
                     }
                 }
 
-                String file = getExportFile(catalogName + "_missing", "xml").getAbsolutePath();
+                final String file = getExportFile(catalogName + "_missing", "xml").getAbsolutePath();
 
-                boolean result = xmlHelper.save(file);
+                final boolean result = xmlHelper.save(file);
 
                 if (result) {
                     this.message = AbstractDialog.bundle.getString("dialog.statistics.missing.export.ok") + file;
@@ -338,13 +340,13 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
             private final String message = null;
 
-            private final XMLFileLoader xmlHelper = new XMLFileLoader(".exportTempFile");
+            private final XMLFileLoader xmlHelper = XMLFileLoaderImpl.newInstance(".exportTempFile");
             private Document document = null;
 
             @Override
             public void run() {
 
-                for (TargetObservations targetObservation : targetObservations) {
+                for (final TargetObservations targetObservation : targetObservations) {
                     if (targetObservation.getObservations() == null) {
                         xmlHelper.addSchemaElement(targetObservation.getTarget());
                     }
@@ -376,7 +378,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         }
 
-        MyWorker calculation = new MyWorker();
+        final MyWorker calculation = new MyWorker();
 
         // Show progresDialog for first part of export
         new ProgressDialog(this.observationManager, AbstractDialog.bundle.getString("progress.wait.title"),
@@ -396,7 +398,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     }
 
-    private File getExportFile(String filename, String extension) {
+    private File getExportFile(final String filename, final String extension) {
 
         String path = null;
 
@@ -419,7 +421,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private File getXSLFile() {
 
-        String XSLFILENAME = "targetsOnly";
+        final String XSLFILENAME = "targetsOnly";
 
         String selectedTemplate = this.observationManager.getConfiguration()
                 .getConfig(ObservationManager.CONFIG_XSL_TEMPLATE);
@@ -430,7 +432,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        File path = new File(this.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        final File path = new File(this.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
             this.observationManager
                     .createWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
@@ -469,29 +471,29 @@ class DetailPanel extends AbstractPanel implements ActionListener {
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
 
-    public DetailPanel(ObservationManager om, AbstractSchemaTableModel model) {
+    public DetailPanel(final ObservationManager om, final AbstractSchemaTableModel model) {
 
         super(true);
 
         this.model = model;
         this.om = om;
 
-        JTable table = new JTable();
+        final JTable table = new JTable();
         table.setModel(this.model);
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        ListSelectionModel lsm = table.getSelectionModel();
+        final ListSelectionModel lsm = table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
             if (e.getValueIsAdjusting())
                 return;
 
-            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+            final ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
             if (lsm1.isSelectionEmpty()) {
                 // no rows are selected
             } else {
-                int selectedRow = lsm1.getMinSelectionIndex();
-                IObservation obs = (IObservation) DetailPanel.this.model.getValueAt(selectedRow, 1);
+                final int selectedRow = lsm1.getMinSelectionIndex();
+                final IObservation obs = (IObservation) DetailPanel.this.model.getValueAt(selectedRow, 1);
                 DetailPanel.this.om.updateUI(obs);
                 /*
                  * List l = (List)DetailPanel.this.model.getValueAt(selectedRow, 1); if( (l != null) && !(l.isEmpty()) )
@@ -502,11 +504,11 @@ class DetailPanel extends AbstractPanel implements ActionListener {
         });
 
         table.setDefaultRenderer(ITarget.class, (table12, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            final DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             String text = null;
             if (value != null) {
-                ITarget t = (ITarget) value;
+                final ITarget t = (ITarget) value;
                 text = t.getDisplayName();
                 cr.setText(text);
 
@@ -524,11 +526,11 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             return cr;
         });
         table.setDefaultRenderer(IObservation.class, (table1, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            final DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
-                IObservation o = (IObservation) value;
-                SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+                final IObservation o = (IObservation) value;
+                final SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
                 df.setCalendar(o.getBegin());
                 cr.setText(df.format(o.getBegin().getTime()));
             }
@@ -569,7 +571,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
 
     }
 
@@ -596,8 +598,8 @@ class DetailPanel extends AbstractPanel implements ActionListener {
 
     private void createPanel() {
 
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
+        final GridBagLayout gridbag = new GridBagLayout();
+        final GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         this.setLayout(gridbag);
 
