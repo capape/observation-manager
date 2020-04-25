@@ -88,20 +88,7 @@ public abstract class AbstractExtension implements IExtension {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        if (o instanceof IExtension) {
-            IExtension ext = (IExtension) o;
-            if (ext.getName().equals(this.getName())) {
-                return ext.getVersion() == this.getVersion();
-            }
-        }
-
-        return false;
-
-    }
-
+    
     @Override
     public boolean addOALExtensionElement(Element docElement) {
 
@@ -125,5 +112,31 @@ public abstract class AbstractExtension implements IExtension {
         return true;
 
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((OAL_EXTENSION_FILE == null) ? 0 : OAL_EXTENSION_FILE.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractExtension other = (AbstractExtension) obj;
+       
+        if (other.getName().equals(this.getName())) {
+             return other.getVersion() == this.getVersion();
+        }      
+
+        return false;
+    }
+   
 
 }
