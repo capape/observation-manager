@@ -217,34 +217,9 @@ public class EquPosition extends SchemaElement {
 
     }
 
-/**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this EquPosition and the given Object are equal. The given object is equal with this EquPosition, if
-     * the right ascension, declination and the position reference frame are equal.
-     * 
-     * @param obj
-     *            The Object to compare this EquPosition with.
-     * @return <code>true</code> if the given Object is an instance of EquPosition and its right ascension, declination
-     *         and position reference frame are equal with this EquPosition.<br>
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
 
-        if (!(obj instanceof EquPosition)) {
-            return false;
-        }
 
-        EquPosition equPosition = (EquPosition) obj;
 
-        // Check if frames match
-        if (!(frame.equals(equPosition.getFrame()))) {
-            return false;
-        }
-
-        return (ra.equals(equPosition.getRaAngle())) && (dec.equals(equPosition.getDecAngle()));
-
-    }
 
     // ---------------------
     // Public static methods ---------------------------------------------
@@ -616,6 +591,54 @@ public class EquPosition extends SchemaElement {
             this.frame = frame;
         }
 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((dec == null) ? 0 : dec.hashCode());
+        result = prime * result + ((frame == null) ? 0 : frame.hashCode());
+        result = prime * result + ((ra == null) ? 0 : ra.hashCode());
+        return result;
+    }
+
+/**
+     * Overwrittes equals(Object) method from java.lang.Object.<br>
+     * Checks if this EquPosition and the given Object are equal. The given object is equal with this EquPosition, if
+     * the right ascension, declination and the position reference frame are equal.
+     * 
+     * @param obj
+     *            The Object to compare this EquPosition with.
+     * @return <code>true</code> if the given Object is an instance of EquPosition and its right ascension, declination
+     *         and position reference frame are equal with this EquPosition.<br>
+     * @see java.lang.Object
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EquPosition other = (EquPosition) obj;
+        if (dec == null) {
+            if (other.dec != null)
+                return false;
+        } else if (!dec.equals(other.dec))
+            return false;
+        if (frame == null) {
+            if (other.frame != null)
+                return false;
+        } else if (!frame.equals(other.frame))
+            return false;
+        if (ra == null) {
+            if (other.ra != null)
+                return false;
+        } else if (!ra.equals(other.ra))
+            return false;
+        return true;
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * class is in latin.
  *
  * @author doergn@users.sourceforge.net
- *         capapegil
+ *         capapecd cagil
  * @since 2.0
  */
 public enum Constellation {
@@ -135,7 +135,7 @@ public enum Constellation {
         final String toSearch = data.trim().toUpperCase();
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getName().equals(toSearch)) {
+            if (item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
@@ -152,7 +152,7 @@ public enum Constellation {
         final String toSearch = data.trim().toUpperCase();
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getAbbreviation().equals(toSearch)) {
+            if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
@@ -169,12 +169,12 @@ public enum Constellation {
         final String toSearch = data.trim().toUpperCase();
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getAbbreviation().equals(toSearch) || item.getName().equals(toSearch)) {
+            if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
 
-        throw new IllegalArgumentException("Invalid constellation");
+        throw new IllegalArgumentException("Invalid constellation: " + data);
 
     }
 

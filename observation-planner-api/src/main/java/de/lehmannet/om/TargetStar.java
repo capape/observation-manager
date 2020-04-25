@@ -169,36 +169,7 @@ public class TargetStar extends Target {
 
     }
 
-/**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
-     * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
-     * 
-     * @param obj
-     *            The Object to compare this TargetStar with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
-     *         equal to this TargetStar name.<br>
-     *         (Name comparism is <b>not</b> casesensitive)
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
 
-        if (!(obj instanceof ITarget)) {
-            return false;
-        }
-
-        ITarget target = (ITarget) obj;
-
-        String targetName = target.getName();
-        if (targetName == null) {
-            return false;
-        }
-
-        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
-                && (this.getXSIType()).equals(target.getXSIType());
-
-    }
 
     // ------
     // Target ------------------------------------------------------------
@@ -403,4 +374,48 @@ public class TargetStar extends Target {
 
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Float.floatToIntBits(magnitudeApparent);
+        result = prime * result + ((stellarClassification == null) ? 0 : stellarClassification.hashCode());
+        return result;
+    }
+
+    /**
+     * Overwrittes equals(Object) method from java.lang.Object.<br>
+     * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
+     * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
+     * 
+     * @param obj
+     *            The Object to compare this TargetStar with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
+     *         equal to this TargetStar name.<br>
+     *         (Name comparism is <b>not</b> casesensitive)
+     * @see java.lang.Object
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TargetStar other = (TargetStar) obj;
+      
+        String targetName = other.getName();
+        if (targetName == null) {
+                return false;
+        }
+    
+        return this.getName().toLowerCase().equals(targetName.toLowerCase())
+                    && this.getXSIType().equals(other.getXSIType());
+        
+    }
+
+
+
+    
 }
