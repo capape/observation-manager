@@ -77,12 +77,11 @@ public class TargetMapper {
     }
     
     public static IObserver getOptionalObserver(Element target, String datasource, IObserver... observers) throws SchemaException {
-        Element child;
-        NodeList children;
-        children = target.getElementsByTagName(IObserver.XML_ELEMENT_OBSERVER);
+        
+        NodeList children = target.getElementsByTagName(IObserver.XML_ELEMENT_OBSERVER);
         if (children != null) {
             if ((children.getLength() == 1) && (datasource == null)) {
-                child = (Element) children.item(0);
+                Element child = (Element) children.item(0);
                 String observerID = child.getFirstChild().getNodeValue();
     
                 if ((observers != null) && (observers.length > 0)) {
