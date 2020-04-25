@@ -45,7 +45,12 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
 import de.lehmannet.om.ui.catalog.CatalogLoader;
+import de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension;
+import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
+import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
+import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.ConfigException;
 import de.lehmannet.om.util.ConfigLoader;
@@ -71,8 +76,6 @@ public class ExtensionLoader {
 
     private final List<IExtension> extensions = new LinkedList<>();
 
-    private ObservationManager om = null;
-
     private CatalogLoader catalogLoader = null;
 
     private SchemaUILoader schemaUILoader = null;
@@ -83,18 +86,23 @@ public class ExtensionLoader {
 
     private JMenu[] cachedMenus = null;
 
+    final InstallDir installDir;
+    final ObservationManager om;
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
 
-    public ExtensionLoader(ObservationManager om) {
+    public ExtensionLoader(ObservationManager om, InstallDir installDir) {
 
+        
+        this.installDir = installDir;
         this.om = om;
+
         this.extensionClassLoader = URLClassLoader.newInstance(new URL[0],  ClassLoader.getSystemClassLoader());
         this.loadExtensions();
 
-        this.catalogLoader = new CatalogLoader(this.om, this.extensions);
-        this.schemaUILoader = new SchemaUILoader(this.om, this.extensions);
+        this.catalogLoader = new CatalogLoader(om, this.extensions);
+        this.schemaUILoader = new SchemaUILoader(om, this.extensions);
         
 
     }
@@ -304,8 +312,17 @@ public class ExtensionLoader {
 
     private void loadExtensions() {
 
-        // Add fixed generic elements (no extenstion package required)
-        this.addGenericExtension();
+        this.extensions.add(new GenericExtension());
+        this.extensions.add(new ImagerExtension());
+        this.extensions.add(new DeepSkyExtension());
+        this.extensions.add(new VariableStarsExtension(om));
+        this.extensions.add(new SolarSystemExtension());
+        this.loadExternalExtensions();
+    }
+
+    private void loadExternalExtensions() {
+
+        
 
         // Get JARs from classpath
         String sep = System.getProperty("path.separator");
@@ -469,8 +486,7 @@ public class ExtensionLoader {
         }
         BufferedInputStream bis = new BufferedInputStream(istr);
 
-        File file = new File(
-                this.om.getInstallDir() + File.separator /* + "testing" + File.separator */ + ze.getName());
+        File file = new File(installDir.getPathForFile(ze.getName()));
 
         if (ze.isDirectory()) {
             boolean createDir = false;
@@ -527,7 +543,7 @@ public class ExtensionLoader {
     private boolean addOALExtenstionElement(IExtension extension) {
 
         // Get latest schema file
-        File schema = new File(this.om.getInstallDir().getPathForFolder("schema")
+        File schema = new File(this.installDir.getPathForFolder("schema")
                 + SchemaLoader.VERSIONS[SchemaLoader.VERSIONS.length - 1]);
 
         if (!schema.exists()) {
