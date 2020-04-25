@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
 
 import javax.swing.JProgressBar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.extension.IExtension;
@@ -177,8 +180,7 @@ public class CatalogLoader {
             // As catalogs are loaded during startup and loading of catalogs can take some
             // time,
             // this should increase startup times
-            CatalogLoaderRunnable runnable = new CatalogLoaderRunnable(current, this.catalogMap, catalogDir,
-                    this.observationManager.isDebug());
+            CatalogLoaderRunnable runnable = new CatalogLoaderRunnable(current, this.catalogMap, catalogDir);
             Thread thread = new Thread(this.loadCatalogs, runnable, "Load catalog " + current.getName());
             catalogs.add(thread);
 
@@ -200,22 +202,22 @@ class CatalogLoaderRunnable implements Runnable {
     private IExtension extension = null;
     private Map<String,ICatalog> resultMap = null;
     private File catalogDir = null;
-    private boolean debug = false;
-
-    public CatalogLoaderRunnable(IExtension extension, Map<String,ICatalog> resultMap, File catalogDir, boolean debug) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CatalogLoaderRunnable.class);
+    public CatalogLoaderRunnable(IExtension extension, Map<String,ICatalog> resultMap, File catalogDir) {
 
         this.extension = extension;
         this.resultMap = resultMap;
         this.catalogDir = catalogDir;
-        this.debug = debug;
+        
 
     }
 
     @Override
     public void run() {
 
-        if (debug) {
-            System.out.println("Catalog loading start: " + this.extension.getName() + " " + System.currentTimeMillis());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Catalog loading start: {} {}", this.extension.getName() , System.currentTimeMillis());
         }
 
         // On huge catalogs, this may take some time:
@@ -230,8 +232,8 @@ class CatalogLoaderRunnable implements Runnable {
             }
         }
 
-        if (debug) {
-            System.out.println("Catalog loading done: " + this.extension.getName() + " " + System.currentTimeMillis());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Catalog loading done: {} {}", this.extension.getName(), System.currentTimeMillis());
         }
 
     }
