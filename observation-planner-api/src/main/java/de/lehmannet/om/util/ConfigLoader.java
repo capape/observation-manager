@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -81,13 +82,11 @@ public class ConfigLoader {
         String type = ConfigLoader.checkAncestorTypes(ptype);
 
         if (!targets.containsKey(type)) { // Given type is finding type...try to get target type
-            Collection<String> c = target_findings.keySet();
-            Iterator<String> i = c.iterator();
-            String currentKey = null;
-            String currentValue = null;
-            while (i.hasNext()) {
-                currentKey = i.next();
-                currentValue = target_findings.get(currentKey);
+            Iterator<Entry<String, String>> iterator = target_findings.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<String, String> entry = iterator.next();
+                String currentKey = entry.getKey();
+                String currentValue = entry.getValue();
                 if (type.equals(currentValue)) {
                     type = currentKey;
                     break;
@@ -134,13 +133,11 @@ public class ConfigLoader {
         String type = ConfigLoader.checkAncestorTypes(ptype);
 
         if (!findings.containsKey(type)) { // Given type is target type...try to get finding type
-            Collection<String> c = target_findings.keySet();
-            Iterator<String> i = c.iterator();
-            String currentKey = null;
-            String currentValue = null;
-            while (i.hasNext()) {
-                currentKey = i.next();
-                currentValue = target_findings.get(currentKey);
+            Iterator<Entry<String, String>> iterator = target_findings.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<String, String> entry = iterator.next();
+                String currentKey = entry.getKey();
+                String currentValue = entry.getValue();
                 if (type.equals(currentKey)) {
                     type = currentValue;
                     break;
