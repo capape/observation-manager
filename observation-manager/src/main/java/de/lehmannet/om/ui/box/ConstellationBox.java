@@ -64,11 +64,11 @@ public class ConstellationBox extends JComboBox<String> {
 
     public Constellation getSelectedConstellation() {
 
-        Object cons = this.getSelectedItem();
+        String cons = (String) this.getSelectedItem();
         if (ConstellationBox.EMPTY_ENTRY.equals(cons)) {
             return null;
         } else {
-            return (Constellation) cons;
+            return Constellation.getConstellationByAbbOrName(cons);
         }
 
     }
