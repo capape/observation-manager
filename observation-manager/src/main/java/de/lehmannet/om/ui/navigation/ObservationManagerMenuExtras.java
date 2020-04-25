@@ -20,6 +20,7 @@ import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
+import de.lehmannet.om.ui.theme.NightVisionTheme;
 import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.IConfiguration;
