@@ -132,7 +132,7 @@ public class AAVSOVisualSerializer implements ISerializer {
     public int serialize(OutputStream stream) throws Exception {
 
         // Write header
-        stream.write(this.getHeader().getBytes());
+        stream.write(this.getHeader().getBytes("UTF-8"));
 
         ListIterator<IObservation> iterator = this.variableStarObservations.listIterator();
         IObservation currentObservation = null;
@@ -190,7 +190,7 @@ public class AAVSOVisualSerializer implements ISerializer {
 
 
             // Next line for next observation
-            stream.write("\n".getBytes());
+            stream.write("\n".getBytes("UTF-8"));
 
             counter++;
 
@@ -207,7 +207,7 @@ public class AAVSOVisualSerializer implements ISerializer {
     private String writeObservation(OutputStream stream, IObservation currentObservation) throws IOException {
         // Get observation julian date and write it into stream
         String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin());
-        stream.write(obsDate.getBytes());
+        stream.write(obsDate.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         return obsDate;
     }
@@ -216,18 +216,18 @@ public class AAVSOVisualSerializer implements ISerializer {
 
         List<String> comparismStars = fvs.getComparismStars();
         String cs1 = comparismStars.get(0);
-        stream.write(cs1.getBytes());
+        stream.write(cs1.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         if (comparismStars.size() == 1) { // Only one comparism star
-            stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
+            stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes("UTF-8"));
             stream.write(AAVSOVisualSerializer.DELIMITER);
         } else if (comparismStars.size() > 1) { // At least two comparism stars
             String cs2 = (String) comparismStars.get(1);
             if (cs2 != null) {
-                stream.write(cs2.getBytes());
+                stream.write(cs2.getBytes("UTF-8"));
                 stream.write(AAVSOVisualSerializer.DELIMITER);
             } else {
-                stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes());
+                stream.write(AAVSOVisualSerializer.NOT_APPLICABLE.getBytes("UTF-8"));
                 stream.write(AAVSOVisualSerializer.DELIMITER);
             }
         }
@@ -271,19 +271,19 @@ public class AAVSOVisualSerializer implements ISerializer {
              notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
          }
 
-         stream.write(notes.toString().getBytes());
+         stream.write(notes.toString().getBytes("UTF-8"));
     }
 
     private void writeChartDate(OutputStream stream, FindingVariableStar fvs) throws IOException {
         // Write chart
-        stream.write(fvs.getChartDate().getBytes());
+        stream.write(fvs.getChartDate().getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
     }
 
     private String writeComments(OutputStream stream, FindingVariableStar fvs) throws IOException {
         // Write comment codes
         String comments = this.getCommentCode(fvs);
-        stream.write(comments.getBytes());
+        stream.write(comments.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         return comments;
     }
@@ -295,14 +295,14 @@ public class AAVSOVisualSerializer implements ISerializer {
             mag = "<";
         }
         mag = mag + fvs.getMagnitude();
-        stream.write(mag.getBytes());
+        stream.write(mag.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         return mag;
     }
 
     private void writeName(OutputStream stream, IObservation currentObservation) throws IOException {
         // Write variable star name
-        stream.write(currentObservation.getTarget().getName().getBytes());
+        stream.write(currentObservation.getTarget().getName().getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
     }
 
@@ -311,7 +311,7 @@ public class AAVSOVisualSerializer implements ISerializer {
         // since last loop)
         if (!initials.equals(this.lastAavsoInitals)) {
             String obsCodeParameter = AAVSOVisualSerializer.PARAMETER_OBSERVERCODE + initials + "\n";
-            stream.write(obsCodeParameter.getBytes());
+            stream.write(obsCodeParameter.getBytes("UTF-8"));
             this.lastAavsoInitals = initials;
         }
     }
@@ -326,7 +326,7 @@ public class AAVSOVisualSerializer implements ISerializer {
         String finalMessage = "ERROR - " + message;
 
         try {
-            stream.write(finalMessage.getBytes());
+            stream.write(finalMessage.getBytes("UTF-8"));
             stream.flush();
             stream.close();
         } catch (IOException ioe) {
