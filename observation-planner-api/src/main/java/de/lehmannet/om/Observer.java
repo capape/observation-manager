@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -193,19 +195,16 @@ public class Observer extends SchemaElement implements IObserver {
 
         buffer.append(" Accounts=");
         if ((accounts != null) && (!accounts.isEmpty())) {
-            Iterator<String> iterator = accounts.keySet().iterator();
-            String key = null;
-            String value = null;
+
+            Iterator<Entry<String, String>> iterator = accounts.entrySet().iterator();
             while (iterator.hasNext()) {
-                key = iterator.next();
-                value = accounts.get(key);
-
-                buffer.append(key).append(": ").append(value);
-
+                Entry<String, String> entry = iterator.next();
+                buffer.append(entry.getKey()).append(": ").append(entry.getValue());
                 if (iterator.hasNext()) {
                     buffer.append(" --- ");
                 }
-            }
+            }           
+            
         }
 
         buffer.append(" fstOffset=");
