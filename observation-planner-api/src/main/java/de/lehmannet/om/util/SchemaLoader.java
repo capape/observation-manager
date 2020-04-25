@@ -10,17 +10,24 @@ package de.lehmannet.om.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -32,8 +39,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -72,7 +77,7 @@ public class SchemaLoader {
 
     private static Logger log = LoggerFactory.getLogger(SchemaLoader.class);
     // XML Schema Filenames
-    public static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
+    private static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
             "comast17.xsd", "oal20.xsd", "oal21.xsd" };
 
     // ------------------
@@ -121,6 +126,10 @@ public class SchemaLoader {
     // ---------------------
     // Public Static Methods ---------------------------------------------
     // ---------------------
+
+    public static String [] getVersions() {
+        return VERSIONS.clone();
+    }
 
     /**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
@@ -837,7 +846,11 @@ public class SchemaLoader {
     private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
 
         char[] buffer = new char[500];
-        try (FileReader reader  = new FileReader(xmlFile)) {
+
+        try (FileInputStream fileStream = new FileInputStream(xmlFile);
+             InputStreamReader reader  =  new InputStreamReader(fileStream, "UTF-8")) {
+       
+            
             final int bytesRead = reader.read(buffer, 0, 500);
             if (bytesRead < 0) {
                 throw new IOException("End of file");
@@ -869,30 +882,29 @@ public class SchemaLoader {
             return;
         }
 
-        Iterator<ITarget> keyIterator = null;
-        ITarget current = null;
-        Object dT = null;
+        
         for (IObservation observation : this.observations) {
-            current = observation.getTarget();
-            if (current.getDatasource() == null) { // Check if target is catalog target
-                // continue;
-            }
-
-            keyIterator = this.doublicateTargets.keySet().iterator();
-            while (keyIterator.hasNext()) {
-                dT = keyIterator.next();
-                if (current.equalsID(dT)) { // Replace target with ID is equal (calling equal won't work here!)
-                    observation.setTarget((ITarget) this.doublicateTargets.get(dT));
+            ITarget current = observation.getTarget();
+            Set<Entry<ITarget, ITarget>> data = this.doublicateTargets.entrySet();
+            for (Entry<ITarget, ITarget> entry : data) {
+             
+                if (current.equalsID(entry.getKey())) {
+                    observation.setTarget(entry.getValue());
                 }
-            }
+            }            
         }
 
+        Object dT = null;
+        ITarget current = null;
+        Iterator<ITarget> keyIterator = null;
+        
         // Remove targets from targets array (cache)
         List<ITarget> targetElements = new ArrayList<>(Arrays.asList(this.targets));
         ListIterator<ITarget> iterator = targetElements.listIterator();
         while (iterator.hasNext()) {
             current = (ITarget) iterator.next();
             keyIterator = this.doublicateTargets.keySet().iterator();
+            
             while (keyIterator.hasNext()) {
                 dT = keyIterator.next();
                 if (current.equalsID(dT)) { // Check targetID is equal (calling equal won't work here!)
