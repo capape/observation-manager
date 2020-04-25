@@ -146,7 +146,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             return null;
         }
 
-        DeepSkyFindingOC finding = (DeepSkyFindingOC) this.updateSchemaElement();
+        DeepSkyFindingOC finding = (DeepSkyFindingOC) super.updateSchemaElement();
 
         // Something went wrong here. Maybe given values are malformed
         if (finding == null) {
