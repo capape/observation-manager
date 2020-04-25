@@ -13,8 +13,8 @@ public class LoggerConfig {
 
     public static void initLogs() {
             
-            LOGGER_AWT.setLevel(Level.FINE);
-            LOGGER_SWING.setLevel(Level.FINE);
+            LOGGER_AWT.setLevel(Level.INFO);
+            LOGGER_SWING.setLevel(Level.INFO);
             LOGGER_SUN_AWT.setLevel(Level.INFO);
        
        
