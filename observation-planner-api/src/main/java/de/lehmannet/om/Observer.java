@@ -323,19 +323,19 @@ public class Observer extends SchemaElement implements IObserver {
 
         if ((accounts != null) && !(accounts.isEmpty())) {
             Element e_Account = null;
-            Iterator<String> iterator = accounts.keySet().iterator();
-            String account = null;
-            String value = null;
-            while (iterator.hasNext()) {
-                account = iterator.next();
-                value = this.accounts.get(account);
 
+            Iterator<Entry<String, String>> iterator = accounts.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<String, String> entry = iterator.next();
+                String account = entry.getValue();
+                String value = this.accounts.get(entry.getKey());
                 e_Account = ownerDoc.createElement(XML_ELEMENT_ACCOUNT);
                 e_Account.setAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME, account);
                 Node n_AccountText = ownerDoc.createCDATASection(value);
                 e_Account.appendChild(n_AccountText);
                 e_Observer.appendChild(e_Account);
-            }
+            }                       
+            
         }
 
         if (!Float.isNaN(this.fstOffset)) {
