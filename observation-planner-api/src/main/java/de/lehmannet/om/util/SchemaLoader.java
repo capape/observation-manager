@@ -127,7 +127,7 @@ public class SchemaLoader {
     // Public Static Methods ---------------------------------------------
     // ---------------------
 
-    public static String [] getVersions() {
+    public static String[] getVersions() {
         return VERSIONS.clone();
     }
 
@@ -263,37 +263,34 @@ public class SchemaLoader {
 
         File schemaFile = this.getSchemaFile(xmlFile, schemaPath);
 
-        // Try to parse and validate file
+        System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
+                "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setValidating(false);
+        dbf.setNamespaceAware(true);
+        dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
+        dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource", schemaFile.getAbsoluteFile());
+
         try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-            System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
-                    "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setValidating(false);
-            dbf.setNamespaceAware(true);
-            dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-                    "http://www.w3.org/2001/XMLSchema");
-            dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource", schemaFile.getAbsoluteFile());
+            java.net.URL fileUrl = Thread.currentThread().getContextClassLoader().getResource("schema/oal21.xsd");
 
-            try {
-                SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(fileUrl.getFile()));
+            javax.xml.validation.Validator validator = schema.newValidator();
 
-                java.net.URL fileUrl = Thread.currentThread().getContextClassLoader().getResource("schema/oal21.xsd");
+            validator.validate(new StreamSource(xmlFile));
+        } catch (IOException | SAXException e) {
+            log.error("Error parsing xml file: {}", e.getLocalizedMessage());
+            // throw new SchemaException("Unable to parse xml file");
+        }
 
-                Schema schema = factory.newSchema(new File(fileUrl.getFile()));
-                javax.xml.validation.Validator validator = schema.newValidator();
-
-                validator.validate(new StreamSource(xmlFile));
-            } catch (IOException | SAXException e) {
-                log.error("Error parsing xml file: {}", e.getLocalizedMessage());
-                // throw new SchemaException("Unable to parse xml file");
-            }
-
+        try (FileInputStream is = new FileInputStream(xmlFile)) {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Validator handler = new Validator();
             db.setErrorHandler(handler);
 
-            Document doc = db.parse(new FileInputStream(xmlFile));
+            Document doc = db.parse(is);
             return this.load(doc);
 
         } catch (SAXException sax) {
@@ -848,9 +845,8 @@ public class SchemaLoader {
         char[] buffer = new char[500];
 
         try (FileInputStream fileStream = new FileInputStream(xmlFile);
-             InputStreamReader reader  =  new InputStreamReader(fileStream, "UTF-8")) {
-       
-            
+                InputStreamReader reader = new InputStreamReader(fileStream, "UTF-8")) {
+
             final int bytesRead = reader.read(buffer, 0, 500);
             if (bytesRead < 0) {
                 throw new IOException("End of file");
@@ -860,7 +856,7 @@ public class SchemaLoader {
         } catch (IOException ioe) {
             throw new OALException("Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe,
                     ioe);
-        } 
+        }
         // Check if in the first 500 characters of the XML file a known SchemaFile name
         // is persent.
         // If so load the Schemafile for validation
@@ -882,29 +878,28 @@ public class SchemaLoader {
             return;
         }
 
-        
         for (IObservation observation : this.observations) {
             ITarget current = observation.getTarget();
             Set<Entry<ITarget, ITarget>> data = this.doublicateTargets.entrySet();
             for (Entry<ITarget, ITarget> entry : data) {
-             
+
                 if (current.equalsID(entry.getKey())) {
                     observation.setTarget(entry.getValue());
                 }
-            }            
+            }
         }
 
         Object dT = null;
         ITarget current = null;
         Iterator<ITarget> keyIterator = null;
-        
+
         // Remove targets from targets array (cache)
         List<ITarget> targetElements = new ArrayList<>(Arrays.asList(this.targets));
         ListIterator<ITarget> iterator = targetElements.listIterator();
         while (iterator.hasNext()) {
             current = (ITarget) iterator.next();
             keyIterator = this.doublicateTargets.keySet().iterator();
-            
+
             while (keyIterator.hasNext()) {
                 dT = keyIterator.next();
                 if (current.equalsID(dT)) { // Check targetID is equal (calling equal won't work here!)
