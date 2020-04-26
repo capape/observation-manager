@@ -14,7 +14,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ListIterator;
@@ -140,7 +139,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             }
         }
 
-        this.actionPerformed(e);
+        super.actionPerformed(e);
 
     }
 

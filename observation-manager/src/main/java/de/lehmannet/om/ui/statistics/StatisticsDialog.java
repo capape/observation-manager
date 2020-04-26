@@ -184,7 +184,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     @Override
     protected void processWindowEvent(WindowEvent e) {
 
-        this.processWindowEvent(e);
+        super.processWindowEvent(e);
 
         // Catch window closing (via x Button)
         // and stop threads

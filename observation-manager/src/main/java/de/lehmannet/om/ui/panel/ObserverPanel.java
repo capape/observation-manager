@@ -621,7 +621,7 @@ class AccountListRenderer extends DefaultListCellRenderer {
             }
         }
 
-        Component c = this.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         c.setFont(f);
 
         return c;

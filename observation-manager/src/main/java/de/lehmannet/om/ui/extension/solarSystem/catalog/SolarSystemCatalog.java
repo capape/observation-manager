@@ -269,7 +269,7 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
             return 100;
         }
 
-        return this.getColumnSize(columnIndex);
+        return super.getColumnSize(columnIndex);
 
     }
 

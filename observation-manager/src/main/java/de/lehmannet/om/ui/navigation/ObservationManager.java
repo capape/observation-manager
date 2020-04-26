@@ -1525,7 +1525,7 @@ class TeeLog extends PrintStream {
     @Override
     public void flush() {
 
-        this.flush();
+        super.flush();
         synchronized (TeeLog.syncMe) {
             this.console.flush();
         }
