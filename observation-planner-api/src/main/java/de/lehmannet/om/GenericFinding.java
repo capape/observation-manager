@@ -112,6 +112,15 @@ public GenericFinding(String ID, String description) {
 
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + this.toString().hashCode();        
+        return result;
+    }
+
+
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------

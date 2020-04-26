@@ -132,7 +132,7 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
             if (item.getName().equalsIgnoreCase(toSearch)) {
@@ -149,7 +149,7 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
             if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
@@ -166,7 +166,7 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
             if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {

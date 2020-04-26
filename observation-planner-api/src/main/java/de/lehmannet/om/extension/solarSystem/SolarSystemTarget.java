@@ -246,10 +246,21 @@ public abstract class SolarSystemTarget extends Target {
             return false;
         }
 
-        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
+        return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
+        result = prime * result + ((this.getXSIType() == null) ? 0 : this.getXSIType().hashCode());
+        return result;
+    }
+
+    
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------

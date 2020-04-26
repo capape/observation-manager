@@ -214,44 +214,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
-     * Overwrittes hashCode() method from java.lang.Object.<br>
-     * Returns a hashCode for the string returned from toString() method.
-     *
-     * @return a hashCode value
-     * @see java.lang.Object
-     */
-    @Override
-    public int hashCode() {
 
-        return this.toString().hashCode();
-
-    }
-
-/*
-     * @Override public boolean equals(Object obj) {
-     *
-     * if( obj == null || !(obj instanceof IObserver) ) { return false; }
-     *
-     * IObserver observer = (IObserver)obj;
-     *
-     * if( !observer.getName().toLowerCase().equals(name.toLowerCase()) ) { return false; }
-     *
-     * if( !observer.getSurname().toLowerCase().equals(surname.toLowerCase()) ) { return false; }
-     *
-     * // Sort contact list from given object List objectContacts = sortContactList(observer.getContacts());
-     *
-     * // dublicate this Observers contacts, that the original // contact list stays unchanged, while we sort and
-     * compare the results List contactList = new LinkedList(contacts); // Sort internal contact list contactList =
-     * sortContactList(contactList);
-     *
-     * // Calls AbstractList.equals(Object) as both list should be sorted if( !contactList.equals(objectContacts) ) {
-     * return false; }
-     *
-     * return true;
-     *
-     * }
-     */
 
     // ---------
     // IObserver ---------------------------------------------------------
@@ -719,5 +682,44 @@ public class Observer extends SchemaElement implements IObserver {
         return this.fstOffset;
 
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((accounts == null) ? 0 : accounts.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Observer other = (Observer) obj;
+        if (accounts == null) {
+            if (other.accounts != null)
+                return false;
+        } else if (!accounts.equals(other.accounts))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (surname == null) {
+            if (other.surname != null)
+                return false;
+        } else if (!surname.equals(other.surname))
+            return false;
+        return true;
+    }
+
+    
 
 }

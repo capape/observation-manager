@@ -311,7 +311,7 @@ public class Scope extends SchemaElement implements IScope {
      * IScope scope = (IScope)obj;
      * 
      * String modelName = scope.getModel(); if( modelName == null ) { return false;
-     * } if( !model.toLowerCase().equals(modelName.toLowerCase()) ) { return false;
+     * } if( !model.toLowerCase(Locale.getDefault()).equals(modelName.toLowerCase(Locale.getDefault())) ) { return false;
      * }
      * 
      * float objAperture = scope.getAperture(); if( objAperture != aperture ) {

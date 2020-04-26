@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.util.Locale;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -129,8 +131,8 @@ class EquPositionReferenceFrame {
 
         EquPositionReferenceFrame frame = (EquPositionReferenceFrame) obj;
 
-        return (frame.getEquinox().toLowerCase().trim().equals(equinox.toLowerCase().trim()))
-                && (frame.getOrigin().toLowerCase().trim().equals(origin.toLowerCase().trim()));
+        return (frame.getEquinox().toLowerCase(Locale.getDefault()).trim().equals(equinox.toLowerCase(Locale.getDefault()).trim()))
+                && (frame.getOrigin().toLowerCase(Locale.getDefault()).trim().equals(origin.toLowerCase(Locale.getDefault()).trim()));
 
     }
 
