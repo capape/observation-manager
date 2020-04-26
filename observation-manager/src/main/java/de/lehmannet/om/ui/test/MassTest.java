@@ -83,7 +83,7 @@ class MassTest {
             re.addTargets(Arrays.asList(tar));
         } catch (SchemaException se) {
             System.err.println("Cannot add existing element to Root Element: " + se);
-            System.exit(1);
+            throw new RuntimeException(se);
         }
 
         System.out.println("Start to create " + number + " randon observations...");

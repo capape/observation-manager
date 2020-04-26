@@ -43,10 +43,10 @@ public class TargetStarContainer extends Container {
 
     // Make this accessible for e.g. VariableStarContainer which will change the
     // label text
-    public JLabel LmagnitudeApp = null;
+    public JLabel labelMagnitudeApp = null;
 
     // Stars apparent magnitude (make this accessible for e.g. VariableStarContainer
-    // which will change the label text)
+    // which will change the label text)git 
     public JTextField magnitudeApparent = null;
 
     // Stellar classification like O,B,A,F,G,K,M
@@ -241,11 +241,11 @@ public class TargetStarContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.NONE;
-        this.LmagnitudeApp = new JLabel(this.bundle.getString("panel.targetStar.label.magnitudeApparent"));
-        this.LmagnitudeApp.setToolTipText(this.bundle.getString("panel.targetStar.tooltip.magnitudeApparent"));
-        gridbag.setConstraints(this.LmagnitudeApp, constraints);
-        this.LmagnitudeApp.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-        this.add(this.LmagnitudeApp);
+        this.labelMagnitudeApp = new JLabel(this.bundle.getString("panel.targetStar.label.magnitudeApparent"));
+        this.labelMagnitudeApp.setToolTipText(this.bundle.getString("panel.targetStar.tooltip.magnitudeApparent"));
+        gridbag.setConstraints(this.labelMagnitudeApp, constraints);
+        this.labelMagnitudeApp.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
+        this.add(this.labelMagnitudeApp);
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.magnitudeApparent = new JTextField();
