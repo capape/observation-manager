@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,7 +47,7 @@ import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
 
 // All get{SchemaElement} are extremly slow. Implement faster caching!
-public class XMLFileLoader {
+public class XMLFileLoaderImpl implements XMLFileLoader {
 
     
 
@@ -62,18 +61,23 @@ public class XMLFileLoader {
     
     // The schemaLoader to use
     private final SchemaLoader loader = new SchemaLoader();
-    private final Logger LOGGER = LoggerFactory.getLogger(XMLFileLoader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(XMLFileLoaderImpl.class);
 
-    public XMLFileLoader(String pathFile) {
 
-        this.schemaPath = new File(pathFile);
-        if (!this.schemaPath.exists()) {
-            LOGGER.error("Comast schema path not found:{} \n.", this.schemaPath);
-            LOGGER.error("Need to quit...");
-        }
+    public static final XMLFileLoader newInstance(String pathFile)  {
         
+        final File file = new File(pathFile);
+        if (!file.exists()) {
 
+                LOGGER.error("Comast schema path not found:{} \n.", pathFile);
+        }
+        return new XMLFileLoaderImpl(file);
+    };
+    
 
+    private XMLFileLoaderImpl(File file) {
+
+        this.schemaPath = file;
     }
 
     public void clear() {

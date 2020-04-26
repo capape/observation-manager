@@ -45,7 +45,12 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
 import de.lehmannet.om.ui.catalog.CatalogLoader;
+import de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension;
+import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
+import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
+import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.ConfigException;
 import de.lehmannet.om.util.ConfigLoader;
@@ -71,8 +76,6 @@ public class ExtensionLoader {
 
     private final List<IExtension> extensions = new LinkedList<>();
 
-    private ObservationManager om = null;
-
     private CatalogLoader catalogLoader = null;
 
     private SchemaUILoader schemaUILoader = null;
@@ -83,22 +86,24 @@ public class ExtensionLoader {
 
     private JMenu[] cachedMenus = null;
 
+    final InstallDir installDir;
+    final ObservationManager om;
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
 
-    public ExtensionLoader(ObservationManager om) {
+    public ExtensionLoader(ObservationManager om, InstallDir installDir) {
 
+        this.installDir = installDir;
         this.om = om;
-        this.extensionClassLoader = URLClassLoader.newInstance(new URL[0],  ClassLoader.getSystemClassLoader());
+
+        this.extensionClassLoader = URLClassLoader.newInstance(new URL[0], ClassLoader.getSystemClassLoader());
         this.loadExtensions();
 
-        this.catalogLoader = new CatalogLoader(this.om, this.extensions);
-        this.schemaUILoader = new SchemaUILoader(this.om, this.extensions);
-        
+        this.catalogLoader = new CatalogLoader(om, this.extensions);
+        this.schemaUILoader = new SchemaUILoader(om, this.extensions);
 
     }
-    
 
     // --------------
     // Public Methods ----------------------------------------------------
@@ -122,7 +127,6 @@ public class ExtensionLoader {
             }
         }
 
-       
         List<URL> urlArray = addJarsToClassLoader(jars);
         if (urlArray.isEmpty()) {
             return null;
@@ -155,22 +159,20 @@ public class ExtensionLoader {
 
     }
 
-
     private List<URL> addJarToClassLoader(File jar) {
         List<File> files = new ArrayList<>(1);
         files.add(jar);
-        return addJarsToClassLoader(files);  
+        return addJarsToClassLoader(files);
     }
 
     private List<URL> addJarsToClassLoader(List<File> jars) {
         List<URL> urlArray = getClassesToLoad(jars);
-        
+
         this.updateExtensionClassLoader(urlArray);
         // classes can be found
         SchemaLoader.addClassloader(this.extensionClassLoader);
         return urlArray;
     }
-
 
     private List<URL> getClassesToLoad(List<File> jars) {
         // Update classloader
@@ -184,17 +186,16 @@ public class ExtensionLoader {
             }
         } catch (MalformedURLException urle) {
             LOG.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
-        
+
         }
         return urlArray;
     }
-
 
     private void updateExtensionClassLoader(List<URL> urlArray) {
         if (this.extensionClassLoader != null) { // Add already loaded extensions as well
             URL[] oldURLs = this.extensionClassLoader.getURLs();
             urlArray.addAll(Arrays.asList(oldURLs));
-           
+
         }
         this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
                 ClassLoader.getSystemClassLoader());
@@ -304,8 +305,15 @@ public class ExtensionLoader {
 
     private void loadExtensions() {
 
-        // Add fixed generic elements (no extenstion package required)
-        this.addGenericExtension();
+        this.extensions.add(new GenericExtension());
+        this.extensions.add(new ImagerExtension());
+        this.extensions.add(new DeepSkyExtension());
+        this.extensions.add(new VariableStarsExtension(om));
+        this.extensions.add(new SolarSystemExtension());
+        this.loadExternalExtensions();
+    }
+
+    private void loadExternalExtensions() {
 
         // Get JARs from classpath
         String sep = System.getProperty("path.separator");
@@ -324,13 +332,17 @@ public class ExtensionLoader {
 
         // Get JARs under extension path
         String extPath = System.getProperty("extension.dirs");
-        File ext = new File(extPath);
-        if (ext.exists()) {
-            File[] jars = ext.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
+        if (extPath == null) {
+            LOG.warn("No extensions dir");
+        } else {
+            File ext = new File(extPath);
+            if (ext.exists()) {
+                File[] jars = ext.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
 
-            if (jars != null) {
-                for (File jar : jars) {
-                    scanJarFile(jar, false);
+                if (jars != null) {
+                    for (File jar : jars) {
+                        scanJarFile(jar, false);
+                    }
                 }
             }
         }
@@ -469,8 +481,7 @@ public class ExtensionLoader {
         }
         BufferedInputStream bis = new BufferedInputStream(istr);
 
-        File file = new File(
-                this.om.getInstallDir() + File.separator /* + "testing" + File.separator */ + ze.getName());
+        File file = new File(installDir.getPathForFile(ze.getName()));
 
         if (ze.isDirectory()) {
             boolean createDir = false;
@@ -527,8 +538,8 @@ public class ExtensionLoader {
     private boolean addOALExtenstionElement(IExtension extension) {
 
         // Get latest schema file
-        File schema = new File(this.om.getInstallDir().getPathForFolder("schema")
-                + SchemaLoader.VERSIONS[SchemaLoader.VERSIONS.length - 1]);
+        final String[] versions = SchemaLoader.getVersions();
+        File schema = new File(this.installDir.getPathForFolder("schema") + versions[versions.length - 1]);
 
         if (!schema.exists()) {
             System.err.println("Unable to find schema file: " + schema);

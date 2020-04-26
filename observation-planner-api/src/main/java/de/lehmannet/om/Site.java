@@ -177,7 +177,7 @@ public class Site extends SchemaElement implements ISite {
      * 
      * ISite site = (ISite)obj;
      * 
-     * String siteName = site.getName(); if( (siteName == null) || !(name.toLowerCase().equals(siteName.toLowerCase()))
+     * String siteName = site.getName(); if( (siteName == null) || !(name.toLowerCase(Locale.getDefault()).equals(siteName.toLowerCase(Locale.getDefault())))
      * ) { return false; }
      * 
      * if( !site.getLatitude().equals(latitude) ) { return false; }

@@ -41,6 +41,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
         // Start execution thread
         // Will do the "long term" calculation of whatever
+        
         this.calculation = new Thread(runnable, "ProcessDialog: Calculation thread");
         this.calculation.start();
 

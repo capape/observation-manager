@@ -9,14 +9,10 @@ package de.lehmannet.om.extension.skychart;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Calendar;
@@ -574,27 +570,18 @@ public class SkyChartClient implements IExtension, ActionListener {
             commands = new String[2];
         }
 
-        commands[0] = "SEARCH " + target.getName();
-        commands[1] = "SEARCH " + target.getDisplayName();
+        commands[0] = "SEARCH \"" + target.getName().trim() + "\"";
+        commands[1] = "SEARCH \"" + target.getDisplayName().trim() + "\"";
 
         // Search for alias names
         String[] aliasNames = target.getAliasNames();
         if ((aliasNames != null) && (aliasNames.length > 0)) {
             for (int i = 0; i < aliasNames.length; i++) {
-                commands[i + 2] = "SEARCH " + aliasNames[i];
+                commands[i + 2] = "SEARCH \"" + aliasNames[i].trim() + "\"";
             }
 
         }
 
-        // Sort so that a possible NGC name is always first
-        for (int i = 0; i < commands.length; i++) {
-            if (commands[i].startsWith("SEARCH NGC")) {
-                String x = commands[0];
-                commands[0] = commands[i];
-                commands[i] = x;
-                break;
-            }
-        }
 
         return commands;
 

@@ -60,34 +60,39 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     private TristateCheckbox extended = null;
     private ISession session = null;
 
-    DeepSkyFindingPanel(ObservationManager om, IFinding finding, ISession s, Boolean editable)
+    DeepSkyFindingPanel(ObservationManager om, IFinding paramFinding, ISession s, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
 
-        if ((finding != null) && !(finding instanceof DeepSkyFinding)) {
-            // throw new IllegalArgumentException("Passed IFinding must derive from
-            // de.lehmannet.om.extension.deepSky.DeepSkyFinding\n");
-
-            // Create DeepSkyFinding from given IFinding (must be a IFinding instance due to
-            // parameter definition)
-            // Rating will be set to 99 (unknown)
-            DeepSkyFinding dsf = new DeepSkyFinding(finding.getDescription(), 99);
-            dsf.setLanguage(finding.getLanguage());
-
-            finding = dsf; // Update reference
-        }
-        this.finding = (DeepSkyFinding) finding;
+        DeepSkyFinding result = this.assureIsDeepSkyFinding(paramFinding);
+        this.finding = result;
         this.session = s;
         this.om = om;
 
         this.createPanel();
 
         if (this.finding != null) {
-            this.finding = (DeepSkyFinding) finding;
+            this.finding = result;
             this.loadSchemaElement();
         }
 
+    }
+
+    private DeepSkyFinding assureIsDeepSkyFinding(IFinding paramFinding) {
+        if ((paramFinding != null) && !(paramFinding instanceof DeepSkyFinding)) {
+            // throw new IllegalArgumentException("Passed IFinding must derive from
+            // de.lehmannet.om.extension.deepSky.DeepSkyFinding\n");
+
+            // Create DeepSkyFinding from given IFinding (must be a IFinding instance due to
+            // parameter definition)
+            // Rating will be set to 99 (unknown)
+            DeepSkyFinding dsf = new DeepSkyFinding(paramFinding.getDescription(), 99);
+            dsf.setLanguage(paramFinding.getLanguage());
+
+            return dsf; // Update reference
+        }
+        return (DeepSkyFinding) paramFinding;
     }
 
     // ------

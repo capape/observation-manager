@@ -3,6 +3,7 @@ package de.lehmannet.om.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,17 +19,16 @@ public class FindingVariableStarMapper {
         return getBooleanAttribute(finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALACTIVITY);
     }
 
-   
-
     public static boolean getOptionalStarIdentificationUncertain(Element finding) {
         // Get optional star identification uncertain attribute
-        return getBooleanAttribute(finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN);
+        return getBooleanAttribute(finding,
+                FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN);
     }
 
     public static boolean getOptionalPoorSeeing(Element finding) {
         // Get optional poor seeing attribute
         return getBooleanAttribute(finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_POORSEEING);
-        
+
     }
 
     public static boolean getOptionalOutburst(Element finding) {
@@ -72,23 +72,22 @@ public class FindingVariableStarMapper {
     }
 
     public static List<String> getMandatoryCompStars(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory compStars
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_COMPARISMSTAR);
-        if ((children == null) || (children.getLength() < 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_COMPARISMSTAR);
+        if (children.getLength() < 1) {
             throw new SchemaException("FindingVariableStar must have at least one comparism star.");
         }
 
         List<String> results = new ArrayList<>();
         for (int i = 0; i < children.getLength(); i++) {
             StringBuilder currentCompStar = new StringBuilder();
-            child = (Element) children.item(i);
+            Element child = (Element) children.item(i);
             if (child == null) {
                 throw new SchemaException("FindingVariableStar must have at least one comparism star. ");
             } else {
                 NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
+                if (textElements.getLength() > 0) {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         currentCompStar.append(textElements.item(te).getNodeValue());
                     }
@@ -101,20 +100,19 @@ public class FindingVariableStarMapper {
     }
 
     public static String getMandatoryChartDate(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory chartDate
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
+        if (children.getLength() != 1) {
             throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         StringBuilder chartID = new StringBuilder();
         if (child == null) {
             throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
         } else {
             NodeList textElements = child.getChildNodes();
-            if ((textElements != null) && (textElements.getLength() > 0)) {
+            if (textElements.getLength() > 0) {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     chartID.append(textElements.item(te).getNodeValue());
                 }
@@ -126,21 +124,20 @@ public class FindingVariableStarMapper {
     }
 
     public static boolean getOptionalNonAAVSOchart(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory chartDate
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
+        if (children.getLength() != 1) {
             throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         if (child == null) {
             throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
         } else {
 
             // Get optional non aavso chart attribute
             String na = child.getAttribute(FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_NONAAVSOCHART);
-            if ((na != null) && (!"".equals(na.trim()))) {
+            if (!StringUtils.isBlank(na)) {
                 return Boolean.parseBoolean(na);
             }
         }
@@ -148,14 +145,13 @@ public class FindingVariableStarMapper {
     }
 
     public static float getMandatoryMagnitude(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory magnitude
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
+        if (children.getLength() != 1) {
             throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         String visMag = null;
         if (child == null) {
             throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
@@ -171,14 +167,13 @@ public class FindingVariableStarMapper {
     }
 
     public static boolean getOptionalMagnitudeFainterThan(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory magnitude
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
+        if (children.getLength() != 1) {
             throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
 
         if (child == null) {
             throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
@@ -186,7 +181,7 @@ public class FindingVariableStarMapper {
 
             // Get optional magnitude fainter than attribute
             String ft = child.getAttribute(FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_FAINTERTHAN);
-            if ((ft != null) && (!"".equals(ft.trim()))) {
+            if (!StringUtils.isBlank(ft)) {
                 return Boolean.parseBoolean(ft);
             }
         }
@@ -194,14 +189,13 @@ public class FindingVariableStarMapper {
     }
 
     public static boolean getOptionalMagnitudeUncertain(Element finding) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get mandatory magnitude
-        children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
+        if (children.getLength() != 1) {
             throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
 
         if (child == null) {
             throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
@@ -209,7 +203,7 @@ public class FindingVariableStarMapper {
 
             // Get optional magnitude uncertain attribute
             String un = child.getAttribute(FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_UNCERTAIN);
-            if ((un != null) && (!"".equals(un.trim()))) {
+            if (!StringUtils.isBlank(un)) {
                 return Boolean.parseBoolean(un);
             }
         }
@@ -218,9 +212,9 @@ public class FindingVariableStarMapper {
 
     private static boolean getBooleanAttribute(Element finding, String attribute) {
         boolean result = false;
-     
+
         String una = finding.getAttribute(attribute);
-        if ((una != null) && (!"".equals(una.trim()))) {
+        if (!StringUtils.isBlank(una)) {
             result = Boolean.parseBoolean(una);
         }
         return result;

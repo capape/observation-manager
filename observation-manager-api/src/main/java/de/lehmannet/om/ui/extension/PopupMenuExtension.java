@@ -18,14 +18,14 @@ public class PopupMenuExtension {
 
     public PopupMenuExtension(SchemaElementConstants[] schemaElementTypes, JMenu menu) {
 
-        this.schemaElement = schemaElementTypes;
+        this.schemaElement = schemaElementTypes.clone();
         this.menu = menu;
 
     }
 
     public SchemaElementConstants[] getSchemaElementTypes() {
 
-        return this.schemaElement;
+        return this.schemaElement.clone();
 
     }
 

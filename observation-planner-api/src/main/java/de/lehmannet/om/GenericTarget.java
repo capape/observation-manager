@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.util.Locale;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -65,7 +67,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
         buffer.append("GenericTarget Name=");
         buffer.append(this.getName());
 
-        if ((this.getAliasNames() != null) && (this.getAliasNames().length > 0)) {
+        if (this.getAliasNames().length > 0) {
             buffer.append(" Alias names=");
             String[] an = this.getAliasNames();
             for (int i = 0; i < an.length; i++) {
@@ -111,9 +113,18 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
             return false;
         }
 
-        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
+        return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
                 && (this.getXSIType()).equals(target.getXSIType());
 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
+        result = prime * result +  this.getXSIType().hashCode();
+        return result;
     }
 
     // ------

@@ -449,7 +449,7 @@ public class Ephemerides {
         int year = date.get(Calendar.YEAR);
         int month = date.get(Calendar.MONTH) + 1;
         int day = date.get(Calendar.DAY_OF_MONTH);
-        double time = date.get(Calendar.HOUR_OF_DAY) / 24;
+        double time = (double) date.get(Calendar.HOUR_OF_DAY) / (double) 24;
 
         double d = 367 * year - 7 * (year + (month + 9) / 12) / 4 + 275 * month / 9 + day - 730530;
         d = d + time;
@@ -680,7 +680,7 @@ public class Ephemerides {
         double Ls = Ms + ws;
         double Lm = Mm + wm + Nm;
         double D = Lm - Ls;
-        double F = Lm - Nm;
+        // double F = Lm - Nm; // commented out as not used
 
         double distance = pdistance + (-0.58 * Math.cos(Math.toRadians(Mm - 2 * D)));
         distance = distance + (-0.46 * Math.cos(Math.toRadians(2 * D)));

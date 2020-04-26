@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.util.Locale;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -132,7 +134,7 @@ public class Angle {
     @Override
     public String toString() {
 
-        return value + " " + unit.toUpperCase();
+        return value + " " + unit.toUpperCase(Locale.getDefault());
 
     }
 

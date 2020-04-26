@@ -16,7 +16,8 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetGC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * DeepSkyTargetGC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
+ * class.<br>
  * Its specialised for globular clusters.<br>
  *
  * @author doergn@users.sourceforge.net
@@ -51,19 +52,19 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a DeepSkyTargetGC from a given DOM target Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
+    /**
+     * Constructs a new instance of a DeepSkyTargetGC from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      *
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     public DeepSkyTargetGC(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -71,51 +72,42 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
         // Get optional magnitude
-        children = target.getElementsByTagName(DeepSkyTargetGC.XML_ELEMENT_MAGSTARS);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                magnitude = Double.parseDouble(child.getFirstChild().getNodeValue());
-                this.setMagnitude(magnitude);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetGC can only have one value for magnitude. ");
-            }
+        NodeList children = target.getElementsByTagName(DeepSkyTargetGC.XML_ELEMENT_MAGSTARS);
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            magnitude = Double.parseDouble(child.getFirstChild().getNodeValue());
+            this.setMagnitude(magnitude);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetGC can only have one value for magnitude. ");
         }
 
         // Get optional concentration
         children = target.getElementsByTagName(DeepSkyTargetGC.XML_ELEMENT_CONCENTRATION);
         StringBuilder conc = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        conc.append(textElements.item(te).getNodeValue());
-                    }
-                    // conc = child.getFirstChild().getNodeValue();
-                    this.setConcentration(conc.toString());
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            NodeList textElements = child.getChildNodes();
+            if (textElements.getLength() > 0) {
+                for (int te = 0; te < textElements.getLength(); te++) {
+                    conc.append(textElements.item(te).getNodeValue());
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetGC can only have one concentration. ");
+                // conc = child.getFirstChild().getNodeValue();
+                this.setConcentration(conc.toString());
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetGC can only have one concentration. ");
         }
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetGC.
      *
-     * @param name
-     *            The name of the galactic cluster
-     * @param datasource
-     *            The datasource of the galactic cluster
+     * @param name       The name of the galactic cluster
+     * @param datasource The datasource of the galactic cluster
      */
     public DeepSkyTargetGC(String name, String datasource) {
 
@@ -123,13 +115,11 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetGC.
      *
-     * @param name
-     *            The name of the galactic cluster
-     * @param observer
-     *            The observer who is the originator of the galactic cluster
+     * @param name     The name of the galactic cluster
+     * @param observer The observer who is the originator of the galactic cluster
      */
     public DeepSkyTargetGC(String name, IObserver observer) {
 
@@ -141,12 +131,11 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
-     * passed element.
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
      *
-     * @param element
-     *            The parent element for this Target
+     * @param element The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -187,7 +176,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -206,7 +195,7 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the concentration of the stars in the galactic cluster.
      *
      * @return Description of the concentration of the galactic cluster
@@ -217,11 +206,11 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Returns the magnitude of the stars in the galactic cluster.
      *
-     * @return The magnitude of the stars in the galactic cluster. The returned value might be <code>Double.NaN</code>
-     *         if the value was never set
+     * @return The magnitude of the stars in the galactic cluster. The returned
+     *         value might be <code>Double.NaN</code> if the value was never set
      */
     public double getMagnitude() {
 
@@ -229,11 +218,11 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Sets the concentration of the galactic cluster.
      *
-     * @param newConcentration
-     *            The new concentration of the stars in the galactic cluster
+     * @param newConcentration The new concentration of the stars in the galactic
+     *                         cluster
      */
     public void setConcentration(String newConcentration) {
 
@@ -246,11 +235,10 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Sets the magnitude of the stars in the galactic cluster
      *
-     * @param newMagnitude
-     *            The new magnitude of the stars in the galactic cluster
+     * @param newMagnitude The new magnitude of the stars in the galactic cluster
      */
     public void setMagnitude(double newMagnitude) {
 

@@ -15,7 +15,8 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetDN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * DeepSkyTargetDN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
+ * class.<br>
  * Its specialised for drak nebulaes.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -51,19 +52,19 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a DeepSkyTargetDN from a given DOM target Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
+    /**
+     * Constructs a new instance of a DeepSkyTargetDN from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     public DeepSkyTargetDN(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -71,45 +72,36 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
         // Get optional position angle
-        children = target.getElementsByTagName(DeepSkyTargetDN.XML_ELEMENT_POSITIONANGLE);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                this.setPositionAngle(Integer.parseInt(value));
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetDN can only have one position angle entry. ");
-            }
+        NodeList children = target.getElementsByTagName(DeepSkyTargetDN.XML_ELEMENT_POSITIONANGLE);
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            this.setPositionAngle(Integer.parseInt(value));
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetDN can only have one position angle entry. ");
         }
 
         // Get optional opacity
         children = target.getElementsByTagName(DeepSkyTargetDN.XML_ELEMENT_OPACITY);
         int opacity = -1;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                opacity = Integer.parseInt(child.getFirstChild().getNodeValue());
-                this.setOpacity(opacity);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetDN can only have one opacity value. ");
-            }
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            opacity = Integer.parseInt(child.getFirstChild().getNodeValue());
+            this.setOpacity(opacity);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetDN can only have one opacity value. ");
         }
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetDN.
      * 
-     * @param name
-     *            The name of the dark nebula
-     * @param datasource
-     *            The datasource of the dark nebula
+     * @param name       The name of the dark nebula
+     * @param datasource The datasource of the dark nebula
      */
     public DeepSkyTargetDN(String name, String datasource) {
 
@@ -117,13 +109,11 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetDN.
      * 
-     * @param name
-     *            The name of the dark nebula
-     * @param observer
-     *            The observer who is the originator of the dark nebula
+     * @param name     The name of the dark nebula
+     * @param observer The observer who is the originator of the dark nebula
      */
     public DeepSkyTargetDN(String name, IObserver observer) {
 
@@ -135,12 +125,11 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
-     * passed element.
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
      * 
-     * @param parent
-     *            The parent element for this Target
+     * @param parent The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -181,7 +170,7 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -200,11 +189,11 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the position angle of the large axis of the dark nebula.
      * 
-     * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
-     *         the value was never set
+     * @return The position angle of the astronomical object as integer The returned
+     *         value might be <code>-1</code> if the value was never set
      */
     public int getPositionAngle() {
 
@@ -212,11 +201,11 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Returns the opacity of the dark nebula. After Lynds: 1=min; 6=max
      * 
-     * @return The opacity of the dark nebula as integer between 1-6 The returned value might be <code>-1</code> if the
-     *         value was never set
+     * @return The opacity of the dark nebula as integer between 1-6 The returned
+     *         value might be <code>-1</code> if the value was never set
      */
     public int getOpacity() {
 
@@ -224,12 +213,11 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-/**
-     * Sets the position angle of the large axis of the dark nebula. If the given new position angle is < 0 or > 359 the
-     * position angle will be unset again.
+    /**
+     * Sets the position angle of the large axis of the dark nebula. If the given
+     * new position angle is < 0 or > 359 the position angle will be unset again.
      * 
-     * @param newPosAngle
-     *            The new position angle of the dark nebula.
+     * @param newPosAngle The new position angle of the dark nebula.
      */
     public void setPositionAngle(int newPosAngle) {
 
@@ -242,13 +230,13 @@ public class DeepSkyTargetDN extends DeepSkyTarget {
 
     }
 
-/**
-     * Sets the opacity of the dark nebula. The opacity value has to be between 1 and 6. (After Lynds: 1=min; 6=max)<br>
-     * All other values will be interpreted as -1, which means that the value gets cleared (means: is treated like it
-     * was never set)
+    /**
+     * Sets the opacity of the dark nebula. The opacity value has to be between 1
+     * and 6. (After Lynds: 1=min; 6=max)<br>
+     * All other values will be interpreted as -1, which means that the value gets
+     * cleared (means: is treated like it was never set)
      * 
-     * @param newOpacity
-     *            The new opacity of the dark nebula as int
+     * @param newOpacity The new opacity of the dark nebula as int
      */
     public void setOpacity(int newOpacity) {
 

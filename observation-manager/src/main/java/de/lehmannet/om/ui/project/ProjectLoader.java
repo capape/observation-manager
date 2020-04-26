@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 
 import javax.swing.JProgressBar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -104,7 +107,7 @@ public class ProjectLoader {
         for (String project : projects) {
             projectFile = new File(path.getAbsolutePath() + File.separator + project);
             ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.observationManager, this.projectList,
-                    userTargets, projectFile, this.observationManager.isDebug());
+                    userTargets, projectFile);
             Thread thread = new Thread(this.loadProjects, runnable, "Load project " + project);
             projectThreads.add(thread);
         }
@@ -139,25 +142,24 @@ class ProjectLoaderRunnable implements Runnable {
     private File projectFile = null;
     private ObservationManager om = null;
     private List<ITarget> userTargets = null;
-    private boolean debug = false;
+  
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectLoaderRunnable.class);
 
-    public ProjectLoaderRunnable(ObservationManager om, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile,
-            boolean debug) {
+    public ProjectLoaderRunnable(ObservationManager om, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile) {
 
         this.om = om;
         this.projectList = projectList;
         this.projectFile = projectFile;
         this.userTargets = userTargets;
-        this.debug = debug;
+     
 
     }
 
     @Override
     public void run() {
 
-        if (debug) {
-            System.out
-                    .println("Project loading start: " + this.projectFile.getName() + " " + System.currentTimeMillis());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Project loading start: {} {}",  this.projectFile.getName() , System.currentTimeMillis());
         }
 
         ProjectCatalog pc = this.loadProjectCatalog(this.projectFile);
@@ -169,9 +171,8 @@ class ProjectLoaderRunnable implements Runnable {
             }
         }
 
-        if (debug) {
-            System.out
-                    .println("Project loading done: " + this.projectFile.getName() + " " + System.currentTimeMillis());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Project loading done: {} {}",  this.projectFile.getName() , System.currentTimeMillis());
         }
 
     }

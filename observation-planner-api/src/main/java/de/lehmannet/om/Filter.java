@@ -78,8 +78,8 @@ public class Filter extends SchemaElement implements IFilter {
         Element filterElement = (Element) filter;
 
         // Helper classes
-        NodeList children = null;
-        Element child = null;
+       
+        
 
         // Getting data
         // First mandatory stuff and down below optional data

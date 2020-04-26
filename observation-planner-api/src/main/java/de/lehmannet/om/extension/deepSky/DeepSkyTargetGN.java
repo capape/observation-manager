@@ -16,7 +16,8 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetGN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * DeepSkyTargetGN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
+ * class.<br>
  * Its specialised for galactic nebulaes.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -52,19 +53,19 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a DeepSkyTargetGN from a given DOM target Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
+    /**
+     * Constructs a new instance of a DeepSkyTargetGN from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     public DeepSkyTargetGN(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -72,51 +73,42 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
         // Get optional position angle
-        children = target.getElementsByTagName(DeepSkyTargetGN.XML_ELEMENT_POSITIONANGLE);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                this.setPositionAngle(Integer.parseInt(value));
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetGN can only have one position angle entry. ");
-            }
+        NodeList children = target.getElementsByTagName(DeepSkyTargetGN.XML_ELEMENT_POSITIONANGLE);
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            this.setPositionAngle(Integer.parseInt(value));
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetGN can only have one position angle entry. ");
         }
 
         // Get optional nebula type
         children = target.getElementsByTagName(DeepSkyTargetGN.XML_ELEMENT_NEBULATYPE);
         StringBuilder nebulaType = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        nebulaType.append(textElements.item(te).getNodeValue());
-                    }
-                    // nebulaType = child.getFirstChild().getNodeValue();
-                    this.setNebulaType(nebulaType.toString());
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            NodeList textElements = child.getChildNodes();
+            if (textElements.getLength() > 0) {
+                for (int te = 0; te < textElements.getLength(); te++) {
+                    nebulaType.append(textElements.item(te).getNodeValue());
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetGN can only have one nebula type. ");
+                // nebulaType = child.getFirstChild().getNodeValue();
+                this.setNebulaType(nebulaType.toString());
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetGN can only have one nebula type. ");
         }
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetGN.
      * 
-     * @param name
-     *            The name of the galactic nebula
-     * @param datasource
-     *            The datasource of the galactic nebula
+     * @param name       The name of the galactic nebula
+     * @param datasource The datasource of the galactic nebula
      */
     public DeepSkyTargetGN(String name, String datasource) {
 
@@ -124,13 +116,11 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetGN.
      * 
-     * @param name
-     *            The name of the galactic nebula
-     * @param observer
-     *            The observer who is the originator of the galactic nebula
+     * @param name     The name of the galactic nebula
+     * @param observer The observer who is the originator of the galactic nebula
      */
     public DeepSkyTargetGN(String name, IObserver observer) {
 
@@ -142,12 +132,11 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
-     * passed element.
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
      * 
-     * @param parent
-     *            The parent element for this Target
+     * @param parent The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -188,7 +177,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -207,11 +196,11 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the large axis position angle of the galactic nebula.
      * 
-     * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
-     *         the value was never set
+     * @return The position angle of the astronomical object as integer The returned
+     *         value might be <code>-1</code> if the value was never set
      */
     public int getPositionAngle() {
 
@@ -219,10 +208,12 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     }
 
-/**
-     * Returns the nebula type. Nebular type might be something like e.g. emission, reflection, dark nebula
+    /**
+     * Returns the nebula type. Nebular type might be something like e.g. emission,
+     * reflection, dark nebula
      * 
-     * @return The nebula type as String The returned value might be <code>null</code> if the value was never set
+     * @return The nebula type as String The returned value might be
+     *         <code>null</code> if the value was never set
      */
     public String getNebulaType() {
 
@@ -230,12 +221,11 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     }
 
-/**
-     * Sets the large axis position angle of the galactic nebula. If the given new position angle is < 0 or > 359 the
-     * position angle will be unset again.
+    /**
+     * Sets the large axis position angle of the galactic nebula. If the given new
+     * position angle is < 0 or > 359 the position angle will be unset again.
      * 
-     * @param newPosAngle
-     *            The new position angle of the galactic nebula.
+     * @param newPosAngle The new position angle of the galactic nebula.
      */
     public void setPositionAngle(int newPosAngle) {
 
@@ -248,11 +238,10 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Sets the nebula type. E.g. emission, reflection, dark nebula...
      * 
-     * @param newNebulaType
-     *            The new nebula type
+     * @param newNebulaType The new nebula type
      */
     public void setNebulaType(String newNebulaType) {
 

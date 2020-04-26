@@ -7,6 +7,8 @@ import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.io.File;
 import java.net.URL;
+import java.awt.GraphicsEnvironment;
+import java.awt.GraphicsDevice;
 
 import javax.swing.JFrame;
 
@@ -50,11 +52,14 @@ public class SplashScreen extends JFrame implements Runnable {
 
         this.setSize(this.image.getWidth(null), this.image.getHeight(null));
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
 
-        this.setLocation((screenSize.width / 2) - (this.image.getWidth(null) / 2),
-                (screenSize.height / 2) - (this.image.getHeight(null) / 2));
-
+       
+        int x = (width/ 2) - (this.image.getWidth(null) / 2);
+        int y = (height / 2) - (this.image.getHeight(null) / 2);
+        this.setLocation(x, y);
         this.setUndecorated(true);
         this.setVisible(true);
 

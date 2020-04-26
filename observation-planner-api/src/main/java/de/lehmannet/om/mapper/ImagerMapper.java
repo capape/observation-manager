@@ -1,5 +1,6 @@
 package de.lehmannet.om.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -12,66 +13,63 @@ import de.lehmannet.om.util.SchemaException;
 public class ImagerMapper {
 
     public static String getOptionalRemarks(Element imagerElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get optional remarks
-        child = null;
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_REMARKS);
+
+        NodeList children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_REMARKS);
         StringBuilder remarks = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            remarks.append(textElements.item(te).getNodeValue());
-                        }
-                        return remarks.toString();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        remarks.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * remarks = child.getFirstChild().getNodeValue(); if( type != null ) {
-                     * this.setRemarks(remarks); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving remarks from imager. ");
+                    return remarks.toString();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Imager can have only one remark element. ");
+                /*
+                 * remarks = child.getFirstChild().getNodeValue(); if( type != null ) {
+                 * this.setRemarks(remarks); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving remarks from imager. ");
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Imager can have only one remark element. ");
         }
+
         return null;
     }
 
     public static String getOptionalVendor(Element imagerElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get optional vendor
-        child = null;
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_VENDOR);
+
+        NodeList children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_VENDOR);
         StringBuilder vendor = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        return vendor.toString();
+
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        vendor.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                     * this.setVendor(vendor); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor from imager. ");
+                    return vendor.toString();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Imager can have only one vendor. ");
+                /*
+                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
+                 * this.setVendor(vendor); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving vendor from imager. ");
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Imager can have only one vendor. ");
         }
+
         return null;
     }
 
@@ -90,14 +88,13 @@ public class ImagerMapper {
     }
 
     public static String getMandatoryModel(Element imagerElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get mandatory model
-        children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_MODEL);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = imagerElement.getElementsByTagName(IImager.XML_ELEMENT_MODEL);
+        if (children.getLength() != 1) {
             throw new SchemaException("Imager must have exact one model name. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Imager must have a model name. ");
@@ -105,7 +102,7 @@ public class ImagerMapper {
             if (child.getFirstChild() != null) {
                 // model = child.getFirstChild().getNodeValue();
                 NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
+                if (textElements.getLength() > 0) {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
@@ -120,7 +117,7 @@ public class ImagerMapper {
 
     public static String getMandatoryID(Element imagerElement) throws SchemaException {
         String ID = imagerElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
+        if (StringUtils.isBlank(ID)) {
             throw new SchemaException("Imager must have a ID. ");
         }
         return ID;

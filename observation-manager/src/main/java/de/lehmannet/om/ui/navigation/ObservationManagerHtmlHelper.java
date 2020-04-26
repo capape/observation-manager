@@ -1,6 +1,5 @@
 package de.lehmannet.om.ui.navigation;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,6 +21,7 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
+import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class ObservationManagerHtmlHelper {
 
@@ -180,7 +180,7 @@ public class ObservationManagerHtmlHelper {
          * ObservationManager.bundle.getString("progress.wait.xml.info"));
          */
         // Create new XMLFileLoader for saving our new XML file
-        XMLFileLoader xmlHelper = new XMLFileLoader(xmlFile);
+        XMLFileLoader xmlHelper =  XMLFileLoaderImpl.newInstance(xmlFile);
 
         // Get all observations from currently opened XML that belong to the
         // given schemaElement

@@ -190,9 +190,9 @@ public class VariableStarTargetPanel extends AbstractPanel {
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container
-        this.targetContainer.LmagnitudeApp
+        this.targetContainer.labelMagnitudeApp
                 .setText(this.bundle.getString("panel.variableStarTarget.label.minApparentMag"));
-        this.targetContainer.LmagnitudeApp
+        this.targetContainer.labelMagnitudeApp
                 .setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));
         this.targetContainer.magnitudeApparent
                 .setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));

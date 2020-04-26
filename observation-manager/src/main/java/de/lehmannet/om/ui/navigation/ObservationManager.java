@@ -38,8 +38,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.metal.DefaultMetalTheme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,15 +67,11 @@ import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.dialog.TableElementsDialog;
 import de.lehmannet.om.ui.dialog.UnavailableEquipmentDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
-import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
 import de.lehmannet.om.ui.image.ImageResolver;
-import de.lehmannet.om.ui.navigation.observation.utils.ArgumentName;
-import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
@@ -86,8 +80,7 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class ObservationManager extends JFrame 
-implements ActionListener, IObservationManagerJFrame {
+public class ObservationManager extends JFrame implements ActionListener, IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
 
@@ -168,27 +161,23 @@ implements ActionListener, IObservationManagerJFrame {
     private TableView table;
     private ItemView item;
     private TreeView tree;
-    private final ExtensionLoader extLoader;
 
-    private final IConfiguration configuration;
+    
     private ProjectLoader projectLoader;
 
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
     private Boolean nightVisionOnStartup;
-
     private Thread splash;
-
     private Thread waitForCatalogLoaderThread;
 
-    private final boolean debug = false; // Show debug information
 
     private final InstallDir installDir;
-
-    // this.installDir = new File(getArgValue(arg));
-
     private final XMLFileLoader xmlCache;
+    private final IConfiguration configuration;
+
+    final ExtensionLoader extLoader;
 
     private final ObservationManagerMenuFile menuFile;
     private final ObservationManagerMenuData menuData;
@@ -210,39 +199,66 @@ implements ActionListener, IObservationManagerJFrame {
         return this.htmlHelper;
     }
 
-    public static void main(final String[] args) {
 
-        // Get install dir and parse arguments
-        final ArgumentsParser argumentsParser = new ArgumentsParser.Builder(args).build();
+    public static class Builder {
+        private String locale;
+        private String nightVision;
+        private InstallDir installDir;
+        private IConfiguration configuration;
+        private XMLFileLoader xmlCache;
+        private ImageResolver imageResolver;
+  
+        public Builder locale(String locale) {
+            this.locale = locale;
+            return this;
+        }
         
-        final String installDirName = argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
-        final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
+        public Builder nightVision(String nightVision) {
+            this.nightVision = nightVision;
+            return this;
+        }
+        public Builder installDir(InstallDir installDir) {
+            this.installDir = installDir;
+            return this;
+        }
+        public Builder configuration(IConfiguration configuration) {
+            this.configuration= configuration;
+            return this;
+        }
+        public Builder xmlCache(XMLFileLoader value) {
+            this.xmlCache = value;
+            return this;
+        }
 
-        final String configDir =argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
-        final Configuration configuration = new Configuration(configDir);
+        public Builder imageResolver(ImageResolver value) {
+            this.imageResolver = value;
+            return this;
+        }
 
-        final String locale = argumentsParser.getArgumentValue(ArgumentName.LANGUAGE);
-        final String nightVision =argumentsParser.getArgumentValue(ArgumentName.NIGHTVISION);
-        final String logging =argumentsParser.getArgumentValue(ArgumentName.LOGGING);
-        
+       
 
-        new ObservationManager(installDir, configuration);
+
+        public ObservationManager build()  {
+
+            return new ObservationManager(this);
+        }
 
     }
+   
+    private ObservationManager(Builder builder) {
 
-    private ObservationManager(InstallDir installDir, Configuration configuration) {
-
-        this.installDir = installDir;
-        this.configuration = configuration;
-
+        this.installDir = builder.installDir;
+        this.configuration = builder.configuration;
+        this.xmlCache = builder.xmlCache;
+        this.imageResolver = builder.imageResolver;
+       
+        
+     
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
         
-        // Initialize Caches and loaders
-        this.xmlCache = new XMLFileLoader(this.installDir.getPathForFile("schema"));
-        this.imageResolver = new ImageClassLoaderResolverImpl("images");
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
@@ -250,12 +266,14 @@ implements ActionListener, IObservationManagerJFrame {
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.xmlCache, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this);
 
+        this.extLoader = new ExtensionLoader(this, installDir);
+
 
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
             nightVisionOnStartup = this.nightVisionOnStartup;
-        }                                                                                                                                                                                                                                                                                                                                                                                               
+        }
 
         // Load SplashScreen
         if (!nightVisionOnStartup) {
@@ -281,9 +299,7 @@ implements ActionListener, IObservationManagerJFrame {
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
-        // this.loader = new SchemaUILoader(this);
-        this.extLoader = new ExtensionLoader(this);
-        // this.catLoader = new CatalogLoader(this.getInstallDir(), this);
+        
 
         // Init menu and disable it during startup
         this.initMenuBar();
@@ -329,9 +345,9 @@ implements ActionListener, IObservationManagerJFrame {
         // We're up an running, so enable menus now
         this.enableMenus(true);
 
-        if (this.debug) {
-            System.out.println("Up and running: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Up and running: {} " , new Date());
+            LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
     }
@@ -527,9 +543,9 @@ implements ActionListener, IObservationManagerJFrame {
 
         this.cleanUp();
 
-        if (this.debug) {
-            System.out.println("Load File: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Load File: {}" , new Date());
+            LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
         final Worker calculation = new Worker() {
@@ -590,9 +606,9 @@ implements ActionListener, IObservationManagerJFrame {
             this.createWarning(calculation.getReturnMessage());
         }
 
-        if (this.debug) {
-            System.out.println("Loaded: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Loaded: {}" , new Date());
+            LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
     }
@@ -762,12 +778,7 @@ implements ActionListener, IObservationManagerJFrame {
 
     }
 
-    public boolean isDebug() {
-
-        return this.debug;
-
-    }
-
+    
     public boolean isNightVisionEnabled() {
 
         return this.nightVision.isSelected();
@@ -880,13 +891,13 @@ implements ActionListener, IObservationManagerJFrame {
         this.menuBar.add(fileMenu);
 
         this.newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
-                new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
         this.newFile.setMnemonic('n');
         this.newFile.addActionListener(this);
         fileMenu.add(newFile);
 
         this.openFile = new JMenuItem(ObservationManager.bundle.getString("menu.openFile"),
-                new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null), ""));
         this.openFile.setMnemonic('o');
         this.openFile.addActionListener(this);
         this.openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuKeyModifier));
@@ -899,14 +910,14 @@ implements ActionListener, IObservationManagerJFrame {
         // know what this means
 
         this.saveFile = new JMenuItem(ObservationManager.bundle.getString("menu.save"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
         this.saveFile.setMnemonic('s');
         this.saveFile.addActionListener(this);
         this.saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier));
         fileMenu.add(saveFile);
 
         this.saveFileAs = new JMenuItem(ObservationManager.bundle.getString("menu.saveAs"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
         this.saveFileAs.setMnemonic('a');
         this.saveFileAs.addActionListener(this);
         fileMenu.add(saveFileAs);
@@ -914,7 +925,7 @@ implements ActionListener, IObservationManagerJFrame {
         fileMenu.addSeparator();
 
         this.importXML = new JMenuItem(ObservationManager.bundle.getString("menu.xmlImport"),
-                new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null), ""));
         this.importXML.setMnemonic('i');
         this.importXML.addActionListener(this);
         fileMenu.add(importXML);
@@ -922,7 +933,7 @@ implements ActionListener, IObservationManagerJFrame {
         fileMenu.addSeparator();
 
         this.exportHTML = new JMenuItem(ObservationManager.bundle.getString("menu.htmlExport"),
-                new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null), ""));
         this.exportHTML.setMnemonic('e');
         this.exportHTML.addActionListener(this);
         this.exportHTML.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, menuKeyModifier));
@@ -931,7 +942,7 @@ implements ActionListener, IObservationManagerJFrame {
         fileMenu.addSeparator();
 
         this.exit = new JMenuItem(ObservationManager.bundle.getString("menu.exit"),
-                new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null), ""));
         this.exit.setMnemonic('x');
         this.exit.addActionListener(this);
         fileMenu.add(exit);
@@ -942,7 +953,7 @@ implements ActionListener, IObservationManagerJFrame {
         this.menuBar.add(dataMenu);
 
         this.createObservation = new JMenuItem(ObservationManager.bundle.getString("menu.createObservation"),
-                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
         this.createObservation.setMnemonic('o');
         this.createObservation.addActionListener(this);
         this.createObservation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuKeyModifier));
@@ -952,55 +963,55 @@ implements ActionListener, IObservationManagerJFrame {
         dataMenu.addSeparator();
 
         this.createObserver = new JMenuItem(ObservationManager.bundle.getString("menu.createObserver"),
-                new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), ""));
         this.createObserver.setMnemonic('v');
         this.createObserver.addActionListener(this);
         dataMenu.add(createObserver);
 
         this.createSite = new JMenuItem(ObservationManager.bundle.getString("menu.createSite"),
-                new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), ""));
         this.createSite.setMnemonic('l');
         this.createSite.addActionListener(this);
         dataMenu.add(createSite);
 
         this.createScope = new JMenuItem(ObservationManager.bundle.getString("menu.createScope"),
-                new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), ""));
         this.createScope.setMnemonic('s');
         this.createScope.addActionListener(this);
         dataMenu.add(createScope);
 
         this.createEyepiece = new JMenuItem(ObservationManager.bundle.getString("menu.createEyepiece"),
-                new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), ""));
         this.createEyepiece.setMnemonic('e');
         this.createEyepiece.addActionListener(this);
         dataMenu.add(createEyepiece);
 
         this.createLens = new JMenuItem(ObservationManager.bundle.getString("menu.createLens"),
-                new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), ""));
         this.createLens.setMnemonic('o');
         this.createLens.addActionListener(this);
         dataMenu.add(createLens);
 
         this.createFilter = new JMenuItem(ObservationManager.bundle.getString("menu.createFilter"),
-                new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), ""));
         this.createFilter.setMnemonic('f');
         this.createFilter.addActionListener(this);
         dataMenu.add(createFilter);
 
         this.createImager = new JMenuItem(ObservationManager.bundle.getString("menu.createImager"),
-                new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), ""));
         this.createImager.setMnemonic('i');
         this.createImager.addActionListener(this);
         dataMenu.add(createImager);
 
         this.createTarget = new JMenuItem(ObservationManager.bundle.getString("menu.createTarget"),
-                new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), ""));
         this.createTarget.setMnemonic('t');
         this.createTarget.addActionListener(this);
         dataMenu.add(createTarget);
 
         this.createSession = new JMenuItem(ObservationManager.bundle.getString("menu.createSession"),
-                new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), ""));
         this.createSession.setMnemonic('n');
         this.createSession.addActionListener(this);
         dataMenu.add(createSession);
@@ -1009,7 +1020,7 @@ implements ActionListener, IObservationManagerJFrame {
         dataMenu.addSeparator();
 
         this.equipmentAvailability = new JMenuItem(ObservationManager.bundle.getString("menu.equipmentAvailability"),
-                new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null), ""));
         this.equipmentAvailability.setMnemonic('a');
         this.equipmentAvailability.addActionListener(this);
         dataMenu.add(equipmentAvailability);
@@ -1020,13 +1031,13 @@ implements ActionListener, IObservationManagerJFrame {
         this.menuBar.add(extraMenu);
 
         this.showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
-                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
         this.showStatistics.setMnemonic('s');
         this.showStatistics.addActionListener(this);
         extraMenu.add(showStatistics);
 
         this.preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
-                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
         this.preferences.setMnemonic('p');
         this.preferences.addActionListener(this);
         extraMenu.add(preferences);
@@ -1034,7 +1045,7 @@ implements ActionListener, IObservationManagerJFrame {
         extraMenu.addSeparator();
 
         this.didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
-                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
         this.didYouKnow.setMnemonic('d');
         this.didYouKnow.addActionListener(this);
         this.didYouKnow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
@@ -1050,7 +1061,7 @@ implements ActionListener, IObservationManagerJFrame {
         extraMenu.addSeparator();
 
         this.logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
-                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
         this.logMenuEntry.setMnemonic('l');
         this.logMenuEntry.addActionListener(this);
         extraMenu.add(logMenuEntry);
@@ -1058,7 +1069,7 @@ implements ActionListener, IObservationManagerJFrame {
         extraMenu.addSeparator();
 
         this.updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
-                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
         this.updateMenuEntry.setMnemonic('u');
         this.updateMenuEntry.addActionListener(this);
         extraMenu.add(updateMenuEntry);
@@ -1078,13 +1089,13 @@ implements ActionListener, IObservationManagerJFrame {
         }
 
         this.extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
-                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
         this.extensionInfo.setMnemonic('p');
         this.extensionInfo.addActionListener(this);
         extensionMenu.add(extensionInfo);
 
         this.installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
-                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
         this.installExtension.setMnemonic('i');
         this.installExtension.addActionListener(this);
         extensionMenu.add(installExtension);
@@ -1095,7 +1106,7 @@ implements ActionListener, IObservationManagerJFrame {
         this.menuBar.add(aboutMenu);
 
         this.aboutInfo = new JMenuItem(ObservationManager.bundle.getString("menu.aboutOM"),
-                new ImageIcon(this.imageResolver.getImageURL("about.png").orElse(null),""));
+                new ImageIcon(this.imageResolver.getImageURL("about.png").orElse(null), ""));
         this.aboutInfo.setMnemonic('i');
         this.aboutInfo.addActionListener(this);
         aboutMenu.add(aboutInfo);
@@ -1278,9 +1289,9 @@ implements ActionListener, IObservationManagerJFrame {
                 while (this.om.projectLoader == null) {
                     try {
                         if (!this.om.getExtensionLoader().getCatalogLoader().isLoading()) {
-                            if (this.om.isDebug()) {
-                                System.out.println("Catalog loading done. Start project loading in background...");
-                            }
+                            
+                            LOGGER.debug("Catalog loading done. Start project loading in background...");
+                            
                             this.om.projectLoader = new ProjectLoader(this.om); // Initialite
                                                                                 // ProjectLoader
                                                                                 // and
@@ -1436,8 +1447,7 @@ implements ActionListener, IObservationManagerJFrame {
     }
 
     @Override
-    public void createProgressDialog(Worker worker, String title,
-    String loadingMessage) {
+    public void createProgressDialog(Worker worker, String title, String loadingMessage) {
         new ProgressDialog(this, title, loadingMessage, worker);
 
     }
@@ -1515,78 +1525,14 @@ class TeeLog extends PrintStream {
     @Override
     public void flush() {
 
-        this.flush();
+        super.flush();
         synchronized (TeeLog.syncMe) {
             this.console.flush();
         }
 
     }
 
-}
-
-class NightVisionTheme extends DefaultMetalTheme {
-
-    // Red shades
-    // Active internal window borders
-    private final ColorUIResource primary1 = new ColorUIResource(170, 30, 30);
-    // Highlighting to indicate activation (for example, of menu titles and menu
-    // items); indication of keyboard focus
-    private final ColorUIResource primary2 = new ColorUIResource(195, 34, 34);
-    // Large colored areas (for example, the active title bar)
-    private final ColorUIResource primary3 = new ColorUIResource(255, 45, 45);
-    private final ColorUIResource secondary1 = new ColorUIResource(92, 50, 50);
-    // Inactive internal window borders; dimmed button borders
-    private final ColorUIResource secondary2 = new ColorUIResource(124, 68, 68);
-    // Canvas color (that is, normal background color); inactive title bar
-    private final ColorUIResource secondary3 = new ColorUIResource(181, 99, 99);
-    private final ColorUIResource white = new ColorUIResource(255, 175, 175);
-
-    @Override
-    public String getName() {
-
-        return "Night Vision";
-
-    }
-
-    @Override
-    protected ColorUIResource getPrimary1() {
-
-        return primary1;
-
-    }
-
-    @Override
-    protected ColorUIResource getPrimary2() {
-
-        return primary2;
-
-    }
-
-    @Override
-    protected ColorUIResource getPrimary3() {
-
-        return primary3;
-
-    }
-
-    @Override
-    protected ColorUIResource getSecondary1() {
-        return secondary1;
-    }
-
-    @Override
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
-    }
-
-    @Override
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
-    }
-
-    @Override
-    protected ColorUIResource getWhite() {
-        return white;
-    }
 
 }
+
+

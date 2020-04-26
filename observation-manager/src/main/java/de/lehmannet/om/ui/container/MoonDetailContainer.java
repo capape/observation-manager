@@ -46,7 +46,7 @@ public class MoonDetailContainer extends JLabel {
     private IObservation observation = null;
     private File imagePath = null;
 
-    private final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images" + File.separatorChar +  "moon" + File.separatorChar);
+    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images" + File.separatorChar +  "moon" + File.separatorChar);
 
     public MoonDetailContainer(IObservation obs) {
 

@@ -138,7 +138,7 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
     String formatName(String name) {
 
         // name = name.trim();
-        name = name.toUpperCase();
+        name = name.toUpperCase(Locale.getDefault());
         name = name.replaceAll(" ", "");
 
         return name;

@@ -78,7 +78,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                    de.lehmannet.om.ui.navigation.ObservationManager
+                    de.lehmannet.om.ObservationManagerApp
                   </mainClass>
                 </manifest>
               </archive>

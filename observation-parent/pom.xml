@@ -52,7 +52,19 @@
                     <artifactId>formatter-maven-plugin</artifactId>
                     <version>${formatter.maven.plugin.version}</version>
                 </plugin>
-
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>4.0.0</version>
+                    <dependencies>
+                      <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                      <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>4.0.2</version>
+                      </dependency>
+                    </dependencies>
+                  </plugin>
             </plugins>
         </pluginManagement>
         <!-- To use the plugin goals in your POM or parent POM -->

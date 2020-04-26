@@ -261,34 +261,7 @@ public class FindingVariableStar extends Finding {
 
     }
 
-    /**
-     * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this FindingVariableStar and the given Object are equal. Two
-     * FindingVariableStar are equal if both return the same string from their
-     * toString() method and their XSI type is equal.<br>
-     * 
-     * @param obj The Object to compare this FindingVariableStar with.
-     * @return <code>true</code> if both Objects are instances from class
-     *         FindingVariableStar, both XSI types are equal and their fields
-     *         contain the same values. (Can be checked with calling and comparing
-     *         both objects toString() method)
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object obj) {
-
-        if (!(obj instanceof FindingVariableStar)) {
-            return false;
-        }
-
-        // As we overwritte the toString() method and access all fields there,
-        // two FindingVariableStar are equal, if both objects return the same string
-        // from their toString() method.
-        return (this.toString().equals(obj.toString()))
-                && (this.getXSIType().equals(((FindingVariableStar) obj).getXSIType()));
-
-    }
-
+    
     // ------------------------
     // IExtendableSchemaElement -----------------------------------------------
     // ------------------------
@@ -912,6 +885,57 @@ public class FindingVariableStar extends Finding {
     public void setUnusualActivity(boolean unusualActivity) {
 
         this.unusualActivity = unusualActivity;
+
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (alreadyExportedToAAVSOformat ? 1231 : 1237);
+        result = prime * result + (brightSky ? 1231 : 1237);
+        result = prime * result + ((chartDate == null) ? 0 : chartDate.hashCode());
+        result = prime * result + (clouds ? 1231 : 1237);
+        result = prime * result + (comparismSequenceProblem ? 1231 : 1237);
+        result = prime * result + ((comparismStars == null) ? 0 : comparismStars.hashCode());
+        result = prime * result + (faintStar ? 1231 : 1237);
+        result = prime * result + Float.floatToIntBits(magnitude);
+        result = prime * result + (magnitudeFainterThan ? 1231 : 1237);
+        result = prime * result + (magnitudeUncertain ? 1231 : 1237);
+        result = prime * result + (nearHorizion ? 1231 : 1237);
+        result = prime * result + (nonAAVSOchart ? 1231 : 1237);
+        result = prime * result + (outburst ? 1231 : 1237);
+        result = prime * result + (poorSeeing ? 1231 : 1237);
+        result = prime * result + (starIdentificationUncertain ? 1231 : 1237);
+        result = prime * result + (unusualActivity ? 1231 : 1237);
+        return result;
+    }
+
+    /**
+     * Overwrittes equals(Object) method from java.lang.Object.<br>
+     * Checks if this FindingVariableStar and the given Object are equal. Two
+     * FindingVariableStar are equal if both return the same string from their
+     * toString() method and their XSI type is equal.<br>
+     * 
+     * @param obj The Object to compare this FindingVariableStar with.
+     * @return <code>true</code> if both Objects are instances from class
+     *         FindingVariableStar, both XSI types are equal and their fields
+     *         contain the same values. (Can be checked with calling and comparing
+     *         both objects toString() method)
+     * @see java.lang.Object
+     */
+   
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        FindingVariableStar other = (FindingVariableStar) obj;
+        return this.toString().equals(other.toString()) && this.getXSIType().equals(other.getXSIType());
+
 
     }
 

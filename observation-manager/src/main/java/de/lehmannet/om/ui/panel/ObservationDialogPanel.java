@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -266,13 +267,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     @Override
     public ISchemaElement updateSchemaElement() {
-
+        
         if (this.observation == null) {
             return null;
         }
 
         // Get mandatory fields
-        IFinding finding = (IFinding) this.findingsPanel.updateSchemaElement(); // this.getFinding();
+        IFinding finding = this.getFinding();
         if (finding == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noFinding"));
             return null;
@@ -1791,14 +1792,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             session = (ISession) this.sessionBox.getSelectedSchemaElement();
         }
         if (this.observation != null) {
-            List findings = this.observation.getResults();
-            Iterator iterator = findings.iterator();
-            IFinding current = null;
-
-            while (iterator.hasNext()) {
-                current = (IFinding) iterator.next();
-                this.findingsPanel = loader.getFindingPanel(xsi, current, session, target, true);
+            List<IFinding> findings = this.observation.getResults();
+            if (findings.isEmpty()) {
+                this.findingsPanel = loader.getFindingPanel(xsi, null, session, target, true);
                 this.tabbedPane.addTab(this.findingsPanel.getName(), this.findingsPanel);
+            } else {
+                for (IFinding current : findings) {
+                    this.findingsPanel = loader.getFindingPanel(xsi, current, session, target, true);
+                    this.tabbedPane.addTab(this.findingsPanel.getName(), this.findingsPanel);
+                }
             }
         } else {
             this.findingsPanel = loader.getFindingPanel(xsi, null, session, target, true);

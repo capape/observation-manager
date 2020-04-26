@@ -54,19 +54,19 @@ public class TargetVariableStar extends TargetStar {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a TargetVariableStar from a given DOM target Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
+    /**
+     * Constructs a new instance of a TargetVariableStar from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     public TargetVariableStar(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -74,79 +74,71 @@ public class TargetVariableStar extends TargetStar {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
         // Get optional max app. magnitude
-        children = target.getElementsByTagName(TargetVariableStar.XML_ELEMENT_MAXAPPARENTMAG);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                try {
-                    float fMaxAppMag = FloatUtil.parseFloat(value);
-                    this.setMaxMagnitudeApparent(fMaxAppMag);
-                } catch (NumberFormatException nfe) {
-                    throw new SchemaException(
-                            "Maximal apparent magnitude of TargetVariableStar must be a numeric value. (ID: "
-                                    + this.getID() + ")",
-                            nfe);
-                }
-            } else if (children.getLength() > 1) {
+        NodeList children = target.getElementsByTagName(TargetVariableStar.XML_ELEMENT_MAXAPPARENTMAG);
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            try {
+                float fMaxAppMag = FloatUtil.parseFloat(value);
+                this.setMaxMagnitudeApparent(fMaxAppMag);
+            } catch (NumberFormatException nfe) {
                 throw new SchemaException(
-                        "TargetVariableStar can only have one maximal apparent magnitude. (ID: " + this.getID() + ")");
+                        "Maximal apparent magnitude of TargetVariableStar must be a numeric value. (ID: " + this.getID()
+                                + ")",
+                        nfe);
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException(
+                    "TargetVariableStar can only have one maximal apparent magnitude. (ID: " + this.getID() + ")");
         }
 
         // Get optional type
         children = target.getElementsByTagName(TargetVariableStar.XML_ELEMENT_VARIABLESTARTYPE);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                StringBuilder value = new StringBuilder();
-                NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
-                    for (int te = 0; te < textElements.getLength(); te++) {
-                        value.append(textElements.item(te).getNodeValue());
-                    }
-                    // currentCompStar = child.getFirstChild().getNodeValue();
-                    this.setType(value.toString());
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            StringBuilder value = new StringBuilder();
+            NodeList textElements = child.getChildNodes();
+            if (textElements.getLength() > 0) {
+                for (int te = 0; te < textElements.getLength(); te++) {
+                    value.append(textElements.item(te).getNodeValue());
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException(
-                        "TargetVariableStar can only have one variable star type. (ID: " + this.getID() + ")");
+                // currentCompStar = child.getFirstChild().getNodeValue();
+                this.setType(value.toString());
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException(
+                    "TargetVariableStar can only have one variable star type. (ID: " + this.getID() + ")");
         }
 
         // Get optional period
         children = target.getElementsByTagName(TargetVariableStar.XML_ELEMENT_PERIOD);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                try {
-                    float period = FloatUtil.parseFloat(value);
-                    this.setPeriod(period);
-                } catch (NumberFormatException nfe) {
-                    throw new SchemaException(
-                            "Period of TargetVariableStar must be a numeric value. (ID: " + this.getID() + ")", nfe);
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("TargetVariableStar can only have one period. (ID: " + this.getID() + ")");
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            try {
+                float period = FloatUtil.parseFloat(value);
+                this.setPeriod(period);
+            } catch (NumberFormatException nfe) {
+                throw new SchemaException(
+                        "Period of TargetVariableStar must be a numeric value. (ID: " + this.getID() + ")", nfe);
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("TargetVariableStar can only have one period. (ID: " + this.getID() + ")");
         }
+    
 
     }
 
-public TargetVariableStar(String starName, String datasource) {
+    public TargetVariableStar(String starName, String datasource) {
 
         super(starName, datasource);
 
     }
 
-public TargetVariableStar(String starName, IObserver observer) {
+    public TargetVariableStar(String starName, IObserver observer) {
 
         super(starName, observer);
 
@@ -156,7 +148,7 @@ public TargetVariableStar(String starName, IObserver observer) {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this TargetVariableStar.
      * 
@@ -192,12 +184,12 @@ public TargetVariableStar(String starName, IObserver observer) {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this TargetVariableStar to a given parent XML DOM Element. The TargetVariableStar element will be set as a
-     * child element of the passed element.
+    /**
+     * Adds this TargetVariableStar to a given parent XML DOM Element. The
+     * TargetVariableStar element will be set as a child element of the passed
+     * element.
      * 
-     * @param parent
-     *            The parent element for this TargetVariableStar
+     * @param parent The parent element for this TargetVariableStar
      * @see org.w3c.dom.Element
      */
     @Override
@@ -248,7 +240,7 @@ public TargetVariableStar(String starName, IObserver observer) {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -267,10 +259,10 @@ public TargetVariableStar(String starName, IObserver observer) {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the maximal apparent magnitude of this variable star.<br>
-     * To access the minimal apparent magnitude of this variable star, please use getMagnitudeApparent() (derived vom
-     * de.lehmannet.om.TargetStar)<br>
+     * To access the minimal apparent magnitude of this variable star, please use
+     * getMagnitudeApparent() (derived vom de.lehmannet.om.TargetStar)<br>
      * Might be <code>Float.NaN</code> if value was never set.
      * 
      * @return The maximal apparent magnitude
@@ -281,7 +273,7 @@ public TargetVariableStar(String starName, IObserver observer) {
 
     }
 
-/**
+    /**
      * Sets the maximal apparent magnitude of this variable star.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
      *
@@ -292,10 +284,11 @@ public TargetVariableStar(String starName, IObserver observer) {
 
     }
 
-/**
+    /**
      * Returns the type of this variable star.<br>
-     * This can be any free string describing the variable star type like: Cepheids, RR Lyrae stars, Semiregular,
-     * Supernovae, Novae, R Coronae Borealis, Eclipsing Binary Stars, ... <br>
+     * This can be any free string describing the variable star type like: Cepheids,
+     * RR Lyrae stars, Semiregular, Supernovae, Novae, R Coronae Borealis, Eclipsing
+     * Binary Stars, ... <br>
      * A good description of variable star types can be found at the
      * <a href="http://www.aavso.org/vstar/types.shtml">AAVSO page</a><br>
      * Might be <code>null</code> if value was never set.
@@ -308,7 +301,7 @@ public TargetVariableStar(String starName, IObserver observer) {
 
     }
 
-/**
+    /**
      * Sets the type of this variable star.<br>
      *
      */
@@ -323,9 +316,10 @@ public TargetVariableStar(String starName, IObserver observer) {
 
     }
 
-/**
+    /**
      * Returns the period of this variable star in days.<br>
-     * Might be <code>Float.NaN</code> if value was never set (or the variable star has no period)
+     * Might be <code>Float.NaN</code> if value was never set (or the variable star
+     * has no period)
      * 
      * @return The period of the variable star in days
      */
@@ -335,7 +329,7 @@ public TargetVariableStar(String starName, IObserver observer) {
 
     }
 
-/**
+    /**
      * Sets the period of this variable star in days.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
      *
@@ -345,5 +339,17 @@ public TargetVariableStar(String starName, IObserver observer) {
         this.period = period;
 
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+       return super.equals(obj);
+    }
+
+    
 
 }

@@ -10,6 +10,7 @@ package de.lehmannet.om;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -214,7 +215,7 @@ public abstract class Target extends SchemaElement implements ITarget {
                 && !("".equals(this.getDatasource()))) {
             String dataSource = target.getDatasource();
             if (dataSource != null) {
-                if (!this.getDatasource().toLowerCase().trim().equals(dataSource.toLowerCase().trim())) {
+                if (!this.getDatasource().toLowerCase(Locale.getDefault()).trim().equals(dataSource.toLowerCase(Locale.getDefault()).trim())) {
                     return false; // Datasources do not match
                 }
             } else {
@@ -236,10 +237,20 @@ public abstract class Target extends SchemaElement implements ITarget {
             return false;
         }
 
-        return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
+        return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
+        result = prime * result + ((this.getXSIType() == null) ? 0 : this.getXSIType().hashCode());
+        return result;
+    }
+
 
     // -------
     // ITarget -----------------------------------------------------------
@@ -425,7 +436,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     public String[] getAliasNames() {
 
         if (aliasNames.isEmpty()) {
-            return null;
+            return new String[0];
         }
 
         return (String[]) this.aliasNames.toArray(new String[] {});
@@ -435,7 +446,7 @@ public abstract class Target extends SchemaElement implements ITarget {
          * int i = 0; ListIterator iterator = aliasNames.listIterator(); String next = null; while( iterator.hasNext() )
          * { next = (String)iterator.next();
          * 
-         * // Make aliasNames homogeneous // next = next.trim(); // next = next.toUpperCase();
+         * // Make aliasNames homogeneous // next = next.trim(); // next = next.toUpperCase(Locale.getDefault());
          * 
          * result[i++] = next; }
          * 
@@ -479,7 +490,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         // Make name homogeneous
         // String n = this.name.trim();
-        // n = n.toUpperCase();
+        // n = n.toUpperCase(Locale.getDefault());
 
         return this.name;
 

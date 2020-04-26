@@ -42,6 +42,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -87,6 +90,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     private JMenuItem exportAAVSO = null;
     private JMenuItem showChart = null;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(VariableStarsExtension.class);
+    
     public VariableStarsExtension(ObservationManager om) {
 
         this.om = om;
@@ -199,7 +204,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 }
 
                 if (exportCounter == 0) { // Nothing exported, so delete file (file only contains aavso header)
-                    aavsoFile.delete();
+                    if (!aavsoFile.delete()) {
+                        LOGGER.warn("File no deleted");
+                    }
                 }
 
             } else if (source.equals(this.showChart)) {

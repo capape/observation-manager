@@ -7,6 +7,7 @@
 
 package de.lehmannet.om;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -57,26 +58,20 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
         // Make sure the element belongs to this class
         String xsiType = finding.getAttribute(IExtendableSchemaElement.XML_XSI_TYPE);
-        if ((xsiType != null)) { // && (this.getXSIType().equals(xsiType))) { // Cannot do the second check any
-                                 // more as this will break loading of old 1.4 OD and DS elements
-            Element child = null;
-            NodeList children = null;
-
-            // Getting data
-
+        if (!StringUtils.isBlank(xsiType)) { 
             // Get mandatory description
-            children = finding.getElementsByTagName(IFinding.XML_ELEMENT_DESCRIPTION);
-            if ((children == null) || (children.getLength() != 1)) {
+            NodeList children = finding.getElementsByTagName(IFinding.XML_ELEMENT_DESCRIPTION);
+            if (children.getLength() != 1) {
                 throw new SchemaException("Finding must have exact one description. ");
             }
-            child = (Element) children.item(0);
+            Element child = (Element) children.item(0);
             StringBuilder description = null;
             if (child == null) {
                 throw new SchemaException("Finding must have a description. ");
             } else {
                 // Check if description has a child
                 NodeList childrenNodeList = child.getChildNodes();
-                if (childrenNodeList != null) {
+                if (childrenNodeList.getLength() > 0) {
                     description = new StringBuilder();
                     for (int i = 0; i < childrenNodeList.getLength(); i++) {
                         description.append(childrenNodeList.item(i).getNodeValue());
@@ -84,18 +79,14 @@ public abstract class Finding extends SchemaElement implements IFinding {
                     this.setDescription(description.toString());
                 } else {
                     throw new SchemaException("Finding must have a description. ");
-                }
-                /*
-                 * if( child.getFirstChild() != null ) { description = child.getFirstChild().getNodeValue();
-                 * this.setDescription(description); }
-                 */
+                }             
             }
 
         }
 
         // Get optional language
         String language = finding.getAttribute(IFinding.XML_ELEMENT_ATTRIBUTE_LANGUAGE);
-        if ((language != null) && !("".equals(language.trim()))) {
+        if (!StringUtils.isBlank(language)) {
             this.setLanguage(language);
         }
 

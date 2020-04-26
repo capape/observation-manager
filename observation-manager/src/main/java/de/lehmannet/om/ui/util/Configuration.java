@@ -80,19 +80,22 @@ public class Configuration implements IConfiguration {
         }
 
         path = this.getConfigPath(path);
-        new File(path).mkdirs(); // Create directories
+        if (new File(path).mkdirs()) { // Create directories}
 
-        path = path + File.separatorChar + CONFIG_FILE;
-        try {
-            FileOutputStream fos = new FileOutputStream(path);
-            this.persistence.store(new BufferedOutputStream(fos), Configuration.CONFIG_FILE_HEADER);
-            fos.close();
-        } catch (IOException ioe) {
-            System.err.println("Cannot save configuration file " + path);
-            return false;
+            path = path + File.separatorChar + CONFIG_FILE;
+            try {
+                FileOutputStream fos = new FileOutputStream(path);
+                this.persistence.store(new BufferedOutputStream(fos), Configuration.CONFIG_FILE_HEADER);
+                fos.close();
+            } catch (IOException ioe) {
+                System.err.println("Cannot save configuration file " + path);
+                return false;
+            }
+
+            return true;
         }
-
-        return true;
+        System.err.println("Cannot create folders " + path);
+        return false;
 
     }
 

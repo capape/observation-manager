@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * class is in latin.
  *
  * @author doergn@users.sourceforge.net
- *         capapegil
+ *         capapecd cagil
  * @since 2.0
  */
 public enum Constellation {
@@ -132,10 +132,10 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getName().equals(toSearch)) {
+            if (item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
@@ -149,10 +149,10 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getAbbreviation().equals(toSearch)) {
+            if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
@@ -166,15 +166,15 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase();
+        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values ()) {
-            if (item.getAbbreviation().equals(toSearch) || item.getName().equals(toSearch)) {
+            if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }
         }
 
-        throw new IllegalArgumentException("Invalid constellation");
+        throw new IllegalArgumentException("Invalid constellation: " + data);
 
     }
 
