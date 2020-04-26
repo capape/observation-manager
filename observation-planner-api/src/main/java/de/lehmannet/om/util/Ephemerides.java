@@ -680,7 +680,7 @@ public class Ephemerides {
         double Ls = Ms + ws;
         double Lm = Mm + wm + Nm;
         double D = Lm - Ls;
-        double F = Lm - Nm;
+        // double F = Lm - Nm; // commented out as not used
 
         double distance = pdistance + (-0.58 * Math.cos(Math.toRadians(Mm - 2 * D)));
         distance = distance + (-0.46 * Math.cos(Math.toRadians(2 * D)));
