@@ -33,7 +33,7 @@ class MassTest {
     private File origXMLFile = null;
     private File xsdFile = null;
     private File newXMLFile = null;
-    private CatalogLoader cl;
+    private CatalogLoader cl = null;
 
     /**
      * @param args
