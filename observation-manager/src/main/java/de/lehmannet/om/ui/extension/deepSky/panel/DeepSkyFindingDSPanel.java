@@ -42,31 +42,31 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
     private final TristateCheckbox equalBrightness = new TristateCheckbox();
     private final TristateCheckbox niceSurrounding = new TristateCheckbox();
 
-    public DeepSkyFindingDSPanel(ObservationManager om, IFinding finding, ISession s, Boolean editable)
+    public DeepSkyFindingDSPanel(ObservationManager om, IFinding paramFinding, ISession s, Boolean editable)
             throws IllegalArgumentException {
 
-        super(om, finding, s, editable);
+        super(om, paramFinding, s, editable);
 
-        if (finding != null) {
-            if (!(finding instanceof DeepSkyFindingDS)) {
+        if (paramFinding != null) {
+            if (!(paramFinding instanceof DeepSkyFindingDS)) {
                 // DeepSkyFindingPanel might already have converted the Finding into a
                 // DeepSkyFinding
-                finding = super.finding;
+                paramFinding = super.finding;
 
                 try { // Might be old (< 1.5) DeepSkyFinding
-                    if (finding != null) {
-                        this.finding = new DeepSkyFindingDS(finding.getDescription(),
-                                ((DeepSkyFinding) finding).getRating());
+                    if (paramFinding != null) {
+                        this.finding = new DeepSkyFindingDS(paramFinding.getDescription(),
+                                ((DeepSkyFinding) paramFinding).getRating());
                     } else { // Finding was something else. So recycle description and use 0 as default
                              // rating
-                        this.finding = new DeepSkyFindingDS(finding.getDescription(), 0);
+                        this.finding = new DeepSkyFindingDS("", 0);
                     }
                 } catch (ClassCastException cce) {
                     throw new IllegalArgumentException(
                             "Passed IFinding must derive from de.lehmannet.om.extension.deepSky.DeepSkyFindingDS\n");
                 }
             } else {
-                this.finding = (DeepSkyFindingDS) finding;
+                this.finding = (DeepSkyFindingDS) paramFinding;
             }
         }
 
