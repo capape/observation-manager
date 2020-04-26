@@ -110,12 +110,11 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
         }
 
         // Get optional brightest stars
-        children = target.getElementsByTagName(DeepSkyTargetOC.XML_ELEMENT_BRIGHTESTSTAR);
-        double brightestStar = Double.NaN;
+        children = target.getElementsByTagName(DeepSkyTargetOC.XML_ELEMENT_BRIGHTESTSTAR);        
         if (children.getLength() == 1) {
             Element child = (Element) children.item(0);
-            brightestStar = Double.parseDouble(child.getFirstChild().getNodeValue());
-            this.setBrightestStar(brightestStar);
+            double value = Double.parseDouble(child.getFirstChild().getNodeValue());
+            this.setBrightestStar(value);
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetOC can only have one value for brightest star. ");
         }
