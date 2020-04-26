@@ -95,7 +95,6 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         int y = obsLocation.y + (obsSize.height / 2) - (this.getSize().height / 2);
         this.setLocation(x, y);
 
-
     }
 
     @Override

@@ -22,7 +22,7 @@ import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public final class ObservationManagerMenuExtras {
@@ -30,12 +30,12 @@ public final class ObservationManagerMenuExtras {
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtras.class);
 
     private final XMLFileLoader xmlCache;
-    private final Configuration configuration;
+    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     
 
     public ObservationManagerMenuExtras(        
-        Configuration configuration,
+        IConfiguration configuration,
         XMLFileLoader xmlCache,
         ObservationManager om) {
        

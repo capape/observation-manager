@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 
@@ -33,7 +33,7 @@ public class GeneralPanel extends PreferencesPanel {
     private LanguageBox uiLanguage = null;
     private JComboBox xslTemplate = null;
 
-    public GeneralPanel(Configuration config, ObservationManager om) {
+    public GeneralPanel(IConfiguration config, ObservationManager om) {
 
         super(config);
 
@@ -53,27 +53,27 @@ public class GeneralPanel extends PreferencesPanel {
     public void writeConfig() {
 
         // Load last opened XML file on startup
-        this.configuration.setConfig(ObservationManager.CONFIG_OPENONSTARTUP, "" + this.loadLastFile.isSelected());
+        this.setConfig(ObservationManager.CONFIG_OPENONSTARTUP,  String.valueOf( this.loadLastFile.isSelected()));
 
         // ------------------
 
         // Load last opened XML file on startup
-        this.configuration.setConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP,
-                "" + this.checkForUpdates.isSelected());
+        this.setConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP,
+        String.valueOf( this.checkForUpdates.isSelected()));
 
         // ------------------
 
         // Set UI Language
-        this.configuration.setConfig(ObservationManager.CONFIG_UILANGUAGE,
-                "" + this.uiLanguage.getSelectedISOLanguage());
+        this.setConfig(ObservationManager.CONFIG_UILANGUAGE,
+        String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
         this.om.reloadLanguage();
 
         // ------------------
 
         // Set default catalog
         if (this.xslTemplate.getSelectedItem() != null) {
-            this.configuration.setConfig(ObservationManager.CONFIG_XSL_TEMPLATE,
-                    "" + this.xslTemplate.getSelectedItem());
+           this.setConfig(ObservationManager.CONFIG_XSL_TEMPLATE,
+            String.valueOf( this.xslTemplate.getSelectedItem()));
         }
 
     }
@@ -96,7 +96,7 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.loadLastFile = new JCheckBox();
         this.loadLastFile.setSelected(
-                Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP)));
+                Boolean.parseBoolean(this.getConfig(ObservationManager.CONFIG_OPENONSTARTUP).orElse("false")));
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
         this.add(this.loadLastFile);
@@ -117,7 +117,7 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
         this.checkForUpdates = new JCheckBox();
         this.checkForUpdates.setSelected(
-                Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP)));
+                Boolean.parseBoolean(this.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
         this.checkForUpdates
                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);

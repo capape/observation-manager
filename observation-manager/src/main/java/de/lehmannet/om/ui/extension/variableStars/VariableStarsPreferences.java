@@ -17,8 +17,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 
 public class VariableStarsPreferences extends PreferencesPanel {
 
@@ -30,7 +30,7 @@ public class VariableStarsPreferences extends PreferencesPanel {
 
     private JCheckBox cacheEnabled = null;
 
-    public VariableStarsPreferences(Configuration config) {
+    public VariableStarsPreferences(IConfiguration config) {
 
         super(config);
 
@@ -42,8 +42,8 @@ public class VariableStarsPreferences extends PreferencesPanel {
     public void writeConfig() {
 
         // Use cache
-        this.configuration.setConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED,
-                "" + this.cacheEnabled.isSelected());
+       this.setConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED,
+               String.valueOf(this.cacheEnabled.isSelected()));
 
     }
 
@@ -72,7 +72,7 @@ public class VariableStarsPreferences extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.cacheEnabled = new JCheckBox();
         this.cacheEnabled.setSelected(Boolean
-                .parseBoolean(this.configuration.getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED, "true")));
+                .parseBoolean(this.getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED).orElse("true")));
         this.cacheEnabled.setToolTipText(this.bundle.getString("preferences.tooltip.cacheEnabled"));
         gridbag.setConstraints(this.cacheEnabled, constraints);
         this.add(this.cacheEnabled);

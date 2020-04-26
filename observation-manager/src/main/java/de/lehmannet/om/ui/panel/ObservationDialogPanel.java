@@ -82,6 +82,7 @@ import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
@@ -1587,7 +1588,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.observerBox.getSelectedSchemaElement();
         }
-        Configuration config = this.observationManager.getConfiguration();
+        IConfiguration config = this.observationManager.getConfiguration();
         String currentValue = config.getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
 
         IObserver[] observers = this.observationManager.getXmlCache().getObservers();
