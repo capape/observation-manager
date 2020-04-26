@@ -17,7 +17,8 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetDS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * DeepSkyTargetDS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
+ * class.<br>
  * Its specialised for double stars.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -60,19 +61,19 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a DeepSkyTargetDS from a given DOM target Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
-     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
+    /**
+     * Constructs a new instance of a DeepSkyTargetDS from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
+     * Please mind that Target has to have a <observer> element, or a <datasource>
+     * element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     public DeepSkyTargetDS(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -80,60 +81,50 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
 
         // Get optional position angle
-        children = target.getElementsByTagName(DeepSkyTargetDS.XML_ELEMENT_POSITIONANGLE);
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                this.setPositionAngle(Integer.parseInt(value));
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetDS can only have one position angle entry. ");
-            }
+        NodeList children = target.getElementsByTagName(DeepSkyTargetDS.XML_ELEMENT_POSITIONANGLE);
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            this.setPositionAngle(Integer.parseInt(value));
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetDS can only have one position angle entry. ");
         }
 
         // Get optional separation
         children = target.getElementsByTagName(DeepSkyTargetDS.XML_ELEMENT_SEPARATION);
         Angle separation = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-                separation = new Angle(Double.parseDouble(value), unit);
-                this.setSeparation(separation);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetDS can only have one separation value. ");
-            }
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
+            separation = new Angle(Double.parseDouble(value), unit);
+            this.setSeparation(separation);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetDS can only have one separation value. ");
         }
 
         // Get optional magComp
         children = target.getElementsByTagName(DeepSkyTargetDS.XML_ELEMENT_MAGCOMP);
         double mc = Double.NaN;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                mc = Double.parseDouble(child.getFirstChild().getNodeValue());
-                this.setCompanionMag(mc);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTargetDS can only have one separation value. ");
-            }
+
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            mc = Double.parseDouble(child.getFirstChild().getNodeValue());
+            this.setCompanionMag(mc);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTargetDS can only have one separation value. ");
         }
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetDS.
      * 
-     * @param name
-     *            The name of the double star
-     * @param datasource
-     *            The datasource of the double star
+     * @param name       The name of the double star
+     * @param datasource The datasource of the double star
      */
     public DeepSkyTargetDS(String name, String datasource) {
 
@@ -141,13 +132,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetDS.
      * 
-     * @param name
-     *            The name of the double star
-     * @param observer
-     *            The observer who is the originator of the double star
+     * @param name     The name of the double star
+     * @param observer The observer who is the originator of the double star
      */
     public DeepSkyTargetDS(String name, IObserver observer) {
 
@@ -159,12 +148,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
-     * passed element.
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
      * 
-     * @param parent
-     *            The parent element for this Target
+     * @param parent The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -212,7 +200,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -231,11 +219,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the position angle of the double star.
      * 
-     * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
-     *         the value was never set
+     * @return The position angle of the astronomical object as integer The returned
+     *         value might be <code>-1</code> if the value was never set
      */
     public int getPositionAngle() {
 
@@ -243,11 +231,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Returns the separation of the double star components.
      * 
-     * @return The separation of the double star components as Angle The returned value might be <code>null</code> if
-     *         the value was never set
+     * @return The separation of the double star components as Angle The returned
+     *         value might be <code>null</code> if the value was never set
      * @see de.lehmannet.om.Angle
      */
     public Angle getSeparation() {
@@ -256,11 +244,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Returns the magnitude of the companion star.
      * 
-     * @return The magnitude of the companion star. The returned value might be <code>Double.NaN</code> if the value was
-     *         never set
+     * @return The magnitude of the companion star. The returned value might be
+     *         <code>Double.NaN</code> if the value was never set
      */
     public double getCompanionMag() {
 
@@ -268,11 +256,10 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Sets the magnitude of the companion star.
      * 
-     * @param newMagnitude
-     *            The new magnitude of the companion star.
+     * @param newMagnitude The new magnitude of the companion star.
      */
     public void setCompanionMag(double newMagnitude) {
 
@@ -280,12 +267,11 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
-     * Sets the position angle of the double star. If the given new position angle is < 0 or > 359 the position angle
-     * will be unset again.
+    /**
+     * Sets the position angle of the double star. If the given new position angle
+     * is < 0 or > 359 the position angle will be unset again.
      * 
-     * @param newPosAngle
-     *            The new position angle of the double star.
+     * @param newPosAngle The new position angle of the double star.
      */
     public void setPositionAngle(int newPosAngle) {
 
@@ -298,14 +284,13 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Sets the separation of the double star components.<br>
      * Only positiv angles are allowed.
      * 
-     * @param newSeparation
-     *            The new separation of the double star components.
-     * @throws IllegalArgumentException
-     *             If new angle doesn't have a degree value between 0 and 359.9
+     * @param newSeparation The new separation of the double star components.
+     * @throws IllegalArgumentException If new angle doesn't have a degree value
+     *                                  between 0 and 359.9
      * @see de.lehmannet.om.Angle
      */
     public void setSeparation(Angle newSeparation) {

@@ -1,11 +1,11 @@
 package de.lehmannet.om.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IEquipment;
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.util.FloatUtil;
@@ -14,34 +14,32 @@ import de.lehmannet.om.util.SchemaException;
 public class LensMapper {
 
     public static String getOptionalVendor(Element lensElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get optional vendor
-        child = null;
-        children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_VENDOR);
+
+        NodeList children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_VENDOR);
         StringBuilder vendor = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        return vendor.toString();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        vendor.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                     * this.setVendor(vendor); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor from lens. ");
+                    return vendor.toString();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Lens can have only one vendor. ");
+                /*
+                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
+                 * this.setVendor(vendor); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving vendor from lens. ");
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Lens can have only one vendor. ");
         }
+
         return null;
     }
 
@@ -60,15 +58,14 @@ public class LensMapper {
     }
 
     public static float getMandatoryFactor(Element lensElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get mandatory factor
-        child = null;
-        children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_FACTOR);
-        if ((children == null) || (children.getLength() != 1)) {
+
+        NodeList children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_FACTOR);
+        if (children.getLength() != 1) {
             throw new SchemaException("Lens must have exact one focal length factor. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         String factor = null;
         if (child == null) {
             throw new SchemaException("Lens must have a focal length factor. ");
@@ -76,25 +73,24 @@ public class LensMapper {
             factor = child.getFirstChild().getNodeValue();
         }
         return FloatUtil.parseFloat(factor);
-     
+
     }
 
     public static String getMandatoryModel(Element lensElement) throws SchemaException {
-        NodeList children;
-        Element child;
+
         // Get mandatory model
-        children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_MODEL);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = lensElement.getElementsByTagName(ILens.XML_ELEMENT_MODEL);
+        if (children.getLength() != 1) {
             throw new SchemaException("Lens must have exact one model name. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         StringBuilder model = new StringBuilder();
         if (child == null) {
             throw new SchemaException("Lens must have a model name. ");
         } else {
             if (child.getFirstChild() != null) {
                 NodeList textElements = child.getChildNodes();
-                if ((textElements != null) && (textElements.getLength() > 0)) {
+                if (textElements.getLength() > 0) {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
@@ -111,7 +107,7 @@ public class LensMapper {
     public static String getMandatoryID(Element lensElement) throws SchemaException {
         // Get ID from element
         String ID = lensElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
-        if ((ID != null) && ("".equals(ID.trim()))) {
+        if (StringUtils.isBlank(ID)) {
             throw new SchemaException("Lens must have a ID. ");
         }
         return ID;

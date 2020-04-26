@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -123,20 +124,20 @@ public class DeepSkyFinding extends Finding {
         super(findingElement);
 
         Element finding = (Element) findingElement;
-        Element child = null;
-        NodeList children = null;
+        
+       
 
         // Getting data
         // First mandatory stuff and down below optional data
 
         // Get mandatory rating
-        children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_RATING);
-        if ((children == null) || (children.getLength() != 1)) {
+      NodeList children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_RATING);
+        if (children.getLength() != 1) {
             // throw new SchemaException("DeepSkyFinding must have exact one rating value.
             // ");
             this.setRating(99); // Use unknown rating value since 2.0
         } else {
-            child = (Element) children.item(0);
+          Element child = (Element) children.item(0);
             String rating = null;
             if (child == null) {
                 throw new SchemaException("DeepSkyFinding must have a rating value. ");
@@ -147,11 +148,10 @@ public class DeepSkyFinding extends Finding {
         }
 
         // Get optional small diameter
-        children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_SMALLDIAMETER);
+      children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_SMALLDIAMETER);
         Angle smallDiameter = null;
-        if (children != null) {
             if (children.getLength() == 1) {
-                child = (Element) children.item(0);
+              Element child = (Element) children.item(0);
                 String value = child.getFirstChild().getNodeValue();
                 String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
                 smallDiameter = new Angle(Double.parseDouble(value), unit);
@@ -159,14 +159,12 @@ public class DeepSkyFinding extends Finding {
             } else if (children.getLength() > 1) {
                 throw new SchemaException("DeepSkyFinding can only have one small diameter entry. ");
             }
-        }
-
+      
         // Get optional large diameter
-        children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_LARGEDIAMETER);
+      children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_LARGEDIAMETER);
         Angle largeDiameter = null;
-        if (children != null) {
             if (children.getLength() == 1) {
-                child = (Element) children.item(0);
+              Element child = (Element) children.item(0);
                 String value = child.getFirstChild().getNodeValue();
                 String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
                 largeDiameter = new Angle(Double.parseDouble(value), unit);
@@ -174,29 +172,28 @@ public class DeepSkyFinding extends Finding {
             } else if (children.getLength() > 1) {
                 throw new SchemaException("DeepSkyFinding can only have one large diameter entry. ");
             }
-        }
-
+      
         // Get optional resolved attribute
         String resolved = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_RESOLVED);
-        if ((resolved != null) && (!"".equals(resolved.trim()))) {
+        if (!StringUtils.isBlank(resolved)) {
             this.setResolved(Boolean.valueOf(resolved));
         }
 
         // Get optional stellar attribute
         String stellar = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_STELLAR);
-        if ((stellar != null) && (!"".equals(stellar.trim()))) {
+        if (!StringUtils.isBlank(stellar)) {
             this.setStellar(Boolean.valueOf(stellar));
         }
 
         // Get optional mottled attribute
         String mottled = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_MOTTLED);
-        if ((mottled != null) && (!"".equals(mottled.trim()))) {
+        if (!StringUtils.isBlank(mottled)) {
             this.setMottled(Boolean.valueOf(mottled));
         }
 
         // Get optional extended attribute
         String extended = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_EXTENDED);
-        if ((extended != null) && (!"".equals(extended.trim()))) {
+        if (!StringUtils.isBlank(extended)) {
             this.setExtended(Boolean.valueOf(extended));
         }
 

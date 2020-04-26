@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -24,9 +25,11 @@ import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTarget extends the de.lehmannet.om.Target class. Its specialised for DeepSky targets. A DeepSky target can be
- * an astronomical object outside our solar system.<br>
- * Mostly all fields of the class are optional, only the name (which is derived from class Target) is madatory.
+ * DeepSkyTarget extends the de.lehmannet.om.Target class. Its specialised for
+ * DeepSky targets. A DeepSky target can be an astronomical object outside our
+ * solar system.<br>
+ * Mostly all fields of the class are optional, only the name (which is derived
+ * from class Target) is madatory.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -71,19 +74,20 @@ public abstract class DeepSkyTarget extends Target {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
-     * Constructs a new instance of a DeepSkyTarget from a given DOM target Element.<br>
-     * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
-     * set, a array with Observers must be passed to check, whether the <observer> link is valid.
+    /**
+     * Constructs a new instance of a DeepSkyTarget from a given DOM target
+     * Element.<br>
+     * Normally this constructor is called by a subclass which itself is called by
+     * de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is
+     * set, a array with Observers must be passed to check, whether the <observer>
+     * link is valid.
      * 
-     * @param observers
-     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
-     *            element is set
-     * @param targetElement
-     *            The origin XML DOM <target> Element
-     * @throws SchemaException
-     *             if given targetElement was <code>null</code>
+     * @param observers     Array of IObserver that might be linked from this
+     *                      observation, can be <code>NULL</code> if datasource
+     *                      element is set
+     * @param targetElement The origin XML DOM <target> Element
+     * @throws SchemaException if given targetElement was <code>null</code>
      */
     DeepSkyTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -91,83 +95,68 @@ public abstract class DeepSkyTarget extends Target {
 
         Element target = (Element) targetElement;
 
-        Element child = null;
-        NodeList children = null;
-
         // Getting data
         // First mandatory stuff and down below optional data
 
         // Get optional small diameter
-        children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_SMALLDIAMETER);
+        NodeList children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_SMALLDIAMETER);
         Angle smallDiameter = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-                smallDiameter = new Angle(Double.parseDouble(value), unit);
-                this.setSmallDiameter(smallDiameter);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTarget can only have one small diameter entry. ");
-            }
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
+            smallDiameter = new Angle(Double.parseDouble(value), unit);
+            this.setSmallDiameter(smallDiameter);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTarget can only have one small diameter entry. ");
         }
 
         // Get optional large diameter
         children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_LARGEDIAMETER);
         Angle largeDiameter = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-                largeDiameter = new Angle(Double.parseDouble(value), unit);
-                this.setLargeDiameter(largeDiameter);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTarget can only have one large diameter entry. ");
-            }
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
+            largeDiameter = new Angle(Double.parseDouble(value), unit);
+            this.setLargeDiameter(largeDiameter);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTarget can only have one large diameter entry. ");
         }
 
         // Get optional visible magintude
-        children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_VISIBLEMAGNITUDE);
-        String visMag = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                visMag = child.getFirstChild().getNodeValue();
-                this.setVisibleMagnitude(FloatUtil.parseFloat(visMag));
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTarget can only have one visible magnitude entry. ");
-            }
+        children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_VISIBLEMAGNITUDE);        
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String visMag = child.getFirstChild().getNodeValue();
+            this.setVisibleMagnitude(FloatUtil.parseFloat(visMag));
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTarget can only have one visible magnitude entry. ");
         }
 
         // Get optional surface brightness
-        children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_SURFACEBRIGHTNESS);
-        String surBright = null;
-        if (children != null) {
-            if (children.getLength() == 1) {
-                child = (Element) children.item(0);
-                surBright = child.getFirstChild().getNodeValue();
-                // Check if unit is explicitly given (from OAL 2.0 this is the case)
-                String unit = child.getAttribute(SurfaceBrightness.XML_ATTRIBUTE_UNIT);
-                if ((unit == null) || ("".equals(unit))) {
-                    unit = SurfaceBrightness.MAGS_SQR_ARC_MIN; // Prio to 2.0 the value was always giben in mags per sqr
-                                                               // args min
-                }
-                this.setSurfaceBrightness(new SurfaceBrightness(FloatUtil.parseFloat(surBright), unit));
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyTarget can only have one surface brightness entry. ");
+        children = target.getElementsByTagName(DeepSkyTarget.XML_ELEMENT_SURFACEBRIGHTNESS);        
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String surBright = child.getFirstChild().getNodeValue();
+            // Check if unit is explicitly given (from OAL 2.0 this is the case)
+            String unit = child.getAttribute(SurfaceBrightness.XML_ATTRIBUTE_UNIT);
+            if (StringUtils.isBlank(unit)) {
+                unit = SurfaceBrightness.MAGS_SQR_ARC_MIN; // Prio to 2.0 the value was always giben in mags per sqr
+                                                           // args min
             }
+            this.setSurfaceBrightness(new SurfaceBrightness(FloatUtil.parseFloat(surBright), unit));
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyTarget can only have one surface brightness entry. ");
         }
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTarget.
      * 
-     * @param name
-     *            The name of the astronomical object
-     * @param datasource
-     *            The datasource of the astronomical object
+     * @param name       The name of the astronomical object
+     * @param datasource The datasource of the astronomical object
      */
     DeepSkyTarget(String name, String datasource) {
 
@@ -175,13 +164,11 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTarget.
      * 
-     * @param name
-     *            The name of the astronomical object
-     * @param observer
-     *            The observer who is the originator of the target
+     * @param name     The name of the astronomical object
+     * @param observer The observer who is the originator of the target
      */
     DeepSkyTarget(String name, IObserver observer) {
 
@@ -193,7 +180,7 @@ public abstract class DeepSkyTarget extends Target {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyTarget.
      * 
@@ -251,7 +238,7 @@ public abstract class DeepSkyTarget extends Target {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -266,12 +253,11 @@ public abstract class DeepSkyTarget extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-/**
-     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
-     * passed element.
+    /**
+     * Adds this Target to a given parent XML DOM Element. The Target element will
+     * be set as a child element of the passed element.
      * 
-     * @param parent
-     *            The parent element for this Target
+     * @param parent The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -281,11 +267,11 @@ public abstract class DeepSkyTarget extends Target {
     // Protected methods -------------------------------------------------
     // -----------------
 
-/**
-     * Creates a deepkSkyTarget under the target container. If no target container exists under the given elements
-     * ownerDocument, it will be created.<br>
-     * This method should be called by subclasses, so that they only have to add their specific data to the element
-     * returned. Example:<br>
+    /**
+     * Creates a deepkSkyTarget under the target container. If no target container
+     * exists under the given elements ownerDocument, it will be created.<br>
+     * This method should be called by subclasses, so that they only have to add
+     * their specific data to the element returned. Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
@@ -297,12 +283,11 @@ public abstract class DeepSkyTarget extends Target {
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
      * 
-     * @param element
-     *            The element under which the the target link is created
-     * @param xsiType
-     *            The XSI:Type identification of the child class
-     * @return Returns a new created target Element that contains all data from a DeepSkyTarget. Please mind, NOT the
-     *         passed element is given, but a child element of the passed elements ownerDocument. Might return
+     * @param element The element under which the the target link is created
+     * @param xsiType The XSI:Type identification of the child class
+     * @return Returns a new created target Element that contains all data from a
+     *         DeepSkyTarget. Please mind, NOT the passed element is given, but a
+     *         child element of the passed elements ownerDocument. Might return
      *         <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -397,11 +382,11 @@ public abstract class DeepSkyTarget extends Target {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the large diameter of the astronomical object.
      * 
-     * @return The large diameter of the astronomical object as Angle The returned value might be <code>null</code> if
-     *         the value was never set
+     * @return The large diameter of the astronomical object as Angle The returned
+     *         value might be <code>null</code> if the value was never set
      * @see de.lehmannet.om.Angle
      */
     public Angle getLargeDiameter() {
@@ -410,11 +395,11 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Returns the small diameter of the astronomical object.
      * 
-     * @return The small diameter of the astronomical object as Angle The returned value might be <code>null</code> if
-     *         the value was never set
+     * @return The small diameter of the astronomical object as Angle The returned
+     *         value might be <code>null</code> if the value was never set
      * @see de.lehmannet.om.Angle
      */
     public Angle getSmallDiameter() {
@@ -423,7 +408,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Returns the surface brightness of the astronomical object
      * 
      * @return The surface brightness of the astronomical object.<br>
@@ -435,7 +420,7 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Returns the visible magnitude of the astronomical object.
      * 
      * @return The visible magnitude of the astronomical object.<br>
@@ -447,11 +432,11 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
-     * Sets the large diameter of the DeepSkyTarget. A valid Angle has a value larger (or euqals) 0.0.
+    /**
+     * Sets the large diameter of the DeepSkyTarget. A valid Angle has a value
+     * larger (or euqals) 0.0.
      * 
-     * @param largeDiameter
-     *            The large diameter to set
+     * @param largeDiameter The large diameter to set
      */
     public void setLargeDiameter(Angle largeDiameter) {
 
@@ -465,11 +450,11 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
-     * Sets the small diameter of the DeepSkyTarget. A valid Angle has a value larger (or euqals) 0.0.
+    /**
+     * Sets the small diameter of the DeepSkyTarget. A valid Angle has a value
+     * larger (or euqals) 0.0.
      * 
-     * @param smallDiameter
-     *            The small diameter to set
+     * @param smallDiameter The small diameter to set
      */
     public void setSmallDiameter(Angle smallDiameter) {
 
@@ -483,11 +468,10 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Sets the surface brightness of the astronomical object.<br>
      * 
-     * @param surfaceBrightness
-     *            The surface brightness to set
+     * @param surfaceBrightness The surface brightness to set
      */
     public void setSurfaceBrightness(SurfaceBrightness surfaceBrightness) {
 
@@ -495,11 +479,10 @@ public abstract class DeepSkyTarget extends Target {
 
     }
 
-/**
+    /**
      * Sets the visible magnitude of the astronomical object.
      * 
-     * @param visibleMagnitude
-     *            The visible magnitude to set
+     * @param visibleMagnitude The visible magnitude to set
      */
     public void setVisibleMagnitude(float visibleMagnitude) {
 

@@ -11,24 +11,23 @@ import de.lehmannet.om.util.SchemaException;
 
 public class CCDImagerMapper {
 
-
     public static byte getBinningValue(Element imager) throws SchemaException {
-        
-       NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_BINNING);
-       Element bininElement = NodeParser.getChildrenOfUniqueInstanceNodeChildren(children)
-            .orElseThrow(()-> new SchemaException("Cannot read binding found"));
-           
-       String textValue = NodeParser.getChildrenNodesAsText(bininElement);
-       return Byte.parseByte(textValue);
+
+        NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_BINNING);
+        Element bininElement = NodeParser.getChildrenOfUniqueInstanceNodeChildren(children)
+                .orElseThrow(() -> new SchemaException("Cannot read binding found"));
+
+        String textValue = NodeParser.getChildrenNodesAsText(bininElement);
+        return Byte.parseByte(textValue);
     }
 
     public static float getYPixelSize(Element imager) throws SchemaException {
-       
+
         NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_YPIXELS_SIZE);
 
         Element ySizeElement = NodeParser.getChildrenOfUniqueInstanceNodeChildren(children)
-            .orElseThrow(()-> new SchemaException("Cannot read  y pixel size from CCD Imager"));
-        
+                .orElseThrow(() -> new SchemaException("Cannot read  y pixel size from CCD Imager"));
+
         String textValue = NodeParser.getChildrenNodesAsText(ySizeElement);
         float yS = FloatUtil.parseFloat(textValue);
         if (yS > 0.0) {
@@ -36,42 +35,40 @@ public class CCDImagerMapper {
         } else {
             return Float.NaN;
         }
-      
+
     }
 
     public static float getXPixelSize(Element imager) throws SchemaException {
-        
+
         NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS_SIZE);
         StringBuilder xSize = new StringBuilder();
-        if (children != null) {
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if ((textElements != null) && (textElements.getLength() > 0)) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            xSize.append(textElements.item(te).getNodeValue());
-                        }
-                        float xS = FloatUtil.parseFloat(xSize.toString());
-                        if (xS > 0.0) {
-                            return xS;
-                        }
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        xSize.append(textElements.item(te).getNodeValue());
                     }
-                } else {
-                    throw new SchemaException("Problem while retrieving x pixel size from CCD Imager. ");
+                    float xS = FloatUtil.parseFloat(xSize.toString());
+                    if (xS > 0.0) {
+                        return xS;
+                    }
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("CCDImager can have only one x pixel size value. ");
+            } else {
+                throw new SchemaException("Problem while retrieving x pixel size from CCD Imager. ");
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("CCDImager can have only one x pixel size value. ");
         }
 
         return Float.NaN;
     }
 
     public static int getYPixels(Element imager) throws SchemaException {
-       
+
         NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_YPIXELS);
-        if ((children == null) || (children.getLength() != 1)) {
+        if (children.getLength() != 1) {
             throw new SchemaException("CCDImager must have exact one y pixels element. ");
         }
         Element child = (Element) children.item(0);
@@ -90,14 +87,13 @@ public class CCDImagerMapper {
     }
 
     public static int getXPixels(Element imager) throws SchemaException {
-        Element child;
-        NodeList children;
+
         // Get xPixels
-        children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS);
-        if ((children == null) || (children.getLength() != 1)) {
+        NodeList children = imager.getElementsByTagName(CCDImager.XML_ELEMENT_XPIXELS);
+        if (children.getLength() != 1) {
             throw new SchemaException("CCDImager must have exact one x pixels element. ");
         }
-        child = (Element) children.item(0);
+        Element child = (Element) children.item(0);
         String x = null;
         if (child == null) {
             throw new SchemaException("CCDImager must have a x pixel element. ");
