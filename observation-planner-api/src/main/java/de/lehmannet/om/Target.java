@@ -425,7 +425,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     public String[] getAliasNames() {
 
         if (aliasNames.isEmpty()) {
-            return null;
+            return new String[0];
         }
 
         return (String[]) this.aliasNames.toArray(new String[] {});

@@ -196,7 +196,7 @@ public abstract class SolarSystemTarget extends Target {
         buffer.append("SolarSystemTarget: Name=");
         buffer.append(this.getName());
 
-        if ((this.getAliasNames() != null) && (this.getAliasNames().length > 0)) {
+        if (this.getAliasNames().length > 0) {
             buffer.append(" Alias names=");
             buffer.append(Arrays.toString(this.getAliasNames()));
         }

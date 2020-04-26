@@ -194,7 +194,7 @@ public abstract class DeepSkyTarget extends Target {
         buffer.append("DeepSkyTarget: Name=");
         buffer.append(this.getName());
 
-        if ((this.getAliasNames() != null) && (this.getAliasNames().length > 0)) {
+        if (this.getAliasNames().length > 0) {
             buffer.append(" Alias names=");
             String[] an = this.getAliasNames();
             for (int i = 0; i < an.length; i++) {

@@ -139,7 +139,7 @@ public class TargetStar extends Target {
             buffer.append(this.getConstellation());
         }
 
-        if (this.getAliasNames() != null) {
+        if (this.getAliasNames().length > 0) {
             buffer.append("\nAlias Names: ");
             String[] an = this.getAliasNames();
             for (String s : an) {
@@ -387,13 +387,14 @@ public class TargetStar extends Target {
      */
     @Override
     public boolean equals(Object obj) {
+
+        if (obj == null || !(obj instanceof ITarget)) {
+            return false;
+        }
+
+        ITarget other = (ITarget) obj;
         if (this == obj)
             return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        TargetStar other = (TargetStar) obj;
 
         String targetName = other.getName();
         if (targetName == null) {
