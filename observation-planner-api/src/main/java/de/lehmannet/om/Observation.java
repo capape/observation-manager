@@ -162,8 +162,8 @@ public class Observation extends SchemaElement implements IObservation {
         Element observationElement = (Element) observation;
 
         // Helper classes
-        Element child = null;
-        NodeList children = null;
+        
+       
 
         // Getting data
         // First mandatory stuff and down below optional data
@@ -1406,11 +1406,11 @@ public class Observation extends SchemaElement implements IObservation {
         Calendar sessionEnd = session.getEnd();
 
         // Check if start date of observation is equal or later then session start
-        if (!(begin.before(sessionStart))) {
+        if (sessionStart.before(begin)) {
 
             // Check if also end date is correct (if set)
             if (end != null) {
-                if (!(end.after(sessionEnd))) {
+                if (end.before(sessionEnd)) {
                     this.session = session;
                 } else {
                     throw new IllegalArgumentException("Session end date if before observations end date. ");
