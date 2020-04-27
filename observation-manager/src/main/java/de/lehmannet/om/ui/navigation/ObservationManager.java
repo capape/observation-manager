@@ -151,10 +151,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JMenuItem didYouKnow;
     private JMenuItem logMenuEntry;
     private JMenuItem updateMenuEntry;
-
-    private JMenuItem extensionInfo;
-    private JMenuItem installExtension;
-
    
     private TableView table;
     private ItemView item;
@@ -277,15 +273,17 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         // Set title
         this.setTitle();
 
+        this.extLoader = new ExtensionLoader(this, installDir);
+
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this);
+        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, 
+            this.extLoader, this.imageResolver, this);
 
-        this.extLoader = new ExtensionLoader(this, installDir);
-
+        
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -424,11 +422,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
                 this.menuExtras.showLogDialog();
             } else if (source.equals(this.updateMenuEntry)) {
                 this.menuExtras.checkUpdates();
-            } else if (source.equals(this.extensionInfo)) {
-                this.menuExtensions.showExtensionInfo();
-            } else if (source.equals(this.installExtension)) {
-                this.menuExtensions.installExtension(null);
-            }
+            } 
         }
 
     }
@@ -890,9 +884,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         final JMenu extraMenu = this.createMenuExtraItems();
         this.menuBar.add(extraMenu);
 
-        final JMenu extensionMenu = this.createMenuExtensionItems();
-        this.menuBar.add(extensionMenu);
-        
+        this.menuBar.add(this.menuExtensions.getMenu());        
         this.menuBar.add(this.menuHelp.getMenu());
 
         this.setJMenuBar(this.menuBar);
@@ -968,34 +960,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     
 
-    private JMenu createMenuExtensionItems() {
-        // ----- Extensions Menu
-        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
-        extensionMenu.setMnemonic('x');
-        this.menuBar.add(extensionMenu);
-
-        final JMenu[] menus = this.extLoader.getMenus();
-        for (final JMenu menu : menus) {
-            extensionMenu.add(menu);
-        }
-
-        if (menus.length != 0) {
-            extensionMenu.addSeparator();
-        }
-
-        this.extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
-                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
-        this.extensionInfo.setMnemonic('p');
-        this.extensionInfo.addActionListener(this);
-        extensionMenu.add(extensionInfo);
-
-        this.installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
-                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
-        this.installExtension.setMnemonic('i');
-        this.installExtension.addActionListener(this);
-        extensionMenu.add(installExtension);
-        return extensionMenu;
-    }
+    
 
     private JMenu createMenuExtraItems() {
         // ----- Extras Menu
