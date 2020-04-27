@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -37,6 +40,8 @@ public class SchemaUILoader {
 
     private ObservationManager observationManager = null;
     private List<IExtension> extensions = null;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaUILoader.class);
 
     public SchemaUILoader(ObservationManager om, List<IExtension> extensions) {
 
@@ -98,6 +103,7 @@ public class SchemaUILoader {
         Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
             extension = iterator.next();
+            LOGGER.debug("Getting all xsi types for extension {}", extension.getName());
             if (extension.getAllSupportedXSITypes() != null) {
                 result.addAll(extension.getAllSupportedXSITypes());
             }
@@ -114,6 +120,7 @@ public class SchemaUILoader {
         Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
             extension =  iterator.next();
+            LOGGER.debug("Getting all xsi types for extension {}, constant {}", extension.getName(), schemaElementConstants);
             if (extension.getSupportedXSITypes(schemaElementConstants) != null) {
                 result.addAll(extension.getSupportedXSITypes(schemaElementConstants));
             }
@@ -135,6 +142,7 @@ public class SchemaUILoader {
             extension = iterator.next();
             for (String type : types) {
                 dispName = extension.getDisplayNameForXSIType(type);
+                LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
                 if (dispName != null) {
                     result.add(dispName);
                 }
@@ -158,6 +166,7 @@ public class SchemaUILoader {
             for (String type : types) {
                 if (extension.isCreationAllowed(type)) {
                     dispName = extension.getDisplayNameForXSIType(type);
+                    LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
                     if (dispName != null) {
                         result.add(dispName);
                     }
@@ -177,6 +186,7 @@ public class SchemaUILoader {
         while (iterator.hasNext()) {
             currentExtension = iterator.next();
             result = currentExtension.getDisplayNameForXSIType(type);
+            LOGGER.debug("extension: {}, type: {}, dispName: {}", currentExtension.getName(), type, result);
             if (result != null) {
                 return result;
             }
@@ -202,6 +212,7 @@ public class SchemaUILoader {
             extension = iterator.next();
             for (String type : types) { // Iterate over all types
                 dispName = extension.getDisplayNameForXSIType(type); // Check if extension knows a displayname for
+                LOGGER.debug("extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
                 // this type
                 if ((name.equals(dispName))) {
                     return type; // Displayname found for this type
