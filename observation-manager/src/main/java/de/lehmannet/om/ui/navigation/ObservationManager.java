@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -81,7 +80,7 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class ObservationManager extends JFrame implements ActionListener, IObservationManagerJFrame {
+public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
 
@@ -126,28 +125,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JSplitPane vSplitPane;
 
     private JMenuBar menuBar;
-    private JMenuItem newFile;
-    private JMenuItem openFile;
-    // private JMenuItem openDir;
-    private JMenuItem saveFile;
-    private JMenuItem saveFileAs;
-    private JMenuItem importXML;
-    private JMenuItem exportHTML;
     
-    private JMenuItem exit;
-
-    private JMenuItem createObservation;
-    private JMenuItem createObserver;
-    private JMenuItem createSite;
-    private JMenuItem createScope;
-    private JMenuItem createEyepiece;
-    private JMenuItem createImager;
-    private JMenuItem createFilter;
-    private JMenuItem createTarget;
-    private JMenuItem createSession;
-    private JMenuItem createLens;
-    private JMenuItem equipmentAvailability;
-
     private TableView table;
     private ItemView item;
     private TreeView tree;
@@ -191,50 +169,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     }
 
 
-    public static class Builder {
-        private String locale;
-        private String nightVision;
-        private InstallDir installDir;
-        private IConfiguration configuration;
-        private XMLFileLoader xmlCache;
-        private ImageResolver imageResolver;
-  
-        public Builder locale(String locale) {
-            this.locale = locale;
-            return this;
-        }
-        
-        public Builder nightVision(String nightVision) {
-            this.nightVision = nightVision;
-            return this;
-        }
-        public Builder installDir(InstallDir installDir) {
-            this.installDir = installDir;
-            return this;
-        }
-        public Builder configuration(IConfiguration configuration) {
-            this.configuration= configuration;
-            return this;
-        }
-        public Builder xmlCache(XMLFileLoader value) {
-            this.xmlCache = value;
-            return this;
-        }
-
-        public Builder imageResolver(ImageResolver value) {
-            this.imageResolver = value;
-            return this;
-        }
-
-       
-
-
-        public ObservationManager build()  {
-
-            return new ObservationManager(this);
-        }
-
-    }
+   
    
     private ObservationManager(Builder builder) {
 
@@ -276,7 +211,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
-        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
+        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this.imageResolver, this);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this.imageResolver,
         this.themeManager, this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
@@ -356,60 +291,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         }
     }
 
-    // --------------
-    // ActionListener ---------------------------------------------------------
-    // --------------
-
-    @Override
-    public void actionPerformed(final ActionEvent e) {
-
-        if (e.getSource() instanceof JMenuItem) {
-            final JMenuItem source = (JMenuItem) e.getSource();
-            if (source.equals(this.exit)) {
-                this.menuFile.exit(this.changed);
-            } else if (source.equals(this.newFile)) {
-                this.menuFile.newFile(this.changed);
-            } else if (source.equals(this.openFile)) {
-                this.menuFile.openFile(this.changed);
-                /*
-                 * } else if( source.equals(this.openDir) ) { this.openDir();
-                 */
-            } else if (source.equals(this.saveFile)) {
-                this.menuFile.saveFile();
-            } else if (source.equals(this.saveFileAs)) {
-                this.menuFile.saveFileAs(this.changed);
-            } else if (source.equals(this.importXML)) {
-                this.menuFile.importXML(this.changed);
-            } else if (source.equals(this.exportHTML)) {
-                this.menuFile.createHTML();
-            } else if (source.equals(this.createObservation)) {
-                this.menuData.createNewObservation();
-            } else if (source.equals(this.createObserver)) {
-                this.menuData.createNewObserver();
-            } else if (source.equals(this.createSite)) {
-                this.menuData.createNewSite();
-            } else if (source.equals(this.createScope)) {
-                this.menuData.createNewScope();
-            } else if (source.equals(this.createEyepiece)) {
-                this.menuData.createNewEyepiece();
-            } else if (source.equals(this.createImager)) {
-                this.menuData.createNewImager();
-            } else if (source.equals(this.createFilter)) {
-                this.menuData.createNewFilter();
-            } else if (source.equals(this.createLens)) {
-                this.menuData.createNewLens();
-            } else if (source.equals(this.createTarget)) {
-                this.menuData.createNewTarget();
-            } else if (source.equals(this.createSession)) {
-                this.menuData.createNewSession();
-            } else if (source.equals(this.equipmentAvailability)) {
-                final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this, this.imageResolver);
-                this.setChanged(uqd.changedElements());
-            } 
-        }
-
-    }
-
+    
     @Override
     protected void processWindowEvent(final WindowEvent e) {
 
@@ -701,6 +583,10 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     }
 
+    public boolean isChanged() {
+        return this.changed;
+    }
+
     public ItemView getItemView() {
 
         return this.item;
@@ -850,179 +736,15 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
        
 
         this.menuBar = new JMenuBar();
-
-        final JMenu fileMenu = this.createMenuFileItems();
-        this.menuBar.add(fileMenu);
-
-        final JMenu dataMenu = this.createMenuDataItems();
-        this.menuBar.add(dataMenu);
         
-        
+        this.menuBar.add(this.menuFile.getMenu());
+        this.menuBar.add(this.menuData.getMenu());
         this.menuBar.add(this.menuExtras.getMenu());
-
         this.menuBar.add(this.menuExtensions.getMenu());        
         this.menuBar.add(this.menuHelp.getMenu());
 
         this.setJMenuBar(this.menuBar);
-
     }
-
-    private JMenu createMenuFileItems() {
-
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-        // ----- File Menu
-        final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
-        fileMenu.setMnemonic('f');
-       
-
-        this.newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
-                new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
-        this.newFile.setMnemonic('n');
-        this.newFile.addActionListener(this);
-        fileMenu.add(newFile);
-
-        this.openFile = new JMenuItem(ObservationManager.bundle.getString("menu.openFile"),
-                new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null), ""));
-        this.openFile.setMnemonic('o');
-        this.openFile.addActionListener(this);
-        this.openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuKeyModifier));
-        fileMenu.add(openFile);
-
-        // this.openDir = new JMenuItem("Open dir");
-        // this.openDir.setMnemonic('d');
-        // this.openDir.addActionListener(this);
-        // this.fileMenu.add(openDir); // @todo: Uncomment this as soon as we
-        // know what this means
-
-        this.saveFile = new JMenuItem(ObservationManager.bundle.getString("menu.save"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
-        this.saveFile.setMnemonic('s');
-        this.saveFile.addActionListener(this);
-        this.saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier));
-        fileMenu.add(saveFile);
-
-        this.saveFileAs = new JMenuItem(ObservationManager.bundle.getString("menu.saveAs"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
-        this.saveFileAs.setMnemonic('a');
-        this.saveFileAs.addActionListener(this);
-        fileMenu.add(saveFileAs);
-
-        fileMenu.addSeparator();
-
-        this.importXML = new JMenuItem(ObservationManager.bundle.getString("menu.xmlImport"),
-                new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null), ""));
-        this.importXML.setMnemonic('i');
-        this.importXML.addActionListener(this);
-        fileMenu.add(importXML);
-
-        fileMenu.addSeparator();
-
-        this.exportHTML = new JMenuItem(ObservationManager.bundle.getString("menu.htmlExport"),
-                new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null), ""));
-        this.exportHTML.setMnemonic('e');
-        this.exportHTML.addActionListener(this);
-        this.exportHTML.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, menuKeyModifier));
-        fileMenu.add(exportHTML);
-
-        fileMenu.addSeparator();
-
-        this.exit = new JMenuItem(ObservationManager.bundle.getString("menu.exit"),
-                new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null), ""));
-        this.exit.setMnemonic('x');
-        this.exit.addActionListener(this);
-        fileMenu.add(exit);
-        return fileMenu;
-    }
-
-    
-
-    
-
-   
-    private JMenu createMenuDataItems() {
-
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-        // ----- Data Menu
-        final JMenu dataMenu = new JMenu(ObservationManager.bundle.getString("menu.data"));
-        dataMenu.setMnemonic('d');
-        
-
-        this.createObservation = new JMenuItem(ObservationManager.bundle.getString("menu.createObservation"),
-                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
-        this.createObservation.setMnemonic('o');
-        this.createObservation.addActionListener(this);
-        this.createObservation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuKeyModifier));
-        dataMenu.add(createObservation);
-
-        // Seperate Observation from the rest
-        dataMenu.addSeparator();
-
-        this.createObserver = new JMenuItem(ObservationManager.bundle.getString("menu.createObserver"),
-                new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), ""));
-        this.createObserver.setMnemonic('v');
-        this.createObserver.addActionListener(this);
-        dataMenu.add(createObserver);
-
-        this.createSite = new JMenuItem(ObservationManager.bundle.getString("menu.createSite"),
-                new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), ""));
-        this.createSite.setMnemonic('l');
-        this.createSite.addActionListener(this);
-        dataMenu.add(createSite);
-
-        this.createScope = new JMenuItem(ObservationManager.bundle.getString("menu.createScope"),
-                new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), ""));
-        this.createScope.setMnemonic('s');
-        this.createScope.addActionListener(this);
-        dataMenu.add(createScope);
-
-        this.createEyepiece = new JMenuItem(ObservationManager.bundle.getString("menu.createEyepiece"),
-                new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), ""));
-        this.createEyepiece.setMnemonic('e');
-        this.createEyepiece.addActionListener(this);
-        dataMenu.add(createEyepiece);
-
-        this.createLens = new JMenuItem(ObservationManager.bundle.getString("menu.createLens"),
-                new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), ""));
-        this.createLens.setMnemonic('o');
-        this.createLens.addActionListener(this);
-        dataMenu.add(createLens);
-
-        this.createFilter = new JMenuItem(ObservationManager.bundle.getString("menu.createFilter"),
-                new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), ""));
-        this.createFilter.setMnemonic('f');
-        this.createFilter.addActionListener(this);
-        dataMenu.add(createFilter);
-
-        this.createImager = new JMenuItem(ObservationManager.bundle.getString("menu.createImager"),
-                new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), ""));
-        this.createImager.setMnemonic('i');
-        this.createImager.addActionListener(this);
-        dataMenu.add(createImager);
-
-        this.createTarget = new JMenuItem(ObservationManager.bundle.getString("menu.createTarget"),
-                new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), ""));
-        this.createTarget.setMnemonic('t');
-        this.createTarget.addActionListener(this);
-        dataMenu.add(createTarget);
-
-        this.createSession = new JMenuItem(ObservationManager.bundle.getString("menu.createSession"),
-                new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), ""));
-        this.createSession.setMnemonic('n');
-        this.createSession.addActionListener(this);
-        dataMenu.add(createSession);
-
-        // Seperate Availability from the rest
-        dataMenu.addSeparator();
-
-        this.equipmentAvailability = new JMenuItem(ObservationManager.bundle.getString("menu.equipmentAvailability"),
-                new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null), ""));
-        this.equipmentAvailability.setMnemonic('a');
-        this.equipmentAvailability.addActionListener(this);
-        dataMenu.add(equipmentAvailability);
-
-        return dataMenu;
-    }
-
     private void initMain() {
 
         this.setLocationAndSize();
@@ -1364,6 +1086,51 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         return this.themeManager.isNightVision();
     }
 
+
+    public static class Builder {
+        private String locale;
+        private String nightVision;
+        private InstallDir installDir;
+        private IConfiguration configuration;
+        private XMLFileLoader xmlCache;
+        private ImageResolver imageResolver;
+  
+        public Builder locale(String locale) {
+            this.locale = locale;
+            return this;
+        }
+        
+        public Builder nightVision(String nightVision) {
+            this.nightVision = nightVision;
+            return this;
+        }
+        public Builder installDir(InstallDir installDir) {
+            this.installDir = installDir;
+            return this;
+        }
+        public Builder configuration(IConfiguration configuration) {
+            this.configuration= configuration;
+            return this;
+        }
+        public Builder xmlCache(XMLFileLoader value) {
+            this.xmlCache = value;
+            return this;
+        }
+
+        public Builder imageResolver(ImageResolver value) {
+            this.imageResolver = value;
+            return this;
+        }
+
+       
+
+
+        public ObservationManager build()  {
+
+            return new ObservationManager(this);
+        }
+
+    }
 }
 
 

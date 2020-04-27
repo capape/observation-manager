@@ -3,6 +3,10 @@ package de.lehmannet.om.ui.navigation;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.Point;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -11,9 +15,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import org.slf4j.Logger;
@@ -40,6 +48,7 @@ import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
 import de.lehmannet.om.util.SchemaLoader;
+
 public final class ObservationManagerMenuFile {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);
@@ -49,21 +58,167 @@ public final class ObservationManagerMenuFile {
     private final ObservationManager observationManager;
     private final ObservationManagerHtmlHelper htmlHelper;
     private final ImageResolver imageResolver;
+    private final JMenu menu;
 
-    public ObservationManagerMenuFile(
-        IConfiguration configuration,
-        XMLFileLoader xmlCache,
-        ObservationManager om,
-        ObservationManagerHtmlHelper htmlHelper,
-        ImageResolver imageResolver) {
-       
+    public ObservationManagerMenuFile(IConfiguration configuration, XMLFileLoader xmlCache, ObservationManager om,
+            ObservationManagerHtmlHelper htmlHelper, ImageResolver imageResolver) {
+
         // Load configuration
-        this.configuration = configuration; 
+        this.configuration = configuration;
         this.xmlCache = xmlCache;
         this.observationManager = om;
         this.htmlHelper = htmlHelper;
         this.imageResolver = imageResolver;
+
+        this.menu = this.createMenuFileItems();
     }
+
+    public JMenu getMenu() {
+        return this.menu;
+    }
+
+    private boolean hasModelChanged() {
+        return this.observationManager.isChanged();
+    }
+
+    private JMenu createMenuFileItems() {
+
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        // ----- File Menu
+        final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
+        fileMenu.setMnemonic('f');
+
+        JMenuItem newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
+                new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
+        newFile.setMnemonic('n');
+        newFile.addActionListener(new NewFileListener());
+        fileMenu.add(newFile);
+
+        JMenuItem openFile = new JMenuItem(ObservationManager.bundle.getString("menu.openFile"),
+                new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null), ""));
+        openFile.setMnemonic('o');
+        openFile.addActionListener(new OpenFileListener());
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuKeyModifier));
+        fileMenu.add(openFile);
+
+        // this.openDir = new JMenuItem("Open dir");
+        // this.openDir.setMnemonic('d');
+        // this.openDir.addActionListener(this);
+        // this.fileMenu.add(openDir); // @todo: Uncomment this as soon as we
+        // know what this means
+
+        JMenuItem saveFile = new JMenuItem(ObservationManager.bundle.getString("menu.save"),
+                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
+        saveFile.setMnemonic('s');
+        saveFile.addActionListener(new SaveFileListener());
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier));
+        fileMenu.add(saveFile);
+
+        JMenuItem saveFileAs = new JMenuItem(ObservationManager.bundle.getString("menu.saveAs"),
+                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
+        saveFileAs.setMnemonic('a');
+        saveFileAs.addActionListener(new SaveAsListener());
+        fileMenu.add(saveFileAs);
+
+        fileMenu.addSeparator();
+
+        JMenuItem importXML = new JMenuItem(ObservationManager.bundle.getString("menu.xmlImport"),
+                new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null), ""));
+        importXML.setMnemonic('i');
+        importXML.addActionListener(new ImportXmlListener());
+        fileMenu.add(importXML);
+
+        fileMenu.addSeparator();
+
+        JMenuItem exportHTML = new JMenuItem(ObservationManager.bundle.getString("menu.htmlExport"),
+                new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null), ""));
+        exportHTML.setMnemonic('e');
+        exportHTML.addActionListener(new ExportHtmlListener());
+        exportHTML.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, menuKeyModifier));
+        fileMenu.add(exportHTML);
+
+        fileMenu.addSeparator();
+
+        JMenuItem exit = new JMenuItem(ObservationManager.bundle.getString("menu.exit"),
+                new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null), ""));
+        exit.setMnemonic('x');
+        exit.addActionListener(new ExitListener());
+        fileMenu.add(exit);
+        return fileMenu;
+    }
+
+    class NewFileListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            ObservationManagerMenuFile.this.exit(ObservationManagerMenuFile.this.hasModelChanged());
+
+        }
+
+    }
+
+    class OpenFileListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {            
+            ObservationManagerMenuFile.this.openFile(ObservationManagerMenuFile.this.hasModelChanged());
+        }
+
+    }
+
+    class SaveFileListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ObservationManagerMenuFile.this.saveFile();
+
+        }
+
+    }
+
+    class SaveAsListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+             ObservationManagerMenuFile.this.saveFileAs(ObservationManagerMenuFile.this.hasModelChanged());
+
+        }
+
+    }
+
+    class ImportXmlListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {            
+            ObservationManagerMenuFile.this.importXML(ObservationManagerMenuFile.this.hasModelChanged());
+
+        }
+
+    }
+
+    class ExportHtmlListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ObservationManagerMenuFile.this.createHTML();
+
+        }
+
+    }
+
+    class ExitListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {            
+            ObservationManagerMenuFile.this.exit(ObservationManagerMenuFile.this.hasModelChanged());
+
+        }
+
+    }
+
+
+
 
     public int saveBeforeExit( boolean changed) {
 
