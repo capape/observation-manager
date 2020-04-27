@@ -71,6 +71,8 @@ import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.project.ProjectLoader;
+import de.lehmannet.om.ui.theme.ThemeManager;
+import de.lehmannet.om.ui.theme.ThemeManagerImpl;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
@@ -131,7 +133,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JMenuItem saveFileAs;
     private JMenuItem importXML;
     private JMenuItem exportHTML;
-    private JCheckBoxMenuItem nightVision;
+    
     private JMenuItem exit;
 
     private JMenuItem createObservation;
@@ -146,12 +148,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JMenuItem createLens;
     private JMenuItem equipmentAvailability;
 
-    private JMenuItem showStatistics;
-    private JMenuItem preferences;
-    private JMenuItem didYouKnow;
-    private JMenuItem logMenuEntry;
-    private JMenuItem updateMenuEntry;
-   
     private TableView table;
     private ItemView item;
     private TreeView tree;
@@ -180,6 +176,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private final ObservationManagerMenuExtensions menuExtensions;
 
     private final ImageResolver imageResolver;
+    private final ThemeManager themeManager;
 
     private final Map<String, String> uiDataCache = new HashMap<>();
 
@@ -245,7 +242,9 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.configuration = builder.configuration;
         this.xmlCache = builder.xmlCache;
         this.imageResolver = builder.imageResolver;
+        this.themeManager = new ThemeManagerImpl(this.configuration, this);
               
+
      
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
@@ -278,7 +277,8 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this.imageResolver,
+        this.themeManager, this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, 
             this.extLoader, this.imageResolver, this);
@@ -302,8 +302,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.enableMenus(false);
 
         // Set nightvision theme
-        if (nightVisionOnStartup) {
-            this.nightVision.setSelected(true);
+        if (nightVisionOnStartup) {            
             this.menuExtras.enableNightVisionTheme(true);
         }
 
@@ -406,22 +405,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
             } else if (source.equals(this.equipmentAvailability)) {
                 final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this, this.imageResolver);
                 this.setChanged(uqd.changedElements());
-            } else if (source.equals(this.nightVision)) {
-                if (this.nightVision.isSelected()) {
-                    this.menuExtras.enableNightVisionTheme(true);
-                } else {
-                    this.menuExtras.enableNightVisionTheme(false);
-                }
-            } else if (source.equals(this.showStatistics)) {
-                this.menuExtras.showStatistics();
-            } else if (source.equals(this.preferences)) {
-                this.menuExtras.showPreferencesDialog();
-            } else if (source.equals(this.didYouKnow)) {
-                this.menuExtras.showDidYouKnow();
-            } else if (source.equals(this.logMenuEntry)) {
-                this.menuExtras.showLogDialog();
-            } else if (source.equals(this.updateMenuEntry)) {
-                this.menuExtras.checkUpdates();
             } 
         }
 
@@ -768,13 +751,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     }
 
-    
-    public boolean isNightVisionEnabled() {
-
-        return this.nightVision.isSelected();
-
-    }
-
     public ProjectCatalog[] getProjects() {
 
         // Wait for ProjectLoader to finish
@@ -881,8 +857,8 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         final JMenu dataMenu = this.createMenuDataItems();
         this.menuBar.add(dataMenu);
         
-        final JMenu extraMenu = this.createMenuExtraItems();
-        this.menuBar.add(extraMenu);
+        
+        this.menuBar.add(this.menuExtras.getMenu());
 
         this.menuBar.add(this.menuExtensions.getMenu());        
         this.menuBar.add(this.menuHelp.getMenu());
@@ -962,58 +938,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     
 
-    private JMenu createMenuExtraItems() {
-        // ----- Extras Menu
-        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
-        extraMenu.setMnemonic('e');
-      
-
-        this.showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
-                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
-        this.showStatistics.setMnemonic('s');
-        this.showStatistics.addActionListener(this);
-        extraMenu.add(showStatistics);
-
-        this.preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
-                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
-        this.preferences.setMnemonic('p');
-        this.preferences.addActionListener(this);
-        extraMenu.add(preferences);
-
-        extraMenu.addSeparator();
-
-        this.didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
-                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
-        this.didYouKnow.setMnemonic('d');
-        this.didYouKnow.addActionListener(this);
-        this.didYouKnow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        extraMenu.add(didYouKnow);
-
-        extraMenu.addSeparator();
-
-        this.nightVision = new JCheckBoxMenuItem(ObservationManager.bundle.getString("menu.nightVision"));
-        this.nightVision.setMnemonic('v');
-        this.nightVision.addActionListener(this);
-        extraMenu.add(nightVision);
-
-        extraMenu.addSeparator();
-
-        this.logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
-                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
-        this.logMenuEntry.setMnemonic('l');
-        this.logMenuEntry.addActionListener(this);
-        extraMenu.add(logMenuEntry);
-
-        extraMenu.addSeparator();
-
-        this.updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
-                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
-        this.updateMenuEntry.setMnemonic('u');
-        this.updateMenuEntry.addActionListener(this);
-        extraMenu.add(updateMenuEntry);
-        return extraMenu;
-    }
-
+   
     private JMenu createMenuDataItems() {
 
         final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -1433,6 +1358,10 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     public void createProgressDialog(Worker worker, String title, String loadingMessage) {
         new ProgressDialog(this, title, loadingMessage, worker);
 
+    }
+
+    public boolean isNightVisionEnabled() {
+        return this.themeManager.isNightVision();
     }
 
 }
