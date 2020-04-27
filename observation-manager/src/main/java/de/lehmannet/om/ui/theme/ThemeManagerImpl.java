@@ -30,7 +30,7 @@ public class ThemeManagerImpl implements ThemeManager {
 
     @Override
     public boolean isNightVision() {
-        // TODO Auto-generated method stub
+        
         return this.nightVision;
     }
 
