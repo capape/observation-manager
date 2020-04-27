@@ -51,7 +51,7 @@ public class ObservationManagerApp {
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
 
-     
+        //@formatter:off
         new ObservationManager.Builder()
             .locale(locale)
             .nightVision(nightVision)
@@ -60,7 +60,7 @@ public class ObservationManagerApp {
             .xmlCache(xmlCache)
             .imageResolver(imageResolver)
             .build();
-        
+        //@formatter:on
 
     }
 }
