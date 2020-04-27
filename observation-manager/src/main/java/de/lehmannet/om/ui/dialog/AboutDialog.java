@@ -35,18 +35,12 @@ public class AboutDialog extends OMDialog implements ActionListener {
         super(om);
 
         this.setTitle(this.bundle.getString("about.button.title"));
-        this.setSize(AboutDialog.serialVersionUID, 400, 260);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
 
-        // Try to set system default look and feel
-        /*
-         * try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
-         * catch(UnsupportedLookAndFeelException lfe) { } catch(InstantiationException ie) { }
-         * catch(IllegalAccessException iae) { } catch(ClassNotFoundException cnfe) { }
-         */
-
         this.initDialog();
+        this.setSize(AboutDialog.serialVersionUID, 400, 260);
+        
         this.pack();
         this.setVisible(true);
 

@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
@@ -156,8 +155,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JMenuItem extensionInfo;
     private JMenuItem installExtension;
 
-    private JMenuItem aboutInfo;
-
+   
     private TableView table;
     private ItemView item;
     private TreeView tree;
@@ -251,24 +249,14 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.configuration = builder.configuration;
         this.xmlCache = builder.xmlCache;
         this.imageResolver = builder.imageResolver;
-       
-        
+              
      
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
         
-        this.htmlHelper = new ObservationManagerHtmlHelper(this);
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
-        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
-        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.xmlCache, this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this);
-
-        this.extLoader = new ExtensionLoader(this, installDir);
-
-
+        
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
@@ -288,6 +276,16 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
         // Set title
         this.setTitle();
+
+        this.htmlHelper = new ObservationManagerHtmlHelper(this);
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
+        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
+        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
+        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this);
+
+        this.extLoader = new ExtensionLoader(this, installDir);
+
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -430,8 +428,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
                 this.menuExtensions.showExtensionInfo();
             } else if (source.equals(this.installExtension)) {
                 this.menuExtensions.installExtension(null);
-            } else if (source.equals(this.aboutInfo)) {
-                this.menuHelp.showInfo();
             }
         }
 
@@ -881,14 +877,35 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     private void initMenuBar() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+       
 
         this.menuBar = new JMenuBar();
 
+        final JMenu fileMenu = this.createMenuFileItems();
+        this.menuBar.add(fileMenu);
+
+        final JMenu dataMenu = this.createMenuDataItems();
+        this.menuBar.add(dataMenu);
+        
+        final JMenu extraMenu = this.createMenuExtraItems();
+        this.menuBar.add(extraMenu);
+
+        final JMenu extensionMenu = this.createMenuExtensionItems();
+        this.menuBar.add(extensionMenu);
+        
+        this.menuBar.add(this.menuHelp.getMenu());
+
+        this.setJMenuBar(this.menuBar);
+
+    }
+
+    private JMenu createMenuFileItems() {
+
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         // ----- File Menu
         final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
         fileMenu.setMnemonic('f');
-        this.menuBar.add(fileMenu);
+       
 
         this.newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
                 new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
@@ -946,11 +963,99 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.exit.setMnemonic('x');
         this.exit.addActionListener(this);
         fileMenu.add(exit);
+        return fileMenu;
+    }
 
+    
+
+    private JMenu createMenuExtensionItems() {
+        // ----- Extensions Menu
+        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
+        extensionMenu.setMnemonic('x');
+        this.menuBar.add(extensionMenu);
+
+        final JMenu[] menus = this.extLoader.getMenus();
+        for (final JMenu menu : menus) {
+            extensionMenu.add(menu);
+        }
+
+        if (menus.length != 0) {
+            extensionMenu.addSeparator();
+        }
+
+        this.extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
+                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
+        this.extensionInfo.setMnemonic('p');
+        this.extensionInfo.addActionListener(this);
+        extensionMenu.add(extensionInfo);
+
+        this.installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
+                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
+        this.installExtension.setMnemonic('i');
+        this.installExtension.addActionListener(this);
+        extensionMenu.add(installExtension);
+        return extensionMenu;
+    }
+
+    private JMenu createMenuExtraItems() {
+        // ----- Extras Menu
+        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
+        extraMenu.setMnemonic('e');
+      
+
+        this.showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
+                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
+        this.showStatistics.setMnemonic('s');
+        this.showStatistics.addActionListener(this);
+        extraMenu.add(showStatistics);
+
+        this.preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
+                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
+        this.preferences.setMnemonic('p');
+        this.preferences.addActionListener(this);
+        extraMenu.add(preferences);
+
+        extraMenu.addSeparator();
+
+        this.didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
+                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
+        this.didYouKnow.setMnemonic('d');
+        this.didYouKnow.addActionListener(this);
+        this.didYouKnow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+        extraMenu.add(didYouKnow);
+
+        extraMenu.addSeparator();
+
+        this.nightVision = new JCheckBoxMenuItem(ObservationManager.bundle.getString("menu.nightVision"));
+        this.nightVision.setMnemonic('v');
+        this.nightVision.addActionListener(this);
+        extraMenu.add(nightVision);
+
+        extraMenu.addSeparator();
+
+        this.logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
+                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
+        this.logMenuEntry.setMnemonic('l');
+        this.logMenuEntry.addActionListener(this);
+        extraMenu.add(logMenuEntry);
+
+        extraMenu.addSeparator();
+
+        this.updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
+                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
+        this.updateMenuEntry.setMnemonic('u');
+        this.updateMenuEntry.addActionListener(this);
+        extraMenu.add(updateMenuEntry);
+        return extraMenu;
+    }
+
+    private JMenu createMenuDataItems() {
+
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         // ----- Data Menu
         final JMenu dataMenu = new JMenu(ObservationManager.bundle.getString("menu.data"));
         dataMenu.setMnemonic('d');
-        this.menuBar.add(dataMenu);
+        
 
         this.createObservation = new JMenuItem(ObservationManager.bundle.getString("menu.createObservation"),
                 new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
@@ -1025,94 +1130,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.equipmentAvailability.addActionListener(this);
         dataMenu.add(equipmentAvailability);
 
-        // ----- Extras Menu
-        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
-        extraMenu.setMnemonic('e');
-        this.menuBar.add(extraMenu);
-
-        this.showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
-                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
-        this.showStatistics.setMnemonic('s');
-        this.showStatistics.addActionListener(this);
-        extraMenu.add(showStatistics);
-
-        this.preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
-                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
-        this.preferences.setMnemonic('p');
-        this.preferences.addActionListener(this);
-        extraMenu.add(preferences);
-
-        extraMenu.addSeparator();
-
-        this.didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
-                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
-        this.didYouKnow.setMnemonic('d');
-        this.didYouKnow.addActionListener(this);
-        this.didYouKnow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        extraMenu.add(didYouKnow);
-
-        extraMenu.addSeparator();
-
-        this.nightVision = new JCheckBoxMenuItem(ObservationManager.bundle.getString("menu.nightVision"));
-        this.nightVision.setMnemonic('v');
-        this.nightVision.addActionListener(this);
-        extraMenu.add(nightVision);
-
-        extraMenu.addSeparator();
-
-        this.logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
-                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
-        this.logMenuEntry.setMnemonic('l');
-        this.logMenuEntry.addActionListener(this);
-        extraMenu.add(logMenuEntry);
-
-        extraMenu.addSeparator();
-
-        this.updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
-                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
-        this.updateMenuEntry.setMnemonic('u');
-        this.updateMenuEntry.addActionListener(this);
-        extraMenu.add(updateMenuEntry);
-
-        // ----- Extensions Menu
-        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
-        extensionMenu.setMnemonic('x');
-        this.menuBar.add(extensionMenu);
-
-        final JMenu[] menus = this.extLoader.getMenus();
-        for (final JMenu menu : menus) {
-            extensionMenu.add(menu);
-        }
-
-        if (menus.length != 0) {
-            extensionMenu.addSeparator();
-        }
-
-        this.extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
-                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
-        this.extensionInfo.setMnemonic('p');
-        this.extensionInfo.addActionListener(this);
-        extensionMenu.add(extensionInfo);
-
-        this.installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
-                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
-        this.installExtension.setMnemonic('i');
-        this.installExtension.addActionListener(this);
-        extensionMenu.add(installExtension);
-
-        // ----- About Menu
-        final JMenu aboutMenu = new JMenu(ObservationManager.bundle.getString("menu.about"));
-        aboutMenu.setMnemonic('a');
-        this.menuBar.add(aboutMenu);
-
-        this.aboutInfo = new JMenuItem(ObservationManager.bundle.getString("menu.aboutOM"),
-                new ImageIcon(this.imageResolver.getImageURL("about.png").orElse(null), ""));
-        this.aboutInfo.setMnemonic('i');
-        this.aboutInfo.addActionListener(this);
-        aboutMenu.add(aboutInfo);
-
-        this.setJMenuBar(this.menuBar);
-
+        return dataMenu;
     }
 
     private void initMain() {
@@ -1454,85 +1472,5 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
 }
 
-class TeeLog extends PrintStream {
-
-    private PrintStream console = null;
-    private final byte[] prefix;
-
-    private static final Object syncMe = new Object();
-
-    public TeeLog(final PrintStream file) {
-
-        this(file, "");
-
-    }
-
-    public TeeLog(final PrintStream file, final String prefix) {
-
-        // Parent class writes to file
-        super(file);
-
-        // Prefix we set for every entry
-        this.prefix = prefix.getBytes();
-
-        // We write to console
-        this.console = System.out;
-
-    }
-
-    @Override
-    public void write(final byte[] buf, final int off, final int len) {
-
-        if ((buf == null) || (buf.length == 0)) {
-            return;
-        }
-
-        final String now = "  " + new Date().toString() + "\t";
-        try {
-            synchronized (TeeLog.syncMe) {
-                if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
-                        || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
-                ) {
-                    this.write(this.prefix, 0, this.prefix.length);
-                    this.write(now.getBytes(), 0, now.length());
-                }
-                this.write(buf, off, len);
-
-                if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
-                        || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
-                ) {
-                    this.console.write(this.prefix, 0, this.prefix.length);
-                    this.console.write(now.getBytes(), 0, now.length());
-                }
-                this.console.write(buf, off, len);
-            }
-        } catch (final Exception e) {
-            // Can't do anything in here
-        }
-
-    }
-
-    @Override
-    public void flush() {
-
-        super.flush();
-        synchronized (TeeLog.syncMe) {
-            this.console.flush();
-        }
-
-    }
-
-
-}
 
 

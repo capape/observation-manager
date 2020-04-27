@@ -46,6 +46,7 @@ public abstract class OMDialog extends JDialog {
         // } else { // No size configured...use default size
         //     this.setSize(width, height);
         // }
+        this.setSize(width,height);
 
     }
 
