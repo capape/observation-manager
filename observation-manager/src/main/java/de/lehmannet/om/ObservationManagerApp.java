@@ -8,6 +8,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.model.ObservationManagerModelImpl;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
 import de.lehmannet.om.ui.image.ImageResolver;
@@ -50,15 +52,16 @@ public class ObservationManagerApp {
         final String logging = argumentsParser.getArgumentValue(ArgumentName.LOGGING);
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
+        final ObservationManagerModel model = new ObservationManagerModelImpl();
 
         //@formatter:off
-        new ObservationManager.Builder()
+        new ObservationManager.Builder(model)
             .locale(locale)
             .nightVision(nightVision)
             .installDir(installDir)
             .configuration(configuration)
             .xmlCache(xmlCache)
-            .imageResolver(imageResolver)
+            .imageResolver(imageResolver)            
             .build();
         //@formatter:on
 

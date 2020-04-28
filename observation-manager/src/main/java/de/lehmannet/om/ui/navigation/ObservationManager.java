@@ -48,6 +48,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
 import de.lehmannet.om.ui.dialog.FilterDialog;
@@ -64,8 +65,10 @@ import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
+import de.lehmannet.om.ui.project.CatalogManager;
+import de.lehmannet.om.ui.project.CatalogManagerImpl;
 import de.lehmannet.om.ui.project.ProjectCatalog;
-import de.lehmannet.om.ui.project.ProjectLoader;
+
 import de.lehmannet.om.ui.theme.ThemeManager;
 import de.lehmannet.om.ui.theme.ThemeManagerImpl;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -127,19 +130,19 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private TreeView tree;
 
     
-    private ProjectLoader projectLoader;
-
+  
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
     private Boolean nightVisionOnStartup;
     private Thread splash;
-    private Thread waitForCatalogLoaderThread;
+
 
 
     private final InstallDir installDir;
     private final XMLFileLoader xmlCache;
     private final IConfiguration configuration;
+    private final ObservationManagerModel model;
 
     final ExtensionLoader extLoader;
 
@@ -165,7 +168,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     }
 
 
-   
+   private final CatalogManager catalogManager;
    
     private ObservationManager(Builder builder) {
 
@@ -174,8 +177,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.xmlCache = builder.xmlCache;
         this.imageResolver = builder.imageResolver;
         this.themeManager = new ThemeManagerImpl(this.configuration, this);
+        this.model = builder.model;
               
 
+      
      
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
@@ -204,6 +209,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.setTitle();
 
         this.extLoader = new ExtensionLoader(this, installDir);
+        this.catalogManager = new CatalogManagerImpl(this, extLoader);
 
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
@@ -213,8 +219,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, 
             this.extLoader, this.imageResolver, this);
-
-        
+    
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -252,9 +257,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
         // Load XML File on startup (if desired)
         this.loadConfig();
-
-        // Start loading of asynchronous project file(s)
-        this.loadProjectFiles();
 
         this.checkForUpdatesOnLoad();
 
@@ -569,6 +571,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public void setChanged(final boolean changed) {
 
+        this.model.setChanged(true);
+        
         if ((changed) // From unchanged to changed
                 && (!this.changed)) {
             this.setTitle(this.getTitle() + " *");
@@ -580,7 +584,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     }
 
     public boolean isChanged() {
-        return this.changed;
+        return this.model.hasChanged();
     }
 
     public ItemView getItemView() {
@@ -635,19 +639,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public ProjectCatalog[] getProjects() {
 
-        // Wait for ProjectLoader to finish
-        if (this.waitForCatalogLoaderThread.isAlive()) {
-            try {
-                this.waitForCatalogLoaderThread.join();
-            } catch (final InterruptedException ie) {
-                System.err.println(
-                        "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.");
-                return null;
-            }
-        }
-
-        return this.projectLoader.getProjects();
-
+        return catalogManager.getProjects();
     }
 
     public void resetWindowSizes() {
@@ -708,6 +700,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private void setTitle() {
 
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
+        String title = "Observation Manager - " + ObservationManager.bundle.getString("version") + " " + ObservationManager.VERSION;
         if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
                                                                 // correct in
                                                                 // Linux/Gnome3
@@ -715,30 +708,24 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             try {
                 final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
                 awtAppClassName.setAccessible(true);
-                awtAppClassName.set(null, "Observation Manager - " + ObservationManager.bundle.getString("version")
-                        + " " + ObservationManager.VERSION);
+                awtAppClassName.set(null, title);
             } catch (final Exception e) {
                 // Cannot do much here
             }
         }
 
-        this.setTitle("Observation Manager - " + ObservationManager.bundle.getString("version") + " "
-                + ObservationManager.VERSION);
+        this.setTitle(title);
 
     }
 
     private void initMenuBar() {
 
-       
-
         this.menuBar = new JMenuBar();
-        
         this.menuBar.add(this.menuFile.getMenu());
         this.menuBar.add(this.menuData.getMenu());
         this.menuBar.add(this.menuExtras.getMenu());
         this.menuBar.add(this.menuExtensions.getMenu());        
         this.menuBar.add(this.menuHelp.getMenu());
-
         this.setJMenuBar(this.menuBar);
     }
     private void initMain() {
@@ -856,8 +843,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private TableView initTableView() {
 
         final TableView table = new TableView(this);
-        // table.setMinimumSize(new Dimension(this.getWidth()/2,
-        // this.getHeight()));
         table.setVisible(true);
 
         return table;
@@ -867,8 +852,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private ItemView initItemView() {
 
         final ItemView item = new ItemView(this, this.imageResolver);
-        // item.setMinimumSize(new Dimension(this.getWidth()/2,
-        // this.getHeight()));
         item.setVisible(true);
 
         return item;
@@ -893,56 +876,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     }
 
-    private void loadProjectFiles() {
-
-        // Create an own thread that waits for the catalog loader
-        // to finish. Only if all catalogs are loaded the project loader
-        // might start in the background
-
-        class WaitForCatalogLoader implements Runnable {
-
-            private ObservationManager om = null;
-
-            WaitForCatalogLoader(final ObservationManager om) {
-
-                this.om = om;
-
-            }
-
-            @Override
-            public void run() {
-
-                while (this.om.projectLoader == null) {
-                    try {
-                        if (!this.om.getExtensionLoader().getCatalogLoader().isLoading()) {
-                            
-                            LOGGER.debug("Catalog loading done. Start project loading in background...");
-                            
-                            this.om.projectLoader = new ProjectLoader(this.om); // Initialite
-                                                                                // ProjectLoader
-                                                                                // and
-                                                                                // start
-                                                                                // loading
-                                                                                // projects
-                        } else {
-                            this.wait(300);
-                        }
-                    } catch (final InterruptedException ie) {
-                        System.err.println("Interrupted while waiting for Catalog Loader to finish.\n" + ie);
-                    } catch (final IllegalMonitorStateException imse) {
-                        // Ignore this
-                    }
-                }
-
-            }
-
-        }
-
-        this.waitForCatalogLoaderThread = new Thread(new WaitForCatalogLoader(this),
-                "Waiting for Catalog Loader to finish");
-        waitForCatalogLoaderThread.start();
-
-    }
+   
 
     private void addShortcuts() {
 
@@ -1090,7 +1024,13 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         private IConfiguration configuration;
         private XMLFileLoader xmlCache;
         private ImageResolver imageResolver;
+        private ObservationManagerModel model;
   
+
+        public Builder(ObservationManagerModel model) {
+            this.model = model;
+        }
+
         public Builder locale(String locale) {
             this.locale = locale;
             return this;
