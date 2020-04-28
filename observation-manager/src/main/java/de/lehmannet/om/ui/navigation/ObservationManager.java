@@ -124,20 +124,16 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private JSplitPane vSplitPane;
 
     private JMenuBar menuBar;
-    
+
     private TableView table;
     private ItemView item;
     private TreeView tree;
 
-    
-  
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
     private Boolean nightVisionOnStartup;
     private Thread splash;
-
-
 
     private final InstallDir installDir;
     private final XMLFileLoader xmlCache;
@@ -167,9 +163,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         return this.htmlHelper;
     }
 
+    private final CatalogManager catalogManager;
 
-   private final CatalogManager catalogManager;
-   
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
@@ -178,16 +173,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.imageResolver = builder.imageResolver;
         this.themeManager = new ThemeManagerImpl(this.configuration, this);
         this.model = builder.model;
-              
 
-      
-     
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
-        
-        
+
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
@@ -212,14 +203,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.catalogManager = new CatalogManagerImpl(this, extLoader);
 
         this.htmlHelper = new ObservationManagerHtmlHelper(this);
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper,
+                imageResolver);
         this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this.imageResolver, this);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this.imageResolver,
-        this.themeManager, this);
+                this.themeManager, this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, 
-            this.extLoader, this.imageResolver, this);
-    
+        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this.extLoader,
+                this.imageResolver, this);
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -231,14 +222,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
-        
-
         // Init menu and disable it during startup
         this.initMenuBar();
         this.enableMenus(false);
 
         // Set nightvision theme
-        if (nightVisionOnStartup) {            
+        if (nightVisionOnStartup) {
             this.menuExtras.enableNightVisionTheme(true);
         }
 
@@ -274,7 +263,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.enableMenus(true);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Up and running: {} " , new Date());
+            LOGGER.debug("Up and running: {} ", new Date());
             LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
@@ -289,7 +278,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         }
     }
 
-    
     @Override
     protected void processWindowEvent(final WindowEvent e) {
 
@@ -397,7 +385,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.cleanUp();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Load File: {}" , new Date());
+            LOGGER.debug("Load File: {}", new Date());
             LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
@@ -460,7 +448,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Loaded: {}" , new Date());
+            LOGGER.debug("Loaded: {}", new Date());
             LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
@@ -572,7 +560,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void setChanged(final boolean changed) {
 
         this.model.setChanged(true);
-        
+
         if ((changed) // From unchanged to changed
                 && (!this.changed)) {
             this.setTitle(this.getTitle() + " *");
@@ -700,7 +688,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private void setTitle() {
 
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
-        String title = "Observation Manager - " + ObservationManager.bundle.getString("version") + " " + ObservationManager.VERSION;
+        String title = "Observation Manager - " + ObservationManager.bundle.getString("version") + " "
+                + ObservationManager.VERSION;
         if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
                                                                 // correct in
                                                                 // Linux/Gnome3
@@ -724,10 +713,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.menuBar.add(this.menuFile.getMenu());
         this.menuBar.add(this.menuData.getMenu());
         this.menuBar.add(this.menuExtras.getMenu());
-        this.menuBar.add(this.menuExtensions.getMenu());        
+        this.menuBar.add(this.menuExtensions.getMenu());
         this.menuBar.add(this.menuHelp.getMenu());
         this.setJMenuBar(this.menuBar);
     }
+
     private void initMain() {
 
         this.setLocationAndSize();
@@ -876,8 +866,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     }
 
-   
-
     private void addShortcuts() {
 
         final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -1016,7 +1004,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         return this.themeManager.isNightVision();
     }
 
-
     public static class Builder {
         private String locale;
         private String nightVision;
@@ -1025,7 +1012,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         private XMLFileLoader xmlCache;
         private ImageResolver imageResolver;
         private ObservationManagerModel model;
-  
 
         public Builder(ObservationManagerModel model) {
             this.model = model;
@@ -1035,19 +1021,22 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             this.locale = locale;
             return this;
         }
-        
+
         public Builder nightVision(String nightVision) {
             this.nightVision = nightVision;
             return this;
         }
+
         public Builder installDir(InstallDir installDir) {
             this.installDir = installDir;
             return this;
         }
+
         public Builder configuration(IConfiguration configuration) {
-            this.configuration= configuration;
+            this.configuration = configuration;
             return this;
         }
+
         public Builder xmlCache(XMLFileLoader value) {
             this.xmlCache = value;
             return this;
@@ -1058,16 +1047,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             return this;
         }
 
-       
-
-
-        public ObservationManager build()  {
+        public ObservationManager build() {
 
             return new ObservationManager(this);
         }
 
     }
 }
-
-
-
