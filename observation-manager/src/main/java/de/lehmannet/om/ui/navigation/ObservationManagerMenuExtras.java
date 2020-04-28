@@ -218,7 +218,7 @@ public final class ObservationManagerMenuExtras {
     class LogMenuActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ObservationManagerMenuExtras.this.showStatistics();
+            ObservationManagerMenuExtras.this.showLogDialog();
 
         }
     }

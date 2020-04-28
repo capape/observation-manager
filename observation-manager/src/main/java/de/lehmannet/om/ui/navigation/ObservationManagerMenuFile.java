@@ -152,7 +152,7 @@ public final class ObservationManagerMenuFile {
         @Override
         public void actionPerformed(ActionEvent e) {
             
-            ObservationManagerMenuFile.this.exit(ObservationManagerMenuFile.this.hasModelChanged());
+            ObservationManagerMenuFile.this.newFile(ObservationManagerMenuFile.this.hasModelChanged());
 
         }
 
