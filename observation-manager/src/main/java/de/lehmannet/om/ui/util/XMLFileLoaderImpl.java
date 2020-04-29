@@ -49,8 +49,6 @@ import de.lehmannet.om.util.SchemaLoader;
 // All get{SchemaElement} are extremly slow. Implement faster caching!
 public class XMLFileLoaderImpl implements XMLFileLoader {
 
-    
-
     // Maps, used to store File - XML Object relations
     // - Key = Path to XML File
     // - Value = Schema objects of xmlFile
@@ -58,22 +56,20 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     // Path to XML Schemas used to validate XML files
     private File schemaPath;
-    
+
     // The schemaLoader to use
     private final SchemaLoader loader = new SchemaLoader();
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLFileLoaderImpl.class);
 
+    public static final XMLFileLoader newInstance(String pathFile) {
 
-    public static final XMLFileLoader newInstance(String pathFile)  {
-        
         final File file = new File(pathFile);
         if (!file.exists()) {
 
-                LOGGER.error("Comast schema path not found:{} \n.", pathFile);
+            LOGGER.error("Comast schema path not found:{} \n.", pathFile);
         }
         return new XMLFileLoaderImpl(file);
     };
-    
 
     private XMLFileLoaderImpl(File file) {
 
@@ -143,12 +139,14 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
      * 
      * RootElement root = new RootElement();
      * 
-     * // @todo This only works for ONE file opened... if( observation == null ) { // Nothing to save return null; }
+     * // @todo This only works for ONE file opened... if( observation == null ) {
+     * // Nothing to save return null; }
      * 
      * this.addObservationAndDependentToRoot(observation, root);
      * 
      * try { if( root != null ) { return root.getDocument(); } else {
-     * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
+     * System.err.println("Unable to retrieve DOM Document\n"); } }
+     * catch(SchemaException se) {
      * System.err.println("Unable to retrieve DOM Document\n" + se); }
      * 
      * return null;
@@ -505,7 +503,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             int i = 0;
             int resultSize = 0;
             while (iterator.hasNext()) {
-                current =  iterator.next();
+                current = iterator.next();
                 currentArray = current.getEyepieces();
                 if ((currentArray != null) && (currentArray.length > 0)) {
                     o[i++] = currentArray;
@@ -990,13 +988,18 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             // Set Displaynames to SolarSystem Targets (as ResourceBundle is
             // not part of the API is isn't done in the API)
             /*
-             * final PropertyResourceBundle bundle = (PropertyResourceBundle)ResourceBundle.getBundle("SolarSystem",
-             * Locale.getDefault()); for(int i=0; i < targets.length; i++) { if( (targets[i] instanceof
-             * SolarSystemTargetPlanet) || (targets[i] instanceof SolarSystemTargetSun) || (targets[i] instanceof
-             * SolarSystemTargetMoon) ) { try { ((SolarSystemTarget)targets[i]).setI18NName(bundle.getString("catalog."
-             * + targets[i].getName().toLowerCase())); } catch( java.util.MissingResourceException mre ) {
-             * System.err.print("Couldn't set local name for " + targets[i].getName() + "\n");
-             * ((SolarSystemTarget)targets[i]).setI18NName(targets[i].getName().toLowerCase( )); }
+             * final PropertyResourceBundle bundle =
+             * (PropertyResourceBundle)ResourceBundle.getBundle("SolarSystem",
+             * Locale.getDefault()); for(int i=0; i < targets.length; i++) { if( (targets[i]
+             * instanceof SolarSystemTargetPlanet) || (targets[i] instanceof
+             * SolarSystemTargetSun) || (targets[i] instanceof SolarSystemTargetMoon) ) {
+             * try { ((SolarSystemTarget)targets[i]).setI18NName(bundle.getString("catalog."
+             * + targets[i].getName().toLowerCase())); } catch(
+             * java.util.MissingResourceException mre ) {
+             * System.err.print("Couldn't set local name for " + targets[i].getName() +
+             * "\n");
+             * ((SolarSystemTarget)targets[i]).setI18NName(targets[i].getName().toLowerCase(
+             * )); }
              * 
              * } }
              */
@@ -1184,7 +1187,6 @@ class CacheEntry {
 
     }
 
-    
     public CacheEntry(String xmlPath, IObservation[] observation, IEyepiece[] eyepiece, IFilter[] filter,
             IImager[] imager, IObserver[] observer, IScope[] scope, ISession[] session, ISite[] site, ITarget[] target,
             ILens[] lens) {
@@ -1340,7 +1342,8 @@ class CacheEntry {
 
         for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) {
             if (schemaElementCacheEntry.getSchemaElement().equals(coObserver)) {
-                List<ISchemaElement> re = new ArrayList<ISchemaElement>(schemaElementCacheEntry.getReferencedElements());
+                List<ISchemaElement> re = new ArrayList<ISchemaElement>(
+                        schemaElementCacheEntry.getReferencedElements());
                 re.removeIf(o -> o instanceof ISession);
                 return re;
             }
@@ -1832,7 +1835,7 @@ class CacheEntry {
                         if (elementCacheEntry.getSchemaElement() instanceof ITargetContaining) {
                             List<ITarget> containingTargets = ((ITargetContaining) elementCacheEntry.getSchemaElement())
                                     .getComponentTargets(this.getTargets());
-                            ListIterator<ITarget>  listIterator = containingTargets.listIterator();
+                            ListIterator<ITarget> listIterator = containingTargets.listIterator();
                             ITarget ct = null;
                             while (listIterator.hasNext()) {
                                 ct = listIterator.next();
@@ -1953,7 +1956,7 @@ class CacheEntry {
                     if ((observation.getSession().getCoObservers() != null)
                             && !(observation.getSession().getCoObservers().isEmpty())) {
                         List<IObserver> coObservers = observation.getSession().getCoObservers();
-                        ListIterator<IObserver>  listIterator = coObservers.listIterator();
+                        ListIterator<IObserver> listIterator = coObservers.listIterator();
                         IObserver currentObserver = null;
                         while (listIterator.hasNext()) { // Iterate over all coObservers
                             currentObserver = listIterator.next();
@@ -2619,8 +2622,9 @@ class CacheEntry {
         List<ISchemaElement> dependencyList = new ArrayList<>();
 
         /*
-         * IObserver creator = ((ITarget)element).getObserver(); // Delete only targets created/edited by Observers if(
-         * creator == null ) { return null; // Return null to indicate error }
+         * IObserver creator = ((ITarget)element).getObserver(); // Delete only targets
+         * created/edited by Observers if( creator == null ) { return null; // Return
+         * null to indicate error }
          */// Allow deletion of catalog elements
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.target.length - 1];
@@ -2851,7 +2855,7 @@ class CacheEntry {
                         ListIterator<IObserver> iterator = coObservers.listIterator();
                         IObserver current = null;
                         while (iterator.hasNext()) { // Iterate over all coObservers
-                            current =  iterator.next();
+                            current = iterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.coObserver) { // Iterate over
                                                                                                       // all coObservers
                                 if (schemaElementCacheEntry.getSchemaElement().equals(current)) {
@@ -2915,7 +2919,7 @@ class CacheEntry {
                         // Go over all dependent targets and add a reference to this observation
                         // ! The observation itself won't get a reference to the additional Target !
                         while (iterator.hasNext()) {
-                            ct =  iterator.next();
+                            ct = iterator.next();
                             for (SchemaElementCacheEntry schemaElementCacheEntry : this.target) {
                                 if (schemaElementCacheEntry.getSchemaElement().equals(ct)) {
                                     schemaElementCacheEntry.addReferencedElement(observation);
@@ -2950,13 +2954,16 @@ class CacheEntry {
 
 }
 
-
 // Stores an ISchemaElement and list of refering elements
-// The refering elements will be the observations, beloning to the corresponding schemaElement
-// Or in case the element is an IObservation, then the refering elements are all elements
+// The refering elements will be the observations, beloning to the corresponding
+// schemaElement
+// Or in case the element is an IObservation, then the refering elements are all
+// elements
 // beloning to the IObservation (at that point in time)
-// Storing the refered IObservation elements makes sense in the updateSchemaElement method, as
-// the passed IObservation is already changed. Therefore we keep the last know references of an
+// Storing the refered IObservation elements makes sense in the
+// updateSchemaElement method, as
+// the passed IObservation is already changed. Therefore we keep the last know
+// references of an
 // IObservation here. Think of it like a double linked list.
 class SchemaElementCacheEntry<T extends ISchemaElement> {
 
@@ -2966,13 +2973,13 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
     public SchemaElementCacheEntry(T element) {
 
         this.element = element;
-    }   
+    }
 
     public List<T> getReferencedElements() {
 
         /*
-         * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new ISchemaElement[] {});
-         * Arrays.sort(result, new ObservationComparator());
+         * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new
+         * ISchemaElement[] {}); Arrays.sort(result, new ObservationComparator());
          * 
          * return result;
          */

@@ -1,9 +1,5 @@
 package de.lehmannet.om;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.Configuration;
 
@@ -15,15 +11,25 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
     private final InstallDir installDir;
     private final Configuration configuration;
 
+    private static ObservationManagerContext INSTANCE = null;
+
+
+
     private ObservationManagerContextImpl(Builder builder) {
         this.locale = builder.locale;
         this.nightVision = builder.nightVision;
         this.installDir = builder.installDir;
         this.configuration = builder.configuration;
+        INSTANCE = this;
     } 
-    
 
-    
+    public static ObservationManagerContext getInstance() {
+        if (INSTANCE == null) {
+            new Builder().build();
+        }
+        return INSTANCE;
+    }
+            
     public String getLocale() {
         return locale;
     }

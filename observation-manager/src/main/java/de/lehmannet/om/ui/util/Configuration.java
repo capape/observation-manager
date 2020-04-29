@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class Configuration implements IConfiguration {
@@ -34,13 +37,15 @@ public class Configuration implements IConfiguration {
 
     private String configPath;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
+
     public Configuration(String path) {
         this.configPath = path;
 
         try {
             this.loadConfiguration(this.configPath);
         } catch (IOException ioe) {
-            System.out.println("Cannot find configuration file " + path + "\n" + ioe);
+            LOGGER.error("Cannot find configuration file {} ", path, ioe);
         }
 
     }
@@ -68,7 +73,8 @@ public class Configuration implements IConfiguration {
         try {
             this.persistence.load(bis);
         } catch (IOException ioe) {
-            System.err.println("Cannot load configuration.\n" + ioe);
+            
+            LOGGER.error("Cannot load configuration file {} ", path, ioe);
         }
 
     }
@@ -79,22 +85,26 @@ public class Configuration implements IConfiguration {
             return true;
         }
 
-        path = this.getConfigPath(path);
-        if (new File(path).mkdirs()) { // Create directories}
+        String realPath = this.getConfigPath(path);
 
-            path = path + File.separatorChar + CONFIG_FILE;
+        File configFolder = new File(realPath);
+        
+
+        if (configFolder.exists() || configFolder.mkdirs()) { // Create directories}
+
+            String configFilePath = realPath + File.separatorChar + CONFIG_FILE;
             try {
-                FileOutputStream fos = new FileOutputStream(path);
+                FileOutputStream fos = new FileOutputStream(configFilePath);
                 this.persistence.store(new BufferedOutputStream(fos), Configuration.CONFIG_FILE_HEADER);
                 fos.close();
             } catch (IOException ioe) {
-                System.err.println("Cannot save configuration file " + path);
+                LOGGER.error("Cannot save configuration file {} ", configFilePath);
                 return false;
             }
 
             return true;
         }
-        System.err.println("Cannot create folders " + path);
+        LOGGER.error("Cannot create config folders {} ", realPath);
         return false;
 
     }
@@ -117,12 +127,6 @@ public class Configuration implements IConfiguration {
         return this.persistence.getProperty(key);
 
     }
-
-    // public Set<String> getConfigKeys() {
-
-    // return this.persistence.stringPropertyNames();
-
-    // }
 
     public String getConfig(String key, String defaultValue) {
 
@@ -158,6 +162,7 @@ public class Configuration implements IConfiguration {
 
     }
 
+    @Override
     public Set<String> getKeysStartingWith(String prefix) {
         Set<String> result = new HashSet<>();
         for (String currentKey : this.persistence.stringPropertyNames()) {
@@ -167,6 +172,18 @@ public class Configuration implements IConfiguration {
 
         }
         return result;
+    }
+
+    @Override
+    public boolean getBooleanConfig(String key) {
+
+        return Boolean.parseBoolean(this.getConfig(key));
+        
+    }
+
+    @Override
+    public boolean getBooleanConfig(String key, boolean defaultValue) {
+        return Boolean.parseBoolean(this.getConfig(key, String.valueOf(defaultValue)));
     }
 
 }

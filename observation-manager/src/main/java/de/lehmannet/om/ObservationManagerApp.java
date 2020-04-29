@@ -52,15 +52,14 @@ public class ObservationManagerApp {
         final String logging = argumentsParser.getArgumentValue(ArgumentName.LOGGING);
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
-        final ObservationManagerModel model = new ObservationManagerModelImpl();
+        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache);
 
         //@formatter:off
         new ObservationManager.Builder(model)
             .locale(locale)
             .nightVision(nightVision)
             .installDir(installDir)
-            .configuration(configuration)
-            .xmlCache(xmlCache)
+            .configuration(configuration)           
             .imageResolver(imageResolver)            
             .build();
         //@formatter:on

@@ -13,7 +13,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -34,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +69,6 @@ import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.project.CatalogManager;
 import de.lehmannet.om.ui.project.CatalogManagerImpl;
 import de.lehmannet.om.ui.project.ProjectCatalog;
-
 import de.lehmannet.om.ui.theme.ThemeManager;
 import de.lehmannet.om.ui.theme.ThemeManagerImpl;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -165,14 +165,15 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
+   
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
-        this.configuration = builder.configuration;
-        this.xmlCache = builder.xmlCache;
+        this.configuration = builder.configuration;        
         this.imageResolver = builder.imageResolver;
         this.themeManager = new ThemeManagerImpl(this.configuration, this);
         this.model = builder.model;
+        this.xmlCache = this.model.getXmlCache();
 
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
@@ -244,16 +245,17 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // this.performRestartUpdate();
         // ****************************************************************
 
-        // Load XML File on startup (if desired)
-        this.loadConfig();
-
+        this.loadConfigFiles();     
+            
+        
+        this.table.showObservations(null, null);
+        this.tree.updateTree();
+        
         this.checkForUpdatesOnLoad();
 
         // If we should show the hints on startup, do so now...
-        if (Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")))
-
-        {
-            this.menuExtras.showDidYouKnow();
+        if (this.configuration.getBooleanConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, true)) {
+                 this.menuExtras.showDidYouKnow();
         }
 
         // Add shortcut key listener
@@ -269,12 +271,57 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     }
 
+    private void loadConfigFiles() {
+        // Load XML File on startup (if desired)
+        final ObservationManagerFileLoader fileLoader;
+        fileLoader = new ObservationManagerFileLoader(configuration, model);
+
+
+        final Worker configLoader = new Worker() {
+            Pair<String, Boolean> result;
+            @Override
+            public void run() {
+
+                result = fileLoader.loadConfig().orElse(Pair.of("Not loaded", true));
+                
+            }
+
+            @Override
+            public String getReturnMessage() {
+
+                if (result.getRight()) {
+                    return "";
+                }
+
+                return  ObservationManager.bundle.getString("error.loadXML") + " " + result.getLeft();
+
+            }
+
+            @Override
+            public byte getReturnType() {
+
+                if (result.getRight()) {
+                    return Worker.RETURN_TYPE_OK;
+                } else {
+                    return Worker.RETURN_TYPE_ERROR;
+                }
+                
+
+            }
+
+        };
+
+      
+        new ProgressDialog (this, 
+            ObservationManager.bundle.getString("progress.wait.title"),
+            ObservationManager.bundle.getString("progress.wait.xml.load.info"),
+            configLoader);
+    }
+
     private void checkForUpdatesOnLoad() {
         // Check for updates
-        if (Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "false"))) {
+        if (this.configuration.getBooleanConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, false)) {
             this.menuExtras.checkUpdates();
-
         }
     }
 
@@ -345,7 +392,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             }
         }
 
-        final List<ISchemaElement> result = this.xmlCache.removeSchemaElement(element);
+        final List<ISchemaElement> result = this.model.remove(element);
         if (result == null) { // Deletion failed
             if (element instanceof ITarget) {
                 this.createWarning(ObservationManager.bundle.getString("error.deleteTargetFromCatalog"));
@@ -356,111 +403,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         }
 
         if (result.isEmpty()) { // Deletion successful
-            this.setChanged(true);
             this.update(element);
         } else { // Deletion failed due to dependencies
             new TableElementsDialog(this, result);
         }
-
-    }
-
-    public void loadFiles(final String[] files) {
-
-        if ((files == null) || (files.length == 0)) {
-            return;
-        }
-
-        for (final String file : files) {
-            this.loadFile(file);
-        }
-
-    }
-
-    private void loadFile(final String file) {
-
-        if (file == null) {
-            return;
-        }
-
-        this.cleanUp();
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Load File: {}", new Date());
-            LOGGER.debug(SystemInfo.printMemoryUsage());
-        }
-
-        final Worker calculation = new Worker() {
-
-            private String message;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
-
-            @Override
-            public void run() {
-
-                final boolean result = ObservationManager.this.xmlCache.loadObservations(file);
-                if (!result) {
-                    message = ObservationManager.bundle.getString("error.loadXML") + " " + file;
-                    returnValue = Worker.RETURN_TYPE_ERROR;
-                }
-
-                ObservationManager.this.table.showObservations(null, null);
-                ObservationManager.this.tree.updateTree();
-
-            }
-
-            @Override
-            public String getReturnMessage() {
-
-                return message;
-
-            }
-
-            @Override
-            public byte getReturnType() {
-
-                return returnValue;
-
-            }
-
-        };
-
-        // This should avoid some nasty ArrayIndexOutOfBoundsExceptions which
-        // are
-        // thrown time by time at the ProgressDialog.setVisible(true) call.
-        // Problems seems that the DefaultTableModelRenderer tries to update a
-        // certain
-        // part of the screen while the ProgressDialogs calculation thread is
-        // currently
-        // loading the XML file. This seems to cause the problem. Clearing the
-        // table like
-        // below, seems to fix this strange problem
-        this.table.showObservations(null, null);
-
-        new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
-
-        if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-            if (calculation.getReturnMessage() != null) {
-                this.createInfo(calculation.getReturnMessage());
-            }
-        } else {
-            this.createWarning(calculation.getReturnMessage());
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Loaded: {}", new Date());
-            LOGGER.debug(SystemInfo.printMemoryUsage());
-        }
-
-    }
-
-    private void loadFile(final File file) {
-
-        if (file == null) {
-            return;
-        }
-
-        this.loadFile(file.getAbsolutePath());
 
     }
 
@@ -547,7 +493,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void update(final ISchemaElement element) {
 
         // Update cache
-        this.xmlCache.updateSchemaElement(element);
+        this.model.update(element);
 
         // Update tree (clears old data and refreshes it completely)
         this.updateLeft();
@@ -636,28 +582,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     }
 
-    private void loadConfig() {
+   
 
-        // Check if we should load last loaded XML on startup
-        final boolean load = Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP));
-        if (load) {
-            final String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
-            // Check if last file is set
-            if ((lastFile != null) && !("".equals(lastFile.trim()))) {
-                this.loadFile(new File(lastFile));
-            }
-        }
-
-    }
-
-    private void cleanUp() {
-
-        this.xmlCache.clear();
-        this.tree.updateTree();
-        this.uiDataCache.clear();
-
-    }
+    
 
     private void loadLanguage() {
 
