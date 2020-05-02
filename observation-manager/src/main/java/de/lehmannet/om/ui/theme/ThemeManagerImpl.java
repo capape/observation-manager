@@ -13,6 +13,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 
 public class ThemeManagerImpl implements ThemeManager {
@@ -75,7 +76,7 @@ public class ThemeManagerImpl implements ThemeManager {
             this.observationManager.createBufferStrategy(2);
             this.observationManager.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
             this.observationManager.update(this.observationManager.getGraphics());
-            this.configuration.setConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(true));
+            this.configuration.setConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(true));
             this.observationManager.setVisible(true);
 
         } catch (Exception e) {
@@ -136,7 +137,7 @@ public class ThemeManagerImpl implements ThemeManager {
             this.observationManager.createBufferStrategy(2);
             this.observationManager.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
             this.observationManager.update(this.observationManager.getGraphics());
-            this.configuration.setConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(false));
+            this.configuration.setConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(false));
             this.observationManager.setVisible(true);
 
         } catch (Exception e) {

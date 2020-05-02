@@ -1,6 +1,5 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 
 public class ObservationManagerFileLoader {
@@ -47,9 +47,9 @@ public class ObservationManagerFileLoader {
     public Optional<Pair<String, Boolean>> loadConfig() {
 
         // Check if we should load last loaded XML on startup
-        final boolean load = this.configuration.getBooleanConfig(ObservationManager.CONFIG_OPENONSTARTUP);
+        final boolean load = this.configuration.getBooleanConfig(ConfigKey.CONFIG_OPENONSTARTUP);
         if (load) {
-            final String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
+            final String lastFile = this.configuration.getConfig(ConfigKey.CONFIG_LASTXML);
             // Check if last file is set
             if (!StringUtils.isBlank(lastFile)) {
                 boolean result = this.loadFile(lastFile);

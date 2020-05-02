@@ -4,7 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -15,8 +22,9 @@ import javax.swing.JLabel;
 
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 
 public class GeneralPanel extends PreferencesPanel {
@@ -53,27 +61,24 @@ public class GeneralPanel extends PreferencesPanel {
     public void writeConfig() {
 
         // Load last opened XML file on startup
-        this.setConfig(ObservationManager.CONFIG_OPENONSTARTUP,  String.valueOf( this.loadLastFile.isSelected()));
+        this.setConfig(ConfigKey.CONFIG_OPENONSTARTUP, String.valueOf(this.loadLastFile.isSelected()));
 
         // ------------------
 
         // Load last opened XML file on startup
-        this.setConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP,
-        String.valueOf( this.checkForUpdates.isSelected()));
+        this.setConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP, String.valueOf(this.checkForUpdates.isSelected()));
 
         // ------------------
 
         // Set UI Language
-        this.setConfig(ObservationManager.CONFIG_UILANGUAGE,
-        String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
+        this.setConfig(ConfigKey.CONFIG_UILANGUAGE, String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
         this.om.reloadLanguage();
 
         // ------------------
 
         // Set default catalog
         if (this.xslTemplate.getSelectedItem() != null) {
-           this.setConfig(ObservationManager.CONFIG_XSL_TEMPLATE,
-            String.valueOf( this.xslTemplate.getSelectedItem()));
+            this.setConfig(ConfigKey.CONFIG_XSL_TEMPLATE, String.valueOf(this.xslTemplate.getSelectedItem()));
         }
 
     }
@@ -95,8 +100,8 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.loadLastFile = new JCheckBox();
-        this.loadLastFile.setSelected(
-                Boolean.parseBoolean(this.getConfig(ObservationManager.CONFIG_OPENONSTARTUP).orElse("false")));
+        this.loadLastFile
+                .setSelected(Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_OPENONSTARTUP).orElse("false")));
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
         this.add(this.loadLastFile);
@@ -117,7 +122,7 @@ public class GeneralPanel extends PreferencesPanel {
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
         this.checkForUpdates = new JCheckBox();
         this.checkForUpdates.setSelected(
-                Boolean.parseBoolean(this.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
+                Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
         this.checkForUpdates
                 .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);
@@ -213,8 +218,7 @@ public class GeneralPanel extends PreferencesPanel {
 
         });
         if (directories == null) {
-            this.xslTemplate
-                    .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
+            this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE));
 
         } else {
             for (String directory : directories) {
@@ -223,10 +227,9 @@ public class GeneralPanel extends PreferencesPanel {
 
             if (directories.length > 0) {
                 this.xslTemplate.setSelectedItem(
-                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE, directories[0]));
+                        this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE, directories[0]));
             } else {
-                this.xslTemplate
-                        .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE));
+                this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE));
             }
         }
 
@@ -273,7 +276,6 @@ public class GeneralPanel extends PreferencesPanel {
     }
 
     private List<String> scanJarFile(File jarFile) {
-
 
         try (ZipFile archive = new ZipFile(jarFile)) {
             List<String> result = new ArrayList<>();

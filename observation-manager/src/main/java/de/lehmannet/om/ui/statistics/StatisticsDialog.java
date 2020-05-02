@@ -40,6 +40,7 @@ import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -99,7 +100,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         } else if (observers.length > 1) {
             // Get default observer for preselection
             String defaultObserverDisplayName = this.om.getConfiguration()
-                    .getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
+                    .getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
             List<IObserver> preselectedObserver = new ArrayList<>();
             for (IObserver observer : observers) {
                 if (observer.getDisplayName().equals(defaultObserverDisplayName)) {
@@ -250,7 +251,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         // Get config
         boolean useCoObservers = Boolean.parseBoolean(
-                this.om.getConfiguration().getConfig(ObservationManager.CONFIG_STATISTICS_USE_COOBSERVERS));
+                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
 
         // Iterate over all selected catalogs, create CatalogCheckers and start threads
         this.checkers = new CatalogChecker[this.selectedCatalogs.size()];

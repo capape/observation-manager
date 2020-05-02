@@ -36,6 +36,7 @@ import de.lehmannet.om.ui.dialog.FITSImageDialog;
 import de.lehmannet.om.ui.dialog.ImageDialog;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.RelativPath;
 
@@ -154,7 +155,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
         // Find out whether images path should be returned relative or absolute
         boolean relativePath = Boolean
-                .parseBoolean(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_IMAGESDIR_RELATIVE));
+                .parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_IMAGESDIR_RELATIVE));
         if ((homeDir == null) || ("".equals(homeDir.trim()))) {
             relativePath = false;
         }

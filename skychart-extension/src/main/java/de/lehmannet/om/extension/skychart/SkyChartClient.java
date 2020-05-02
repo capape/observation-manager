@@ -421,13 +421,13 @@ public class SkyChartClient implements IExtension, ActionListener {
     private StarchartSocket createSocket() {
 
         // Get IP
-        String ip = this.om.getConfiguration().getConfig(SkyChartPreferences.CONFIG_SERVER_IP_KEY);
+        String ip = this.om.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY);
         if ((ip == null) || ("".equals(ip.trim()))) {
             ip = SkyChartPreferences.SERVER_DEFAULT_IP;
         }
 
         // Get Port
-        String s_port = this.om.getConfiguration().getConfig(SkyChartPreferences.CONFIG_SERVER_PORT_KEY);
+        String s_port = this.om.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
         int port = SkyChartPreferences.SERVER_DEFAULT_PORT;
         if ((s_port != null) && !("".equals(s_port.trim()))) {
             port = Integer.parseInt(s_port);
@@ -445,7 +445,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             // Try to get application path
             // final String applicationPath =
             final String applicationPath = this.om.getConfiguration()
-                    .getConfig(SkyChartPreferences.CONFIG_APPLICATION_PATH);
+                    .getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
             if (applicationPath == null || "".equals(applicationPath.trim())) { // No
                                                                                 // application
                                                                                 // path

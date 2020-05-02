@@ -39,6 +39,7 @@ import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -423,7 +424,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         final String XSLFILENAME = "targetsOnly";
 
         String selectedTemplate = this.observationManager.getConfiguration()
-                .getConfig(ObservationManager.CONFIG_XSL_TEMPLATE);
+                .getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {

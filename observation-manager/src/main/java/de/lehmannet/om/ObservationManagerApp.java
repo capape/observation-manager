@@ -11,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.model.ObservationManagerModelImpl;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.i18n.TextManagerImpl;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.ArgumentName;
 import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
@@ -53,6 +56,8 @@ public class ObservationManagerApp {
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache);
+        final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
+        final TextManager textManager = new TextManagerImpl(isoKey);
 
         //@formatter:off
         new ObservationManager.Builder(model)
@@ -61,6 +66,7 @@ public class ObservationManagerApp {
             .installDir(installDir)
             .configuration(configuration)           
             .imageResolver(imageResolver)            
+            .textManager(textManager)
             .build();
         //@formatter:on
 

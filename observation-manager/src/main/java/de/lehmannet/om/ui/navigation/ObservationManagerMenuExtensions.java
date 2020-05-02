@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
@@ -71,7 +72,7 @@ public final class ObservationManagerMenuExtensions {
                 }
             };
             chooser.setFileFilter(zipFileFilter);
-            String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+            String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
             if ((last != null) && !("".equals(last.trim()))) {
                 File dir = new File(last);
                 if (dir.exists()) {

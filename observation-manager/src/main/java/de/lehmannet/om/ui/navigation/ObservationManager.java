@@ -17,12 +17,9 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Optional;
 import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -63,6 +60,7 @@ import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.dialog.TableElementsDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
@@ -71,6 +69,7 @@ import de.lehmannet.om.ui.project.CatalogManagerImpl;
 import de.lehmannet.om.ui.project.ProjectCatalog;
 import de.lehmannet.om.ui.theme.ThemeManager;
 import de.lehmannet.om.ui.theme.ThemeManagerImpl;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
@@ -84,30 +83,28 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private static final long serialVersionUID = -9092637724048070172L;
 
     // Config keys
-    public static final String CONFIG_LASTDIR = "om.lastOpenedDir";
-    public static final String CONFIG_LASTXML = "om.lastOpenedXML";
-    public static final String CONFIG_OPENONSTARTUP = "om.lastOpenedXML.onStartup";
-    public static final String CONFIG_CONTENTDEFAULTLANG = "om.content.language.default";
-    public static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
-    public static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
-    public static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
-    public static final String CONFIG_IMAGESDIR_RELATIVE = "om.imagesDir.relaitve";
-    public static final String CONFIG_UILANGUAGE = "om.language";
-    public static final String CONFIG_DEFAULT_OBSERVER = "om.default.observer";
-    public static final String CONFIG_DEFAULT_CATALOG = "om.default.catalog";
-    public static final String CONFIG_HELP_HINTS_STARTUP = "om.help.hints.showOnStartup";
-    public static final String CONFIG_RETRIEVE_ENDDATE_FROM_SESSION = "om.retrieve.endDateFromSession";
-    public static final String CONFIG_STATISTICS_USE_COOBSERVERS = "om.statistics.useCoObservers";
-    public static final String CONFIG_XSL_TEMPLATE = "om.transform.xsl.template";
-    public static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
-    public static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
-    public static final String CONFIG_CONSTELLATION_USEI18N = "om.constellation.useI18N";
-    public static final String CONFIG_UPDATECHECK_STARTUP = "om.update.checkForUpdates";
-    public static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
+    // public static final String CONFIG_LASTDIR = "om.lastOpenedDir";
+    // public static final String CONFIG_LASTXML = "om.lastOpenedXML";
+    // public static final String CONFIG_OPENONSTARTUP = "om.lastOpenedXML.onStartup";
+    // public static final String CONFIG_CONTENTDEFAULTLANG = "om.content.language.default";
+    // public static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
+    // public static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
+    // public static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
+    // public static final String CONFIG_IMAGESDIR_RELATIVE = "om.imagesDir.relaitve";
+    // public static final String CONFIG_UILANGUAGE = "om.language";
+    // public static final String CONFIG_DEFAULT_OBSERVER = "om.default.observer";
+    // public static final String CONFIG_DEFAULT_CATALOG = "om.default.catalog";
+    // public static final String CONFIG_HELP_HINTS_STARTUP = "om.help.hints.showOnStartup";
+    // public static final String CONFIG_RETRIEVE_ENDDATE_FROM_SESSION = "om.retrieve.endDateFromSession";
+    // public static final String CONFIG_STATISTICS_USE_COOBSERVERS = "om.statistics.useCoObservers";
+    // public static final String CONFIG_XSL_TEMPLATE = "om.transform.xsl.template";
+    // public static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
+    // public static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
+    // public static final String CONFIG_CONSTELLATION_USEI18N = "om.constellation.useI18N";
+    // public static final String CONFIG_UPDATECHECK_STARTUP = "om.update.checkForUpdates";
+    // public static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
     // public static final String CONFIG_UPDATE_RESTART = "om.update.restart";
 
-    // ResourceBundle will be set in constructor after default locale is defined
-    public static PropertyResourceBundle bundle = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
@@ -150,6 +147,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final ImageResolver imageResolver;
     private final ThemeManager themeManager;
+    private final TextManager textManager;
 
     private final Map<String, String> uiDataCache = new HashMap<>();
 
@@ -165,15 +163,22 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
-   
+    @Deprecated
+    public static PropertyResourceBundle bundle;
+
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
         this.configuration = builder.configuration;        
         this.imageResolver = builder.imageResolver;
+        this.textManager = builder.textManager;
         this.themeManager = new ThemeManagerImpl(this.configuration, this);
         this.model = builder.model;
         this.xmlCache = this.model.getXmlCache();
+        
+        
+
+        bundle = this.textManager.getBundle();
 
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
@@ -181,7 +186,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LoggerConfig.initLogs();
 
         boolean nightVisionOnStartup = Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
+                .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
             nightVisionOnStartup = this.nightVisionOnStartup;
         }
@@ -192,11 +197,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             this.splash.start();
         }
 
-        // After we checked arguments and configuration, we can load language
-        // bundle (language might be set as argument or
-        // configuration)
-        this.loadLanguage();
-
+        
         // Set title
         this.setTitle();
 
@@ -254,7 +255,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.checkForUpdatesOnLoad();
 
         // If we should show the hints on startup, do so now...
-        if (this.configuration.getBooleanConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, true)) {
+        if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, true)) {
                  this.menuExtras.showDidYouKnow();
         }
 
@@ -293,7 +294,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     return "";
                 }
 
-                return  ObservationManager.bundle.getString("error.loadXML") + " " + result.getLeft();
+                return  ObservationManager.this.textManager.getString("error.loadXML") + " " + result.getLeft();
 
             }
 
@@ -313,14 +314,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
       
         new ProgressDialog (this, 
-            ObservationManager.bundle.getString("progress.wait.title"),
-            ObservationManager.bundle.getString("progress.wait.xml.load.info"),
+            this.textManager.getString("progress.wait.title"),
+            this.textManager.getString("progress.wait.xml.load.info"),
             configLoader);
     }
 
     private void checkForUpdatesOnLoad() {
         // Check for updates
-        if (this.configuration.getBooleanConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, false)) {
+        if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP, false)) {
             this.menuExtras.checkUpdates();
         }
     }
@@ -342,7 +343,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void reloadLanguage() {
 
         // Load new bundle
-        this.loadLanguage();
+        final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
+        this.textManager.useLanguage(isoKey);
+        bundle = this.textManager.getBundle();
 
         // Reload title
         this.setTitle();
@@ -381,9 +384,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         }
 
         // Confirmation pop-up
-        final JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.delete.question"),
+        final JOptionPane pane = new JOptionPane(this.textManager.getString("info.delete.question"),
                 JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-        final JDialog dialog = pane.createDialog(this, ObservationManager.bundle.getString("info.delete.title"));
+        final JDialog dialog = pane.createDialog(this, this.textManager.getString("info.delete.title"));
         dialog.setVisible(true);
         final Object selectedValue = pane.getValue();
         if ((selectedValue instanceof Integer)) {
@@ -395,7 +398,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final List<ISchemaElement> result = this.model.remove(element);
         if (result == null) { // Deletion failed
             if (element instanceof ITarget) {
-                this.createWarning(ObservationManager.bundle.getString("error.deleteTargetFromCatalog"));
+                this.createWarning(this.textManager.getString("error.deleteTargetFromCatalog"));
                 return;
             }
             System.err.println("Error during deletion of element: " + element);
@@ -553,14 +556,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public void createWarning(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.warning"),
+        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.warning"),
                 JOptionPane.WARNING_MESSAGE);
 
     }
 
     public void createInfo(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.info"),
+        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.info"),
                 JOptionPane.INFORMATION_MESSAGE);
 
     }
@@ -586,36 +589,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     
 
-    private void loadLanguage() {
-
-        // Locale.default might be already set by parseArguments
-
-        // Try to find value in config
-        final String isoKey = this.configuration.getConfig(ObservationManager.CONFIG_UILANGUAGE);
-        if (isoKey != null) {
-            Locale.setDefault(new Locale(isoKey, isoKey));
-            System.setProperty("user.language", isoKey);
-            System.setProperty("user.region", isoKey);
-            JComponent.setDefaultLocale(Locale.getDefault());
-        }
-
-        try {
-            ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                    Locale.getDefault());
-        } catch (final MissingResourceException mre) { // Unknown VM language (and
-            // language not explicitly
-            // set)
-            Locale.setDefault(Locale.ENGLISH);
-            ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                    Locale.getDefault());
-        }
-
-    }
-
+    
     private void setTitle() {
 
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
-        String title = "Observation Manager - " + ObservationManager.bundle.getString("version") + " "
+        String title = "Observation Manager - " + this.textManager.getString("version") + " "
                 + ObservationManager.VERSION;
         if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
                                                                 // correct in
@@ -685,7 +663,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final Dimension maxSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Get last size
-        final String stringSize = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE,
+        final String stringSize = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_SIZE,
                 maxSize.width + "x" + maxSize.height);
         int width = Integer.parseInt(stringSize.substring(0, stringSize.indexOf('x')));
         int height = Integer.parseInt(stringSize.substring(stringSize.indexOf('x') + 1));
@@ -699,7 +677,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.setSize(size);
 
         // Location
-        final String stringLocation = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_POS);
+        final String stringLocation = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_POS);
         int x = 0;
         int y = 0;
         if (stringLocation != null && !"".equals(stringLocation.trim())) {
@@ -717,7 +695,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
         // Check if we're maximized the last time, and if so, maximized again
         final boolean maximized = Boolean.parseBoolean(
-                this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(false)));
+                this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(false)));
         if (maximized) {
             this.setExtendedState(Frame.MAXIMIZED_BOTH);
         }
@@ -727,8 +705,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private void setDividerLocation() {
 
         // Set dividers
-        String sVertical = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_VERTICAL);
-        String sHorizontal = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL);
+        String sVertical = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_VERTICAL);
+        String sHorizontal = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL);
 
         float vertical = 0;
         float horizontal = 0;
@@ -936,8 +914,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         private String nightVision;
         private InstallDir installDir;
         private IConfiguration configuration;
-        private XMLFileLoader xmlCache;
         private ImageResolver imageResolver;
+        private TextManager textManager;
         private ObservationManagerModel model;
 
         public Builder(ObservationManagerModel model) {
@@ -964,13 +942,13 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             return this;
         }
 
-        public Builder xmlCache(XMLFileLoader value) {
-            this.xmlCache = value;
+        public Builder imageResolver(ImageResolver value) {
+            this.imageResolver = value;
             return this;
         }
 
-        public Builder imageResolver(ImageResolver value) {
-            this.imageResolver = value;
+        public Builder textManager(TextManager value) {
+            this.textManager = value;
             return this;
         }
 

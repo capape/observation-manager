@@ -79,6 +79,7 @@ import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.extension.SchemaUILoader;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
@@ -928,7 +929,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
                     // Check whether enddate/time should be autom. set
                     if (Boolean.parseBoolean(this.observationManager.getConfiguration()
-                            .getConfig(ObservationManager.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
+                            .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
                         this.endDate = (Calendar) start.clone();
                         this.endDate.add(Calendar.MINUTE, 10); // Add 10 minutes, as end date should be after begin date
 
@@ -1590,7 +1591,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             element = this.observerBox.getSelectedSchemaElement();
         }
         IConfiguration config = this.observationManager.getConfiguration();
-        String currentValue = config.getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
+        String currentValue = config.getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
 
         IObserver[] observers = this.observationManager.getXmlCache().getObservers();
         IObserver defaultObserver = null;

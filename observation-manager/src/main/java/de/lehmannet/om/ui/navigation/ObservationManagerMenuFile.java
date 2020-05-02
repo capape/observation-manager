@@ -43,6 +43,7 @@ import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -276,9 +277,9 @@ public final class ObservationManagerMenuFile {
 
         // Save window size and position and maximized state
         if (observationManager.getExtendedState() == Frame.MAXIMIZED_BOTH) {
-            this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(true));
+            this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(true));
         } else {
-            this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, null); // Remove
+            this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_MAXIMIZED, null); // Remove
                                                                                                 // maximzed
         }
         Dimension size = observationManager.getSize();
@@ -286,14 +287,14 @@ public final class ObservationManagerMenuFile {
         Point location = observationManager.getLocation();
         // SwingUtilities.convertPointToScreen(location, this);
         String stringLocation = location.x + "," + location.y;
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE, stringSize);
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_POS, stringLocation);
+        this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_SIZE, stringSize);
+        this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_POS, stringLocation);
 
         // Save horizontal and vertical dividers position
         float vertical = (float) observationManager.getWidth() / (float) observationManager.getVerticalSplitPane().getDividerLocation();
         float horizontal = (float) observationManager.getHeight() / (float) observationManager.getHorizontalSplitPane().getDividerLocation();
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL, "" + horizontal);
-        this.configuration.setConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_VERTICAL, "" + vertical);
+        this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL, "" + horizontal);
+        this.configuration.setConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_VERTICAL, "" + vertical);
 
         // Save column settings to persistance
         observationManager.getTableView().saveSettings();
@@ -445,7 +446,7 @@ public final class ObservationManagerMenuFile {
 
         JFileChooser chooser = new JFileChooser();
 
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+        String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {
@@ -763,7 +764,7 @@ public final class ObservationManagerMenuFile {
             }
         };
         chooser.setFileFilter(xmlFileFilter);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+        String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {
@@ -794,7 +795,7 @@ public final class ObservationManagerMenuFile {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+        String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {
@@ -840,8 +841,8 @@ public final class ObservationManagerMenuFile {
             this.loadFile(file.getAbsolutePath());
         }
 
-        this.configuration.setConfig(ObservationManager.CONFIG_LASTDIR, files[0].getParent());
-        this.configuration.setConfig(ObservationManager.CONFIG_LASTXML, files[files.length - 1].getAbsolutePath());
+        this.configuration.setConfig(ConfigKey.CONFIG_LASTDIR, files[0].getParent());
+        this.configuration.setConfig(ConfigKey.CONFIG_LASTXML, files[files.length - 1].getAbsolutePath());
 
         observationManager.getHorizontalSplitPane().updateUI();
         observationManager.getVerticalSplitPane().updateUI();
@@ -943,7 +944,7 @@ public final class ObservationManagerMenuFile {
             }
         };
         chooser.setFileFilter(xmlFileFilter);
-        String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+        String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {

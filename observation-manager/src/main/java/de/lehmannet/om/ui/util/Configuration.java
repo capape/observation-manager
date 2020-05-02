@@ -186,4 +186,33 @@ public class Configuration implements IConfiguration {
         return Boolean.parseBoolean(this.getConfig(key, String.valueOf(defaultValue)));
     }
 
+	@Override
+	public void setConfig(IConfigKey key, String value) {
+		this.setConfig(key.getKey(),value);
+		
+	}
+
+	@Override
+	public String getConfig(IConfigKey key) {		
+		return this.getConfig(key.getKey());
+	}
+
+	@Override
+	public boolean getBooleanConfig(IConfigKey key) {
+		
+		return this.getBooleanConfig(key.getKey());
+	}
+
+	@Override
+	public String getConfig(IConfigKey key, String defaultValue) {
+		
+		return this.getConfig(key.getKey(),defaultValue);
+	}
+
+	@Override
+	public boolean getBooleanConfig(IConfigKey key, boolean defaultValue) {
+		
+		return this.getBooleanConfig(key.getKey(),defaultValue);
+	}
+
 }

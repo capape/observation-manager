@@ -22,7 +22,14 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -40,6 +47,7 @@ import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.comparator.ObservationComparator;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.util.DateConverter;
 
 public class VariableStarChartDialog extends OMDialog implements PropertyChangeListener, ComponentListener {
@@ -793,7 +801,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         // Get save path
         JFileChooser chooser = new JFileChooser();
 
-        String last = this.om.getConfiguration().getConfig(ObservationManager.CONFIG_LASTDIR);
+        String last = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {

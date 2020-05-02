@@ -52,6 +52,7 @@ import de.lehmannet.om.ui.dialog.ObserverDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.EditPopupHandler;
@@ -106,7 +107,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.cache = this.observationManager.getUIDataCache();
 
         this.language = new LanguageBox(
-                this.observationManager.getConfiguration().getConfig(ObservationManager.CONFIG_CONTENTDEFAULTLANG),
+                this.observationManager.getConfiguration().getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG),
                 true);
 
         this.createPanel();

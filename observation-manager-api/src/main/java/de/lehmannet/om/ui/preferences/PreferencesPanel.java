@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.IConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 
 public abstract class PreferencesPanel extends JPanel {
@@ -22,11 +24,11 @@ public abstract class PreferencesPanel extends JPanel {
 
     public abstract String getTabTitle();
 
-    public void setConfig(String key, String value) {
+    public void setConfig(IConfigKey key, String value) {
         this.configuration.setConfig(key, value);
     }
 
-    public Optional<String> getConfig(String key) {
+    public Optional<String> getConfig(IConfigKey key) {
 
         final String value = this.configuration.getConfig(key);
 

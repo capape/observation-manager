@@ -17,6 +17,16 @@ public interface IConfiguration {
     String getConfig(String key, String defaultValue);
 
     boolean getBooleanConfig(String key, boolean defaultValue) ;
+
+    void setConfig(IConfigKey key, String value) ;
+    
+    String getConfig(IConfigKey key) ;
+
+    boolean getBooleanConfig(IConfigKey key) ;
+        
+    String getConfig(IConfigKey key, String defaultValue);
+
+    boolean getBooleanConfig(IConfigKey key, boolean defaultValue) ;
     
     void deleteKeysStartingWith(String prefix);
     

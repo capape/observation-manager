@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
@@ -269,7 +270,7 @@ public class ObservationManagerHtmlHelper {
 
         final String TEMPLATE_FILENAME = "transform";
 
-        String selectedTemplate = this.observationManager.getConfiguration().getConfig(ObservationManager.CONFIG_XSL_TEMPLATE);
+        String selectedTemplate = this.observationManager.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {

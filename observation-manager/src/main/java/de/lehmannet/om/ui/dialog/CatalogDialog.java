@@ -37,6 +37,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class CatalogDialog extends OMDialog implements ComponentListener {
@@ -136,10 +137,10 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         for (String cName : cNames) {
             this.catalogBox.addItem(cName);
         }
-        String defaultCatalog = this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_CATALOG);
+        String defaultCatalog = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG);
         if ((defaultCatalog != null) && (!"".equals(defaultCatalog))) {
             this.catalogBox
-                    .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_CATALOG));
+                    .setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG));
         }
         this.catalogBox.addActionListener(this);
 

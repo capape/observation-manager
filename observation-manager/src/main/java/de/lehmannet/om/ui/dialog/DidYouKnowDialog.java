@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class DidYouKnowDialog extends OMDialog implements ActionListener {
@@ -79,7 +80,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
             if (source.equals(this.close)) {
                 // Save config value
                 boolean show = this.showOnStartup.isSelected();
-                this.om.getConfiguration().setConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP,
+                this.om.getConfiguration().setConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP,
                         Boolean.toString(show));
 
                 // Close UI;
@@ -124,7 +125,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.showOnStartup.setSelected(Boolean.parseBoolean(
-                this.om.getConfiguration().getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")));
+                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, "true")));
         gridbag.setConstraints(this.showOnStartup, constraints);
         this.getContentPane().add(this.showOnStartup);
 

@@ -62,6 +62,7 @@ import de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarChartDialog
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -538,7 +539,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
             if (!list.contains(observation.getObserver())) {
                 // Make sure the default observer is the top entry
                 if (observation.getObserver().getDisplayName()
-                        .equals(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER))) {
+                        .equals(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER))) {
                     list.add(0, observation.getObserver());
                 } else {
                     list.add(observation.getObserver());
