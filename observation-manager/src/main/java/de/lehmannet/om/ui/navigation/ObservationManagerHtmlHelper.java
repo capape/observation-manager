@@ -18,18 +18,36 @@ import org.w3c.dom.Document;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class ObservationManagerHtmlHelper {
 
-    private final ObservationManager observationManager;
+    private final UserInterfaceHelper uiHelper;
+    private final TextManager textManager;
+    private final IConfiguration configuration;
+    private final InstallDir installDir;
+    private final XMLFileLoader xmlCache;
+    private final ObservationManagerModel model;
 
-    public ObservationManagerHtmlHelper(ObservationManager om) {
-        this.observationManager=om;
+    public ObservationManagerHtmlHelper(UserInterfaceHelper uiHelper, TextManager textManager,
+    IConfiguration configuration, InstallDir installDir,
+    ObservationManagerModel model) {
+        this.uiHelper=uiHelper;
+        this.textManager = textManager;
+        this.configuration = configuration;
+        this.installDir = installDir;
+        this.model = model;
+        // TODO:
+        this.xmlCache = this.model.getXmlCache();
     }
 
 
@@ -45,7 +63,7 @@ public class ObservationManagerHtmlHelper {
 
                 if ((doc == null) || (htmlFile == null)) {
                     returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.transformation");
+                    message = textManager.getString("error.transformation");
                     return;
                 }
 
@@ -58,7 +76,7 @@ public class ObservationManagerHtmlHelper {
                                    // already given
 
                     returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.transformation");
+                    message = textManager.getString("error.transformation");
                     return;
 
                 }
@@ -72,7 +90,7 @@ public class ObservationManagerHtmlHelper {
                 } catch (FileNotFoundException fnfe) {
                     System.err.println("Cannot transform XML file.\n" + fnfe);
                     returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.transformation");
+                    message = textManager.getString("error.transformation");
                     return;
                 }
 
@@ -83,7 +101,7 @@ public class ObservationManagerHtmlHelper {
                                                                                          // JDK1.5
                     if (template == null) {
                         returnValue = Worker.RETURN_TYPE_ERROR;
-                        message = ObservationManager.bundle.getString("error.transformation");
+                        message = textManager.getString("error.transformation");
                         try {
                             outputStream.close();
                         } catch (IOException ioe) {
@@ -96,7 +114,7 @@ public class ObservationManagerHtmlHelper {
                 } catch (TransformerException tce) {
                     System.err.println("Cannot transform XML file.\n" + tce);
                     returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.transformation");
+                    message = textManager.getString("error.transformation");
                     try {
                         outputStream.close();
                     } catch (IOException ioe) {
@@ -130,16 +148,16 @@ public class ObservationManagerHtmlHelper {
         };
 
         // Show progresDialog for first part of export
-        new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.html.info"), calculation);
+        uiHelper.createProgressDialog(textManager.getString("progress.wait.title"),
+                textManager.getString("progress.wait.html.info"), calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-                this.observationManager.createInfo(calculation.getReturnMessage());
+               uiHelper.showInfo(calculation.getReturnMessage());
             }
             return true;
         } else {
-            this.observationManager.createWarning(calculation.getReturnMessage());
+            uiHelper.showWarning(calculation.getReturnMessage());
             return false;
         }
 
@@ -148,38 +166,34 @@ public class ObservationManagerHtmlHelper {
     private void createHTMLForSchemaElement(ISchemaElement schemaElement, File htmlFile) {
 
         // With that we can check whether there are observations at all.
-        IObservation[] observations = this.observationManager.getXmlCache().getObservations(schemaElement);
+        IObservation[] observations = this.xmlCache.getObservations(schemaElement);
         if ((observations == null) || (observations.length == 0)) {
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.export.xml.noObservationsForSchemaElement"));
+            this.uiHelper.showWarning(textManager.getString("error.export.xml.noObservationsForSchemaElement"));
             return;
         }
 
         // Get DOM source
-        Document doc = this.observationManager.getXmlCache().getDocumentForSchemaElement(schemaElement);
+        Document doc = this.xmlCache.getDocumentForSchemaElement(schemaElement);
 
         // XML File needs to be saved, as otherwise we don't get the path
-        String[] files = this.observationManager.getXmlCache().getAllOpenedFiles();
+        String[] files = this.xmlCache.getAllOpenedFiles();
         if ((files == null) || (files.length == 0)) { // There is data
                                                       // (otherwise we
                                                       // wouldn't have come
                                                       // here), but data's
                                                       // not saved
-            this.observationManager.createInfo(ObservationManager.bundle.getString("error.noXMLFileOpen"));
+            this.uiHelper.showError(textManager.getString("error.noXMLFileOpen"));
             return;
         }
 
         this.transformXML2HTML(doc, htmlFile, null);
-        this.observationManager.createInfo(ObservationManager.bundle.getString("info.htmlExportDir") + " " + htmlFile);
+        this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + htmlFile);
 
     }
 
     private void createXMLForSchemaElement(ISchemaElement schemaElement, String xmlFile) {
 
-        /*
-         * ProgressDialog progress = new ProgressDialog(this,
-         * ObservationManager.bundle.getString("progress.wait.title"),
-         * ObservationManager.bundle.getString("progress.wait.xml.info"));
-         */
+     
         // Create new XMLFileLoader for saving our new XML file
         XMLFileLoader xmlHelper =  XMLFileLoaderImpl.newInstance(xmlFile);
 
@@ -189,12 +203,12 @@ public class ObservationManagerHtmlHelper {
         if (schemaElement instanceof IObservation) {
             observations = new IObservation[] { (IObservation) schemaElement };
         } else {
-            observations = this.observationManager.getXmlCache().getObservations(schemaElement);
+            observations = this.xmlCache.getObservations(schemaElement);
         }
 
         if ((observations == null) || (observations.length == 0)) {
             // progress.close();
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.export.xml.noObservationsForSchemaElement"));
+            this.uiHelper.showWarning(textManager.getString("error.export.xml.noObservationsForSchemaElement"));
             return;
         }
 
@@ -209,9 +223,9 @@ public class ObservationManagerHtmlHelper {
         // progress.close();
 
         if (result) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("error.export.xml.ok") + xmlFile);
+            this.uiHelper.showInfo(textManager.getString("error.export.xml.ok") + xmlFile);
         } else {
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.export.xml.nok"));
+            this.uiHelper.showWarning(textManager.getString("error.export.xml.nok"));
         }
 
     }
@@ -240,12 +254,12 @@ public class ObservationManagerHtmlHelper {
     public void createHTML(Document doc, File html, File xslFile) {
 
         if (doc == null) {
-            doc = this.observationManager.getXmlCache().getDocument();
+            doc = this.xmlCache.getDocument();
         }
 
-        String[] files = this.observationManager.getXmlCache().getAllOpenedFiles();
+        String[] files = this.xmlCache.getAllOpenedFiles();
         if ((files == null) || (files.length == 0)) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("error.noXMLFileOpen"));
+            this.uiHelper.showInfo(textManager.getString("error.noXMLFileOpen"));
             return;
         }
 
@@ -259,7 +273,7 @@ public class ObservationManagerHtmlHelper {
 
         boolean result = this.transformXML2HTML(doc, html, xslFile);
         if (result) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("info.htmlExportDir") + " " + html);
+            this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + html);
         } // Otherwise error message have been provided
 
     }
@@ -270,16 +284,16 @@ public class ObservationManagerHtmlHelper {
 
         final String TEMPLATE_FILENAME = "transform";
 
-        String selectedTemplate = this.observationManager.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
+        String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {
             selectedTemplate = "oal2html";
         }
 
-        File path = new File(this.observationManager.getInstallDir().getPathForFolder("xsl") + selectedTemplate + File.separator);
+        File path = new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator);
         if (!path.exists()) {
-            this.observationManager.createWarning(ObservationManager.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
+            this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                     + path.getAbsolutePath());
             return null;
         }
@@ -291,7 +305,7 @@ public class ObservationManagerHtmlHelper {
                                  // not translated
             xslFile = new File(path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + ".xsl");
             if (!xslFile.exists()) {
-                this.observationManager.createWarning(ObservationManager.bundle.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
+                this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
                         + path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + ".xsl\n"
                         + path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + "_"
                         + Locale.getDefault().getLanguage() + ".xsl");
@@ -344,7 +358,7 @@ public class ObservationManagerHtmlHelper {
         // @todo
         // This whole method work only with one file opened!
 
-        File xmlFile = new File(this.observationManager.getXmlCache().getAllOpenedFiles()[0]);
+        File xmlFile = new File(this.xmlCache.getAllOpenedFiles()[0]);
 
         return xmlFile.getParent();
 

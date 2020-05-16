@@ -7,7 +7,6 @@
 
 package de.lehmannet.om.ui.project;
 
-import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,18 +19,17 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.swing.JProgressBar;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
-import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class ProjectLoader {
 
@@ -40,16 +38,25 @@ public class ProjectLoader {
 
     private static final String PROJECTS_DIR = "projects";
 
-    private ObservationManager observationManager = null;
+    private final ObservationManagerModel model;
+    private final CatalogLoader catalogLoader;
+    private final InstallDir installDir;
+    private final UserInterfaceHelper uiHelper;
+
 
     private final List<ProjectCatalog> projectList = new ArrayList<>();
 
     // Used to load projects in parallel
     private final ThreadGroup loadProjects = new ThreadGroup("Load all projects");
 
-    public ProjectLoader(ObservationManager om) {
+    public ProjectLoader(ObservationManagerModel model, CatalogLoader catalogLoader, InstallDir installDir,
+        UserInterfaceHelper uiHelper) {
 
-        this.observationManager = om;
+     
+        this.model = model;
+        this.catalogLoader = catalogLoader;
+        this.installDir = installDir;
+        this.uiHelper = uiHelper;
 
         this.loadProjects();
 
@@ -67,14 +74,16 @@ public class ProjectLoader {
 
         // Must make sure all project loader threads have finished their work
         if (this.loadProjects.activeCount() > 0) {
-            new WaitPopup(this.loadProjects, this.observationManager);
+
+            this.uiHelper.createWaitPopUp(bundle.getString("catalogLoader.info.waitOnLoaders"), this.loadProjects);
+            
         }
 
     }
 
     private void loadProjects() {
 
-        File path = new File(this.observationManager.getInstallDir().getPathForFolder(ProjectLoader.PROJECTS_DIR));
+        File path = new File(this.installDir.getPathForFolder(ProjectLoader.PROJECTS_DIR));
         if (!path.exists()) {
             return;
         }
@@ -106,7 +115,7 @@ public class ProjectLoader {
         File projectFile = null;
         for (String project : projects) {
             projectFile = new File(path.getAbsolutePath() + File.separator + project);
-            ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.observationManager, this.projectList,
+            ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.catalogLoader, this.projectList,
                     userTargets, projectFile);
             Thread thread = new Thread(this.loadProjects, runnable, "Load project " + project);
             projectThreads.add(thread);
@@ -123,7 +132,7 @@ public class ProjectLoader {
 
         List<ITarget> userTargets = new ArrayList<>();
 
-        ITarget[] targets = this.observationManager.getXmlCache().getTargets();
+        ITarget[] targets = this.model.getTargets();
         for (ITarget target : targets) {
             if (target.getObserver() != null) {
                 userTargets.add(target);
@@ -140,14 +149,14 @@ class ProjectLoaderRunnable implements Runnable {
 
     private List<ProjectCatalog> projectList = null;
     private File projectFile = null;
-    private ObservationManager om = null;
+    private CatalogLoader catalogLoader = null;
     private List<ITarget> userTargets = null;
   
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectLoaderRunnable.class);
 
-    public ProjectLoaderRunnable(ObservationManager om, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile) {
+    public ProjectLoaderRunnable(CatalogLoader catalogLoader, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile) {
 
-        this.om = om;
+        this.catalogLoader = catalogLoader;
         this.projectList = projectList;
         this.projectFile = projectFile;
         this.userTargets = userTargets;
@@ -227,9 +236,6 @@ class ProjectLoaderRunnable implements Runnable {
                 return null; // No need to access catalogs directly or via search as this is a user target
             }
         }
-
-        // Handle catalog targets
-        CatalogLoader catalogLoader = om.getExtensionLoader().getCatalogLoader();
 
         // Access target directly (works only if we've a catalog name)
         ISchemaElement target = null;
@@ -333,60 +339,6 @@ class ProjectLoaderRunnable implements Runnable {
         // Create catalog
 
         return new ProjectCatalog(name, (ITarget[]) targets.toArray(new ITarget[] {}));
-
-    }
-
-}
-
-class WaitPopup extends OMDialog {
-
-    private static final long serialVersionUID = -3950819080525084021L;
-
-    private ThreadGroup threadGroup = null;
-
-    public WaitPopup(ThreadGroup threadGroup, ObservationManager om) {
-
-        super(om);
-        this.setLocationRelativeTo(om);
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
-        this.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
-
-        this.threadGroup = threadGroup;
-
-        this.getContentPane().setLayout(new BorderLayout());
-
-        JProgressBar progressBar = new JProgressBar(0, 100);
-        progressBar.setValue(0);
-        progressBar.setIndeterminate(true);
-
-        this.getContentPane().add(progressBar, BorderLayout.CENTER);
-
-        this.setSize(WaitPopup.serialVersionUID, 250, 60);
-      
-
-        Runnable wait = WaitPopup.this::waitForCatalogLoaders;
-
-        Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
-        waitThread.start();
-        this.pack();
-        this.setVisible(true);
-
-    }
-
-    private void waitForCatalogLoaders() {
-
-        while (this.threadGroup.activeCount() > 0) {
-            try {
-                this.threadGroup.wait(300);
-            } catch (InterruptedException ie) {
-                System.err.println("Interrupted while waiting for ThreadGroup.\n" + ie);
-            } catch (IllegalMonitorStateException imse) {
-                // Ignore this
-                System.err.println("Ingnoring \n " + imse);
-            }
-        }
-        this.dispose();
 
     }
 

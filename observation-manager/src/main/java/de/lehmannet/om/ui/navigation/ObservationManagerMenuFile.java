@@ -39,12 +39,15 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.OALException;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -60,16 +63,23 @@ public final class ObservationManagerMenuFile {
     private final ObservationManagerHtmlHelper htmlHelper;
     private final ImageResolver imageResolver;
     private final JMenu menu;
+    private final TextManager textManager;
+    private final UserInterfaceHelper uiHelper;
+    private final ObservationManagerModel model;
 
-    public ObservationManagerMenuFile(IConfiguration configuration, XMLFileLoader xmlCache, ObservationManager om,
-            ObservationManagerHtmlHelper htmlHelper, ImageResolver imageResolver) {
+    public ObservationManagerMenuFile(IConfiguration configuration, ObservationManagerModel model, 
+            ObservationManagerHtmlHelper htmlHelper, ImageResolver imageResolver,
+            TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
-        this.xmlCache = xmlCache;
+        this.model = model;
+        this.xmlCache = this.model.getXmlCache();
         this.observationManager = om;
         this.htmlHelper = htmlHelper;
         this.imageResolver = imageResolver;
+        this.uiHelper = uiHelper;
+        this.textManager = textManager;
 
         this.menu = this.createMenuFileItems();
     }
@@ -86,16 +96,16 @@ public final class ObservationManagerMenuFile {
 
         final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
         // ----- File Menu
-        final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
+        final JMenu fileMenu = new JMenu(textManager.getString("menu.file"));
         fileMenu.setMnemonic('f');
 
-        JMenuItem newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
+        JMenuItem newFile = new JMenuItem(textManager.getString("menu.newFile"),
                 new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
         newFile.setMnemonic('n');
         newFile.addActionListener(new NewFileListener());
         fileMenu.add(newFile);
 
-        JMenuItem openFile = new JMenuItem(ObservationManager.bundle.getString("menu.openFile"),
+        JMenuItem openFile = new JMenuItem(textManager.getString("menu.openFile"),
                 new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null), ""));
         openFile.setMnemonic('o');
         openFile.addActionListener(new OpenFileListener());
@@ -108,14 +118,14 @@ public final class ObservationManagerMenuFile {
         // this.fileMenu.add(openDir); // @todo: Uncomment this as soon as we
         // know what this means
 
-        JMenuItem saveFile = new JMenuItem(ObservationManager.bundle.getString("menu.save"),
+        JMenuItem saveFile = new JMenuItem(textManager.getString("menu.save"),
                 new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
         saveFile.setMnemonic('s');
         saveFile.addActionListener(new SaveFileListener());
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier));
         fileMenu.add(saveFile);
 
-        JMenuItem saveFileAs = new JMenuItem(ObservationManager.bundle.getString("menu.saveAs"),
+        JMenuItem saveFileAs = new JMenuItem(textManager.getString("menu.saveAs"),
                 new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
         saveFileAs.setMnemonic('a');
         saveFileAs.addActionListener(new SaveAsListener());
@@ -123,7 +133,7 @@ public final class ObservationManagerMenuFile {
 
         fileMenu.addSeparator();
 
-        JMenuItem importXML = new JMenuItem(ObservationManager.bundle.getString("menu.xmlImport"),
+        JMenuItem importXML = new JMenuItem(textManager.getString("menu.xmlImport"),
                 new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null), ""));
         importXML.setMnemonic('i');
         importXML.addActionListener(new ImportXmlListener());
@@ -131,7 +141,7 @@ public final class ObservationManagerMenuFile {
 
         fileMenu.addSeparator();
 
-        JMenuItem exportHTML = new JMenuItem(ObservationManager.bundle.getString("menu.htmlExport"),
+        JMenuItem exportHTML = new JMenuItem(textManager.getString("menu.htmlExport"),
                 new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null), ""));
         exportHTML.setMnemonic('e');
         exportHTML.addActionListener(new ExportHtmlListener());
@@ -140,7 +150,7 @@ public final class ObservationManagerMenuFile {
 
         fileMenu.addSeparator();
 
-        JMenuItem exit = new JMenuItem(ObservationManager.bundle.getString("menu.exit"),
+        JMenuItem exit = new JMenuItem(textManager.getString("menu.exit"),
                 new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null), ""));
         exit.setMnemonic('x');
         exit.addActionListener(new ExitListener());
@@ -232,10 +242,10 @@ public final class ObservationManagerMenuFile {
 
         // Show question dialog, whether we should save
         if (changed) {
-            JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.saveBeforeExit.question"),
+            JOptionPane pane = new JOptionPane(textManager.getString("info.saveBeforeExit.question"),
                     JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
             JDialog dialog = pane.createDialog(observationManager,
-                    ObservationManager.bundle.getString("info.saveBeforeExit.title"));
+                    textManager.getString("info.saveBeforeExit.title"));
             dialog.setVisible(true);
             Object selectedValue = pane.getValue();
             if ((selectedValue instanceof Integer)) {
@@ -303,7 +313,7 @@ public final class ObservationManagerMenuFile {
 
         boolean result = this.configuration.saveConfiguration();
         if (!result) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveconfig"));
+            this.createWarning(textManager.getString("error.saveconfig"));
         }
 
         System.exit(0);
@@ -316,15 +326,14 @@ public final class ObservationManagerMenuFile {
 
     public void createWarning(String message) {
 
-        JOptionPane.showMessageDialog(observationManager, message, ObservationManager.bundle.getString("title.warning"),
-                JOptionPane.WARNING_MESSAGE);
+        this.uiHelper.showWarning(message);
 
     }
 
     public void saveFileAs( boolean changed) {
 
         if (this.xmlCache.isEmpty()) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
+            this.createWarning(textManager.getString("error.saveEmpty"));
             return;
         }
 
@@ -357,7 +366,7 @@ public final class ObservationManagerMenuFile {
 
                         boolean result = ObservationManagerMenuFile.this.xmlCache.save(f.getAbsolutePath());
                         if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
+                            message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
                         }
 
@@ -393,7 +402,7 @@ public final class ObservationManagerMenuFile {
 
                         boolean result = ObservationManagerMenuFile.this.xmlCache.saveAs(op, f.getAbsolutePath());
                         if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
+                            message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
                         }
 
@@ -417,8 +426,8 @@ public final class ObservationManagerMenuFile {
 
             }
 
-            new ProgressDialog(observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                    ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
+            this.uiHelper.createProgressDialog(textManager.getString("progress.wait.title"),
+                    textManager.getString("progress.wait.xml.save.info"), calculation);
 
             if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
                 if (calculation.getReturnMessage() != null) {
@@ -470,7 +479,7 @@ public final class ObservationManagerMenuFile {
     public boolean saveFile() {
 
         if (this.xmlCache.isEmpty()) {
-            this.createWarning(ObservationManager.bundle.getString("error.saveEmpty"));
+            this.createWarning(textManager.getString("error.saveEmpty"));
             return false;
         }
 
@@ -494,7 +503,7 @@ public final class ObservationManagerMenuFile {
 
                         boolean result = ObservationManagerMenuFile.this.xmlCache.save(f.getAbsolutePath());
                         if (!result) {
-                            message = ObservationManager.bundle.getString("error.save");
+                            message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
                         }
 
@@ -516,8 +525,8 @@ public final class ObservationManagerMenuFile {
 
                 };
 
-                new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                        ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
+                this.uiHelper.createProgressDialog(textManager.getString("progress.wait.title"),
+                        textManager.getString("progress.wait.xml.save.info"), calculation);
 
                 if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
                     if (calculation.getReturnMessage() != null) {
@@ -564,7 +573,7 @@ public final class ObservationManagerMenuFile {
 
                 boolean result = ObservationManagerMenuFile.this.xmlCache.save(files[0]);
                 if (!result) {
-                    message = ObservationManager.bundle.getString("error.save");
+                    message = textManager.getString("error.save");
                     returnValue = Worker.RETURN_TYPE_ERROR;
                 }
 
@@ -586,8 +595,8 @@ public final class ObservationManagerMenuFile {
 
         };
 
-        new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.save.info"), calculation);
+        new ProgressDialog(this.observationManager, textManager.getString("progress.wait.title"),
+                textManager.getString("progress.wait.xml.save.info"), calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -628,7 +637,7 @@ public final class ObservationManagerMenuFile {
             }
             case 0: {
                 // 0 = Save was ok...continue, but create message before
-                this.createInfo(ObservationManager.bundle.getString("ok.save"));
+                this.createInfo(textManager.getString("ok.save"));
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
@@ -745,7 +754,7 @@ public final class ObservationManagerMenuFile {
             }
             case 0: {
                 // 0 = Save was ok...continue, but create message before
-                this.createInfo(ObservationManager.bundle.getString("ok.save"));
+                this.createInfo(textManager.getString("ok.save"));
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
@@ -819,8 +828,7 @@ public final class ObservationManagerMenuFile {
 
     public void createInfo(String message) {
 
-        JOptionPane.showMessageDialog(observationManager, message, ObservationManager.bundle.getString("title.info"),
-                JOptionPane.INFORMATION_MESSAGE);
+        this.uiHelper.showInfo(textManager.getString("title.info"));
 
     }
 
@@ -872,7 +880,7 @@ public final class ObservationManagerMenuFile {
 
                 boolean result = ObservationManagerMenuFile.this.xmlCache.loadObservations(file);
                 if (!result) {
-                    message = ObservationManager.bundle.getString("error.loadXML") + " " + file;
+                    message = textManager.getString("error.loadXML") + " " + file;
                     returnValue = Worker.RETURN_TYPE_ERROR;
                 }
 
@@ -909,9 +917,8 @@ public final class ObservationManagerMenuFile {
         // below, seems to fix this strange problem
         observationManager.getTableView().showObservations(null, null);
 
-        new ProgressDialog(observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
-
+        this.uiHelper.createProgressDialog(textManager.getString("progress.wait.title"),  textManager.getString("progress.wait.xml.load.info"), calculation);
+        
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
                 this.createInfo(calculation.getReturnMessage());
@@ -990,7 +997,7 @@ public final class ObservationManagerMenuFile {
                     importer.load(importFile, schemaFile);
                 } catch (OALException se) {
                     returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = ObservationManager.bundle.getString("error.import.xmlFile");
+                    message = textManager.getString("error.import.xmlFile");
                     return;
                 }
 
@@ -1029,7 +1036,7 @@ public final class ObservationManagerMenuFile {
                                       // element won't appear on UI)
 
                 // Set success message
-                message = ObservationManager.bundle.getString("ok.import.xmlFile");
+                message = textManager.getString("ok.import.xmlFile");
 
             }
 
@@ -1056,8 +1063,8 @@ public final class ObservationManagerMenuFile {
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
         this.observationManager.setCursor(hourglassCursor);
 
-        new ProgressDialog(this.observationManager, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
+        new ProgressDialog(this.observationManager, textManager.getString("progress.wait.title"),
+                textManager.getString("progress.wait.xml.load.info"), calculation);
 
         // Change cursor back
         Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);

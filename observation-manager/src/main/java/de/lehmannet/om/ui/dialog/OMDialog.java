@@ -13,7 +13,7 @@ public abstract class OMDialog extends JDialog {
 
     public static final String DIALOG_SIZE_KEY = "dialog.size.";
 
-    private JFrame observationManager = null;
+    private JFrame observationManager;
     private long dialogID = -1;
 
     protected OMDialog(JFrame om) {

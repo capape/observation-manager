@@ -3,17 +3,25 @@ package de.lehmannet.om.ui.project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class CatalogManagerImpl implements CatalogManager {
 
-    private final ObservationManager om;
+    private final ObservationManagerModel model;
+    private final InstallDir installDir;
+    private final UserInterfaceHelper uiHelper;
     private final ExtensionLoader extensionLoader;
     private ProjectLoader projectLoader;
 
-    public CatalogManagerImpl(final ObservationManager om, ExtensionLoader extensionLoader) {
-        this.om = om;
+    public CatalogManagerImpl(final ObservationManagerModel model,
+        InstallDir installDir, ExtensionLoader extensionLoader, UserInterfaceHelper uiHelper) {
+        this.model = model;
+        this.installDir =installDir;
+        this.uiHelper = uiHelper;
         this.extensionLoader = extensionLoader;
         this.loadProjectFiles();
     }
@@ -63,7 +71,10 @@ public class CatalogManagerImpl implements CatalogManager {
 
                             LOGGER.debug("Catalog loading done. Start project loading in background...");
                             // Initialite ProjectLoader and start loading projects
-                            this.catalogManager.projectLoader = new ProjectLoader(this.catalogManager.om);
+                            this.catalogManager.projectLoader = 
+                            new ProjectLoader(CatalogManagerImpl.this.model, 
+                            this.catalogManager.extensionLoader.getCatalogLoader(),
+                            CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
                         } else {
                             this.wait(300);
                         }

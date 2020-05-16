@@ -24,7 +24,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     private String titleWhenChanges = CHANGED_SUFFIX;
 
     private final XMLFileLoader xmlCache;
-
+    
     public ObservationManagerModelImpl(XMLFileLoader cache) {
         this.xmlCache = cache;
 
@@ -173,5 +173,9 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     public boolean loadObservations(final String filePath) {
         this.clear();
         return this.xmlCache.loadObservations(filePath);
+    }
+
+    public void exportToHtml() {
+
     }
 }

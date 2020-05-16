@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 
@@ -73,6 +72,8 @@ import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
@@ -81,30 +82,6 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
-
-    // Config keys
-    // public static final String CONFIG_LASTDIR = "om.lastOpenedDir";
-    // public static final String CONFIG_LASTXML = "om.lastOpenedXML";
-    // public static final String CONFIG_OPENONSTARTUP = "om.lastOpenedXML.onStartup";
-    // public static final String CONFIG_CONTENTDEFAULTLANG = "om.content.language.default";
-    // public static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
-    // public static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
-    // public static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
-    // public static final String CONFIG_IMAGESDIR_RELATIVE = "om.imagesDir.relaitve";
-    // public static final String CONFIG_UILANGUAGE = "om.language";
-    // public static final String CONFIG_DEFAULT_OBSERVER = "om.default.observer";
-    // public static final String CONFIG_DEFAULT_CATALOG = "om.default.catalog";
-    // public static final String CONFIG_HELP_HINTS_STARTUP = "om.help.hints.showOnStartup";
-    // public static final String CONFIG_RETRIEVE_ENDDATE_FROM_SESSION = "om.retrieve.endDateFromSession";
-    // public static final String CONFIG_STATISTICS_USE_COOBSERVERS = "om.statistics.useCoObservers";
-    // public static final String CONFIG_XSL_TEMPLATE = "om.transform.xsl.template";
-    // public static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
-    // public static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
-    // public static final String CONFIG_CONSTELLATION_USEI18N = "om.constellation.useI18N";
-    // public static final String CONFIG_UPDATECHECK_STARTUP = "om.update.checkForUpdates";
-    // public static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
-    // public static final String CONFIG_UPDATE_RESTART = "om.update.restart";
-
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
@@ -197,19 +174,17 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             this.splash.start();
         }
 
+        UserInterfaceHelper uiHelper = new  UserInterfaceHelperImpl(this, textManager);
         
         // Set title
         this.setTitle();
 
-        this.extLoader = new ExtensionLoader(this, installDir);
-        this.catalogManager = new CatalogManagerImpl(this, extLoader);
-
-        this.htmlHelper = new ObservationManagerHtmlHelper(this);
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper,
-                imageResolver);
-        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this.imageResolver, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this.imageResolver,
-                this.themeManager, this);
+        this.extLoader = new ExtensionLoader(this, installDir);         // --> DEP  VARIABLE STARS --> DIALOG
+        this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);  
+        this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration, this.installDir,  this.model);     
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper, this.imageResolver, this.textManager, uiHelper, this);
+        this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this.extLoader,
                 this.imageResolver, this);

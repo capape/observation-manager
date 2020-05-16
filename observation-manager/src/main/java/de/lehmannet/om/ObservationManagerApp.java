@@ -1,16 +1,11 @@
 
 package de.lehmannet.om;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.model.ObservationManagerModelImpl;
-import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.i18n.TextManagerImpl;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;

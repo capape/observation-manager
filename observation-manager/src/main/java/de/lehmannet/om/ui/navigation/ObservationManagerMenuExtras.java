@@ -29,7 +29,6 @@ public final class ObservationManagerMenuExtras {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtras.class);
 
-    private final XMLFileLoader xmlCache;
     private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private final JMenu menu;
@@ -39,14 +38,12 @@ public final class ObservationManagerMenuExtras {
 
     public ObservationManagerMenuExtras(        
         IConfiguration configuration,
-        XMLFileLoader xmlCache,
         ImageResolver imageResolver,
         ThemeManager themeManager,
         ObservationManager om) {
        
         // Load configuration
         this.configuration = configuration; 
-        this.xmlCache = xmlCache;
         this.observationManager = om;
         this.imageResolver = imageResolver;
         this.themeManager = themeManager;
