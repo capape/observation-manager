@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -147,13 +148,16 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private String getText() {
 
-        String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH) + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
-        File textDir = new File(path);
+        final String fileHintsFolder = DidYouKnowDialog.TEXT_PATH  + File.separatorChar + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
+        final URL resource = DidYouKnowDialog.class.getClassLoader().getResource(fileHintsFolder);
+        
+      
+        File textDir = new File(resource.getPath());
 
         File[] files = textDir.listFiles(); // Get all files in dir
         if ((files == null) // No files found...
                 || (files.length == 0)) {
-            return "No hint files found in " + path;
+            return "No hint files found ";
         }
 
         int iNumber = 0;
