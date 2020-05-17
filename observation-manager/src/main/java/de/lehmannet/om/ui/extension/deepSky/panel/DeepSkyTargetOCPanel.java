@@ -22,6 +22,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetOC;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -41,8 +42,9 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
     private JTextField brightestStar = null;
     private JTextField stars = null;
     private JTextField clusterClassification = null;
+    private final ObservationManagerModel model;
 
-    public DeepSkyTargetOCPanel(ObservationManager om, ITarget target, Boolean editable)
+    public DeepSkyTargetOCPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -54,6 +56,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
 
         this.target = (DeepSkyTargetOC) target;
         this.observationManager = om;
+        this.model = model;
 
         this.createPanel();
 
@@ -167,7 +170,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.target,
+        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.observationManager, this.model, this.target,
                 this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);

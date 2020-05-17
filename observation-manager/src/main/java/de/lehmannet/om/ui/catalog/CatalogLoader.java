@@ -217,7 +217,7 @@ class CatalogLoaderRunnable implements Runnable {
     public void run() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Catalog loading start: {} {}", this.extension.getName() , System.currentTimeMillis());
+            LOGGER.debug("Catalog loading start: {}", this.extension.getName());
         }
 
         // On huge catalogs, this may take some time:
@@ -233,7 +233,7 @@ class CatalogLoaderRunnable implements Runnable {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Catalog loading done: {} {}", this.extension.getName(), System.currentTimeMillis());
+            LOGGER.debug("Catalog loading done: {}", this.extension.getName());
         }
 
     }

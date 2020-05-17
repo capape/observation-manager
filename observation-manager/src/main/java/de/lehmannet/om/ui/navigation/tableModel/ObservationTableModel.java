@@ -15,6 +15,7 @@ import de.lehmannet.om.Scope;
 import de.lehmannet.om.Site;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 
 public class ObservationTableModel extends AbstractSchemaTableModel {
 
@@ -159,7 +160,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
             value = "";
             if (observation.getTarget().getConstellation() != null) {
                 boolean i18N = Boolean.parseBoolean(
-                        this.om.getConfiguration().getConfig(ObservationManager.CONFIG_CONSTELLATION_USEI18N, "true"));
+                        this.om.getConfiguration().getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
                 if (i18N) {
                     value = observation.getTarget().getConstellation().getDisplayName();
                 } else {

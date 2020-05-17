@@ -2,7 +2,7 @@
 <Configuration>
 
     <Properties>
-        <Property name="custom-pattern-layout">[%d{dd MMM yyyy HH:mm:ss}] [%t] %-5p %25c  - %m%n</Property>
+        <Property name="custom-pattern-layout">%highlight{[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n}</Property>
     </Properties>
 
     <Appenders>

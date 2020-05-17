@@ -11,34 +11,26 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +45,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
 import de.lehmannet.om.ui.dialog.FilterDialog;
@@ -65,50 +58,29 @@ import de.lehmannet.om.ui.dialog.ScopeDialog;
 import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.dialog.TableElementsDialog;
-import de.lehmannet.om.ui.dialog.UnavailableEquipmentDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
+import de.lehmannet.om.ui.project.CatalogManager;
+import de.lehmannet.om.ui.project.CatalogManagerImpl;
 import de.lehmannet.om.ui.project.ProjectCatalog;
-import de.lehmannet.om.ui.project.ProjectLoader;
+import de.lehmannet.om.ui.theme.ThemeManager;
+import de.lehmannet.om.ui.theme.ThemeManagerImpl;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.SplashScreen;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
-import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class ObservationManager extends JFrame implements ActionListener, IObservationManagerJFrame {
+public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
-
-    // Config keys
-    public static final String CONFIG_LASTDIR = "om.lastOpenedDir";
-    public static final String CONFIG_LASTXML = "om.lastOpenedXML";
-    public static final String CONFIG_OPENONSTARTUP = "om.lastOpenedXML.onStartup";
-    public static final String CONFIG_CONTENTDEFAULTLANG = "om.content.language.default";
-    public static final String CONFIG_MAINWINDOW_SIZE = "om.mainwindow.size";
-    public static final String CONFIG_MAINWINDOW_POS = "om.mainwindow.position";
-    public static final String CONFIG_MAINWINDOW_MAXIMIZED = "om.mainwindow.maximized";
-    public static final String CONFIG_IMAGESDIR_RELATIVE = "om.imagesDir.relaitve";
-    public static final String CONFIG_UILANGUAGE = "om.language";
-    public static final String CONFIG_DEFAULT_OBSERVER = "om.default.observer";
-    public static final String CONFIG_DEFAULT_CATALOG = "om.default.catalog";
-    public static final String CONFIG_HELP_HINTS_STARTUP = "om.help.hints.showOnStartup";
-    public static final String CONFIG_RETRIEVE_ENDDATE_FROM_SESSION = "om.retrieve.endDateFromSession";
-    public static final String CONFIG_STATISTICS_USE_COOBSERVERS = "om.statistics.useCoObservers";
-    public static final String CONFIG_XSL_TEMPLATE = "om.transform.xsl.template";
-    public static final String CONFIG_MAINWINDOW_DIVIDER_VERTICAL = "om.mainwindow.divider.vertical";
-    public static final String CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL = "om.mainwindow.divider.horizontal";
-    public static final String CONFIG_CONSTELLATION_USEI18N = "om.constellation.useI18N";
-    public static final String CONFIG_UPDATECHECK_STARTUP = "om.update.checkForUpdates";
-    public static final String CONFIG_NIGHTVISION_ENABLED = "om.nightvision.enable";
-    // public static final String CONFIG_UPDATE_RESTART = "om.update.restart";
-
-    // ResourceBundle will be set in constructor after default locale is defined
-    public static PropertyResourceBundle bundle = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
@@ -125,57 +97,21 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private JSplitPane vSplitPane;
 
     private JMenuBar menuBar;
-    private JMenuItem newFile;
-    private JMenuItem openFile;
-    // private JMenuItem openDir;
-    private JMenuItem saveFile;
-    private JMenuItem saveFileAs;
-    private JMenuItem importXML;
-    private JMenuItem exportHTML;
-    private JCheckBoxMenuItem nightVision;
-    private JMenuItem exit;
-
-    private JMenuItem createObservation;
-    private JMenuItem createObserver;
-    private JMenuItem createSite;
-    private JMenuItem createScope;
-    private JMenuItem createEyepiece;
-    private JMenuItem createImager;
-    private JMenuItem createFilter;
-    private JMenuItem createTarget;
-    private JMenuItem createSession;
-    private JMenuItem createLens;
-    private JMenuItem equipmentAvailability;
-
-    private JMenuItem showStatistics;
-    private JMenuItem preferences;
-    private JMenuItem didYouKnow;
-    private JMenuItem logMenuEntry;
-    private JMenuItem updateMenuEntry;
-
-    private JMenuItem extensionInfo;
-    private JMenuItem installExtension;
-
-    private JMenuItem aboutInfo;
 
     private TableView table;
     private ItemView item;
     private TreeView tree;
-
-    
-    private ProjectLoader projectLoader;
 
     private boolean changed = false; // Indicates if changed where made after
                                      // load.
 
     private Boolean nightVisionOnStartup;
     private Thread splash;
-    private Thread waitForCatalogLoaderThread;
-
 
     private final InstallDir installDir;
-    private final XMLFileLoader xmlCache;
+
     private final IConfiguration configuration;
+    private final ObservationManagerModel model;
 
     final ExtensionLoader extLoader;
 
@@ -186,6 +122,8 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private final ObservationManagerMenuExtensions menuExtensions;
 
     private final ImageResolver imageResolver;
+    private final ThemeManager themeManager;
+    private final TextManager textManager;
 
     private final Map<String, String> uiDataCache = new HashMap<>();
 
@@ -199,78 +137,25 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         return this.htmlHelper;
     }
 
+    private final CatalogManager catalogManager;
 
-    public static class Builder {
-        private String locale;
-        private String nightVision;
-        private InstallDir installDir;
-        private IConfiguration configuration;
-        private XMLFileLoader xmlCache;
-        private ImageResolver imageResolver;
-  
-        public Builder locale(String locale) {
-            this.locale = locale;
-            return this;
-        }
-        
-        public Builder nightVision(String nightVision) {
-            this.nightVision = nightVision;
-            return this;
-        }
-        public Builder installDir(InstallDir installDir) {
-            this.installDir = installDir;
-            return this;
-        }
-        public Builder configuration(IConfiguration configuration) {
-            this.configuration= configuration;
-            return this;
-        }
-        public Builder xmlCache(XMLFileLoader value) {
-            this.xmlCache = value;
-            return this;
-        }
-
-        public Builder imageResolver(ImageResolver value) {
-            this.imageResolver = value;
-            return this;
-        }
-
-       
-
-
-        public ObservationManager build()  {
-
-            return new ObservationManager(this);
-        }
-
-    }
    
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
         this.configuration = builder.configuration;
-        this.xmlCache = builder.xmlCache;
         this.imageResolver = builder.imageResolver;
-       
-        
-     
+        this.textManager = builder.textManager;
+        this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
+        this.model = builder.model;
+
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
-        
-        this.htmlHelper = new ObservationManagerHtmlHelper(this);
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.xmlCache, this, htmlHelper, imageResolver);
-        this.menuData = new ObservationManagerMenuData(this.configuration, this.xmlCache, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.xmlCache, this);
-        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.xmlCache, this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this);
-
-        this.extLoader = new ExtensionLoader(this, installDir);
-
 
         boolean nightVisionOnStartup = Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_NIGHTVISION_ENABLED, "false"));
+                .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
             nightVisionOnStartup = this.nightVisionOnStartup;
         }
@@ -281,13 +166,23 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
             this.splash.start();
         }
 
-        // After we checked arguments and configuration, we can load language
-        // bundle (language might be set as argument or
-        // configuration)
-        this.loadLanguage();
+        UserInterfaceHelper uiHelper = new UserInterfaceHelperImpl(this, textManager);
 
         // Set title
         this.setTitle();
+
+        this.extLoader = new ExtensionLoader(this, this.model, this.installDir); // --> DEP VARIABLE STARS --> DIALOG
+        this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);
+        this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration,
+                this.installDir, this.model);
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper,
+                this.imageResolver, this.textManager, uiHelper, this.installDir, this);
+        this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this.textManager, uiHelper, this.model,
+                this);
+        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this);
+        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
+                this.imageResolver, this.textManager, uiHelper, this);
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -299,15 +194,12 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
-        
-
         // Init menu and disable it during startup
         this.initMenuBar();
         this.enableMenus(false);
 
         // Set nightvision theme
         if (nightVisionOnStartup) {
-            this.nightVision.setSelected(true);
             this.menuExtras.enableNightVisionTheme(true);
         }
 
@@ -324,18 +216,15 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         // this.performRestartUpdate();
         // ****************************************************************
 
-        // Load XML File on startup (if desired)
-        this.loadConfig();
+        this.loadConfigFiles();
 
-        // Start loading of asynchronous project file(s)
-        this.loadProjectFiles();
+        this.table.showObservations(null, null);
+        this.tree.updateTree();
 
         this.checkForUpdatesOnLoad();
 
         // If we should show the hints on startup, do so now...
-        if (Boolean.parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_HELP_HINTS_STARTUP, "true")))
-
-        {
+        if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, true)) {
             this.menuExtras.showDidYouKnow();
         }
 
@@ -346,95 +235,60 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.enableMenus(true);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Up and running: {} " , new Date());
+            LOGGER.debug("Up and running: {} ", new Date());
             LOGGER.debug(SystemInfo.printMemoryUsage());
         }
 
     }
 
-    private void checkForUpdatesOnLoad() {
-        // Check for updates
-        if (Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_UPDATECHECK_STARTUP, "false"))) {
-            this.menuExtras.checkUpdates();
+    private void loadConfigFiles() {
+        // Load XML File on startup (if desired)
+        final ObservationManagerFileLoader fileLoader;
+        fileLoader = new ObservationManagerFileLoader(configuration, model);
 
-        }
+        final Worker configLoader = new Worker() {
+            Pair<String, Boolean> result;
+
+            @Override
+            public void run() {
+
+                result = fileLoader.loadConfig().orElse(Pair.of("Not loaded", true));
+
+            }
+
+            @Override
+            public String getReturnMessage() {
+
+                if (result.getRight()) {
+                    return "";
+                }
+
+                return ObservationManager.this.textManager.getString("error.loadXML") + " " + result.getLeft();
+
+            }
+
+            @Override
+            public byte getReturnType() {
+
+                if (result.getRight()) {
+                    return Worker.RETURN_TYPE_OK;
+                } else {
+                    return Worker.RETURN_TYPE_ERROR;
+                }
+
+            }
+
+        };
+
+        new ProgressDialog(this, this.textManager.getString("progress.wait.title"),
+                this.textManager.getString("progress.wait.xml.load.info"), configLoader);
     }
 
-    // --------------
-    // ActionListener ---------------------------------------------------------
-    // --------------
-
-    @Override
-    public void actionPerformed(final ActionEvent e) {
-
-        if (e.getSource() instanceof JMenuItem) {
-            final JMenuItem source = (JMenuItem) e.getSource();
-            if (source.equals(this.exit)) {
-                this.menuFile.exit(this.changed);
-            } else if (source.equals(this.newFile)) {
-                this.menuFile.newFile(this.changed);
-            } else if (source.equals(this.openFile)) {
-                this.menuFile.openFile(this.changed);
-                /*
-                 * } else if( source.equals(this.openDir) ) { this.openDir();
-                 */
-            } else if (source.equals(this.saveFile)) {
-                this.menuFile.saveFile();
-            } else if (source.equals(this.saveFileAs)) {
-                this.menuFile.saveFileAs(this.changed);
-            } else if (source.equals(this.importXML)) {
-                this.menuFile.importXML(this.changed);
-            } else if (source.equals(this.exportHTML)) {
-                this.menuFile.createHTML();
-            } else if (source.equals(this.createObservation)) {
-                this.menuData.createNewObservation();
-            } else if (source.equals(this.createObserver)) {
-                this.menuData.createNewObserver();
-            } else if (source.equals(this.createSite)) {
-                this.menuData.createNewSite();
-            } else if (source.equals(this.createScope)) {
-                this.menuData.createNewScope();
-            } else if (source.equals(this.createEyepiece)) {
-                this.menuData.createNewEyepiece();
-            } else if (source.equals(this.createImager)) {
-                this.menuData.createNewImager();
-            } else if (source.equals(this.createFilter)) {
-                this.menuData.createNewFilter();
-            } else if (source.equals(this.createLens)) {
-                this.menuData.createNewLens();
-            } else if (source.equals(this.createTarget)) {
-                this.menuData.createNewTarget();
-            } else if (source.equals(this.createSession)) {
-                this.menuData.createNewSession();
-            } else if (source.equals(this.equipmentAvailability)) {
-                final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(this, this.imageResolver);
-                this.setChanged(uqd.changedElements());
-            } else if (source.equals(this.nightVision)) {
-                if (this.nightVision.isSelected()) {
-                    this.menuExtras.enableNightVisionTheme(true);
-                } else {
-                    this.menuExtras.enableNightVisionTheme(false);
-                }
-            } else if (source.equals(this.showStatistics)) {
-                this.menuExtras.showStatistics();
-            } else if (source.equals(this.preferences)) {
-                this.menuExtras.showPreferencesDialog();
-            } else if (source.equals(this.didYouKnow)) {
-                this.menuExtras.showDidYouKnow();
-            } else if (source.equals(this.logMenuEntry)) {
-                this.menuExtras.showLogDialog();
-            } else if (source.equals(this.updateMenuEntry)) {
-                this.menuExtras.checkUpdates();
-            } else if (source.equals(this.extensionInfo)) {
-                this.menuExtensions.showExtensionInfo();
-            } else if (source.equals(this.installExtension)) {
-                this.menuExtensions.installExtension(null);
-            } else if (source.equals(this.aboutInfo)) {
-                this.menuHelp.showInfo();
-            }
+    private void checkForUpdatesOnLoad() {
+        // Check for updates
+        if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP, false)) {
+            this.menuExtras.checkUpdates();
         }
-
     }
 
     @Override
@@ -454,8 +308,9 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     public void reloadLanguage() {
 
         // Load new bundle
-        this.loadLanguage();
-
+        final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
+        this.textManager.useLanguage(isoKey);
+    
         // Reload title
         this.setTitle();
 
@@ -493,9 +348,9 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         }
 
         // Confirmation pop-up
-        final JOptionPane pane = new JOptionPane(ObservationManager.bundle.getString("info.delete.question"),
+        final JOptionPane pane = new JOptionPane(this.textManager.getString("info.delete.question"),
                 JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-        final JDialog dialog = pane.createDialog(this, ObservationManager.bundle.getString("info.delete.title"));
+        final JDialog dialog = pane.createDialog(this, this.textManager.getString("info.delete.title"));
         dialog.setVisible(true);
         final Object selectedValue = pane.getValue();
         if ((selectedValue instanceof Integer)) {
@@ -504,10 +359,10 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
             }
         }
 
-        final List<ISchemaElement> result = this.xmlCache.removeSchemaElement(element);
+        final List<ISchemaElement> result = this.model.remove(element);
         if (result == null) { // Deletion failed
             if (element instanceof ITarget) {
-                this.createWarning(ObservationManager.bundle.getString("error.deleteTargetFromCatalog"));
+                this.createWarning(this.textManager.getString("error.deleteTargetFromCatalog"));
                 return;
             }
             System.err.println("Error during deletion of element: " + element);
@@ -515,117 +370,10 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         }
 
         if (result.isEmpty()) { // Deletion successful
-            this.setChanged(true);
             this.update(element);
         } else { // Deletion failed due to dependencies
             new TableElementsDialog(this, result);
         }
-
-    }
-
-    public void loadFiles(final String[] files) {
-
-        if ((files == null) || (files.length == 0)) {
-            return;
-        }
-
-        for (final String file : files) {
-            this.loadFile(file);
-        }
-
-    }
-
-    private void loadFile(final String file) {
-
-        if (file == null) {
-            return;
-        }
-
-        this.cleanUp();
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Load File: {}" , new Date());
-            LOGGER.debug(SystemInfo.printMemoryUsage());
-        }
-
-        final Worker calculation = new Worker() {
-
-            private String message;
-            private byte returnValue = Worker.RETURN_TYPE_OK;
-
-            @Override
-            public void run() {
-
-                final boolean result = ObservationManager.this.xmlCache.loadObservations(file);
-                if (!result) {
-                    message = ObservationManager.bundle.getString("error.loadXML") + " " + file;
-                    returnValue = Worker.RETURN_TYPE_ERROR;
-                }
-
-                ObservationManager.this.table.showObservations(null, null);
-                ObservationManager.this.tree.updateTree();
-
-            }
-
-            @Override
-            public String getReturnMessage() {
-
-                return message;
-
-            }
-
-            @Override
-            public byte getReturnType() {
-
-                return returnValue;
-
-            }
-
-        };
-
-        // This should avoid some nasty ArrayIndexOutOfBoundsExceptions which
-        // are
-        // thrown time by time at the ProgressDialog.setVisible(true) call.
-        // Problems seems that the DefaultTableModelRenderer tries to update a
-        // certain
-        // part of the screen while the ProgressDialogs calculation thread is
-        // currently
-        // loading the XML file. This seems to cause the problem. Clearing the
-        // table like
-        // below, seems to fix this strange problem
-        this.table.showObservations(null, null);
-
-        new ProgressDialog(this, ObservationManager.bundle.getString("progress.wait.title"),
-                ObservationManager.bundle.getString("progress.wait.xml.load.info"), calculation);
-
-        if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
-            if (calculation.getReturnMessage() != null) {
-                this.createInfo(calculation.getReturnMessage());
-            }
-        } else {
-            this.createWarning(calculation.getReturnMessage());
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Loaded: {}" , new Date());
-            LOGGER.debug(SystemInfo.printMemoryUsage());
-        }
-
-    }
-
-    private void loadFile(final File file) {
-
-        if (file == null) {
-            return;
-        }
-
-        this.loadFile(file.getAbsolutePath());
-
-    }
-
-    public XMLFileLoader getXmlCache() {
-
-        return this.xmlCache;
 
     }
 
@@ -706,7 +454,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     public void update(final ISchemaElement element) {
 
         // Update cache
-        this.xmlCache.updateSchemaElement(element);
+        this.model.update(element);
 
         // Update tree (clears old data and refreshes it completely)
         this.updateLeft();
@@ -718,6 +466,8 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     public void setChanged(final boolean changed) {
 
+        this.model.setChanged(true);
+
         if ((changed) // From unchanged to changed
                 && (!this.changed)) {
             this.setTitle(this.getTitle() + " *");
@@ -726,6 +476,10 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         }
         this.changed = changed;
 
+    }
+
+    public boolean isChanged() {
+        return this.model.hasChanged();
     }
 
     public ItemView getItemView() {
@@ -760,14 +514,14 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     public void createWarning(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.warning"),
+        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.warning"),
                 JOptionPane.WARNING_MESSAGE);
 
     }
 
     public void createInfo(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, ObservationManager.bundle.getString("title.info"),
+        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.info"),
                 JOptionPane.INFORMATION_MESSAGE);
 
     }
@@ -778,28 +532,9 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     }
 
-    
-    public boolean isNightVisionEnabled() {
-
-        return this.nightVision.isSelected();
-
-    }
-
     public ProjectCatalog[] getProjects() {
 
-        // Wait for ProjectLoader to finish
-        if (this.waitForCatalogLoaderThread.isAlive()) {
-            try {
-                this.waitForCatalogLoaderThread.join();
-            } catch (final InterruptedException ie) {
-                System.err.println(
-                        "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.");
-                return null;
-            }
-        }
-
-        return this.projectLoader.getProjects();
-
+        return catalogManager.getProjects();
     }
 
     public void resetWindowSizes() {
@@ -808,58 +543,11 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     }
 
-    private void loadConfig() {
-
-        // Check if we should load last loaded XML on startup
-        final boolean load = Boolean
-                .parseBoolean(this.configuration.getConfig(ObservationManager.CONFIG_OPENONSTARTUP));
-        if (load) {
-            final String lastFile = this.configuration.getConfig(ObservationManager.CONFIG_LASTXML);
-            // Check if last file is set
-            if ((lastFile != null) && !("".equals(lastFile.trim()))) {
-                this.loadFile(new File(lastFile));
-            }
-        }
-
-    }
-
-    private void cleanUp() {
-
-        this.xmlCache.clear();
-        this.tree.updateTree();
-        this.uiDataCache.clear();
-
-    }
-
-    private void loadLanguage() {
-
-        // Locale.default might be already set by parseArguments
-
-        // Try to find value in config
-        final String isoKey = this.configuration.getConfig(ObservationManager.CONFIG_UILANGUAGE);
-        if (isoKey != null) {
-            Locale.setDefault(new Locale(isoKey, isoKey));
-            System.setProperty("user.language", isoKey);
-            System.setProperty("user.region", isoKey);
-            JComponent.setDefaultLocale(Locale.getDefault());
-        }
-
-        try {
-            ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                    Locale.getDefault());
-        } catch (final MissingResourceException mre) { // Unknown VM language (and
-            // language not explicitly
-            // set)
-            Locale.setDefault(Locale.ENGLISH);
-            ObservationManager.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                    Locale.getDefault());
-        }
-
-    }
-
     private void setTitle() {
 
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
+        String title = "Observation Manager - " + this.textManager.getString("version") + " "
+                + ObservationManager.VERSION;
         if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
                                                                 // correct in
                                                                 // Linux/Gnome3
@@ -867,252 +555,25 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
             try {
                 final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
                 awtAppClassName.setAccessible(true);
-                awtAppClassName.set(null, "Observation Manager - " + ObservationManager.bundle.getString("version")
-                        + " " + ObservationManager.VERSION);
+                awtAppClassName.set(null, title);
             } catch (final Exception e) {
                 // Cannot do much here
             }
         }
 
-        this.setTitle("Observation Manager - " + ObservationManager.bundle.getString("version") + " "
-                + ObservationManager.VERSION);
+        this.setTitle(title);
 
     }
 
     private void initMenuBar() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-
         this.menuBar = new JMenuBar();
-
-        // ----- File Menu
-        final JMenu fileMenu = new JMenu(ObservationManager.bundle.getString("menu.file"));
-        fileMenu.setMnemonic('f');
-        this.menuBar.add(fileMenu);
-
-        this.newFile = new JMenuItem(ObservationManager.bundle.getString("menu.newFile"),
-                new ImageIcon(this.imageResolver.getImageURL("newDocument.png").orElse(null), ""));
-        this.newFile.setMnemonic('n');
-        this.newFile.addActionListener(this);
-        fileMenu.add(newFile);
-
-        this.openFile = new JMenuItem(ObservationManager.bundle.getString("menu.openFile"),
-                new ImageIcon(this.imageResolver.getImageURL("open.png").orElse(null), ""));
-        this.openFile.setMnemonic('o');
-        this.openFile.addActionListener(this);
-        this.openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuKeyModifier));
-        fileMenu.add(openFile);
-
-        // this.openDir = new JMenuItem("Open dir");
-        // this.openDir.setMnemonic('d');
-        // this.openDir.addActionListener(this);
-        // this.fileMenu.add(openDir); // @todo: Uncomment this as soon as we
-        // know what this means
-
-        this.saveFile = new JMenuItem(ObservationManager.bundle.getString("menu.save"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
-        this.saveFile.setMnemonic('s');
-        this.saveFile.addActionListener(this);
-        this.saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier));
-        fileMenu.add(saveFile);
-
-        this.saveFileAs = new JMenuItem(ObservationManager.bundle.getString("menu.saveAs"),
-                new ImageIcon(this.imageResolver.getImageURL("save.png").orElse(null), ""));
-        this.saveFileAs.setMnemonic('a');
-        this.saveFileAs.addActionListener(this);
-        fileMenu.add(saveFileAs);
-
-        fileMenu.addSeparator();
-
-        this.importXML = new JMenuItem(ObservationManager.bundle.getString("menu.xmlImport"),
-                new ImageIcon(this.imageResolver.getImageURL("importXML.png").orElse(null), ""));
-        this.importXML.setMnemonic('i');
-        this.importXML.addActionListener(this);
-        fileMenu.add(importXML);
-
-        fileMenu.addSeparator();
-
-        this.exportHTML = new JMenuItem(ObservationManager.bundle.getString("menu.htmlExport"),
-                new ImageIcon(this.imageResolver.getImageURL("export.png").orElse(null), ""));
-        this.exportHTML.setMnemonic('e');
-        this.exportHTML.addActionListener(this);
-        this.exportHTML.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, menuKeyModifier));
-        fileMenu.add(exportHTML);
-
-        fileMenu.addSeparator();
-
-        this.exit = new JMenuItem(ObservationManager.bundle.getString("menu.exit"),
-                new ImageIcon(this.imageResolver.getImageURL("exit.png").orElse(null), ""));
-        this.exit.setMnemonic('x');
-        this.exit.addActionListener(this);
-        fileMenu.add(exit);
-
-        // ----- Data Menu
-        final JMenu dataMenu = new JMenu(ObservationManager.bundle.getString("menu.data"));
-        dataMenu.setMnemonic('d');
-        this.menuBar.add(dataMenu);
-
-        this.createObservation = new JMenuItem(ObservationManager.bundle.getString("menu.createObservation"),
-                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
-        this.createObservation.setMnemonic('o');
-        this.createObservation.addActionListener(this);
-        this.createObservation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuKeyModifier));
-        dataMenu.add(createObservation);
-
-        // Seperate Observation from the rest
-        dataMenu.addSeparator();
-
-        this.createObserver = new JMenuItem(ObservationManager.bundle.getString("menu.createObserver"),
-                new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), ""));
-        this.createObserver.setMnemonic('v');
-        this.createObserver.addActionListener(this);
-        dataMenu.add(createObserver);
-
-        this.createSite = new JMenuItem(ObservationManager.bundle.getString("menu.createSite"),
-                new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), ""));
-        this.createSite.setMnemonic('l');
-        this.createSite.addActionListener(this);
-        dataMenu.add(createSite);
-
-        this.createScope = new JMenuItem(ObservationManager.bundle.getString("menu.createScope"),
-                new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), ""));
-        this.createScope.setMnemonic('s');
-        this.createScope.addActionListener(this);
-        dataMenu.add(createScope);
-
-        this.createEyepiece = new JMenuItem(ObservationManager.bundle.getString("menu.createEyepiece"),
-                new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), ""));
-        this.createEyepiece.setMnemonic('e');
-        this.createEyepiece.addActionListener(this);
-        dataMenu.add(createEyepiece);
-
-        this.createLens = new JMenuItem(ObservationManager.bundle.getString("menu.createLens"),
-                new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), ""));
-        this.createLens.setMnemonic('o');
-        this.createLens.addActionListener(this);
-        dataMenu.add(createLens);
-
-        this.createFilter = new JMenuItem(ObservationManager.bundle.getString("menu.createFilter"),
-                new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), ""));
-        this.createFilter.setMnemonic('f');
-        this.createFilter.addActionListener(this);
-        dataMenu.add(createFilter);
-
-        this.createImager = new JMenuItem(ObservationManager.bundle.getString("menu.createImager"),
-                new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), ""));
-        this.createImager.setMnemonic('i');
-        this.createImager.addActionListener(this);
-        dataMenu.add(createImager);
-
-        this.createTarget = new JMenuItem(ObservationManager.bundle.getString("menu.createTarget"),
-                new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), ""));
-        this.createTarget.setMnemonic('t');
-        this.createTarget.addActionListener(this);
-        dataMenu.add(createTarget);
-
-        this.createSession = new JMenuItem(ObservationManager.bundle.getString("menu.createSession"),
-                new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), ""));
-        this.createSession.setMnemonic('n');
-        this.createSession.addActionListener(this);
-        dataMenu.add(createSession);
-
-        // Seperate Availability from the rest
-        dataMenu.addSeparator();
-
-        this.equipmentAvailability = new JMenuItem(ObservationManager.bundle.getString("menu.equipmentAvailability"),
-                new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null), ""));
-        this.equipmentAvailability.setMnemonic('a');
-        this.equipmentAvailability.addActionListener(this);
-        dataMenu.add(equipmentAvailability);
-
-        // ----- Extras Menu
-        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
-        extraMenu.setMnemonic('e');
-        this.menuBar.add(extraMenu);
-
-        this.showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
-                new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
-        this.showStatistics.setMnemonic('s');
-        this.showStatistics.addActionListener(this);
-        extraMenu.add(showStatistics);
-
-        this.preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
-                new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
-        this.preferences.setMnemonic('p');
-        this.preferences.addActionListener(this);
-        extraMenu.add(preferences);
-
-        extraMenu.addSeparator();
-
-        this.didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
-                new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
-        this.didYouKnow.setMnemonic('d');
-        this.didYouKnow.addActionListener(this);
-        this.didYouKnow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        extraMenu.add(didYouKnow);
-
-        extraMenu.addSeparator();
-
-        this.nightVision = new JCheckBoxMenuItem(ObservationManager.bundle.getString("menu.nightVision"));
-        this.nightVision.setMnemonic('v');
-        this.nightVision.addActionListener(this);
-        extraMenu.add(nightVision);
-
-        extraMenu.addSeparator();
-
-        this.logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
-                new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
-        this.logMenuEntry.setMnemonic('l');
-        this.logMenuEntry.addActionListener(this);
-        extraMenu.add(logMenuEntry);
-
-        extraMenu.addSeparator();
-
-        this.updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
-                new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
-        this.updateMenuEntry.setMnemonic('u');
-        this.updateMenuEntry.addActionListener(this);
-        extraMenu.add(updateMenuEntry);
-
-        // ----- Extensions Menu
-        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
-        extensionMenu.setMnemonic('x');
-        this.menuBar.add(extensionMenu);
-
-        final JMenu[] menus = this.extLoader.getMenus();
-        for (final JMenu menu : menus) {
-            extensionMenu.add(menu);
-        }
-
-        if (menus.length != 0) {
-            extensionMenu.addSeparator();
-        }
-
-        this.extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
-                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
-        this.extensionInfo.setMnemonic('p');
-        this.extensionInfo.addActionListener(this);
-        extensionMenu.add(extensionInfo);
-
-        this.installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
-                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
-        this.installExtension.setMnemonic('i');
-        this.installExtension.addActionListener(this);
-        extensionMenu.add(installExtension);
-
-        // ----- About Menu
-        final JMenu aboutMenu = new JMenu(ObservationManager.bundle.getString("menu.about"));
-        aboutMenu.setMnemonic('a');
-        this.menuBar.add(aboutMenu);
-
-        this.aboutInfo = new JMenuItem(ObservationManager.bundle.getString("menu.aboutOM"),
-                new ImageIcon(this.imageResolver.getImageURL("about.png").orElse(null), ""));
-        this.aboutInfo.setMnemonic('i');
-        this.aboutInfo.addActionListener(this);
-        aboutMenu.add(aboutInfo);
-
+        this.menuBar.add(this.menuFile.getMenu());
+        this.menuBar.add(this.menuData.getMenu());
+        this.menuBar.add(this.menuExtras.getMenu());
+        this.menuBar.add(this.menuExtensions.getMenu());
+        this.menuBar.add(this.menuHelp.getMenu());
         this.setJMenuBar(this.menuBar);
-
     }
 
     private void initMain() {
@@ -1155,7 +616,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         final Dimension maxSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Get last size
-        final String stringSize = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_SIZE,
+        final String stringSize = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_SIZE,
                 maxSize.width + "x" + maxSize.height);
         int width = Integer.parseInt(stringSize.substring(0, stringSize.indexOf('x')));
         int height = Integer.parseInt(stringSize.substring(stringSize.indexOf('x') + 1));
@@ -1169,7 +630,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         this.setSize(size);
 
         // Location
-        final String stringLocation = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_POS);
+        final String stringLocation = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_POS);
         int x = 0;
         int y = 0;
         if (stringLocation != null && !"".equals(stringLocation.trim())) {
@@ -1187,7 +648,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
         // Check if we're maximized the last time, and if so, maximized again
         final boolean maximized = Boolean.parseBoolean(
-                this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(false)));
+                this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_MAXIMIZED, Boolean.toString(false)));
         if (maximized) {
             this.setExtendedState(Frame.MAXIMIZED_BOTH);
         }
@@ -1197,8 +658,8 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
     private void setDividerLocation() {
 
         // Set dividers
-        String sVertical = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_VERTICAL);
-        String sHorizontal = this.configuration.getConfig(ObservationManager.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL);
+        String sVertical = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_VERTICAL);
+        String sHorizontal = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL);
 
         float vertical = 0;
         float horizontal = 0;
@@ -1229,9 +690,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     private TableView initTableView() {
 
-        final TableView table = new TableView(this);
-        // table.setMinimumSize(new Dimension(this.getWidth()/2,
-        // this.getHeight()));
+        final TableView table = new TableView(this, this.model, this.textManager);
         table.setVisible(true);
 
         return table;
@@ -1240,9 +699,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     private ItemView initItemView() {
 
-        final ItemView item = new ItemView(this, this.imageResolver);
-        // item.setMinimumSize(new Dimension(this.getWidth()/2,
-        // this.getHeight()));
+        final ItemView item = new ItemView(this, this.model, this.imageResolver);
         item.setVisible(true);
 
         return item;
@@ -1251,7 +708,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     private TreeView initTreeView() {
 
-        final TreeView tree = new TreeView(this, this.imageResolver);
+        final TreeView tree = new TreeView(this, this.model, this.textManager,this.imageResolver);
         tree.setMinimumSize(new Dimension(this.getWidth() / 8, this.getHeight()));
         tree.setVisible(true);
 
@@ -1264,57 +721,6 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
         for (int i = 0; i < this.menuBar.getMenuCount(); i++) {
             this.menuBar.getMenu(i).setEnabled(enabled);
         }
-
-    }
-
-    private void loadProjectFiles() {
-
-        // Create an own thread that waits for the catalog loader
-        // to finish. Only if all catalogs are loaded the project loader
-        // might start in the background
-
-        class WaitForCatalogLoader implements Runnable {
-
-            private ObservationManager om = null;
-
-            WaitForCatalogLoader(final ObservationManager om) {
-
-                this.om = om;
-
-            }
-
-            @Override
-            public void run() {
-
-                while (this.om.projectLoader == null) {
-                    try {
-                        if (!this.om.getExtensionLoader().getCatalogLoader().isLoading()) {
-                            
-                            LOGGER.debug("Catalog loading done. Start project loading in background...");
-                            
-                            this.om.projectLoader = new ProjectLoader(this.om); // Initialite
-                                                                                // ProjectLoader
-                                                                                // and
-                                                                                // start
-                                                                                // loading
-                                                                                // projects
-                        } else {
-                            this.wait(300);
-                        }
-                    } catch (final InterruptedException ie) {
-                        System.err.println("Interrupted while waiting for Catalog Loader to finish.\n" + ie);
-                    } catch (final IllegalMonitorStateException imse) {
-                        // Ignore this
-                    }
-                }
-
-            }
-
-        }
-
-        this.waitForCatalogLoaderThread = new Thread(new WaitForCatalogLoader(this),
-                "Waiting for Catalog Loader to finish");
-        waitForCatalogLoaderThread.start();
 
     }
 
@@ -1378,7 +784,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
                 final ISchemaElement element = ObservationManager.this.getSelectedTableElement();
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
-                    new ObservationDialog(ObservationManager.this, (IObservation) element);
+                    new ObservationDialog(ObservationManager.this, ObservationManager.this.model, ObservationManager.this.textManager, (IObservation) element);
                 } else if (element instanceof ITarget) {
                     final ITarget target = (ITarget) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
@@ -1396,7 +802,7 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
                 } else if (element instanceof IFilter) {
                     new FilterDialog(ObservationManager.this, (IFilter) element);
                 } else if (element instanceof ISession) {
-                    new SessionDialog(ObservationManager.this, (ISession) element);
+                    new SessionDialog(ObservationManager.this, ObservationManager.this.model, (ISession) element);
                 } else if (element instanceof IObserver) {
                     new ObserverDialog(ObservationManager.this, (IObserver) element);
                 } else if (element instanceof ILens) {
@@ -1452,87 +858,66 @@ public class ObservationManager extends JFrame implements ActionListener, IObser
 
     }
 
+    public boolean isNightVisionEnabled() {
+        return this.themeManager.isNightVision();
+    }
+
+    public static class Builder {
+        private String locale;
+        private String nightVision;
+        private InstallDir installDir;
+        private IConfiguration configuration;
+        private ImageResolver imageResolver;
+        private TextManager textManager;
+        private ObservationManagerModel model;
+
+        public Builder(ObservationManagerModel model) {
+            this.model = model;
+        }
+
+        public Builder locale(String locale) {
+            this.locale = locale;
+            return this;
+        }
+
+        public Builder nightVision(String nightVision) {
+            this.nightVision = nightVision;
+            return this;
+        }
+
+        public Builder installDir(InstallDir installDir) {
+            this.installDir = installDir;
+            return this;
+        }
+
+        public Builder configuration(IConfiguration configuration) {
+            this.configuration = configuration;
+            return this;
+        }
+
+        public Builder imageResolver(ImageResolver value) {
+            this.imageResolver = value;
+            return this;
+        }
+
+        public Builder textManager(TextManager value) {
+            this.textManager = value;
+            return this;
+        }
+
+        public ObservationManager build() {
+
+            return new ObservationManager(this);
+        }
+
+    }
+
+    /**
+     * created to prepare next refactor step for AbstractDialog
+     */
+    @Deprecated
+    public ObservationManagerModel getModel() {
+        return this.model;
+
+    }
 }
-
-class TeeLog extends PrintStream {
-
-    private PrintStream console = null;
-    private final byte[] prefix;
-
-    private static final Object syncMe = new Object();
-
-    public TeeLog(final PrintStream file) {
-
-        this(file, "");
-
-    }
-
-    public TeeLog(final PrintStream file, final String prefix) {
-
-        // Parent class writes to file
-        super(file);
-
-        // Prefix we set for every entry
-        this.prefix = prefix.getBytes();
-
-        // We write to console
-        this.console = System.out;
-
-    }
-
-    @Override
-    public void write(final byte[] buf, final int off, final int len) {
-
-        if ((buf == null) || (buf.length == 0)) {
-            return;
-        }
-
-        final String now = "  " + new Date().toString() + "\t";
-        try {
-            synchronized (TeeLog.syncMe) {
-                if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
-                        || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
-                ) {
-                    this.write(this.prefix, 0, this.prefix.length);
-                    this.write(now.getBytes(), 0, now.length());
-                }
-                this.write(buf, off, len);
-
-                if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
-                        || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
-                ) {
-                    this.console.write(this.prefix, 0, this.prefix.length);
-                    this.console.write(now.getBytes(), 0, now.length());
-                }
-                this.console.write(buf, off, len);
-            }
-        } catch (final Exception e) {
-            // Can't do anything in here
-        }
-
-    }
-
-    @Override
-    public void flush() {
-
-        super.flush();
-        synchronized (TeeLog.syncMe) {
-            this.console.flush();
-        }
-
-    }
-
-
-}
-
-

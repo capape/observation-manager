@@ -1,6 +1,8 @@
 package de.lehmannet.om.ui.navigation;
 
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,56 +11,62 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
-import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public final class ObservationManagerMenuExtensions {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtensions.class);
 
-    private final XMLFileLoader xmlCache;
     private final IConfiguration configuration;
     private final ObservationManager observationManager;
-    
+    private final JMenu menu;
+    private final ExtensionLoader extensionLoader;
+    private final ImageResolver imageResolver;
+    private final TextManager textManager;
+    private final UserInterfaceHelper uiHelper;
 
-    public ObservationManagerMenuExtensions(        
-        IConfiguration configuration,
-        XMLFileLoader xmlCache,
-        ObservationManager om) {
-       
+    public ObservationManagerMenuExtensions(IConfiguration configuration, 
+            ExtensionLoader extLoader, ImageResolver imageResolver,
+            TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
+
         // Load configuration
-        this.configuration = configuration; 
-        this.xmlCache = xmlCache;
+        this.configuration = configuration;
         this.observationManager = om;
- 
+        this.extensionLoader = extLoader;
+        this.imageResolver = imageResolver;
+        this.textManager = textManager;
+        this.uiHelper = uiHelper;
+        this.menu = this.createMenuExtensionItems();
+        
     }
 
-    public void showExtensionInfo() {
-
-            this.observationManager.createInfo(ObservationManager.bundle.getString("info.noExtensionsInstalled"));
-        if (this.observationManager.getExtensionLoader().getExtensions().isEmpty()) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("info.noExtensionsInstalled"));
-        } else {
-            new ExtensionInfoDialog(this.observationManager);
-        }
-
+    public JMenu getMenu() {
+        return menu;
     }
 
-    public void installExtension(File[] files) {
+    private void installExtension(File[] files) {
 
         // No files passed, so need to ask user for list of extensions
         if (files == null) {
 
             // Let user choose extension zip file
-            JFileChooser chooser = new JFileChooser(ObservationManager.bundle.getString("extenstion.chooser.title"));
+            JFileChooser chooser = new JFileChooser(this.textManager.getString("extenstion.chooser.title"));
             FileFilter zipFileFilter = new FileFilter() {
                 @Override
                 public boolean accept(File f) {
@@ -71,7 +79,7 @@ public final class ObservationManagerMenuExtensions {
                 }
             };
             chooser.setFileFilter(zipFileFilter);
-            String last = this.configuration.getConfig(ObservationManager.CONFIG_LASTDIR);
+            String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
             if ((last != null) && !("".equals(last.trim()))) {
                 File dir = new File(last);
                 if (dir.exists()) {
@@ -95,7 +103,8 @@ public final class ObservationManagerMenuExtensions {
         try {
             boolean checkResult = false;
             for (File file : files) {
-                checkResult = this.checkWriteAccess(new ZipFile(file), this.observationManager.getInstallDir().getInstallDir());
+                checkResult = this.checkWriteAccess(new ZipFile(file),
+                        this.observationManager.getInstallDir().getInstallDir());
                 if (!checkResult) {
                     negativeResult.append(" ").append(file.getName());
                 } else {
@@ -116,7 +125,8 @@ public final class ObservationManagerMenuExtensions {
         int successCounter = 0;
         for (int i = 0; i < filesCheckedOK.length; i++) {
             try {
-                positiveResult.append(" ").append(this.observationManager.getExtensionLoader().addExtension(new ZipFile(filesCheckedOK[i])));
+                positiveResult.append(" ").append(
+                        this.observationManager.getExtensionLoader().addExtension(new ZipFile(filesCheckedOK[i])));
                 successCounter++;
                 if (i < filesCheckedOK.length - 1) { // There is at least one
                                                      // more ZIP to add
@@ -132,15 +142,15 @@ public final class ObservationManagerMenuExtensions {
             }
         }
 
-       
         // Show all positive results
         if (successCounter > 0) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("info.addExtensionSuccess") + " " + positiveResult);
+            this.observationManager
+                    .createInfo(this.textManager.getString("info.addExtensionSuccess") + " " + positiveResult);
 
             // Until we found a better way to handle extension, we need to
             // restart... :-(
             if (true) {
-                this.observationManager.createInfo(ObservationManager.bundle.getString("info.addExtensionRestart"));
+                this.observationManager.createInfo(this.textManager.getString("info.addExtensionRestart"));
                 // this.exit();
                 this.observationManager.exit();
             }
@@ -152,7 +162,8 @@ public final class ObservationManagerMenuExtensions {
                                              // whether we had some
                                              // problems during check OR
                                              // installation
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.addExtensionFail") + " " + negativeResult);
+            this.observationManager.createWarning(
+                    this.textManager.getString("error.addExtensionFail") + " " + negativeResult);
 
         }
 
@@ -225,6 +236,64 @@ public final class ObservationManagerMenuExtensions {
     public boolean checkWriteAccess(File file) {
 
         return file.canWrite();
+
+    }
+
+    private JMenu createMenuExtensionItems() {
+        // ----- Extensions Menu
+        final JMenu extensionMenu = new JMenu(this.textManager.getString("menu.extension"));
+        extensionMenu.setMnemonic('x');
+
+        final JMenu[] menus = this.extensionLoader.getMenus();
+        for (final JMenu menu : menus) {
+            extensionMenu.add(menu);
+        }
+
+        if (menus.length != 0) {
+            extensionMenu.addSeparator();
+        }
+
+        JMenuItem extensionInfo = new JMenuItem(this.textManager.getString("menu.extensionInfo"),
+                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
+        extensionInfo.setMnemonic('p');
+        extensionInfo.addActionListener(new ExtensionInfoListener());
+        extensionMenu.add(extensionInfo);
+
+        JMenuItem installExtension = new JMenuItem(this.textManager.getString("menu.installExtension"),
+                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
+        installExtension.setMnemonic('i');
+        installExtension.addActionListener(new AddExtensionListener());
+        extensionMenu.add(installExtension);
+
+        return extensionMenu;
+    }
+
+    private class ExtensionInfoListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          
+            ObservationManagerMenuExtensions.this.uiHelper.showInfo(
+                ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
+          
+            if (extensionLoader.getExtensions().isEmpty()) {
+                ObservationManagerMenuExtensions.this.uiHelper.showInfo(
+                    ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
+            } else {
+                new ExtensionInfoDialog(ObservationManagerMenuExtensions.this.observationManager);
+            }
+
+        }
+
+    }
+
+    private class AddExtensionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ObservationManagerMenuExtensions.this.installExtension(null);
+
+        }
 
     }
 }

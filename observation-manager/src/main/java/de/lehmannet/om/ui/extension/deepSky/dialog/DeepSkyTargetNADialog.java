@@ -12,6 +12,7 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetNAPanel;
@@ -21,9 +22,9 @@ public class DeepSkyTargetNADialog extends AbstractDialog implements ITargetDial
 
     private static final long serialVersionUID = -1996388086618176126L;
 
-    public DeepSkyTargetNADialog(ObservationManager om, ITarget editableTarget) {
+    public DeepSkyTargetNADialog(ObservationManager om, ObservationManagerModel model,ITarget editableTarget) {
 
-        super(om, new DeepSkyTargetNAPanel(om, editableTarget, Boolean.TRUE));
+        super(om, new DeepSkyTargetNAPanel(om, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());

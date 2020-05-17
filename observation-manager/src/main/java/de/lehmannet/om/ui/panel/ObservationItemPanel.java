@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -44,6 +42,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SurfaceBrightness;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.container.HorizontalSkymap;
 import de.lehmannet.om.ui.container.ImageContainer;
@@ -90,16 +89,18 @@ public class ObservationItemPanel extends AbstractPanel {
 
     private IObservation observation = null;
 
-    private ObservationManager om = null;
+    private final ObservationManager om;
+    private final ObservationManagerModel model;
 
     // Only used to display all observation own values plus some values from other
     // elementso
     // For Create/Edit use ObservationDialogPanel
-    public ObservationItemPanel(ObservationManager om, IObservation observation) {
+    public ObservationItemPanel(ObservationManager om, ObservationManagerModel model, IObservation observation) {
 
         super(false);
 
         this.om = om;
+        this.model = model;
 
         this.observation = observation;
 
@@ -631,8 +632,8 @@ public class ObservationItemPanel extends AbstractPanel {
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
-            ImageContainer imageContainer = new ImageContainer(this.getFilesFromPath(this.observation.getImages()),
-                 this.om, false, this.om.getImageResolver());
+            ImageContainer imageContainer = new ImageContainer(this.model.getFilesFromPath(this.observation.getImages()),
+                 this.om, this.model, false, this.om.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
@@ -647,16 +648,5 @@ public class ObservationItemPanel extends AbstractPanel {
 
     }
 
-    private List<File> getFilesFromPath(List<String> imagePath) {
-        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
-    }
-    
-    private  File createPath (String x ) {
-        if (x.startsWith("." + File.separator)) { 
-            return new File(this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
-        + File.separator + x);
-        } else {
-            return new File(x);
-        }
-    }
+  
 }

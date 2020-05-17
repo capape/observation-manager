@@ -18,6 +18,7 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
@@ -39,7 +40,9 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private IObservation observation = null;
 
-    public SolarSystemTargetPlanetPanel(ObservationManager om, ITarget target, IObservation o, Boolean editable)
+    private final ObservationManagerModel model;
+
+    public SolarSystemTargetPlanetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, IObservation o, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -52,7 +55,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
         this.target = (SolarSystemTargetPlanet) target;
         this.observation = o;
         this.observationManager = om;
-
+        this.model = model;
         this.createPanel();
 
     }
@@ -118,7 +121,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.isEditable(), true);
         if ((!this.isEditable()) && (this.observation != null)) {
             this.targetContainer.setPosition(Ephemerides
                     .getPosition(this.mapPlanetKeysForEphemerides(this.target.getName()), this.observation.getBegin()));

@@ -12,9 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EventObject;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -33,6 +30,8 @@ import javax.swing.tree.TreeModel;
 
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -45,9 +44,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
+    
     private ObservationManager om = null;
     private JTree tree = null;
 
@@ -55,13 +52,18 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
     private final ImageResolver imageResolver;
 
-    public UnavailableEquipmentDialog(ObservationManager om, ImageResolver resolver) {
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
+
+    public UnavailableEquipmentDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager, ImageResolver resolver) {
 
         super(om);
 
         this.om = om;
+        this.model = model;
+        this.textManager = textManager;
         this.imageResolver = resolver;
-        this.setTitle(this.bundle.getString("dialog.unavailableEquipment.title"));
+        this.setTitle(this.textManager.getString("dialog.unavailableEquipment.title"));
         this.setSize(UnavailableEquipmentDialog.serialVersionUID, 700, 360);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
@@ -147,16 +149,16 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         this.getContentPane().setLayout(gridbag);
 
         this.tree.setEnabled(true);
-        this.tree.setToolTipText(this.bundle.getString("dialog.unavailableEquipment.tooltip.tree"));
+        this.tree.setToolTipText(this.textManager.getString("dialog.unavailableEquipment.tooltip.tree"));
         JScrollPane scrollPanel = new JScrollPane(this.tree);
         scrollPanel.setBorder(
-                BorderFactory.createTitledBorder(this.bundle.getString("dialog.unavailableEquipment.border.tree")));
+                BorderFactory.createTitledBorder(this.textManager.getString("dialog.unavailableEquipment.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 50, 92);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
         this.getContentPane().add(scrollPanel);
 
-        JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+        JButton ok = new JButton(this.textManager.getString("dialog.button.ok"));
         ok.setActionCommand(UnavailableEquipmentDialog.AC_OK);
         ok.addActionListener(this);
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 25, 4);
@@ -164,7 +166,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         gridbag.setConstraints(ok, constraints);
         this.getContentPane().add(ok);
 
-        JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+        JButton cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
         cancel.setActionCommand(UnavailableEquipmentDialog.AC_CANCEL);
         cancel.addActionListener(this);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 4);
@@ -180,38 +182,38 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         Icon collapsed = null;
 
         // The root node
-        CheckBoxEquipmentNode root = new CheckBoxEquipmentNode(this, this.bundle.getString("treeRoot"), null, null,
+        CheckBoxEquipmentNode root = new CheckBoxEquipmentNode(this, this.textManager.getString("treeRoot"), null, null,
                 null);
 
         // Create all schema element nodes
         expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null));
-        CheckBoxEquipmentNode scopes = new CheckBoxEquipmentNode(this, this.bundle.getString("scopes"),
-                this.om.getXmlCache().getScopes(), expanded, collapsed);
+        CheckBoxEquipmentNode scopes = new CheckBoxEquipmentNode(this, this.textManager.getString("scopes"),
+                this.model.getScopes(), expanded, collapsed);
         root.add(scopes);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null));
-        CheckBoxEquipmentNode imagers = new CheckBoxEquipmentNode(this, this.bundle.getString("imagers"),
-                this.om.getXmlCache().getImagers(), expanded, collapsed);
+        CheckBoxEquipmentNode imagers = new CheckBoxEquipmentNode(this, this.textManager.getString("imagers"),
+                this.model.getImagers(), expanded, collapsed);
         root.add(imagers);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null));
-        CheckBoxEquipmentNode filters = new CheckBoxEquipmentNode(this, this.bundle.getString("filters"),
-                this.om.getXmlCache().getFilters(), expanded, collapsed);
+        CheckBoxEquipmentNode filters = new CheckBoxEquipmentNode(this, this.textManager.getString("filters"),
+                this.model.getFilters(), expanded, collapsed);
         root.add(filters);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null));
-        CheckBoxEquipmentNode eyepieces = new CheckBoxEquipmentNode(this, this.bundle.getString("eyepieces"),
-                this.om.getXmlCache().getEyepieces(), expanded, collapsed);
+        CheckBoxEquipmentNode eyepieces = new CheckBoxEquipmentNode(this, this.textManager.getString("eyepieces"),
+                this.model.getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null));
-        CheckBoxEquipmentNode lenses = new CheckBoxEquipmentNode(this, this.bundle.getString("lenses"),
-                this.om.getXmlCache().getLenses(), expanded, collapsed);
+        CheckBoxEquipmentNode lenses = new CheckBoxEquipmentNode(this, this.textManager.getString("lenses"),
+                this.model.getLenses(), expanded, collapsed);
         root.add(lenses);
 
         this.tree = new JTree(root);

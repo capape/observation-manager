@@ -34,11 +34,13 @@ import org.w3c.dom.Document;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -55,10 +57,13 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     private JMenuItem exportMissingOAL = null;
     private JMenuItem exportMissingHTML = null;
 
-    public StatisticsDetailsDialog(final ObservationManager om, final ObservationStatisticsTableModel model) {
+    private final ObservationManagerModel model;
+
+    public StatisticsDetailsDialog(final ObservationManager om, final ObservationManagerModel omModel, final ObservationStatisticsTableModel model) {
 
         super(om, new DetailPanel(om, model), true);
 
+        this.model = omModel;
         this.targetObservations = model.getTargetObservations();
         this.catalogName = model.getCatalogName();
 
@@ -167,7 +172,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = getExportFile(catalogName + "_observed", "xml").getAbsolutePath();
+                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_observed", "xml").getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
 
@@ -265,7 +270,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        this.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), getExportFile(catalogName + "_observed", "html"),
+        this.observationManager.getHtmlHelper().createHTML(xmlHelper.getDocument(), this.model.getExportFile(catalogName + "_observed", "html"),
                 null);
 
     }
@@ -288,7 +293,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = getExportFile(catalogName + "_missing", "xml").getAbsolutePath();
+                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_missing", "xml").getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
 
@@ -392,38 +397,19 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        this.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), getExportFile(catalogName + "_missing", "html"),
+        this.observationManager.getHtmlHelper().createHTML(calculation.getDocument(), this.model.getExportFile(catalogName + "_missing", "html"),
                 getXSLFile());
 
     }
 
-    private File getExportFile(final String filename, final String extension) {
-
-        String path = null;
-
-        if ((this.observationManager.getXmlCache().getAllOpenedFiles() != null)
-                && (this.observationManager.getXmlCache().getAllOpenedFiles().length > 0)) {
-            path = new File(this.observationManager.getXmlCache().getAllOpenedFiles()[0]).getParent();
-        } else {
-            path = this.observationManager.getInstallDir().getInstallDir().getParent();
-        }
-        path = path + File.separator;
-
-        File file = new File(path + filename + "." + extension);
-        for (int i = 2; file.exists(); i++) {
-            file = new File(path + filename + "(" + i + ")." + extension);
-        }
-
-        return file;
-
-    }
+    
 
     private File getXSLFile() {
 
         final String XSLFILENAME = "targetsOnly";
 
         String selectedTemplate = this.observationManager.getConfiguration()
-                .getConfig(ObservationManager.CONFIG_XSL_TEMPLATE);
+                .getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {

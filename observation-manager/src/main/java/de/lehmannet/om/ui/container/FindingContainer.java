@@ -28,6 +28,7 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 
@@ -57,7 +58,7 @@ public class FindingContainer extends Container implements MouseListener {
         this.session = session;
         this.editable = editable;
 
-        this.language = new LanguageBox(om.getConfiguration().getConfig(ObservationManager.CONFIG_CONTENTDEFAULTLANG),
+        this.language = new LanguageBox(om.getConfiguration().getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG),
                 true);
 
         this.createContainer();

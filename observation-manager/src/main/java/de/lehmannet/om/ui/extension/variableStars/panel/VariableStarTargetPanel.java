@@ -22,6 +22,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetStarContainer;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
@@ -44,8 +45,9 @@ public class VariableStarTargetPanel extends AbstractPanel {
     private JTextField type = null;
     private JTextField maxApparentMag = null;
     private JTextField period = null;
+    private final ObservationManagerModel model;
 
-    public VariableStarTargetPanel(ObservationManager om, ITarget target, Boolean editable)
+    public VariableStarTargetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -57,6 +59,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
         this.target = (TargetVariableStar) target;
         this.observationManager = om;
+        this.model = model;
 
         this.createPanel();
 
@@ -186,7 +189,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.observationManager, this.target, this.isEditable());
+        this.targetContainer = new TargetStarContainer(this.observationManager, this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container

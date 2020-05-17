@@ -44,6 +44,7 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
 import de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension;
 import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
@@ -86,16 +87,20 @@ public class ExtensionLoader {
 
     private JMenu[] cachedMenus = null;
 
-    final InstallDir installDir;
-    final ObservationManager om;
+    private final InstallDir installDir;
+    @Deprecated     
+    private final ObservationManager om;
+
+    private final ObservationManagerModel model;
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
 
-    public ExtensionLoader(ObservationManager om, InstallDir installDir) {
+    public ExtensionLoader(ObservationManager om, ObservationManagerModel model, InstallDir installDir) {
 
         this.installDir = installDir;
         this.om = om;
+        this.model = model;
 
         this.extensionClassLoader = URLClassLoader.newInstance(new URL[0], ClassLoader.getSystemClassLoader());
         this.loadExtensions();
@@ -308,7 +313,7 @@ public class ExtensionLoader {
         this.extensions.add(new GenericExtension());
         this.extensions.add(new ImagerExtension());
         this.extensions.add(new DeepSkyExtension());
-        this.extensions.add(new VariableStarsExtension(om));
+        this.extensions.add(new VariableStarsExtension(om, this.model)); //TODO avoid this dependency
         this.extensions.add(new SolarSystemExtension());
         this.loadExternalExtensions();
     }

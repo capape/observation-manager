@@ -1,9 +1,4 @@
-/* ====================================================================
- * /util/XMLFileLoader.java
- * 
- * (c) by Dirk Lehmann
- * ====================================================================
- */
+
 
 package de.lehmannet.om.ui.util;
 
@@ -35,59 +30,41 @@ public interface XMLFileLoader {
 
     Document getDocument();
 
-    /*
-     * public Document getDocumentForObservation(IObservation observation) {
-     * 
-     * RootElement root = new RootElement();
-     * 
-     * // @todo This only works for ONE file opened... if( observation == null ) { // Nothing to save return null; }
-     * 
-     * this.addObservationAndDependentToRoot(observation, root);
-     * 
-     * try { if( root != null ) { return root.getDocument(); } else {
-     * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
-     * System.err.println("Unable to retrieve DOM Document\n" + se); }
-     * 
-     * return null;
-     * 
-     * }
-     */
+    String getXMLFileForSchemaElement(ISchemaElement schemaElement);    
 
-    public String getXMLFileForSchemaElement(ISchemaElement schemaElement);
+    String getXMLPathForSchemaElement(ISchemaElement schemaElement);
 
-    public String getXMLPathForSchemaElement(ISchemaElement schemaElement);
+    Document getDocumentForSchemaElement(ISchemaElement schemaElement);
 
-    public Document getDocumentForSchemaElement(ISchemaElement schemaElement);
+    void addSchemaElement(ISchemaElement element);
+    void addSchemaElement(ISchemaElement element, boolean dependend) ;
+    List<ISchemaElement> removeSchemaElement(ISchemaElement element);
+    void updateSchemaElement(ISchemaElement element);
+    String[] getAllOpenedFiles();
+    IObserver[] getObservers();
 
-    public void addSchemaElement(ISchemaElement element);
-    public void addSchemaElement(ISchemaElement element, boolean dependend) ;
-    public List<ISchemaElement> removeSchemaElement(ISchemaElement element);
-    public void updateSchemaElement(ISchemaElement element);
-    public String[] getAllOpenedFiles();
-    public IObserver[] getObservers();
+    IEyepiece[] getEyepieces();
 
-    public IEyepiece[] getEyepieces();
+    IImager[] getImagers() ;
 
-    public IImager[] getImagers() ;
+    IFilter[] getFilters();
 
-    public IFilter[] getFilters();
+    IObservation[] getObservations();
+    IObservation[] getObservations(ISchemaElement element);
 
-    public IObservation[] getObservations();
-    public IObservation[] getObservations(ISchemaElement element);
+    IObservation[] getCoObserverObservations(IObserver observer);
 
-    public IObservation[] getCoObserverObservations(IObserver observer);
+    IScope[] getScopes() ;
 
-    public IScope[] getScopes() ;
+    ISession[] getSessions();
 
-    public ISession[] getSessions();
+    ISite[] getSites() ;
 
-    public ISite[] getSites() ;
+    ITarget[] getTargets();
 
-    public ITarget[] getTargets();
+    ILens[] getLenses();
 
-    public ILens[] getLenses();
-
-    public boolean loadObservations(String xmlPath);
+    boolean loadObservations(String xmlPath);
 
    
 }

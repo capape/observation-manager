@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetMoonPanel;
@@ -22,9 +23,9 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
 
     private static final long serialVersionUID = 11451630089774356L;
 
-    public SolarSystemTargetMoonDialog(ObservationManager om, IObservation o, ITarget editableTarget) {
+    public SolarSystemTargetMoonDialog(ObservationManager om, ObservationManagerModel model, IObservation o, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetMoonPanel(om, editableTarget, o, Boolean.TRUE));
+        super(om, new SolarSystemTargetMoonPanel(om, model, editableTarget, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

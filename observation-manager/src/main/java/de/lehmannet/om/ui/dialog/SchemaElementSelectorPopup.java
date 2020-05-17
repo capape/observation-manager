@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -35,12 +36,15 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
     private ExtendedSchemaTableModel tableModel = null;
 
-    public SchemaElementSelectorPopup(ObservationManager om, String title, String xsiType, List<? extends ISchemaElement> preSelectedElements,
+    private final ObservationManagerModel model;
+
+    public SchemaElementSelectorPopup(ObservationManager om, ObservationManagerModel omModel, String title, String xsiType, List<? extends ISchemaElement> preSelectedElements,
             boolean multipleSelection, SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
                                                                                                                     // SchemaElementConstants
 
         super(om);
 
+        this.model = omModel;
         this.setTitle(title);
         this.setSize(SchemaElementSelectorPopup.serialVersionUID, 660, 250);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -49,43 +53,43 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
         ISchemaElement[] elements = null;
         switch (schemaElement) {
         case IMAGER: {
-            elements = om.getXmlCache().getImagers();
+            elements = model.getImagers();
             break;
         }
         case EYEPIECE: {
-            elements = om.getXmlCache().getEyepieces();
+            elements = model.getEyepieces();
             break;
         }
         case FILTER: {
-            elements = om.getXmlCache().getFilters();
+            elements = model.getFilters();
             break;
         }
         case LENS: {
-            elements = om.getXmlCache().getLenses();
+            elements = model.getLenses();
             break;
         }
         case OBSERVATION: {
-            elements = om.getXmlCache().getObservations();
+            elements = model.getObservations();
             break;
         }
         case OBSERVER: {
-            elements = om.getXmlCache().getObservers();
+            elements = model.getObservers();
             break;
         }
         case SCOPE: {
-            elements = om.getXmlCache().getScopes();
+            elements = model.getScopes();
             break;
         }
         case SESSION: {
-            elements = om.getXmlCache().getSessions();
+            elements = model.getSessions();
             break;
         }
         case SITE: {
-            elements = om.getXmlCache().getSites();
+            elements = model.getSites();
             break;
         }
         case TARGET: {
-            elements = om.getXmlCache().getTargets();
+            elements = model.getTargets();
             break;
         }
         default: {

@@ -35,11 +35,13 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -69,9 +71,11 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
     private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
-    public StatisticsDialog(ObservationManager om) {
+    private final ObservationManagerModel model;
+    public StatisticsDialog(ObservationManager om, ObservationManagerModel model) {
 
         super(om);
+        this.model = model;
 
         StatisticsQueryDialog queryDialog = new StatisticsQueryDialog(om);
         this.selectedCatalogs = queryDialog.getSelectedCatalogs();
@@ -93,13 +97,13 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         // Check how many observers exist...
         // If only one observer use this one, if several create pop-up for selection
-        IObserver[] observers = om.getXmlCache().getObservers();
+        IObserver[] observers = this.model.getObservers();
         if ((observers == null) || (observers.length == 0)) {
             return;
         } else if (observers.length > 1) {
             // Get default observer for preselection
             String defaultObserverDisplayName = this.om.getConfiguration()
-                    .getConfig(ObservationManager.CONFIG_DEFAULT_OBSERVER);
+                    .getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
             List<IObserver> preselectedObserver = new ArrayList<>();
             for (IObserver observer : observers) {
                 if (observer.getDisplayName().equals(defaultObserverDisplayName)) {
@@ -108,7 +112,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 }
             }
             // Show popup
-            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om,
+            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, StatisticsDialog.this.model,
                     this.bundle.getString("dialog.statistics.observerPopup.title"), null, preselectedObserver, true,
                     SchemaElementConstants.OBSERVER);
             this.observers = popup.getAllSelectedElements().stream().map(x->{return (IObserver) x;}).collect(Collectors.toList());
@@ -246,11 +250,11 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         Iterator<ICatalog> iterator = this.selectedCatalogs.iterator();
         IListableCatalog current = null;
-        IObservation[] observations = this.om.getXmlCache().getObservations();
+        IObservation[] observations = this.model.getObservations();
 
         // Get config
         boolean useCoObservers = Boolean.parseBoolean(
-                this.om.getConfiguration().getConfig(ObservationManager.CONFIG_STATISTICS_USE_COOBSERVERS));
+                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
 
         // Iterate over all selected catalogs, create CatalogCheckers and start threads
         this.checkers = new CatalogChecker[this.selectedCatalogs.size()];
@@ -319,7 +323,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             if (catalogTarget != null) {
                 if (catalogTarget.getCatalog().equals(cat)) {
                     ObservationStatisticsTableModel tableModel = new ObservationStatisticsTableModel(catalogTarget);
-                    new StatisticsDetailsDialog(om, tableModel); // Show Details dialog
+                    new StatisticsDetailsDialog(om, this.model, tableModel); // Show Details dialog
                     break;
                 }
             }

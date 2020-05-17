@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -37,6 +40,8 @@ public class SchemaUILoader {
 
     private ObservationManager observationManager = null;
     private List<IExtension> extensions = null;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaUILoader.class);
 
     public SchemaUILoader(ObservationManager om, List<IExtension> extensions) {
 
@@ -75,8 +80,8 @@ public class SchemaUILoader {
 
     }
 
-    public AbstractPanel getSchemaElementPanel(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
-            boolean editable) {
+    public AbstractPanel getSchemaElementPanel(String xsiType, SchemaElementConstants schemaElementConstant,
+            ISchemaElement schemaElement, boolean editable) {
 
         return (AbstractPanel) this.getSchemaElementUIObject(xsiType, schemaElementConstant, schemaElement, editable,
                 false);
@@ -98,6 +103,7 @@ public class SchemaUILoader {
         Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
             extension = iterator.next();
+            LOGGER.debug("Getting all xsi types for extension {}", extension.getName());
             if (extension.getAllSupportedXSITypes() != null) {
                 result.addAll(extension.getAllSupportedXSITypes());
             }
@@ -113,7 +119,9 @@ public class SchemaUILoader {
         IExtension extension = null;
         Set<String> result = new HashSet<>();
         while (iterator.hasNext()) {
-            extension =  iterator.next();
+            extension = iterator.next();
+            LOGGER.debug("Getting all xsi types for extension {}, constant {}", extension.getName(),
+                    schemaElementConstants);
             if (extension.getSupportedXSITypes(schemaElementConstants) != null) {
                 result.addAll(extension.getSupportedXSITypes(schemaElementConstants));
             }
@@ -135,6 +143,7 @@ public class SchemaUILoader {
             extension = iterator.next();
             for (String type : types) {
                 dispName = extension.getDisplayNameForXSIType(type);
+                LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
                 if (dispName != null) {
                     result.add(dispName);
                 }
@@ -158,6 +167,7 @@ public class SchemaUILoader {
             for (String type : types) {
                 if (extension.isCreationAllowed(type)) {
                     dispName = extension.getDisplayNameForXSIType(type);
+                    LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
                     if (dispName != null) {
                         result.add(dispName);
                     }
@@ -177,6 +187,7 @@ public class SchemaUILoader {
         while (iterator.hasNext()) {
             currentExtension = iterator.next();
             result = currentExtension.getDisplayNameForXSIType(type);
+            LOGGER.debug("extension: {}, type: {}, dispName: {}", currentExtension.getName(), type, result);
             if (result != null) {
                 return result;
             }
@@ -202,6 +213,8 @@ public class SchemaUILoader {
             extension = iterator.next();
             for (String type : types) { // Iterate over all types
                 dispName = extension.getDisplayNameForXSIType(type); // Check if extension knows a displayname for
+                LOGGER.debug("extension: {}, type: {}, name: {}, dispName: {}", extension.getName(), type, name,
+                        dispName);
                 // this type
                 if ((name.equals(dispName))) {
                     return type; // Displayname found for this type
@@ -325,12 +338,26 @@ public class SchemaUILoader {
                             && (parameters[2].isInstance(Boolean.FALSE))) {
                         object = constructor.newInstance(this.observationManager, findingOrTarget, editable);
                         break;
+                    } else if ((parameters.length == 3) && (parameters[0].isInstance(this.observationManager))
+                            && (parameters[1].isInstance(this.observationManager.getModel()))
+                            && (parameters[2].isAssignableFrom(exampleClass))) {
+                        object = constructor.newInstance(this.observationManager, this.observationManager.getModel(),
+                                findingOrTarget);
+                        break;
                     } else if ((parameters.length == 4) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
                             && (parameters[2].isAssignableFrom(additionalParameterClass1))
                             && (parameters[3].isInstance(Boolean.FALSE))) {
                         object = constructor.newInstance(this.observationManager, findingOrTarget, additionalParameter1,
                                 editable);
+                        break;
+                    } else if ((parameters.length == 4) 
+                            && (parameters[0].isInstance(this.observationManager))
+                            && (parameters[1].isInstance(this.observationManager.getModel())
+                            && (parameters[3].isInstance(Boolean.FALSE))
+                            && (parameters[2].isAssignableFrom(exampleClass)))) {
+                        object = constructor.newInstance(this.observationManager, this.observationManager.getModel(),
+                                findingOrTarget,editable);
                         break;
                     } else if ((parameters.length == 5) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
@@ -344,6 +371,8 @@ public class SchemaUILoader {
                             && (parameters[0].isInstance(Boolean.FALSE))) {
                         object = constructor.newInstance(editable);
                         break;
+                    } else {
+                        System.err.println("Unable to instantiate class: " + classname + ". No constructor found\n");
                     }
                 }
             } catch (InstantiationException ie) {
@@ -364,49 +393,49 @@ public class SchemaUILoader {
     private Class<?> getExampleClass(SchemaElementConstants schemaElementConstant) {
 
         switch (schemaElementConstant) {
-        case EYEPIECE: {
-            return IEyepiece.class;
-        }
-        case FILTER: {
-            return IFilter.class;
-        }
-        case FINDING: {
-            return IFinding.class;
-        }
-        case IMAGER: {
-            return IImager.class;
-        }
-        case LENS: {
-            return ILens.class;
-        }
-        case OBSERVATION: {
-            return IObservation.class;
-        }
-        case OBSERVER: {
-            return IObserver.class;
-        }
-        case SCOPE: {
-            return IScope.class;
-        }
-        case SESSION: {
-            return ISession.class;
-        }
-        case SITE: {
-            return ISite.class;
-        }
-        case TARGET: {
-            return ITarget.class;
-        }
-        default:
-            break;
+            case EYEPIECE: {
+                return IEyepiece.class;
+            }
+            case FILTER: {
+                return IFilter.class;
+            }
+            case FINDING: {
+                return IFinding.class;
+            }
+            case IMAGER: {
+                return IImager.class;
+            }
+            case LENS: {
+                return ILens.class;
+            }
+            case OBSERVATION: {
+                return IObservation.class;
+            }
+            case OBSERVER: {
+                return IObserver.class;
+            }
+            case SCOPE: {
+                return IScope.class;
+            }
+            case SESSION: {
+                return ISession.class;
+            }
+            case SITE: {
+                return ISite.class;
+            }
+            case TARGET: {
+                return ITarget.class;
+            }
+            default:
+                break;
         }
 
         return null;
 
     }
 
-    private Object getSchemaElementUIObject(String xsiType, SchemaElementConstants schemaElementConstant, ISchemaElement schemaElement,
-            boolean editable, boolean dialog) {
+    private Object getSchemaElementUIObject(String xsiType, SchemaElementConstants schemaElementConstant,
+            ISchemaElement schemaElement, boolean editable, boolean dialog) {
 
         Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;

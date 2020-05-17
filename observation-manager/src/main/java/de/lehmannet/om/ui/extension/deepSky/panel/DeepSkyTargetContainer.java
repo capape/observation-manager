@@ -25,6 +25,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SurfaceBrightness;
 import de.lehmannet.om.extension.deepSky.DeepSkyTarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.container.SurfaceBrightnessContainer;
 import de.lehmannet.om.ui.container.TargetContainer;
@@ -51,7 +52,10 @@ class DeepSkyTargetContainer extends Container {
     private JTextField visibleMagnitude = null;
     private SurfaceBrightnessContainer surfaceBrightness = null;
 
-    public DeepSkyTargetContainer(ObservationManager om, ITarget target, boolean editable) {
+    private final ObservationManagerModel model;
+
+    public DeepSkyTargetContainer(ObservationManager om, ObservationManagerModel model, ITarget target,
+            boolean editable) {
 
         if (target != null) {
             if (!(target instanceof DeepSkyTarget)) {
@@ -62,6 +66,7 @@ class DeepSkyTargetContainer extends Container {
         }
 
         this.observationManager = om;
+        this.model = model;
         this.editable = editable;
 
         this.createContainer();
@@ -237,7 +242,8 @@ class DeepSkyTargetContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 7, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.editable, false);
+        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.editable,
+                false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

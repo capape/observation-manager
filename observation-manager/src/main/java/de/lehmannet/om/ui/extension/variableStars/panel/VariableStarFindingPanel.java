@@ -28,6 +28,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.ui.container.FindingContainer;
+import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsPreferences;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
@@ -638,22 +639,11 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private void writeToCache() {
 
         if ((this.isEditable()) && (this.finding != null) && (Boolean
-                .parseBoolean(this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))) {
+                .parseBoolean(this.om.getConfiguration().getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
             IConfiguration config = this.om.getConfiguration();
             config.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
-            config.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); // Use
-                                                                                                                   // JTextField
-                                                                                                                   // here
-                                                                                                                   // so
-                                                                                                                   // that
-                                                                                                                   // we
-                                                                                                                   // don't
-                                                                                                                   // need
-                                                                                                                   // to
-                                                                                                                   // build
-                                                                                                                   // up
-                                                                                                                   // string
-                                                                                                                   // again
+            // Use JTextField here so that we don't need to build up string again
+            config.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); 
             if (this.nonAAVSOchart.isSelected()) {
                 config.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
                         Boolean.toString(this.finding.isNonAAVSOchart()));
@@ -676,7 +666,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         if ((this.isEditable())
                 && (Boolean.parseBoolean(
-                        this.om.getConfiguration().getConfig(VariableStarsPreferences.CONFIG_CACHE_ENABLED)))
+                        this.om.getConfiguration().getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
                 && (targetName.equals(this.om.getConfiguration()
                         .getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
             IConfiguration config = this.om.getConfiguration();

@@ -30,13 +30,16 @@ import javax.swing.table.TableColumn;
 
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class CatalogDialog extends OMDialog implements ComponentListener {
@@ -44,19 +47,20 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
     private static final long serialVersionUID = 3360836026940203287L;
 
     private CatalogPanel panel = null;
-
-    public CatalogDialog(ObservationManager om) {
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
+    public CatalogDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager) {
 
         super(om);
 
-        this.panel = new CatalogPanel(om);
+        this.panel = new CatalogPanel(om, model);
         this.panel.addComponentListener(this);
+        this.model = model;
+        this.textManager = textManager;
 
         this.getContentPane().add(this.panel);
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
-        this.setTitle(bundle.getString("dialog.catalog.title"));
+        this.setTitle(this.textManager.getString("dialog.catalog.title"));
         this.setModal(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setSize(CatalogDialog.serialVersionUID, 660, 340);
@@ -116,7 +120,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
     // In case a table can be shown (IListableCatalog)
     private final JTable table = new JTable();
-    private AbstractSchemaTableModel model = null;
+    private AbstractSchemaTableModel tableModel = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
 
@@ -124,22 +128,24 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
     private CatalogLoader loader = null;
     private ITarget selectedTarget = null;
+    private final ObservationManagerModel model;
 
-    public CatalogPanel(ObservationManager om) {
+    public CatalogPanel(ObservationManager om, ObservationManagerModel model) {
 
         super(true);
 
         this.loader = om.getExtensionLoader().getCatalogLoader();
         this.om = om;
+        this.model = model;
 
         String[] cNames = this.loader.getCatalogNames(); // Get all catalogs (listable and non-listable
         for (String cName : cNames) {
             this.catalogBox.addItem(cName);
         }
-        String defaultCatalog = this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_CATALOG);
+        String defaultCatalog = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG);
         if ((defaultCatalog != null) && (!"".equals(defaultCatalog))) {
             this.catalogBox
-                    .setSelectedItem(this.om.getConfiguration().getConfig(ObservationManager.CONFIG_DEFAULT_CATALOG));
+                    .setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG));
         }
         this.catalogBox.addActionListener(this);
 
@@ -147,8 +153,8 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         // Load table (if possible)
         if (this.selectedCatalog instanceof IListableCatalog) {
-            this.model = ((IListableCatalog) this.selectedCatalog).getTableModel();
-            this.table.setModel(this.model);
+            this.tableModel = ((IListableCatalog) this.selectedCatalog).getTableModel();
+            this.table.setModel(this.tableModel);
         }
 
         // Do some settings for table
@@ -164,10 +170,10 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
                 // no rows are selected
             } else {
                 int selectedRow = lsm1.getMinSelectionIndex();
-                CatalogPanel.this.selectedTarget = (ITarget) model.getSchemaElement(selectedRow);
+                CatalogPanel.this.selectedTarget = (ITarget) tableModel.getSchemaElement(selectedRow);
 
                 // Check if selected target exists already in cache...if so, use that one.
-                ITarget[] targets = CatalogPanel.this.om.getXmlCache().getTargets();
+                ITarget[] targets = CatalogPanel.this.model.getTargets();
                 for (ITarget target : targets) {
                     if (target.equals(CatalogPanel.this.selectedTarget)) {
                         CatalogPanel.this.selectedTarget = target; // Return already existing target, instead of
@@ -230,8 +236,8 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
                 // Show table in case catalog is listable. If not, show search dialog
                 if (this.selectedCatalog instanceof IListableCatalog) {
-                    this.model = ((IListableCatalog) this.selectedCatalog).getTableModel();
-                    this.table.setModel(this.model);
+                    this.tableModel = ((IListableCatalog) this.selectedCatalog).getTableModel();
+                    this.table.setModel(this.tableModel);
 
                     // Set column size
                     this.setColumnSize();
@@ -247,7 +253,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
             } else if (this.positive.equals(e.getSource())) {
                 ISchemaElement result = this.createSchemaElement();
                 if (result != null) {
-                    this.om.getXmlCache().addSchemaElement(result);
+                    this.model.add(result);
                     this.om.setChanged(true);
                     this.processComponentEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_HIDDEN));
                 }
@@ -264,7 +270,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         this.selectedTarget = (ITarget) sd.getSearchResult();
         if (this.selectedTarget != null) {
             // Check if selected target exists already in cache...if so, use that one.
-            ITarget[] targets = this.om.getXmlCache().getTargets();
+            ITarget[] targets = this.model.getTargets();
             for (ITarget target : targets) {
                 if (target.equals(this.selectedTarget)) {
                     this.selectedTarget = target; // Return already existing target, instead of the newly created
@@ -274,7 +280,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
                 }
             }
             // Target didn't exist so far, so create new one
-            this.om.getXmlCache().addSchemaElement(this.selectedTarget);
+            this.model.add(this.selectedTarget);
             this.om.setChanged(true);
             this.processComponentEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_HIDDEN));
         }

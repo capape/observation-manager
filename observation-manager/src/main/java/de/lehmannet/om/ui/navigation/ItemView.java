@@ -31,6 +31,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.EyepiecePanel;
@@ -88,11 +89,13 @@ public class ItemView extends JPanel implements ChangeListener {
     private IObservation currentObseration = null;
 
     private final ImageResolver imageResolver;
+    private final ObservationManagerModel model;
 
-    public ItemView(ObservationManager main, ImageResolver resolver) {
+    public ItemView(ObservationManager main, ObservationManagerModel model, ImageResolver resolver) {
 
         
         this.main = main;
+        this.model = model;
         this.imageResolver = resolver;
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addChangeListener(this);
@@ -428,7 +431,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
     private void addObservationTab(IObservation observation) {
 
-        this.overviewPanel = new ObservationItemPanel(this.main, observation);
+        this.overviewPanel = new ObservationItemPanel(this.main, this.model, observation);
         this.tabbedPane.addTab(this.bundle.getString("observation"),
                 new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null)), this.overviewPanel);
 
@@ -617,7 +620,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
     private void loadSessionPanel(ISession session, int index) {
 
-        this.sessionPanel = new SessionPanel(this.main, session, false);
+        this.sessionPanel = new SessionPanel(this.main, this.model, session, false);
         if (index <= 0) {
             this.tabbedPane.addTab(this.bundle.getString("session"), new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null)),
                     this.sessionPanel);
