@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <artifactId>observation-parent</artifactId>
     <groupId>de.lehmannet.om</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <formatter.maven.plugin.version>2.11.0</formatter.maven.plugin.version>
