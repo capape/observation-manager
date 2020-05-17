@@ -12,6 +12,7 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -21,12 +22,15 @@ public class ThemeManagerImpl implements ThemeManager {
     private boolean nightVision = false;
     private final ObservationManager observationManager;
     private final IConfiguration configuration;
+    private final TextManager textManager;
 
     private static NightVisionTheme NIGHT_THEME = new NightVisionTheme();
+    
 
-    public ThemeManagerImpl(IConfiguration config, ObservationManager om) {
+    public ThemeManagerImpl(IConfiguration config, TextManager textManager, ObservationManager om) {
         this.observationManager = om;
         this.configuration = config;
+        this.textManager = textManager;
     }
 
     @Override
@@ -56,8 +60,8 @@ public class ThemeManagerImpl implements ThemeManager {
             }
 
             if (!found) {
-                System.err.println(ObservationManager.bundle.getString("error.noMetalLAF"));
-                this.observationManager.createWarning(ObservationManager.bundle.getString("error.noNightVision"));
+                System.err.println(this.textManager.getString("error.noMetalLAF"));
+                this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
                 return;
             }
 
@@ -81,7 +85,7 @@ public class ThemeManagerImpl implements ThemeManager {
 
         } catch (Exception e) {
             System.err.println(e);
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.noNightVision"));
+            this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
         }
 
     }

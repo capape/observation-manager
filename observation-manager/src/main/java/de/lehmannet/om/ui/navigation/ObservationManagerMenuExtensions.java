@@ -22,9 +22,11 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public final class ObservationManagerMenuExtensions {
@@ -36,17 +38,22 @@ public final class ObservationManagerMenuExtensions {
     private final JMenu menu;
     private final ExtensionLoader extensionLoader;
     private final ImageResolver imageResolver;
+    private final TextManager textManager;
+    private final UserInterfaceHelper uiHelper;
 
     public ObservationManagerMenuExtensions(IConfiguration configuration, 
-            ExtensionLoader extLoader, ImageResolver imageResolver, ObservationManager om) {
+            ExtensionLoader extLoader, ImageResolver imageResolver,
+            TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
         this.observationManager = om;
         this.extensionLoader = extLoader;
         this.imageResolver = imageResolver;
+        this.textManager = textManager;
+        this.uiHelper = uiHelper;
         this.menu = this.createMenuExtensionItems();
-
+        
     }
 
     public JMenu getMenu() {
@@ -59,7 +66,7 @@ public final class ObservationManagerMenuExtensions {
         if (files == null) {
 
             // Let user choose extension zip file
-            JFileChooser chooser = new JFileChooser(ObservationManager.bundle.getString("extenstion.chooser.title"));
+            JFileChooser chooser = new JFileChooser(this.textManager.getString("extenstion.chooser.title"));
             FileFilter zipFileFilter = new FileFilter() {
                 @Override
                 public boolean accept(File f) {
@@ -138,12 +145,12 @@ public final class ObservationManagerMenuExtensions {
         // Show all positive results
         if (successCounter > 0) {
             this.observationManager
-                    .createInfo(ObservationManager.bundle.getString("info.addExtensionSuccess") + " " + positiveResult);
+                    .createInfo(this.textManager.getString("info.addExtensionSuccess") + " " + positiveResult);
 
             // Until we found a better way to handle extension, we need to
             // restart... :-(
             if (true) {
-                this.observationManager.createInfo(ObservationManager.bundle.getString("info.addExtensionRestart"));
+                this.observationManager.createInfo(this.textManager.getString("info.addExtensionRestart"));
                 // this.exit();
                 this.observationManager.exit();
             }
@@ -156,7 +163,7 @@ public final class ObservationManagerMenuExtensions {
                                              // problems during check OR
                                              // installation
             this.observationManager.createWarning(
-                    ObservationManager.bundle.getString("error.addExtensionFail") + " " + negativeResult);
+                    this.textManager.getString("error.addExtensionFail") + " " + negativeResult);
 
         }
 
@@ -234,7 +241,7 @@ public final class ObservationManagerMenuExtensions {
 
     private JMenu createMenuExtensionItems() {
         // ----- Extensions Menu
-        final JMenu extensionMenu = new JMenu(ObservationManager.bundle.getString("menu.extension"));
+        final JMenu extensionMenu = new JMenu(this.textManager.getString("menu.extension"));
         extensionMenu.setMnemonic('x');
 
         final JMenu[] menus = this.extensionLoader.getMenus();
@@ -246,13 +253,13 @@ public final class ObservationManagerMenuExtensions {
             extensionMenu.addSeparator();
         }
 
-        JMenuItem extensionInfo = new JMenuItem(ObservationManager.bundle.getString("menu.extensionInfo"),
+        JMenuItem extensionInfo = new JMenuItem(this.textManager.getString("menu.extensionInfo"),
                 new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
         extensionInfo.setMnemonic('p');
         extensionInfo.addActionListener(new ExtensionInfoListener());
         extensionMenu.add(extensionInfo);
 
-        JMenuItem installExtension = new JMenuItem(ObservationManager.bundle.getString("menu.installExtension"),
+        JMenuItem installExtension = new JMenuItem(this.textManager.getString("menu.installExtension"),
                 new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
         installExtension.setMnemonic('i');
         installExtension.addActionListener(new AddExtensionListener());
@@ -266,13 +273,14 @@ public final class ObservationManagerMenuExtensions {
         @Override
         public void actionPerformed(ActionEvent e) {
           
-            ObservationManager om = ObservationManagerMenuExtensions.this.observationManager;
-            om.createInfo(ObservationManager.bundle.getString("info.noExtensionsInstalled"));
+            ObservationManagerMenuExtensions.this.uiHelper.showInfo(
+                ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
           
             if (extensionLoader.getExtensions().isEmpty()) {
-                om.createInfo(ObservationManager.bundle.getString("info.noExtensionsInstalled"));
+                ObservationManagerMenuExtensions.this.uiHelper.showInfo(
+                    ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
             } else {
-                new ExtensionInfoDialog(om);
+                new ExtensionInfoDialog(ObservationManagerMenuExtensions.this.observationManager);
             }
 
         }

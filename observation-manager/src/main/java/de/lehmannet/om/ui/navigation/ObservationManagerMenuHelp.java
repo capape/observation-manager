@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.dialog.AboutDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import java.awt.event.ActionEvent;
@@ -21,11 +22,14 @@ public final class ObservationManagerMenuHelp {
     private final ObservationManager observationManager;
     private JMenu aboutMenu;
 
-    public ObservationManagerMenuHelp(IConfiguration configuration, ObservationManager om) {
+    private final TextManager textManager;
+
+    public ObservationManagerMenuHelp(IConfiguration configuration, TextManager textManager, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
         this.observationManager = om;
+        this.textManager = textManager;
 
         this.aboutMenu = this.createMenuAboutItems();
 
@@ -37,10 +41,10 @@ public final class ObservationManagerMenuHelp {
 
     private JMenu createMenuAboutItems() {
         // ----- About Menu
-        final JMenu aboutMenu = new JMenu(ObservationManager.bundle.getString("menu.about"));
+        final JMenu aboutMenu = new JMenu(this.textManager.getString("menu.about"));
         aboutMenu.setMnemonic('a');
 
-        final JMenuItem aboutInfo = new JMenuItem(ObservationManager.bundle.getString("menu.aboutOM"),
+        final JMenuItem aboutInfo = new JMenuItem(this.textManager.getString("menu.aboutOM"),
                 new ImageIcon(this.observationManager.getImageResolver().getImageURL("about.png").orElse(null), ""));
         aboutInfo.setMnemonic('i');
         aboutInfo.addActionListener(new AboutInfoListener());

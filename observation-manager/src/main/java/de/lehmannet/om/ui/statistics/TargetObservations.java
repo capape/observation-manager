@@ -1,6 +1,7 @@
 package de.lehmannet.om.ui.statistics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,10 @@ public class TargetObservations {
     }
 
     public List<IObservation> getObservations() {
+
+        if (this.observations == null) {
+            return Collections.emptyList();
+        }
 
         return this.observations.stream().map(x -> { return (IObservation) x;}).collect(Collectors.toList());
 

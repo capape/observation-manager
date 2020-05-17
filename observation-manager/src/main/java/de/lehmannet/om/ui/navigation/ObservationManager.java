@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -75,7 +75,6 @@ import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
-import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -140,19 +139,15 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
-    @Deprecated
-    public static PropertyResourceBundle bundle;
-
+   
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
         this.configuration = builder.configuration;
         this.imageResolver = builder.imageResolver;
         this.textManager = builder.textManager;
-        this.themeManager = new ThemeManagerImpl(this.configuration, this);
+        this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
         this.model = builder.model;
-
-        bundle = this.textManager.getBundle();
 
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
@@ -185,9 +180,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this.textManager, uiHelper, this.model,
                 this);
-        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
+        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
-                this.imageResolver, this);
+                this.imageResolver, this.textManager, uiHelper, this);
 
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
@@ -315,8 +310,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // Load new bundle
         final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
         this.textManager.useLanguage(isoKey);
-        bundle = this.textManager.getBundle();
-
+    
         // Reload title
         this.setTitle();
 

@@ -64,20 +64,22 @@ public class LogDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
 
-        Reader reader = null;
-        try {
-            reader = new InputStreamReader(new FileInputStream(this.logfile));
-            this.bufferedReader = new BufferedReader(reader);
-        } catch (FileNotFoundException fnfe) {
-            System.out.println("File not found: " + this.logfile);
-            return;
+        if (this.logfile != null) {
+            Reader reader = null;
+            try {
+                reader = new InputStreamReader(new FileInputStream(this.logfile));
+                this.bufferedReader = new BufferedReader(reader);
+            } catch (FileNotFoundException fnfe) {
+                System.out.println("File not found: " + this.logfile);
+                return;
+            }
+            this.setText();
+
         }
 
-        this.setText();
-
+       
         this.pack();
         this.setVisible(true);
-       
 
     }
 
@@ -136,9 +138,9 @@ public class LogDialog extends OMDialog implements ActionListener {
             while ((line = this.bufferedReader.readLine()) != null) {
 
                 // if (line.startsWith(ObservationManager.LOG_ERROR_PREFIX)) {
-                //     StyleConstants.setForeground(attri, Color.RED);
+                // StyleConstants.setForeground(attri, Color.RED);
                 // } else if (line.startsWith(ObservationManager.LOG_DEFAULT_PREFIX)) {
-                //     StyleConstants.setForeground(attri, Color.BLACK);
+                // StyleConstants.setForeground(attri, Color.BLACK);
                 // }
 
                 doc.insertString(doc.getLength(), line + "\n", attri);
