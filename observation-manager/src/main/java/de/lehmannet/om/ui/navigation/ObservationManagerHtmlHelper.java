@@ -166,7 +166,7 @@ public class ObservationManagerHtmlHelper {
     private void createHTMLForSchemaElement(ISchemaElement schemaElement, File htmlFile) {
 
         // With that we can check whether there are observations at all.
-        IObservation[] observations = this.xmlCache.getObservations(schemaElement);
+        IObservation[] observations = this.model.getObservations(schemaElement);
         if ((observations == null) || (observations.length == 0)) {
             this.uiHelper.showWarning(textManager.getString("error.export.xml.noObservationsForSchemaElement"));
             return;
@@ -176,7 +176,7 @@ public class ObservationManagerHtmlHelper {
         Document doc = this.xmlCache.getDocumentForSchemaElement(schemaElement);
 
         // XML File needs to be saved, as otherwise we don't get the path
-        String[] files = this.xmlCache.getAllOpenedFiles();
+        String[] files = this.model.getAllOpenedFiles();
         if ((files == null) || (files.length == 0)) { // There is data
                                                       // (otherwise we
                                                       // wouldn't have come
@@ -203,7 +203,7 @@ public class ObservationManagerHtmlHelper {
         if (schemaElement instanceof IObservation) {
             observations = new IObservation[] { (IObservation) schemaElement };
         } else {
-            observations = this.xmlCache.getObservations(schemaElement);
+            observations = this.model.getObservations(schemaElement);
         }
 
         if ((observations == null) || (observations.length == 0)) {
@@ -257,7 +257,7 @@ public class ObservationManagerHtmlHelper {
             doc = this.xmlCache.getDocument();
         }
 
-        String[] files = this.xmlCache.getAllOpenedFiles();
+        String[] files = this.model.getAllOpenedFiles();
         if ((files == null) || (files.length == 0)) {
             this.uiHelper.showInfo(textManager.getString("error.noXMLFileOpen"));
             return;
@@ -358,7 +358,7 @@ public class ObservationManagerHtmlHelper {
         // @todo
         // This whole method work only with one file opened!
 
-        File xmlFile = new File(this.xmlCache.getAllOpenedFiles()[0]);
+        File xmlFile = new File(this.model.getAllOpenedFiles()[0]);
 
         return xmlFile.getParent();
 
