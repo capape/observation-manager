@@ -16,11 +16,11 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.util.SchemaException;
 
 public class SolarSystemTargetCometPanel extends AbstractPanel {
 
@@ -34,8 +34,9 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
     private SolarSystemTargetComet target = null;
 
     private TargetContainer targetContainer = null;
+    private ObservationManagerModel model;
 
-    public SolarSystemTargetCometPanel(ObservationManager om, ITarget target, Boolean editable)
+    public SolarSystemTargetCometPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -47,7 +48,7 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         this.target = (SolarSystemTargetComet) target;
         this.observationManager = om;
-
+        this.model = model;
         this.createPanel();
 
     }
@@ -115,7 +116,7 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.isEditable(), true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

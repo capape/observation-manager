@@ -35,6 +35,7 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.OMDialog;
@@ -70,9 +71,11 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
     private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
-    public StatisticsDialog(ObservationManager om) {
+    private final ObservationManagerModel model;
+    public StatisticsDialog(ObservationManager om, ObservationManagerModel model) {
 
         super(om);
+        this.model = model;
 
         StatisticsQueryDialog queryDialog = new StatisticsQueryDialog(om);
         this.selectedCatalogs = queryDialog.getSelectedCatalogs();
@@ -94,7 +97,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         // Check how many observers exist...
         // If only one observer use this one, if several create pop-up for selection
-        IObserver[] observers = om.getXmlCache().getObservers();
+        IObserver[] observers = this.model.getObservers();
         if ((observers == null) || (observers.length == 0)) {
             return;
         } else if (observers.length > 1) {
@@ -109,7 +112,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 }
             }
             // Show popup
-            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om,
+            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, StatisticsDialog.this.model,
                     this.bundle.getString("dialog.statistics.observerPopup.title"), null, preselectedObserver, true,
                     SchemaElementConstants.OBSERVER);
             this.observers = popup.getAllSelectedElements().stream().map(x->{return (IObserver) x;}).collect(Collectors.toList());
@@ -247,7 +250,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         Iterator<ICatalog> iterator = this.selectedCatalogs.iterator();
         IListableCatalog current = null;
-        IObservation[] observations = this.om.getXmlCache().getObservations();
+        IObservation[] observations = this.model.getObservations();
 
         // Get config
         boolean useCoObservers = Boolean.parseBoolean(
@@ -320,7 +323,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             if (catalogTarget != null) {
                 if (catalogTarget.getCatalog().equals(cat)) {
                     ObservationStatisticsTableModel tableModel = new ObservationStatisticsTableModel(catalogTarget);
-                    new StatisticsDetailsDialog(om, tableModel); // Show Details dialog
+                    new StatisticsDetailsDialog(om, this.model, tableModel); // Show Details dialog
                     break;
                 }
             }

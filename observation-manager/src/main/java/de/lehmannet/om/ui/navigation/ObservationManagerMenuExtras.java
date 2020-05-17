@@ -14,8 +14,10 @@ import javax.swing.KeyStroke;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
@@ -23,7 +25,7 @@ import de.lehmannet.om.ui.theme.ThemeManager;
 import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.XMLFileLoader;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public final class ObservationManagerMenuExtras {
 
@@ -34,12 +36,19 @@ public final class ObservationManagerMenuExtras {
     private final JMenu menu;
     private final ImageResolver imageResolver;
     private final ThemeManager themeManager;
+    private final UserInterfaceHelper uiHelper;
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
+        
 
 
     public ObservationManagerMenuExtras(        
         IConfiguration configuration,
         ImageResolver imageResolver,
         ThemeManager themeManager,
+        TextManager textManager,
+        UserInterfaceHelper uiHelper,
+        ObservationManagerModel model,
         ObservationManager om) {
        
         // Load configuration
@@ -47,6 +56,9 @@ public final class ObservationManagerMenuExtras {
         this.observationManager = om;
         this.imageResolver = imageResolver;
         this.themeManager = themeManager;
+        this.uiHelper = uiHelper;
+        this.model = model;
+        this.textManager = textManager;
 
         this.menu = this.createMenuExtraItems();
  
@@ -70,23 +82,23 @@ public final class ObservationManagerMenuExtras {
 
     public void showStatistics() {
 
-        if (this.observationManager.getXmlCache().getObservations().length == 0) {
-            this.observationManager.createWarning(ObservationManager.bundle.getString("error.noStatisticsData"));
+        if (this.model.getObservations().length == 0) {
+            this.uiHelper.showWarning(this.textManager.getString("error.noStatisticsData"));
             return;
         }
 
         if (this.observationManager.getExtensionLoader().getExtensions().isEmpty()) {
-            this.observationManager.createInfo(ObservationManager.bundle.getString("info.noCatalogsInstalled"));
+            this.uiHelper.showInfo(this.textManager.getString("info.noCatalogsInstalled"));            
             return;
         }
 
-        new StatisticsDialog(this.observationManager);
+        new StatisticsDialog(this.observationManager, this.model);
 
     }
 
     public void showPreferencesDialog() {
 
-        new PreferencesDialog(this.observationManager, this.observationManager.getExtensionLoader().getPreferencesTabs());
+        new PreferencesDialog(this.observationManager, this.model, this.textManager,observationManager.getExtensionLoader().getPreferencesTabs());
 
     }
 
@@ -112,7 +124,7 @@ public final class ObservationManagerMenuExtras {
             new UpdateInfoDialog(this.observationManager, checker);
 
         } else { // Something went wrong
-            this.observationManager.createInfo(ObservationManager.bundle.getString("updates.check.noAvailable"));
+            this.uiHelper.showInfo(textManager.getString("updates.check.noAvailable"));
 
         }
     }
@@ -130,17 +142,17 @@ public final class ObservationManagerMenuExtras {
 
     private JMenu createMenuExtraItems() {
         // ----- Extras Menu
-        final JMenu extraMenu = new JMenu(ObservationManager.bundle.getString("menu.extra"));
+        final JMenu extraMenu = new JMenu(this.textManager.getString("menu.extra"));
         extraMenu.setMnemonic('e');
       
 
-        JMenuItem  showStatistics = new JMenuItem(ObservationManager.bundle.getString("menu.showStatistics"),
+        JMenuItem  showStatistics = new JMenuItem(this.textManager.getString("menu.showStatistics"),
                 new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
         showStatistics.setMnemonic('s');
         showStatistics.addActionListener(new StatisticsActionListener());
         extraMenu.add(showStatistics);
 
-        JMenuItem preferences = new JMenuItem(ObservationManager.bundle.getString("menu.preferences"),
+        JMenuItem preferences = new JMenuItem(this.textManager.getString("menu.preferences"),
                 new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
         preferences.setMnemonic('p');
         preferences.addActionListener(new PreferencesActionListener());
@@ -148,7 +160,7 @@ public final class ObservationManagerMenuExtras {
 
         extraMenu.addSeparator();
 
-        JMenuItem didYouKnow = new JMenuItem(ObservationManager.bundle.getString("menu.didYouKnow"),
+        JMenuItem didYouKnow = new JMenuItem(this.textManager.getString("menu.didYouKnow"),
                 new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
         didYouKnow.setMnemonic('d');
         didYouKnow.addActionListener(new DidYouKnowDialogActionListener());
@@ -157,13 +169,13 @@ public final class ObservationManagerMenuExtras {
 
         extraMenu.addSeparator();
 
-        JMenuItem nightVision = new JCheckBoxMenuItem(ObservationManager.bundle.getString("menu.nightVision"));
+        JMenuItem nightVision = new JCheckBoxMenuItem(this.textManager.getString("menu.nightVision"));
         nightVision.setMnemonic('v');
         nightVision.addActionListener(new NightVisionActionListener());
         extraMenu.add(nightVision);
         extraMenu.addSeparator();
 
-        JMenuItem logMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.log"),
+        JMenuItem logMenuEntry = new JMenuItem(this.textManager.getString("menu.log"),
                 new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
         logMenuEntry.setMnemonic('l');
         logMenuEntry.addActionListener(new LogMenuActionListener());
@@ -171,7 +183,7 @@ public final class ObservationManagerMenuExtras {
 
         extraMenu.addSeparator();
 
-        JMenuItem updateMenuEntry = new JMenuItem(ObservationManager.bundle.getString("menu.updateCheck"),
+        JMenuItem updateMenuEntry = new JMenuItem(this.textManager.getString("menu.updateCheck"),
                 new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
         updateMenuEntry.setMnemonic('u');
         updateMenuEntry.addActionListener(new UpdateMenuListener());

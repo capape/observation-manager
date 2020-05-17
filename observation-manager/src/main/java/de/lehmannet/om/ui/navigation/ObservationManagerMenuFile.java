@@ -44,6 +44,7 @@ import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.observation.utils.SystemInfo;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -57,7 +58,6 @@ public final class ObservationManagerMenuFile {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuFile.class);
 
-    private final XMLFileLoader xmlCache;
     private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private final ObservationManagerHtmlHelper htmlHelper;
@@ -66,20 +66,21 @@ public final class ObservationManagerMenuFile {
     private final TextManager textManager;
     private final UserInterfaceHelper uiHelper;
     private final ObservationManagerModel model;
+    private final InstallDir installDir;
 
     public ObservationManagerMenuFile(IConfiguration configuration, ObservationManagerModel model, 
             ObservationManagerHtmlHelper htmlHelper, ImageResolver imageResolver,
-            TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
+            TextManager textManager, UserInterfaceHelper uiHelper, InstallDir installDir, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
-        this.model = model;
-        this.xmlCache = this.model.getXmlCache();
+        this.model = model;        
         this.observationManager = om;
         this.htmlHelper = htmlHelper;
         this.imageResolver = imageResolver;
         this.uiHelper = uiHelper;
         this.textManager = textManager;
+        this.installDir = installDir;
 
         this.menu = this.createMenuFileItems();
     }
@@ -332,14 +333,14 @@ public final class ObservationManagerMenuFile {
 
     public void saveFileAs( boolean changed) {
 
-        if (this.xmlCache.isEmpty()) {
+        if (this.model.isEmpty()) {
             this.createWarning(textManager.getString("error.saveEmpty"));
             return;
         }
 
         String oldPath = null;
 
-        String[] files = this.xmlCache.getAllOpenedFiles();
+        String[] files = this.model.getAllOpenedFiles();
         if ((files != null) && (files.length == 1)) { // @todo This works only
                                                       // with ONE file open
             oldPath = files[0];
@@ -364,7 +365,7 @@ public final class ObservationManagerMenuFile {
                     @Override
                     public void run() {
 
-                        boolean result = ObservationManagerMenuFile.this.xmlCache.save(f.getAbsolutePath());
+                        boolean result = ObservationManagerMenuFile.this.model.save(f.getAbsolutePath());
                         if (!result) {
                             message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
@@ -400,7 +401,7 @@ public final class ObservationManagerMenuFile {
                     @Override
                     public void run() {
 
-                        boolean result = ObservationManagerMenuFile.this.xmlCache.saveAs(op, f.getAbsolutePath());
+                        boolean result = ObservationManagerMenuFile.this.model.saveAs(op, f.getAbsolutePath());
                         if (!result) {
                             message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
@@ -478,12 +479,12 @@ public final class ObservationManagerMenuFile {
 
     public boolean saveFile() {
 
-        if (this.xmlCache.isEmpty()) {
+        if (this.model.isEmpty()) {
             this.createWarning(textManager.getString("error.saveEmpty"));
             return false;
         }
 
-        final String[] files = this.xmlCache.getAllOpenedFiles();
+        final String[] files = this.model.getAllOpenedFiles();
         boolean result = false;
         if ((files == null) // No filename known yet...
                 || (files.length == 0)) {
@@ -501,7 +502,7 @@ public final class ObservationManagerMenuFile {
                     @Override
                     public void run() {
 
-                        boolean result = ObservationManagerMenuFile.this.xmlCache.save(f.getAbsolutePath());
+                        boolean result = ObservationManagerMenuFile.this.model.save(f.getAbsolutePath());
                         if (!result) {
                             message = textManager.getString("error.save");
                             returnValue = Worker.RETURN_TYPE_ERROR;
@@ -571,7 +572,7 @@ public final class ObservationManagerMenuFile {
             @Override
             public void run() {
 
-                boolean result = ObservationManagerMenuFile.this.xmlCache.save(files[0]);
+                boolean result = ObservationManagerMenuFile.this.model.save(files[0]);
                 if (!result) {
                     message = textManager.getString("error.save");
                     returnValue = Worker.RETURN_TYPE_ERROR;
@@ -644,7 +645,7 @@ public final class ObservationManagerMenuFile {
         }
 
         // Create dialog
-        NewDocumentDialog newDialog = new NewDocumentDialog(observationManager, imageResolver);
+        NewDocumentDialog newDialog = new NewDocumentDialog(observationManager, this.model, this.textManager, imageResolver);
 
         // If user selected Cancel
         int result = newDialog.getResult();
@@ -670,55 +671,55 @@ public final class ObservationManagerMenuFile {
         // Add schema elements to (empty) cache
         if (imagers != null) {
             for (IImager imager : imagers) {
-                this.xmlCache.addSchemaElement(imager);
+                this.model.add(imager);
             }
         }
 
         if (eyepieces != null) {
             for (IEyepiece eyepiece : eyepieces) {
-                this.xmlCache.addSchemaElement(eyepiece);
+                this.model.add(eyepiece);
             }
         }
 
         if (filters != null) {
             for (IFilter filter : filters) {
-                this.xmlCache.addSchemaElement(filter);
+                this.model.add(filter);
             }
         }
 
         if (lenses != null) {
             for (ILens lens : lenses) {
-                this.xmlCache.addSchemaElement(lens);
+                this.model.add(lens);
             }
         }
 
         if (observers != null) {
             for (IObserver observer : observers) {
-                this.xmlCache.addSchemaElement(observer);
+                this.model.add(observer);
             }
         }
 
         if (scopes != null) {
             for (IScope scope : scopes) {
-                this.xmlCache.addSchemaElement(scope);
+                this.model.add(scope);
             }
         }
 
         if (sites != null) {
             for (ISite site : sites) {
-                this.xmlCache.addSchemaElement(site);
+                this.model.add(site);
             }
         }
 
         if (sessions != null) {
             for (ISession session : sessions) {
-                this.xmlCache.addSchemaElement(session);
+                this.model.add(session);
             }
         }
 
         if (targets != null) {
             for (ITarget target : targets) {
-                this.xmlCache.addSchemaElement(target);
+                this.model.add(target);
             }
         }
 
@@ -727,7 +728,7 @@ public final class ObservationManagerMenuFile {
         // under the other schemaElements in the TreeView !!!
         if (observations != null) {
             for (IObservation observation : observations) {
-                this.xmlCache.addSchemaElement(observation);
+                this.model.add(observation);
             }
         }
 
@@ -834,7 +835,7 @@ public final class ObservationManagerMenuFile {
 
     private void cleanUp() {
 
-        this.xmlCache.clear();
+        this.model.clear();
         this.observationManager.getTreeView().updateTree();
 
     }
@@ -878,7 +879,7 @@ public final class ObservationManagerMenuFile {
             @Override
             public void run() {
 
-                boolean result = ObservationManagerMenuFile.this.xmlCache.loadObservations(file);
+                boolean result = ObservationManagerMenuFile.this.model.loadObservations(file);
                 if (!result) {
                     message = textManager.getString("error.loadXML") + " " + file;
                     returnValue = Worker.RETURN_TYPE_ERROR;
@@ -973,18 +974,20 @@ public final class ObservationManagerMenuFile {
         // Create and start the worker thread to do the actual import
         class ImportWorker implements Worker {
 
-            private File importFile = null;
-            private File schemaFile = null;
-            private ObservationManager om = null;
+            private final File importFile;
+            private final File schemaFile;
+            private final ObservationManagerModel model;
+            private final ObservationManager om;
 
             private String message = null;
             private byte returnValue = Worker.RETURN_TYPE_OK;
 
-            ImportWorker(File importFile, ObservationManager om) {
+            ImportWorker(File importFile, ObservationManager om, ObservationManagerModel omModel, InstallDir installDir) {
 
-                this.importFile = importFile;
-                this.schemaFile = new File(om.getInstallDir().getPathForFile("schema"));
                 this.om = om;
+                this.importFile = importFile;
+                this.schemaFile = new File(installDir.getPathForFile("schema"));
+                this.model = omModel;
 
             }
 
@@ -1015,7 +1018,7 @@ public final class ObservationManagerMenuFile {
 
                 // Add imported elements to current file
                 for (Object importedElement : importedElements) {
-                    this.om.getXmlCache().addSchemaElement((ISchemaElement) importedElement);
+                    this.model.add((ISchemaElement) importedElement);
                 }
 
                 // Finally add observations
@@ -1027,7 +1030,7 @@ public final class ObservationManagerMenuFile {
                 IObservation[] obs = importer.getObservations();
                 if ((obs != null) && (obs.length > 0)) {
                     for (IObservation ob : obs) {
-                        this.om.getXmlCache().addSchemaElement(ob);
+                        this.model.add(ob);
                     }
                 }
 
@@ -1057,7 +1060,7 @@ public final class ObservationManagerMenuFile {
         }
 
     
-        ImportWorker calculation = new ImportWorker(file, this.observationManager);
+        ImportWorker calculation = new ImportWorker(file, this.observationManager, this.model, this.installDir);
 
         // Change cursor, as import thread is about to start
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);

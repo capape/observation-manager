@@ -48,6 +48,8 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -75,9 +77,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
+    
     private ObservationManager om = null;
     private JTree tree = null;
 
@@ -95,16 +95,20 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private ISite[] sites = null;
     private ITarget[] targets = null;
     private final ImageResolver imageResolver;
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
 
-    public NewDocumentDialog(JFrame om, ImageResolver resolver) {
+    public NewDocumentDialog(JFrame om, ObservationManagerModel model, TextManager textManager, ImageResolver resolver) {
 
         super((ObservationManager) om, true);
 
         this.om = (ObservationManager) om;
+        this.model = model;
+        this.textManager = textManager;
 
         this.imageResolver = resolver;
 
-        this.setTitle(this.bundle.getString("dialog.newDoc.title"));
+        this.setTitle(this.textManager.getString("dialog.newDoc.title"));
         this.setSize(480, 480);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
@@ -537,7 +541,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         if (solvedDependencyProblem) {
-            this.om.createInfo(this.bundle.getString("dialog.newDoc.info.solvedDependencyProblem"));
+            this.om.createInfo(this.textManager.getString("dialog.newDoc.info.solvedDependencyProblem"));
         }
 
         return true;
@@ -554,8 +558,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 25, 2);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JRadioButton newBlankDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.blank"));
-        newBlankDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.blank"));
+        JRadioButton newBlankDocument = new JRadioButton(this.textManager.getString("dialog.newDoc.button.blank"));
+        newBlankDocument.setToolTipText(this.textManager.getString("dialog.newDoc.tooltip.blank"));
         newBlankDocument.setActionCommand(NewDocumentDialog.AC_BLANK);
         newBlankDocument.addActionListener(this);
         newBlankDocument.setSelected(true);
@@ -564,8 +568,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         gridbag.setConstraints(newBlankDocument, constraints);
         this.getContentPane().add(newBlankDocument);
 
-        JRadioButton newDocument = new JRadioButton(this.bundle.getString("dialog.newDoc.button.new"));
-        newDocument.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.new"));
+        JRadioButton newDocument = new JRadioButton(this.textManager.getString("dialog.newDoc.button.new"));
+        newDocument.setToolTipText(this.textManager.getString("dialog.newDoc.tooltip.new"));
         newDocument.setActionCommand(NewDocumentDialog.AC_NEW);
         buttonGroup.add(newDocument);
         newDocument.addActionListener(this);
@@ -574,15 +578,15 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         this.getContentPane().add(newDocument);
 
         this.tree.setEnabled(false); // Disable as we've preselected new blank document
-        this.tree.setToolTipText(this.bundle.getString("dialog.newDoc.tooltip.tree"));
+        this.tree.setToolTipText(this.textManager.getString("dialog.newDoc.tooltip.tree"));
         JScrollPane scrollPanel = new JScrollPane(this.tree);
-        scrollPanel.setBorder(BorderFactory.createTitledBorder(this.bundle.getString("dialog.newDoc.border.tree")));
+        scrollPanel.setBorder(BorderFactory.createTitledBorder(this.textManager.getString("dialog.newDoc.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
         this.getContentPane().add(scrollPanel);
 
-        JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
+        JButton ok = new JButton(this.textManager.getString("dialog.button.ok"));
         ok.setActionCommand(NewDocumentDialog.AC_OK);
         ok.addActionListener(this);
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 25, 4);
@@ -590,7 +594,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         gridbag.setConstraints(ok, constraints);
         this.getContentPane().add(ok);
 
-        JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+        JButton cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
         cancel.setActionCommand(NewDocumentDialog.AC_CANCEL);
         cancel.addActionListener(this);
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 25, 4);
@@ -608,67 +612,67 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         Icon collapsed = null;
 
         // The root node
-        CheckBoxNode root = new CheckBoxNode(this, this.bundle.getString("treeRoot"), false, null, null, null);
+        CheckBoxNode root = new CheckBoxNode(this, this.textManager.getString("treeRoot"), false, null, null, null);
 
         // Create all schema element nodes
         expanded = new ImageIcon(this.imageResolver.getImageURL(OBSERVATION_EXPANDED_ICON).orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode observations = new CheckBoxNode(this, this.bundle.getString("observations"), false,
-                this.om.getXmlCache().getObservations(), expanded, collapsed);
+        CheckBoxNode observations = new CheckBoxNode(this, this.textManager.getString("observations"), false,
+                this.model.getObservations(), expanded, collapsed);
         root.add(observations);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode targets = new CheckBoxNode(this, this.bundle.getString("targets"), false,
-                this.om.getXmlCache().getTargets(), expanded, collapsed);
+        CheckBoxNode targets = new CheckBoxNode(this, this.textManager.getString("targets"), false,
+                this.model.getTargets(), expanded, collapsed);
         root.add(targets);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode scopes = new CheckBoxNode(this, this.bundle.getString("scopes"), true,
-                this.om.getXmlCache().getScopes(), expanded, collapsed);
+        CheckBoxNode scopes = new CheckBoxNode(this, this.textManager.getString("scopes"), true,
+                this.model.getScopes(), expanded, collapsed);
         root.add(scopes);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode imagers = new CheckBoxNode(this, this.bundle.getString("imagers"), true,
-                this.om.getXmlCache().getImagers(), expanded, collapsed);
+        CheckBoxNode imagers = new CheckBoxNode(this, this.textManager.getString("imagers"), true,
+                this.model.getImagers(), expanded, collapsed);
         root.add(imagers);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode filters = new CheckBoxNode(this, this.bundle.getString("filters"), true,
-                this.om.getXmlCache().getFilters(), expanded, collapsed);
+        CheckBoxNode filters = new CheckBoxNode(this, this.textManager.getString("filters"), true,
+                this.model.getFilters(), expanded, collapsed);
         root.add(filters);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode eyepieces = new CheckBoxNode(this, this.bundle.getString("eyepieces"), true,
-                this.om.getXmlCache().getEyepieces(), expanded, collapsed);
+        CheckBoxNode eyepieces = new CheckBoxNode(this, this.textManager.getString("eyepieces"), true,
+                this.model.getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode lenses = new CheckBoxNode(this, this.bundle.getString("lenses"), true,
-                this.om.getXmlCache().getLenses(), expanded, collapsed);
+        CheckBoxNode lenses = new CheckBoxNode(this, this.textManager.getString("lenses"), true,
+                this.model.getLenses(), expanded, collapsed);
         root.add(lenses);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null),DESCRIPTION);
-        CheckBoxNode sites = new CheckBoxNode(this, this.bundle.getString("sites"), true,
-                this.om.getXmlCache().getSites(), expanded, collapsed);
+        CheckBoxNode sites = new CheckBoxNode(this, this.textManager.getString("sites"), true,
+                this.model.getSites(), expanded, collapsed);
         root.add(sites);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode sessions = new CheckBoxNode(this, this.bundle.getString("sessions"), false,
-                this.om.getXmlCache().getSessions(), expanded, collapsed);
+        CheckBoxNode sessions = new CheckBoxNode(this, this.textManager.getString("sessions"), false,
+                this.model.getSessions(), expanded, collapsed);
         root.add(sessions);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null),DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null),DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode observers = new CheckBoxNode(this, this.bundle.getString("observers"), true,
-                this.om.getXmlCache().getObservers(), expanded, collapsed);
+        CheckBoxNode observers = new CheckBoxNode(this, this.textManager.getString("observers"), true,
+                this.model.getObservers(), expanded, collapsed);
         root.add(observers);
 
         this.tree = new JTree(root);

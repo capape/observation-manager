@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel;
@@ -22,9 +23,9 @@ public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITa
 
     private static final long serialVersionUID = -1824120647459055098L;
 
-    public SolarSystemTargetPlanetDialog(ObservationManager om, ITarget editableTarget, IObservation o) {
+    public SolarSystemTargetPlanetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget, IObservation o) {
 
-        super(om, new SolarSystemTargetPlanetPanel(om, editableTarget, o, Boolean.TRUE));
+        super(om, new SolarSystemTargetPlanetPanel(om, model, editableTarget, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

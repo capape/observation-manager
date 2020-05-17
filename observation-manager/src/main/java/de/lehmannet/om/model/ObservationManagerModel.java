@@ -1,6 +1,8 @@
 package de.lehmannet.om.model;
 
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -23,6 +25,10 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 public interface ObservationManagerModel {
 
     
+    void setSelectedElement(ISchemaElement selected);
+
+    ISchemaElement getSelectedElement();
+    
     boolean hasChanged();
 
 	void setChanged(boolean b);
@@ -30,6 +36,8 @@ public interface ObservationManagerModel {
     void setTitle(String title);
 
     String getTittle();
+
+    Optional<String> getRootName();
 
     @Deprecated 
     XMLFileLoader getXmlCache();
@@ -39,37 +47,51 @@ public interface ObservationManagerModel {
 
     boolean isEmpty();
 
-    public void add(ISchemaElement element);
+    void add(ISchemaElement element);
     
-    public void add(ISchemaElement element, boolean dependend) ;
+    void add(ISchemaElement element, boolean dependend) ;
     
-    public List<ISchemaElement> remove(ISchemaElement element);
+    List<ISchemaElement> remove(ISchemaElement element);
     
-    public void update(ISchemaElement element);
+    void update(ISchemaElement element);
     
-    public IObserver[] getObservers();
+    IObserver[] getObservers();
 
-    public IEyepiece[] getEyepieces();
+    IEyepiece[] getEyepieces();
 
-    public IImager[] getImagers() ;
+    IImager[] getImagers() ;
 
-    public IFilter[] getFilters();
+    IFilter[] getFilters();
 
-    public IObservation[] getObservations();
+    IObservation[] getObservations();
     
-    public IObservation[] getObservations(ISchemaElement element);
+    IObservation[] getObservations(ISchemaElement element);
 
-    public IObservation[] getCoObserverObservations(IObserver observer);
+    IObservation[] getCoObserverObservations(IObserver observer);
 
-    public IScope[] getScopes() ;
+    IScope[] getScopes() ;
 
-    public ISession[] getSessions();
+    ISession[] getSessions();
 
-    public ISite[] getSites() ;
+    ISite[] getSites() ;
 
-    public ITarget[] getTargets();
+    ITarget[] getTargets();
 
-    public ILens[] getLenses();    
+    ILens[] getLenses();    
     
     boolean loadObservations(String file);
+
+    List<File> getFilesFromPath(List<String> imagePath);
+
+    String getXMLFileForSchemaElement(ISchemaElement schemaElement);
+
+    String getXMLPathForSchemaElement(ISchemaElement schemaElement);
+
+    File getExportFile(final String filename, final String extension);
+
+    String[] getAllOpenedFiles();
+
+    boolean save(String name);
+
+    boolean saveAs(String oldPath, String newPath);
 }

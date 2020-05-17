@@ -32,6 +32,7 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetMS;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.dialog.TargetStarDialog;
@@ -61,8 +62,9 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     private JButton addNewStar = null;
     private JButton editStar = null;
     private JButton deleteStar = null;
+    private final ObservationManagerModel model;
 
-    public DeepSkyTargetMSPanel(ObservationManager om, ITarget target, Boolean editable)
+    public DeepSkyTargetMSPanel(ObservationManager om,  ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -74,6 +76,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         this.target = (DeepSkyTargetMS) target;
         this.observationManager = om;
+        this.model = model;
 
         this.createPanel();
 
@@ -93,13 +96,13 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         Object source = e.getSource();
         if (source instanceof JButton) {
             if (source.equals(this.addNewStar)) {
-                TargetStarDialog ts = new TargetStarDialog(this.observationManager, null);
+                TargetStarDialog ts = new TargetStarDialog(this.observationManager, this.model, null);
                 ITarget t = ts.getTarget();
                 if (t != null) {
                     this.tableModel.addTarget(t);
                 }
             } else if (source.equals(this.addExistingStar)) {
-                SchemaElementSelectorPopup targetSelector = new SchemaElementSelectorPopup(this.observationManager,
+                SchemaElementSelectorPopup targetSelector = new SchemaElementSelectorPopup(this.observationManager, this.model,
                         this.bundle.getString("popup.ms.addExistingStars"), TargetStar.XML_XSI_TYPE_VALUE,
                         Arrays.asList(this.tableModel.getAllTargets()), true, SchemaElementConstants.TARGET);
                 List<ISchemaElement> selectedTargets = targetSelector.getAllSelectedElements();
@@ -108,7 +111,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                 }
                 this.tableModel.setTargets((ITarget[]) selectedTargets.toArray(new ITarget[] {}));
             } else if (source.equals(this.editStar)) {
-                new TargetStarDialog(this.observationManager, this.selectedStar);
+                new TargetStarDialog(this.observationManager, this.model, this.selectedStar);
             } else if (source.equals(this.deleteStar)) {
                 if (this.selectedStar != null) {
                     this.tableModel.deleteTarget(this.selectedStar);
@@ -187,7 +190,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
     private void loadSchemaElement() {
 
-        List<ITarget> targets = this.target.getComponentTargets(this.observationManager.getXmlCache().getTargets());
+        List<ITarget> targets = this.target.getComponentTargets(this.model.getTargets());
         if ((targets != null) && !(targets.isEmpty())) {
             this.tableModel = new TargetTableModel((ITarget[]) targets.toArray(new ITarget[] {}),
                     this.observationManager);
@@ -242,7 +245,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 15, 1);
-        this.targetContainer = new TargetContainer(this.observationManager, this.target, this.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

@@ -22,6 +22,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.comparator.TargetComparator;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -38,7 +39,7 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
 
     private TargetSelectionModel tableModel = null;
 
-    public TargetSelectorPopup(ObservationManager om, String title, String targetType, List<ITarget> preSelectedTargets) {
+    public TargetSelectorPopup(ObservationManager om, ObservationManagerModel model,String title, String targetType, List<ITarget> preSelectedTargets) {
 
         super(om, true);
 
@@ -47,7 +48,7 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        this.tableModel = new TargetSelectionModel(om.getXmlCache().getTargets(), targetType, preSelectedTargets);
+        this.tableModel = new TargetSelectionModel(model.getTargets(), targetType, preSelectedTargets);
 
         this.initDialog();
 

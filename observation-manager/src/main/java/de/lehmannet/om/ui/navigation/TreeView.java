@@ -17,8 +17,15 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.util.*;
+import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -45,6 +52,8 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -54,11 +63,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
      *
      */
     private static final long serialVersionUID = 1L;
-
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
-    private ObservationManager observationManager = null;
 
     private JTree tree = null;
 
@@ -83,23 +87,28 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private final Map<ISchemaElement,SchemaElementMutableTreeNode> nodes = new HashMap<>();
 
     private final ImageResolver imageResolver;
+    private final ObservationManagerModel model;
+    private final ObservationManager observationManager;
+    private final TextManager textManager;
 
-    public TreeView(ObservationManager om, ImageResolver resolver) {
+    public TreeView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager, ImageResolver resolver) {
 
         this.observationManager = om;
+        this.model = omModel;
+        this.textManager = textManager;
         this.imageResolver = resolver;
 
-        this.root = new DefaultMutableTreeNode(this.bundle.getString("treeRoot"));
-        this.observation = new DefaultMutableTreeNode(this.bundle.getString("tree.observations"));
-        this.target = new DefaultMutableTreeNode(this.bundle.getString("targets"));
-        this.scope = new DefaultMutableTreeNode(this.bundle.getString("scopes"));
-        this.imager = new DefaultMutableTreeNode(this.bundle.getString("imagers"));
-        this.filter = new DefaultMutableTreeNode(this.bundle.getString("filters"));
-        this.eyepiece = new DefaultMutableTreeNode(this.bundle.getString("eyepieces"));
-        this.lens = new DefaultMutableTreeNode(this.bundle.getString("lenses"));
-        this.site = new DefaultMutableTreeNode(this.bundle.getString("sites"));
-        this.session = new DefaultMutableTreeNode(this.bundle.getString("sessions"));
-        this.observer = new DefaultMutableTreeNode(this.bundle.getString("observers"));
+        this.root = new DefaultMutableTreeNode(this.textManager.getString("treeRoot"));
+        this.observation = new DefaultMutableTreeNode(this.textManager.getString("tree.observations"));
+        this.target = new DefaultMutableTreeNode(this.textManager.getString("targets"));
+        this.scope = new DefaultMutableTreeNode(this.textManager.getString("scopes"));
+        this.imager = new DefaultMutableTreeNode(this.textManager.getString("imagers"));
+        this.filter = new DefaultMutableTreeNode(this.textManager.getString("filters"));
+        this.eyepiece = new DefaultMutableTreeNode(this.textManager.getString("eyepieces"));
+        this.lens = new DefaultMutableTreeNode(this.textManager.getString("lenses"));
+        this.site = new DefaultMutableTreeNode(this.textManager.getString("sites"));
+        this.session = new DefaultMutableTreeNode(this.textManager.getString("sessions"));
+        this.observer = new DefaultMutableTreeNode(this.textManager.getString("observers"));
 
         this.root.add(this.observation);
         this.root.add(this.target);
@@ -140,7 +149,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
                             if (node instanceof SchemaElementMutableTreeNode) {
                                 ISchemaElement element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
-                                new PopupMenuHandler(TreeView.this.observationManager, element, p.x, p.y,
+                                new PopupMenuHandler(TreeView.this.observationManager,
+                                        TreeView.this.model, TreeView.this.textManager, element, p.x, p.y,
                                         (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
                                                 + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
                                                 + PopupMenuHandler.CREATE_NEW_OBSERVATION
@@ -173,7 +183,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                     type = SchemaElementConstants.LENS;
                                 }
 
-                                new PopupMenuHandler(TreeView.this.observationManager, null, p.x, p.y,
+                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model, TreeView.this.textManager, null, p.x, p.y,
                                         PopupMenuHandler.CREATE, type, null);
                             }
                         }
@@ -248,11 +258,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
     public void updateTree() {
 
-        String rootName = this.bundle.getString("treeRoot"); // (String)this.root.getUserObject();
-        String[] fileNames = this.observationManager.getXmlCache().getAllOpenedFiles();
-        if ((fileNames != null) && (fileNames.length > 0)) {
-            rootName = new File(fileNames[0]).getName();
-        }
+        
+        String rootName = this.model.getRootName().orElse(this.textManager.getString("treeRoot"));        
         this.root.setUserObject(rootName);
 
         this.observation.removeAllChildren();
@@ -361,93 +368,93 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private void initTree() {
 
         // Observation Node
-        ISchemaElement[] elements = this.observationManager.getXmlCache().getObservations();
+        ISchemaElement[] elements = this.model.getObservations();
         this.addSchemaElements(elements, this.observation);
         if (elements.length > 0) {
-            this.observation.setUserObject(this.bundle.getString("tree.observations") + " (" + elements.length + ")");
+            this.observation.setUserObject(this.textManager.getString("tree.observations") + " (" + elements.length + ")");
         } else {
-            this.observation.setUserObject(this.bundle.getString("tree.observations"));
+            this.observation.setUserObject(this.textManager.getString("tree.observations"));
         }
 
         // TargetContainer Node
-        elements = this.observationManager.getXmlCache().getTargets();
+        elements = this.model.getTargets();
         this.addSchemaElements(elements, this.target);
         if (elements.length > 0) {
-            this.target.setUserObject(this.bundle.getString("targets") + " (" + elements.length + ")");
+            this.target.setUserObject(this.textManager.getString("targets") + " (" + elements.length + ")");
         } else {
-            this.target.setUserObject(this.bundle.getString("targets"));
+            this.target.setUserObject(this.textManager.getString("targets"));
         }
 
         // ScopePanel Node
-        elements = this.observationManager.getXmlCache().getScopes();
+        elements = this.model.getScopes();
         this.addSchemaElements(elements, this.scope);
         if (elements.length > 0) {
-            this.scope.setUserObject(this.bundle.getString("scopes") + " (" + elements.length + ")");
+            this.scope.setUserObject(this.textManager.getString("scopes") + " (" + elements.length + ")");
         } else {
-            this.scope.setUserObject(this.bundle.getString("scopes"));
+            this.scope.setUserObject(this.textManager.getString("scopes"));
         }
 
         // ImagerPanel Node
-        elements = this.observationManager.getXmlCache().getImagers();
+        elements = this.model.getImagers();
         this.addSchemaElements(elements, this.imager);
         if (elements.length > 0) {
-            this.imager.setUserObject(this.bundle.getString("imagers") + " (" + elements.length + ")");
+            this.imager.setUserObject(this.textManager.getString("imagers") + " (" + elements.length + ")");
         } else {
-            this.imager.setUserObject(this.bundle.getString("imagers"));
+            this.imager.setUserObject(this.textManager.getString("imagers"));
         }
 
         // EyepiecePanel Node
-        elements = this.observationManager.getXmlCache().getEyepieces();
+        elements = this.model.getEyepieces();
         this.addSchemaElements(elements, this.eyepiece);
         if (elements.length > 0) {
-            this.eyepiece.setUserObject(this.bundle.getString("eyepieces") + " (" + elements.length + ")");
+            this.eyepiece.setUserObject(this.textManager.getString("eyepieces") + " (" + elements.length + ")");
         } else {
-            this.eyepiece.setUserObject(this.bundle.getString("eyepieces"));
+            this.eyepiece.setUserObject(this.textManager.getString("eyepieces"));
         }
 
         // FilterPanel Node
-        elements = this.observationManager.getXmlCache().getFilters();
+        elements = this.model.getFilters();
         this.addSchemaElements(elements, this.filter);
         if (elements.length > 0) {
-            this.filter.setUserObject(this.bundle.getString("filters") + " (" + elements.length + ")");
+            this.filter.setUserObject(this.textManager.getString("filters") + " (" + elements.length + ")");
         } else {
-            this.filter.setUserObject(this.bundle.getString("filters"));
+            this.filter.setUserObject(this.textManager.getString("filters"));
         }
 
         // SitePanel Node
-        elements = this.observationManager.getXmlCache().getSites();
+        elements = this.model.getSites();
         this.addSchemaElements(elements, this.site);
         if (elements.length > 0) {
-            this.site.setUserObject(this.bundle.getString("sites") + " (" + elements.length + ")");
+            this.site.setUserObject(this.textManager.getString("sites") + " (" + elements.length + ")");
         } else {
-            this.site.setUserObject(this.bundle.getString("sites"));
+            this.site.setUserObject(this.textManager.getString("sites"));
         }
 
         // SessionPanel Node
-        elements = this.observationManager.getXmlCache().getSessions();
+        elements = this.model.getSessions();
         this.addSchemaElements(elements, this.session);
         if (elements.length > 0) {
-            this.session.setUserObject(this.bundle.getString("sessions") + " (" + elements.length + ")");
+            this.session.setUserObject(this.textManager.getString("sessions") + " (" + elements.length + ")");
         } else {
-            this.session.setUserObject(this.bundle.getString("sessions"));
+            this.session.setUserObject(this.textManager.getString("sessions"));
         }
 
         // ObserverPanel Node
-        elements = this.observationManager.getXmlCache().getObservers();
+        elements = this.model.getObservers();
         this.addSchemaElements(elements, this.observer);
         if (elements.length > 0) {
-            this.observer.setUserObject(this.bundle.getString("observers") + " (" + elements.length + ")");
+            this.observer.setUserObject(this.textManager.getString("observers") + " (" + elements.length + ")");
         } else {
-            this.observer.setUserObject(this.bundle.getString("observers"));
+            this.observer.setUserObject(this.textManager.getString("observers"));
         }
 
         // LensPanel Node
-        elements = this.observationManager.getXmlCache().getLenses();
+        elements = this.model.getLenses();
         this.addSchemaElements(elements, this.lens);
         if (elements.length > 0) {
-            this.lens.setUserObject(this.bundle.getString("lenses") + " (" + elements.length + ")");
+            this.lens.setUserObject(this.textManager.getString("lenses") + " (" + elements.length + ")");
         } else {
-            this.lens.setUserObject(this.bundle.getString("lenses"));
+            this.lens.setUserObject(this.textManager.getString("lenses"));
         }
 
     }
@@ -461,7 +468,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
             // Only add observations for all non-IObservation elements
             if (!(element instanceof IObservation)) {
                 // Get all observations for corresponding schema element
-                IObservation[] observations = this.observationManager.getXmlCache().getObservations(element);
+                IObservation[] observations = this.model.getObservations(element);
                 if (observations != null) {
                     // If the element is an IObserver, we also need to access the observations where
                     // this observer
@@ -470,7 +477,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     // both will
                     // be listed under the observer node (in different font/color)
                     if (element instanceof IObserver) {
-                        IObservation[] coObserver = this.observationManager.getXmlCache()
+                        IObservation[] coObserver = this.model
                                 .getCoObserverObservations((IObserver) element);
                         if (coObserver != null) {
 

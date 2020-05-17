@@ -25,6 +25,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.util.FloatUtil;
@@ -52,10 +53,12 @@ public class TargetStarContainer extends Container {
     // Stellar classification like O,B,A,F,G,K,M
     private JTextField stellarClassification = null;
 
-    public TargetStarContainer(ObservationManager om, ITarget target, boolean editable)
+    private final ObservationManagerModel model;
+    public TargetStarContainer(ObservationManager om, ObservationManagerModel model, ITarget target, boolean editable)
             throws IllegalArgumentException {
 
         this.editable = editable;
+        this.model = model;
 
         if ((target != null) && !(target instanceof TargetStar)) {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
@@ -206,7 +209,7 @@ public class TargetStarContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.starTarget, this.editable, false);
+        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.starTarget, this.editable, false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

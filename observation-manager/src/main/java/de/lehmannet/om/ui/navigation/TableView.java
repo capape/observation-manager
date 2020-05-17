@@ -53,6 +53,8 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.EyepieceTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.FilterTableModel;
@@ -81,9 +83,9 @@ public class TableView extends JPanel {
     private static final String CONFIG_TABLESETTINGS_PREFIX = "om.tableSetting.";
     private static final Logger LOGGER = LoggerFactory.getLogger(TableView.class);
 
-    private ObservationManager observationManager = null;
+    final private ObservationManager observationManager;
     private JTable table = null;
-    private AbstractSchemaTableModel model = null;
+    private AbstractSchemaTableModel abstracthSchemaTableModel = null;
     private JScrollPane scrollTable = null;
     private TableSorter sorter = null;
 
@@ -92,15 +94,20 @@ public class TableView extends JPanel {
     // Can be null -> Show all oberservations
     private ISchemaElement parentElement = null;
 
-    public TableView(ObservationManager om) {
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
 
-        
+    public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager) {
 
         this.observationManager = om;
+        this.model = omModel;
+        this.textManager = textManager;
 
-        this.model = new ObservationTableModel(null, this.observationManager);
+       // this.observationManager = om;
+
+        this.abstracthSchemaTableModel = new ObservationTableModel(null, this.observationManager);
         this.sorter = new TableSorter(null);
-        this.table = new JTable(this.model);
+        this.table = new JTable(this.abstracthSchemaTableModel);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectionModel lsm = this.table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
@@ -114,7 +121,7 @@ public class TableView extends JPanel {
             } else {
                 int selectedRow = lsm1.getMinSelectionIndex();
                 int selectedSortedRow = TableView.this.sorter.modelIndex(selectedRow);
-                ISchemaElement se = model.getSchemaElement(selectedSortedRow);
+                ISchemaElement se = abstracthSchemaTableModel.getSchemaElement(selectedSortedRow);
 
                 // Update ItemView
                 TableView.this.updateItemView(se);
@@ -265,7 +272,8 @@ public class TableView extends JPanel {
                             .getSchemaElement(row);
 
                     if (element != null) {
-                        new PopupMenuHandler(TableView.this.observationManager, element, p.x, p.y,
+                        new PopupMenuHandler(TableView.this.observationManager, TableView.this.model , TableView.this.textManager,
+                                element, p.x, p.y,
                                 (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
                                         + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
                                         + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS),
@@ -290,10 +298,10 @@ public class TableView extends JPanel {
         // parentElement can be null
         IObservation[] obs = null;
         if (parentElement == null) { // Load all observations
-            obs = this.observationManager.getXmlCache().getObservations();
+            obs = this.model.getObservations();
             this.parentElement = null; // No parent was found, clear our instance parentElement
         } else { // Load all observations belonging to the parent element
-            obs = this.observationManager.getXmlCache().getObservations(parentElement);
+            obs = this.model.getObservations(parentElement);
 
             // If the parentElement is an IObserver, we also need to access the observations
             // where this observer
@@ -302,8 +310,7 @@ public class TableView extends JPanel {
             // both will
             // be listed under the observer node (in different font/color)
             if (parentElement instanceof IObserver) {
-                IObservation[] coObserver = this.observationManager.getXmlCache()
-                        .getCoObserverObservations((IObserver) parentElement);
+                IObservation[] coObserver = this.model.getCoObserverObservations((IObserver) parentElement);
                 if (coObserver != null) {
                     // Add coObserver observations to other observations (and remove doublicates via
                     // HashSet)
@@ -330,7 +337,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ObservationTableModel(obs, this.observationManager), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -359,7 +366,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        IObserver[] obs = this.observationManager.getXmlCache().getObservers();
+        IObserver[] obs = this.model.getObservers();
         if ((obs != null) && (obs.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof ObserverTableModel) { this.sorter.setTableModel(new
@@ -367,7 +374,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ObserverTableModel(obs), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -387,7 +394,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        ITarget[] targets = this.observationManager.getXmlCache().getTargets();
+        ITarget[] targets = this.model.getTargets();
         if ((targets != null) && (targets.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
@@ -395,7 +402,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -415,7 +422,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        ISite[] sites = this.observationManager.getXmlCache().getSites();
+        ISite[] sites = this.model.getSites();
         if ((sites != null) && (sites.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof SiteTableModel) { this.sorter.setTableModel(new
@@ -423,7 +430,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new SiteTableModel(sites), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -443,7 +450,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        IScope[] scopes = this.observationManager.getXmlCache().getScopes();
+        IScope[] scopes = this.model.getScopes();
         if ((scopes != null) && (scopes.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof ScopeTableModel) { this.sorter.setTableModel(new
@@ -451,7 +458,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ScopeTableModel(scopes), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -471,7 +478,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        ISession[] session = this.observationManager.getXmlCache().getSessions();
+        ISession[] session = this.model.getSessions();
         if ((session != null) && (session.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof SessionTableModel) { this.sorter.setTableModel(new
@@ -479,7 +486,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new SessionTableModel(session), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -499,7 +506,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        IImager[] imager = this.observationManager.getXmlCache().getImagers();
+        IImager[] imager = this.model.getImagers();
         if ((imager != null) && (imager.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof ImagerTableModel) { this.sorter.setTableModel(new
@@ -507,7 +514,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ImagerTableModel(imager), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -527,7 +534,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        IFilter[] filter = this.observationManager.getXmlCache().getFilters();
+        IFilter[] filter = this.model.getFilters();
         if ((filter != null) && (filter.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof FilterTableModel) { this.sorter.setTableModel(new
@@ -535,7 +542,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new FilterTableModel(filter), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -555,7 +562,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        IEyepiece[] eyepiece = this.observationManager.getXmlCache().getEyepieces();
+        IEyepiece[] eyepiece = this.model.getEyepieces();
         if ((eyepiece != null) && (eyepiece.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
@@ -563,7 +570,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new EyepieceTableModel(eyepiece), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -583,7 +590,7 @@ public class TableView extends JPanel {
         // Save column settings from current table model
         this.saveCurrentTableModelSettings();
 
-        ILens[] lens = this.observationManager.getXmlCache().getLenses();
+        ILens[] lens = this.model.getLenses();
         if ((lens != null) && (lens.length > 0)) {
             /*
              * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
@@ -591,7 +598,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new LensTableModel(lens), true);
             // }
-            this.model = this.sorter;
+            this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -696,14 +703,15 @@ public class TableView extends JPanel {
         final ISchemaElement finalSelected = selected;
         SwingUtilities.invokeLater(() -> {
 
-            TableView.this.table.setModel(TableView.this.model);
+            TableView.this.table.setModel(TableView.this.abstracthSchemaTableModel);
 
-            int sel = TableView.this.model.getRow(finalSelected);
+            int sel = TableView.this.abstracthSchemaTableModel.getRow(finalSelected);
             if (TableView.this.sorter.isSorting()) {
                 sel = TableView.this.sorter.viewIndex(sel);
             }
 
             TableView.this.selectedElement = finalSelected;
+            TableView.this.model.setSelectedElement(finalSelected);
 
             TableView.this.table.setRowSelectionInterval(sel, sel);
 
@@ -768,7 +776,7 @@ public class TableView extends JPanel {
         if ((sorter != null) && (sorter.getTableModel() != null)) {
             currentTableModelID = sorter.getTableModel().getID();
         } else {
-            currentTableModelID = model.getID();
+            currentTableModelID = abstracthSchemaTableModel.getID();
         }
 
         TableColumnModel tcm = table.getColumnModel();
@@ -791,7 +799,7 @@ public class TableView extends JPanel {
         if ((sorter != null) && (sorter.getTableModel() != null)) {
             currentTableModelID = sorter.getTableModel().getID();
         } else {
-            currentTableModelID = model.getID();
+            currentTableModelID = abstracthSchemaTableModel.getID();
         }
 
         TableColumnModel tcm = table.getColumnModel();

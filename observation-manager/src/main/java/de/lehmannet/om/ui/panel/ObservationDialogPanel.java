@@ -53,6 +53,7 @@ import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.Observation;
 import de.lehmannet.om.SurfaceBrightness;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.AbstractBox;
 import de.lehmannet.om.ui.box.EyepieceBox;
 import de.lehmannet.om.ui.box.FilterBox;
@@ -77,6 +78,7 @@ import de.lehmannet.om.ui.dialog.ScopeDialog;
 import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.extension.SchemaUILoader;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
@@ -157,20 +159,24 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JTextField accessories = null;
 
     private final ImageResolver imageResolver;
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
 
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
     // values
-    public ObservationDialogPanel(ObservationManager om, IObservation observation, ISchemaElement se,
-    ImageResolver resolver) {
+    public ObservationDialogPanel(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+            IObservation observation, ISchemaElement se, ImageResolver resolver) {
 
         super(true);
 
         this.setVisible(true);
 
         this.observationManager = om;
+        this.model = model;
         this.imageResolver = resolver;
         this.observation = observation;
+        this.textManager = textManager;
 
         this.cache = this.observationManager.getUIDataCache();
 
@@ -268,7 +274,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     @Override
     public ISchemaElement updateSchemaElement() {
-        
+
         if (this.observation == null) {
             return null;
         }
@@ -454,17 +460,21 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
-         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
-         * } } catch(NumberFormatException nfe) { this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } } else { this.observation.setSeeing(-1); }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
+         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
+         * catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.invalidSeeing")); return null; } }
+         * catch(NumberFormatException nfe) {
+         * this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.noNumberSeeing")); return null; } } else {
+         * this.observation.setSeeing(-1); }
          */
 
         this.observation.setAccessories(this.accessories.getText());
 
-        this.observation.setImages(this.imageContainer
-                .getImages(this.observationManager.getXmlCache().getXMLFileForSchemaElement(this.observation)));
+        this.observation
+                .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
         return this.observation;
 
@@ -668,12 +678,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
-         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
-         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); } catch(NumberFormatException nfe)
-         * { this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.noNumberSeeing")); return
-         * null; } }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
+         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
+         * catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.invalidSeeing")); return null; }
+         * this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); }
+         * catch(NumberFormatException nfe) {
+         * this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.noNumberSeeing")); return null; } }
          */
 
         String ac = this.accessories.getText();
@@ -682,8 +695,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.cache.put(ObservationDialogPanel.CACHEKEY_ACCESSORIES, ac);
         }
 
-        this.observation.setImages(this.imageContainer
-                .getImages(this.observationManager.getXmlCache().getXMLFileForSchemaElement(this.observation)));
+        this.observation
+                .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
         return this.observation;
 
@@ -714,7 +727,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 LensDialog lensDialog = new LensDialog(this.observationManager, null);
                 this.lensBox.addItem(lensDialog.getLens());
             } else if (source.equals(this.newSession)) {
-                SessionDialog sessionDialog = new SessionDialog(this.observationManager, null);
+                SessionDialog sessionDialog = new SessionDialog(this.observationManager, this.model, null);
                 this.sessionBox.addItem(sessionDialog.getSession());
                 // In the session dialog there might be new observers
                 // or sites be created, so refill lists
@@ -723,7 +736,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 SiteDialog siteDialog = new SiteDialog(this.observationManager, null);
                 this.siteBox.addItem(siteDialog.getSite());
             } else if (source.equals(this.selectTarget)) {
-                CatalogDialog cDialog = new CatalogDialog(this.observationManager);
+                CatalogDialog cDialog = new CatalogDialog(this.observationManager, this.model, this.textManager);
                 ITarget target = cDialog.getTarget();
                 if (target != null) { // Check this as cancel might be pressed -> No target was created
                     this.targetBox.addItem(target);
@@ -750,12 +763,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 if (targetChooser.getResult()) {
                     // Get TargetContainer
                     ITargetDialog targetDialog = (ITargetDialog) targetChooser.getDialog();
-                    ITarget target = targetDialog.getTarget();
-                    if (target != null) { // Check this as cancel might be pressed -> No target was created
-                        this.targetBox.addItem(target);
+                    if (targetDialog != null) {
+                        ITarget target = targetDialog.getTarget();
+                        if (target != null) { // Check this as cancel might be pressed -> No target was created
+                            this.targetBox.addItem(target);
 
-                        // Set Finding Tab in Observation Dialog
-                        this.setFindingPanel(target);
+                            // Set Finding Tab in Observation Dialog
+                            this.setFindingPanel(target);
+                        }
                     }
                 }
             } else if (source.equals(this.beginPicker)) {
@@ -1559,8 +1574,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(LimageContainer);
         ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager, true,
-        this.imageResolver);
+        this.imageContainer = new ImageContainer(null, this.observationManager, this.model, true, this.imageResolver);
         JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);
@@ -1593,7 +1607,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         IConfiguration config = this.observationManager.getConfiguration();
         String currentValue = config.getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
 
-        IObserver[] observers = this.observationManager.getXmlCache().getObservers();
+        IObserver[] observers = this.model.getObservers();
         IObserver defaultObserver = null;
         for (IObserver observer : observers) {
             this.observerBox.addItem(observer);
@@ -1614,7 +1628,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.targetBox.getSelectedSchemaElement();
         }
-        ITarget[] targets = this.observationManager.getXmlCache().getTargets();
+        ITarget[] targets = this.model.getTargets();
         for (ITarget target : targets) {
             if (target.getObserver() != null) {
                 this.targetBox.addItem(target);
@@ -1643,7 +1657,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.sessionBox.getSelectedSchemaElement();
         }
-        ISession[] session = this.observationManager.getXmlCache().getSessions();
+        ISession[] session = this.model.getSessions();
         for (ISession iSession : session) {
             this.sessionBox.addItem(iSession);
         }
@@ -1658,7 +1672,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.scopeBox.getSelectedSchemaElement();
         }
-        IScope[] scopes = this.observationManager.getXmlCache().getScopes();
+        IScope[] scopes = this.model.getScopes();
         for (IScope scope : scopes) {
             if (this.observation == null) { // In create mode only show still active equipment
                 if (scope.isAvailable()) {
@@ -1679,7 +1693,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.eyepieceBox.getSelectedSchemaElement();
         }
-        IEyepiece[] eyepieces = this.observationManager.getXmlCache().getEyepieces();
+        IEyepiece[] eyepieces = this.model.getEyepieces();
         for (IEyepiece eyepiece : eyepieces) {
             if (this.observation == null) { // In create mode only show still active equipment
                 if (eyepiece.isAvailable()) {
@@ -1700,7 +1714,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.lensBox.getSelectedSchemaElement();
         }
-        ILens[] lenses = this.observationManager.getXmlCache().getLenses();
+        ILens[] lenses = this.model.getLenses();
         for (ILens lens : lenses) {
             if (this.observation == null) { // In create mode only show still active equipment
                 if (lens.isAvailable()) {
@@ -1721,7 +1735,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.filterBox.getSelectedSchemaElement();
         }
-        IFilter[] filters = this.observationManager.getXmlCache().getFilters();
+        IFilter[] filters = this.model.getFilters();
         for (IFilter filter : filters) {
             if (this.observation == null) { // In create mode only show still active equipment
                 if (filter.isAvailable()) {
@@ -1742,7 +1756,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.siteBox.getSelectedSchemaElement();
         }
-        ISite[] sites = this.observationManager.getXmlCache().getSites();
+        ISite[] sites = this.model.getSites();
         for (ISite site : sites) {
             this.siteBox.addItem(site);
         }
@@ -1757,7 +1771,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (refill) {
             element = this.imagerBox.getSelectedSchemaElement();
         }
-        IImager[] imagers = this.observationManager.getXmlCache().getImagers();
+        IImager[] imagers = this.model.getImagers();
         for (IImager imager : imagers) {
             if (this.observation == null) { // In create mode only show still active equipment
                 if (imager.isAvailable()) {

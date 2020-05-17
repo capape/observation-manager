@@ -30,41 +30,41 @@ public interface XMLFileLoader {
 
     Document getDocument();
 
-    public String getXMLFileForSchemaElement(ISchemaElement schemaElement);
+    String getXMLFileForSchemaElement(ISchemaElement schemaElement);    
 
-    public String getXMLPathForSchemaElement(ISchemaElement schemaElement);
+    String getXMLPathForSchemaElement(ISchemaElement schemaElement);
 
-    public Document getDocumentForSchemaElement(ISchemaElement schemaElement);
+    Document getDocumentForSchemaElement(ISchemaElement schemaElement);
 
-    public void addSchemaElement(ISchemaElement element);
-    public void addSchemaElement(ISchemaElement element, boolean dependend) ;
-    public List<ISchemaElement> removeSchemaElement(ISchemaElement element);
-    public void updateSchemaElement(ISchemaElement element);
-    public String[] getAllOpenedFiles();
-    public IObserver[] getObservers();
+    void addSchemaElement(ISchemaElement element);
+    void addSchemaElement(ISchemaElement element, boolean dependend) ;
+    List<ISchemaElement> removeSchemaElement(ISchemaElement element);
+    void updateSchemaElement(ISchemaElement element);
+    String[] getAllOpenedFiles();
+    IObserver[] getObservers();
 
-    public IEyepiece[] getEyepieces();
+    IEyepiece[] getEyepieces();
 
-    public IImager[] getImagers() ;
+    IImager[] getImagers() ;
 
-    public IFilter[] getFilters();
+    IFilter[] getFilters();
 
-    public IObservation[] getObservations();
-    public IObservation[] getObservations(ISchemaElement element);
+    IObservation[] getObservations();
+    IObservation[] getObservations(ISchemaElement element);
 
-    public IObservation[] getCoObserverObservations(IObserver observer);
+    IObservation[] getCoObserverObservations(IObserver observer);
 
-    public IScope[] getScopes() ;
+    IScope[] getScopes() ;
 
-    public ISession[] getSessions();
+    ISession[] getSessions();
 
-    public ISite[] getSites() ;
+    ISite[] getSites() ;
 
-    public ITarget[] getTargets();
+    ITarget[] getTargets();
 
-    public ILens[] getLenses();
+    ILens[] getLenses();
 
-    public boolean loadObservations(String xmlPath);
+    boolean loadObservations(String xmlPath);
 
    
 }

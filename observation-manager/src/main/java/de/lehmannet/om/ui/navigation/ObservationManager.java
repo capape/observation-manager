@@ -110,7 +110,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private Thread splash;
 
     private final InstallDir installDir;
-    private final XMLFileLoader xmlCache;
+
     private final IConfiguration configuration;
     private final ObservationManagerModel model;
 
@@ -146,14 +146,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
-        this.configuration = builder.configuration;        
+        this.configuration = builder.configuration;
         this.imageResolver = builder.imageResolver;
         this.textManager = builder.textManager;
         this.themeManager = new ThemeManagerImpl(this.configuration, this);
         this.model = builder.model;
-        this.xmlCache = this.model.getXmlCache();
-        
-        
 
         bundle = this.textManager.getBundle();
 
@@ -174,19 +171,22 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             this.splash.start();
         }
 
-        UserInterfaceHelper uiHelper = new  UserInterfaceHelperImpl(this, textManager);
-        
+        UserInterfaceHelper uiHelper = new UserInterfaceHelperImpl(this, textManager);
+
         // Set title
         this.setTitle();
 
-        this.extLoader = new ExtensionLoader(this, installDir);         // --> DEP  VARIABLE STARS --> DIALOG
-        this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);  
-        this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration, this.installDir,  this.model);     
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper, this.imageResolver, this.textManager, uiHelper, this);
+        this.extLoader = new ExtensionLoader(this, this.model, this.installDir); // --> DEP VARIABLE STARS --> DIALOG
+        this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);
+        this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration,
+                this.installDir, this.model);
+        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper,
+                this.imageResolver, this.textManager, uiHelper, this.installDir, this);
         this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this);
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this.textManager, uiHelper, this.model,
+                this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.xmlCache, this.extLoader,
+        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
                 this.imageResolver, this);
 
         // Set icon
@@ -221,17 +221,16 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // this.performRestartUpdate();
         // ****************************************************************
 
-        this.loadConfigFiles();     
-            
-        
+        this.loadConfigFiles();
+
         this.table.showObservations(null, null);
         this.tree.updateTree();
-        
+
         this.checkForUpdatesOnLoad();
 
         // If we should show the hints on startup, do so now...
         if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, true)) {
-                 this.menuExtras.showDidYouKnow();
+            this.menuExtras.showDidYouKnow();
         }
 
         // Add shortcut key listener
@@ -252,14 +251,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final ObservationManagerFileLoader fileLoader;
         fileLoader = new ObservationManagerFileLoader(configuration, model);
 
-
         final Worker configLoader = new Worker() {
             Pair<String, Boolean> result;
+
             @Override
             public void run() {
 
                 result = fileLoader.loadConfig().orElse(Pair.of("Not loaded", true));
-                
+
             }
 
             @Override
@@ -269,7 +268,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     return "";
                 }
 
-                return  ObservationManager.this.textManager.getString("error.loadXML") + " " + result.getLeft();
+                return ObservationManager.this.textManager.getString("error.loadXML") + " " + result.getLeft();
 
             }
 
@@ -281,17 +280,13 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 } else {
                     return Worker.RETURN_TYPE_ERROR;
                 }
-                
 
             }
 
         };
 
-      
-        new ProgressDialog (this, 
-            this.textManager.getString("progress.wait.title"),
-            this.textManager.getString("progress.wait.xml.load.info"),
-            configLoader);
+        new ProgressDialog(this, this.textManager.getString("progress.wait.title"),
+                this.textManager.getString("progress.wait.xml.load.info"), configLoader);
     }
 
     private void checkForUpdatesOnLoad() {
@@ -385,12 +380,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         } else { // Deletion failed due to dependencies
             new TableElementsDialog(this, result);
         }
-
-    }
-
-    public XMLFileLoader getXmlCache() {
-
-        return this.xmlCache;
 
     }
 
@@ -560,11 +549,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     }
 
-   
-
-    
-
-    
     private void setTitle() {
 
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
@@ -712,7 +696,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private TableView initTableView() {
 
-        final TableView table = new TableView(this);
+        final TableView table = new TableView(this, this.model, this.textManager);
         table.setVisible(true);
 
         return table;
@@ -721,7 +705,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private ItemView initItemView() {
 
-        final ItemView item = new ItemView(this, this.imageResolver);
+        final ItemView item = new ItemView(this, this.model, this.imageResolver);
         item.setVisible(true);
 
         return item;
@@ -730,7 +714,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private TreeView initTreeView() {
 
-        final TreeView tree = new TreeView(this, this.imageResolver);
+        final TreeView tree = new TreeView(this, this.model, this.textManager,this.imageResolver);
         tree.setMinimumSize(new Dimension(this.getWidth() / 8, this.getHeight()));
         tree.setVisible(true);
 
@@ -806,7 +790,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 final ISchemaElement element = ObservationManager.this.getSelectedTableElement();
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
-                    new ObservationDialog(ObservationManager.this, (IObservation) element);
+                    new ObservationDialog(ObservationManager.this, ObservationManager.this.model, ObservationManager.this.textManager, (IObservation) element);
                 } else if (element instanceof ITarget) {
                     final ITarget target = (ITarget) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
@@ -824,7 +808,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 } else if (element instanceof IFilter) {
                     new FilterDialog(ObservationManager.this, (IFilter) element);
                 } else if (element instanceof ISession) {
-                    new SessionDialog(ObservationManager.this, (ISession) element);
+                    new SessionDialog(ObservationManager.this, ObservationManager.this.model, (ISession) element);
                 } else if (element instanceof IObserver) {
                     new ObserverDialog(ObservationManager.this, (IObserver) element);
                 } else if (element instanceof ILens) {
@@ -931,6 +915,15 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
             return new ObservationManager(this);
         }
+
+    }
+
+    /**
+     * created to prepare next refactor step for AbstractDialog
+     */
+    @Deprecated
+    public ObservationManagerModel getModel() {
+        return this.model;
 
     }
 }

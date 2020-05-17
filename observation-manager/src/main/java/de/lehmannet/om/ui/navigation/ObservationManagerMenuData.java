@@ -150,7 +150,7 @@ public final class ObservationManagerMenuData {
 
         ObservationDialog dialog = null;
         while (dialog == null || dialog.isCreateAdditionalObservation()) {
-            dialog = new ObservationDialog(this.observationManager, null);
+            dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null);
             this.model.add(dialog.getObservation());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
                                // won't appear on UI)
@@ -174,7 +174,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewSession() {
 
-        SessionDialog dialog = new SessionDialog(this.observationManager, null);
+        SessionDialog dialog = new SessionDialog(this.observationManager,this.model,  null);
         this.model.add(dialog.getSession());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
                            // won't appear on UI)
@@ -367,6 +367,8 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(ObservationManagerMenuData.this.observationManager, 
+            ObservationManagerMenuData.this.model, 
+            ObservationManagerMenuData.this.textManager, 
             ObservationManagerMenuData.this.imageResolver);
             ObservationManagerMenuData.this.observationManager.setChanged(uqd.changedElements());
 

@@ -11,15 +11,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.OMDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
@@ -27,26 +26,33 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -8289411368690909665L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
-
-    private ObservationManager om = null;
-
+  
     private JTabbedPane tabbedPane = null;
 
-    private final JButton ok = new JButton(this.bundle.getString("dialog.button.ok"));
-    private final JButton cancel = new JButton(this.bundle.getString("dialog.button.cancel"));
+    private final JButton ok;
+    private final JButton cancel;
 
-    public PreferencesDialog(ObservationManager om, PreferencesPanel[] additionalPanels) {
+    private final ObservationManager om;
+    private final ObservationManagerModel model;
+    private final TextManager textManager;
+
+    public PreferencesDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+            PreferencesPanel[] additionalPanels) {
 
         super(om);
 
         this.om = om;
+        this.model = model;
+        this.textManager = textManager;
 
-       this.setTitle(this.bundle.getString("dialog.preferences.title"));
-       this.setSize(PreferencesDialog.serialVersionUID, 750, 350);
-       this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-       this.setLocationRelativeTo(om);
+        this.ok = new JButton(this.textManager.getString("dialog.button.ok"));
+        this.cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
+
+
+        this.setTitle(this.textManager.getString("dialog.preferences.title"));
+        this.setSize(PreferencesDialog.serialVersionUID, 750, 350);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(om);
 
         this.initDialog();
 
@@ -103,7 +109,8 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         this.tabbedPane = new JTabbedPane();
 
         PreferencesPanel genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
-        PreferencesPanel behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om);
+        PreferencesPanel behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om, this.model,
+                this.textManager);
         this.tabbedPane.addTab(genericPanel.getTabTitle(), genericPanel);
         this.tabbedPane.addTab(behaviourPanel.getTabTitle(), behaviourPanel);
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 4, 33, 33);

@@ -44,6 +44,7 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.Session;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.box.SiteBox;
 import de.lehmannet.om.ui.container.ImageContainer;
@@ -95,14 +96,16 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private Map<String, String> cache = null; // Non-persistant cache
 
     private final List<IObserver> coObserversList = new ArrayList<>();
+    private final ObservationManagerModel model;
 
     // Requires ObservationManager to load Observers
-    public SessionPanel(ObservationManager manager, ISession session, boolean editable) {
+    public SessionPanel(ObservationManager manager, ObservationManagerModel model, ISession session, boolean editable) {
 
         super(editable);
 
         this.observationManager = manager;
         this.session = session;
+        this.model = model;
 
         this.cache = this.observationManager.getUIDataCache();
 
@@ -166,7 +169,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         if (source instanceof JButton) {
             JButton sourceButton = (JButton) source;
             if (sourceButton.equals(this.selectCoObservers)) {
-                this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager,
+                this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager, this.model,
                         AbstractPanel.bundle.getString("dialog.coObserver.title"), null, this.coObserversList, true,
                         SchemaElementConstants.OBSERVER);
                 List<ISchemaElement> selected = new ArrayList<>();
@@ -374,7 +377,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         this.session.setImages(this.imageContainer
-                .getImages(this.observationManager.getXmlCache().getXMLFileForSchemaElement(session)));
+                .getImages(this.model.getXMLFileForSchemaElement(session)));
 
         return this.session;
 
@@ -456,7 +459,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         this.session.setImages(this.imageContainer
-                .getImages(this.observationManager.getXmlCache().getXMLFileForSchemaElement(session)));
+                .getImages(this.model.getXMLFileForSchemaElement(session)));
 
         return this.session;
 
@@ -688,7 +691,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
              */
             ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
             constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager, false,
+            this.imageContainer = new ImageContainer(null, this.observationManager, this.model, false,
             this.observationManager.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -769,7 +772,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 16, 11, 4, 1, 100);
             constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager, true, 
+            this.imageContainer = new ImageContainer(null, this.observationManager, this.model, true, 
                 this.observationManager.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -834,7 +837,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.siteBox = new SiteBox();
 
-        ISite[] sites = this.observationManager.getXmlCache().getSites();
+        ISite[] sites = this.model.getSites();
         for (ISite site : sites) {
             this.siteBox.addItem(site);
         }

@@ -109,7 +109,8 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
                         result = this.panel.createSchemaElement();
                         if (result != null) {
                             this.schemaElement = result;
-                            this.observationManager.getXmlCache().addSchemaElement(this.schemaElement);
+                            // this.model.addSchemaElement(this.schemaElement);
+                            this.observationManager.getModel().add(this.schemaElement);
                             this.observationManager.setChanged(true);
 
                             this.dispose();

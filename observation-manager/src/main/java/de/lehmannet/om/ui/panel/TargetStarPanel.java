@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetStarContainer;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -27,8 +28,9 @@ public class TargetStarPanel extends AbstractPanel {
     private TargetStar target = null;
 
     private TargetStarContainer targetContainer = null;
+    private final ObservationManagerModel model;
 
-    public TargetStarPanel(ObservationManager om, ITarget target, Boolean editable) throws IllegalArgumentException {
+    public TargetStarPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -38,6 +40,7 @@ public class TargetStarPanel extends AbstractPanel {
 
         this.target = (TargetStar) target;
         this.observationManager = om;
+        this.model = model;
 
         this.createPanel();
 
@@ -84,7 +87,7 @@ public class TargetStarPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.observationManager, this.target, this.isEditable());
+        this.targetContainer = new TargetStarContainer(this.observationManager, this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

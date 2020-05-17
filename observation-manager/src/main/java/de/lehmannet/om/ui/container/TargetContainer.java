@@ -32,6 +32,7 @@ import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.ConstellationBox;
 import de.lehmannet.om.ui.box.ObserverBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
@@ -63,10 +64,13 @@ public class TargetContainer extends Container implements MouseListener {
     private ObserverBox sourceObserverBox = null;
     private JTextArea notes = null;
 
-    public TargetContainer(ObservationManager om, ITarget target, boolean editable, boolean positionDisabled) {
+    private final ObservationManagerModel model;
+
+    public TargetContainer(ObservationManager om, ObservationManagerModel model,  ITarget target, boolean editable, boolean positionDisabled) {
 
         this.target = target;
         this.observationManager = om;
+        this.model = model;
         this.editable = editable;
         this.positionDisabled = positionDisabled;
 
@@ -540,7 +544,7 @@ public class TargetContainer extends Container implements MouseListener {
         this.sourceObserverBox = new ObserverBox();
         this.sourceObserverBox.setToolTipText(this.bundle.getString("target.dropdown.selectObserver"));
 
-        IObserver[] observer = this.observationManager.getXmlCache().getObservers();
+        IObserver[] observer = this.model.getObservers();
         if (observer != null) {
             for (IObserver iObserver : observer) {
                 this.sourceObserverBox.addItem(iObserver);

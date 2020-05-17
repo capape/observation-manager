@@ -52,6 +52,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.extension.variableStars.export.AAVSOVisualSerializer;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.comparator.ObservationComparator;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
@@ -93,10 +94,12 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VariableStarsExtension.class);
     
-    public VariableStarsExtension(ObservationManager om) {
+    private final ObservationManagerModel model;
+
+    public VariableStarsExtension(ObservationManager om, ObservationManagerModel model) {
 
         this.om = om;
-
+        this.model = model;
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_VariableStars.xsd";
 
         this.initFindingPanels();
@@ -113,7 +116,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
             if (source.equals(this.exportAAVSO)) {
 
                 // Get preselected observations
-                IObservation[] allObservations = this.om.getXmlCache().getObservations();
+                IObservation[] allObservations = this.model.getObservations();
                 if (allObservations.length == 0) {
                     this.om.createInfo(this.uiBundle.getString("info.noObservationsFound"));
                     return;
@@ -130,7 +133,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 }
 
                 // Create popup for variable star observations
-                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om,
+                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, this.model,
                         this.uiBundle.getString("popup.exportAAVSO.selectObservations"),
                         TargetVariableStar.XML_XSI_TYPE_VALUE, preselectedObservations, true,
                         SchemaElementConstants.OBSERVATION);
@@ -145,7 +148,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                         "Observation Manager - " + ObservationManager.VERSION, results);
 
                 // Create export file path
-                String[] files = this.om.getXmlCache().getAllOpenedFiles();
+                String[] files = this.model.getAllOpenedFiles();
                 if ((files == null) || (files.length == 0)) { // There is data (otherwise we wouldn't have come here),
                                                               // but data's not saved
                     this.om.createInfo(this.uiBundle.getString("error.noXMLFileOpen"));
@@ -218,7 +221,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 boolean quitLoop = false;
                 do {
                     try {
-                        popup = new VariableStarSelectorPopup(this.om);
+                        popup = new VariableStarSelectorPopup(this.om, this.model);
                     } catch (IllegalArgumentException iae) { // No variable star observation found
                         return;
                     }
@@ -791,20 +794,24 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private ExtendedSchemaTableModel tableModel = null;
+    private final ObservationManagerModel model;
 
-    public VariableStarSelectorPopup(ObservationManager om) throws IllegalArgumentException, NoSuchElementException { // See
-                                                                                                                      // SchemaElementConstants
+    /**
+     *  @see SchemaElementConstants
+     */
+    public VariableStarSelectorPopup(ObservationManager om, ObservationManagerModel model) throws IllegalArgumentException, NoSuchElementException { 
 
         super(om, true);
 
         this.om = om;
+        this.model = model;
 
         this.setTitle(this.uiBundle.getString("popup.selectVariableStar.title"));
         this.setSize(500, 250);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        ITarget[] elements = om.getXmlCache().getTargets();
+        ITarget[] elements = this.model.getTargets();
 
         this.tableModel = new ExtendedSchemaTableModel(elements, SchemaElementConstants.TARGET,
                 TargetVariableStar.XML_XSI_TYPE_VALUE, false, null);
@@ -955,7 +962,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
             return new IObservation[] {};
         }
         ITarget selectedStar = (ITarget) selectedStars.get(0);
-        IObservation[] observations = this.om.getXmlCache().getObservations(selectedStar);
+        IObservation[] observations = this.model.getObservations(selectedStar);
 
         // Filter by start/end date
         List<IObservation> result = new ArrayList<>();

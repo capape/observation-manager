@@ -1,6 +1,10 @@
 package de.lehmannet.om.model;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -13,6 +17,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public class ObservationManagerModelImpl implements ObservationManagerModel {
@@ -24,9 +29,13 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     private String titleWhenChanges = CHANGED_SUFFIX;
 
     private final XMLFileLoader xmlCache;
-    
-    public ObservationManagerModelImpl(XMLFileLoader cache) {
+    private final InstallDir installDir;
+
+    private ISchemaElement selected;
+
+    public ObservationManagerModelImpl(XMLFileLoader cache, InstallDir installDir) {
         this.xmlCache = cache;
+        this.installDir = installDir;
 
     }
 
@@ -68,31 +77,31 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public void clear() {
-       this.xmlCache.clear();
-       this.setChanged(true);
+        this.xmlCache.clear();
+        this.setChanged(true);
     }
 
     @Override
     public boolean isEmpty() {
-        
+
         return this.xmlCache.isEmpty();
     }
 
     @Override
     public void add(ISchemaElement element) {
-       this.xmlCache.addSchemaElement(element);
-       this.setChanged(true);
+        this.xmlCache.addSchemaElement(element);
+        this.setChanged(true);
     }
 
     @Override
     public void add(ISchemaElement element, boolean dependend) {
-        this.xmlCache.addSchemaElement(element,dependend);
+        this.xmlCache.addSchemaElement(element, dependend);
         this.setChanged(true);
     }
 
     @Override
     public List<ISchemaElement> remove(ISchemaElement element) {
-       
+
         final List<ISchemaElement> result = this.xmlCache.removeSchemaElement(element);
         this.setChanged(true);
         return result;
@@ -122,7 +131,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public IFilter[] getFilters() {
-        
+
         return this.xmlCache.getFilters();
     }
 
@@ -133,7 +142,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public IObservation[] getObservations(ISchemaElement element) {
-        
+
         return this.xmlCache.getObservations(element);
     }
 
@@ -144,7 +153,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public IScope[] getScopes() {
-        
+
         return this.xmlCache.getScopes();
     }
 
@@ -168,7 +177,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         return this.xmlCache.getLenses();
     }
 
- 
     @Override
     public boolean loadObservations(final String filePath) {
         this.clear();
@@ -177,5 +185,93 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     public void exportToHtml() {
 
+    }
+
+    @Override
+    public Optional<String> getRootName() {
+        String[] fileNames = this.xmlCache.getAllOpenedFiles();
+        if ((fileNames != null) && (fileNames.length > 0)) {
+           String rootName = new File(fileNames[0]).getName();
+           return Optional.of(rootName);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<File> getFilesFromPath(List<String> imagePath) {
+        if (imagePath == null) {
+            return Collections.emptyList();
+        }
+        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
+    }
+    
+    private  File createPath (String x ) {
+        if (x.startsWith("." + File.separator)) { 
+            return new File(this.xmlCache.getXMLPathForSchemaElement(this.getSelectedElement())
+        + File.separator + x);
+        } else {
+            return new File(x);
+        }
+    }
+
+    @Override
+    public String getXMLFileForSchemaElement(ISchemaElement schemaElement) {
+        return this.xmlCache.getXMLFileForSchemaElement(schemaElement);
+    }
+
+    @Override
+    public String getXMLPathForSchemaElement(ISchemaElement schemaElement) {
+        return this.xmlCache.getXMLPathForSchemaElement(schemaElement);
+    }
+
+
+    public File getExportFile(final String filename, final String extension) {
+
+        String path = null;
+
+        if ((this.xmlCache.getAllOpenedFiles() != null)
+                && (this.xmlCache.getAllOpenedFiles().length > 0)) {
+            path = new File(this.xmlCache.getAllOpenedFiles()[0]).getParent();
+        } else {
+            path = this.installDir.getInstallDir().getParent();
+        }
+        path = path + File.separator;
+
+        File file = new File(path + filename + "." + extension);
+        for (int i = 2; file.exists(); i++) {
+            file = new File(path + filename + "(" + i + ")." + extension);
+        }
+
+        return file;
+
+    }
+
+    @Override
+    public String[] getAllOpenedFiles() {
+       
+        return this.xmlCache.getAllOpenedFiles();
+    }
+
+
+    @Override
+    public final void setSelectedElement(ISchemaElement selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public final ISchemaElement getSelectedElement() {
+        return this.selected;
+    }
+
+    @Override
+    public boolean save(String name) {
+        
+        return this.xmlCache.save(name);
+    }
+
+    @Override
+    public boolean saveAs(String oldPath, String newPath) {
+        return this.xmlCache.saveAs(oldPath, newPath);
+        
     }
 }

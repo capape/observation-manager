@@ -37,7 +37,7 @@ public final class ObservationManagerMenuExtensions {
     private final ExtensionLoader extensionLoader;
     private final ImageResolver imageResolver;
 
-    public ObservationManagerMenuExtensions(IConfiguration configuration, XMLFileLoader xmlCache,
+    public ObservationManagerMenuExtensions(IConfiguration configuration, 
             ExtensionLoader extLoader, ImageResolver imageResolver, ObservationManager om) {
 
         // Load configuration

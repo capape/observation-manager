@@ -19,8 +19,10 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISession;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.box.ObserverBox;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -31,10 +33,8 @@ public class BehaviourPanel extends PreferencesPanel {
 
         private static final long serialVersionUID = -9046543688331125983L;
 
-        private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                        .getBundle("ObservationManager", Locale.getDefault());
-
-        private ObservationManager om = null;
+        
+        
 
         private LanguageBox defaultContentLanguage = null;
         private JCheckBox imagesPathRelative = null;
@@ -43,12 +43,17 @@ public class BehaviourPanel extends PreferencesPanel {
         private JCheckBox retrieveEndDateFromSession = null;
         private JCheckBox useCoObserverInStatistics = null;
         private JCheckBox useLatinConstellationNames = null;
+        private final ObservationManagerModel model;
+        private final TextManager textManager;
+        private final ObservationManager om;
 
-        public BehaviourPanel(IConfiguration config, ObservationManager om) {
+        public BehaviourPanel(IConfiguration config, ObservationManager om, ObservationManagerModel model, TextManager textManager) {
 
                 super(config);
 
                 this.om = om;
+                this.model = model;
+                this.textManager = textManager;
                 this.createPanel();
 
         }
@@ -56,7 +61,7 @@ public class BehaviourPanel extends PreferencesPanel {
         @Override
         public String getTabTitle() {
 
-                return this.bundle.getString("dialog.preferences.behaviourTab.title");
+                return this.textManager.getString("dialog.preferences.behaviourTab.title");
 
         }
 
@@ -133,9 +138,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 10);
                 OMLabel imagesPathRelativeLabel = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.imagesPathRelative"), true);
+                                this.textManager.getString("dialog.preferences.label.imagesPathRelative"), true);
                 imagesPathRelativeLabel
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.imagesPathRelative"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.imagesPathRelative"));
                 gridbag.setConstraints(imagesPathRelativeLabel, constraints);
                 this.add(imagesPathRelativeLabel);
 
@@ -148,7 +153,7 @@ public class BehaviourPanel extends PreferencesPanel {
                                                 .valueOf(this.getConfig(
                                                                 ConfigKey.CONFIG_IMAGESDIR_RELATIVE).orElse("true")));
                 this.imagesPathRelative
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.imagesPathRelative"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.imagesPathRelative"));
                 gridbag.setConstraints(this.imagesPathRelative, constraints);
                 this.add(this.imagesPathRelative);
 
@@ -157,9 +162,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 10);
                 OMLabel contentDefaultLanguageLabel = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.contentDefaultLang"), true);
+                                this.textManager.getString("dialog.preferences.label.contentDefaultLang"), true);
                 contentDefaultLanguageLabel
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.contentDefaultLang"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.contentDefaultLang"));
                 gridbag.setConstraints(contentDefaultLanguageLabel, constraints);
                 this.add(contentDefaultLanguageLabel);
 
@@ -173,7 +178,7 @@ public class BehaviourPanel extends PreferencesPanel {
                         this.defaultContentLanguage.setLanguage(currentValue);
                 }
                 this.defaultContentLanguage
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.contentDefaultLang"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.contentDefaultLang"));
                 gridbag.setConstraints(this.defaultContentLanguage, constraints);
                 this.add(this.defaultContentLanguage);
 
@@ -182,9 +187,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 10);
                 OMLabel defaultObserverLabel = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.defaultObserver"), true);
+                                this.textManager.getString("dialog.preferences.label.defaultObserver"), true);
                 defaultObserverLabel
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultObserver"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultObserver"));
                 gridbag.setConstraints(defaultObserverLabel, constraints);
                 this.add(defaultObserverLabel);
 
@@ -195,7 +200,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.defaultObserver.setEnabled(true);
                 this.fillObserverBox();
                 this.defaultObserver
-                                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultObserver"));
+                                .setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultObserver"));
                 gridbag.setConstraints(this.defaultObserver, constraints);
                 this.add(this.defaultObserver);
 
@@ -204,8 +209,8 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 10, 10);
                 OMLabel defaultCatalogLabel = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.defaultCatalog"), true);
-                defaultCatalogLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultCatalog"));
+                                this.textManager.getString("dialog.preferences.label.defaultCatalog"), true);
+                defaultCatalogLabel.setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultCatalog"));
                 gridbag.setConstraints(defaultCatalogLabel, constraints);
                 this.add(defaultCatalogLabel);
 
@@ -215,7 +220,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.catalogBox = new JComboBox();
                 this.catalogBox.setEnabled(true);
                 this.fillCatalogBox();
-                this.catalogBox.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.defaultCatalog"));
+                this.catalogBox.setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultCatalog"));
                 gridbag.setConstraints(this.catalogBox, constraints);
                 this.add(this.catalogBox);
 
@@ -224,9 +229,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 10);
                 OMLabel LretrieveEndDateFromSession = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.retrieveEndDateFromSession"), true);
+                                this.textManager.getString("dialog.preferences.label.retrieveEndDateFromSession"), true);
                 LretrieveEndDateFromSession.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
+                                this.textManager.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
                 gridbag.setConstraints(LretrieveEndDateFromSession, constraints);
                 this.add(LretrieveEndDateFromSession);
 
@@ -237,7 +242,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.retrieveEndDateFromSession.setSelected(Boolean
                                 .valueOf(this.getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION).orElse("false")));
                 this.retrieveEndDateFromSession.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
+                                this.textManager.getString("dialog.preferences.tooltip.retrieveEndDateFromSession"));
                 gridbag.setConstraints(this.retrieveEndDateFromSession, constraints);
                 this.add(this.retrieveEndDateFromSession);
 
@@ -246,9 +251,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 10, 10);
                 OMLabel LuseCoObserverInStatistics = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.useCoObserverInStatistics"), true);
+                                this.textManager.getString("dialog.preferences.label.useCoObserverInStatistics"), true);
                 LuseCoObserverInStatistics.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
+                                this.textManager.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
                 gridbag.setConstraints(LuseCoObserverInStatistics, constraints);
                 this.add(LuseCoObserverInStatistics);
 
@@ -260,7 +265,7 @@ public class BehaviourPanel extends PreferencesPanel {
                                 .valueOf(this.getConfig(
                                                 ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS).orElse("true")));
                 this.useCoObserverInStatistics.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
+                                this.textManager.getString("dialog.preferences.tooltip.useCoObserverInStatistics"));
                 gridbag.setConstraints(this.useCoObserverInStatistics, constraints);
                 this.add(this.useCoObserverInStatistics);
 
@@ -269,9 +274,9 @@ public class BehaviourPanel extends PreferencesPanel {
                 constraints.fill = GridBagConstraints.NONE;
                 ConstraintsBuilder.buildConstraints(constraints, 0, 6, 1, 1, 10, 10);
                 OMLabel LuseLatinConstellationNames = new OMLabel(
-                                this.bundle.getString("dialog.preferences.label.useLatinConstellationNames"), true);
+                                this.textManager.getString("dialog.preferences.label.useLatinConstellationNames"), true);
                 LuseLatinConstellationNames.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
+                                this.textManager.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
                 gridbag.setConstraints(LuseLatinConstellationNames, constraints);
                 this.add(LuseLatinConstellationNames);
 
@@ -282,7 +287,7 @@ public class BehaviourPanel extends PreferencesPanel {
                 this.useLatinConstellationNames.setSelected(!Boolean.valueOf(
                                 this.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N).orElse("true")));
                 this.useLatinConstellationNames.setToolTipText(
-                                this.bundle.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
+                                this.textManager.getString("dialog.preferences.tooltip.useLatinConstellationNames"));
                 gridbag.setConstraints(this.useLatinConstellationNames, constraints);
                 this.add(this.useLatinConstellationNames);
 
@@ -292,7 +297,7 @@ public class BehaviourPanel extends PreferencesPanel {
 
                 String currentValue = this.getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER).orElse(null);
 
-                IObserver[] observers = this.om.getXmlCache().getObservers();
+                IObserver[] observers = this.model.getObservers();
                 IObserver defaultObserver = null;
                 for (IObserver observer : observers) {
                         this.defaultObserver.addItem(observer);
@@ -321,7 +326,7 @@ public class BehaviourPanel extends PreferencesPanel {
 
         private void setLanguageForAllFindings(String isoLanguage) {
 
-                IObservation[] observations = this.om.getXmlCache().getObservations();
+                IObservation[] observations = this.model.getObservations();
                 List<IFinding> findings = null;
                 Iterator<IFinding> iter = null;
                 for (IObservation observation : observations) {
@@ -336,7 +341,7 @@ public class BehaviourPanel extends PreferencesPanel {
 
         private void setLanguageForAllSessions(String isoLanguage) {
 
-                ISession[] sessions = this.om.getXmlCache().getSessions();
+                ISession[] sessions = this.model.getSessions();
                 for (ISession session : sessions) {
                         session.setLanguage(isoLanguage);
                 }
@@ -345,10 +350,10 @@ public class BehaviourPanel extends PreferencesPanel {
 
         private boolean showSetLanguageDialog() {
 
-                JOptionPane pane = new JOptionPane(this.bundle.getString("dialog.preferences.setLanguage2All.question"),
+                JOptionPane pane = new JOptionPane(this.textManager.getString("dialog.preferences.setLanguage2All.question"),
                                 JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
                 JDialog dialog = pane.createDialog(this.om,
-                                this.bundle.getString("dialog.preferences.setLanguage2All.title"));
+                                this.textManager.getString("dialog.preferences.setLanguage2All.title"));
                 dialog.setVisible(true);
                 Object selectedValue = pane.getValue();
 

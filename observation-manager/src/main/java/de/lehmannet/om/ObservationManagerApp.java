@@ -50,9 +50,11 @@ public class ObservationManagerApp {
         final String logging = argumentsParser.getArgumentValue(ArgumentName.LOGGING);
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
-        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache);
         final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
         final TextManager textManager = new TextManagerImpl(isoKey);
+        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir);
+        
+        
 
         //@formatter:off
         new ObservationManager.Builder(model)

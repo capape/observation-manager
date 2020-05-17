@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.Scrollable;
 
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.FITSImageDialog;
 import de.lehmannet.om.ui.dialog.ImageDialog;
 import de.lehmannet.om.ui.image.ImageResolver;
@@ -64,10 +65,12 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     private int numberOfImages = 0;
     private final ImageResolver imageResolver;
+    private final ObservationManagerModel model;
 
-    public ImageContainer(List<File> files, ObservationManager om, boolean editable, ImageResolver resolver) {
+    public ImageContainer(List<File> files, ObservationManager om, ObservationManagerModel model,boolean editable, ImageResolver resolver) {
 
         this.om = om;
+        this.model = model;
         this.imageResolver = resolver;
         this.editable = editable;
 
@@ -79,7 +82,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     public void addImagesFromPath(List<String> images) {
 
-        this.addImages(this.getFilesFromPath(images));
+        this.addImages(this.model.getFilesFromPath(images));
 
     }
 
@@ -99,7 +102,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
             path = ((File) images.get(i)).getAbsolutePath();
             if (path.startsWith("." + File.separator)) { // Path is relative
-                path = this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
+                path = this.model.getXMLPathForSchemaElement(this.om.getSelectedTableElement())
                         + File.separator + path;
             }
 
@@ -278,21 +281,6 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
     }
 
-    private List<File> getFilesFromPath(List<String> imagePath) {
-        if (imagePath == null) {
-            return Collections.emptyList();
-        }
-        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
-    }
-
-    private File createPath(String x) {
-        if (x.startsWith("." + File.separator)) {
-            return new File(this.om.getXmlCache().getXMLPathForSchemaElement(this.om.getSelectedTableElement())
-                    + File.separator + x);
-        } else {
-            return new File(x);
-        }
-    }
 
 }
 
