@@ -1,6 +1,0 @@
-Saviez-vous qu'Observation Manager ne modifie pas votre syst\u00e8me de fichiers? 
-Aucune entr\u00e9e de registre ou similaire n'est cr\u00e9\u00e9e par Observation Manager. 
-Tous les fichiers se trouvent dans le r\u00e9pertoire d'installation. Seul un petit 
-fichier de configuration "Config" (~ 1 Ko) est stock\u00e9 dans votre r\u00e9pertoire utilisateur, dans 
-le dossier ". ObservationManager".
-

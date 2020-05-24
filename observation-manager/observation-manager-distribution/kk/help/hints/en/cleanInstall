@@ -1,6 +1,0 @@
-Did you know that Observation Manager doesn't mess up your filesystem? 
-No registry entries or the like are done by Observation Manager. All files 
-can be found in the main installation directory. Only one small (~ 1kb) 
-configuration file is stored in your users home directory under 
-".observationManager" called "config" 
-

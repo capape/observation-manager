@@ -1,7 +1,0 @@
-Sai che puoi usare i tuoi XSL file per la trasformazione in HTML in Observation Manager?
-Crea una nuova cartella sotto la cartella di installazione xsl.
-Metti il tuo file XSL nella nuova cartella e rinominalo in trasform.xsl
-Poi seleziona il tuo file XSL in Observation Manager sotto la voce "Preferenze"
-(il nome della nuova cartella creata sar\u00e0 nella lista della casella).
-Fatto!
-Ora ogni esportazione ad HTML user\u00e0 il tuo file XSL.

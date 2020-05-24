@@ -1,2 +1,0 @@
-Czy wiesz, \u017ce w programie Observation Manager mo\u017cesz wykorzysta\u0107 w\u0142asne pliki XSL do transformacji HTML? Najpierw utw\u00f3rz nowy katalog pod zainstalowanym katalogiem XSL. Umie\u009c\u0107 w nim Tw\u00f3j plik XSL i zmie\u0144 jego nazw\u0119 na transform.xsl.
-Teraz wybierz Tw\u00f3j plik XSL w menu "Preferencje". Nazwa nowo utworzonego katalogu pojawi si\u0119 na li\u009ccie wyboru. Gotowe! Ka\u017cdy nowy eksport HTML z Mened\u017cera Obserwacji u\u017cyje Twojego pliku XSL.
