@@ -14,7 +14,7 @@
       </includes>		
     </fileSet>
     <fileSet>
-      <directory>../observation-manager/target/</directory>
+      <directory>../observation-manager-app/target/</directory>
       <outputDirectory>classpath</outputDirectory>
       <includes>
           <include>*jar-with-dependencies.jar</include>
@@ -22,7 +22,7 @@
     </fileSet>
 
     <fileSet>
-      <directory>../observation-manager/src/main/resources/catalog</directory>
+      <directory>../observation-manager-app/src/main/resources/catalog</directory>
       <outputDirectory>catalog</outputDirectory>
       <includes>
           <include>**/*</include>
@@ -30,7 +30,7 @@
     </fileSet>
 
     <fileSet>
-      <directory>../observation-manager/src/main/resources/help</directory>
+      <directory>../observation-manager-app/src/main/resources/help</directory>
       <outputDirectory>help</outputDirectory>
       <includes>
           <include>**/*</include>

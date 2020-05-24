@@ -27,9 +27,18 @@
             "request": "launch",
             "mainClass": "de.lehmannet.om.ObservationManagerApp",
             "projectName": "observation-manager-app",
-            // "vmArgs": "-Dextension.dirs=/opt/acapape/astronomy/observationManager/lib/"
-            "vmArgs": "--illegal-access=warn -Dextension.dirs=/home/acapape/Workspace/astronomy/observation-manager/skychart-extension/target "
+            "vmArgs": "-Duser.timezone=UTC --illegal-access=warn -Dextension.dirs=/home/acapape/Workspace/astronomy/observation-manager/skychart-extension/target"
             // -agentpath:/opt/acapape/java/swing-inspector-linux-1.2.3/amd64/libswing-inspector-agent.so
+            // -agentpath:/home/acapape/Workspace/research/swinginspector/target/swinginspector-0.1.1-SNAPSHOT-jar-with-dependencies.jar
+        },
+        {
+            "type": "java",
+            "name": "Debug SwingExplorer (Launch)-ObservationManager<observation-manager>",
+            "request": "launch",
+            "mainClass": "de.lehmannet.om.ObservationManagerApp",
+            "projectName": "observation-manager-app",
+            "vmArgs": "-Duser.timezone=UTC --illegal-access=warn -Dextension.dirs=/home/acapape/Workspace/astronomy/observation-manager/skychart-extension/target -javaagent:/home/acapape/Workspace/research/swinginspector/target/swinginspector-0.1.1-SNAPSHOT-jar-with-dependencies.jar"
+            // -agentpath:/opt/acapape/java/swing-inspector-linux-1.2.3/amd64/libswing-inspector-agent.so            
         }
         ]
 }

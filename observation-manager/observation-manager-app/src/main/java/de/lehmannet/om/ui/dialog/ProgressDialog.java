@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
@@ -27,6 +29,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
 
     private Thread calculation = null;
     private Thread watchdog = null;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProgressDialog.class);
 
     public ProgressDialog(JFrame om, String title, String information, Worker runnable) {
 
@@ -55,8 +58,8 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
      
         try {
             this.setVisible(true);
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            System.out.println("Krach!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            LOGGER.error("Ignoring unexpected exception", e);
         }
 
     }
@@ -122,7 +125,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
     }
 
     public void close() {
-
+        LOGGER.info("Closing progress dialog");
         this.dispose();
 
     }
@@ -156,20 +159,22 @@ class Watchdog implements Runnable {
 
     private ProgressDialog progress = null;
     private Thread calculation = null;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Watchdog.class);
     public Watchdog(ProgressDialog progress, Thread calculation) {
 
         this.progress = progress;
         this.calculation = calculation;
-
+        LOGGER.debug("Create progress dialog {}:{}", calculation.getName(), progress.getTitle());
     }
 
     @Override
     public void run() {
 
-        try {
+        
+        try {            
             this.calculation.join();
         } catch (InterruptedException ie) {
+            LOGGER.warn("Ignoring",ie);
             // Can't do anything here
         }
 

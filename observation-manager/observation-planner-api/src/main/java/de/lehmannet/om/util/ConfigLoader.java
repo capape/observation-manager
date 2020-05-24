@@ -15,6 +15,8 @@ import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the
  * extension directory), and if config files are found, it can provide easy
@@ -193,12 +195,14 @@ public class ConfigLoader {
         }
         // Get JARs under extension path
         String extPath = System.getProperty(EXTENSIONS_DIR_PROPERTY);
-        File ext = new File(extPath);
-        if (ext.exists()) {
-            File[] jars = ext.listFiles((dir, name) -> name.toLowerCase(Locale.getDefault()).endsWith(".jar"));
-            if (jars != null) {
-                for (File jar : jars) {
-                    scanJarFile(jar);
+        if (!StringUtils.isBlank(extPath)) {
+            File ext = new File(extPath);
+            if (ext.exists()) {
+                File[] jars = ext.listFiles((dir, name) -> name.toLowerCase(Locale.getDefault()).endsWith(".jar"));
+                if (jars != null) {
+                    for (File jar : jars) {
+                        scanJarFile(jar);
+                    }
                 }
             }
         }

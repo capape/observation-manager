@@ -30,7 +30,7 @@ public class ObserverMapper {
             for (int x = 0; x < children.getLength(); x++) {
                 Element child = (Element) children.item(x);
                 if (child != null) {
-                    String accountName = child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME);
+                    String accountName = child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME).trim();
                     StringBuilder accountID = new StringBuilder();// child.getFirstChild().getNodeValue();
                     NodeList textElements = child.getChildNodes();
                     if (textElements.getLength() > 0) {
@@ -91,7 +91,7 @@ public class ObserverMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             DSLCode.append(textElements.item(te).getNodeValue());
                         }
-                        return DSLCode.toString();
+                        return DSLCode.toString().trim();
 
                     }
                 } else {
@@ -122,7 +122,7 @@ public class ObserverMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             contactEntry.append(textElements.item(te).getNodeValue());
                         }
-                        contacts.add(contactEntry.toString());
+                        contacts.add(contactEntry.toString().trim());
                     }
                 } else {
                     throw new SchemaException("Problem retrieving contact information from Observer. ");
@@ -152,7 +152,7 @@ public class ObserverMapper {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     surname.append(textElements.item(te).getNodeValue());
                 }
-                return surname.toString();
+                return surname.toString().trim();
             }
         }
         return "";
@@ -178,7 +178,7 @@ public class ObserverMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         name.append(textElements.item(te).getNodeValue());
                     }
-                    return name.toString();
+                    return name.toString().trim();
                 }
             } else {
                 // Some applications (like DSP) don't set a name, which is OK with OAL

@@ -20,6 +20,7 @@ public class ObservationManagerFileLoader {
 
     private final IConfiguration configuration;
     private final ObservationManagerModel model;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerFileLoader.class);
 
     public ObservationManagerFileLoader(IConfiguration configuration,
         ObservationManagerModel model) {
@@ -27,11 +28,11 @@ public class ObservationManagerFileLoader {
         this.model = model;
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerFileLoader.class);
     
     public List<Pair<String,Boolean>> loadFiles(final String[] files) {
 
         if ((files == null) || (files.length == 0)) {
+            LOGGER.debug("No files to load");
             return Collections.EMPTY_LIST;
         }
 
@@ -48,8 +49,11 @@ public class ObservationManagerFileLoader {
 
         // Check if we should load last loaded XML on startup
         final boolean load = this.configuration.getBooleanConfig(ConfigKey.CONFIG_OPENONSTARTUP);
+        LOGGER.debug("Loading config at startup: {}", load);
+        final String lastFile = this.configuration.getConfig(ConfigKey.CONFIG_LASTXML);
+        LOGGER.debug("Last config file: {}", lastFile);
         if (load) {
-            final String lastFile = this.configuration.getConfig(ConfigKey.CONFIG_LASTXML);
+            
             // Check if last file is set
             if (!StringUtils.isBlank(lastFile)) {
                 boolean result = this.loadFile(lastFile);
@@ -57,7 +61,7 @@ public class ObservationManagerFileLoader {
             }
         }
 
-        return Optional.empty();
+        return Optional.of(Pair.of(lastFile,false));
 
     }
 
@@ -68,16 +72,14 @@ public class ObservationManagerFileLoader {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Loading File: {}", file);
-            LOGGER.debug(SystemInfo.printMemoryUsage());
+            LOGGER.debug("Loading File: {}", file);           
         }
 
         final boolean result = this.model.loadObservations(file);
                 
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Loaded: {} , result: {}", file, result);
-            LOGGER.debug(SystemInfo.printMemoryUsage());
+            LOGGER.debug("Loaded: {} , result: {}", file, result);            
         }
         return result;
         

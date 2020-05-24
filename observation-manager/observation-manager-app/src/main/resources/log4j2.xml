@@ -19,10 +19,20 @@
         <Logger name="org.apache.xerces" level="info" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
+        <Logger name="org.xml.sax" level="info" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
         <Logger name="de.lehmannet.om" level="info" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <Logger name="org.xml.sax" level="info" additivity="false">
+        
+        <Logger name="de.lehmannet.om.ui.dialog" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="de.lehmannet.om.ui.navigation.ObservationManager" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="de.lehmannet.om.ui.navigation.ObservationManagerFileLoader" level="debug" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
     </Loggers>

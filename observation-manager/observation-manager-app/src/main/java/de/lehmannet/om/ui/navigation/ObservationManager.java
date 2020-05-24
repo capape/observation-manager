@@ -149,29 +149,45 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
         this.model = builder.model;
 
+        UserInterfaceHelper uiHelper = new UserInterfaceHelperImpl(this, textManager);
+
+        LOGGER.info("Observation Manager {} starting up...", VERSION);
+        LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
+        LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
+                System.getProperty("os.version"));
+
+
+        LOGGER.debug("Launching splash screen...");
+        this.extLoader = new ExtensionLoader(this, this.model, this.installDir); // --> DEP VARIABLE STARS --> DIALOG
+
+
         LOGGER.debug("Start: {}", new Date());
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
 
+
+        LOGGER.debug("Configure night vision...");
         boolean nightVisionOnStartup = Boolean
                 .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
         if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
             nightVisionOnStartup = this.nightVisionOnStartup;
         }
 
+        LOGGER.debug("Launching splash screen...");
         // Load SplashScreen
         if (!nightVisionOnStartup) {
             this.splash = new Thread(new SplashScreen(this.imageResolver));
             this.splash.start();
         }
 
-        UserInterfaceHelper uiHelper = new UserInterfaceHelperImpl(this, textManager);
-
+        
         // Set title
         this.setTitle();
 
-        this.extLoader = new ExtensionLoader(this, this.model, this.installDir); // --> DEP VARIABLE STARS --> DIALOG
+        
+        LOGGER.debug("Generating menus...");
+
         this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);
         this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration,
                 this.installDir, this.model);
@@ -187,12 +203,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // Set icon
         this.setIconImage(new ImageIcon(this.installDir.getPathForFile("om_logo.png")).getImage());
 
-        LOGGER.info("Observation Manager {} starting up...", VERSION);
-
-        // Write Java version into log
-        LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
-        LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
-                System.getProperty("os.version"));
 
         // Init menu and disable it during startup
         this.initMenuBar();
@@ -202,6 +212,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         if (nightVisionOnStartup) {
             this.menuExtras.enableNightVisionTheme(true);
         }
+
+       
+        LOGGER.debug("Configure main view...");
 
         this.item = this.initItemView();
         this.table = this.initTableView();
@@ -216,14 +229,18 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // this.performRestartUpdate();
         // ****************************************************************
 
+        LOGGER.debug("Loading config files...");
         this.loadConfigFiles();
 
+        LOGGER.debug("Refreshing view...");
         this.table.showObservations(null, null);
         this.tree.updateTree();
 
+        LOGGER.debug("Checking for updates...");
         this.checkForUpdatesOnLoad();
 
         // If we should show the hints on startup, do so now...
+        LOGGER.debug("Creating hints dialog...");
         if (this.configuration.getBooleanConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, true)) {
             this.menuExtras.showDidYouKnow();
         }
@@ -243,8 +260,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private void loadConfigFiles() {
         // Load XML File on startup (if desired)
-        final ObservationManagerFileLoader fileLoader;
-        fileLoader = new ObservationManagerFileLoader(configuration, model);
+        final ObservationManagerFileLoader fileLoader = new ObservationManagerFileLoader(configuration, model);
 
         final Worker configLoader = new Worker() {
             Pair<String, Boolean> result;
@@ -253,6 +269,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public void run() {
 
                 result = fileLoader.loadConfig().orElse(Pair.of("Not loaded", true));
+                LOGGER.debug("Config: {},{}", result.getLeft(), result.getRight());
 
             }
 
@@ -260,10 +277,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public String getReturnMessage() {
 
                 if (result.getRight()) {
+                    LOGGER.debug("Configuration loaded ");
                     return "";
                 }
 
-                return ObservationManager.this.textManager.getString("error.loadXML") + " " + result.getLeft();
+               
+                String msgError = ObservationManager.this.textManager.getString("error.loadXML");
+                LOGGER.error("Configuration error: {} ", msgError);
+                return msgError + " " + result.getLeft();
 
             }
 
@@ -279,9 +300,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             }
 
         };
-
-        new ProgressDialog(this, this.textManager.getString("progress.wait.title"),
+        final boolean load = this.configuration.getBooleanConfig(ConfigKey.CONFIG_OPENONSTARTUP);
+        LOGGER.debug("Loading config at startup: {}", load);
+        if (load) {
+            new ProgressDialog(this, this.textManager.getString("progress.wait.title"),
                 this.textManager.getString("progress.wait.xml.load.info"), configLoader);
+        }
     }
 
     private void checkForUpdatesOnLoad() {
@@ -548,18 +572,18 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
         String title = "Observation Manager - " + this.textManager.getString("version") + " "
                 + ObservationManager.VERSION;
-        if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
-                                                                // correct in
-                                                                // Linux/Gnome3
-                                                                // desktop
-            try {
-                final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
-                awtAppClassName.setAccessible(true);
-                awtAppClassName.set(null, title);
-            } catch (final Exception e) {
-                // Cannot do much here
-            }
-        }
+        // if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
+        //                                                         // correct in
+        //                                                         // Linux/Gnome3
+        //                                                         // desktop
+        //     try {
+        //         final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
+        //         awtAppClassName.setAccessible(true);
+        //         awtAppClassName.set(null, title);
+        //     } catch (final Exception e) {
+        //         // Cannot do much here
+        //     }
+        // }
 
         this.setTitle(title);
 
