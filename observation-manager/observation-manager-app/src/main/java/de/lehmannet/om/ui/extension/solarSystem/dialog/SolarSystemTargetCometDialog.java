@@ -36,7 +36,6 @@ public class SolarSystemTargetCometDialog extends AbstractDialog implements ITar
 
         this.setSize(SolarSystemTargetCometDialog.serialVersionUID, 550, 260);
 
-        this.pack();
         this.setVisible(true);
 
     }

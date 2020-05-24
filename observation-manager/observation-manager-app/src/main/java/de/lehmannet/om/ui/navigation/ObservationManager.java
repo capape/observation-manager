@@ -572,7 +572,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.menuBar.add(this.menuData.getMenu());
         this.menuBar.add(this.menuExtras.getMenu());
         this.menuBar.add(this.menuExtensions.getMenu());
-        this.menuBar.add(this.menuHelp.getMenu());
+        this.menuBar.add(this.menuHelp.getMenu());        
         this.setJMenuBar(this.menuBar);
     }
 

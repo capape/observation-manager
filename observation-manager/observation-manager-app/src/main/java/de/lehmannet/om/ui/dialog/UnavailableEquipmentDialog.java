@@ -71,7 +71,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         this.initTree();
 
         this.initDialog();
-        this.pack();
         this.setVisible(true);
 
     }

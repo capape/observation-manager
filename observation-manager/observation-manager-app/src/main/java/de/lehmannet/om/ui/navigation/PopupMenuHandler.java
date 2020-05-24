@@ -75,7 +75,7 @@ class PopupMenuHandler implements ActionListener {
     ISchemaElement se, int x, int y, byte operation, SchemaElementConstants createType,
             PopupMenuExtension[] extensions) {
 
-        final int xSize = 150;
+        final int xSize = 450;
         final int ySize = 25;
 
         int entries = 1;

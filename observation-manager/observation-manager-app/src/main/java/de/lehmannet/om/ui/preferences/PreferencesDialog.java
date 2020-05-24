@@ -60,7 +60,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
             this.addPreferencesTab(additionalPanel);
         }
 
-        this.pack();
         this.setVisible(true);
 
     }

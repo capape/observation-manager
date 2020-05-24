@@ -41,7 +41,7 @@ public class AboutDialog extends OMDialog implements ActionListener {
         this.initDialog();
         this.setSize(AboutDialog.serialVersionUID, 400, 260);
         
-        this.pack();
+        
         this.setVisible(true);
 
 
@@ -76,10 +76,7 @@ public class AboutDialog extends OMDialog implements ActionListener {
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         text.setEditable(false);
-        text.setText("Observation Manager - Version " + ObservationManager.VERSION + "\n" + "(c) Dirk Lehmann\n\n"
-                + "http://observation.sourceforge.net/\n\n" + "Distributed under the Apache Software License 2.0\n"
-                + "Please see file LICENSE-2.0.txt\n\n"
-                + "This product includes software developed by\nThe Apache Software Foundation (http://www.apache.org/)");
+        text.setText(this.bundle.getString("about.dialog.text"));
         gridbag.setConstraints(text, constraints);
         this.getContentPane().add(text);
 

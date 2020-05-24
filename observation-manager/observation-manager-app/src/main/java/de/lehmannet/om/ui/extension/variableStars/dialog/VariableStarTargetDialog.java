@@ -36,7 +36,6 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
 
         this.setSize(VariableStarTargetDialog.serialVersionUID, 575, 375);
 
-         this.pack();
         this.setVisible(true);
 
     }

@@ -26,7 +26,6 @@ public class FilterDialog extends AbstractDialog {
         }
 
         this.setSize(FilterDialog.serialVersionUID, 490, 130);
-        this.pack();
         this.setVisible(true);
 
     }

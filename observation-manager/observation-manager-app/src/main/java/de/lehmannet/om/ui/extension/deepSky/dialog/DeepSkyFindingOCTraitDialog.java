@@ -49,7 +49,6 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
 
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
-        this.pack();
         
         this.setVisible(true);
 

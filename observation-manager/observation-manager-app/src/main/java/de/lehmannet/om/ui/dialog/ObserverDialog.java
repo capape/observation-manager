@@ -27,7 +27,6 @@ public class ObserverDialog extends AbstractDialog {
         }
 
         this.setSize(ObserverDialog.serialVersionUID, 500, 300);
-        this.pack();
         this.setVisible(true);
 
     }

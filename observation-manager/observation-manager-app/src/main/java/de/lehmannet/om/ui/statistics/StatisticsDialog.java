@@ -127,7 +127,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
         // Show dialog
         this.initDialog();
-        this.pack();
 
         // Start calculation of statistics
         this.createCatalogueStatistics();

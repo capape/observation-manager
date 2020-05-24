@@ -34,7 +34,6 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
 
         this.setSize(GenericTargetDialog.serialVersionUID, 590, 260);
 
-        this.pack();
         this.setVisible(true);
 
     }

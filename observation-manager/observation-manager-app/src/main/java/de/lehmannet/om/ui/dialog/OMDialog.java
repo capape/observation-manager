@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public abstract class OMDialog extends JDialog {
@@ -16,15 +19,20 @@ public abstract class OMDialog extends JDialog {
     private JFrame observationManager;
     private long dialogID = -1;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OMDialog.class);
+
     protected OMDialog(JFrame om) {
 
         super(om, true);
 
         this.observationManager = om;
+        LOGGER.debug("Creating dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
 
     }
 
     public void setSize(long uniqueDialogID, int width, int height) {
+
+        LOGGER.debug("Setting {} to size: {},{}", this.getClass().getName(), width, height);
 
         // this.dialogID = uniqueDialogID;
 
@@ -65,6 +73,7 @@ public abstract class OMDialog extends JDialog {
             // Save current size
             Dimension size = this.getSize();
 
+            LOGGER.debug("Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
         //     this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
         //             size.width + "x" + size.height);
 

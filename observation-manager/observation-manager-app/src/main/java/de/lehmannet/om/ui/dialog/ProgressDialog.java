@@ -52,8 +52,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         this.watchdog.start();
 
         // Show wait UI
-        this.pack();
-
+     
         try {
             this.setVisible(true);
         } catch (ArrayIndexOutOfBoundsException aioobe) {

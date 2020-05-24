@@ -40,7 +40,6 @@ class SearchDialog extends OMDialog implements ComponentListener {
         this.getRootPane().setDefaultButton(this.panel.getDefaultButton());
         this.panel.addComponentListener(this);
 
-        this.pack();
         this.setVisible(true);
 
     }

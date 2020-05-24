@@ -61,7 +61,6 @@ public class DatePicker extends JDialog {
         this.setSize(500, 330);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.pack();
         this.setVisible(true);
         this.setResizable(false);
 
@@ -80,7 +79,6 @@ public class DatePicker extends JDialog {
         this.setSize(500, 250);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.pack();
         this.setVisible(true);
         this.setResizable(false);
 
@@ -101,7 +99,6 @@ public class DatePicker extends JDialog {
         this.setSize(500, 250);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.pack();
         this.setVisible(true);
         this.setResizable(false);
 
@@ -125,7 +122,6 @@ public class DatePicker extends JDialog {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        this.pack();
         this.setVisible(true);
         this.setResizable(false);
 
@@ -326,8 +322,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-        this.pack();
-
+       
     }
 
     public Calendar getCalendar() {

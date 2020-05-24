@@ -69,7 +69,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
 
-        this.pack();
+       
         this.setVisible(true);
 
     }

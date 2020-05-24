@@ -36,7 +36,6 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
         }
 
         this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);
-        this.pack();
         
         this.setVisible(true);
 

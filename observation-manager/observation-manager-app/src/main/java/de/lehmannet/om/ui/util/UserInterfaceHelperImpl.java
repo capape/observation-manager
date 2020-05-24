@@ -83,7 +83,6 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
     
             Thread waitThread = new Thread(wait, "WaitPopup");
             waitThread.start();
-            this.pack();
             this.setVisible(true);
     
         }

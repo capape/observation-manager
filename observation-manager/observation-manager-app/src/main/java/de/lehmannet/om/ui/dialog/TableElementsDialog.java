@@ -50,7 +50,6 @@ public class TableElementsDialog extends AbstractDialog {
         this.setModal(false);
 
         this.setSize(TableElementsDialog.serialVersionUID, 450, 280);
-        this.pack();
         this.setVisible(true);
 
     }

@@ -271,7 +271,7 @@ class WaitPopup extends OMDialog {
 
         Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
         waitThread.start();
-        this.pack();
+        
         this.setVisible(true);
 
     }

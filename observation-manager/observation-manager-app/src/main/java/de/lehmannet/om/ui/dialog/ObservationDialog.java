@@ -70,7 +70,6 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
         this.setSize(ObservationDialog.serialVersionUID, om.getSize().width - 200, 620);
         this.setLocationRelativeTo(om);
 
-        this.pack();
         this.setVisible(true);
 
     }
