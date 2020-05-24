@@ -1,0 +1,5 @@
+\ufffd poss\ufffdvel adicionar o Observation Manager no menu Start do seu Windows XP: 
+Right-click no obs.bat->Create Shortcut 
+Right-click no Shortcut->Properties->Change Icon   Selecione "om_logo.ico" 
+Right-click no Shortcut->Rename  Mude de "obs.bat" para "Observation Manager" 
+Drag&drop o shortcut primeiro no bot\ufffdo "Start" e de l\ufffd para o menu.

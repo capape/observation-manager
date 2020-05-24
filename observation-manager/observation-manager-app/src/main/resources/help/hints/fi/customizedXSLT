@@ -1,0 +1,9 @@
+Tiesitk\u00f6, ett\u00e4 pystyt k\u00e4ytt\u00e4m\u00e4\u00e4n itse m\u00e4\u00e4rittelemi\u00e4si 
+XSL-tiedostoja HTML-muunnoksen tekoon Observation Managerissa? 
+Luo vain uusi kansio asennus-kansion alaiseen xsl-kansioon. 
+Laita XSL-tiedostosi luomaasi kansioon ja nime\u00e4 anna tiedostosi 
+nimeksi: transform.xsl 
+Valitse Operation Managerissa XSL-tiedostosi menu valikon "Preferenssit" 
+alla (luomasi uusi kansio on valinta-laatikossa). 
+Valmista tuli! 
+Jokainen uusi HTML-muunnos tulee k\u00e4ytt\u00e4m\u00e4\u00e4n m\u00e4\u00e4rittelem\u00e4\u00e4si XSL-tiedostoa. 

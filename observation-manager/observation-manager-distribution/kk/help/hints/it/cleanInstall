@@ -1,0 +1,4 @@
+Sapevi che Observation Manager non intacca il filesystem?
+Nessuna voce di registro \u00e8 creata da Observation manager.
+Tutti i file sono nella cartella di installazione.
+Solo un piccolo file di nome "config", \u00e8 conservato nella cartella utente sotto ".observationManager".

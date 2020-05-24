@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+
+    // Swing inspectors shortkeys
+    // Ctrl + F12 Show/to hide SwingInspector window (global shortcut keys in the operating system)
+    // Ctrl + mouse movement to capture the mouse position in the user interface components
+    // F5 to refresh the component tree
+    // Ctrl + F Find
+    // Alt + left (left arrow key) Back
+    // Alt + right (right arrow key) forward
+    // Ctrl + - to reduce window transparency
+    // Ctrl + + to increase the window transparency
+    // Ctrl + Shift + P Display Properties page
+    // Ctrl + Shift + E expression page
+    // Ctrl + Shift + J Javascript script page
+    // Ctrl + Shift + A to display Add StackTrace page
+    // F11 Executive javascript (effective javascript page active)
+
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ObservationManager<observation-manager>",
+            "request": "launch",
+            "mainClass": "de.lehmannet.om.ObservationManagerApp",
+            "projectName": "observation-manager-app",
+            // "vmArgs": "-Dextension.dirs=/opt/acapape/astronomy/observationManager/lib/"
+            "vmArgs": "--illegal-access=warn -Dextension.dirs=/home/acapape/Workspace/astronomy/observation-manager/skychart-extension/target "
+            // -agentpath:/opt/acapape/java/swing-inspector-linux-1.2.3/amd64/libswing-inspector-agent.so
+        }
+        ]
+}

@@ -1,0 +1,6 @@
+Um Sommer und Winterzeiten richtig erfassen zu k\u00f6nnen, sollten Sie 
+entweder immer nur eine Zeit nutzen (z.B. alle Angaben vor der Eingabe 
+in Winterzeit umrechnen und diesen Wert als Eingabe verwenden) 
+oder Sie legen einen Ort zweimal (mit leicht unterschiedlichem Namen) an. 
+Einmal mit einem Zeitzonenwert f\u00fcr die Winterzeit und einmal mit einem Zeitzonenwert 
+f\u00fcr die Sommerzeit.

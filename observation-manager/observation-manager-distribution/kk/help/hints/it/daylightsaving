@@ -1,0 +1,3 @@
+Per introdurre la data con l'ora estiva, hai due possibilit\u00e0:
+usare solo un formato e correggere la tua ora corrente prima di introdurla in Observation Manager.
+Oppure puoi creare due versioni di un sito. Una con la timezone che include il DST e un'altra senza.

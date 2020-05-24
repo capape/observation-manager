@@ -1,0 +1,12 @@
+Je kan Observation Manager toevoegen aan je Windows XP startmenu:  
+Klik met de rechtermuis op obs.bat->Create Shortcut (Maak snelkoppeling) 
+
+Klik met de rechtermuis op Shortcut->Properties->Change Icon   
+                            (Snelkoppelingen->Eigenschappen->Wijzig icoon) 
+ en kies "om_logo.ico".
+ 
+Klik met de rechtermuis op Shortcut->Rename  (Snelkoppelingen->Hernoemen)  
+ en verander "obs.bat" in "Observation Manager" . 
+
+Sleep de snelkoppeling eerst op de Windows "Start" knop en laat ze vervolgens  
+los in het startmenu. 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+		<artifactId>observation-manager</artifactId>
+		<groupId>de.lehmannet.om</groupId>
+		<version>1.5.0alpha-SNAPSHOT</version>
+	</parent>
+
+  <groupId>de.lehmannet.om</groupId>
+  <artifactId>observation-manager-distribution</artifactId>
+  
+
+  <name>observation-manager-distribution</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <artifactId>observation-manager-app</artifactId>
+      <groupId>de.lehmannet.om</groupId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>skychart-extension</artifactId>
+      <groupId>de.lehmannet.om</groupId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

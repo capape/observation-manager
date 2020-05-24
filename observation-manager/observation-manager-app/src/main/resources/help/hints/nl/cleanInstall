@@ -1,0 +1,10 @@
+Wist je dat Observation Manager je filesysteem niet overhoop 
+haalt?
+Observation Manager schrijft geen gegevens weg in de registry  
+of soortgelijke systeembestanden. 
+Alle bestanden die het programma nodig heeft, vind je terug 
+in de installatiedirectory, op één uitzondering na: 
+een kleine (~ 1kb) configuratiefile "config" wordt bewaard 
+in je gebruikers-directory onder ".observationManager".
+
+

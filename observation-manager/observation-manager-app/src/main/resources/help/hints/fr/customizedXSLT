@@ -1,0 +1,11 @@
+Saviez-vous que vous pouvez utiliser vos propres fichiers XSL pour la conversion 
+HTML dans Observation Manager? 
+Il suffit de cr\u00e9er un nouveau dossier dans le dossier d'installation "xsl". 
+Placez votre fichier XSL dans le nouveau dossier et renommez votre 
+fichier XSL en "transform.xsl". 
+Puis s\u00e9lectionnez votre fichier XSL dans le menu 
+"Pr\u00e9f\u00e9rences" d'Observation Manager (le nom de votre dossier nouvellement 
+cr\u00e9\u00e9 se trouvera dans la bo\u00eete de s\u00e9lection). 
+C'est tout! 
+\u00c0 chaque nouvel export HTML, Observation Manager 
+utilisera désormais votre propre feuille de style XSL.

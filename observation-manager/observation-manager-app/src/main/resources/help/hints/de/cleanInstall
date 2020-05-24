@@ -1,0 +1,6 @@
+Wussten Sie, da\u00df Observation Manager ihr System nicht unn\u00f6tig verschmutzt? 
+Es werden keine Windows Registry-Eintr\u00e4ge oder \u00e4hnliches vorgenommen. 
+Alle Programmdateien liegen im Hauptverzeichnis. Nur eine einzige 
+Konfigurationsdatei wird in Ordner Ihres Benutzters angelegt. 
+Diese Datei hei\u00dft "config", ist ca. 1kb gro\u00df und liegt im Ordner ".observationManager"
+

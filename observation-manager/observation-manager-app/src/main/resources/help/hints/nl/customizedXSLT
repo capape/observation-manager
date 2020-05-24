@@ -1,0 +1,10 @@
+Wist je dat je je eigen XSL bestanden kan gebruiken als je 
+ een HTML transformatie uitvoert in Observation Manager? 
+Het volstaat om een nieuwe folder aan te maken in de xsl 
+directory. 
+Plaats hierin je XSL bestand en hernoem deze file in: transform.xsl 
+Selecteer nu je XSL bestand in het menu "Extra - Preferences" 
+(de naam van je zopas aangemaakte folder wordt in het 
+selectieveld gebruikt) en ... klaar! 
+Observation Manager gebruikt vanaf nu je eigen XSL bestand 
+voor elke nieuwe HTML-export. 

@@ -1,0 +1,4 @@
+Para introducir una fecha el formato correcto de horario de verano tiene dos opciones.
+Usar un s\u00f3lo formato y corregir su hora actual consecuentemente antes de introducirlo 
+en Observation Manager o crear dos versiones de la misma localizaci\u00f3n: una con la 
+correcci\u00f3n de horario de verano y la otra sin ella.

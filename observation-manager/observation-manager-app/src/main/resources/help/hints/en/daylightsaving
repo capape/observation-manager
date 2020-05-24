@@ -1,0 +1,4 @@
+To enter data in a correct daylight saving time format you've two options: 
+Use only one format and correct your current time accordingly before you enter 
+it into Observation Manager. Or you create two versions of one site. One version with 
+a timezone that includes the DST and another one which doesn't.
