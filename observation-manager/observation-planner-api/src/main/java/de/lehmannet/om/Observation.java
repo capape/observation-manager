@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -97,6 +99,8 @@ public class Observation extends SchemaElement implements IObservation {
     // The results (IFinding) of the observation as List
     private List<IFinding> results = new LinkedList<>();
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Observation.class);
+
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
@@ -155,6 +159,7 @@ public class Observation extends SchemaElement implements IObservation {
             throws SchemaException, IllegalArgumentException {
 
         if (observation == null) {
+            LOGGER.error("Parameter observation node cannot be NULL.");
             throw new IllegalArgumentException("Parameter observation node cannot be NULL. ");
         }
 
@@ -162,8 +167,6 @@ public class Observation extends SchemaElement implements IObservation {
         Element observationElement = (Element) observation;
 
         // Helper classes
-        
-       
 
         // Getting data
         // First mandatory stuff and down below optional data
@@ -210,23 +213,25 @@ public class Observation extends SchemaElement implements IObservation {
             throws IllegalArgumentException {
 
         if (begin == null) {
+            LOGGER.error("Begin date cannot be null. ");
             throw new IllegalArgumentException("Begin date cannot be null. ");
         }
-        this.begin = begin;
 
         if (target == null) {
+            LOGGER.error("Target cannot be null. ");
             throw new IllegalArgumentException("Target cannot be null. ");
         }
-        this.target = target;
-
         if (observer == null) {
+            LOGGER.error("Observer cannot be null. ");
             throw new IllegalArgumentException("Observer cannot be null. ");
         }
-        this.observer = observer;
-
         if (result == null) {
+            LOGGER.error("Result cannot be null. ");
             throw new IllegalArgumentException("Result cannot be null. ");
         }
+        this.begin = begin;
+        this.target = target;
+        this.observer = observer;
         this.addResult(result);
 
     }
@@ -246,23 +251,28 @@ public class Observation extends SchemaElement implements IObservation {
             throws IllegalArgumentException {
 
         if (begin == null) {
+            LOGGER.error("Begin date cannot be null. ");
             throw new IllegalArgumentException("Begin date cannot be null. ");
         }
-        this.begin = begin;
 
         if (target == null) {
+            LOGGER.error("Target cannot be null. ");
             throw new IllegalArgumentException("Target cannot be null. ");
         }
-        this.target = target;
-
         if (observer == null) {
+            LOGGER.error("Observer cannot be null. ");
             throw new IllegalArgumentException("Observer cannot be null. ");
         }
-        this.observer = observer;
 
         if ((results == null) || (results.isEmpty())) {
+            LOGGER.error("Result list cannot be null or empty. ");
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
         }
+
+        this.begin = begin;
+        this.target = target;
+        this.observer = observer;
+
         this.addResults(results);
 
     }
@@ -936,6 +946,7 @@ public class Observation extends SchemaElement implements IObservation {
     public void setResult(IFinding result) throws IllegalArgumentException {
 
         if (results == null) {
+            LOGGER.error("Result cannot be null. ");
             throw new IllegalArgumentException("Result cannot be null. ");
         }
 
@@ -969,6 +980,7 @@ public class Observation extends SchemaElement implements IObservation {
     public boolean setResults(List<IFinding> results) {
 
         if ((results == null) || (results.isEmpty())) {
+            LOGGER.error("Result list cannot be null or empty. ");
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
         }
 
@@ -1015,6 +1027,8 @@ public class Observation extends SchemaElement implements IObservation {
     public void setImages(List<String> imagesList) throws IllegalArgumentException {
 
         if (imagesList == null) {
+
+            LOGGER.error("Images list cannot be null. ");
             throw new IllegalArgumentException("Images list cannot be null. ");
         }
 
@@ -1205,6 +1219,7 @@ public class Observation extends SchemaElement implements IObservation {
     public void setBegin(Calendar begin) throws IllegalArgumentException {
 
         if (begin == null) {
+            LOGGER.error("Begin date cannot be null. ");
             throw new IllegalArgumentException("Begin date cannot be null. ");
         }
 
@@ -1342,8 +1357,11 @@ public class Observation extends SchemaElement implements IObservation {
         }
 
         if ((seeing < 1) || (seeing > 5)) {
-            throw new IllegalArgumentException("Seeing must be 1,2,3,4 or 5, but was: " + seeing
-                    + "\nIf you wanna clear the entry, please pass -1 as parameter.");
+            
+            String message = "Seeing must be 1,2,3,4 or 5, but was: " + seeing
+                    + "\nIf you wanna clear the entry, please pass -1 as parameter.";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
         }
 
         this.seeing = seeing;
@@ -1362,6 +1380,7 @@ public class Observation extends SchemaElement implements IObservation {
     public void setObserver(IObserver observer) throws IllegalArgumentException {
 
         if (observer == null) {
+            LOGGER.error("Observer cannot be null. ");
             throw new IllegalArgumentException("Observer cannot be null. ");
         }
 
@@ -1407,19 +1426,23 @@ public class Observation extends SchemaElement implements IObservation {
 
         // Check if start date of observation is equal or later then session start
         if (sessionStart.after(this.begin)) {
-            throw new IllegalArgumentException("Session start date is after observation start date  for:  " + session.getDisplayName());           
+            LOGGER.error("Session start date is after observation start date  for:  {}" , this.getDisplayName());
+            throw new IllegalArgumentException(
+                    "Session start date is after observation start date  for:  " + this.getDisplayName());
 
         } else {
             // Check if also end date is correct (if set)
             if (this.end != null) {
                 if (this.end.after(sessionEnd)) {
-                    throw new IllegalArgumentException("Observation end date is after session start date "  + session.getDisplayName());
+                    LOGGER.error("Observation end date is after session start date  for:  {}" , this.getDisplayName());
+                    throw new IllegalArgumentException(
+                            "Observation end date is after session start date " + this.getDisplayName());
                 } else {
-                    this.session = session;                    
+                    this.session = session;
                 }
             }
 
-            this.session = session;            
+            this.session = session;
         }
 
     }
@@ -1450,13 +1473,12 @@ public class Observation extends SchemaElement implements IObservation {
     public void setTarget(ITarget target) throws IllegalArgumentException {
 
         if (target == null) {
+            LOGGER.error("Target cannot be null. ");            
             throw new IllegalArgumentException("Target cannot be null. ");
         }
 
         this.target = target;
 
     }
-
-    
 
 }
