@@ -1,6 +1,8 @@
 
 package de.lehmannet.om;
 
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +65,7 @@ public class ObservationManagerApp {
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
 
         LOGGER.info("Initializing text manager...");
-        final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
+        final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
         final TextManager textManager = new TextManagerImpl(isoKey);
 
         LOGGER.info("Creating model for app...");
