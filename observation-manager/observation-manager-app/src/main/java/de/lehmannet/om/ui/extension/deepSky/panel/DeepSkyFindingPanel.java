@@ -60,7 +60,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     private TristateCheckbox extended = null;
     private ISession session = null;
 
-    DeepSkyFindingPanel(ObservationManager om, IFinding paramFinding, ISession s, Boolean editable)
+    public DeepSkyFindingPanel(ObservationManager om, IFinding paramFinding, ISession s, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
