@@ -63,15 +63,13 @@ public class ExtensionLoader {
     // Constants ---------------------------------------------------------
     // ---------
 
-    
-
     // File name of extension config file
     private static final String EXTENSION_FILENAME = "META-INF/OM_EXTENSION";
 
     // Config file key for extension major class
     private static final String CONFIG_FILE_ENTRY_EXTENSION_CLASS = "Extension_Class";
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExtensionLoader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionLoader.class);
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -90,7 +88,7 @@ public class ExtensionLoader {
     private JMenu[] cachedMenus = null;
 
     private final InstallDir installDir;
-    @Deprecated     
+    @Deprecated
     private final ObservationManager om;
 
     private final ObservationManagerModel model;
@@ -141,7 +139,7 @@ public class ExtensionLoader {
         try {
             ConfigLoader.reloadConfig();
         } catch (ConfigException ce) {
-            System.err.println("Error reloading API config: " + ce);
+            LOGGER.error("Error reloading API config ", ce);
         }
 
         // Load/add new extension (IExtension implementation)
@@ -192,7 +190,7 @@ public class ExtensionLoader {
                 urlArray.add(new URL("file:" + current.getAbsolutePath()));
             }
         } catch (MalformedURLException urle) {
-            LOG.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
+            LOGGER.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
 
         }
         return urlArray;
@@ -315,7 +313,7 @@ public class ExtensionLoader {
         this.extensions.add(new GenericExtension());
         this.extensions.add(new ImagerExtension());
         this.extensions.add(new DeepSkyExtension());
-        this.extensions.add(new VariableStarsExtension(om, this.model)); //TODO avoid this dependency
+        this.extensions.add(new VariableStarsExtension(om, this.model)); // TODO avoid this dependency
         this.extensions.add(new SolarSystemExtension());
         this.loadExternalExtensions();
     }
@@ -340,7 +338,7 @@ public class ExtensionLoader {
         // Get JARs under extension path
         String extPath = System.getProperty(ConfigLoader.EXTENSIONS_DIR_PROPERTY);
         if (extPath == null) {
-            LOG.warn("No extensions dir");
+            LOGGER.warn("No extensions dir");
         } else {
             File ext = new File(extPath);
             if (ext.exists()) {
@@ -380,7 +378,7 @@ public class ExtensionLoader {
                         result = tempResult == null ? result : tempResult;
 
                     } catch (IOException ioe) {
-                        System.err.println("Error while accessing entry from JAR file.\n" + ioe);
+                        LOGGER.error("Error while accessing entry from JAR file.\n", ioe);
                         return null;
                     }
                     // we can't do anything here
@@ -389,7 +387,7 @@ public class ExtensionLoader {
 
             return result;
         } catch (IOException zipEx) {
-            System.err.println("Error while accessing JAR file.\n" + zipEx);
+            LOGGER.error("Error while accessing JAR file.\n", zipEx);
             return null;
         }
 
@@ -410,7 +408,7 @@ public class ExtensionLoader {
             try { // Default ClassLoader cannot find it...so try extensionClassLoader
                 currentClass = this.extensionClassLoader.loadClass(className);
             } catch (ClassNotFoundException cnfe2) {
-                System.err.println("Unable to find class: " + className + "\n" + cnfe2.getMessage());
+                LOGGER.error("Unable to find class:  {} : {}", className, cnfe2.getMessage(), cnfe2);
                 return null;
             }
         }
@@ -433,17 +431,17 @@ public class ExtensionLoader {
                     }
                 }
             } catch (InstantiationException ie) {
-                System.err.println("Unable to instantiate class: " + className + "\n" + ie.getMessage());
+                LOGGER.error("Unable to instantiate class: {}:{}, ", className, ie.getMessage(), ie);
                 return null;
             } catch (InvocationTargetException ite) {
-                System.err.println("Unable to invocate class: " + className + "\n" + ite.getMessage());
+                LOGGER.error("Unable to invocate class: {}:{}, ", className, ite.getMessage(), ite);
                 return null;
             } catch (IllegalAccessException iae) {
-                System.err.println("Unable to access class: " + className + "\n" + iae.getMessage());
+                LOGGER.error("Unable to access class: {}:{}, ", className, iae.getMessage(), iae);
                 return null;
             }
         } else {
-            System.err.println("Unable to load class: " + className + "\nMaybe class has no default constructor. ");
+            LOGGER.error("Unable to load class: {}. Maybe class has no default constructor. ", className);
             return null;
         }
 
@@ -451,7 +449,7 @@ public class ExtensionLoader {
         if (update) {
             boolean oalResult = this.addOALExtenstionElement(extension);
             if (!oalResult) {
-                System.err.println("Unable to add oal extension to schema file. Please check log for details.");
+                LOGGER.error("Unable to add oal extension to schema file. Please check log for details.");
                 return null;
             }
         }
@@ -459,11 +457,11 @@ public class ExtensionLoader {
         // --- Store extension main class
         if (extension != null) {
             if (this.extensions.contains(extension)) {
-                LOG.info("Already loaded extension: {} ", extension.getName());
+                LOGGER.info("Already loaded extension: {} ", extension.getName());
                 return extension.getName();
             }
             this.extensions.add(extension);
-            LOG.info("Successfully loaded extension: {} ", extension.getName());
+            LOGGER.info("Successfully loaded extension: {} ", extension.getName());
             return extension.getName();
         }
 
@@ -483,7 +481,7 @@ public class ExtensionLoader {
         try {
             istr = zf.getInputStream(ze);
         } catch (IOException ioe) {
-            System.err.println("Unable to open input stream from zip file: " + zf + " for entry: " + ze);
+            LOGGER.error("Unable to open input stream from zip file: {}  for entry: {}", zf, ze);
             return null;
         }
         BufferedInputStream bis = new BufferedInputStream(istr);
@@ -497,7 +495,7 @@ public class ExtensionLoader {
             }
             createDir = file.mkdir();
             if (!createDir) {
-                System.err.println("Unable to create directory: " + file);
+                LOGGER.error("Unable to create directory: {} ", file);
                 return null;
             } else {
                 return file;
@@ -521,13 +519,13 @@ public class ExtensionLoader {
                 bis.close();
                 fos.flush();
             } catch (IOException ioe) {
-                System.err.println("Unable to write file: " + ze + "\n" + ioe);
+                LOGGER.error("Unable to write file: {} ", ze , ioe);
                 return null;
             }
 
             return file;
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Unable to create file: " + file + "\n" + fnfe);
+            LOGGER.error("Unable to create file: {}", file , fnfe);
             return null;
         } finally {
             if (fos != null) {
@@ -549,7 +547,7 @@ public class ExtensionLoader {
         File schema = new File(this.installDir.getPathForFolder("schema") + versions[versions.length - 1]);
 
         if (!schema.exists()) {
-            System.err.println("Unable to find schema file: " + schema);
+            LOGGER.error("Unable to find schema file: {}", schema);
             return false;
         }
 
@@ -564,13 +562,13 @@ public class ExtensionLoader {
             DocumentBuilder db = dbf.newDocumentBuilder();
             doc = db.parse(new FileInputStream(schema));
         } catch (ParserConfigurationException pce) {
-            System.err.println("Unable to parse file: " + schema + "\n" + pce);
+            LOGGER.error("Unable to parse file: {} ", schema , pce);
             return false;
         } catch (SAXException saxe) {
-            System.err.println("Error while parsing: " + schema + "\n" + saxe);
+            LOGGER.error("Error while parsing: {}", schema, saxe);
             return false;
         } catch (IOException ioe) {
-            System.err.println("Unable to find file: " + schema + "\n" + ioe);
+            LOGGER.error("Unable to find file: {}", schema, ioe);
             return false;
         }
 
@@ -586,19 +584,19 @@ public class ExtensionLoader {
             writer.writeToURI(doc, schema.toURI().toURL().toString());
             return result;
         } catch (IOException ex) {
-            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), ex);
+            LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), ex);
             return false;
         } catch (ClassNotFoundException e) {
-            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         } catch (InstantiationException e) {
-            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         } catch (IllegalAccessException e) {
-            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         } catch (ClassCastException e) {
-            LOG.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
+            LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         }
 
