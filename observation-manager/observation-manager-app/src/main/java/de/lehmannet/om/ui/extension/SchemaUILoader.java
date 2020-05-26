@@ -245,7 +245,7 @@ public class SchemaUILoader {
         }
 
         if (classname == null) {
-            System.err.println("No installed extension can handle the type: " + xsiType);
+            LOGGER.error("No installed extension can handle the type: {}", xsiType);
             return null;
         }
 
@@ -268,7 +268,7 @@ public class SchemaUILoader {
         }
 
         if (classname == null) {
-            System.err.println("No installed extension can handle the type: " + xsiType);
+            LOGGER.error("No installed extension can handle the type: {}", xsiType);
             return null;
         }
 
@@ -291,7 +291,7 @@ public class SchemaUILoader {
         }
 
         if (classname == null) {
-            System.err.println("No installed extension can handle the type: " + xsiType);
+            LOGGER.error("No installed extension can handle the type: {}", xsiType);
             return null;
         }
 
@@ -309,11 +309,11 @@ public class SchemaUILoader {
         try {
             currentClass = Class.forName(classname);
         } catch (ClassNotFoundException cnfe) {
-            System.err.println("Unable to load " + null + "\n" + cnfe);
+            LOGGER.error("Unable to load {}", classname, cnfe);
         }
 
         if (currentClass == null) {
-            System.err.println("Class not found for " + classname);
+            LOGGER.error("Class not found for {}", classname);
             return null;
         }
 
@@ -372,18 +372,18 @@ public class SchemaUILoader {
                         object = constructor.newInstance(editable);
                         break;
                     } else {
-                        System.err.println("Unable to instantiate class: " + classname + ". No constructor found\n");
+                        LOGGER.error("Unable to instantiate class: {}. No constructor found", classname);
                     }
                 }
             } catch (InstantiationException ie) {
-                System.err.println("Unable to instantiate class: " + classname + "\n" + ie.getMessage());
+                LOGGER.error("Unable to instantiate class: {}", classname , ie);
             } catch (InvocationTargetException ite) {
-                System.err.println("Unable to invocate class: " + classname + "\n" + ite.getMessage());
+                LOGGER.error("Unable to invocate class: {} ", classname , ite);
             } catch (IllegalAccessException iae) {
-                System.err.println("Unable to access class: " + classname + "\n" + iae.getMessage());
+                LOGGER.error("Unable to access class: {} ", classname , iae);
             }
         } else {
-            System.err.println("Unable to load class: " + classname + "\nMaybe class has no correct constructor. ");
+            LOGGER.error("Unable to load class: {}. Maybe class has no correct constructor. ", classname);
         }
 
         return object;
@@ -453,7 +453,7 @@ public class SchemaUILoader {
         }
 
         if (classname == null) {
-            System.err.println("No installed extension can handle the type: " + xsiType);
+            LOGGER.error("No installed extension can handle the type: {}", xsiType);
             return null;
         }
 
