@@ -42,7 +42,7 @@ public class TargetMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         name.append(textElements.item(te).getNodeValue());
                     }
-                    return name.toString();
+                    return name.toString().trim();
                 }
             } else {
                 throw new SchemaException("Target cannot have an empty name. ");
@@ -65,7 +65,7 @@ public class TargetMapper {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     datasource.append(textElements.item(te).getNodeValue());
                 }
-                return datasource.toString();
+                return datasource.toString().trim();
             }
         } else if (children.getLength() > 1) {
             throw new SchemaException("Target can only have one datasource entry. ");
@@ -122,7 +122,7 @@ public class TargetMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         aliasNameEntry.append(textElements.item(te).getNodeValue());
                     }
-                    result.add(aliasNameEntry.toString());
+                    result.add(aliasNameEntry.toString().trim());
                 }
                 // this.addAliasName(children.item(j).getFirstChild().getNodeValue());
             }
@@ -163,7 +163,7 @@ public class TargetMapper {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     constellation.append(textElements.item(te).getNodeValue());
                 }
-                return constellation.toString();
+                return constellation.toString().trim();
             }
         } else if (children.getLength() > 1) {
             throw new SchemaException("Target can only have one constellation. ");
@@ -184,7 +184,7 @@ public class TargetMapper {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     notes.append(textElements.item(te).getNodeValue());
                 }
-                return notes.toString();
+                return notes.toString().trim();
             }
         } else if (children.getLength() > 1) {
             throw new SchemaException("Target can only have one notes element. ");

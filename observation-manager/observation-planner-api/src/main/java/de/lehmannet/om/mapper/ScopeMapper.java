@@ -77,7 +77,7 @@ public class ScopeMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         vendor.append(textElements.item(te).getNodeValue());
                     }
-                    return vendor.toString();
+                    return vendor.toString().trim();
                 }
             } else {
                 throw new SchemaException("Problem while retrieving vendor from scope. ");
@@ -104,7 +104,7 @@ public class ScopeMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         type.append(textElements.item(te).getNodeValue());
                     }
-                    return type.toString();
+                    return type.toString().trim();
                 }
             } else {
                 throw new SchemaException("Problem while retrieving type from scope. ");
@@ -195,7 +195,7 @@ public class ScopeMapper {
         if (children.getLength() == 1) {
             Element child = (Element) children.item(0);
             if (child != null) {
-                foc = child.getFirstChild().getNodeValue();
+                foc = child.getFirstChild().getNodeValue().trim();
             }
         }
 
@@ -240,7 +240,7 @@ public class ScopeMapper {
                 for (int te = 0; te < textElements.getLength(); te++) {
                     model.append(textElements.item(te).getNodeValue());
                 }
-                return model.toString();
+                return model.toString().trim();
             }
         }
         return "";

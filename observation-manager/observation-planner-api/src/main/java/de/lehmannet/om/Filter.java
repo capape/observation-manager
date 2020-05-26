@@ -84,7 +84,7 @@ public class Filter extends SchemaElement implements IFilter {
         // Getting data
         // First mandatory stuff and down below optional data
         this.setID(FilterMapper.getID(filterElement));
-        this.setModel(FilterMapper.getMadatoryModel(filterElement));
+        this.setModel(FilterMapper.getMandatoryModel(filterElement));
         this.setType(FilterMapper.getMandatoryType(filterElement));
         this.setAvailability(FilterMapper.getOptionalAvailability(filterElement));
         this.setColor(FilterMapper.getOptionalColor(filterElement));

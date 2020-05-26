@@ -37,7 +37,7 @@ public class ObserverMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             accountID.append(textElements.item(te).getNodeValue());
                         }
-                        accountsElement.put(accountName, accountID.toString());
+                        accountsElement.put(accountName, accountID.toString().trim());
                     }
                 } else {
                     throw new SchemaException(

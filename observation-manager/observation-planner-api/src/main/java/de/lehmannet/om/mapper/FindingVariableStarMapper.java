@@ -92,7 +92,7 @@ public class FindingVariableStarMapper {
                         currentCompStar.append(textElements.item(te).getNodeValue());
                     }
                     // currentCompStar = child.getFirstChild().getNodeValue();
-                    results.add(currentCompStar.toString());
+                    results.add(currentCompStar.toString().trim());
                 }
             }
         }
@@ -117,7 +117,7 @@ public class FindingVariableStarMapper {
                     chartID.append(textElements.item(te).getNodeValue());
                 }
                 // chartID = child.getFirstChild().getNodeValue();
-                return chartID.toString();
+                return chartID.toString().trim();
             }
         }
         return null;

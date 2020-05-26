@@ -22,7 +22,7 @@ public class SiteMapper {
             Element child = (Element) children.item(0);
             if (child != null) {
                 iauCode = child.getFirstChild().getNodeValue();
-                return iauCode;
+                return iauCode.trim();
             } else {
                 throw new SchemaException("Problem while retrieving IAU code from site. ");
             }
@@ -127,7 +127,7 @@ public class SiteMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         name.append(textElements.item(te).getNodeValue());
                     }
-                    return name.toString();
+                    return name.toString().trim();
                 }
             } else {
                 throw new SchemaException("Site cannot have an empty name. ");

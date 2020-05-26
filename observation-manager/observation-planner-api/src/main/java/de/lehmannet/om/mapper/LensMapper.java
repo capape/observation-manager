@@ -27,7 +27,7 @@ public class LensMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         vendor.append(textElements.item(te).getNodeValue());
                     }
-                    return vendor.toString();
+                    return vendor.toString().trim();
                 }
                 /*
                  * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
@@ -94,7 +94,7 @@ public class LensMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
-                    return model.toString();
+                    return model.toString().trim();
                 }
                 // model = child.getFirstChild().getNodeValue();
             } else {

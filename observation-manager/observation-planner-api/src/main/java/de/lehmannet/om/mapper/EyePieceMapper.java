@@ -70,7 +70,7 @@ public class EyePieceMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         vendor.append(textElements.item(te).getNodeValue());
                     }
-                    return vendor.toString();
+                    return vendor.toString().trim();
                 }
                 // vendor = child.getFirstChild().getNodeValue();
                 /*
@@ -148,7 +148,7 @@ public class EyePieceMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
-                    return model.toString();
+                    return model.toString().trim();
                 }
             } else {
                 throw new SchemaException("Eyepiece cannot have an empty model name. ");

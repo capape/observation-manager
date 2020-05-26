@@ -28,7 +28,7 @@ public class FilterMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             vendor.append(textElements.item(te).getNodeValue());
                         }
-                        return vendor.toString();
+                        return vendor.toString().trim();
                     }
                 } else {
                     throw new SchemaException("Problem while retrieving vendor name from filter. ");
@@ -55,7 +55,7 @@ public class FilterMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             schott.append(textElements.item(te).getNodeValue());
                         }
-                        return schott.toString();
+                        return schott.toString().trim();
                     }
                     /*
                      * schott = child.getFirstChild().getNodeValue(); if( schott != null ) { this.setSchott(schott); }
@@ -85,7 +85,7 @@ public class FilterMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             wratten.append(textElements.item(te).getNodeValue());
                         }
-                        return wratten.toString();
+                        return wratten.toString().trim();
                     }
                     /*
                      * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) { this.setWratten(wratten);
@@ -116,7 +116,7 @@ public class FilterMapper {
                         for (int te = 0; te < textElements.getLength(); te++) {
                             color.append(textElements.item(te).getNodeValue());
                         }
-                        return color.toString();
+                        return color.toString().trim();
                     }
                     /*
                      * color = child.getFirstChild().getNodeValue(); if( color != null ) { this.setColor(color); }
@@ -164,7 +164,7 @@ public class FilterMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         type.append(textElements.item(te).getNodeValue());
                     }
-                    return type.toString();
+                    return type.toString().trim();
                    
                 }
                 // type = child.getFirstChild().getNodeValue();
@@ -175,7 +175,7 @@ public class FilterMapper {
         return "";
     }
     
-    public static String getMadatoryModel(Element filterElement) throws SchemaException {
+    public static String getMandatoryModel(Element filterElement) throws SchemaException {
         
         
         // Get mandatory model
@@ -194,7 +194,7 @@ public class FilterMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
-                   return model.toString();
+                   return model.toString().trim();
                 }
                 // model = child.getFirstChild().getNodeValue();
             } else {

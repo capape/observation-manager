@@ -26,7 +26,7 @@ public class ImagerMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         remarks.append(textElements.item(te).getNodeValue());
                     }
-                    return remarks.toString();
+                    return remarks.toString().trim();
                 }
                 /*
                  * remarks = child.getFirstChild().getNodeValue(); if( type != null ) {
@@ -57,7 +57,7 @@ public class ImagerMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         vendor.append(textElements.item(te).getNodeValue());
                     }
-                    return vendor.toString();
+                    return vendor.toString().trim();
                 }
                 /*
                  * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
@@ -106,7 +106,7 @@ public class ImagerMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
-                    return model.toString();
+                    return model.toString().trim();
                 }
             } else {
                 throw new SchemaException("Imager cannot have an empty model name. ");
