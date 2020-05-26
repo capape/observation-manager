@@ -1424,6 +1424,9 @@ public class Observation extends SchemaElement implements IObservation {
         Calendar sessionStart = session.getBegin();
         Calendar sessionEnd = session.getEnd();
 
+        LOGGER.debug("Session from:  {} to : {}",sessionStart.getTimeInMillis(), sessionEnd.getTimeInMillis());
+        LOGGER.debug("Observation from:  {} to : {}",this.begin.getTimeInMillis(), this.end.getTimeInMillis());
+
         // Check if start date of observation is equal or later then session start
         if (sessionStart.after(this.begin)) {
             LOGGER.error("Session start date is after observation start date  for:  {}" , this.getDisplayName());
