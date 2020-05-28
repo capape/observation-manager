@@ -27,7 +27,6 @@ import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
-import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public final class ObservationManagerMenuExtensions {
 
@@ -112,7 +111,7 @@ public final class ObservationManagerMenuExtensions {
                 }
             }
         } catch (IOException ioe) {
-            System.out.println("Error while checking extension zip file. Zip file may be corrupted.\n" + ioe);
+            LOGGER.error("Error while checking extension zip file. Zip file may be corrupted.", ioe);
         }
         File[] filesCheckedOK = (File[]) filesOK.toArray(new File[] {});
 
@@ -133,7 +132,7 @@ public final class ObservationManagerMenuExtensions {
                     positiveResult.append(", ");
                 }
             } catch (IOException ioe) {
-                System.out.println("Error in extension zip file. Zip file may be corrupted.\n" + ioe);
+               LOGGER.error("Error in extension zip file. Zip file may be corrupted." ,ioe);
 
                 Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                 this.observationManager.setCursor(normalCursor);
@@ -273,9 +272,7 @@ public final class ObservationManagerMenuExtensions {
         @Override
         public void actionPerformed(ActionEvent e) {
           
-            ObservationManagerMenuExtensions.this.uiHelper.showInfo(
-                ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
-          
+            
             if (extensionLoader.getExtensions().isEmpty()) {
                 ObservationManagerMenuExtensions.this.uiHelper.showInfo(
                     ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));

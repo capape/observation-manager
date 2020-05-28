@@ -367,36 +367,7 @@ public class ObservationManagerHtmlHelper {
     private Templates getTemplate(StreamSource xslSource) {
 
         Templates template = null;
-
-        /*
-         * *********** AS WE PACK APACHE XALAN WITH OM (since 0.314) we don't need this
-         * any loner *************)
-         *
-         * // Classname (package) changed between JDK1.4 and JDK1.5 // So we check VM
-         * version and load the right class via reflection...hopefully String version =
-         * System.getProperty("java.version"); // String classname =
-         * "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl" ; // >=
-         * JDK1.5 String classname = "javax.xml.transform.TransformerFactory"; if(
-         * version.startsWith("1.4") ) { String classname =
-         * "org.apache.xalan.processor.TransformerFactoryImpl"; // JDK1.4 }
-         *
-         * // Even if classname changed the class itself if the same, so we need only on
-         * block to load the class.... try { Class transformerClass =
-         * Class.forName(classname); Method newInstance =
-         * transformerClass.getMethod("newInstance", null); Object transformerClassImpl
-         * = newInstance.invoke(transformerClass, null); Method newTemplates =
-         * transformerClassImpl.getClass().getMethod("newTemplates", new Class[] {
-         * Source.class }); template =
-         * (Templates)newTemplates.invoke(transformerClassImpl, new StreamSource[] {
-         * xslSource }); } catch( ClassNotFoundException cnfe ) {
-         * System.out.println("--- Unable to load class: " + classname); } catch(
-         * NoSuchMethodException nsme ) { System.out.println("--- Unable to class: " +
-         * classname + " looks strange. What JDK version is this? " + version); } catch(
-         * IllegalAccessException iae ) {
-         * System.out.println("--- Unable to access class: " + classname); } catch(
-         * InvocationTargetException ite ) {
-         * System.out.println("--- Unable to invoke method on class: " + classname); }
-         */
+     
 
         try {
             template = TransformerFactory.newInstance().newTemplates(xslSource);
