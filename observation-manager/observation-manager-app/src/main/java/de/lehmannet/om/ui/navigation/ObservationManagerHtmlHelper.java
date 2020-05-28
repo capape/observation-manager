@@ -19,7 +19,6 @@ import org.w3c.dom.Document;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.ConfigKey;

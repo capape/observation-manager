@@ -258,11 +258,13 @@ public final class ObservationManagerMenuExtensions {
         extensionInfo.addActionListener(new ExtensionInfoListener());
         extensionMenu.add(extensionInfo);
 
-        JMenuItem installExtension = new JMenuItem(this.textManager.getString("menu.installExtension"),
-                new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
-        installExtension.setMnemonic('i');
-        installExtension.addActionListener(new AddExtensionListener());
-        extensionMenu.add(installExtension);
+
+        // TODO: implement new extension loader
+        // JMenuItem installExtension = new JMenuItem(this.textManager.getString("menu.installExtension"),
+        //         new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
+        // installExtension.setMnemonic('i');
+        // installExtension.addActionListener(new AddExtensionListener());
+        // extensionMenu.add(installExtension);
 
         return extensionMenu;
     }
@@ -272,7 +274,9 @@ public final class ObservationManagerMenuExtensions {
         @Override
         public void actionPerformed(ActionEvent e) {
           
-            
+            ObservationManagerMenuExtensions.this.uiHelper.showInfo(
+                ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
+          
             if (extensionLoader.getExtensions().isEmpty()) {
                 ObservationManagerMenuExtensions.this.uiHelper.showInfo(
                     ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
