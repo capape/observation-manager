@@ -30,7 +30,9 @@ import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -39,6 +41,8 @@ public class LogDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3508562400111692974L;
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogDialog.class);
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
@@ -70,7 +74,7 @@ public class LogDialog extends OMDialog implements ActionListener {
                 reader = new InputStreamReader(new FileInputStream(this.logfile));
                 this.bufferedReader = new BufferedReader(reader);
             } catch (FileNotFoundException fnfe) {
-                System.out.println("File not found: " + this.logfile);
+                LOGGER.error("File not found: {} ", this.logfile, fnfe);
                 return;
             }
             this.setText();
@@ -148,9 +152,9 @@ public class LogDialog extends OMDialog implements ActionListener {
             }
             this.bufferedReader.close();
         } catch (IOException ioe) {
-            System.err.println("Error reading line " + no + " from log " + this.logfile + "\n" + ioe);
+            LOGGER.error("Error reading line {} from log {} ", no, this.logfile , ioe);
         } catch (BadLocationException ble) {
-            System.err.println("Error setting log text\n" + ble);
+            LOGGER.error("Error setting log text",  ble);
         }
 
     }

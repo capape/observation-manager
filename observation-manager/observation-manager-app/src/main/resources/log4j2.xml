@@ -3,28 +3,45 @@
 
     <Properties>
         <Property name="custom-pattern-layout">%highlight{[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n}</Property>
+        <Property name="custom-file-pattern-layout">[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n</Property>
     </Properties>
 
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${custom-pattern-layout}"/>
         </Console>
+        <File name="obs" fileName=".logs/obs.log" append="false">
+            
+            <PatternLayout pattern="${custom-file-pattern-layout}"/>
+        </File>
     </Appenders>
 
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console" />
+            <AppenderRef ref="obs" />
         </Root>
 
         <Logger name="org.apache.xerces" level="info" additivity="false">
             <AppenderRef ref="console" />
+            <AppenderRef ref="obs" />
         </Logger>
         <Logger name="org.xml.sax" level="info" additivity="false">
             <AppenderRef ref="console" />
+            <AppenderRef ref="obs" />
+        </Logger>
+        <Logger name="de.lehmannet.om" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="obs" />
+        </Logger>
+        <Logger name="de.lehmannet.om" level="debug" additivity="false">
+            <AppenderRef ref="console" />            
         </Logger>
         <Logger name="de.lehmannet.om" level="info" additivity="false">
-            <AppenderRef ref="console" />
+            <AppenderRef ref="obs" />            
         </Logger>
+    
+    
         
         <Logger name="de.lehmannet.om.ui.dialog" level="debug" additivity="false">
             <AppenderRef ref="console" />

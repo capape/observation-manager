@@ -19,6 +19,7 @@ import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesDialog;
 import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.theme.ThemeManager;
@@ -39,6 +40,8 @@ public final class ObservationManagerMenuExtras {
     private final UserInterfaceHelper uiHelper;
     private final ObservationManagerModel model;
     private final TextManager textManager;
+    private final InstallDir installDir;
+    private final File logFile;
         
 
 
@@ -49,6 +52,7 @@ public final class ObservationManagerMenuExtras {
         TextManager textManager,
         UserInterfaceHelper uiHelper,
         ObservationManagerModel model,
+        InstallDir installDir,
         ObservationManager om) {
        
         // Load configuration
@@ -59,8 +63,9 @@ public final class ObservationManagerMenuExtras {
         this.uiHelper = uiHelper;
         this.model = model;
         this.textManager = textManager;
-
+        this.installDir = installDir;
         this.menu = this.createMenuExtraItems();
+        this.logFile = new File(this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
  
     }
 
@@ -108,9 +113,6 @@ public final class ObservationManagerMenuExtras {
 
     }
 
-    private File logFile;
-
-  
 
     public void showLogDialog() {
 

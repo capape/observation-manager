@@ -194,7 +194,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper,
                 this.imageResolver, this.textManager, uiHelper, this.installDir, this);
         this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this.textManager, uiHelper, this.model,
+        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager, this.textManager, uiHelper, this.model,this.installDir,
                 this);
         this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
