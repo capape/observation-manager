@@ -103,7 +103,7 @@ public class GenericTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target, this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

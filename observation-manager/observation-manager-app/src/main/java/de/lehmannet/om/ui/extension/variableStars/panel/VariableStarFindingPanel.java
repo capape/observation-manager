@@ -548,7 +548,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 10, 1, 18, 87);
         constraints.fill = GridBagConstraints.BOTH;
-        this.findingContainer = new FindingContainer(this.om, this.finding, this.session, this.isEditable());
+        this.findingContainer = new FindingContainer(this.om.getConfiguration(), this.finding, this.session, this.isEditable());
         gridbag.setConstraints(this.findingContainer, constraints);
         this.add(this.findingContainer);
 

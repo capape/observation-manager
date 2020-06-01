@@ -17,7 +17,7 @@ public class ObserverDialog extends AbstractDialog {
 
     public ObserverDialog(ObservationManager om, IObserver editableObserver) {
 
-        super(om, new ObserverPanel(editableObserver, true));
+        super(om,  om.getModel(), om.getUiHelper(), new ObserverPanel(editableObserver, true));
 
         if (editableObserver == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.observer.title"));

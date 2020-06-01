@@ -1,0 +1,68 @@
+# OAL XML Schema Extension: DeepSky (Version 1.7)
+# -- Do not edit this list, as long as you don't know what you're doing! --
+
+# All DeepSky Targets and their findings
+DS_TargetDN_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetDN
+DS_TargetDN_XSI_Relation_Type: oal:deepSkyDN
+DS_TargetDN_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetDN_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetDS_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetDS
+DS_TargetDS_XSI_Relation_Type: oal:deepSkyDS
+DS_TargetDS_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFindingDS
+DS_TargetDS_XSI_Relation_Finding_Type: oal:findingsDeepSkyDSType
+
+DS_TargetGC_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetGC
+DS_TargetGC_XSI_Relation_Type: oal:deepSkyGC
+DS_TargetGC_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetGC_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetGN_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetGN
+DS_TargetGN_XSI_Relation_Type: oal:deepSkyGN
+DS_TargetGN_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetGN_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetGX_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetGX
+DS_TargetGX_XSI_Relation_Type: oal:deepSkyGX
+DS_TargetGX_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetGX_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetOC_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetOC
+DS_TargetOC_XSI_Relation_Type: oal:deepSkyOC
+DS_TargetOC_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFindingOC
+DS_TargetOC_XSI_Relation_Finding_Type: oal:findingsDeepSkyOCType
+
+DS_TargetPN_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetPN
+DS_TargetPN_XSI_Relation_Type: oal:deepSkyPN
+DS_TargetPN_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetPN_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetQS_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetQS
+DS_TargetQS_XSI_Relation_Type: oal:deepSkyQS
+DS_TargetQS_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetQS_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetNA_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetNA
+DS_TargetNA_XSI_Relation_Type: oal:deepSkyNA
+DS_TargetNA_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+DS_TargetNA_XSI_Relation_Finding_Type: oal:findingsType
+
+DS_TargetAS_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetAS
+DS_TargetAS_XSI_Relation_Type: oal:deepSkyAS
+DS_TargetAS_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetAS_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetSC_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetSC
+DS_TargetSC_XSI_Relation_Type: oal:deepSkySC
+DS_TargetSC_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetSC_XSI_Relation_Finding_Type: oal:findingsDeepSkyType
+
+DS_TargetMS_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetMS
+DS_TargetMS_XSI_Relation_Type: oal:deepSkyMS
+DS_TargetMS_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+DS_TargetMS_XSI_Relation_Finding_Type: oal:findingsType
+
+DS_TargetCG_XSI_Relation_Class: de.lehmannet.om.extension.deepSky.DeepSkyTargetCG
+DS_TargetCG_XSI_Relation_Type: oal:deepSkyCG
+DS_TargetCG_XSI_Relation_Finding_Class: de.lehmannet.om.extension.deepSky.DeepSkyFinding
+DS_TargetCG_XSI_Relation_Finding_Type: oal:findingsDeepSkyType

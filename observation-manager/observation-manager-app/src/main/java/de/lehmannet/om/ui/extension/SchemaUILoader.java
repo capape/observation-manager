@@ -230,7 +230,7 @@ public class SchemaUILoader {
     // Private Methods --------------------------------------------------------
     // ---------------
 
-    private AbstractPanel getFindingPanelFromXSIType(String xsiType, IFinding finding, ISession s, ITarget t,
+    private AbstractPanel getFindingPanelFromXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
 
         Iterator<IExtension> iterator = this.extensions.iterator();
@@ -238,6 +238,13 @@ public class SchemaUILoader {
         String classname = null;
         while (iterator.hasNext()) {
             extension = iterator.next();
+
+            if (extension.supports(xsiType)) {
+                LOGGER.debug("New load without reflection");
+                return extension.getFindingPanelForXSIType(xsiType, finding, session, editable);
+            }
+
+
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.FINDING);
             if (classname != null) {
                 break;
@@ -249,8 +256,8 @@ public class SchemaUILoader {
             return null;
         }
 
-        return (AbstractPanel) this.loadByReflection(classname, IFinding.class, finding, ISession.class, s,
-                ITarget.class, t, editable);
+        return (AbstractPanel) this.loadByReflection(classname, IFinding.class, finding, ISession.class, session,
+                ITarget.class, target, editable);
 
     }
 
@@ -261,6 +268,13 @@ public class SchemaUILoader {
         String classname = null;
         while (iterator.hasNext()) {
             extension = iterator.next();
+
+            if (extension.supports(xsiType)) {
+                LOGGER.debug("New load without reflection");
+                return extension.getTargetPanelForXSIType(xsiType, target, editable);
+            }
+
+
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.TARGET);
             if (classname != null) {
                 break;
@@ -284,6 +298,12 @@ public class SchemaUILoader {
         String classname = null;
         while (iterator.hasNext()) {
             extension = iterator.next();
+
+            if (extension.supports(xsiType)) {
+                LOGGER.debug("New load without reflection");
+                return extension.getTargetDialogForXSIType(xsiType, this.observationManager, target, o, true);
+            }
+
             classname = extension.getDialogForXSIType(xsiType, SchemaElementConstants.TARGET);
             if (classname != null) {
                 break;

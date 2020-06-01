@@ -24,7 +24,7 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
     public CCDImagerDialog(ObservationManager om, IImager editableImager) {
 
-        super(om, new CCDImagerPanel(editableImager, Boolean.TRUE));
+        super(om,  om.getModel(), om.getUiHelper(), new CCDImagerPanel(editableImager, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());

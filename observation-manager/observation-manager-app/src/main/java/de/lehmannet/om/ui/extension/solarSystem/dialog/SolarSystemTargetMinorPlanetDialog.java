@@ -24,7 +24,7 @@ public class SolarSystemTargetMinorPlanetDialog extends AbstractDialog implement
 
     public SolarSystemTargetMinorPlanetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetMinorPlanetPanel(om, model, editableTarget, Boolean.TRUE));
+        super(om,  model, om.getUiHelper(), new SolarSystemTargetMinorPlanetPanel(om, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

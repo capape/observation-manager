@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
@@ -12,10 +13,10 @@ import java.awt.BorderLayout;
 
 public class UserInterfaceHelperImpl implements UserInterfaceHelper {
 
-    private final JFrame parent;
+    private final ObservationManager parent;
     private final TextManager textManager;
 
-    public UserInterfaceHelperImpl(JFrame parent, TextManager textManager) {
+    public UserInterfaceHelperImpl(ObservationManager parent, TextManager textManager) {
         this.parent = parent;
         this.textManager = textManager;
 
@@ -104,4 +105,12 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
         }
     }
 
+    @Override
+    public void refreshUI() {        
+            
+        
+        this.parent.refreshUI();        
+    }
+
+ 
 }

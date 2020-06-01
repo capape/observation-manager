@@ -12,8 +12,13 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 
+import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISession;
+import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon;
@@ -21,9 +26,12 @@ import de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
+import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.solarSystem.catalog.SolarSystemCatalog;
+import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -43,6 +51,7 @@ public class SolarSystemExtension extends AbstractExtension {
 
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle(
             "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.getDefault());
+    private IExtensionContext extensionContext;
 
     public SolarSystemExtension() {
 
@@ -230,6 +239,39 @@ public class SolarSystemExtension extends AbstractExtension {
 
         return null;
 
+    }
+
+    @Override
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+            boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+   
+    @Override
+    public void setContext(IExtensionContext context) {
+        this.extensionContext = context;
+
+    }
+
+    @Override
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
+            IObservation observation, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean supports(String xsiType) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

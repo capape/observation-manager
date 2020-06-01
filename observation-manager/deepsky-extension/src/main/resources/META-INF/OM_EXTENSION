@@ -1,0 +1,5 @@
+# Observation Manager: DeepSkyExtension
+# -- Do not edit this, as long as you don't know what you're doing! --
+
+Extension_Class: de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension
+                 

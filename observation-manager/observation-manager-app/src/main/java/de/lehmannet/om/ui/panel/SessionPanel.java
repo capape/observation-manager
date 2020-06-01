@@ -691,7 +691,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
              */
             ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
             constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager, this.model, false,
+            this.imageContainer = new ImageContainer(null, this.observationManager,  this.observationManager.getConfiguration(), this.model, false,
             this.observationManager.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -772,7 +772,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 16, 11, 4, 1, 100);
             constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager, this.model, true, 
+            this.imageContainer = new ImageContainer(null, this.observationManager,  this.observationManager.getConfiguration(), this.model, true, 
                 this.observationManager.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,

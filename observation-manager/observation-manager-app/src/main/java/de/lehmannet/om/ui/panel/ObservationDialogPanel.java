@@ -1574,7 +1574,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(LimageContainer);
         ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager, this.model, true, this.imageResolver);
+        this.imageContainer = new ImageContainer(null, this.observationManager, this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
         JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);

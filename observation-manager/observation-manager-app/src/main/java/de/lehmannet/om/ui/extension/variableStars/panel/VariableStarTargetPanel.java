@@ -189,7 +189,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.observationManager, this.model, this.target, this.isEditable());
+        this.targetContainer = new TargetStarContainer(this.observationManager.getConfiguration(),this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container

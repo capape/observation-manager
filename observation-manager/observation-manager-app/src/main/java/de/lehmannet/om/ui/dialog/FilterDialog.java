@@ -17,7 +17,7 @@ public class FilterDialog extends AbstractDialog {
 
     public FilterDialog(ObservationManager om, IFilter filter) {
 
-        super(om, new FilterPanel(filter, true));
+        super(om,  om.getModel(), om.getUiHelper(), new FilterPanel(filter, true));
 
         if (filter == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.filter.title"));

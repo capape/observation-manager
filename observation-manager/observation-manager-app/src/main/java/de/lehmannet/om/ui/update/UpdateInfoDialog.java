@@ -155,7 +155,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
     }
 
-    private boolean downloadFiles(List updateEntries, File directory) {
+    private boolean downloadFiles(List<UpdateEntry> updateEntries, File directory) {
 
         DownloadTask downloadTask = new DownloadTask(updateEntries, directory);
 
@@ -171,11 +171,11 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 class DownloadTask implements Worker {
 
     private File targetDir = null;
-    private List updateEntries = null;
+    private List<UpdateEntry> updateEntries = null;
 
     private byte returnValue = Worker.RETURN_TYPE_OK;
 
-    public DownloadTask(List updateEntries, File targetDirectory) {
+    public DownloadTask(List<UpdateEntry> updateEntries, File targetDirectory) {
 
         this.updateEntries = updateEntries;
         this.targetDir = targetDirectory;
@@ -192,12 +192,8 @@ class DownloadTask implements Worker {
     @Override
     public void run() {
 
-        // Loop over files to download
-        ListIterator iterator = this.updateEntries.listIterator();
-        UpdateEntry currentEntry = null;
-        while (iterator.hasNext()) {
-            currentEntry = (UpdateEntry) iterator.next();
-
+        for (UpdateEntry currentEntry : this.updateEntries) {
+        
             try {
 
                 HttpURLConnection conn = (HttpURLConnection) currentEntry.getDownloadURL().openConnection();
@@ -255,12 +251,12 @@ class UpdateTableModel extends AbstractTableModel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
-    private List updateEntries = null;
+    private List<UpdateEntry> updateEntries = null;
     private boolean[] checkBoxes = null;
     private JButton download = null;
     private int activeCounter = 0;
 
-    public UpdateTableModel(List updateEntries, JButton download) {
+    public UpdateTableModel(List<UpdateEntry> updateEntries, JButton download) {
 
         this.updateEntries = updateEntries;
 
@@ -389,9 +385,9 @@ class UpdateTableModel extends AbstractTableModel {
 
     }
 
-    public List getSelected() {
+    public List<UpdateEntry> getSelected() {
 
-        ArrayList result = new ArrayList(this.checkBoxes.length);
+        List<UpdateEntry> result = new ArrayList<UpdateEntry>(this.checkBoxes.length);
         boolean currentValue = false;
         for (int i = 0; i < this.checkBoxes.length; i++) {
             currentValue = (Boolean) this.getValueAt(i, 0);

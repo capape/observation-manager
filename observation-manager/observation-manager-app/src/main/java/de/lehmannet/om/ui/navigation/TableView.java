@@ -400,7 +400,7 @@ public class TableView extends JPanel {
              * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
              * TargetTableModel(targets), false); } else {
              */
-            this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager), true);
+            this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
             // }
             this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
@@ -408,7 +408,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new TargetTableModel(null, this.observationManager));
+            this.table.setModel(new TargetTableModel(null, this.observationManager.getConfiguration(), this.model));
             this.observationManager.getItemView().clear();
         }
 

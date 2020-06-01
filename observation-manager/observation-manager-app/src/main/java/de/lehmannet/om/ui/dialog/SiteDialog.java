@@ -17,7 +17,7 @@ public class SiteDialog extends AbstractDialog {
 
     public SiteDialog(ObservationManager om, ISite editableSite) {
 
-        super(om, new SitePanel(editableSite, true));
+        super(om,  om.getModel(), om.getUiHelper(),  new SitePanel(editableSite, true));
 
         if (editableSite == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.site.title"));

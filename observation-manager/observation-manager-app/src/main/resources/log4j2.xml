@@ -19,30 +19,22 @@
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console" />
-            <AppenderRef ref="obs" />
+            
         </Root>
 
         <Logger name="org.apache.xerces" level="info" additivity="false">
             <AppenderRef ref="console" />
-            <AppenderRef ref="obs" />
+            
         </Logger>
         <Logger name="org.xml.sax" level="info" additivity="false">
             <AppenderRef ref="console" />
-            <AppenderRef ref="obs" />
+            
         </Logger>
         <Logger name="de.lehmannet.om" level="debug" additivity="false">
             <AppenderRef ref="console" />
-            <AppenderRef ref="obs" />
-        </Logger>
-        <Logger name="de.lehmannet.om" level="debug" additivity="false">
-            <AppenderRef ref="console" />            
-        </Logger>
-        <Logger name="de.lehmannet.om" level="info" additivity="false">
-            <AppenderRef ref="obs" />            
-        </Logger>
-    
-    
-        
+            
+        </Logger>        
+                
         <Logger name="de.lehmannet.om.ui.dialog" level="debug" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
@@ -50,6 +42,12 @@
             <AppenderRef ref="console" />
         </Logger>
         <Logger name="de.lehmannet.om.ui.navigation.ObservationManagerFileLoader" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="de.lehmannet.om.ui.extension" level="debug" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="de.lehmannet.om.util.SchemaLoader" level="debug" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
     </Loggers>

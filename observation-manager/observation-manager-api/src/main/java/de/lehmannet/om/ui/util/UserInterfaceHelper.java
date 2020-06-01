@@ -16,4 +16,6 @@ public interface UserInterfaceHelper {
 
     void createWaitPopUp(String title, ThreadGroup threadGrop);
 
+    void refreshUI();    
+
 }

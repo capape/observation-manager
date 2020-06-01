@@ -16,12 +16,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -31,14 +33,19 @@ import org.w3c.dom.Element;
 
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
+import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.DateConverter;
@@ -67,6 +74,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
     private JMenu popupMenu = null;
     private JMenuItem popupMoveTo = null;
+    private IExtensionContext extensionContext;
 
     public SkyChartClient(IObservationManagerJFrame om) {
 
@@ -151,8 +159,9 @@ public class SkyChartClient implements IExtension, ActionListener {
         // ---- Set observation site
         /*
          * if( observation.getSite() != null ) { commands = new String[1]; commands[0] =
-         * this.createSiteCommand(observation.getSite()); response = this.sendData(socket, commands[0]); if( response ==
-         * null ) { return; // Something went wrong. User is already informed, so cancel here. } }
+         * this.createSiteCommand(observation.getSite()); response =
+         * this.sendData(socket, commands[0]); if( response == null ) { return; //
+         * Something went wrong. User is already informed, so cancel here. } }
          */
 
         // ---- Set observation date
@@ -280,7 +289,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     objectName = objectName.trim().toUpperCase();
                     if (objectName.equals(target.getName().toUpperCase())) {
                         if (LOGGER.isDebugEnabled()) {
-                           LOGGER.debug("Found " + target.getName() + " by name");
+                            LOGGER.debug("Found " + target.getName() + " by name");
                         }
                         return true; // Names match. We found our object
                     }
@@ -346,8 +355,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     double decDiff = Math.abs(epDecDegree - targetEpDecDegree);
                     if (decDiff > 0.5) {
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug(
-                                    "Found wrong " + target.getName() + " as DEC differs more than 0.5 degree");
+                            LOGGER.debug("Found wrong " + target.getName() + " as DEC differs more than 0.5 degree");
                         }
                         continue; // This is most propably not the object we're
                         // searching
@@ -356,8 +364,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     // If we come here the found object is max 0.5 degree (in RA
                     // or DEC) away from our target, so we stop searching
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug(
-                                "Found " + target.getName() + " as RA and DEC do not differ more than 0.5 degree");
+                        LOGGER.debug("Found " + target.getName() + " as RA and DEC do not differ more than 0.5 degree");
                     }
                     return true;
                 }
@@ -502,7 +509,8 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                 };
 
-                this.om.createProgressDialog(startApplication, this.bundle.getString("skychart.application.start.title"),
+                this.om.createProgressDialog(startApplication,
+                        this.bundle.getString("skychart.application.start.title"),
                         this.bundle.getString("skychart.application.start.loading"));
 
                 try {
@@ -581,7 +589,6 @@ public class SkyChartClient implements IExtension, ActionListener {
             }
 
         }
-
 
         return commands;
 
@@ -667,7 +674,8 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public PopupMenuExtension getPopupMenu() {
 
-        return new PopupMenuExtension(new SchemaElementConstants[] { SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET },
+        return new PopupMenuExtension(
+                new SchemaElementConstants[] { SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET },
                 this.popupMenu);
 
     }
@@ -716,19 +724,12 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public Set<String> getAllSupportedXSITypes() {
 
-        return null;
+        return Collections.emptySet();
 
     }
 
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
-
-        return null;
-
-    }
-
-    @Override
-    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
         return null;
 
@@ -742,16 +743,9 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
-
-        return null;
-
-    }
-
-    @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        return null;
+        return Collections.emptySet();
 
     }
 
@@ -767,6 +761,50 @@ public class SkyChartClient implements IExtension, ActionListener {
 
         return true;
 
+    }
+
+    @Override
+    public void setContext(IExtensionContext context) {
+        this.extensionContext = context;
+    }
+
+    @Override
+    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+            boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+   
+    @Override
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
+            IObservation observation, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean supports(String xsiType) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

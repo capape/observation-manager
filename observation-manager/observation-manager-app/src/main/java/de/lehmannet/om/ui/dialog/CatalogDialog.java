@@ -14,9 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -53,7 +50,7 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
 
         super(om);
 
-        this.panel = new CatalogPanel(om, model);
+        this.panel = new CatalogPanel(om, model, textManager);
         this.panel.addComponentListener(this);
         this.model = model;
         this.textManager = textManager;
@@ -128,13 +125,15 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
     private CatalogLoader loader = null;
     private ITarget selectedTarget = null;
     private final ObservationManagerModel model;
+    private final TextManager textManager;
 
-    public CatalogPanel(ObservationManager om, ObservationManagerModel model) {
+    public CatalogPanel(ObservationManager om, ObservationManagerModel model, TextManager textManager) {
 
         super(true);
 
         this.loader = om.getExtensionLoader().getCatalogLoader();
         this.om = om;
+        this.textManager = textManager;
         this.model = model;
 
         String[] cNames = this.loader.getCatalogNames(); // Get all catalogs (listable and non-listable
@@ -264,7 +263,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
     private void showSearchDialog() {
 
         AbstractSearchPanel panel = this.selectedCatalog.getSearchPanel();
-        SearchDialog sd = new SearchDialog(AbstractDialog.bundle.getString("dialog.catalog.search.title"), panel, this,
+        SearchDialog sd = new SearchDialog(this.textManager.getString("dialog.catalog.search.title"), panel, this,
                 om);
         this.selectedTarget = (ITarget) sd.getSearchResult();
         if (this.selectedTarget != null) {
@@ -313,7 +312,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel LcatalogName = new JLabel(AbstractDialog.bundle.getString("dialog.catalog.label.catalogName"));
+        JLabel LcatalogName = new JLabel(this.textManager.getString("dialog.catalog.label.catalogName"));
         gridbag.setConstraints(LcatalogName, constraints);
         this.add(LcatalogName);
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 45, 1);
@@ -321,8 +320,8 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         this.add(this.catalogBox);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 20, 1);
-        this.searchButton = new JButton(AbstractDialog.bundle.getString("dialog.catalog.label.searchButton"));
-        this.searchButton.setToolTipText(AbstractDialog.bundle.getString("dialog.catalog.tooltip.searchButton"));
+        this.searchButton = new JButton(this.textManager.getString("dialog.catalog.label.searchButton"));
+        this.searchButton.setToolTipText(this.textManager.getString("dialog.catalog.tooltip.searchButton"));
         this.searchButton.addActionListener(this);
         if (this.selectedCatalog.getSearchPanel() == null) { // No search dialog available
             this.searchButton.setEnabled(false);
@@ -332,7 +331,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel LTargets = new JLabel(AbstractDialog.bundle.getString("dialog.catalog.label.targets"));
+        JLabel LTargets = new JLabel(this.textManager.getString("dialog.catalog.label.targets"));
         gridbag.setConstraints(LTargets, constraints);
         this.add(LTargets);
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 2, 5, 45, 10);
@@ -342,7 +341,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 8, 2, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.positive = new JButton(AbstractDialog.bundle.getString("dialog.catalog.positive"));
+        this.positive = new JButton(this.textManager.getString("dialog.catalog.positive"));
         this.positive.addActionListener(this);
         gridbag.setConstraints(this.positive, constraints);
         this.add(this.positive);

@@ -111,7 +111,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager, this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target, this.isEditable(), true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

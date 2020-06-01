@@ -69,7 +69,7 @@ public class ObservationManagerApp {
         final TextManager textManager = new TextManagerImpl(isoKey);
 
         LOGGER.info("Creating model for app...");
-        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir);
+        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
         
         
         LOGGER.info("Creating observation manager app...");

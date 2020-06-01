@@ -25,7 +25,7 @@ public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITa
 
     public SolarSystemTargetPlanetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget, IObservation o) {
 
-        super(om, new SolarSystemTargetPlanetPanel(om, model, editableTarget, o, Boolean.TRUE));
+        super(om,  model, om.getUiHelper(), new SolarSystemTargetPlanetPanel(om, model, editableTarget, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

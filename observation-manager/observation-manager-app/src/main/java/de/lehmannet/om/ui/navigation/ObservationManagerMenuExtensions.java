@@ -274,8 +274,6 @@ public final class ObservationManagerMenuExtensions {
         @Override
         public void actionPerformed(ActionEvent e) {
           
-            ObservationManagerMenuExtensions.this.uiHelper.showInfo(
-                ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
           
             if (extensionLoader.getExtensions().isEmpty()) {
                 ObservationManagerMenuExtensions.this.uiHelper.showInfo(

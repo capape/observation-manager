@@ -75,7 +75,7 @@ import de.lehmannet.om.Site;
  */
 public class SchemaLoader {
 
-    private static Logger log = LoggerFactory.getLogger(SchemaLoader.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(SchemaLoader.class);
     // XML Schema Filenames
     private static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
             "comast17.xsd", "oal20.xsd", "oal21.xsd" };
@@ -281,7 +281,7 @@ public class SchemaLoader {
 
             validator.validate(new StreamSource(xmlFile));
         } catch (IOException | SAXException e) {
-            log.error("Error parsing xml file: {}", e.getLocalizedMessage(),e);
+            LOGGER.error("Error parsing xml file: {}", e.getLocalizedMessage(),e);
             // throw new SchemaException("Unable to parse xml file");
         }
 
@@ -502,6 +502,7 @@ public class SchemaLoader {
             SchemaElementConstants schemaElementType) throws SchemaException {
 
         // Resolve xsiType to java classname
+        LOGGER.debug("Getting class for type: {} and schemaType {}", xsiType, schemaElementType.name());
         String classname = null;
         try {
             if (SchemaElementConstants.FINDING == schemaElementType) {
@@ -510,7 +511,7 @@ public class SchemaLoader {
                      // ConfigLoader
                 classname = ConfigLoader.getTargetClassnameFromType(xsiType);
             }
-
+            LOGGER.debug("Classname : {}", classname);
             if (classname == null) {
                 throw new SchemaException("Unknown class name");
             }
@@ -598,7 +599,7 @@ public class SchemaLoader {
                 obs.add(new Observation(observationList.item(i), this.targets, this.observers, this.sites, this.scopes,
                         this.sessions, this.eyepieces, this.filters, this.imagers, this.lenses));
             } catch (SchemaException | IllegalArgumentException se) {
-                log.error("\n\nContinue loading next observation...\n\n", se);
+                LOGGER.error("\n\nContinue loading next observation...\n\n", se);
             }
 
         }
@@ -635,7 +636,7 @@ public class SchemaLoader {
                     try {
                         object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);
                     } catch (SchemaException se) {
-                        log.error("\n\nContinue with next target element...\n\n", se);
+                        LOGGER.error("\n\nContinue with next target element...\n\n", se);
                         continue;
                     }
                     if (object != null) {
@@ -817,7 +818,7 @@ public class SchemaLoader {
                     try {
                         object = SchemaLoader.getImagerFromXSIType(xsiType, currentNode);
                     } catch (SchemaException se) {
-                        log.error("\n\nContinue with next imager element...\n\n", se);
+                        LOGGER.error("\n\nContinue with next imager element...\n\n", se);
                         continue;
                     }
                     if (object != null) {
@@ -921,21 +922,21 @@ public class SchemaLoader {
         @Override
         public void error(SAXParseException exception) {
 
-            log.error("XML Schema error: ", exception);
+            LOGGER.error("XML Schema error: ", exception);
 
         }
 
         @Override
         public void fatalError(SAXParseException exception) {
 
-            log.error("XML Schema fatal error: ", exception);
+            LOGGER.error("XML Schema fatal error: ", exception);
 
         }
 
         @Override
         public void warning(SAXParseException exception) {
 
-            log.warn("XML Schema warning: ", exception);
+            LOGGER.warn("XML Schema warning: ", exception);
 
         }
 

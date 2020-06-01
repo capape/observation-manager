@@ -24,7 +24,7 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
 
     public VariableStarTargetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget) {
 
-        super(om, new VariableStarTargetPanel(om, model, editableTarget, Boolean.TRUE));
+        super(om,  model, om.getUiHelper(), new VariableStarTargetPanel(om, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());

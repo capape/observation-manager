@@ -18,7 +18,7 @@ public class SessionDialog extends AbstractDialog {
 
     public SessionDialog(ObservationManager om, ObservationManagerModel model,ISession editableSession) {
 
-        super(om, new SessionPanel(om, model, editableSession, true));
+        super(om,  om.getModel(), om.getUiHelper(), new SessionPanel(om, model, editableSession, true));
 
         if (editableSession == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.session.title"));

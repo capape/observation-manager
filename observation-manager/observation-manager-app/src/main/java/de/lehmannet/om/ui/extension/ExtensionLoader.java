@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
-import de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension;
+
 import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
 import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
@@ -312,10 +312,32 @@ public class ExtensionLoader {
 
         this.extensions.add(new GenericExtension());
         this.extensions.add(new ImagerExtension());
-        this.extensions.add(new DeepSkyExtension());
         this.extensions.add(new VariableStarsExtension(om, this.model)); // TODO avoid this dependency
         this.extensions.add(new SolarSystemExtension());
         this.loadExternalExtensions();
+        try {
+            ConfigLoader.reloadConfig();
+        } catch (ConfigException ce) {
+            LOGGER.error("Cannot read extension config. Aborting", ce);
+            throw new RuntimeException("Cannot read extension config. Aborting", ce);
+        }
+
+        // @formatter:off
+        IExtensionContext context = new ExtensionContext.Builder()
+            .configuration(this.om.getConfiguration())
+            .installDir(this.installDir)
+            .uiHelper(this.om.getUiHelper())
+            .model(this.model)
+            .build();
+
+        // @formatter:on
+
+        for (IExtension extension : this.extensions) {
+            extension.setContext(context);
+            for (String type : extension.getAllSupportedXSITypes()) {
+                LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type);
+            }
+        }
     }
 
     private void loadExternalExtensions() {

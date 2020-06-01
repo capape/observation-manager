@@ -17,7 +17,7 @@ public class EyepieceDialog extends AbstractDialog {
 
     public EyepieceDialog(ObservationManager om, IEyepiece editableEyepiece) {
 
-        super(om, new EyepiecePanel(editableEyepiece, true));
+        super(om, om.getModel(), om.getUiHelper(), new EyepiecePanel(editableEyepiece, true));
 
         if (editableEyepiece == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.eyepiece.title"));

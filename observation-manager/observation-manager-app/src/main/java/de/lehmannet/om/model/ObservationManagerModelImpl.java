@@ -18,6 +18,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 
 public class ObservationManagerModelImpl implements ObservationManagerModel {
@@ -30,12 +31,14 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     private final XMLFileLoader xmlCache;
     private final InstallDir installDir;
+    private final IConfiguration configuration;
 
     private ISchemaElement selected;
 
-    public ObservationManagerModelImpl(XMLFileLoader cache, InstallDir installDir) {
+    public ObservationManagerModelImpl(XMLFileLoader cache, InstallDir installDir, IConfiguration configuration) {
         this.xmlCache = cache;
         this.installDir = installDir;
+        this.configuration = configuration;
 
     }
 
@@ -274,4 +277,11 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         return this.xmlCache.saveAs(oldPath, newPath);
         
     }
+
+    @Override
+    public IConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+        
 }

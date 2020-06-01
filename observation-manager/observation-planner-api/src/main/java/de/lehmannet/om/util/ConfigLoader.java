@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the
@@ -31,6 +33,8 @@ public class ConfigLoader {
      * Property to define extesions dir.
      */
     public static final String EXTENSIONS_DIR_PROPERTY = "extensions.dir";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoader.class);
 
     // ---------
     // Constants ---------------------------------------------------------
@@ -55,6 +59,8 @@ public class ConfigLoader {
     private static final Map<String, String> findings = new HashMap<>();
     // All target xsi:types as key and finding xsi:types as value
     private static final Map<String, String> target_findings = new HashMap<>();
+
+    private static final Object LOCK = new Object();
 
     // --------------
     // Public methods ----------------------------------------------------
@@ -81,14 +87,20 @@ public class ConfigLoader {
         if (ptype == null) {
             return null;
         }
-        synchronized (targets) {
+      
+        LOGGER.debug("Searching class for type: {}", ptype);
+        synchronized (LOCK) {
             if (targets.isEmpty()) {
+                LOGGER.debug("NO targets configured. Loading config");
                 loadConfig();
             }
         }
+
         String type = ConfigLoader.checkAncestorTypes(ptype);
+        LOGGER.debug("Real type to search: {}", type);
 
         if (!targets.containsKey(type)) { // Given type is finding type...try to get target type
+            LOGGER.debug("Type  not in targets. Searching in findings");
             Iterator<Entry<String, String>> iterator = target_findings.entrySet().iterator();
             while (iterator.hasNext()) {
                 Entry<String, String> entry = iterator.next();
@@ -100,8 +112,9 @@ public class ConfigLoader {
                 }
             }
         }
+        LOGGER.debug("Trying to search class for type: {}", type);
         // Load classname from type
-        String classname = (String) targets.get(type);
+        String classname = targets.get(type);
         if ((classname == null) || ("".equals(classname.trim()))) {
             throw new ConfigException("No target class defined for target type: " + type
                     + ". Please check plugin Manifest files, or download new extension. ");
@@ -132,7 +145,7 @@ public class ConfigLoader {
         if (ptype == null) {
             return null;
         }
-        synchronized (findings) {
+        synchronized (LOCK) {
             if (findings.isEmpty()) {
                 loadConfig();
             }
@@ -188,8 +201,9 @@ public class ConfigLoader {
         StringTokenizer tokenizer = new StringTokenizer(path, sep);
         File token = null;
         while (tokenizer.hasMoreTokens()) {
-            token = new File(tokenizer.nextToken());
+            token = new File(tokenizer.nextToken());            
             if ((token.isFile()) && (token.getName().endsWith(".jar"))) {
+                LOGGER.debug("Searching classpath extensions. File {}", token.getName());
                 scanJarFile(token);
             }
         }
@@ -201,6 +215,7 @@ public class ConfigLoader {
                 File[] jars = ext.listFiles((dir, name) -> name.toLowerCase(Locale.getDefault()).endsWith(".jar"));
                 if (jars != null) {
                     for (File jar : jars) {
+                        LOGGER.debug("Searching configured dir extensions. File {}", jar.getName());
                         scanJarFile(jar);
                     }
                 }
@@ -217,6 +232,7 @@ public class ConfigLoader {
                 ZipEntry entry = enu.nextElement();
                 String name = entry.getName();
                 if (name.toUpperCase(Locale.getDefault()).equals(MANIFEST_FILENAME)) {
+                    LOGGER.debug("Loading extension {}:{}", jar.getName(), name);
                     try (InputStream in = archive.getInputStream(entry)) {
 
                         Properties prop = new Properties();
@@ -263,16 +279,16 @@ public class ConfigLoader {
                         .getProperty(prefix + ConfigLoader.CONFIG_FILE_FINDINGENTRY_CLASSNAME_ENDING);
 
                 // Add type and classname to our list of known types
-                synchronized (targets) {
+                synchronized (LOCK) {
                     targets.put(target_type, target_classname);
                 }
                 // Add type and classname to our list of known types
-                synchronized (findings) {
+                synchronized (LOCK) {
                     findings.put(finding_type, finding_classname);
                 }
 
                 // Add target type and finding type
-                synchronized (target_findings) {
+                synchronized (LOCK) {
                     target_findings.put(target_type, finding_type);
                 }
 
@@ -290,16 +306,16 @@ public class ConfigLoader {
         final String finding_classname = "de.lehmannet.om.GenericFinding";
 
         // Add type and classname to our list of known types
-        synchronized (targets) {
+        synchronized (LOCK) {
             targets.put(target_type, target_classname);
         }
         // Add type and classname to our list of known types
-        synchronized (findings) {
+        synchronized (LOCK) {
             findings.put(finding_type, finding_classname);
         }
 
         // Add target type and finding type
-        synchronized (target_findings) {
+        synchronized (LOCK) {
             target_findings.put(target_type, finding_type);
         }
 
@@ -310,16 +326,16 @@ public class ConfigLoader {
         final String starTarget_finding_classname = "de.lehmannet.om.GenericFinding";
 
         // Add type and classname to our list of known types
-        synchronized (targets) {
+        synchronized (LOCK) {
             targets.put(starTarget_type, starTarget_classname);
         }
         // Add type and classname to our list of known types
-        synchronized (findings) {
+        synchronized (LOCK) {
             findings.put(starTarget_finding_type, starTarget_finding_classname);
         }
 
         // Add target type and finding type
-        synchronized (target_findings) {
+        synchronized (LOCK) {
             target_findings.put(starTarget_type, starTarget_finding_type);
         }
 

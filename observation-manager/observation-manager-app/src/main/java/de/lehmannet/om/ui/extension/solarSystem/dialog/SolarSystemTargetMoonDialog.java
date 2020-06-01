@@ -25,7 +25,7 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
 
     public SolarSystemTargetMoonDialog(ObservationManager om, ObservationManagerModel model, IObservation o, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetMoonPanel(om, model, editableTarget, o, Boolean.TRUE));
+        super(om,  model, om.getUiHelper(), new SolarSystemTargetMoonPanel(om, model, editableTarget, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

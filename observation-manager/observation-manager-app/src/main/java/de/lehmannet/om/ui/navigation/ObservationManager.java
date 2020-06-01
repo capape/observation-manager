@@ -13,12 +13,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -128,6 +126,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private final Map<String, String> uiDataCache = new HashMap<>();
 
     private final ObservationManagerHtmlHelper htmlHelper;
+    private final UserInterfaceHelper uiHelper;
 
     public final InstallDir getInstallDir() {
         return this.installDir;
@@ -135,6 +134,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public final ObservationManagerHtmlHelper getHtmlHelper() {
         return this.htmlHelper;
+    }
+
+    public final UserInterfaceHelper getUiHelper() {
+        return this.uiHelper;
     }
 
     private final CatalogManager catalogManager;
@@ -148,8 +151,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.textManager = builder.textManager;
         this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
         this.model = builder.model;
-
-        UserInterfaceHelper uiHelper = new UserInterfaceHelperImpl(this, textManager);
+        this.uiHelper = new UserInterfaceHelperImpl(this, textManager);
 
         LOGGER.info("Observation Manager {} starting up...", VERSION);
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
@@ -486,6 +488,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // Update UI
         this.updateUI(element);
 
+    }
+
+    public void refreshUI() {
+        ISchemaElement element = this.model.getSelectedElement();
+        this.updateLeft();
+        this.updateUI(element);
     }
 
     public void setChanged(final boolean changed) {

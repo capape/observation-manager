@@ -25,7 +25,7 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
 
     public SolarSystemTargetSunDialog(ObservationManager om, ObservationManagerModel model, IObservation o, ITarget editableTarget) {
 
-        super(om, new SolarSystemTargetSunPanel(om, model, editableTarget, o, Boolean.TRUE));
+        super(om,  model, om.getUiHelper(), new SolarSystemTargetSunPanel(om, model, editableTarget, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
