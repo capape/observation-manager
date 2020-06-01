@@ -11,20 +11,24 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
+
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.extension.imaging.CCDImager;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 
 public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
     private static final long serialVersionUID = 8966093381064556604L;
 
-    public CCDImagerDialog(ObservationManager om, IImager editableImager) {
+    public CCDImagerDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, IImager editableImager) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new CCDImagerPanel(editableImager, Boolean.TRUE));
+        super(om,  model,uiHelper, new CCDImagerPanel(editableImager, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());

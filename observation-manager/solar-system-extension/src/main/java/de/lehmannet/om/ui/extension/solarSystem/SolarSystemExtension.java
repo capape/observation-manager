@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
@@ -27,6 +28,7 @@ import de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
@@ -195,7 +197,7 @@ public class SolarSystemExtension extends AbstractExtension {
         findingPanels.put(SolarSystemTargetSun.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         findingPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
 
-        this.panels.put(SchemaElementConstants.FINDING, findingPanels);
+        this.getPanels().put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -214,7 +216,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetPanels.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel");
 
-        this.panels.put(SchemaElementConstants.TARGET, targetPanels);
+        this.getPanels().put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -233,7 +235,7 @@ public class SolarSystemExtension extends AbstractExtension {
         targetDialogs.put(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.solarSystem.dialog.SolarSystemTargetPlanetDialog");
 
-        this.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
+        this.getDialogs().put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 
@@ -257,7 +259,8 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
 
         return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, observation, editable);
     }
@@ -274,6 +277,12 @@ public class SolarSystemExtension extends AbstractExtension {
             return false;
         }
         return this.allSupportedXSITypes.contains(xsiType);
+    }
+
+    @Override
+    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -12,11 +12,13 @@ import org.w3c.dom.Element;
 import de.lehmannet.om.GenericFinding;
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
@@ -227,14 +229,14 @@ public class GenericExtension implements IExtension {
         return null;
     }
 
-   
     @Override
     public void setContext(IExtensionContext context) {
         this.extensionContext = context;
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -250,6 +252,12 @@ public class GenericExtension implements IExtension {
     public boolean supports(String xsiType) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

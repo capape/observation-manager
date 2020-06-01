@@ -34,12 +34,14 @@ import org.w3c.dom.Element;
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
@@ -787,9 +789,9 @@ public class SkyChartClient implements IExtension, ActionListener {
         return null;
     }
 
-   
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -805,6 +807,12 @@ public class SkyChartClient implements IExtension, ActionListener {
     public boolean supports(String xsiType) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

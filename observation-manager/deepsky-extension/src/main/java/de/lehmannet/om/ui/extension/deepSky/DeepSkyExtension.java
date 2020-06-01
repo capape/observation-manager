@@ -22,6 +22,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
@@ -43,6 +44,7 @@ import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
@@ -392,17 +394,20 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+            boolean editable) {
         return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
         return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
+            IObservation observation, boolean editable) {
 
         return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
 
@@ -444,6 +449,12 @@ public class DeepSkyExtension implements IExtension {
             return false;
         }
         return this.allSupportedXSITypes.contains(xsiType);
+    }
+
+    @Override
+    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -25,8 +25,8 @@ public abstract class AbstractExtension implements IExtension {
     // Key: SchemaElementConstant Value: HashMap of xsiTypes
     // HashMap of xsiTypes:
     // Key: xsiType (String) Value: Panel/Dialog classname as String
-    protected final Map<SchemaElementConstants, Map<String,String>> panels = new HashMap<>();
-    protected final Map<SchemaElementConstants, Map<String,String>> dialogs = new HashMap<>();
+    private final Map<SchemaElementConstants, Map<String, String>> panels = new HashMap<>();
+    private final Map<SchemaElementConstants, Map<String, String>> dialogs = new HashMap<>();
 
     @Override
     public abstract String getName();
@@ -67,7 +67,7 @@ public abstract class AbstractExtension implements IExtension {
     @Override
     public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
-        Map<String,String> o = this.panels.get(schemaElementConstant);
+        Map<String, String> o = this.getPanels().get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
@@ -79,7 +79,7 @@ public abstract class AbstractExtension implements IExtension {
     @Override
     public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant) {
 
-        Map<String,String> o = this.dialogs.get(schemaElementConstant);
+        Map<String, String> o = this.getDialogs().get(schemaElementConstant);
 
         if (o == null) { // nothing found for this schema Element type
             return null;
@@ -88,7 +88,6 @@ public abstract class AbstractExtension implements IExtension {
 
     }
 
-    
     @Override
     public boolean addOALExtensionElement(Element docElement) {
 
@@ -130,13 +129,20 @@ public abstract class AbstractExtension implements IExtension {
         if (getClass() != obj.getClass())
             return false;
         AbstractExtension other = (AbstractExtension) obj;
-       
+
         if (other.getName().equals(this.getName())) {
-             return other.getVersion() == this.getVersion();
-        }      
+            return other.getVersion() == this.getVersion();
+        }
 
         return false;
     }
-   
+
+    protected Map<SchemaElementConstants, Map<String, String>> getPanels() {
+        return panels;
+    }
+
+    protected Map<SchemaElementConstants, Map<String, String>> getDialogs() {
+        return dialogs;
+    }
 
 }

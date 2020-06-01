@@ -18,10 +18,12 @@ import javax.swing.JMenu;
 import org.w3c.dom.Element;
 
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
@@ -67,6 +69,8 @@ public interface IExtension {
     AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable);        
 
     ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable);
+
+    IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable);
 
     void setContext(IExtensionContext context);
 

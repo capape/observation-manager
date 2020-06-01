@@ -1,0 +1,6 @@
+# OAL XML Schema Extension: Imaging (Version 1.0)
+# -- Do not edit this list, as long as you don't know what you're doing! --
+
+# Create relation between xsi:type element and Java class here
+IM_Imager_XSI_Relation_Class: de.lehmannet.om.extension.imaging.CCDImager
+IM_Imager_XSI_Relation_Type: oal:ccdCameraType

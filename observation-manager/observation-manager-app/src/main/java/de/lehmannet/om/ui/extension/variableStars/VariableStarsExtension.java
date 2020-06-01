@@ -47,6 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -58,6 +59,7 @@ import de.lehmannet.om.extension.variableStars.export.AAVSOVisualSerializer;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.comparator.ObservationComparator;
+import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.extension.AbstractExtension;
@@ -392,7 +394,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         findingPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel");
 
-        this.panels.put(SchemaElementConstants.FINDING, findingPanels);
+        this.getPanels().put(SchemaElementConstants.FINDING, findingPanels);
 
     }
 
@@ -403,7 +405,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetPanels.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel");
 
-        this.panels.put(SchemaElementConstants.TARGET, targetPanels);
+        this.getPanels().put(SchemaElementConstants.TARGET, targetPanels);
 
     }
 
@@ -414,7 +416,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         targetDialogs.put(TargetVariableStar.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarTargetDialog");
 
-        this.dialogs.put(SchemaElementConstants.TARGET, targetDialogs);
+        this.getDialogs().put(SchemaElementConstants.TARGET, targetDialogs);
 
     }
 
@@ -426,13 +428,15 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+            boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
+            IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -443,9 +447,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     }
 
-  
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -454,6 +458,12 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     public boolean supports(String xsiType) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

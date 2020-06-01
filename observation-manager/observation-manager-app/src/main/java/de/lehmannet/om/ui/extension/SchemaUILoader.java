@@ -70,7 +70,7 @@ public class SchemaUILoader {
 
     public ITargetDialog getTargetDialog(String xsiType, ITarget target, IObservation o) {
 
-        return this.getTargetDailogFromXSIType(xsiType, target, o);
+        return this.getTargetDialogFromXSIType(xsiType, target, o);
 
     }
 
@@ -291,7 +291,7 @@ public class SchemaUILoader {
 
     }
 
-    private ITargetDialog getTargetDailogFromXSIType(String xsiType, ITarget target, IObservation o) {
+    private ITargetDialog getTargetDialogFromXSIType(String xsiType, ITarget target, IObservation o) {
 
         Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -462,8 +462,16 @@ public class SchemaUILoader {
         String classname = null;
         while (iterator.hasNext()) {
             extension = iterator.next();
+
             if (dialog) {
+
+                if (extension.supports(xsiType)) {
+                    //TODO: extract real types
+                    LOGGER.debug("New load without reflection");
+                    return extension.getImagerDialogForXSIType(xsiType, this.observationManager, (IImager) schemaElement, true);
+                }
                 classname = extension.getDialogForXSIType(xsiType, schemaElementConstant);
+
             } else {
                 classname = extension.getPanelForXSIType(xsiType, schemaElementConstant);
             }

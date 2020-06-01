@@ -1,49 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-
-    <modelVersion>4.0.0</modelVersion>
-
-
-    <parent>
-
-
-        <artifactId>observation-parent</artifactId>
-
-
-        <groupId>de.lehmannet.om</groupId>
-
-
-        <version>1.0.0-SNAPSHOT</version>
-
-
-    </parent>
-
-
-    <packaging>pom</packaging>
-
-
-    <artifactId>observation-manager</artifactId>
-
-
+      
+  <modelVersion>4.0.0</modelVersion>
+      
+  <parent>
+            
+    <artifactId>observation-parent</artifactId>
+            
     <groupId>de.lehmannet.om</groupId>
+            
+    <version>1.0.0-SNAPSHOT</version>
+        
+  </parent>
+      
+  <packaging>pom</packaging>
+      
+  <artifactId>observation-manager</artifactId>
+      
+  <groupId>de.lehmannet.om</groupId>
+      
+  <version>1.6.0-SNAPSHOT</version>
+      
+  <modules>
+            
+    <module>observation-planner-api</module>
+            
+    <module>observation-manager-api</module>
+            
+    <module>observation-manager-app</module>
+            
+    <module>skychart-extension</module>
+            
+    <module>deepsky-extension</module>
+            
+    <module>solar-system-extension</module>
 
-
-    <version>1.6.0-SNAPSHOT</version>
-
-
-    <modules>
-
-
-        <module>observation-planner-api</module>
-        <module>observation-manager-api</module>
-        <module>observation-manager-app</module>
-        <module>skychart-extension</module>
-        <module>deepsky-extension</module>
-        <module>solar-system-extension</module>
-        <module>observation-manager-distribution</module>
-
-    </modules>
-
-
+    <module>imager-extension</module>
+            
+    <module>observation-manager-distribution</module>
+          
+          
+  </modules>
+  
 </project>
