@@ -48,7 +48,6 @@ import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
 
 import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
-import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
@@ -313,7 +312,7 @@ public class ExtensionLoader {
         this.extensions.add(new GenericExtension());
         this.extensions.add(new ImagerExtension());
         this.extensions.add(new VariableStarsExtension(om, this.model)); // TODO avoid this dependency
-        this.extensions.add(new SolarSystemExtension());
+        
         this.loadExternalExtensions();
         try {
             ConfigLoader.reloadConfig();
