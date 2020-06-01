@@ -14,6 +14,13 @@
       </includes>		
     </fileSet>
     <fileSet>
+        <directory>../deepsky-extension/target/</directory>
+        <outputDirectory>extensions</outputDirectory>
+        <includes>
+            <include>*.jar</include>
+        </includes>		
+      </fileSet>
+    <fileSet>
       <directory>../observation-manager-app/target/</directory>
       <outputDirectory>classpath</outputDirectory>
       <includes>
