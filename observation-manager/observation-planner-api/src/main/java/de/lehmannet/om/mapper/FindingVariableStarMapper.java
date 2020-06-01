@@ -24,7 +24,7 @@ public class FindingVariableStarMapper {
         return getBooleanAttribute(finding,
                 FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN);
     }
-
+    
     public static boolean getOptionalPoorSeeing(Element finding) {
         // Get optional poor seeing attribute
         return getBooleanAttribute(finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_POORSEEING);

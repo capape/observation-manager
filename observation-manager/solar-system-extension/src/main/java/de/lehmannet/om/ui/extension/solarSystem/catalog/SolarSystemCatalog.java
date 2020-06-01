@@ -114,33 +114,7 @@ public class SolarSystemCatalog implements IListableCatalog {
     }
 
     private void reloadLanguage() {
-
-        /*
-         * this.bundle = (PropertyResourceBundle)ResourceBundle.getBundle(
-         * "de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
-         * 
-         * Iterator iterator = this.map.values().iterator(); SolarSystemTarget current = null; while( iterator.hasNext()
-         * ) { current = (SolarSystemTarget)iterator.next(); if( current.getName().equals(SolarSystemCatalog.KEY_SUN) )
-         * { current.setI18NName(this.bundle.getString("catalog.sun")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_MERCURY) ) {
-         * current.setI18NName(this.bundle.getString("catalog.mercury")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_VENUS) ) {
-         * current.setI18NName(this.bundle.getString("catalog.venus")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_MOON) ) {
-         * current.setI18NName(this.bundle.getString("catalog.moon")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_MARS) ) {
-         * current.setI18NName(this.bundle.getString("catalog.mars")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_JUPITER) ) {
-         * current.setI18NName(this.bundle.getString("catalog.jupiter")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_SATURN) ) {
-         * current.setI18NName(this.bundle.getString("catalog.saturn")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_URANUS) ) {
-         * current.setI18NName(this.bundle.getString("catalog.uranus")); } else if(
-         * current.getName().equals(SolarSystemCatalog.KEY_NEPTUNE) ) {
-         * current.setI18NName(this.bundle.getString("catalog.neptune")); }
-         * 
-         * }
-         */
+       
 
         this.tableModel = new SolarSystemTableModel(this);
         this.lastKnownDefaultLocale = Locale.getDefault();

@@ -985,25 +985,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             ITarget[] targets = loader.getTargets();
             ILens[] lenses = loader.getLenses();
 
-            // Set Displaynames to SolarSystem Targets (as ResourceBundle is
-            // not part of the API is isn't done in the API)
-            /*
-             * final PropertyResourceBundle bundle =
-             * (PropertyResourceBundle)ResourceBundle.getBundle("SolarSystem",
-             * Locale.getDefault()); for(int i=0; i < targets.length; i++) { if( (targets[i]
-             * instanceof SolarSystemTargetPlanet) || (targets[i] instanceof
-             * SolarSystemTargetSun) || (targets[i] instanceof SolarSystemTargetMoon) ) {
-             * try { ((SolarSystemTarget)targets[i]).setI18NName(bundle.getString("catalog."
-             * + targets[i].getName().toLowerCase())); } catch(
-             * java.util.MissingResourceException mre ) {
-             * System.err.print("Couldn't set local name for " + targets[i].getName() +
-             * "\n");
-             * ((SolarSystemTarget)targets[i]).setI18NName(targets[i].getName().toLowerCase(
-             * )); }
-             * 
-             * } }
-             */
-
+            
             // Delete all old stuff
             this.cache.clear();
 
