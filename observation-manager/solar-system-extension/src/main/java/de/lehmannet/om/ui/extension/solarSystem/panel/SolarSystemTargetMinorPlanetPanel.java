@@ -18,22 +18,23 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.util.SchemaException;
+import de.lehmannet.om.ui.util.IConfiguration;
+
 
 public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -5621507862602343177L;
 
-    private ObservationManager observationManager = null;
+  
     private SolarSystemTargetMinorPlanet target = null;
 
     private TargetContainer targetContainer = null;
     private final ObservationManagerModel model;
+    private final IConfiguration configuration;
 
-    public SolarSystemTargetMinorPlanetPanel(ObservationManager om, ObservationManagerModel model,ITarget target, Boolean editable)
+    public SolarSystemTargetMinorPlanetPanel(IConfiguration configuration, ObservationManagerModel model,ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -44,7 +45,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
         }
 
         this.target = (SolarSystemTargetMinorPlanet) target;
-        this.observationManager = om;
+        this.configuration = configuration;
         this.model = model;
         this.createPanel();
 
@@ -111,7 +112,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

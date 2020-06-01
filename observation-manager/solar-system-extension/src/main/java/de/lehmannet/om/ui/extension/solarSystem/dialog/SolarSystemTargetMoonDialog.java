@@ -11,28 +11,31 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
+
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetMoonPanel;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 
 public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = 11451630089774356L;
+                                                     
+    public SolarSystemTargetMoonDialog(JFrame om,  UserInterfaceHelper uiHelper, ObservationManagerModel model, IObservation o, ITarget target) {
 
-    public SolarSystemTargetMoonDialog(ObservationManager om, ObservationManagerModel model, IObservation o, ITarget editableTarget) {
-
-        super(om,  model, om.getUiHelper(), new SolarSystemTargetMoonPanel(om, model, editableTarget, o, Boolean.TRUE));
+        super(om,  model, uiHelper, new SolarSystemTargetMoonPanel( model.getConfiguration(), model, target, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
-        if (editableTarget == null) {
+        if (target == null) {
             this.setTitle(bundle.getString("dialog.moon.title"));
         } else {
-            this.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + target.getDisplayName());
         }
 
         this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);

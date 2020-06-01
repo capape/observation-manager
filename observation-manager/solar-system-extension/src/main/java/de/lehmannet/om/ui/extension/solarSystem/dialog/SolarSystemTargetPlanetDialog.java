@@ -11,28 +11,31 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
+
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 
 public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -1824120647459055098L;
 
-    public SolarSystemTargetPlanetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget, IObservation o) {
+    public SolarSystemTargetPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, IObservation observation) {
 
-        super(om,  model, om.getUiHelper(), new SolarSystemTargetPlanetPanel(om, model, editableTarget, o, Boolean.TRUE));
+        super(om,  model, uiHelper, new SolarSystemTargetPlanetPanel(model.getConfiguration(), model, target, observation, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
-        if (editableTarget == null) {
+        if (target == null) {
             this.setTitle(bundle.getString("dialog.planet.title"));
         } else {
-            this.setTitle(bundle.getString("dialog.planet.titleEdit") + " " + editableTarget.getDisplayName());
+            this.setTitle(bundle.getString("dialog.planet.titleEdit") + " " + target.getDisplayName());
         }
 
         this.setSize(SolarSystemTargetPlanetDialog.serialVersionUID, 550, 260);

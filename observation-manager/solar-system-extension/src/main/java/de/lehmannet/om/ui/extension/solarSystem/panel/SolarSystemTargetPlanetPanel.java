@@ -20,11 +20,10 @@ import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.Ephemerides;
-import de.lehmannet.om.util.SchemaException;
 
 public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
@@ -34,7 +33,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
     // (PropertyResourceBundle)ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
     // Locale.getDefault());
 
-    private ObservationManager observationManager = null;
+    private IConfiguration configuration = null;
     private SolarSystemTargetPlanet target = null;
 
     private TargetContainer targetContainer = null;
@@ -42,7 +41,8 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
     private final ObservationManagerModel model;
 
-    public SolarSystemTargetPlanetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, IObservation o, Boolean editable)
+    public SolarSystemTargetPlanetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            IObservation o, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -54,7 +54,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
         this.target = (SolarSystemTargetPlanet) target;
         this.observation = o;
-        this.observationManager = om;
+        this.configuration = configuration;
         this.model = model;
         this.createPanel();
 
@@ -121,7 +121,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
         if ((!this.isEditable()) && (this.observation != null)) {
             this.targetContainer.setPosition(Ephemerides
                     .getPosition(this.mapPlanetKeysForEphemerides(this.target.getName()), this.observation.getBegin()));
