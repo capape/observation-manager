@@ -3,6 +3,7 @@ package de.lehmannet.om.ui.extension.solarSystem;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -52,11 +53,15 @@ public class SolarSystemExtension extends AbstractExtension {
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle(
             "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.getDefault());
     private IExtensionContext extensionContext;
+    private final Set<String> supportedTargetXSITypes = new HashSet<>();
+    private final Set<String> getSupportedFindingXSITypes = new HashSet<>();
+    private final Set<String> allSupportedXSITypes = new HashSet<>();
 
     public SolarSystemExtension() {
 
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_SolarSystem.xsd";
 
+        this.initAllSupportedXSITypes();
         this.initFindingPanels();
         this.initTargetPanels();
         this.initTargetDialogs();
@@ -119,45 +124,43 @@ public class SolarSystemExtension extends AbstractExtension {
     @Override
     public Set<String> getAllSupportedXSITypes() {
 
-        // Return all XSI types which are supported by this extension
-        Set<String> result = new HashSet<>();
-        result.addAll(this.getSupportedFindingXSITypes());
-        result.addAll(this.getSupportedTargetXSITypes());
+        return Collections.unmodifiableSet(this.allSupportedXSITypes);
+    }
 
-        return result;
+    public void initAllSupportedXSITypes() {
+
+        // Return all XSI types which are supported by this extension
+
+        this.initSupportedTargetXSITypes();
+        this.initSupportedFindingXSITypes();
+        this.allSupportedXSITypes.addAll(this.getSupportedFindingXSITypes);
+        this.allSupportedXSITypes.addAll(this.supportedTargetXSITypes);
 
     }
 
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
-            result = this.getSupportedTargetXSITypes();
+            return Collections.unmodifiableSet(this.supportedTargetXSITypes);
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
-            result = this.getSupportedFindingXSITypes();
+            return Collections.unmodifiableSet(this.getSupportedFindingXSITypes);
+        } else {
+            return Collections.emptySet();
         }
 
-        return result;
-
     }
 
-    private Set<String> getSupportedTargetXSITypes() {
+    private void initSupportedTargetXSITypes() {
 
-        Set<String> result = new HashSet<>();
-        result.add(SolarSystemTargetComet.XML_XSI_TYPE_VALUE);
-        result.add(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE);
-        result.add(SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
-        result.add(SolarSystemTargetSun.XML_XSI_TYPE_VALUE);
-        result.add(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE);
-
-        return result;
-
+        this.supportedTargetXSITypes.add(SolarSystemTargetComet.XML_XSI_TYPE_VALUE);
+        this.supportedTargetXSITypes.add(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE);
+        this.supportedTargetXSITypes.add(SolarSystemTargetMoon.XML_XSI_TYPE_VALUE);
+        this.supportedTargetXSITypes.add(SolarSystemTargetSun.XML_XSI_TYPE_VALUE);
+        this.supportedTargetXSITypes.add(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE);
     }
 
-    private Set<String> getSupportedFindingXSITypes() {
-
-        return new HashSet<>();
+    private void initSupportedFindingXSITypes() {
 
     }
 
@@ -242,36 +245,35 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
-            boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-   
-    @Override
     public void setContext(IExtensionContext context) {
         this.extensionContext = context;
 
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+            boolean editable) {
+        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
+    }
+
+    @Override
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+
+        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, observation, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
+        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, observation, editable);
     }
 
     @Override
     public boolean supports(String xsiType) {
-        // TODO Auto-generated method stub
-        return false;
+        if (xsiType == null) {
+            return false;
+        }
+        return this.allSupportedXSITypes.contains(xsiType);
     }
 
 }

@@ -397,7 +397,7 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
         return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
     }
 

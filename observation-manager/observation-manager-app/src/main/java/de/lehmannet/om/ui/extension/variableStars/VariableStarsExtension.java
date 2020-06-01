@@ -445,7 +445,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
   
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }

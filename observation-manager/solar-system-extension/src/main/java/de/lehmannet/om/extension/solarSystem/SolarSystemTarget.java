@@ -356,7 +356,8 @@ public abstract class SolarSystemTarget extends Target {
 private void setI18NName() {
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem", Locale.getDefault());
+                .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem",
+                 Locale.getDefault());
 
         switch (this.getName()) {
         case SolarSystemTarget.KEY_SUN:

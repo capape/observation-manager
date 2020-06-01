@@ -64,7 +64,7 @@ public interface IExtension {
 
     AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, boolean editable);
 
-    AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, boolean editable);        
+    AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable);        
 
     ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable);
 

@@ -47,6 +47,9 @@
         <Logger name="de.lehmannet.om.ui.extension" level="debug" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
+        <Logger name="de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl" level="warn" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
         <Logger name="de.lehmannet.om.util.SchemaLoader" level="debug" additivity="false">
             <AppenderRef ref="console" />
         </Logger>

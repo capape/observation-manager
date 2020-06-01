@@ -20,6 +20,13 @@
             <include>*.jar</include>
         </includes>		
       </fileSet>
+      <fileSet>
+        <directory>../solar-system-extension/target/</directory>
+        <outputDirectory>extensions</outputDirectory>
+        <includes>
+            <include>*.jar</include>
+        </includes>		
+      </fileSet>    
     <fileSet>
       <directory>../observation-manager-app/target/</directory>
       <outputDirectory>classpath</outputDirectory>

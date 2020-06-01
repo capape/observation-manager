@@ -261,7 +261,7 @@ public class SchemaUILoader {
 
     }
 
-    private AbstractPanel getTargetPanelFromXSIType(String xsiType, ITarget target, IObservation o, boolean editable) {
+    private AbstractPanel getTargetPanelFromXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
 
         Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -271,7 +271,7 @@ public class SchemaUILoader {
 
             if (extension.supports(xsiType)) {
                 LOGGER.debug("New load without reflection");
-                return extension.getTargetPanelForXSIType(xsiType, target, editable);
+                return extension.getTargetPanelForXSIType(xsiType, target, observation, editable);
             }
 
 
@@ -286,7 +286,7 @@ public class SchemaUILoader {
             return null;
         }
 
-        return (AbstractPanel) this.loadByReflection(classname, ITarget.class, target, IObservation.class, o, null,
+        return (AbstractPanel) this.loadByReflection(classname, ITarget.class, target, IObservation.class, observation, null,
                 null, editable);
 
     }

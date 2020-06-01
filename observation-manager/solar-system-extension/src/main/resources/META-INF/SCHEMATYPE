@@ -1,0 +1,28 @@
+# OAL XML Schema Extension: SolarSystem (Version 1.5)
+# -- Do not edit this list, as long as you don't know what you're doing! --
+
+# All SolarSystem Targets
+SS_TargetComet_XSI_Relation_Class: de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet
+SS_TargetComet_XSI_Relation_Type: oal:CometTargetType
+SS_TargetComet_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+SS_TargetComet_XSI_Relation_Finding_Type: oal:findingsType
+
+SS_TargetMinorPlanet_XSI_Relation_Class: de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet
+SS_TargetMinorPlanet_XSI_Relation_Type: oal:MinorPlanetTargetType
+SS_TargetMinorPlanet_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+SS_TargetMinorPlanet_XSI_Relation_Finding_Type: oal:findingsType
+
+SS_TargetMoon_XSI_Relation_Class: de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon
+SS_TargetMoon_XSI_Relation_Type: oal:MoonTargetType
+SS_TargetMoon_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+SS_TargetMoon_XSI_Relation_Finding_Type: oal:findingsType
+
+SS_TargetSun_XSI_Relation_Class: de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun
+SS_TargetSun_XSI_Relation_Type: oal:SunTargetType
+SS_TargetSun_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+SS_TargetSun_XSI_Relation_Finding_Type: oal:findingsType
+
+SS_TargetPlanet_XSI_Relation_Class: de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet
+SS_TargetPlanet_XSI_Relation_Type: oal:PlanetTargetType
+SS_TargetPlanet_XSI_Relation_Finding_Class: de.lehmannet.om.GenericFinding
+SS_TargetPlanet_XSI_Relation_Finding_Type: oal:findingsType
