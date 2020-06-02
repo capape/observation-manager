@@ -18,8 +18,9 @@ import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.FloatUtil;
 
 public class GCVS4Catalog implements ICatalog {
@@ -126,10 +127,12 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_VULPECULA = new int[] { 39914, 40370 };
 
     private File catalogFile = null;
-    ObservationManager observationManager = null;
+    
+    private final IConfiguration configuration;
 
-    public GCVS4Catalog(File catalogDir, ObservationManager om) {
+    public GCVS4Catalog(File catalogDir, IConfiguration configuration) {
 
+        this.configuration = configuration;
         // Get catalog File
         this.catalogFile = new File(
                 catalogDir.getAbsolutePath() + File.separator + "variableStars" + File.separator + "gcvs4.dat");
@@ -138,8 +141,6 @@ public class GCVS4Catalog implements ICatalog {
         if (!this.catalogFile.exists()) {
             return;
         }
-
-        this.observationManager = om;
 
     }
 
@@ -160,7 +161,7 @@ public class GCVS4Catalog implements ICatalog {
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
-        return new GCVS4SearchPanel(this);
+        return new GCVS4SearchPanel(this, configuration);
 
     }
 

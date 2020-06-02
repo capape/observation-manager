@@ -1,0 +1,8 @@
+# OAL XML Schema Extension: Variable Stars (Version 1.0)
+# -- Do not edit this list, as long as you don't know what you're doing! --
+
+# All Variable Stars Targets
+VS_TargetVariableStar_XSI_Relation_Class: de.lehmannet.om.extension.variableStars.TargetVariableStar
+VS_TargetVariableStar_XSI_Relation_Type: oal:variableStarTargetType
+VS_TargetVariableStar_XSI_Relation_Finding_Class: de.lehmannet.om.extension.variableStars.FindingVariableStar
+VS_TargetVariableStar_XSI_Relation_Finding_Type: oal:findingsVariableStarType

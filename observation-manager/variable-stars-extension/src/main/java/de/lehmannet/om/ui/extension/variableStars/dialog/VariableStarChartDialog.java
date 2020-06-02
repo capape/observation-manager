@@ -33,6 +33,7 @@ import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -46,15 +47,17 @@ import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.comparator.ObservationComparator;
 import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.DateConverter;
 
 public class VariableStarChartDialog extends OMDialog implements PropertyChangeListener, ComponentListener {
 
     private static final long serialVersionUID = 3386387945098447550L;
 
-    public VariableStarChartDialog(ObservationManager om, IObservation[] observations, Map<IObserver, Color> colorMap) {
+    public VariableStarChartDialog(JFrame om, UserInterfaceHelper uiHelper, IConfiguration configuration, IObservation[] observations, Map<IObserver, Color> colorMap) {
 
         super(om);
 
@@ -69,7 +72,7 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
         TreeSet<IObservation> sortedObervations = new TreeSet<>(new ObservationComparator(true));
         sortedObervations.addAll(Arrays.asList(observations));
 
-        MagnitudeDiagramm diagramm = new MagnitudeDiagramm(om, sortedObervations, colorMap);
+        MagnitudeDiagramm diagramm = new MagnitudeDiagramm(configuration, uiHelper, sortedObervations, colorMap);
         diagramm.addPropertyChangeListener("exit", this);
         this.setContentPane(diagramm);
         this.setSize(VariableStarChartDialog.serialVersionUID, 830, 600);
@@ -153,8 +156,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     private static final int CIRCLE_DIAMETER = 6;
 
-    private ObservationManager om = null;
-
+  
     // The data to be drawn
     private SortedSet<IObservation> observations = null;
 
@@ -190,19 +192,25 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     // All spots which indicate a observation in the diagramm
     private DataSpot[] dataSpots = null;
 
-    public MagnitudeDiagramm(ObservationManager om, SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
+    private final IConfiguration configuration;
+    private final UserInterfaceHelper uiHelper;
 
-        this.om = om;
+    public MagnitudeDiagramm(IConfiguration configuration, UserInterfaceHelper uiHelper, SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
+
+     
 
         this.observations = this.getObservations(observations, colorMap);
         this.dataSpots = new DataSpot[observations.size()];
         this.colorMap = colorMap;
 
-        if (this.om.isNightVisionEnabled()) {
-            this.setBackground(new Color(255, 175, 175));
-        } else {
-            this.setBackground(Color.white);
-        }
+        this.configuration = configuration;
+        this.uiHelper = uiHelper;
+
+        // if (this.om.isNightVisionEnabled()) {
+        //     this.setBackground(new Color(255, 175, 175));
+        // } else {
+        //     this.setBackground(Color.white);
+        // }
 
         this.addMouseListener(this);
 
@@ -800,7 +808,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         // Get save path
         JFileChooser chooser = new JFileChooser();
 
-        String last = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_LASTDIR);
+        String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
             File dir = new File(last);
             if (dir.exists()) {
@@ -869,9 +877,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         setCursor(hourglassCursor);
 
         if (error) {
-            this.om.createInfo(this.bundle.getString("chart.image.savedNotOK"));
+            this.uiHelper.showInfo(this.bundle.getString("chart.image.savedNotOK"));
         } else {
-            this.om.createInfo(this.bundle.getString("chart.image.savedOK"));
+            this.uiHelper.showInfo(this.bundle.getString("chart.image.savedOK"));
         }
 
     }

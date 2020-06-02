@@ -47,8 +47,6 @@ import org.xml.sax.SAXException;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
 
-
-import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
@@ -310,7 +308,7 @@ public class ExtensionLoader {
     private void loadExtensions() {
 
         this.extensions.add(new GenericExtension());        
-        this.extensions.add(new VariableStarsExtension(om, this.model)); // TODO avoid this dependency
+     
         
         this.loadExternalExtensions();
         try {

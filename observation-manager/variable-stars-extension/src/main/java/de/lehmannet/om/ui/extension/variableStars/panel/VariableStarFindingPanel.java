@@ -30,7 +30,7 @@ import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.ui.container.FindingContainer;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsPreferences;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IFindingPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -53,7 +53,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private ObservationManager om = null;
 
     private FindingVariableStar finding = null;
     private ISession session = null;
@@ -77,10 +76,13 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private JCheckBox starIdentificationUncertain = null;
     private JCheckBox faintStar = null;
 
-    public VariableStarFindingPanel(ObservationManager om, IFinding finding, ISession s, ITarget t, Boolean editable)
+    private final IConfiguration configuration;
+
+    public VariableStarFindingPanel(IConfiguration configuration, IFinding finding, ISession s, ITarget t, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
+        this.configuration = configuration;
 
         if ((finding != null) && !(finding instanceof FindingVariableStar)) {
             // throw new IllegalArgumentException("Passed IFinding must derive from
@@ -97,7 +99,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
             finding = fvs; // Update reference
         }
         this.finding = (FindingVariableStar) finding;
-        this.om = om;
         this.session = s;
         this.target = t;
 
@@ -548,7 +549,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 10, 1, 18, 87);
         constraints.fill = GridBagConstraints.BOTH;
-        this.findingContainer = new FindingContainer(this.om.getConfiguration(), this.finding, this.session, this.isEditable());
+        this.findingContainer = new FindingContainer(this.configuration, this.finding, this.session, this.isEditable());
         gridbag.setConstraints(this.findingContainer, constraints);
         this.add(this.findingContainer);
 
@@ -639,19 +640,19 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private void writeToCache() {
 
         if ((this.isEditable()) && (this.finding != null) && (Boolean
-                .parseBoolean(this.om.getConfiguration().getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
-            IConfiguration config = this.om.getConfiguration();
-            config.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
+                .parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
+            
+            this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
             // Use JTextField here so that we don't need to build up string again
-            config.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); 
+            this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); 
             if (this.nonAAVSOchart.isSelected()) {
-                config.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
+                this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
                         Boolean.toString(this.finding.isNonAAVSOchart()));
             } else {
-                config.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART, null);
+                this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART, null);
             }
             if (this.target != null) {
-                config.setConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, this.target.getName());
+                this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, this.target.getName());
             }
         }
 
@@ -666,22 +667,22 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         if ((this.isEditable())
                 && (Boolean.parseBoolean(
-                        this.om.getConfiguration().getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
-                && (targetName.equals(this.om.getConfiguration()
+                        this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
+                && (targetName.equals(this.configuration
                         .getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
-            IConfiguration config = this.om.getConfiguration();
+            
 
-            String lastChartDate = config.getConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE);
+            String lastChartDate = this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE);
             if ((lastChartDate != null) && !("".equals(lastChartDate.trim()))) {
                 this.chartDate.setText(lastChartDate);
             }
 
-            String lastCompStars = config.getConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS);
+            String lastCompStars = this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS);
             if ((lastCompStars != null) && !("".equals(lastCompStars.trim()))) {
                 this.comparismStars.setText(lastCompStars);
             }
 
-            String lastNonAAVSOChart = config.getConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART);
+            String lastNonAAVSOChart = this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART);
             if ((lastNonAAVSOChart != null) && !("".equals(lastNonAAVSOChart.trim()))) {
                 this.nonAAVSOchart.setSelected(Boolean.parseBoolean(lastNonAAVSOChart));
             }

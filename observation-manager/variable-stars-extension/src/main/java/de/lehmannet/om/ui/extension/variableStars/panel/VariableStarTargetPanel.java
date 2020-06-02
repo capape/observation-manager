@@ -24,9 +24,9 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetStarContainer;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 
@@ -37,7 +37,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private ObservationManager observationManager = null;
+   
     private TargetVariableStar target = null;
 
     private TargetStarContainer targetContainer = null;
@@ -46,8 +46,9 @@ public class VariableStarTargetPanel extends AbstractPanel {
     private JTextField maxApparentMag = null;
     private JTextField period = null;
     private final ObservationManagerModel model;
+    private final IConfiguration configuration;
 
-    public VariableStarTargetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
+    public VariableStarTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
@@ -58,7 +59,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
         }
 
         this.target = (TargetVariableStar) target;
-        this.observationManager = om;
+        this.configuration = configuration;
         this.model = model;
 
         this.createPanel();
@@ -189,7 +190,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.observationManager.getConfiguration(),this.model, this.target, this.isEditable());
+        this.targetContainer = new TargetStarContainer(this.configuration,this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container

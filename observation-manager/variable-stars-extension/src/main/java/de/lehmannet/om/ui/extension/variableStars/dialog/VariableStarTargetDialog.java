@@ -11,20 +11,23 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
+
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 
 public class VariableStarTargetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -5379806312927835453L;
 
-    public VariableStarTargetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget) {
+    public VariableStarTargetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
 
-        super(om,  model, om.getUiHelper(), new VariableStarTargetPanel(om, model, editableTarget, Boolean.TRUE));
+        super(om,  model, uiHelper, new VariableStarTargetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());

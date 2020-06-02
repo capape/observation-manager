@@ -9,6 +9,7 @@ package de.lehmannet.om.ui.extension.variableStars;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -67,13 +68,15 @@ import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
 import de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarChartDialog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
+
 import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class VariableStarsExtension extends AbstractExtension implements ActionListener {
@@ -95,20 +98,18 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     private PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private ObservationManager om = null;
+    
 
     private JMenuItem exportAAVSO = null;
     private JMenuItem showChart = null;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VariableStarsExtension.class);
 
-    private final ObservationManagerModel model;
+    private ObservationManagerModel model;
     private IExtensionContext extensionContext;
 
-    public VariableStarsExtension(ObservationManager om, ObservationManagerModel model) {
+    public VariableStarsExtension() {
 
-        this.om = om;
-        this.model = model;
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_VariableStars.xsd";
 
         this.initFindingPanels();
@@ -120,14 +121,18 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        
         if (e.getSource() instanceof JMenuItem) { // Should always be the case
             JMenuItem source = (JMenuItem) e.getSource();
+            Container om = source.getParent();
+            
             if (source.equals(this.exportAAVSO)) {
 
+                
                 // Get preselected observations
                 IObservation[] allObservations = this.model.getObservations();
                 if (allObservations.length == 0) {
-                    this.om.createInfo(this.uiBundle.getString("info.noObservationsFound"));
+                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("info.noObservationsFound"));
                     return;
                 }
                 List<IObservation> preselectedObservations = new ArrayList<>();
@@ -142,7 +147,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 }
 
                 // Create popup for variable star observations
-                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, this.model,
+                // FIX ME: parent frame instead of null.
+                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(null, this.model,
                         this.uiBundle.getString("popup.exportAAVSO.selectObservations"),
                         TargetVariableStar.XML_XSI_TYPE_VALUE, preselectedObservations, true,
                         SchemaElementConstants.OBSERVATION);
@@ -155,13 +161,13 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                         .collect(Collectors.toList());
 
                 AAVSOVisualSerializer aavsoExport = new AAVSOVisualSerializer(
-                        "Observation Manager - " + ObservationManager.VERSION, results);
+                        "Observation Manager - VariableStars Extension" + VERSION, results);
 
                 // Create export file path
                 String[] files = this.model.getAllOpenedFiles();
                 if ((files == null) || (files.length == 0)) { // There is data (otherwise we wouldn't have come here),
                                                               // but data's not saved
-                    this.om.createInfo(this.uiBundle.getString("error.noXMLFileOpen"));
+                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.noXMLFileOpen"));
                     return;
                 }
 
@@ -187,14 +193,14 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 try {
                     exportCounter = aavsoExport.serialize(new BufferedOutputStream(new FileOutputStream(aavsoFile)));
                 } catch (FileNotFoundException fnfe) {
-                    this.om.createInfo(this.uiBundle.getString("error.aavsoExportFileNotFound"));
+                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.aavsoExportFileNotFound"));
                     System.err.println(fnfe);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     om.setCursor(defaultCursor);
                     return;
                 } catch (Exception ex) {
-                    this.om.createInfo(this.uiBundle.getString("error.aavsoExportNotOK"));
+                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.aavsoExportNotOK"));
                     System.err.println(ex);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -204,16 +210,16 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
                 // Set the om status to changed, as findings have been exported (which changes
                 // their status)
-                this.om.setChanged(true);
+                this.model.setChanged(true);
 
                 Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                 om.setCursor(defaultCursor);
 
                 if (exportCounter != variableStarObservations.size()) { // Not all observations were exported
-                    this.om.createInfo(exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n"
+                    this.extensionContext.getUserInterfaceHelper().showInfo(exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n"
                             + aavsoFile + "\n" + this.uiBundle.getString("info.aavsoExportCheckLog"));
                 } else { // All observations exported
-                    this.om.createInfo(
+                    this.extensionContext.getUserInterfaceHelper().showInfo(
                             exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n" + aavsoFile);
                 }
 
@@ -231,7 +237,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 boolean quitLoop = false;
                 do {
                     try {
-                        popup = new VariableStarSelectorPopup(this.om, this.model);
+                        //FIXME: null->om
+                        popup = new VariableStarSelectorPopup(null, this.extensionContext.getUserInterfaceHelper(), this.model);
                     } catch (IllegalArgumentException iae) { // No variable star observation found
                         return;
                     }
@@ -241,13 +248,13 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
                             if ((observations != null) // No observations for star
                                     && (observations.length <= 0)) {
-                                this.om.createWarning(
+                                this.extensionContext.getUserInterfaceHelper().showWarning(
                                         this.uiBundle.getString("popup.selectVariableStar.warning.noObservations"));
                             } else {
                                 quitLoop = true;
                             }
                         } else { // No Star selected
-                            this.om.createWarning(
+                            this.extensionContext.getUserInterfaceHelper().showWarning(
                                     this.uiBundle.getString("popup.selectVariableStar.warning.noStarSelected"));
                         }
                     } else {
@@ -256,12 +263,13 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 } while (!quitLoop); // Exit loop by pressing cancel
 
                 // Show color selection
-                ColorSelectionDialog colorDialog = new ColorSelectionDialog(this.om, observations);
+                ColorSelectionDialog colorDialog = new ColorSelectionDialog(null, this.extensionContext.getConfiguration(), observations);
                 Map<IObserver, Color> colorMap = colorDialog.getColorMap();
 
                 // Show chart
                 if (colorMap != null) {
-                    new VariableStarChartDialog(this.om, Objects.requireNonNull(observations), colorMap);
+                    new VariableStarChartDialog(null, this.extensionContext.getUserInterfaceHelper(), this.extensionContext.getConfiguration(),
+                    Objects.requireNonNull(observations), colorMap);
                 }
             }
         }
@@ -321,14 +329,14 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     @Override
     public PreferencesPanel getPreferencesPanel() {
 
-        return new VariableStarsPreferences(this.om.getConfiguration());
+        return new VariableStarsPreferences(this.extensionContext.getConfiguration());
 
     }
 
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
 
-        ICatalog gcvs = new GCVS4Catalog(catalogDir.getAbsoluteFile(), this.om);
+        ICatalog gcvs = new GCVS4Catalog(catalogDir.getAbsoluteFile(), this.extensionContext.getConfiguration());
 
         return new ICatalog[] { gcvs };
 
@@ -480,20 +488,23 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
 
     private IObservation[] observations = null;
 
-    private ObservationManager om = null;
+   
     private JTable table = null;
 
     private JButton cancel = null;
 
     private Map<IObserver, Color> result = null;
 
-    public ColorSelectionDialog(ObservationManager om, IObservation[] observations) {
+    private final IConfiguration configuration;
+    
+    public ColorSelectionDialog(JFrame om, IConfiguration configuration, IObservation[] observations) {
 
         super(om);
 
+        this.configuration = configuration;
         this.observations = observations;
 
-        this.om = om;
+        
         this.setTitle(this.bundle.getString("popup.observerColor.title"));
         this.setModal(true);
 
@@ -529,11 +540,11 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 100, 100);
         constraints.fill = GridBagConstraints.BOTH;
         Color defaultColor = null;
-        if (this.om.isNightVisionEnabled()) {
-            defaultColor = Color.DARK_GRAY;
-        } else {
-            defaultColor = Color.RED;
-        }
+        // if (this.om.isNightVisionEnabled()) {
+        //     defaultColor = Color.DARK_GRAY;
+        // } else {
+        //     defaultColor = Color.RED;
+        // }
         this.table = new JTable(new ObserverColorTableModel(this.getObservers(), defaultColor));
         this.table.setToolTipText(this.bundle.getString("popup.observerColor.tooltip.table"));
         this.table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
@@ -591,7 +602,7 @@ class ColorSelectionDialog extends JDialog implements ActionListener {
             if (!list.contains(observation.getObserver())) {
                 // Make sure the default observer is the top entry
                 if (observation.getObserver().getDisplayName()
-                        .equals(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER))) {
+                        .equals(this.configuration.getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER))) {
                     list.add(0, observation.getObserver());
                 } else {
                     list.add(observation.getObserver());
@@ -837,22 +848,26 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
     private Calendar endDate = null;
     private JButton endPicker = null;
 
-    private ObservationManager om = null;
+    
 
     private final PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private ExtendedSchemaTableModel tableModel = null;
     private final ObservationManagerModel model;
+    private final JFrame parent;
+    private final UserInterfaceHelper uiHelper;
 
     /**
      *  @see SchemaElementConstants
      */
-    public VariableStarSelectorPopup(ObservationManager om, ObservationManagerModel model) throws IllegalArgumentException, NoSuchElementException { 
+    public VariableStarSelectorPopup(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model) throws IllegalArgumentException, NoSuchElementException { 
 
         super(om, true);
 
-        this.om = om;
+        this.parent = om;
+        this.uiHelper = uiHelper;
+
         this.model = model;
 
         this.setTitle(this.uiBundle.getString("popup.selectVariableStar.title"));
@@ -869,7 +884,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
         // return...
         Object o = this.tableModel.getValueAt(0, 0);
         if (o == null || (o instanceof String && "".equals(o))) {
-            om.createInfo(this.uiBundle.getString("popup.selectVariableStar.info.noVariableStarObservations"));
+            this.uiHelper.showInfo(this.uiBundle.getString("popup.selectVariableStar.info.noVariableStarObservations"));
             throw new IllegalArgumentException("No Variable Star Observation found.");
         }
 
@@ -933,10 +948,10 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
             } else if (sourceButton.equals(this.beginPicker)) {
                 DatePicker dp = null;
                 if (this.beginDate != null) {
-                    dp = new DatePicker(this.om,
+                    dp = new DatePicker(this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"), this.beginDate);
                 } else {
-                    dp = new DatePicker(this.om,
+                    dp = new DatePicker(this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"));
                 }
 
@@ -952,7 +967,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
                     Calendar last = ((IObservation) set.last()).getBegin();
 
                     if ((dp.getDate().before(first)) || (dp.getDate().after(last))) {
-                        this.om.createWarning(
+                        this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.begin.datePicker.outOfScope"));
                         return;
                     }
@@ -964,13 +979,13 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
             } else if (sourceButton.equals(this.endPicker)) {
                 DatePicker dp = null;
                 if (this.endDate != null) {
-                    dp = new DatePicker(this.om,
+                    dp = new DatePicker(this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.endDate);
                 } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-                    dp = new DatePicker(this.om,
+                    dp = new DatePicker(this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.beginDate);
                 } else {
-                    dp = new DatePicker(this.om,
+                    dp = new DatePicker(this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"));
                 }
 
@@ -986,7 +1001,7 @@ class VariableStarSelectorPopup extends JDialog implements ActionListener, Table
                     Calendar last = ((IObservation) set.last()).getBegin();
 
                     if ((dp.getDate().before(first)) || (dp.getDate().after(last))) {
-                        this.om.createWarning(
+                        this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.end.datePicker.outOfScope"));
                         return;
                     }
