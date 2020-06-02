@@ -29,8 +29,6 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.ui.container.FindingContainer;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
-import de.lehmannet.om.ui.extension.variableStars.VariableStarsPreferences;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IFindingPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;

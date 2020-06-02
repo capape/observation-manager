@@ -223,7 +223,7 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
         // TODO Auto-generated method stub
         return null;

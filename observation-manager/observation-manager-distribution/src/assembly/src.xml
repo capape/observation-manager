@@ -35,6 +35,13 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../variable-stars-extension/target/</directory>
+            <outputDirectory>extensions</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../observation-manager-app/target/</directory>
             <outputDirectory>classpath</outputDirectory>
             <includes>

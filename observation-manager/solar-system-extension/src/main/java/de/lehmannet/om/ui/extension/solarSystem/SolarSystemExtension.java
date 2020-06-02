@@ -253,7 +253,7 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
         return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
     }

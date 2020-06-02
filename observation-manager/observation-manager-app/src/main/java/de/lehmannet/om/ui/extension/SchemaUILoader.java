@@ -241,7 +241,7 @@ public class SchemaUILoader {
 
             if (extension.supports(xsiType)) {
                 LOGGER.debug("New load without reflection");
-                return extension.getFindingPanelForXSIType(xsiType, finding, session, editable);
+                return extension.getFindingPanelForXSIType(xsiType, finding, session, target, editable);
             }
 
 

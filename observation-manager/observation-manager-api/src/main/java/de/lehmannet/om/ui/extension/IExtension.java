@@ -64,7 +64,7 @@ public interface IExtension {
      */
     URL getUpdateInformationURL();
 
-    AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, boolean editable);
+    AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target, boolean editable);
 
     AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable);        
 
