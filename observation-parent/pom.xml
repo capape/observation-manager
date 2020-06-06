@@ -55,6 +55,11 @@
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -234,7 +239,7 @@
                     <artifactId>formatter-maven-plugin</artifactId>
                     <version>${formatter.maven.plugin.version}</version>
                 </plugin>
-               <!-- <plugin>
+                <!-- <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>4.0.0</version>
@@ -246,6 +251,36 @@
                         </dependency>
                     </dependencies>
                 </plugin> -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>8.29</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.github.ngeor</groupId>
+                            <artifactId>checkstyle-rules</artifactId>
+                            <version>1.1.0</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>com/github/ngeor/checkstyle.xml</configLocation>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <!-- To use the plugin goals in your POM or parent POM -->
@@ -256,16 +291,16 @@
                 <version>${formatter.maven.plugin.version}</version>
                 <executions>
                     <execution>
-                      <goals>
-                        <goal>format</goal>
-                      </goals>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${pmd.plugin.version}</version>              
+                <version>${pmd.plugin.version}</version>
             </plugin>
         </plugins>
     </build>

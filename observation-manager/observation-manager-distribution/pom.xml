@@ -18,8 +18,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    
   </properties>
 
   <dependencies>
@@ -39,8 +38,7 @@
 
     <plugins>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
+        <artifactId>maven-assembly-plugin</artifactId>       
         <configuration>
           <descriptors>
             <descriptor>src/assembly/src.xml</descriptor>
