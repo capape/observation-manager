@@ -9,13 +9,27 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <formatter.maven.plugin.version>2.11.0</formatter.maven.plugin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <pmd.plugin.version>3.13.0</pmd.plugin.version>
-        <log4j2.version>2.12.1</log4j2.version>
         <disruptor.version>3.4.2</disruptor.version>
+        <formatter.maven.plugin.version>2.11.0</formatter.maven.plugin.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+
+        <jacoco.instruction.covered.ratio>0.0</jacoco.instruction.covered.ratio>
+        <jacoco.branch.covered.ratio>0.0</jacoco.branch.covered.ratio>
+        <jacoco.complexity.covered.ratio>0.0</jacoco.complexity.covered.ratio>
+        <jacoco.line.covered.ratio>0.0</jacoco.line.covered.ratio>
+        <jacoco.method.covered.ratio>0.0</jacoco.method.covered.ratio>
+        <jacoco.class.covered.ratio>0.0</jacoco.class.covered.ratio>
+        <log4j2.version>2.13.3</log4j2.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.version>13</maven.compiler.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
+        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+        <pmd.plugin.version>3.13.0</pmd.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <spotbugs-maven-plugin>4.0.0</spotbugs-maven-plugin>
 
     </properties>
 
@@ -36,7 +50,7 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j2.version}</version>
             </dependency>
-           <dependency>
+            <dependency>
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
@@ -46,25 +60,192 @@
     <build>
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
+
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <compilerVersion>${maven.compiler.version}</compilerVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                            <include>**/*Tests.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*IntTest.java</exclude>
+                            <exclude>**/*IT.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/*Application.class</exclude>
+                            <exclude>**/client/**</exclude>
+                            <exclude>**/config/**</exclude>
+                            <exclude>**/dto/**</exclude>
+                            <exclude>**/entity/**</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>default-prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>jacoco-check</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <haltOnFailure>true</haltOnFailure>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>INSTRUCTION</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.instruction.covered.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>BRANCH</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.branch.covered.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>COMPLEXITY</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.complexity.covered.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>LINE</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.line.covered.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>METHOD</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.method.covered.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>CLASS</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.class.covered.ratio}</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                    <configuration>
+                        <localCheckout>false</localCheckout>
+                        <pushChanges>true</pushChanges>
+                        <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-scm-plugin</artifactId>
+                            <version>${maven-scm-plugin.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs-maven-plugin}</version>
+                    <configuration>
+                        <effort>Max</effort>
+                        <threshold>Low</threshold>
+                        <failOnError>true</failOnError>
+                        <includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml
+                            </includeFilterFile>
+                        <excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml
+                            </excludeFilterFile>
+                        <plugins>
+                            <plugin>
+                                <groupId>com.h3xstream.findsecbugs</groupId>
+                                <artifactId>findsecbugs-plugin</artifactId>
+                                <version>LATEST</version> <!-- Auto-update to the latest stable -->
+                            </plugin>
+                        </plugins>
+                    </configuration>
+
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>3.6.3</version>
+                                    </requireMavenVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>net.revelc.code.formatter</groupId>
                     <artifactId>formatter-maven-plugin</artifactId>
                     <version>${formatter.maven.plugin.version}</version>
                 </plugin>
-                <plugin>
+               <!-- <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>4.0.0</version>
-                    <dependencies>
-                      <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-                      <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>4.0.2</version>
-                      </dependency>
+                    <dependencies>                        
+                        <dependency>
+                            <groupId>com.github.spotbugs</groupId>
+                            <artifactId>spotbugs</artifactId>
+                            <version>4.0.2</version>
+                        </dependency>
                     </dependencies>
-                  </plugin>
+                </plugin> -->
             </plugins>
         </pluginManagement>
         <!-- To use the plugin goals in your POM or parent POM -->
@@ -73,17 +254,18 @@
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <version>${formatter.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                      <goals>
+                        <goal>format</goal>
+                      </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${pmd.plugin.version}</version>
-                <configuration>
-                    <rulesets>
-                        <ruleset>${project.basedir}/pmd/ruleset.xml</ruleset>
-                    </rulesets>
-                </configuration>
-
+                <version>${pmd.plugin.version}</version>              
             </plugin>
         </plugins>
     </build>
