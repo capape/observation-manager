@@ -49,18 +49,18 @@ public class TargetStar extends Target {
     // ------------
 
     /**
-     * Constructs a new instance of a TargetStar from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a TargetStar from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
     protected TargetStar(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -168,10 +168,11 @@ public class TargetStar extends Target {
     // ------
 
     /**
-     * Adds this TargetStar to a given parent XML DOM Element. The Target element
-     * will be set as a child element of the passed element.
+     * Adds this TargetStar to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this TargetStar
+     * @param parent
+     *            The parent element for this TargetStar
      * @see org.w3c.dom.Element
      */
     @Override
@@ -208,8 +209,7 @@ public class TargetStar extends Target {
      * Returns the apparent magnitude of the star.<br>
      * Might be Float.NaN if value was never set.
      * 
-     * @return The apparent magnitude of the star or Float.NaN if value was never
-     *         set
+     * @return The apparent magnitude of the star or Float.NaN if value was never set
      */
     public float getMagnitudeApparent() {
 
@@ -267,10 +267,10 @@ public class TargetStar extends Target {
     // -----------------
 
     /**
-     * Creates a deepkSkyTarget under the target container. If no target container
-     * exists under the given elements ownerDocument, it will be created.<br>
-     * This method should be called by subclasses, so that they only have to add
-     * their specific data to the element returned. Example:<br>
+     * Creates a deepkSkyTarget under the target container. If no target container exists under the given elements
+     * ownerDocument, it will be created.<br>
+     * This method should be called by subclasses, so that they only have to add their specific data to the element
+     * returned. Example:<br>
      * &lt;parameterElement&gt;<br>
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
@@ -282,11 +282,12 @@ public class TargetStar extends Target {
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
      * 
-     * @param element The element under which the the target link is created
-     * @param xsiType The XSI:Type identification of the child class
-     * @return Returns a new created target Element that contains all data from a
-     *         DeepSkyTarget. Please mind, NOT the passed element is given, but a
-     *         child element of the passed elements ownerDocument. Might return
+     * @param element
+     *            The element under which the the target link is created
+     * @param xsiType
+     *            The XSI:Type identification of the child class
+     * @return Returns a new created target Element that contains all data from a DeepSkyTarget. Please mind, NOT the
+     *         passed element is given, but a child element of the passed elements ownerDocument. Might return
      *         <code>null</code> if element was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -376,14 +377,13 @@ public class TargetStar extends Target {
 
     /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
-     * Checks if this TargetStar and the given Object are equal. The given object is
-     * equal with this TargetStar, if it derives from ITarget, both XSI types are
-     * equal and its name equals this TargetStar name.<br>
+     * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
+     * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
      * 
-     * @param obj The Object to compare this TargetStar with.
-     * @return <code>true</code> if the given Object is an instance of ITarget, both
-     *         XSI types are equal and its name is equal to this TargetStar
-     *         name.<br>
+     * @param obj
+     *            The Object to compare this TargetStar with.
+     * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
+     *         equal to this TargetStar name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
      * @see java.lang.Object
      */

@@ -38,8 +38,8 @@ public class SolarSystemTargetSunPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private final ObservationManagerModel model;
 
-    public SolarSystemTargetSunPanel(IConfiguration om, ObservationManagerModel model, ITarget target, IObservation o, Boolean editable)
-            throws IllegalArgumentException {
+    public SolarSystemTargetSunPanel(IConfiguration om, ObservationManagerModel model, ITarget target, IObservation o,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -118,7 +118,8 @@ public class SolarSystemTargetSunPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
+                true);
         if ((!this.isEditable()) && (this.observation != null)) {
             this.targetContainer.setPosition(Ephemerides.getSunPosition(this.observation.getBegin()));
         }

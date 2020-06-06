@@ -20,14 +20,14 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetPNPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class DeepSkyTargetPNDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = 5570306211051069777L;
 
-    public DeepSkyTargetPNDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,ITarget editableTarget) {
+    public DeepSkyTargetPNDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om,  model, uiHelper, new DeepSkyTargetPNPanel(uiHelper, model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper, new DeepSkyTargetPNPanel(uiHelper, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());

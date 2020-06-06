@@ -12,125 +12,119 @@ import de.lehmannet.om.util.SchemaException;
 
 public class FilterMapper {
 
-
     public static String getOptionalVendorName(Element filterElement) throws SchemaException {
-        
-        
+
         // Get optional vendor name
-        
+
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_VENDOR);
         StringBuilder vendor = new StringBuilder();
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if (textElements.getLength() > 0) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            vendor.append(textElements.item(te).getNodeValue());
-                        }
-                        return vendor.toString().trim();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        vendor.append(textElements.item(te).getNodeValue());
                     }
-                } else {
-                    throw new SchemaException("Problem while retrieving vendor name from filter. ");
+                    return vendor.toString().trim();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one vendor name. ");
+            } else {
+                throw new SchemaException("Problem while retrieving vendor name from filter. ");
             }
-        
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Filter can have only one vendor name. ");
+        }
+
         return null;
     }
-    
+
     public static String getOptionalSchottValue(Element filterElement) throws SchemaException {
-        
-        
+
         // Get optional schott value
-        
+
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_SCHOTT);
         StringBuilder schott = new StringBuilder();
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if (textElements.getLength() > 0) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            schott.append(textElements.item(te).getNodeValue());
-                        }
-                        return schott.toString().trim();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        schott.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * schott = child.getFirstChild().getNodeValue(); if( schott != null ) { this.setSchott(schott); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving schott value from filter. ");
+                    return schott.toString().trim();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one schott value. ");
+                /*
+                 * schott = child.getFirstChild().getNodeValue(); if( schott != null ) { this.setSchott(schott); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving schott value from filter. ");
             }
-        
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Filter can have only one schott value. ");
+        }
+
         return null;
     }
-    
+
     public static String getOptionalWrattenValue(Element filterElement) throws SchemaException {
-        
-        
+
         // Get optional wratten value
-        
+
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_WRATTEN);
         StringBuilder wratten = new StringBuilder();
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if (textElements.getLength() > 0) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            wratten.append(textElements.item(te).getNodeValue());
-                        }
-                        return wratten.toString().trim();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        wratten.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) { this.setWratten(wratten);
-                     * }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving wratten value from filter. ");
+                    return wratten.toString().trim();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one wratten value. ");
+                /*
+                 * wratten = child.getFirstChild().getNodeValue(); if( wratten != null ) { this.setWratten(wratten); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving wratten value from filter. ");
             }
-        
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Filter can have only one wratten value. ");
+        }
+
         return null;
     }
-    
+
     public static String getOptionalColor(Element filterElement) throws SchemaException {
-        
-        
+
         // Get optional color
-        
+
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_COLOR);
         StringBuilder color = new StringBuilder();
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    NodeList textElements = child.getChildNodes();
-                    if (textElements.getLength() > 0) {
-                        for (int te = 0; te < textElements.getLength(); te++) {
-                            color.append(textElements.item(te).getNodeValue());
-                        }
-                        return color.toString().trim();
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                NodeList textElements = child.getChildNodes();
+                if (textElements.getLength() > 0) {
+                    for (int te = 0; te < textElements.getLength(); te++) {
+                        color.append(textElements.item(te).getNodeValue());
                     }
-                    /*
-                     * color = child.getFirstChild().getNodeValue(); if( color != null ) { this.setColor(color); }
-                     */
-                } else {
-                    throw new SchemaException("Problem while retrieving color from filter. ");
+                    return color.toString().trim();
                 }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Filter can have only one color. ");
+                /*
+                 * color = child.getFirstChild().getNodeValue(); if( color != null ) { this.setColor(color); }
+                 */
+            } else {
+                throw new SchemaException("Problem while retrieving color from filter. ");
             }
-        
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Filter can have only one color. ");
+        }
+
         return null;
     }
-    
+
     public static boolean getOptionalAvailability(Element filterElement) {
         // Search for optional availability comment within nodes
         NodeList list = filterElement.getChildNodes();
@@ -138,16 +132,15 @@ public class FilterMapper {
             Node c = list.item(i);
             if (c.getNodeType() == Node.COMMENT_NODE) {
                 if (IEquipment.XML_COMMENT_ELEMENT_NOLONGERAVAILABLE.equals(c.getNodeValue())) {
-                   return false;
+                    return false;
                 }
             }
         }
         return true;
     }
-    
+
     public static String getMandatoryType(Element filterElement) throws SchemaException {
-        
-        
+
         // Get mandatory type
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_TYPE);
         if (children.getLength() != 1) {
@@ -165,7 +158,7 @@ public class FilterMapper {
                         type.append(textElements.item(te).getNodeValue());
                     }
                     return type.toString().trim();
-                   
+
                 }
                 // type = child.getFirstChild().getNodeValue();
             } else {
@@ -174,10 +167,9 @@ public class FilterMapper {
         }
         return "";
     }
-    
+
     public static String getMandatoryModel(Element filterElement) throws SchemaException {
-        
-        
+
         // Get mandatory model
         NodeList children = filterElement.getElementsByTagName(IFilter.XML_ELEMENT_MODEL);
         if (children.getLength() != 1) {
@@ -194,7 +186,7 @@ public class FilterMapper {
                     for (int te = 0; te < textElements.getLength(); te++) {
                         model.append(textElements.item(te).getNodeValue());
                     }
-                   return model.toString().trim();
+                    return model.toString().trim();
                 }
                 // model = child.getFirstChild().getNodeValue();
             } else {
@@ -203,7 +195,7 @@ public class FilterMapper {
         }
         return "";
     }
-    
+
     public static String getID(Element filterElement) throws SchemaException {
         // Get ID from element
         String ID = filterElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);

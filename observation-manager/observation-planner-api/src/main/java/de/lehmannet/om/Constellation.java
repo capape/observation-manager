@@ -13,105 +13,153 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 /**
- * Constellation enum represents all 88 IAU constellations. The constellation name (and abbreviation) used in this
- * class is in latin.
+ * Constellation enum represents all 88 IAU constellations. The constellation name (and abbreviation) used in this class
+ * is in latin.
  *
- * @author doergn@users.sourceforge.net
- *         capapecd cagil
+ * @author doergn@users.sourceforge.net capapecd cagil
  * @since 2.0
  */
 public enum Constellation {
 
-   // Each constellation is created once in a static manner
+    // Each constellation is created once in a static manner
 
-    ANDROMEDA("And", "Andromeda"),
-    ANTLIA("Ant", "Antlia"),
-    APUS("Aps", "Apus"),
-    AQUARIUS("Aqr", "Aquarius"),
-    AQUILA("Aql", "Aquila"),
-    ARA("Ara", "Ara"),
-    ARIES("Ari", "Aries"),
-    AURIGA("Aur", "Auriga"),
-    BOOTES("Boo", "Bootes"),
-    CAELUM("Cae", "Caelum"),
-    CAMELOPARDALIS("Cam", "Camelopardalis"),
-    CANCER("Cnc", "Cancer"),
-    CANES_VENATICI("CVn", "Canes Venatici"),
-    CANIS_MAIOR("CMa", "Canis Maior"),
-    CANIS_MINOR("CMi", "Canis Minor"),
-    CAPRICORNUS("Cap", "Capricornus"),
-    CARINA("Car", "Carina"),
-    CASSIOPEIA("Cas", "Cassiopeia"),
-    CENTAURUS("Cen", "Centaurus"),
-    CEPHEUS("Cep", "Cepheus"),
-    CETUS("Cet", "Cetus"),
-    CHAMAELEON("Cha", "Chamaeleon"),
-    CIRCINUS("Cir", "Circinus"),
-    COLUMBA("Col", "Columba"),
-    COMA_BERENICES("Com", "Coma Berenices"),
-    CORONA_AUSTRALIS("CrA", "Corona Australis"),
-    CORONA_BOREALIS("CrB", "Corona Borealis"),
-    CORVUS("Crv", "Corvus"),
-    CRATER("Crt", "Crater"),
-    CRUX("Cru", "Crux"),
-    CYGNUS("Cyg", "Cygnus"),
-    DELPHINUS("Del", "Delphinus"),
-    DORADO("Dor", "Dorado"),
-    DRACO("Dra", "Draco"),
-    EQUULEUS("Equ", "Equuleus"),
-    ERIDANUS("Eri", "Eridanus"),
-    FORNAX("For", "Fornax"),
-    GEMINI("Gem", "Gemini"),
-    GRUS("Gru", "Grus"),
-    HERCULES("Her", "Hercules"),
-    HOROLOGIUM("Hor", "Horologium"),
-    HYDRA("Hya", "Hydra"),
-    HYDRUS("Hyi", "Hydrus"),
-    INDUS("Ind", "Indus"),
-    LACERTA("Lac", "Lacerta"),
-    LEO("Leo", "Leo"),
-    LEO_MINOR("LMi", "Leo Minor"),
-    LEPUS("Lep", "Lepus"),
-    LIBRA("Lib", "Libra"),
-    LUPUS("Lup", "Lupus"),
-    LYNX("Lyn", "Lynx"),
-    LYRA("Lyr", "Lyra"),
-    MENSA("Men", "Mensa"),
-    MICROSCOPUS("Mic", "Microscopus"),
-    MONOCERUS("Mon", "Monocerus"),
-    MUSCA("Mus", "Musca"),
-    NORMA("Nor", "Norma"),
-    OCTANS("Oct", "Octans"),
-    OPHIUCHUS("Oph", "Ophiuchus"),
-    ORION("Ori", "Orion"),
-    PAVO("Pav", "Pavo"),
-    PEGASUS("Peg", "Pegasus"),
-    PERSEUS("Per", "Perseus"),
-    PHOENIX("Phe", "Phoenix"),
-    PICTOR("Pic", "Pictor"),
-    PISCES_AUSTRINUS("PsA", "Pisces Austrinus"),
-    PISCES("Psc", "Pisces"),
-    PUPPIS("Pup", "Puppis"),
-    PYXIS("Pyx", "Pyxis"),
-    RETICULUM("Ret", "Reticulum"),
-    SAGITTA("Sge", "Sagitta"),
-    SAGITTARIUS("Sgr", "Sagittarius"),
-    SCORPIUS("Sco", "Scorpius"),
-    SCULPTOR("Scl", "Sculptor"),
-    SCUTUM("Sct", "Scutum"),
-    SERPENS("Ser", "Serpens"),
-    SEXTANS("Sex", "Sextans"),
-    TAURUS("Tau", "Taurus"),
-    TELESCOPIUM("Tel", "Telescopium"),
-    TRIANGULUM_AUSTRALIS("TrA", "Triangulum Australis"),
-    TRIANGULUM("Tri", "Triangulum"),
-    TUCANA("Tuc", "Tucana"),
-    URSA_MAIOR("UMa", "Ursa Maior"),
-    URSA_MINOR("UMi", "Ursa Minor"),
-    VELA("Vel", "Vela"),
-    VIRGO("Vir", "Virgo"),
-    VOLANS("Vol", "Volans"),
-    VULPECULA("Vul", "Vulpecula");
+    ANDROMEDA("And", "Andromeda"), ANTLIA("Ant", "Antlia"), APUS("Aps", "Apus"), AQUARIUS("Aqr", "Aquarius"), AQUILA(
+            "Aql", "Aquila"), ARA("Ara", "Ara"), ARIES("Ari", "Aries"), AURIGA("Aur", "Auriga"), BOOTES("Boo",
+                    "Bootes"), CAELUM("Cae", "Caelum"), CAMELOPARDALIS("Cam", "Camelopardalis"), CANCER("Cnc",
+                            "Cancer"), CANES_VENATICI("CVn", "Canes Venatici"), CANIS_MAIOR("CMa",
+                                    "Canis Maior"), CANIS_MINOR("CMi", "Canis Minor"), CAPRICORNUS("Cap",
+                                            "Capricornus"), CARINA("Car", "Carina"), CASSIOPEIA("Cas",
+                                                    "Cassiopeia"), CENTAURUS("Cen", "Centaurus"), CEPHEUS("Cep",
+                                                            "Cepheus"), CETUS("Cet", "Cetus"), CHAMAELEON("Cha",
+                                                                    "Chamaeleon"), CIRCINUS("Cir", "Circinus"), COLUMBA(
+                                                                            "Col", "Columba"), COMA_BERENICES("Com",
+                                                                                    "Coma Berenices"), CORONA_AUSTRALIS(
+                                                                                            "CrA",
+                                                                                            "Corona Australis"), CORONA_BOREALIS(
+                                                                                                    "CrB",
+                                                                                                    "Corona Borealis"), CORVUS(
+                                                                                                            "Crv",
+                                                                                                            "Corvus"), CRATER(
+                                                                                                                    "Crt",
+                                                                                                                    "Crater"), CRUX(
+                                                                                                                            "Cru",
+                                                                                                                            "Crux"), CYGNUS(
+                                                                                                                                    "Cyg",
+                                                                                                                                    "Cygnus"), DELPHINUS(
+                                                                                                                                            "Del",
+                                                                                                                                            "Delphinus"), DORADO(
+                                                                                                                                                    "Dor",
+                                                                                                                                                    "Dorado"), DRACO(
+                                                                                                                                                            "Dra",
+                                                                                                                                                            "Draco"), EQUULEUS(
+                                                                                                                                                                    "Equ",
+                                                                                                                                                                    "Equuleus"), ERIDANUS(
+                                                                                                                                                                            "Eri",
+                                                                                                                                                                            "Eridanus"), FORNAX(
+                                                                                                                                                                                    "For",
+                                                                                                                                                                                    "Fornax"), GEMINI(
+                                                                                                                                                                                            "Gem",
+                                                                                                                                                                                            "Gemini"), GRUS(
+                                                                                                                                                                                                    "Gru",
+                                                                                                                                                                                                    "Grus"), HERCULES(
+                                                                                                                                                                                                            "Her",
+                                                                                                                                                                                                            "Hercules"), HOROLOGIUM(
+                                                                                                                                                                                                                    "Hor",
+                                                                                                                                                                                                                    "Horologium"), HYDRA(
+                                                                                                                                                                                                                            "Hya",
+                                                                                                                                                                                                                            "Hydra"), HYDRUS(
+                                                                                                                                                                                                                                    "Hyi",
+                                                                                                                                                                                                                                    "Hydrus"), INDUS(
+                                                                                                                                                                                                                                            "Ind",
+                                                                                                                                                                                                                                            "Indus"), LACERTA(
+                                                                                                                                                                                                                                                    "Lac",
+                                                                                                                                                                                                                                                    "Lacerta"), LEO(
+                                                                                                                                                                                                                                                            "Leo",
+                                                                                                                                                                                                                                                            "Leo"), LEO_MINOR(
+                                                                                                                                                                                                                                                                    "LMi",
+                                                                                                                                                                                                                                                                    "Leo Minor"), LEPUS(
+                                                                                                                                                                                                                                                                            "Lep",
+                                                                                                                                                                                                                                                                            "Lepus"), LIBRA(
+                                                                                                                                                                                                                                                                                    "Lib",
+                                                                                                                                                                                                                                                                                    "Libra"), LUPUS(
+                                                                                                                                                                                                                                                                                            "Lup",
+                                                                                                                                                                                                                                                                                            "Lupus"), LYNX(
+                                                                                                                                                                                                                                                                                                    "Lyn",
+                                                                                                                                                                                                                                                                                                    "Lynx"), LYRA(
+                                                                                                                                                                                                                                                                                                            "Lyr",
+                                                                                                                                                                                                                                                                                                            "Lyra"), MENSA(
+                                                                                                                                                                                                                                                                                                                    "Men",
+                                                                                                                                                                                                                                                                                                                    "Mensa"), MICROSCOPUS(
+                                                                                                                                                                                                                                                                                                                            "Mic",
+                                                                                                                                                                                                                                                                                                                            "Microscopus"), MONOCERUS(
+                                                                                                                                                                                                                                                                                                                                    "Mon",
+                                                                                                                                                                                                                                                                                                                                    "Monocerus"), MUSCA(
+                                                                                                                                                                                                                                                                                                                                            "Mus",
+                                                                                                                                                                                                                                                                                                                                            "Musca"), NORMA(
+                                                                                                                                                                                                                                                                                                                                                    "Nor",
+                                                                                                                                                                                                                                                                                                                                                    "Norma"), OCTANS(
+                                                                                                                                                                                                                                                                                                                                                            "Oct",
+                                                                                                                                                                                                                                                                                                                                                            "Octans"), OPHIUCHUS(
+                                                                                                                                                                                                                                                                                                                                                                    "Oph",
+                                                                                                                                                                                                                                                                                                                                                                    "Ophiuchus"), ORION(
+                                                                                                                                                                                                                                                                                                                                                                            "Ori",
+                                                                                                                                                                                                                                                                                                                                                                            "Orion"), PAVO(
+                                                                                                                                                                                                                                                                                                                                                                                    "Pav",
+                                                                                                                                                                                                                                                                                                                                                                                    "Pavo"), PEGASUS(
+                                                                                                                                                                                                                                                                                                                                                                                            "Peg",
+                                                                                                                                                                                                                                                                                                                                                                                            "Pegasus"), PERSEUS(
+                                                                                                                                                                                                                                                                                                                                                                                                    "Per",
+                                                                                                                                                                                                                                                                                                                                                                                                    "Perseus"), PHOENIX(
+                                                                                                                                                                                                                                                                                                                                                                                                            "Phe",
+                                                                                                                                                                                                                                                                                                                                                                                                            "Phoenix"), PICTOR(
+                                                                                                                                                                                                                                                                                                                                                                                                                    "Pic",
+                                                                                                                                                                                                                                                                                                                                                                                                                    "Pictor"), PISCES_AUSTRINUS(
+                                                                                                                                                                                                                                                                                                                                                                                                                            "PsA",
+                                                                                                                                                                                                                                                                                                                                                                                                                            "Pisces Austrinus"), PISCES(
+                                                                                                                                                                                                                                                                                                                                                                                                                                    "Psc",
+                                                                                                                                                                                                                                                                                                                                                                                                                                    "Pisces"), PUPPIS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                            "Pup",
+                                                                                                                                                                                                                                                                                                                                                                                                                                            "Puppis"), PYXIS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Pyx",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Pyxis"), RETICULUM(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Ret",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Reticulum"), SAGITTA(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sge",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sagitta"), SAGITTARIUS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Sgr",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Sagittarius"), SCORPIUS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sco",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Scorpius"), SCULPTOR(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Scl",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Sculptor"), SCUTUM(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sct",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Scutum"), SERPENS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Ser",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Serpens"), SEXTANS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sex",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Sextans"), TAURUS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Tau",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Taurus"), TELESCOPIUM(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Tel",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Telescopium"), TRIANGULUM_AUSTRALIS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "TrA",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Triangulum Australis"), TRIANGULUM(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Tri",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Triangulum"), TUCANA(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Tuc",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Tucana"), URSA_MAIOR(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "UMa",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Ursa Maior"), URSA_MINOR(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "UMi",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Ursa Minor"), VELA(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Vel",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Vela"), VIRGO(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Vir",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Virgo"), VOLANS(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Vol",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "Volans"), VULPECULA(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Vul",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "Vulpecula");
 
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("Constellations",
             Locale.getDefault());
@@ -121,7 +169,7 @@ public enum Constellation {
 
     // Constellation name in latin
     private String name;
-    
+
     private Constellation(String abb, String name) {
         this.abbreviation = abb;
         this.name = name;
@@ -134,7 +182,7 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values ()) {
+        for (Constellation item : Constellation.values()) {
             if (item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }
@@ -151,7 +199,7 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values ()) {
+        for (Constellation item : Constellation.values()) {
             if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
                 return item;
             }
@@ -168,7 +216,7 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values ()) {
+        for (Constellation item : Constellation.values()) {
             if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {
                 return item;
             }

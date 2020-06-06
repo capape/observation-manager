@@ -139,14 +139,12 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
      * 
      * RootElement root = new RootElement();
      * 
-     * // @todo This only works for ONE file opened... if( observation == null ) {
-     * // Nothing to save return null; }
+     * // @todo This only works for ONE file opened... if( observation == null ) { // Nothing to save return null; }
      * 
      * this.addObservationAndDependentToRoot(observation, root);
      * 
      * try { if( root != null ) { return root.getDocument(); } else {
-     * System.err.println("Unable to retrieve DOM Document\n"); } }
-     * catch(SchemaException se) {
+     * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
      * System.err.println("Unable to retrieve DOM Document\n" + se); }
      * 
      * return null;
@@ -985,7 +983,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             ITarget[] targets = loader.getTargets();
             ILens[] lenses = loader.getLenses();
 
-            
             // Delete all old stuff
             this.cache.clear();
 
@@ -2604,9 +2601,8 @@ class CacheEntry {
         List<ISchemaElement> dependencyList = new ArrayList<>();
 
         /*
-         * IObserver creator = ((ITarget)element).getObserver(); // Delete only targets
-         * created/edited by Observers if( creator == null ) { return null; // Return
-         * null to indicate error }
+         * IObserver creator = ((ITarget)element).getObserver(); // Delete only targets created/edited by Observers if(
+         * creator == null ) { return null; // Return null to indicate error }
          */// Allow deletion of catalog elements
 
         SchemaElementCacheEntry[] newArray = new SchemaElementCacheEntry[this.target.length - 1];
@@ -2960,8 +2956,8 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
     public List<T> getReferencedElements() {
 
         /*
-         * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new
-         * ISchemaElement[] {}); Arrays.sort(result, new ObservationComparator());
+         * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new ISchemaElement[] {});
+         * Arrays.sort(result, new ObservationComparator());
          * 
          * return result;
          */

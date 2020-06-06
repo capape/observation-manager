@@ -1,6 +1,5 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -15,7 +14,6 @@ import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-
 
 public class ColorEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 

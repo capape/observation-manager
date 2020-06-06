@@ -22,9 +22,10 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -923728327119653756L;
 
-    public TargetStarDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,ITarget editableTarget) {
+    public TargetStarDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om,  model, uiHelper, new TargetStarPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper, new TargetStarPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());

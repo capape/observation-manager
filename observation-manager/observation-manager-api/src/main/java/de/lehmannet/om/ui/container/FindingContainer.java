@@ -36,17 +36,17 @@ import de.lehmannet.om.ui.util.IConfiguration;
 public class FindingContainer extends Container implements MouseListener {
 
     /**
-	 *
-	 */
-	private static final long serialVersionUID = 6234708970033440904L;
+     *
+     */
+    private static final long serialVersionUID = 6234708970033440904L;
 
-	private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
     private IFinding finding = null;
     private ISession session = null;
     private boolean editable = false;
-    
+
     private JTextArea description = null;
 
     private LanguageBox language = null;
@@ -54,14 +54,12 @@ public class FindingContainer extends Container implements MouseListener {
 
     public FindingContainer(IConfiguration configuration, IFinding finding, ISession session, boolean editable) {
 
-        
         this.finding = finding;
         this.session = session;
         this.editable = editable;
         this.configuration = configuration;
 
-        this.language = new LanguageBox(this.configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG),
-                true);
+        this.language = new LanguageBox(this.configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
 
         this.createContainer();
 
@@ -133,11 +131,11 @@ public class FindingContainer extends Container implements MouseListener {
             this.description.setText(this.finding.getDescription());
         }
         // if (!this.editable) {
-        //     if (this.om.isNightVisionEnabled()) {
-        //         this.description.setBackground(new Color(255, 175, 175));
-        //     } else {
-        //         this.description.setBackground(Color.WHITE);
-        //     }
+        // if (this.om.isNightVisionEnabled()) {
+        // this.description.setBackground(new Color(255, 175, 175));
+        // } else {
+        // this.description.setBackground(Color.WHITE);
+        // }
         // }
         JScrollPane descriptionScroll = new JScrollPane(this.description);
         descriptionScroll.setMinimumSize(new Dimension(300, 60));

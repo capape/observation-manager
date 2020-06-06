@@ -66,8 +66,7 @@ import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
 
 /**
- * The SchemaLoader provides loading facilities to load (parse) a XML Schema
- * file.<br>
+ * The SchemaLoader provides loading facilities to load (parse) a XML Schema file.<br>
  * You can see this as a Factory of the Schema Objects.
  *
  * @author doergn@users.sourceforge.net
@@ -134,14 +133,15 @@ public class SchemaLoader {
     /**
      * Gets a ITarget object (e.g. DeepSkyTarget) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <target>...</target>
-     * @param observers   A array of Observers that are needed to instanciate a
-     *                    object of type Target
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <target>...</target>
+     * @param observers
+     *            A array of Observers that are needed to instanciate a object of type Target
      * @return A ITarget that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
     private static ITarget getTargetFromXSIType(String xsiType, Node currentNode, IObserver... observers)
             throws SchemaException {
@@ -154,12 +154,13 @@ public class SchemaLoader {
     /**
      * Gets a IFinding object (e.g. DeepSkyFinding) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <result>...</result>
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <result>...</result>
      * @return A IFinding that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
     public static IFinding getFindingFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
@@ -170,12 +171,13 @@ public class SchemaLoader {
     /**
      * Gets a IImager object (e.g. CCDImager) from a given xsiType.
      *
-     * @param xsiType     The unique xsi:Type that identifies the object/element
-     * @param currentNode The XML Node that represents the object e.g.
-     *                    <imager>...</imager>
+     * @param xsiType
+     *            The unique xsi:Type that identifies the object/element
+     * @param currentNode
+     *            The XML Node that represents the object e.g. <imager>...</imager>
      * @return A IImager that represents the given node as Java object
-     * @throws SchemaException if the given node is not well formed according to the
-     *                         Schema specifications
+     * @throws SchemaException
+     *             if the given node is not well formed according to the Schema specifications
      */
     private static IImager getImagerFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
@@ -250,9 +252,12 @@ public class SchemaLoader {
     /**
      * Loads/parses a XML File
      *
-     * @param schemaPath The path to the XML Schemas
-     * @throws OALException    if schema File cannot be accessed
-     * @throws SchemaException if XML File is not valid
+     * @param schemaPath
+     *            The path to the XML Schemas
+     * @throws OALException
+     *             if schema File cannot be accessed
+     * @throws SchemaException
+     *             if XML File is not valid
      */
     public RootElement load(File xmlFile, File schemaPath) throws OALException, SchemaException {
 
@@ -281,7 +286,7 @@ public class SchemaLoader {
 
             validator.validate(new StreamSource(xmlFile));
         } catch (IOException | SAXException e) {
-            LOGGER.error("Error parsing xml file: {}", e.getLocalizedMessage(),e);
+            LOGGER.error("Error parsing xml file: {}", e.getLocalizedMessage(), e);
             // throw new SchemaException("Unable to parse xml file");
         }
 
@@ -307,10 +312,11 @@ public class SchemaLoader {
 
     /**
      * Adds a new classloader to the SchemaLoader.<br>
-     * Additional classloaders will be used in case a requested class cannot be
-     * found on the default classloaders search path.
+     * Additional classloaders will be used in case a requested class cannot be found on the default classloaders search
+     * path.
      *
-     * @param classloader A new classloader
+     * @param classloader
+     *            A new classloader
      */
     public static void addClassloader(ClassLoader classloader) {
 
@@ -323,9 +329,12 @@ public class SchemaLoader {
     /**
      * Loads/parses a XML Document
      *
-     * @param doc The XML Document which should be parsed
-     * @throws OALException    if doc is <code>NULL</code> or empty
-     * @throws SchemaException if XML File is not valid
+     * @param doc
+     *            The XML Document which should be parsed
+     * @throws OALException
+     *             if doc is <code>NULL</code> or empty
+     * @throws SchemaException
+     *             if XML File is not valid
      */
     private RootElement load(Document doc) throws OALException, SchemaException {
 
@@ -492,11 +501,12 @@ public class SchemaLoader {
     /**
      * Loads objects for a given xsiType via reflection
      *
-     * @param xsiType     The xsiType that specifies the Object
-     * @param currentNode The XML node that represents the Object e.g.
-     *                    <target>...</target>
-     * @param observers   Needed for Target Objects, can be <code>null</code> for
-     *                    Findings
+     * @param xsiType
+     *            The xsiType that specifies the Object
+     * @param currentNode
+     *            The XML node that represents the Object e.g. <target>...</target>
+     * @param observers
+     *            Needed for Target Objects, can be <code>null</code> for Findings
      */
     private static Object getObjectFromXSIType(String xsiType, Node currentNode, IObserver[] observers,
             SchemaElementConstants schemaElementType) throws SchemaException {

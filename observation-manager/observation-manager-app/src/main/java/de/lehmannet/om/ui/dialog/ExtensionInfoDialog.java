@@ -58,7 +58,6 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
         this.setVisible(true);
-       
 
     }
 

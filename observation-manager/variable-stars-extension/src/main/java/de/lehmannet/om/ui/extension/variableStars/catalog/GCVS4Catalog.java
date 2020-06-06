@@ -127,7 +127,7 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_VULPECULA = new int[] { 39914, 40370 };
 
     private File catalogFile = null;
-    
+
     private final IConfiguration configuration;
 
     public GCVS4Catalog(File catalogDir, IConfiguration configuration) {

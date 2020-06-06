@@ -161,9 +161,8 @@ public class SkyChartClient implements IExtension, ActionListener {
         // ---- Set observation site
         /*
          * if( observation.getSite() != null ) { commands = new String[1]; commands[0] =
-         * this.createSiteCommand(observation.getSite()); response =
-         * this.sendData(socket, commands[0]); if( response == null ) { return; //
-         * Something went wrong. User is already informed, so cancel here. } }
+         * this.createSiteCommand(observation.getSite()); response = this.sendData(socket, commands[0]); if( response ==
+         * null ) { return; // Something went wrong. User is already informed, so cancel here. } }
          */
 
         // ---- Set observation date

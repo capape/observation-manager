@@ -35,7 +35,7 @@ import de.lehmannet.om.util.SchemaException;
  */
 public abstract class SolarSystemTarget extends Target {
 
-// Key IDs for major solar system bodies
+    // Key IDs for major solar system bodies
     public static final String KEY_SUN = "SUN";
     public static final String KEY_MERCURY = "MERCURY";
     public static final String KEY_VENUS = "VENUS";
@@ -61,7 +61,7 @@ public abstract class SolarSystemTarget extends Target {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of a SolarSystemTarget from a given DOM target Element.<br>
      * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
      * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
@@ -83,7 +83,7 @@ public abstract class SolarSystemTarget extends Target {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a SolarSystemTarget.
      *
      * @param name
@@ -98,7 +98,7 @@ public abstract class SolarSystemTarget extends Target {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a SolarSystemTarget.
      *
      * @param name
@@ -113,7 +113,7 @@ public abstract class SolarSystemTarget extends Target {
 
     }
 
-/*
+    /*
      * protected SolarSystemTarget(String name, String i18nName, String datasource) {
      *
      * super(name, datasource); this.i18nName = i18nName;
@@ -121,7 +121,7 @@ public abstract class SolarSystemTarget extends Target {
      * }
      */
 
-/**
+    /**
      * Constructs a new instance of a SolarSystemTarget.
      *
      * @param name
@@ -139,7 +139,7 @@ public abstract class SolarSystemTarget extends Target {
     // Public methods ----------------------------------------------------
     // --------------
 
-/*
+    /*
      * public String getI18NName() {
      *
      * return this.i18nName;
@@ -161,7 +161,7 @@ public abstract class SolarSystemTarget extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-@Override
+    @Override
     public String getDisplayName() {
 
         // Check if language has changed
@@ -182,7 +182,7 @@ public abstract class SolarSystemTarget extends Target {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this SolarSystemTarget.
      *
@@ -215,7 +215,7 @@ public abstract class SolarSystemTarget extends Target {
 
     }
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this Target and the given Object are equal. The given object is equal with this Target, if it derives
      * from ITarget, both XSI types are equal and its name is equal to this Target name.<br>
@@ -255,7 +255,7 @@ public abstract class SolarSystemTarget extends Target {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -270,7 +270,7 @@ public abstract class SolarSystemTarget extends Target {
     // Target ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      *
@@ -285,7 +285,7 @@ public abstract class SolarSystemTarget extends Target {
     // Protected methods -------------------------------------------------
     // -----------------
 
-/**
+    /**
      * Creates a SolarSystemTarget under the target container. If no target container exists under the given elements
      * ownerDocument, it will be created.<br>
      * This method should be called by subclasses, so that they only have to add their specific data to the element
@@ -353,11 +353,10 @@ public abstract class SolarSystemTarget extends Target {
 
     }
 
-private void setI18NName() {
+    private void setI18NName() {
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem",
-                 Locale.getDefault());
+                .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem", Locale.getDefault());
 
         switch (this.getName()) {
         case SolarSystemTarget.KEY_SUN:

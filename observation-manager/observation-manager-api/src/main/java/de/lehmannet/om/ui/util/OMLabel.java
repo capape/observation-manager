@@ -41,7 +41,7 @@ public class OMLabel extends JLabel {
 
     @Override
     public void setText(String text) {
-//TODO avoid break api
+        // TODO avoid break api
         if (this.mandatoryField) { // Underline mandatory fields
             this.setFont(new Font("sansserif", Font.BOLD, 12));
             super.setText("<html><u>" + text + "</u></html>");

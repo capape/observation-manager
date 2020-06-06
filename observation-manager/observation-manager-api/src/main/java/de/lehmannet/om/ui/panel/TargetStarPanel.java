@@ -31,7 +31,8 @@ public class TargetStarPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetStarPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable) throws IllegalArgumentException {
+    public TargetStarPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -88,7 +89,7 @@ public class TargetStarPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetStarContainer(this.configuration,this.model, this.target, this.isEditable());
+        this.targetContainer = new TargetStarContainer(this.configuration, this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

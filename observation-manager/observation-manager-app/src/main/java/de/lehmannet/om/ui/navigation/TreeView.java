@@ -84,14 +84,15 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
     // Used for faster access in setSelection
     // Key=ISchemaElement - Value: SchemaElementMutableTreeNode
-    private final Map<ISchemaElement,SchemaElementMutableTreeNode> nodes = new HashMap<>();
+    private final Map<ISchemaElement, SchemaElementMutableTreeNode> nodes = new HashMap<>();
 
     private final ImageResolver imageResolver;
     private final ObservationManagerModel model;
     private final ObservationManager observationManager;
     private final TextManager textManager;
 
-    public TreeView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager, ImageResolver resolver) {
+    public TreeView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
+            ImageResolver resolver) {
 
         this.observationManager = om;
         this.model = omModel;
@@ -149,8 +150,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
                             if (node instanceof SchemaElementMutableTreeNode) {
                                 ISchemaElement element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
-                                new PopupMenuHandler(TreeView.this.observationManager,
-                                        TreeView.this.model, TreeView.this.textManager, element, p.x, p.y,
+                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
+                                        TreeView.this.textManager, element, p.x, p.y,
                                         (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
                                                 + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
                                                 + PopupMenuHandler.CREATE_NEW_OBSERVATION
@@ -183,8 +184,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                     type = SchemaElementConstants.LENS;
                                 }
 
-                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model, TreeView.this.textManager, null, p.x, p.y,
-                                        PopupMenuHandler.CREATE, type, null);
+                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
+                                        TreeView.this.textManager, null, p.x, p.y, PopupMenuHandler.CREATE, type, null);
                             }
                         }
                     }
@@ -258,8 +259,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
     public void updateTree() {
 
-        
-        String rootName = this.model.getRootName().orElse(this.textManager.getString("treeRoot"));        
+        String rootName = this.model.getRootName().orElse(this.textManager.getString("treeRoot"));
         this.root.setUserObject(rootName);
 
         this.observation.removeAllChildren();
@@ -371,7 +371,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         ISchemaElement[] elements = this.model.getObservations();
         this.addSchemaElements(elements, this.observation);
         if (elements.length > 0) {
-            this.observation.setUserObject(this.textManager.getString("tree.observations") + " (" + elements.length + ")");
+            this.observation
+                    .setUserObject(this.textManager.getString("tree.observations") + " (" + elements.length + ")");
         } else {
             this.observation.setUserObject(this.textManager.getString("tree.observations"));
         }
@@ -477,8 +478,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     // both will
                     // be listed under the observer node (in different font/color)
                     if (element instanceof IObserver) {
-                        IObservation[] coObserver = this.model
-                                .getCoObserverObservations((IObserver) element);
+                        IObservation[] coObserver = this.model.getCoObserverObservations((IObserver) element);
                         if (coObserver != null) {
 
                             // Add coObserver observations to other observations (and remove doublicates via
@@ -569,7 +569,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
      */
     private static final long serialVersionUID = 1L;
     private TreeView treeView = null;
-  
+
     private ObservationManager om = null;
     private final ImageResolver imageResolver;
 
@@ -578,7 +578,6 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         this.treeView = treeView;
         this.om = om;
         this.imageResolver = resolver;
-        
 
     }
 
@@ -617,19 +616,19 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISession) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISite) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -645,19 +644,19 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ITarget) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IObserver) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -677,7 +676,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                             this.setFont(new Font("Arial", Font.ITALIC, 12));
                         } else { // CoObserver
                             this.setForeground(new Color(175, 175, 175)); // Matches <font color=\"#afafaf\"> in
-                                                                           // MutableTreeNode
+                                                                          // MutableTreeNode
                             this.setFont(new Font("Arial", Font.ITALIC, 12));
                         }
                     } else { // Not an IObserver
@@ -686,7 +685,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     }
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -702,7 +701,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -718,7 +717,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -734,7 +733,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -749,91 +748,91 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         if (this.treeView.eyepiece.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.session.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.site.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.scope.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.target.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.observer.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.observation.equals(node)) {
 
             this.setFont(new Font("Arial", Font.BOLD, 12));
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.imager.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null), "");
             }
         } else if (this.treeView.filter.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null), "");
             }
         } else if (this.treeView.lens.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null),"");
+                icon = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.root.equals(node)) {
 
-            icon = new ImageIcon(this.imageResolver.getImageURL("root.png").orElse(null),"");
+            icon = new ImageIcon(this.imageResolver.getImageURL("root.png").orElse(null), "");
 
         }
 
         // Check if node is empty
         if (node.children().equals(DefaultMutableTreeNode.EMPTY_ENUMERATION)) {
-            icon = new ImageIcon(this.imageResolver.getImageURL("empty.png").orElse(null),"");
+            icon = new ImageIcon(this.imageResolver.getImageURL("empty.png").orElse(null), "");
         }
 
         this.setIcon(icon);

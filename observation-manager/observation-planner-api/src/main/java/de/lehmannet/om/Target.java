@@ -71,7 +71,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of a Target from a given DOM target Element.<br>
      * Normally this constructor is called by a child class which itself was called by
      * de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a <observer> element, or a <datasource>
@@ -109,7 +109,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Protected Constructor used by subclasses construction.
      * 
      * @param name
@@ -135,7 +135,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Protected Constructor used by subclasses construction.
      * 
      * @param name
@@ -165,7 +165,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -185,7 +185,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this Target and the given Object are equal. The given object is equal with this Target, if it derives
      * from ITarget, both XSI types are equal, the datasource or observer is equal and its name is equal to this Target
@@ -215,7 +215,8 @@ public abstract class Target extends SchemaElement implements ITarget {
                 && !("".equals(this.getDatasource()))) {
             String dataSource = target.getDatasource();
             if (dataSource != null) {
-                if (!this.getDatasource().toLowerCase(Locale.getDefault()).trim().equals(dataSource.toLowerCase(Locale.getDefault()).trim())) {
+                if (!this.getDatasource().toLowerCase(Locale.getDefault()).trim()
+                        .equals(dataSource.toLowerCase(Locale.getDefault()).trim())) {
                     return false; // Datasources do not match
                 }
             } else {
@@ -251,12 +252,11 @@ public abstract class Target extends SchemaElement implements ITarget {
         return result;
     }
 
-
     // -------
     // ITarget -----------------------------------------------------------
     // -------
 
-/**
+    /**
      * Returns true if the given object is an instance of ITarget<br>
      * and the given objects SchmemaElement.getID() returns the same string as this objects getID() method. This method
      * is required in the deletion of elements, and equal to the equals() method in all other SchemaElements (they do
@@ -275,7 +275,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -286,7 +286,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     @Override
     public abstract void addToXmlElement(Element element);
 
-/**
+    /**
      * Adds the target link to an given XML DOM Element The target element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no target container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -352,7 +352,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Adds the target link to an given XML DOM Element The target element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -377,7 +377,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Adds a new alias name to the Target e.g. name = M42 ; alias name = "Great Orion Nebulae"
      * 
      * @param newAliasName
@@ -398,7 +398,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets an array of new alias names to this target.<br>
      * All current aliasNames will be deleted! If you want to add alias names without deleting the existing ones, please
      * use Target.addAliasNames(String) or Target.addAliasName(String).<br>
@@ -408,7 +408,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            An array with new alias name
      */
     @Override
-    public void setAliasNames(String ... newAliasNames) {
+    public void setAliasNames(String... newAliasNames) {
 
         if ((newAliasNames == null) || (newAliasNames.length == 0)) {
             this.aliasNames.clear();
@@ -427,7 +427,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns all alias names.<br>
      * 
      * @return Returns a String array with all alias names. If no alias names were set <code>null</code> is returned.
@@ -454,7 +454,7 @@ public abstract class Target extends SchemaElement implements ITarget {
          */
     }
 
-/**
+    /**
      * Removes a alias name from the target.<br>
      * 
      * @param aliasName
@@ -479,7 +479,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns the name of the target.<br>
      * The name should clearly identify the astronomical object. Use alias names for colloquial names of the object.
      * 
@@ -496,7 +496,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns the celestial constellation, where the target can be found.<br>
      * Might return <code>NULL</code> if constellation was never set
      * 
@@ -509,7 +509,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
      * @param constellation
@@ -527,7 +527,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the celestial constellation, where the target can be found.<br>
      * 
      * @param constellation
@@ -540,7 +540,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the name of the target.<br>
      * The name should clearly identify the astronomical object. For alternative names of the object add a new alias
      * name.<br>
@@ -561,7 +561,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns the position of the target.<br>
      * The position of the target describes the location of the astronomical object in any popular celestial
      * coordination system.
@@ -576,7 +576,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns the observer who is the originator of the target.<br>
      * 
      * @return The observer who is the originator of this target. Might return <code>null</code> if observer was never
@@ -589,7 +589,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns the datasource which is the origin of the target.<br>
      * 
      * @return The datasource which is the origin of this target Might return <code>null</code> if datasource was never
@@ -602,7 +602,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the position of the target.<br>
      * The position of the target describes the location of the astronomical object in a popular celestial coordination
      * system.
@@ -617,7 +617,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the datasource of the target.<br>
      * 
      * @param datasource
@@ -633,7 +633,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets the observer who is the originator of the target.<br>
      * 
      * @param observer
@@ -649,7 +649,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Returns additional notes of the target.<br>
      * Notes can be used for additional descriptions of the target.
      * 
@@ -662,7 +662,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
     }
 
-/**
+    /**
      * Sets additional notes to the target.<br>
      * Additional notes can be used to add any additional textual information to the target.
      * 
@@ -680,7 +680,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // Protected methods -------------------------------------------------
     // -----------------
 
-/**
+    /**
      * Creates an XML DOM Element for the Target. The new Target element will be added as child element to an given
      * parent element. The given parent element should be the target container. All specialised subclasses may use this
      * method to create a Target element under which they may store their addition data.<br>
@@ -768,7 +768,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // Private methods ---------------------------------------------------
     // ---------------
 
-// Ok this might be a bit ugly bit for data consistency this is the
+    // Ok this might be a bit ugly bit for data consistency this is the
     // best way to do so. :-(
     // From OM 0.617 to 0.717 the catalog datasouce names changed in that
     // way that the OM (or Extenstion) Version is no longer part
@@ -809,7 +809,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     // @Override public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds a comma seperated list of new alias names to the Target.<br>
      * 
      * @param aliasNames

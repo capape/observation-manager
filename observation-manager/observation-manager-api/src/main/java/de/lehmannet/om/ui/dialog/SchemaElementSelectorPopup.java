@@ -38,9 +38,10 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
     private final ObservationManagerModel model;
 
-    public SchemaElementSelectorPopup(JFrame om, ObservationManagerModel omModel, String title, String xsiType, List<? extends ISchemaElement> preSelectedElements,
-            boolean multipleSelection, SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
-                                                                                                                    // SchemaElementConstants
+    public SchemaElementSelectorPopup(JFrame om, ObservationManagerModel omModel, String title, String xsiType,
+            List<? extends ISchemaElement> preSelectedElements, boolean multipleSelection,
+            SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
+        // SchemaElementConstants
 
         super(om);
 

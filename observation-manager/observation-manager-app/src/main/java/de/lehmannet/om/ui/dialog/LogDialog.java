@@ -41,7 +41,6 @@ public class LogDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3508562400111692974L;
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(LogDialog.class);
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
@@ -81,7 +80,6 @@ public class LogDialog extends OMDialog implements ActionListener {
 
         }
 
-       
         this.pack();
         this.setVisible(true);
 
@@ -152,9 +150,9 @@ public class LogDialog extends OMDialog implements ActionListener {
             }
             this.bufferedReader.close();
         } catch (IOException ioe) {
-            LOGGER.error("Error reading line {} from log {} ", no, this.logfile , ioe);
+            LOGGER.error("Error reading line {} from log {} ", no, this.logfile, ioe);
         } catch (BadLocationException ble) {
-            LOGGER.error("Error setting log text",  ble);
+            LOGGER.error("Error setting log text", ble);
         }
 
     }

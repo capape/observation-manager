@@ -59,6 +59,5 @@ public abstract class AbstractPanel extends JPanel {
                 JOptionPane.WARNING_MESSAGE);
 
     }
-    
 
 }

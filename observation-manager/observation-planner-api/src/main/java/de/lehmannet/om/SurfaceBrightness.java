@@ -56,7 +56,7 @@ public class SurfaceBrightness {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of Surface Brightness from a given DOM Element.<br>
      *
      * @throws SchemaException
@@ -80,7 +80,7 @@ public class SurfaceBrightness {
 
     }
 
-/*
+    /*
      * Creates a new Surface Brightness instance.
      *
      * @param value The surface brightness value
@@ -116,7 +116,7 @@ public class SurfaceBrightness {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the value of this surface brightness followed by its unit.<br>
      * Example:<br>
@@ -132,7 +132,7 @@ public class SurfaceBrightness {
 
     }
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this surface brightness and the given Object are equal. Two surface brightness' are equal if both have
      * the same value when represented as mags-per-squarearcsec.<br>
@@ -176,7 +176,7 @@ public class SurfaceBrightness {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Sets this SurfaceBrightness to an given XML DOM Element.<br>
      * The SurfaceBrightness value will be set as the Elements value and the SurfaceBrightness unit will be set as the
      * Elements attribute.<br>
@@ -203,7 +203,7 @@ public class SurfaceBrightness {
 
     }
 
-/**
+    /**
      * Returns the unit of the SurfaceBrightness value.<br>
      * The returned value may be any valid SurfaceBrightness unit, which can be accessed by SurfaceBrightness constants.
      *
@@ -215,7 +215,7 @@ public class SurfaceBrightness {
 
     }
 
-/**
+    /**
      * Returns the value of this SurfaceBrightness.<br>
      * The returned value may be any float value (positiv or negativ).
      *
@@ -227,7 +227,7 @@ public class SurfaceBrightness {
 
     }
 
-/**
+    /**
      * Returns the value of this SurfaceBrightness given in the passed unit.<br>
      * The returned value may be any float value (positiv or negativ). If the passed unit is invalid,
      * <code>Float.NaN</code> is returned.
@@ -257,7 +257,7 @@ public class SurfaceBrightness {
 
     }
 
-/**
+    /**
      * Checks if a given String is a valid Surface Brightness unit.<br>
      * Means, if the given string is equal to SurfaceBrightness.MAGS_SQR_ARC_MIN or SurfaceBrightness.MAGS_SQR_ARC_SEC
      *

@@ -35,7 +35,6 @@ import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.FloatUtil;
 
-
 class DeepSkyTargetContainer extends Container {
 
     private static final long serialVersionUID = 7287706985477081449L;
@@ -43,7 +42,6 @@ class DeepSkyTargetContainer extends Container {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    
     private DeepSkyTarget target = null;
     private boolean editable = false;
 
@@ -54,7 +52,7 @@ class DeepSkyTargetContainer extends Container {
     private SurfaceBrightnessContainer surfaceBrightness = null;
 
     private final ObservationManagerModel model;
-   //private final IConfiguration configuration;
+    // private final IConfiguration configuration;
     private final UserInterfaceHelper uiHelper;
 
     public DeepSkyTargetContainer(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
@@ -71,7 +69,7 @@ class DeepSkyTargetContainer extends Container {
         this.model = model;
         this.editable = editable;
         this.uiHelper = uiHelper;
-       // this.configuration = configuration;
+        // this.configuration = configuration;
 
         this.createContainer();
 
@@ -246,8 +244,8 @@ class DeepSkyTargetContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 7, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target, this.editable,
-                false);
+        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target,
+                this.editable, false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

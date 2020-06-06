@@ -28,9 +28,9 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
 
     private static final long serialVersionUID = -1;
 
-    private  final SwingWorker<Void, Void> task;
+    private final SwingWorker<Void, Void> task;
     private final JProgressBar progressBar;
-    
+
     public ProgressDialogSwing(JFrame om, String title, String information, SwingWorker<Void, Void> task) {
 
         super(om);
@@ -48,7 +48,7 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
         // Show wait UI
         this.pack();
 
-        this.setVisible(true);        
+        this.setVisible(true);
 
     }
 
@@ -75,7 +75,6 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
 
     }
 
-    
     public void close() {
 
         this.dispose();
@@ -109,32 +108,30 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("state".equals(evt.getPropertyName())
-                 && SwingWorker.StateValue.DONE == evt.getNewValue()) {
-             this.setVisible(false);
-             this.dispose();
-        
+        if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
+            this.setVisible(false);
+            this.dispose();
+
         }
 
     }
 
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void componentShown(ComponentEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        // TODO Auto-generated method stub
+
+    }
 
 }
-

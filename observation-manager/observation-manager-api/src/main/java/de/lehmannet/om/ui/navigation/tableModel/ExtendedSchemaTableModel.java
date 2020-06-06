@@ -33,8 +33,8 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
-    public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType, String xsiFilter,
-            boolean multipleSelection, List<? extends ISchemaElement> preSelectedTargets) {
+    public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType,
+            String xsiFilter, boolean multipleSelection, List<? extends ISchemaElement> preSelectedTargets) {
 
         this.multipleSelection = multipleSelection;
 
@@ -234,7 +234,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         ISchemaElement current = null;
         Boolean currentValue = null;
         while (keyIterator.hasNext()) {
-            current =keyIterator.next();
+            current = keyIterator.next();
             currentValue = (Boolean) this.elementMap.get(current);
             if (currentValue) {
                 result.add(current);

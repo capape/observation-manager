@@ -40,8 +40,8 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private ObservationManagerModel model;
 
-    public SolarSystemTargetMoonPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target, IObservation o, Boolean editable)
-            throws IllegalArgumentException {
+    public SolarSystemTargetMoonPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            IObservation o, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -120,7 +120,8 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
+                true);
         if ((!this.isEditable()) && (this.observation != null)) {
             ISite site = this.observation.getSite();
             if (site != null) {

@@ -72,6 +72,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
     private final ObservationManagerModel model;
+
     public StatisticsDialog(ObservationManager om, ObservationManagerModel model) {
 
         super(om);
@@ -102,8 +103,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             return;
         } else if (observers.length > 1) {
             // Get default observer for preselection
-            String defaultObserverDisplayName = this.om.getConfiguration()
-                    .getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
+            String defaultObserverDisplayName = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER);
             List<IObserver> preselectedObserver = new ArrayList<>();
             for (IObserver observer : observers) {
                 if (observer.getDisplayName().equals(defaultObserverDisplayName)) {
@@ -115,7 +115,9 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, StatisticsDialog.this.model,
                     this.bundle.getString("dialog.statistics.observerPopup.title"), null, preselectedObserver, true,
                     SchemaElementConstants.OBSERVER);
-            this.observers = popup.getAllSelectedElements().stream().map(x->{return (IObserver) x;}).collect(Collectors.toList());
+            this.observers = popup.getAllSelectedElements().stream().map(x -> {
+                return (IObserver) x;
+            }).collect(Collectors.toList());
             if ((this.observers == null) || (this.observers.isEmpty())) {
                 return;
             }
@@ -252,8 +254,8 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         IObservation[] observations = this.model.getObservations();
 
         // Get config
-        boolean useCoObservers = Boolean.parseBoolean(
-                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
+        boolean useCoObservers = Boolean
+                .parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
 
         // Iterate over all selected catalogs, create CatalogCheckers and start threads
         this.checkers = new CatalogChecker[this.selectedCatalogs.size()];
@@ -424,8 +426,8 @@ class CatalogChecker implements Runnable {
 
     private JProgressBar progressBar = null;
 
-    public CatalogChecker(IListableCatalog catalog, IObservation[] observations, List<IObserver> observers, boolean useCoObservers,
-            JProgressBar progress) {
+    public CatalogChecker(IListableCatalog catalog, IObservation[] observations, List<IObserver> observers,
+            boolean useCoObservers, JProgressBar progress) {
 
         this.catalog = catalog;
         this.observations = observations;

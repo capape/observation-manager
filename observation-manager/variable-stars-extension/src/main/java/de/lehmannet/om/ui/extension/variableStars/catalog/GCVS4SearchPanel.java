@@ -26,8 +26,7 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
         this.createPanel();
 
         // Set cached values
-        if (Boolean.parseBoolean(this.configuration
-                .getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED))) {
+        if (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED))) {
             String cachedSearchTerm = this.configuration.getConfig(CONFIG_LAST_SEARCHTERM);
             if ((cachedSearchTerm != null) && (!"".equals(cachedSearchTerm))) {
                 this.searchText.setText(cachedSearchTerm);
@@ -40,7 +39,7 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
     public void search(String searchString) {
 
         if (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED))) {
-            this.configuration.setConfig(GCVS4SearchPanel.CONFIG_LAST_SEARCHTERM,  searchString);
+            this.configuration.setConfig(GCVS4SearchPanel.CONFIG_LAST_SEARCHTERM, searchString);
         }
 
         if ((searchString == null) || ("".equals(searchString.trim()))) {

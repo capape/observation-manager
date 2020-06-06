@@ -17,13 +17,11 @@ import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyFindingOC extends the de.lehmannet.om.DeepSkyFinding class. Its
- * specialised for open cluster observations and their findings. The class is
- * mostly oriented after the recommondations of the german "VdS - DeepSky" group
+ * DeepSkyFindingOC extends the de.lehmannet.om.DeepSkyFinding class. Its specialised for open cluster observations and
+ * their findings. The class is mostly oriented after the recommondations of the german "VdS - DeepSky" group
  * (<a href="http://www.fachgruppe-deepsky.de/">Homepage</a>).<br>
- * The field rating is based on a seven step scale recommended by "VDS -
- * DeepSky" group. The scales value should be interpreted as the following table
- * explains:
+ * The field rating is based on a seven step scale recommended by "VDS - DeepSky" group. The scales value should be
+ * interpreted as the following table explains:
  * <table>
  * <tr>
  * <td>1</td>
@@ -152,10 +150,12 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     /**
      * Constructs a new instance of a DeepSkyFindingOC.
      *
-     * @param description The description of the finding
-     * @param rating      The rating of the finding
-     * @throws IllegalArgumentException if description was <code>null</code> or
-     *                                  rating had a illegal value.
+     * @param description
+     *            The description of the finding
+     * @param rating
+     *            The rating of the finding
+     * @throws IllegalArgumentException
+     *             if description was <code>null</code> or rating had a illegal value.
      */
     public DeepSkyFindingOC(String description, int rating) throws IllegalArgumentException {
 
@@ -262,13 +262,12 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     }
 
     /**
-     * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The
-     * DeepSkyFindingOC Element will be set as a child element of the passed
-     * Element.
+     * Adds this DeepSkyFindingOC to an given parent XML DOM Element. The DeepSkyFindingOC Element will be set as a
+     * child element of the passed Element.
      *
-     * @param parent The parent element for this DeepSkyFindingOC
-     * @return Returns the Element given as parameter with this DeepSkyFindingOC as
-     *         child Element.<br>
+     * @param parent
+     *            The parent element for this DeepSkyFindingOC
+     * @return Returns the Element given as parameter with this DeepSkyFindingOC as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
      * @see org.w3c.dom.Element
      */
@@ -323,8 +322,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object has an unusualShape.
      *
      * @return <code>true</code> if the observed object has an unusual Shape
-     * @throws IllegalStateException if unusualShape was not set by the user so the
-     *                               class cannot return <b>true</b> or <b>false</b>
+     * @throws IllegalStateException
+     *             if unusualShape was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getUnusualShape() throws IllegalStateException {
 
@@ -341,9 +340,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object was partly unresolved.
      *
      * @return <code>true</code> if the observed object was partly unresolved
-     * @throws IllegalStateException if partlyUnresolved was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if partlyUnresolved was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getPartlyUnresolved() throws IllegalStateException {
 
@@ -360,9 +358,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object showed some color contrasts.
      *
      * @return <code>true</code> if the observed object showed some color contrasts
-     * @throws IllegalStateException if colorContrasts was not set by the user so
-     *                               the class cannot return <b>true</b> or
-     *                               <b>false</b>
+     * @throws IllegalStateException
+     *             if colorContrasts was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
     public boolean getColorContrasts() throws IllegalStateException {
 
@@ -378,9 +375,8 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Returns the character of this DeepSkyFindingOC.<br>
      * See DeepSkyFindingOC constants for valid values.<br>
      *
-     * @return A character describing the open cluster characteristics according to
-     *         the german "Deep Sky Liste" or <code>null</code> if the value was
-     *         never set
+     * @return A character describing the open cluster characteristics according to the german "Deep Sky Liste" or
+     *         <code>null</code> if the value was never set
      */
     public Character getCharacter() {
 
@@ -392,9 +388,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the unusualShape value of this DeepSkyFindingOC.<br>
      * Describes if the observed object has an unusual shape.
      *
-     * @param unusualShape The unusual shape value to set for this DeepSkyFindingOC
-     *                     or <code>NULL</code> if the value should be not set at
-     *                     all.
+     * @param unusualShape
+     *            The unusual shape value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setUnusualShape(Boolean unusualShape) {
 
@@ -415,9 +411,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the partlyUnresolved value of this DeepSkyFindingOC.<br>
      * Describes if the observed object was partly unresolved.
      *
-     * @param partlyUnresolved The partlyUnresolved value to set for this
-     *                         DeepSkyFindingOC or <code>NULL</code> if the value
-     *                         should be not set at all.
+     * @param partlyUnresolved
+     *            The partlyUnresolved value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should
+     *            be not set at all.
      */
     public void setPartlyUnresolved(Boolean partlyUnresolved) {
 
@@ -438,9 +434,9 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
-     * @param colorContrasts The colorContrasts value to set for this
-     *                       DeepSkyFindingOC or <code>NULL</code> if the value
-     *                       should be not set at all.
+     * @param colorContrasts
+     *            The colorContrasts value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
      */
     public void setColorContrasts(Boolean colorContrasts) {
 
@@ -461,9 +457,11 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Sets the colorContrasts value of this DeepSkyFindingOC.<br>
      * Describes if the observed object showed some color contrasts.
      *
-     * @param c The colorContrasts value to set for this DeepSkyFindingOC or
-     *          <code>NULL</code> if the value should be not set at all.
-     * @throws IllegalArgumentException if the given character value is invalid
+     * @param c
+     *            The colorContrasts value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
+     *            not set at all.
+     * @throws IllegalArgumentException
+     *             if the given character value is invalid
      */
     public void setCharacter(Character c) throws IllegalArgumentException {
 

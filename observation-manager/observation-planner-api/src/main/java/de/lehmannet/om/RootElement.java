@@ -29,11 +29,10 @@ import org.w3c.dom.ls.LSSerializer;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * The RootElement element is the root element of a schema element. All other
- * schema elements are grouped below RootElement.<br>
- * The object itself contains no astronomical data but provides XML namespaces,
- * and schema element containers. A schema element container groups multiple
- * schema elements of one and the same type.<br>
+ * The RootElement element is the root element of a schema element. All other schema elements are grouped below
+ * RootElement.<br>
+ * The object itself contains no astronomical data but provides XML namespaces, and schema element containers. A schema
+ * element container groups multiple schema elements of one and the same type.<br>
  * E.g.<br>
  * <observers><br>
  * <observer><br>
@@ -45,10 +44,8 @@ import de.lehmannet.om.util.SchemaException;
  * <i>More observer stuff goes here</i><br>
  * </observer><br>
  * </observers><br>
- * In this example <observers> is the container element of multiple <observer>
- * elements.<br>
- * Also the RootElement object contains the serializeToSchema() method, that
- * will create a schema valid XML file.
+ * In this example <observers> is the container element of multiple <observer> elements.<br>
+ * Also the RootElement object contains the serializeToSchema() method, that will create a schema valid XML file.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -429,25 +426,22 @@ public class RootElement {
 
             LSSerializer writer = domImplLS.createLSSerializer();
 
-        
-
             writer.writeToURI(newSchema, xmlFile.toURI().toURL().toString());
         } catch (IOException ex) {
             LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
                     ex);
         } catch (ClassNotFoundException e) {
             LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
-            e);
-           throw new SchemaException(e.toString(),e);
+                    e);
+            throw new SchemaException(e.toString(), e);
         } catch (InstantiationException e) {
-            throw new SchemaException(e.toString(),e);
+            throw new SchemaException(e.toString(), e);
         } catch (IllegalAccessException e) {
-            throw new SchemaException(e.toString(),e);
+            throw new SchemaException(e.toString(), e);
         } catch (ClassCastException e) {
-            throw new SchemaException(e.toString(),e);
+            throw new SchemaException(e.toString(), e);
         }
 
-       
     }
 
     public Document getDocument() throws SchemaException {

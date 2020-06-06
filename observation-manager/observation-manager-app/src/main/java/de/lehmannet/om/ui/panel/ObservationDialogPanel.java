@@ -460,15 +460,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
-         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
-         * catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.invalidSeeing")); return null; } }
-         * catch(NumberFormatException nfe) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } } else {
-         * this.observation.setSeeing(-1); }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
+         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
+         * } } catch(NumberFormatException nfe) { this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.noNumberSeeing")); return null; } } else { this.observation.setSeeing(-1); }
          */
 
         this.observation.setAccessories(this.accessories.getText());
@@ -678,15 +674,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
-         * Integer.parseInt(s); try { this.observation.setSeeing(seeing); }
-         * catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.invalidSeeing")); return null; }
-         * this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); }
-         * catch(NumberFormatException nfe) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } }
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
+         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
+         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
+         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); } catch(NumberFormatException nfe)
+         * { this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.noNumberSeeing")); return
+         * null; } }
          */
 
         String ac = this.accessories.getText();
@@ -1574,7 +1567,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(LimageContainer);
         ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager, this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
+        this.imageContainer = new ImageContainer(null, this.observationManager,
+                this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
         JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);

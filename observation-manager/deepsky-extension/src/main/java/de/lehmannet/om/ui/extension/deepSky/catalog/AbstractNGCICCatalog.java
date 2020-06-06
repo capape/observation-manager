@@ -45,7 +45,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
     // Key = NGC/IC Number
     // Value = ITarget
-    private final Map<String, ITarget>  map = new LinkedHashMap<>();
+    private final Map<String, ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 

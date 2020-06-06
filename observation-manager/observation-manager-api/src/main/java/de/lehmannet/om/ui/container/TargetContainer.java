@@ -66,7 +66,8 @@ public class TargetContainer extends Container implements MouseListener {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetContainer(IConfiguration configuration, ObservationManagerModel model,  ITarget target, boolean editable, boolean positionDisabled) {
+    public TargetContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            boolean editable, boolean positionDisabled) {
 
         this.target = target;
         this.model = model;
@@ -74,7 +75,8 @@ public class TargetContainer extends Container implements MouseListener {
         this.positionDisabled = positionDisabled;
         this.configuration = configuration;
 
-        this.constellationBox = new ConstellationBox(Boolean.parseBoolean(configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true")));
+        this.constellationBox = new ConstellationBox(
+                Boolean.parseBoolean(configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true")));
 
         this.createPanel();
 
@@ -268,8 +270,8 @@ public class TargetContainer extends Container implements MouseListener {
         if (c != null) {
             this.constellationBox.setSelectedConstellation(c);
             String cName = null;
-            boolean i18N = Boolean.parseBoolean(this.configuration
-                    .getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+            boolean i18N = Boolean
+                    .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
             if (i18N) {
                 cName = c.getDisplayName();
             } else {
@@ -413,11 +415,11 @@ public class TargetContainer extends Container implements MouseListener {
                 this.notes.setText(this.target.getNotes());
             }
             // if (!this.editable) {
-            //     if (this.observationManager.isNightVisionEnabled()) {
-            //         this.notes.setBackground(new Color(255, 175, 175));
-            //     } else {
-            //         this.notes.setBackground(Color.WHITE);
-            //     }
+            // if (this.observationManager.isNightVisionEnabled()) {
+            // this.notes.setBackground(new Color(255, 175, 175));
+            // } else {
+            // this.notes.setBackground(Color.WHITE);
+            // }
             // }
             JScrollPane descriptionScroll = new JScrollPane(this.notes);
             descriptionScroll.setMinimumSize(new Dimension(300, 60));

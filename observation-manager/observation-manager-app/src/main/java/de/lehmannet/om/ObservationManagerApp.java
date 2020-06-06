@@ -30,13 +30,8 @@ public class ObservationManagerApp {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerApp.class);
 
-    // Version
-    public static final String VERSION = "1.5.0alpha-SNAPSHOT";
-
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
-
-    
 
     public static void main(final String[] args) {
 
@@ -50,9 +45,8 @@ public class ObservationManagerApp {
         LOGGER.info("Install dir: {}", installDir.getPath());
 
         LOGGER.info("Reading configuration...");
-        final String configDir = argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);        
+        final String configDir = argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
         final Configuration configuration = new Configuration(configDir);
-
 
         final String locale = argumentsParser.getArgumentValue(ArgumentName.LANGUAGE);
         final String nightVision = argumentsParser.getArgumentValue(ArgumentName.NIGHTVISION);
@@ -70,19 +64,12 @@ public class ObservationManagerApp {
 
         LOGGER.info("Creating model for app...");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
-        
-        
+
         LOGGER.info("Creating observation manager app...");
-        //@formatter:off
-        new ObservationManager.Builder(model)
-            .locale(locale)
-            .nightVision(nightVision)
-            .installDir(installDir)
-            .configuration(configuration)           
-            .imageResolver(imageResolver)            
-            .textManager(textManager)
-            .build();
-        //@formatter:on
+        // @formatter:off
+        new ObservationManager.Builder(model).locale(locale).nightVision(nightVision).installDir(installDir)
+                .configuration(configuration).imageResolver(imageResolver).textManager(textManager).build();
+        // @formatter:on
 
     }
 }

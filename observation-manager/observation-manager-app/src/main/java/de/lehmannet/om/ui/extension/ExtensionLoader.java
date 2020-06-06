@@ -307,9 +307,8 @@ public class ExtensionLoader {
 
     private void loadExtensions() {
 
-        this.extensions.add(new GenericExtension());        
-     
-        
+        this.extensions.add(new GenericExtension());
+
         this.loadExternalExtensions();
         try {
             ConfigLoader.reloadConfig();
@@ -319,12 +318,8 @@ public class ExtensionLoader {
         }
 
         // @formatter:off
-        IExtensionContext context = new ExtensionContext.Builder()
-            .configuration(this.om.getConfiguration())
-            .installDir(this.installDir)
-            .uiHelper(this.om.getUiHelper())
-            .model(this.model)
-            .build();
+        IExtensionContext context = new ExtensionContext.Builder().configuration(this.om.getConfiguration())
+                .installDir(this.installDir).uiHelper(this.om.getUiHelper()).model(this.model).build();
 
         // @formatter:on
 
@@ -537,13 +532,13 @@ public class ExtensionLoader {
                 bis.close();
                 fos.flush();
             } catch (IOException ioe) {
-                LOGGER.error("Unable to write file: {} ", ze , ioe);
+                LOGGER.error("Unable to write file: {} ", ze, ioe);
                 return null;
             }
 
             return file;
         } catch (FileNotFoundException fnfe) {
-            LOGGER.error("Unable to create file: {}", file , fnfe);
+            LOGGER.error("Unable to create file: {}", file, fnfe);
             return null;
         } finally {
             if (fos != null) {
@@ -580,7 +575,7 @@ public class ExtensionLoader {
             DocumentBuilder db = dbf.newDocumentBuilder();
             doc = db.parse(new FileInputStream(schema));
         } catch (ParserConfigurationException pce) {
-            LOGGER.error("Unable to parse file: {} ", schema , pce);
+            LOGGER.error("Unable to parse file: {} ", schema, pce);
             return false;
         } catch (SAXException saxe) {
             LOGGER.error("Error while parsing: {}", schema, saxe);

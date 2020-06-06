@@ -5,7 +5,6 @@ import de.lehmannet.om.ui.util.Configuration;
 
 public class ObservationManagerContextImpl implements ObservationManagerContext {
 
- 
     private final String locale;
     private final String nightVision;
     private final InstallDir installDir;
@@ -13,15 +12,13 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
 
     private static ObservationManagerContext INSTANCE = null;
 
-
-
     private ObservationManagerContextImpl(Builder builder) {
         this.locale = builder.locale;
         this.nightVision = builder.nightVision;
         this.installDir = builder.installDir;
         this.configuration = builder.configuration;
         INSTANCE = this;
-    } 
+    }
 
     public static ObservationManagerContext getInstance() {
         if (INSTANCE == null) {
@@ -29,7 +26,7 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
         }
         return INSTANCE;
     }
-            
+
     public String getLocale() {
         return locale;
     }
@@ -46,10 +43,8 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
         return configuration;
     }
 
-
-
     public static class Builder {
-        
+
         private String locale;
         private String nightVision;
         private InstallDir installDir;
@@ -59,27 +54,26 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
             this.locale = locale;
             return this;
         }
-        
+
         public Builder nightVision(String nightVision) {
             this.nightVision = nightVision;
             return this;
         }
+
         public Builder installDir(InstallDir installDir) {
             this.installDir = installDir;
             return this;
         }
+
         public Builder configuration(Configuration configuration) {
-            this.configuration= configuration;
+            this.configuration = configuration;
             return this;
         }
 
-        public ObservationManagerContext build()  {
+        public ObservationManagerContext build() {
 
             return new ObservationManagerContextImpl(this);
         }
     }
-
-   
-   
 
 }

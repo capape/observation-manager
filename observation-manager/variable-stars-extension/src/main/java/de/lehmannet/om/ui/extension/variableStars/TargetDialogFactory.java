@@ -10,21 +10,20 @@ import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 
 public class TargetDialogFactory {
 
-	public static ITargetDialog newInstance(IExtensionContext extensionContext, String xsiType, JFrame parent,
-			ITarget target, boolean editable) {
+    public static ITargetDialog newInstance(IExtensionContext extensionContext, String xsiType, JFrame parent,
+            ITarget target, boolean editable) {
 
         switch (xsiType) {
 
-            case TargetVariableStar.XML_XSI_TYPE_VALUE:
-                return new VariableStarTargetDialog(
-                    parent, extensionContext.getUserInterfaceHelper(), 
+        case TargetVariableStar.XML_XSI_TYPE_VALUE:
+            return new VariableStarTargetDialog(parent, extensionContext.getUserInterfaceHelper(),
                     extensionContext.getModel(), target);
-                
-            default:
-                throw new IllegalArgumentException("Invalid xsi:type");
+
+        default:
+            throw new IllegalArgumentException("Invalid xsi:type");
 
         }
-		
-	}
+
+    }
 
 }

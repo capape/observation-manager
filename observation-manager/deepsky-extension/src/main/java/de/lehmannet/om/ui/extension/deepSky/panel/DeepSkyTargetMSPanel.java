@@ -64,8 +64,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetMSPanel(UserInterfaceHelper uiHelper,  ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetMSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -111,7 +111,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                 }
                 this.tableModel.setTargets((ITarget[]) selectedTargets.toArray(new ITarget[] {}));
             } else if (source.equals(this.editStar)) {
-                new TargetStarDialog(null, this.uiHelper,this.model, this.selectedStar);
+                new TargetStarDialog(null, this.uiHelper, this.model, this.selectedStar);
             } else if (source.equals(this.deleteStar)) {
                 if (this.selectedStar != null) {
                     this.tableModel.deleteTarget(this.selectedStar);
@@ -152,7 +152,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             this.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
         }
-        List<String> components = Arrays.asList(targets).stream().map( x -> x.getID()).collect(Collectors.toList());
+        List<String> components = Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
         this.target.setComponents(components);
 
         return this.target;
@@ -177,7 +177,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             return null;
         }
 
-        List<String> components = Arrays.asList(targets).stream().map( x -> x.getID()).collect(Collectors.toList());
+        List<String> components = Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
         if (observer != null) {
             this.target = new DeepSkyTargetMS(name, observer, components);
         } else {
@@ -245,7 +245,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 15, 1);
-        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target, this.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target,
+                this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

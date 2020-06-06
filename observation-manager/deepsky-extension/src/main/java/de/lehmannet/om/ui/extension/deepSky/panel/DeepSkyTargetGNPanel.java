@@ -44,8 +44,8 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetGNPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetGNPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -54,7 +54,7 @@ public class DeepSkyTargetGNPanel extends AbstractPanel {
                     "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetGN\n");
         }
 
-        this.target = (DeepSkyTargetGN) target;        
+        this.target = (DeepSkyTargetGN) target;
         this.model = model;
         this.uiHelper = uiHelper;
         this.createPanel();

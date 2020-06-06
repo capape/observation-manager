@@ -29,8 +29,7 @@ public class ImagerMapper {
                     return remarks.toString().trim();
                 }
                 /*
-                 * remarks = child.getFirstChild().getNodeValue(); if( type != null ) {
-                 * this.setRemarks(remarks); }
+                 * remarks = child.getFirstChild().getNodeValue(); if( type != null ) { this.setRemarks(remarks); }
                  */
             } else {
                 throw new SchemaException("Problem while retrieving remarks from imager. ");
@@ -60,8 +59,7 @@ public class ImagerMapper {
                     return vendor.toString().trim();
                 }
                 /*
-                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                 * this.setVendor(vendor); }
+                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) { this.setVendor(vendor); }
                  */
             } else {
                 throw new SchemaException("Problem while retrieving vendor from imager. ");

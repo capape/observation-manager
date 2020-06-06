@@ -46,8 +46,8 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
     private final UserInterfaceHelper uiHelper;
     private final IConfiguration configuration;
 
-    public DeepSkyTargetDNPanel(IConfiguration configuration, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetDNPanel(IConfiguration configuration, UserInterfaceHelper uiHelper,
+            ObservationManagerModel model, ITarget target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -178,7 +178,7 @@ public class DeepSkyTargetDNPanel extends AbstractPanel {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 6, 100, 1);
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer( this.uiHelper, this.model, this.target,
+        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.uiHelper, this.model, this.target,
                 this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);

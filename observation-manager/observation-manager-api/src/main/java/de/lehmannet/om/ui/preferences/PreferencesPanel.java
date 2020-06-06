@@ -38,5 +38,4 @@ public abstract class PreferencesPanel extends JPanel {
         return Optional.of(value);
     }
 
-
 }

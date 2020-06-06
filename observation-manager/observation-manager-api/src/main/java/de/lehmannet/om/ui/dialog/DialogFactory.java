@@ -8,7 +8,6 @@ import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public interface DialogFactory<T extends AbstractDialog> {
-    
-    
-    T newInstance(JFrame om,  UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget);
+
+    T newInstance(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget);
 }

@@ -17,7 +17,7 @@ public class ScopeDialog extends AbstractDialog {
 
     public ScopeDialog(ObservationManager om, IScope editableScope) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new ScopePanel(editableScope, true));
+        super(om, om.getModel(), om.getUiHelper(), new ScopePanel(editableScope, true));
 
         if (editableScope == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.scope.title"));

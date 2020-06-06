@@ -17,7 +17,7 @@ public class LensDialog extends AbstractDialog {
 
     public LensDialog(ObservationManager om, ILens editableLens) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new LensPanel(editableLens, true));
+        super(om, om.getModel(), om.getUiHelper(), new LensPanel(editableLens, true));
 
         if (editableLens == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.lens.title"));

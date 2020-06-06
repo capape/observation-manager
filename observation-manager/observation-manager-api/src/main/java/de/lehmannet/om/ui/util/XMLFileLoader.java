@@ -1,5 +1,4 @@
 
-
 package de.lehmannet.om.ui.util;
 
 import java.util.List;
@@ -30,35 +29,41 @@ public interface XMLFileLoader {
 
     Document getDocument();
 
-    String getXMLFileForSchemaElement(ISchemaElement schemaElement);    
+    String getXMLFileForSchemaElement(ISchemaElement schemaElement);
 
     String getXMLPathForSchemaElement(ISchemaElement schemaElement);
 
     Document getDocumentForSchemaElement(ISchemaElement schemaElement);
 
     void addSchemaElement(ISchemaElement element);
-    void addSchemaElement(ISchemaElement element, boolean dependend) ;
+
+    void addSchemaElement(ISchemaElement element, boolean dependend);
+
     List<ISchemaElement> removeSchemaElement(ISchemaElement element);
+
     void updateSchemaElement(ISchemaElement element);
+
     String[] getAllOpenedFiles();
+
     IObserver[] getObservers();
 
     IEyepiece[] getEyepieces();
 
-    IImager[] getImagers() ;
+    IImager[] getImagers();
 
     IFilter[] getFilters();
 
     IObservation[] getObservations();
+
     IObservation[] getObservations(ISchemaElement element);
 
     IObservation[] getCoObserverObservations(IObserver observer);
 
-    IScope[] getScopes() ;
+    IScope[] getScopes();
 
     ISession[] getSessions();
 
-    ISite[] getSites() ;
+    ISite[] getSites();
 
     ITarget[] getTargets();
 
@@ -66,8 +71,4 @@ public interface XMLFileLoader {
 
     boolean loadObservations(String xmlPath);
 
-   
 }
-
-
-

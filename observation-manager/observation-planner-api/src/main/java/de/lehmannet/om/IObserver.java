@@ -109,7 +109,7 @@ public interface IObserver extends ISchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds this Observer to a given parent XML DOM Element. The Observer element will be set as a child element of the
      * passed element.
      * 
@@ -119,7 +119,7 @@ public interface IObserver extends ISchemaElement {
      */
     void addToXmlElement(Element element);
 
-/**
+    /**
      * Adds a Observer link to an given XML DOM Element. The Observer element itself will be attached to given elements
      * ownerDocument if the passed boolean is <code>true</code>. If the ownerDocument has no observer container, it will
      * be created (in case the passed boolean was <code>true</code>.<br>
@@ -150,7 +150,7 @@ public interface IObserver extends ISchemaElement {
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, String NameOfLinkElement,
             boolean addElementToContainer);
 
-/**
+    /**
      * Adds the observer link to an given XML DOM Element The observer element itself will <b>NOT</b> be attached to
      * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, nameOfLinkElement, false</code><br>
@@ -168,7 +168,7 @@ public interface IObserver extends ISchemaElement {
      */
     Element addAsLinkToXmlElement(Element element, String nameOfLinkElement);
 
-/**
+    /**
      * Returns a List with contact information of the observer<br>
      * The returned List may contain e-Mail address, phone number, fax number, postal adress, webpage....whatever. No
      * garantee is given what the list should/may contain, or in which order the elements are placed.<br>
@@ -178,7 +178,7 @@ public interface IObserver extends ISchemaElement {
      */
     List<String> getContacts();
 
-/**
+    /**
      * Returns a Map with external account information of the observer<br>
      * The returned Map contains external service/website/organisation names etc. as key values. The corresponding
      * values are usernames/userid, accountnames, membernumbers, etc. identifing this oberver on an external
@@ -191,7 +191,7 @@ public interface IObserver extends ISchemaElement {
      */
     Map<String, String> getAccounts();
 
-/**
+    /**
      * Returns the name of the observer<br>
      * The name (and the surname) are the only mandatory fields this interface requires.
      * 
@@ -207,7 +207,7 @@ public interface IObserver extends ISchemaElement {
      */
     String getSurname();
 
-/**
+    /**
      * Returns the DeepSkyList (DSL) Code of the observer<br>
      * Might return <code>NULL</code> if observer has no DSL code
      * 
@@ -231,7 +231,7 @@ public interface IObserver extends ISchemaElement {
      */
     boolean addAccount(String accountName, String username);
 
-/**
+    /**
      * Removes an existing account information from the observer.<br>
      * 
      * @param accountName
@@ -242,7 +242,7 @@ public interface IObserver extends ISchemaElement {
      */
     boolean removeAccount(String accountName);
 
-/**
+    /**
      * Adds a new contact information to the observer.<br>
      * 
      * @param newContact
@@ -250,7 +250,7 @@ public interface IObserver extends ISchemaElement {
      */
     void addContact(String newContact);
 
-/**
+    /**
      * Sets the account information to the observer.<br>
      * All current accounts will be deleted!<br>
      * If you want to add a single account use addAccount(String, String)<br>
@@ -262,7 +262,7 @@ public interface IObserver extends ISchemaElement {
      */
     void setAccounts(Map<String, String> newAccounts);
 
-/**
+    /**
      * Returns the username/ID/User#/... belonging to the passed accountName, or <code>NULL</code> if the accountName
      * wasn't set for this observer.<br>
      * 
@@ -274,7 +274,7 @@ public interface IObserver extends ISchemaElement {
      */
     String getUsernameForAccount(String accountName);
 
-/**
+    /**
      * Sets the contact information to the observer.<br>
      * All current contacts will be deleted!<br>
      * If you want to add a contact use addContact(String)<br>
@@ -284,7 +284,7 @@ public interface IObserver extends ISchemaElement {
      */
     void setContacts(List<String> newContacts);
 
-/**
+    /**
      * Sets the DeepSkyList (DSL) Code of the observer<br>
      * 
      * @param DSLCode

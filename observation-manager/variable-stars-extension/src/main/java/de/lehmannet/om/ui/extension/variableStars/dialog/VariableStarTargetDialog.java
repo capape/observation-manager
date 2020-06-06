@@ -20,14 +20,15 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.variableStars.panel.VariableStarTargetPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class VariableStarTargetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -5379806312927835453L;
 
-    public VariableStarTargetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
+    public VariableStarTargetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om,  model, uiHelper, new VariableStarTargetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper,
+                new VariableStarTargetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());

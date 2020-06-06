@@ -31,8 +31,8 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetQSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetQSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 

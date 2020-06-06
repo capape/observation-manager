@@ -58,7 +58,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     // Use a static image as thumbnail for fits files
     private static final String THUMBNAIL_NAME_FITS = "fits.png";
 
-       private boolean editable = false;
+    private boolean editable = false;
 
     private final GridBagLayout layout = new GridBagLayout();
 
@@ -68,7 +68,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     private final IConfiguration configuration;
     private final JFrame om;
 
-    public ImageContainer(List<File> files, JFrame om, IConfiguration configuration, ObservationManagerModel model,boolean editable, ImageResolver resolver) {
+    public ImageContainer(List<File> files, JFrame om, IConfiguration configuration, ObservationManagerModel model,
+            boolean editable, ImageResolver resolver) {
 
         this.configuration = configuration;
         this.model = model;
@@ -104,8 +105,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
             path = ((File) images.get(i)).getAbsolutePath();
             if (path.startsWith("." + File.separator)) { // Path is relative
-                path = this.model.getXMLPathForSchemaElement(this.model.getSelectedElement())
-                        + File.separator + path;
+                path = this.model.getXMLPathForSchemaElement(this.model.getSelectedElement()) + File.separator + path;
             }
 
             if (!((path.endsWith(".fits")) || (path.endsWith(".fit")) || (path.endsWith(".fts")))) {
@@ -159,8 +159,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         }
 
         // Find out whether images path should be returned relative or absolute
-        boolean relativePath = Boolean
-                .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_IMAGESDIR_RELATIVE));
+        boolean relativePath = Boolean.parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_IMAGESDIR_RELATIVE));
         if ((homeDir == null) || ("".equals(homeDir.trim()))) {
             relativePath = false;
         }
@@ -198,7 +197,6 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        
         if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
             if (e.getSource() instanceof MyImageLabel) {
                 MyImageLabel l = (MyImageLabel) e.getSource();
@@ -283,7 +281,6 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         return 1;
 
     }
-
 
 }
 

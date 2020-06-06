@@ -30,8 +30,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-
-
 public class ImageDialog extends JDialog implements ActionListener, KeyListener, MouseWheelListener {
 
     private static final long serialVersionUID = -3798904199589986801L;

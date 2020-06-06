@@ -19,7 +19,7 @@ public class OALException extends Exception {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of a OALException.
      * 
      * @param message
@@ -31,7 +31,7 @@ public class OALException extends Exception {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a OALException.
      * 
      * @param message
@@ -49,7 +49,7 @@ public class OALException extends Exception {
     // Private methods ---------------------------------------------------
     // ---------------
 
-/**
+    /**
      * Adds a special flavour around the exceptions message that should make it easier to point out OALExceptions.
      */
     private static String addMessageFlavour(String message) {

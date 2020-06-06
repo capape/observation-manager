@@ -26,7 +26,7 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
             LOGGER.error("Not image name provided");
             throw new IllegalArgumentException("Should provide a file name");
         }
-		
+
         final String buildImagePath = buildImagePath(name);
         URL resource = ImageClassLoaderResolverImpl.class.getClassLoader().getResource(buildImagePath);
         if (resource == null) {
@@ -35,11 +35,11 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
         }
         LOGGER.debug("Image resource: {} for path {}", resource.toString(), buildImagePath);
         return Optional.ofNullable(resource);
-	}
+    }
 
     private String buildImagePath(String name) {
 
-        return this.imagePath + Path.SEPARATOR + name ;
+        return this.imagePath + Path.SEPARATOR + name;
     }
 
 }

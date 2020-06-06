@@ -20,12 +20,12 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetMSPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class DeepSkyTargetMSDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -8129406510069525991L;
 
-    public DeepSkyTargetMSDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,  ITarget editableTarget) {
+    public DeepSkyTargetMSDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
         super(om, model, uiHelper, new DeepSkyTargetMSPanel(uiHelper, model, editableTarget, Boolean.TRUE));
 
@@ -39,7 +39,6 @@ public class DeepSkyTargetMSDialog extends AbstractDialog implements ITargetDial
 
         this.setSize(DeepSkyTargetMSDialog.serialVersionUID, 750, 407);
 
-        
         this.setVisible(true);
 
     }

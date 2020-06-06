@@ -32,7 +32,9 @@ public class TargetObservations {
             return Collections.emptyList();
         }
 
-        return this.observations.stream().map(x -> { return (IObservation) x;}).collect(Collectors.toList());
+        return this.observations.stream().map(x -> {
+            return (IObservation) x;
+        }).collect(Collectors.toList());
 
     }
 

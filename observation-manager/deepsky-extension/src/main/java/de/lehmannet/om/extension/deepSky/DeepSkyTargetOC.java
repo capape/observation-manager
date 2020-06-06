@@ -16,8 +16,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetOC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
- * class.<br>
+ * DeepSkyTargetOC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for open clusters.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -60,18 +59,18 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // ------------
 
     /**
-     * Constructs a new instance of a DeepSkyTargetOC from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a DeepSkyTargetOC from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
     public DeepSkyTargetOC(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -110,7 +109,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
         }
 
         // Get optional brightest stars
-        children = target.getElementsByTagName(DeepSkyTargetOC.XML_ELEMENT_BRIGHTESTSTAR);        
+        children = target.getElementsByTagName(DeepSkyTargetOC.XML_ELEMENT_BRIGHTESTSTAR);
         if (children.getLength() == 1) {
             Element child = (Element) children.item(0);
             double value = Double.parseDouble(child.getFirstChild().getNodeValue());
@@ -124,8 +123,10 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetOC.
      * 
-     * @param name       The name of the open cluster
-     * @param datasource The datasource of the open cluster
+     * @param name
+     *            The name of the open cluster
+     * @param datasource
+     *            The datasource of the open cluster
      */
     public DeepSkyTargetOC(String name, String datasource) {
 
@@ -136,8 +137,10 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetOC.
      * 
-     * @param name     The name of the open cluster
-     * @param observer The observer who is the originator of the open cluster
+     * @param name
+     *            The name of the open cluster
+     * @param observer
+     *            The observer who is the originator of the open cluster
      */
     public DeepSkyTargetOC(String name, IObserver observer) {
 
@@ -150,10 +153,11 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     // ------
 
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -224,8 +228,8 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Returns the amount of stars in the open cluster.
      * 
-     * @return The amount of stars in the open cluster. The returned value might be
-     *         <code>-1</code> if the value was never set
+     * @return The amount of stars in the open cluster. The returned value might be <code>-1</code> if the value was
+     *         never set
      */
     public int getAmountOfStars() {
 
@@ -236,8 +240,8 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Returns the classification (according to Trumpler) of the open cluster.
      * 
-     * @return The classification of the open cluster (according to Trumpler) The
-     *         returned value might be <code>null</code> if the value was never set
+     * @return The classification of the open cluster (according to Trumpler) The returned value might be
+     *         <code>null</code> if the value was never set
      */
     public String getClusterClassification() {
 
@@ -248,8 +252,8 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Returns the magnitude of the brightest star in the open cluster.
      * 
-     * @return The magnitude of the brightest star in the open cluster. The returned
-     *         value might be <code>Double.NaN</code> if the value was never set
+     * @return The magnitude of the brightest star in the open cluster. The returned value might be
+     *         <code>Double.NaN</code> if the value was never set
      */
     public double getBrightestStar() {
 
@@ -258,10 +262,11 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     }
 
     /**
-     * Sets the amount of stars in the open cluster. All passed values lower than 1
-     * are treated as -1, which means that the value was never set.
+     * Sets the amount of stars in the open cluster. All passed values lower than 1 are treated as -1, which means that
+     * the value was never set.
      * 
-     * @param newAmountOfStars The new amount of stars in the open cluster
+     * @param newAmountOfStars
+     *            The new amount of stars in the open cluster
      */
     public void setAmountOfStars(int newAmountOfStars) {
 
@@ -277,8 +282,8 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Sets the magnitude of the brightest star in the open cluster
      * 
-     * @param newBrightestStar The new magnitude of the birghtest star in the open
-     *                         cluster
+     * @param newBrightestStar
+     *            The new magnitude of the birghtest star in the open cluster
      */
     public void setBrightestStar(double newBrightestStar) {
 
@@ -289,7 +294,8 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Sets the cluster classification (according to Trumpler).
      * 
-     * @param newClassification The new cluster classification as String
+     * @param newClassification
+     *            The new cluster classification as String
      */
     public void setClusterClassification(String newClassification) {
 

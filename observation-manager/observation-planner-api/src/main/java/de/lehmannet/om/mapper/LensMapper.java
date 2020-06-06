@@ -30,8 +30,7 @@ public class LensMapper {
                     return vendor.toString().trim();
                 }
                 /*
-                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) {
-                 * this.setVendor(vendor); }
+                 * vendor = child.getFirstChild().getNodeValue(); if( vendor != null ) { this.setVendor(vendor); }
                  */
             } else {
                 throw new SchemaException("Problem while retrieving vendor from lens. ");

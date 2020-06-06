@@ -24,9 +24,11 @@ public class SolarSystemTargetMinorPlanetDialog extends AbstractDialog implement
 
     private static final long serialVersionUID = -4406827373886902739L;
 
-    public SolarSystemTargetMinorPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
+    public SolarSystemTargetMinorPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om,  model, uiHelper, new SolarSystemTargetMinorPlanetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper,
+                new SolarSystemTargetMinorPlanetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

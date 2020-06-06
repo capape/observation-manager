@@ -53,7 +53,6 @@ public class ImagerExtension extends AbstractExtension {
     private final Set<String> supportedXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
 
-
     public ImagerExtension() {
 
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
@@ -122,7 +121,6 @@ public class ImagerExtension extends AbstractExtension {
     private void initSupportedXSITypes() {
         this.supportedXSITypes.add(CCDImager.XML_ATTRIBUTE_CCDIMAGER);
     }
-    
 
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstants) {
@@ -144,13 +142,11 @@ public class ImagerExtension extends AbstractExtension {
 
     public void initAllSupportedXSITypes() {
 
-        this.initSupportedXSITypes();      
+        this.initSupportedXSITypes();
 
-        
         this.allSupportedXSITypes.addAll(this.supportedXSITypes);
 
     }
-
 
     @Override
     public float getVersion() {
@@ -221,7 +217,7 @@ public class ImagerExtension extends AbstractExtension {
 
     @Override
     public boolean supports(String xsiType) {
-     
+
         if (xsiType == null) {
             return false;
         }
@@ -230,8 +226,9 @@ public class ImagerExtension extends AbstractExtension {
 
     @Override
     public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
-       
-        return new CCDImagerDialog(parent, this.extensionContext.getUserInterfaceHelper(), this.extensionContext.getModel(), imager); 
+
+        return new CCDImagerDialog(parent, this.extensionContext.getUserInterfaceHelper(),
+                this.extensionContext.getModel(), imager);
     }
 
 }

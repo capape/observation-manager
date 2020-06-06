@@ -258,8 +258,6 @@ public class DatePicker extends JDialog {
 
         this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
-       
-
     }
 
     private void setDates() {
@@ -322,7 +320,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-       
+
     }
 
     public Calendar getCalendar() {

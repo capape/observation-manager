@@ -78,7 +78,7 @@ public class Observer extends SchemaElement implements IObserver {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new Observer instance from a given XML Schema Node. Normally this constructor is only used by
      * de.lehmannet.om.util.SchemaLoader
      *
@@ -98,7 +98,6 @@ public class Observer extends SchemaElement implements IObserver {
         // Cast to element as we need some methods from it
         Element observerElement = (Element) observer;
 
-        
         this.setID(ObserverMapper.getMandatoryID(observerElement));
         this.setName(ObserverMapper.getMandatoryName(observerElement));
         this.setSurname(ObserverMapper.getMandatorySurname(observerElement));
@@ -106,14 +105,13 @@ public class Observer extends SchemaElement implements IObserver {
         this.setDSLCode(ObserverMapper.getOptionalDSL(observerElement));
         final String dslCode = this.getDSLCode();
         if (!StringUtils.isBlank(dslCode)) {
-            this.accounts.put(ACCOUNT_DSL,dslCode);
+            this.accounts.put(ACCOUNT_DSL, dslCode);
         }
-        
+
         this.setFSTOffset(ObserverMapper.getOptionalFstOffset(observerElement));
         this.accounts.putAll(ObserverMapper.getOptionalAccounts(observerElement));
 
     }
-
 
     /**
      * Constructs a new instance of an Observer.
@@ -143,7 +141,7 @@ public class Observer extends SchemaElement implements IObserver {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -163,7 +161,7 @@ public class Observer extends SchemaElement implements IObserver {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the name, surname and contact informations of this observer.
      *
@@ -185,7 +183,7 @@ public class Observer extends SchemaElement implements IObserver {
             ListIterator<String> iterator = contacts.listIterator();
             while (iterator.hasNext()) {
 
-                buffer.append( iterator.next());
+                buffer.append(iterator.next());
 
                 if (iterator.hasNext()) {
                     buffer.append(" --- ");
@@ -203,8 +201,8 @@ public class Observer extends SchemaElement implements IObserver {
                 if (iterator.hasNext()) {
                     buffer.append(" --- ");
                 }
-            }           
-            
+            }
+
         }
 
         buffer.append(" fstOffset=");
@@ -214,13 +212,11 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-
-
     // ---------
     // IObserver ---------------------------------------------------------
     // ---------
 
-/**
+    /**
      * Adds this Observer to a given parent XML DOM Element. The Observer element will be set as a child element of the
      * passed element.
      *
@@ -297,8 +293,8 @@ public class Observer extends SchemaElement implements IObserver {
                 Node n_AccountText = ownerDoc.createCDATASection(value);
                 e_Account.appendChild(n_AccountText);
                 e_Observer.appendChild(e_Account);
-            }                       
-            
+            }
+
         }
 
         if (!Float.isNaN(this.fstOffset)) {
@@ -310,7 +306,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Adds a Observer link to an given XML DOM Element. The Observer element itself will be attached to given elements
      * ownerDocument if the passed boolean is <code>true</code>. If the ownerDocument has no observer container, it will
      * be created (in case the passed boolean was <code>true</code>.<br>
@@ -376,7 +372,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Adds the observer link to an given XML DOM Element The observer element itself will <b>NOT</b> be attached to
      * given elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, nameOfLinkElement, false</code><br>
@@ -399,7 +395,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns a List with contact information of the observer<br>
      * The returned List may contain e-Mail address, phone number, fax number, postal adress, webpage....whatever. No
      * garantee is given what the list should/may contain, or in which order the elements are placed.<br>
@@ -414,7 +410,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Adds a new contact information to the observer.<br>
      *
      * @param newContact
@@ -431,7 +427,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets the contact information to the observer.<br>
      * All current contacts will be deleted!<br>
      * If you want to add a contact use addContact(String)<br>
@@ -450,7 +446,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns the name of the observer<br>
      * The name (and the surname) are the only mandatory fields this interface requires.
      *
@@ -463,7 +459,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns the DeepSkyList (DSL) Code of the observer<br>
      * Might return <code>NULL</code> if observer has no DSL code
      *
@@ -478,7 +474,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns the surname of the observer<br>
      * The surname (and the name) are the only mandatory fields this interface requires.
      *
@@ -491,7 +487,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets the DeepSkyList (DSL) Code of the observer<br>
      *
      * @param DSLCode
@@ -506,7 +502,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets a new name to the observer.<br>
      * As the name is mandatory it cannot be <code>null</code>
      *
@@ -526,7 +522,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets a new surname to the observer.<br>
      * As the surname is mandatory it cannot be <code>null</code>
      *
@@ -546,7 +542,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns a Map with external account information of the observer<br>
      * The returned Map contains external service/website/organisation names etc. as key values. The corresponding
      * values are usernames/userid, accountnames, membernumbers, etc. identifing this oberver on an external
@@ -564,7 +560,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Adds a new account information to the observer.<br>
      * If the account name does already exist, the existing value gets overwritten with the passed new value.<br>
      *
@@ -590,7 +586,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Removes an existing account information from the observer.<br>
      *
      * @param accountName
@@ -607,7 +603,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets the account information to the observer.<br>
      * All current accounts will be deleted!<br>
      * If you want to add a single account use addAccount(String, String)<br>
@@ -628,7 +624,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns the username/ID/User#/... belonging to the passed accountName, or <code>NULL</code> if the accountName
      * wasn't set for this observer.<br>
      *
@@ -645,7 +641,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Sets a new fst offset to the observer.<br>
      * Float.NaN will clear the current set value.
      *
@@ -664,7 +660,7 @@ public class Observer extends SchemaElement implements IObserver {
 
     }
 
-/**
+    /**
      * Returns the fst Offset of this observer or <code>Float.NaN</code> if the value was never set.<br>
      * Personal fst offset between the "reference" correlation of the sky quality meter as it can be measured with an
      * SQM and the estimated naked eye limiting magnitude (fst) The individual observer's offset depends mainly on the
@@ -719,7 +715,5 @@ public class Observer extends SchemaElement implements IObserver {
             return false;
         return true;
     }
-
-    
 
 }

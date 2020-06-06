@@ -25,14 +25,13 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
  */
 public interface ObservationManagerModel {
 
-    
     void setSelectedElement(ISchemaElement selected);
 
     ISchemaElement getSelectedElement();
-    
+
     boolean hasChanged();
 
-	void setChanged(boolean b);
+    void setChanged(boolean b);
 
     void setTitle(String title);
 
@@ -40,48 +39,47 @@ public interface ObservationManagerModel {
 
     Optional<String> getRootName();
 
-    @Deprecated 
+    @Deprecated
     XMLFileLoader getXmlCache();
 
     IConfiguration getConfiguration();
-
 
     void clear();
 
     boolean isEmpty();
 
     void add(ISchemaElement element);
-    
-    void add(ISchemaElement element, boolean dependend) ;
-    
+
+    void add(ISchemaElement element, boolean dependend);
+
     List<ISchemaElement> remove(ISchemaElement element);
-    
+
     void update(ISchemaElement element);
-    
+
     IObserver[] getObservers();
 
     IEyepiece[] getEyepieces();
 
-    IImager[] getImagers() ;
+    IImager[] getImagers();
 
     IFilter[] getFilters();
 
     IObservation[] getObservations();
-    
+
     IObservation[] getObservations(ISchemaElement element);
 
     IObservation[] getCoObserverObservations(IObserver observer);
 
-    IScope[] getScopes() ;
+    IScope[] getScopes();
 
     ISession[] getSessions();
 
-    ISite[] getSites() ;
+    ISite[] getSites();
 
     ITarget[] getTargets();
 
-    ILens[] getLenses();    
-    
+    ILens[] getLenses();
+
     boolean loadObservations(String file);
 
     List<File> getFilesFromPath(List<String> imagePath);
@@ -98,6 +96,4 @@ public interface ObservationManagerModel {
 
     boolean saveAs(String oldPath, String newPath);
 
-    
- 
 }

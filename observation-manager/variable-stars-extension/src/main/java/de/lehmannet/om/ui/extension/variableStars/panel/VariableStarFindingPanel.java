@@ -51,7 +51,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-
     private FindingVariableStar finding = null;
     private ISession session = null;
     private ITarget target = null;
@@ -76,8 +75,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     private final IConfiguration configuration;
 
-    public VariableStarFindingPanel(IConfiguration configuration, IFinding finding, ISession s, ITarget t, Boolean editable)
-            throws IllegalArgumentException {
+    public VariableStarFindingPanel(IConfiguration configuration, IFinding finding, ISession s, ITarget t,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
         this.configuration = configuration;
@@ -637,12 +636,13 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     private void writeToCache() {
 
-        if ((this.isEditable()) && (this.finding != null) && (Boolean
-                .parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
-            
+        if ((this.isEditable()) && (this.finding != null)
+                && (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
+
             this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
             // Use JTextField here so that we don't need to build up string again
-            this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText()); 
+            this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS,
+                    this.comparismStars.getText());
             if (this.nonAAVSOchart.isSelected()) {
                 this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
                         Boolean.toString(this.finding.isNonAAVSOchart()));
@@ -664,11 +664,9 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         }
 
         if ((this.isEditable())
-                && (Boolean.parseBoolean(
-                        this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
-                && (targetName.equals(this.configuration
-                        .getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
-            
+                && (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
+                && (targetName.equals(
+                        this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
 
             String lastChartDate = this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE);
             if ((lastChartDate != null) && !("".equals(lastChartDate.trim()))) {

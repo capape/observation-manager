@@ -41,7 +41,7 @@ public class SolarSystemCatalog implements IListableCatalog {
 
     // Key = Name
     // Value = Target
-    private final Map<String,ITarget> map = new LinkedHashMap<>();
+    private final Map<String, ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
     private Locale lastKnownDefaultLocale = Locale.getDefault();
@@ -114,7 +114,6 @@ public class SolarSystemCatalog implements IListableCatalog {
     }
 
     private void reloadLanguage() {
-       
 
         this.tableModel = new SolarSystemTableModel(this);
         this.lastKnownDefaultLocale = Locale.getDefault();

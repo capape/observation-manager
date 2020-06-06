@@ -31,7 +31,8 @@ public class SchemaException extends OALException {
     /**
      * Constructs a new SchemaException.<br>
      * 
-     * @param message Message which describes the cause of the problem.
+     * @param message
+     *            Message which describes the cause of the problem.
      */
     public SchemaException(String message) {
 
@@ -39,7 +40,7 @@ public class SchemaException extends OALException {
 
     }
 
-/**
+    /**
      * Constructs a new SchemaException.<br>
      * 
      * @param message

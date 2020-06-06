@@ -12,8 +12,7 @@ public interface IObservationManagerJFrame {
 
     void createInfo(String message);
 
-    void createProgressDialog(Worker worker, String title,
-        String loadingMessage);
+    void createProgressDialog(Worker worker, String title, String loadingMessage);
 
     IConfiguration getConfiguration();
 }

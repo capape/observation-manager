@@ -25,9 +25,11 @@ public class DeepSkyTargetCGDialog extends AbstractDialog implements ITargetDial
 
     private static final long serialVersionUID = -4936737277950814027L;
 
-    public DeepSkyTargetCGDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
+    public DeepSkyTargetCGDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om, model, uiHelper ,new DeepSkyTargetCGPanel(model.getConfiguration(),uiHelper, model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper,
+                new DeepSkyTargetCGPanel(model.getConfiguration(), uiHelper, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());

@@ -46,6 +46,7 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
     private CatalogPanel panel = null;
     private final ObservationManagerModel model;
     private final TextManager textManager;
+
     public CatalogDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager) {
 
         super(om);
@@ -142,8 +143,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         }
         String defaultCatalog = this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG);
         if ((defaultCatalog != null) && (!"".equals(defaultCatalog))) {
-            this.catalogBox
-                    .setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG));
+            this.catalogBox.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_DEFAULT_CATALOG));
         }
         this.catalogBox.addActionListener(this);
 
@@ -220,7 +220,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
 
         // Change table if different catalog is selected
         if (e.getSource() instanceof JComboBox) {
-            JComboBox box =  (JComboBox) e.getSource();
+            JComboBox box = (JComboBox) e.getSource();
             if (this.catalogBox.equals(box)) {
                 String selected = (String) this.catalogBox.getSelectedItem();
                 this.selectedCatalog = this.loader.getCatalog(selected);
@@ -263,8 +263,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
     private void showSearchDialog() {
 
         AbstractSearchPanel panel = this.selectedCatalog.getSearchPanel();
-        SearchDialog sd = new SearchDialog(this.textManager.getString("dialog.catalog.search.title"), panel, this,
-                om);
+        SearchDialog sd = new SearchDialog(this.textManager.getString("dialog.catalog.search.title"), panel, this, om);
         this.selectedTarget = (ITarget) sd.getSearchResult();
         if (this.selectedTarget != null) {
             // Check if selected target exists already in cache...if so, use that one.

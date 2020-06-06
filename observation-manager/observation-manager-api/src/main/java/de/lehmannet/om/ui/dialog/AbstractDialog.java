@@ -43,7 +43,8 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper, AbstractPanel panel) {
+    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
+            AbstractPanel panel) {
 
         this(false, om, model, uiHelper, panel);
 
@@ -51,24 +52,24 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
 
     }
 
-    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper, AbstractPanel panel, boolean oneButton) {
+    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
+            AbstractPanel panel, boolean oneButton) {
 
-        this(true, om, model,uiHelper, panel);
+        this(true, om, model, uiHelper, panel);
 
         this.initDialog();
 
     }
 
-    private AbstractDialog(boolean oneButton, JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper, AbstractPanel panel) {
+    private AbstractDialog(boolean oneButton, JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
+            AbstractPanel panel) {
 
         super(om);
 
-        
         this.model = model;
         this.uiHelper = uiHelper;
         this.panel = panel;
         this.schemaElement = this.panel.getSchemaElement();
-        
 
         if (this.panel.isEditable()) {
             this.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));
@@ -118,7 +119,6 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
                             // this.model.addSchemaElement(this.schemaElement);
                             this.model.add(this.schemaElement);
                             this.uiHelper.refreshUI();
-                            
 
                             this.dispose();
                         }

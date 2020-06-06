@@ -39,7 +39,6 @@ import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-
 public class VariableStarSelectorPopup extends JDialog implements ActionListener, TableModelListener {
 
     /**
@@ -56,8 +55,6 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private Calendar endDate = null;
     private JButton endPicker = null;
 
-    
-
     private final PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
@@ -67,9 +64,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private final UserInterfaceHelper uiHelper;
 
     /**
-     *  @see SchemaElementConstants
+     * @see SchemaElementConstants
      */
-    public VariableStarSelectorPopup(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model) throws IllegalArgumentException, NoSuchElementException { 
+    public VariableStarSelectorPopup(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model)
+            throws IllegalArgumentException, NoSuchElementException {
 
         super(om, true);
 

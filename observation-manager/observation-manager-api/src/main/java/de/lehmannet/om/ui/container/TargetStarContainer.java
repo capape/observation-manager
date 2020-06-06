@@ -38,7 +38,6 @@ public class TargetStarContainer extends Container {
 
     private boolean editable = false;
 
-    
     private TargetStar starTarget = null;
 
     private TargetContainer targetContainer = null;
@@ -48,7 +47,7 @@ public class TargetStarContainer extends Container {
     public JLabel labelMagnitudeApp = null;
 
     // Stars apparent magnitude (make this accessible for e.g. VariableStarContainer
-    // which will change the label text)git 
+    // which will change the label text)git
     public JTextField magnitudeApparent = null;
 
     // Stellar classification like O,B,A,F,G,K,M
@@ -57,8 +56,8 @@ public class TargetStarContainer extends Container {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetStarContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target, boolean editable)
-            throws IllegalArgumentException {
+    public TargetStarContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            boolean editable) throws IllegalArgumentException {
 
         this.editable = editable;
         this.model = model;
@@ -212,7 +211,8 @@ public class TargetStarContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.starTarget, this.editable, false);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.starTarget, this.editable,
+                false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

@@ -632,8 +632,9 @@ public class ObservationItemPanel extends AbstractPanel {
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
-            ImageContainer imageContainer = new ImageContainer(this.model.getFilesFromPath(this.observation.getImages()),
-                 this.om,  this.om.getConfiguration(), this.model, false, this.om.getImageResolver());
+            ImageContainer imageContainer = new ImageContainer(
+                    this.model.getFilesFromPath(this.observation.getImages()), this.om, this.om.getConfiguration(),
+                    this.model, false, this.om.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
@@ -648,5 +649,4 @@ public class ObservationItemPanel extends AbstractPanel {
 
     }
 
-  
 }

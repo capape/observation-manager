@@ -81,14 +81,11 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     private PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    
-
     private JMenuItem exportAAVSO = null;
     private JMenuItem showChart = null;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VariableStarsExtension.class);
 
-    
     private IExtensionContext extensionContext;
 
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
@@ -106,7 +103,6 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         this.initTargetDialogs();
 
     }
-    
 
     @Override
     public String getName() {
@@ -174,17 +170,15 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     }
 
-
-
     private void initSupportedTargetXSITypes() {
 
         this.supportedTargetXSITypes.add(TargetVariableStar.XML_XSI_TYPE_VALUE);
-       
+
     }
 
     private void initSupportedFindingXSITypes() {
 
-        this.supportedFinfingXSITypes.add(FindingVariableStar.XML_XSI_TYPE_VALUE);       
+        this.supportedFinfingXSITypes.add(FindingVariableStar.XML_XSI_TYPE_VALUE);
     }
 
     private void initAllSupportedXSITypes() {
@@ -197,7 +191,6 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     }
 
-
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
@@ -207,11 +200,10 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
             return Collections.unmodifiableSet(this.supportedFinfingXSITypes);
         }
 
-        return  Collections.emptySet();
+        return Collections.emptySet();
 
     }
 
-    
     @Override
     public String getDisplayNameForXSIType(String xsiType) {
 
@@ -274,15 +266,15 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session,  ITarget target,
+    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
-                return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, target, editable);
+        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, target, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-                return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
+        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
     }
 
     @Override
@@ -294,7 +286,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
-                return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
+        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
     }
 
     @Override
@@ -311,23 +303,20 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         return null;
     }
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        
         if (e.getSource() instanceof JMenuItem) { // Should always be the case
             JMenuItem source = (JMenuItem) e.getSource();
             Container om = source.getParent();
-            
+
             if (source.equals(this.exportAAVSO)) {
 
-                
                 // Get preselected observations
                 IObservation[] allObservations = this.extensionContext.getModel().getObservations();
                 if (allObservations.length == 0) {
-                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("info.noObservationsFound"));
+                    this.extensionContext.getUserInterfaceHelper()
+                            .showInfo(this.uiBundle.getString("info.noObservationsFound"));
                     return;
                 }
                 List<IObservation> preselectedObservations = new ArrayList<>();
@@ -343,7 +332,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
                 // Create popup for variable star observations
                 // FIX ME: parent frame instead of null.
-                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(null, this.extensionContext.getModel(),
+                SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(null,
+                        this.extensionContext.getModel(),
                         this.uiBundle.getString("popup.exportAAVSO.selectObservations"),
                         TargetVariableStar.XML_XSI_TYPE_VALUE, preselectedObservations, true,
                         SchemaElementConstants.OBSERVATION);
@@ -362,7 +352,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 String[] files = this.extensionContext.getModel().getAllOpenedFiles();
                 if ((files == null) || (files.length == 0)) { // There is data (otherwise we wouldn't have come here),
                                                               // but data's not saved
-                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.noXMLFileOpen"));
+                    this.extensionContext.getUserInterfaceHelper()
+                            .showInfo(this.uiBundle.getString("error.noXMLFileOpen"));
                     return;
                 }
 
@@ -388,14 +379,16 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 try {
                     exportCounter = aavsoExport.serialize(new BufferedOutputStream(new FileOutputStream(aavsoFile)));
                 } catch (FileNotFoundException fnfe) {
-                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.aavsoExportFileNotFound"));
+                    this.extensionContext.getUserInterfaceHelper()
+                            .showInfo(this.uiBundle.getString("error.aavsoExportFileNotFound"));
                     System.err.println(fnfe);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     om.setCursor(defaultCursor);
                     return;
                 } catch (Exception ex) {
-                    this.extensionContext.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.aavsoExportNotOK"));
+                    this.extensionContext.getUserInterfaceHelper()
+                            .showInfo(this.uiBundle.getString("error.aavsoExportNotOK"));
                     System.err.println(ex);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -411,8 +404,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 om.setCursor(defaultCursor);
 
                 if (exportCounter != variableStarObservations.size()) { // Not all observations were exported
-                    this.extensionContext.getUserInterfaceHelper().showInfo(exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n"
-                            + aavsoFile + "\n" + this.uiBundle.getString("info.aavsoExportCheckLog"));
+                    this.extensionContext.getUserInterfaceHelper()
+                            .showInfo(exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n"
+                                    + aavsoFile + "\n" + this.uiBundle.getString("info.aavsoExportCheckLog"));
                 } else { // All observations exported
                     this.extensionContext.getUserInterfaceHelper().showInfo(
                             exportCounter + " " + this.uiBundle.getString("info.aavsoExport") + "\n" + aavsoFile);
@@ -432,8 +426,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 boolean quitLoop = false;
                 do {
                     try {
-                        //FIXME: null->om
-                        popup = new VariableStarSelectorPopup(null, this.extensionContext.getUserInterfaceHelper(), this.extensionContext.getModel());
+                        // FIXME: null->om
+                        popup = new VariableStarSelectorPopup(null, this.extensionContext.getUserInterfaceHelper(),
+                                this.extensionContext.getModel());
                     } catch (IllegalArgumentException iae) { // No variable star observation found
                         return;
                     }
@@ -458,13 +453,14 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 } while (!quitLoop); // Exit loop by pressing cancel
 
                 // Show color selection
-                ColorSelectionDialog colorDialog = new ColorSelectionDialog(null, this.extensionContext.getConfiguration(), observations);
+                ColorSelectionDialog colorDialog = new ColorSelectionDialog(null,
+                        this.extensionContext.getConfiguration(), observations);
                 Map<IObserver, Color> colorMap = colorDialog.getColorMap();
 
                 // Show chart
                 if (colorMap != null) {
-                    new VariableStarChartDialog(null, this.extensionContext.getUserInterfaceHelper(), this.extensionContext.getConfiguration(),
-                    Objects.requireNonNull(observations), colorMap);
+                    new VariableStarChartDialog(null, this.extensionContext.getUserInterfaceHelper(),
+                            this.extensionContext.getConfiguration(), Objects.requireNonNull(observations), colorMap);
                 }
             }
         }
@@ -472,8 +468,3 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
 }
-
-
-
-
-

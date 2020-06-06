@@ -50,7 +50,7 @@ public class AngleContainer extends Container {
     private final JTextField arcMinValue = new JTextField();
     private final JTextField arcSecValue = new JTextField();
 
-    private final Map<String,String> unitI18Nmap = new HashMap<>();
+    private final Map<String, String> unitI18Nmap = new HashMap<>();
 
     public AngleContainer(Angle angle, boolean editable) {
 

@@ -22,10 +22,10 @@ public class Version implements Comparable<Version> {
             throw new IllegalArgumentException("Invalid version format");
         }
 
-        if(!isValidVersion(version)) {
+        if (!isValidVersion(version)) {
             throw new IllegalArgumentException("Invalid version format");
         }
-        
+
         final String[] parts = version.split("\\.");
 
         try {
@@ -33,13 +33,12 @@ public class Version implements Comparable<Version> {
             final Integer vminor = Integer.parseInt(parts[1]);
 
             final String modifier = parts[2].replaceFirst("[0-9]+", "");
-            final Integer vpatch = Integer.parseInt(parts[2].replaceAll(modifier,""));
-            
+            final Integer vpatch = Integer.parseInt(parts[2].replaceAll(modifier, ""));
 
             return new Version(vmajor, vminor, vpatch, modifier);
-        } catch (NumberFormatException nfe ){
+        } catch (NumberFormatException nfe) {
 
-            throw new  IllegalArgumentException("Invalid version format");
+            throw new IllegalArgumentException("Invalid version format");
 
         }
 
@@ -48,7 +47,6 @@ public class Version implements Comparable<Version> {
     public static boolean isValidVersion(String version) {
         return version.matches("[0-9]+\\.[0-9]+\\.[0-9]+.*");
     }
-
 
     @Override
     public int compareTo(Version o) {

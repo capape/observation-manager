@@ -38,7 +38,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
 
     private IObservation[] observations = null;
 
-   
     private JTable table = null;
 
     private JButton cancel = null;
@@ -46,7 +45,7 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
     private Map<IObserver, Color> result = null;
 
     private final IConfiguration configuration;
-    
+
     public ColorSelectionDialog(JFrame om, IConfiguration configuration, IObservation[] observations) {
 
         super(om);
@@ -54,7 +53,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         this.configuration = configuration;
         this.observations = observations;
 
-        
         this.setTitle(this.bundle.getString("popup.observerColor.title"));
         this.setModal(true);
 
@@ -91,9 +89,9 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         constraints.fill = GridBagConstraints.BOTH;
         Color defaultColor = null;
         // if (this.om.isNightVisionEnabled()) {
-        //     defaultColor = Color.DARK_GRAY;
+        // defaultColor = Color.DARK_GRAY;
         // } else {
-        //     defaultColor = Color.RED;
+        // defaultColor = Color.RED;
         // }
         this.table = new JTable(new ObserverColorTableModel(this.getObservers(), defaultColor));
         this.table.setToolTipText(this.bundle.getString("popup.observerColor.tooltip.table"));

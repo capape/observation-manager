@@ -34,19 +34,15 @@ public final class ObservationManagerMenuData {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuData.class);
 
-    private final ObservationManagerModel model;    
+    private final ObservationManagerModel model;
     private final ImageResolver imageResolver;
     private final TextManager textManager;
     private final ObservationManager observationManager;
     private final JMenu menu;
-    
 
-    public ObservationManagerMenuData(                
-        ObservationManagerModel model,
-        ImageResolver imageResolver,
-        TextManager textManager,
-        ObservationManager om) {
-       
+    public ObservationManagerMenuData(ObservationManagerModel model, ImageResolver imageResolver,
+            TextManager textManager, ObservationManager om) {
+
         // Load configuration
         this.model = model;
         this.observationManager = om;
@@ -54,7 +50,7 @@ public final class ObservationManagerMenuData {
         this.textManager = textManager;
 
         this.menu = this.createMenuDataItems();
- 
+
     }
 
     public JMenu getMenu() {
@@ -67,7 +63,6 @@ public final class ObservationManagerMenuData {
         // ----- Data Menu
         final JMenu dataMenu = new JMenu(this.textManager.getString("menu.data"));
         dataMenu.setMnemonic('d');
-        
 
         JMenuItem createObservation = new JMenuItem(this.textManager.getString("menu.createObservation"),
                 new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
@@ -145,7 +140,6 @@ public final class ObservationManagerMenuData {
         return dataMenu;
     }
 
-
     public void createNewObservation() {
 
         ObservationDialog dialog = null;
@@ -153,10 +147,10 @@ public final class ObservationManagerMenuData {
             dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null);
             this.model.add(dialog.getObservation());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                               // won't appear on UI)
+            // won't appear on UI)
             this.observationManager.updateUI(dialog.getObservation()); // Sets selection in tree
-                                                    // (and table) on new
-                                                    // element
+            // (and table) on new
+            // element
         }
 
     }
@@ -166,20 +160,20 @@ public final class ObservationManagerMenuData {
         ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
         this.model.add(dialog.getObserver());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getObserver()); // Sets selection in tree (and
-                                             // table) on new element
+        // table) on new element
 
     }
 
     public void createNewSession() {
 
-        SessionDialog dialog = new SessionDialog(this.observationManager,this.model,  null);
+        SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getSession());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getSession()); // Sets selection in tree (and
-                                            // table) on new element
+        // table) on new element
 
     }
 
@@ -188,9 +182,9 @@ public final class ObservationManagerMenuData {
         SiteDialog dialog = new SiteDialog(this.observationManager, null);
         this.model.add(dialog.getSite());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getSite()); // Sets selection in tree (and table)
-                                         // on new element
+        // on new element
 
     }
 
@@ -199,9 +193,9 @@ public final class ObservationManagerMenuData {
         ScopeDialog dialog = new ScopeDialog(this.observationManager, null);
         this.model.add(dialog.getScope());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getScope()); // Sets selection in tree (and table)
-                                          // on new element
+        // on new element
 
     }
 
@@ -210,26 +204,25 @@ public final class ObservationManagerMenuData {
         EyepieceDialog dialog = new EyepieceDialog(this.observationManager, null);
         this.model.add(dialog.getEyepiece());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getEyepiece()); // Sets selection in tree (and
-                                             // table) on new element
+        // table) on new element
 
     }
 
     public void createNewImager() {
 
         ExtenableSchemaElementSelector is = new ExtenableSchemaElementSelector(this.observationManager,
-         this.observationManager.getExtensionLoader().getSchemaUILoader(),
-                SchemaElementConstants.IMAGER);
+                this.observationManager.getExtensionLoader().getSchemaUILoader(), SchemaElementConstants.IMAGER);
         if (is.getResult()) {
             // Get Imager Dialog
             IImagerDialog imagerDialog = (IImagerDialog) is.getDialog();
             this.model.add(imagerDialog.getImager());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                               // won't appear on UI)
+            // won't appear on UI)
             this.observationManager.updateUI(imagerDialog.getImager()); // Sets selection in tree
-                                                     // (and table) on new
-                                                     // element
+            // (and table) on new
+            // element
         }
 
     }
@@ -239,26 +232,25 @@ public final class ObservationManagerMenuData {
         FilterDialog dialog = new FilterDialog(this.observationManager, null);
         this.model.add(dialog.getFilter());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getFilter()); // Sets selection in tree (and table)
-                                           // on new element
+        // on new element
 
     }
 
     public void createNewTarget() {
 
         ExtenableSchemaElementSelector ts = new ExtenableSchemaElementSelector(this.observationManager,
-         this.observationManager.getExtensionLoader().getSchemaUILoader(),
-                SchemaElementConstants.TARGET);
+                this.observationManager.getExtensionLoader().getSchemaUILoader(), SchemaElementConstants.TARGET);
         if (ts.getResult()) {
             // Get TargetContainer
             ITargetDialog targetDialog = (ITargetDialog) ts.getDialog();
             this.model.add(targetDialog.getTarget());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                               // won't appear on UI)
+            // won't appear on UI)
             this.observationManager.updateUI(targetDialog.getTarget()); // Sets selection in tree
-                                                     // (and table) on new
-                                                     // element
+            // (and table) on new
+            // element
         }
 
     }
@@ -268,10 +260,10 @@ public final class ObservationManagerMenuData {
         LensDialog dialog = new LensDialog(this.observationManager, null);
         this.model.add(dialog.getLens());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
-                           // won't appear on UI)
+        // won't appear on UI)
         this.observationManager.updateUI(dialog.getLens()); // Sets selection in tree (and table)
-                                         // on new element
-       
+        // on new element
+
     }
 
     class CreateObservationListener implements ActionListener {
@@ -292,6 +284,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateSiteListener implements ActionListener {
 
         @Override
@@ -301,6 +294,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateScopeListener implements ActionListener {
 
         @Override
@@ -310,6 +304,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateEyepieceListener implements ActionListener {
 
         @Override
@@ -318,6 +313,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateImagerListener implements ActionListener {
 
         @Override
@@ -327,6 +323,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateFilterListener implements ActionListener {
 
         @Override
@@ -335,6 +332,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateLensListener implements ActionListener {
 
         @Override
@@ -344,6 +342,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateTargetListener implements ActionListener {
 
         @Override
@@ -353,6 +352,7 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreateSessionListener implements ActionListener {
 
         @Override
@@ -362,14 +362,14 @@ public final class ObservationManagerMenuData {
         }
 
     }
+
     class CreatEquipmentListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(ObservationManagerMenuData.this.observationManager, 
-            ObservationManagerMenuData.this.model, 
-            ObservationManagerMenuData.this.textManager, 
-            ObservationManagerMenuData.this.imageResolver);
+            final UnavailableEquipmentDialog uqd = new UnavailableEquipmentDialog(
+                    ObservationManagerMenuData.this.observationManager, ObservationManagerMenuData.this.model,
+                    ObservationManagerMenuData.this.textManager, ObservationManagerMenuData.this.imageResolver);
             ObservationManagerMenuData.this.observationManager.setChanged(uqd.changedElements());
 
         }

@@ -21,14 +21,15 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetMoonPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = 11451630089774356L;
-                                                     
-    public SolarSystemTargetMoonDialog(JFrame om,  UserInterfaceHelper uiHelper, ObservationManagerModel model, IObservation o, ITarget target) {
 
-        super(om,  model, uiHelper, new SolarSystemTargetMoonPanel( model.getConfiguration(), model, target, o, Boolean.TRUE));
+    public SolarSystemTargetMoonDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            IObservation o, ITarget target) {
+
+        super(om, model, uiHelper,
+                new SolarSystemTargetMoonPanel(model.getConfiguration(), model, target, o, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
@@ -39,7 +40,7 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
         }
 
         this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);
-        
+
         this.setVisible(true);
 
     }

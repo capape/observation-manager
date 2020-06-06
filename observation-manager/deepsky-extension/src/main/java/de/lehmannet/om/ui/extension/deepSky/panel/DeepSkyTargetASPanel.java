@@ -28,6 +28,7 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 public class DeepSkyTargetASPanel extends AbstractPanel {
 
     private static final long serialVersionUID = 7665625229604662457L;
@@ -35,7 +36,6 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    
     private DeepSkyTargetAS target = null;
 
     private DeepSkyTargetContainer deepSkyTargetContainer = null;
@@ -43,8 +43,9 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
 
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
-    public DeepSkyTargetASPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+
+    public DeepSkyTargetASPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 

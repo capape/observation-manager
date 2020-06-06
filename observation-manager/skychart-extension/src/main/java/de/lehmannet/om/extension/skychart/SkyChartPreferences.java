@@ -24,8 +24,6 @@ public class SkyChartPreferences extends PreferencesPanel {
 
     private static final long serialVersionUID = -4937900578188172966L;
 
-   
-
     // Starchart default port and IP
     public static final String SERVER_DEFAULT_IP = "127.0.0.1";
     public static final int SERVER_DEFAULT_PORT = 3292;
@@ -76,8 +74,7 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 15);
-        this.applicationPath = new JTextField(
-                this.getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH).orElse(""));
+        this.applicationPath = new JTextField(this.getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH).orElse(""));
         this.applicationPath.setToolTipText(this.bundle.getString("preferences.tooltip.path"));
         gridbag.setConstraints(this.applicationPath, constraints);
         this.add(this.applicationPath);
@@ -91,8 +88,8 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 20, 15);
-        this.serverIP = new JTextField(this.getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY).orElse(
-                String.valueOf(SkyChartPreferences.SERVER_DEFAULT_IP)));
+        this.serverIP = new JTextField(this.getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY)
+                .orElse(String.valueOf(SkyChartPreferences.SERVER_DEFAULT_IP)));
         this.serverIP.setToolTipText(this.bundle.getString("preferences.tooltip.ip"));
         gridbag.setConstraints(this.serverIP, constraints);
         this.add(this.serverIP);
@@ -106,9 +103,8 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 20, 15);
-        this.serverPort = new JTextField(
-            this.getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY).orElse(String.valueOf(
-                SkyChartPreferences.SERVER_DEFAULT_PORT)));
+        this.serverPort = new JTextField(this.getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY)
+                .orElse(String.valueOf(SkyChartPreferences.SERVER_DEFAULT_PORT)));
         this.serverPort.setToolTipText(this.bundle.getString("preferences.tooltip.port"));
         gridbag.setConstraints(this.serverPort, constraints);
         this.add(this.serverPort);

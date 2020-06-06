@@ -43,16 +43,14 @@ public class ProjectLoader {
     private final InstallDir installDir;
     private final UserInterfaceHelper uiHelper;
 
-
     private final List<ProjectCatalog> projectList = new ArrayList<>();
 
     // Used to load projects in parallel
     private final ThreadGroup loadProjects = new ThreadGroup("Load all projects");
 
     public ProjectLoader(ObservationManagerModel model, CatalogLoader catalogLoader, InstallDir installDir,
-        UserInterfaceHelper uiHelper) {
+            UserInterfaceHelper uiHelper) {
 
-     
         this.model = model;
         this.catalogLoader = catalogLoader;
         this.installDir = installDir;
@@ -76,7 +74,7 @@ public class ProjectLoader {
         if (this.loadProjects.activeCount() > 0) {
 
             this.uiHelper.createWaitPopUp(bundle.getString("catalogLoader.info.waitOnLoaders"), this.loadProjects);
-            
+
         }
 
     }
@@ -151,16 +149,16 @@ class ProjectLoaderRunnable implements Runnable {
     private File projectFile = null;
     private CatalogLoader catalogLoader = null;
     private List<ITarget> userTargets = null;
-  
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectLoaderRunnable.class);
 
-    public ProjectLoaderRunnable(CatalogLoader catalogLoader, List<ProjectCatalog> projectList, List<ITarget> userTargets, File projectFile) {
+    public ProjectLoaderRunnable(CatalogLoader catalogLoader, List<ProjectCatalog> projectList,
+            List<ITarget> userTargets, File projectFile) {
 
         this.catalogLoader = catalogLoader;
         this.projectList = projectList;
         this.projectFile = projectFile;
         this.userTargets = userTargets;
-     
 
     }
 
@@ -168,7 +166,7 @@ class ProjectLoaderRunnable implements Runnable {
     public void run() {
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Project loading start: {} {}",  this.projectFile.getName() , System.currentTimeMillis());
+            LOGGER.debug("Project loading start: {} {}", this.projectFile.getName(), System.currentTimeMillis());
         }
 
         ProjectCatalog pc = this.loadProjectCatalog(this.projectFile);
@@ -181,7 +179,7 @@ class ProjectLoaderRunnable implements Runnable {
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Project loading done: {} {}",  this.projectFile.getName() , System.currentTimeMillis());
+            LOGGER.debug("Project loading done: {} {}", this.projectFile.getName(), System.currentTimeMillis());
         }
 
     }
@@ -211,7 +209,7 @@ class ProjectLoaderRunnable implements Runnable {
                 ListIterator<ITarget> iterator = this.userTargets.listIterator();
                 ITarget current = null;
                 while (iterator.hasNext()) {
-                    current =iterator.next();
+                    current = iterator.next();
 
                     ut_name = this.formatName(current.getName());
                     if (ut_name.equals(t_name)) { // Target names match

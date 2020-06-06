@@ -9,10 +9,12 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public interface IExtensionContext {
 
-
     IConfiguration getConfiguration();
-    InstallDir getInstallDir();   
+
+    InstallDir getInstallDir();
+
     ObservationManagerModel getModel();
+
     UserInterfaceHelper getUserInterfaceHelper();
-        
+
 }

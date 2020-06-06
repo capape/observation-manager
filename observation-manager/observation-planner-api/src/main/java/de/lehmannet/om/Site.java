@@ -52,7 +52,7 @@ public class Site extends SchemaElement implements ISite {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new Site instance from a given XML Schema Node. Normally this constructor is only called by
      * de.lehmannet.om.util.SchemaLoader
      * 
@@ -72,7 +72,6 @@ public class Site extends SchemaElement implements ISite {
         // Cast to element as we need some methods from it
         Element siteElement = (Element) site;
 
-
         // Getting data
         // First mandatory stuff and down below optional data
 
@@ -86,7 +85,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a Site.
      * 
      * @param name
@@ -111,7 +110,7 @@ public class Site extends SchemaElement implements ISite {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -132,7 +131,7 @@ public class Site extends SchemaElement implements ISite {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this Site.
      * 
@@ -170,15 +169,15 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/*
+    /*
      * @Override public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof ISite) ) { return false; }
      * 
      * ISite site = (ISite)obj;
      * 
-     * String siteName = site.getName(); if( (siteName == null) || !(name.toLowerCase(Locale.getDefault()).equals(siteName.toLowerCase(Locale.getDefault())))
-     * ) { return false; }
+     * String siteName = site.getName(); if( (siteName == null) ||
+     * !(name.toLowerCase(Locale.getDefault()).equals(siteName.toLowerCase(Locale.getDefault()))) ) { return false; }
      * 
      * if( !site.getLatitude().equals(latitude) ) { return false; }
      * 
@@ -193,7 +192,7 @@ public class Site extends SchemaElement implements ISite {
     // ISite -------------------------------------------------------------
     // -----
 
-/**
+    /**
      * Adds this Site to a given parent XML DOM Element. The Site element will be set as a child element of the passed
      * element.
      * 
@@ -266,7 +265,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Adds the site link to an given XML DOM Element The site element itself will be attached to given elements
      * ownerDocument if the passed boolean value is <code>true</code>. Also if the ownerDocument has no site container,
      * it will be created (if the passed boolean value is <code>true</code> <br>
@@ -324,7 +323,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Adds the site link to an given XML DOM Element The site element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -347,7 +346,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Returns the latitude of the site.<br>
      * The latitude is a positiv angle if its north of the equator, and negative if south of the equator.
      * 
@@ -360,7 +359,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Returns the longitude of the site.<br>
      * The longitude is a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
@@ -373,7 +372,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Returns the name of the site.<br>
      * The name may be any string describing the site as precise as it can be.
      * 
@@ -400,7 +399,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the latitude of the site.<br>
      * The latitude must be a positiv angle if its north of the equator, and negative if south of the equator.
      * 
@@ -420,7 +419,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the longitude of the site.<br>
      * The longitude must be a positiv angle if its east of Greenwich, and negative if west of Greenwich.
      * 
@@ -440,7 +439,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the name of the site.<br>
      * The name should be any string describing the site as precise as it can be.
      * 
@@ -460,7 +459,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the timezone of the site.<br>
      * The timezone must be given as positiv or negative value, depending on the sites timezone difference to the GMT in
      * minutes.
@@ -481,7 +480,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the IAU code of the site.<br>
      * 
      * @param IAUCode
@@ -499,7 +498,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Sets the elevation of the site.<br>
      * The elevation should be given in meters above/under sea level.
      * 
@@ -513,7 +512,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Returns the elevation of the site.<br>
      * The elevation is given in meters above/under sea level.
      * 
@@ -527,7 +526,7 @@ public class Site extends SchemaElement implements ISite {
 
     }
 
-/**
+    /**
      * Returns the IAU station code of the site.<br>
      * This method may return <code>null</code> as the site may not have an IAU (International Astronomical Union)
      * station code.

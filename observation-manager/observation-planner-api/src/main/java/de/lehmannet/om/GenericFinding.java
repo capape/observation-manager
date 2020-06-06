@@ -33,19 +33,19 @@ public class GenericFinding extends Finding {
     // Constructors ------------------------------------------------------
     // ------------
 
-public GenericFinding(Node findingElement) throws SchemaException {
+    public GenericFinding(Node findingElement) throws SchemaException {
 
         super(findingElement);
 
     }
 
-public GenericFinding(String description) {
+    public GenericFinding(String description) {
 
         super(description);
 
     }
 
-public GenericFinding(String ID, String description) {
+    public GenericFinding(String ID, String description) {
 
         super(ID, description);
 
@@ -55,7 +55,7 @@ public GenericFinding(String ID, String description) {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -75,7 +75,7 @@ public GenericFinding(String ID, String description) {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this GenericFinding.
      * 
@@ -89,7 +89,7 @@ public GenericFinding(String ID, String description) {
 
     }
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this GenericFinding and the given Object are equal. Two GenericFinding are equal if both return the
      * same string from their toString() method and both XSI types are equal.<br>
@@ -116,16 +116,15 @@ public GenericFinding(String ID, String description) {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + this.toString().hashCode();        
+        result = prime * result + this.toString().hashCode();
         return result;
     }
-
 
     // ------------------------
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -144,7 +143,7 @@ public GenericFinding(String ID, String description) {
     // Finding -----------------------------------------------------------
     // -------
 
-/**
+    /**
      * Adds this GenericFinding to an given parent XML DOM Element. The GenericFinding Element will be set as a child
      * element of the passed Element.
      * 

@@ -24,9 +24,11 @@ public class SolarSystemTargetCometDialog extends AbstractDialog implements ITar
 
     private static final long serialVersionUID = -4143755484166642959L;
 
-    public SolarSystemTargetCometDialog(JFrame om,  UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
+    public SolarSystemTargetCometDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
-        super(om,  model, uiHelper, new SolarSystemTargetCometPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper,
+                new SolarSystemTargetCometPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

@@ -62,7 +62,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
         this.setVisible(true);
-       
+
     }
 
     // --------------
@@ -193,7 +193,7 @@ class DownloadTask implements Worker {
     public void run() {
 
         for (UpdateEntry currentEntry : this.updateEntries) {
-        
+
             try {
 
                 HttpURLConnection conn = (HttpURLConnection) currentEntry.getDownloadURL().openConnection();

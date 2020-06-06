@@ -64,15 +64,17 @@ public interface IExtension {
      */
     URL getUpdateInformationURL();
 
-    AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target, boolean editable);
+    AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
+            boolean editable);
 
-    AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable);        
+    AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation, boolean editable);
 
-    ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable);
+    ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target, IObservation observation,
+            boolean editable);
 
     IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable);
 
     void setContext(IExtensionContext context);
 
-	boolean supports(String xsiType);
+    boolean supports(String xsiType);
 }

@@ -125,7 +125,7 @@ public interface ISession extends ISchemaElement {
     // Public Methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds this Session to a given parent XML DOM Element. The Session element will be set as a child element of the
      * passed element.
      * 
@@ -135,7 +135,7 @@ public interface ISession extends ISchemaElement {
      */
     Element addToXmlElement(Element element);
 
-/**
+    /**
      * Adds the session link to an given XML DOM Element The session element itself will be attached to given elements
      * ownerDocument if the passed boolean is <cod>true</code>. If the ownerDocument has no session container, it will
      * be created (in case the passed boolean is <cod>true</code>).<br>
@@ -161,7 +161,7 @@ public interface ISession extends ISchemaElement {
      */
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, boolean addElementToContainer);
 
-/**
+    /**
      * Adds the session link to an given XML DOM Element The session element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -179,14 +179,14 @@ public interface ISession extends ISchemaElement {
      */
     org.w3c.dom.Element addAsLinkToXmlElement(Element element);
 
-/**
+    /**
      * Returns the start date of the session.<br>
      * 
      * @return Returns the start date of the session
      */
     Calendar getBegin();
 
-/**
+    /**
      * Returns a List of coobservers who joined this session.<br>
      * Might return <code>null</code> if no coobservers were added to this session.
      * 
@@ -194,7 +194,7 @@ public interface ISession extends ISchemaElement {
      */
     List<IObserver> getCoObservers();
 
-/**
+    /**
      * Returns a comment about this session.<br>
      * Might return <code>null</code> if no comment was set to this session.
      * 
@@ -202,21 +202,21 @@ public interface ISession extends ISchemaElement {
      */
     String getComments();
 
-/**
+    /**
      * Returns the end date of the session.<br>
      * 
      * @return Returns the end date of the session
      */
     Calendar getEnd();
 
-/**
+    /**
      * Returns the site of the session.<br>
      * 
      * @return Returns the site of the session
      */
     ISite getSite();
 
-/**
+    /**
      * Returns a string describing equipment which was used during this session.<br>
      * Typically one should add non optical equipment here like "Radio and a warm bottle of Tea."<br>
      * Might return <code>null</code> if no equipment was set to this session.
@@ -226,7 +226,7 @@ public interface ISession extends ISchemaElement {
      */
     String getEquipment();
 
-/**
+    /**
      * Returns a describtion of the weather conditions during the session.<br>
      * Might return <code>null</code> if no weather conditions were addedt to this session.
      * 
@@ -235,7 +235,7 @@ public interface ISession extends ISchemaElement {
      */
     String getWeather();
 
-/**
+    /**
      * Returns the language in which this session is described as ISO language string. E.g. de=German, fr=French,
      * ...<br>
      * Might return <code>null</code> if no language was set for this session.
@@ -246,7 +246,7 @@ public interface ISession extends ISchemaElement {
      */
     String getLanguage();
 
-/**
+    /**
      * Sets the start date of the session.<br>
      * 
      * @param begin
@@ -256,7 +256,7 @@ public interface ISession extends ISchemaElement {
      */
     void setBegin(Calendar begin) throws IllegalArgumentException;
 
-/**
+    /**
      * Sets the end date of the session.<br>
      * 
      * @param end
@@ -266,7 +266,7 @@ public interface ISession extends ISchemaElement {
      */
     void setEnd(Calendar end) throws IllegalArgumentException;
 
-/**
+    /**
      * Sets a site (location) where the session took place.<br>
      * A session can only took place at one site.
      * 
@@ -277,7 +277,7 @@ public interface ISession extends ISchemaElement {
      */
     void setSite(ISite site) throws IllegalArgumentException;
 
-/**
+    /**
      * Sets a comment to the session.<br>
      * The old comment will be overwritten.
      * 
@@ -286,7 +286,7 @@ public interface ISession extends ISchemaElement {
      */
     void setComments(String comments);
 
-/**
+    /**
      * Sets a equipment description to the session.<br>
      * Typically non optical equipment will should be stored here, e.g. "Red LED light and bottle of hot tea."<br>
      * The old equipment will be overwritten.
@@ -296,7 +296,7 @@ public interface ISession extends ISchemaElement {
      */
     void setEquipment(String equipment);
 
-/**
+    /**
      * Sets a new List of coobservers to this session.<br>
      * The old List of coobservers will be overwritten. If you want to add one ore more coobservers to the existing list
      * use addCoObservers(List) or addCoObserver(IObserver) instead.
@@ -306,7 +306,7 @@ public interface ISession extends ISchemaElement {
      */
     void setCoObservers(List<IObserver> coObservers);
 
-/**
+    /**
      * Adds a List of coobservers to this session.<br>
      * The old List of coobservers will be extended by the new List of coobservers.
      * 
@@ -319,7 +319,7 @@ public interface ISession extends ISchemaElement {
      */
     boolean addCoObservers(List<IObserver> coObservers);
 
-/**
+    /**
      * Adds a single coobserver to this session.<br>
      * 
      * @param coObserver
@@ -327,7 +327,7 @@ public interface ISession extends ISchemaElement {
      */
     void addCoObserver(IObserver coObserver);
 
-/**
+    /**
      * Sets the weather conditions of the session.<br>
      * The weather conditions string should explain in some short sentences, how the weather conditions were like during
      * the session. E.g. "Small clouds at the first hour but then totally clear and cool, at about 4\u00b0C."
@@ -337,7 +337,7 @@ public interface ISession extends ISchemaElement {
      */
     void setWeather(String weather);
 
-/**
+    /**
      * Sets the language in which this session is described. String must be given as ISO language string. E.g.
      * de=German, fr=French, ...<br>
      * 
@@ -347,7 +347,7 @@ public interface ISession extends ISchemaElement {
      */
     void setLanguage(String language);
 
-/**
+    /**
      * Sets a List of images (path as String) for this session.<br>
      * The old list of images will be overwritten. If you want to add one ore more images to the existing ones use
      * addImages(List) or addImage(String).<br>
@@ -364,7 +364,7 @@ public interface ISession extends ISchemaElement {
      */
     void setImages(List<String> imagesList) throws IllegalArgumentException;
 
-/**
+    /**
      * Adds a new image (path) to this session.<br>
      * 
      * @param imagePath
@@ -372,7 +372,7 @@ public interface ISession extends ISchemaElement {
      */
     void addImage(String imagePath);
 
-/**
+    /**
      * Adds a List of image paths (String) to this session.<br>
      * The new list of images will be added to the existing list of images belonging to this session. If you want to
      * replace the old images list use setImages(List).<br>
@@ -386,7 +386,7 @@ public interface ISession extends ISchemaElement {
      */
     boolean addImages(List<String> images);
 
-/**
+    /**
      * Returns a list of images (relativ path to images), taken at this session. Might return <code>null</code> if
      * images were set.
      * 

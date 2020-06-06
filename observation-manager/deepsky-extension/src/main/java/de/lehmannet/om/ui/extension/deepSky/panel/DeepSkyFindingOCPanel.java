@@ -42,12 +42,11 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     private Character character = null;
     private JButton characterButton = null;
 
-    private final String imagePath; 
+    private final String imagePath;
     private final InstallDir installDir;
-   
 
-    public DeepSkyFindingOCPanel(IConfiguration configuration, InstallDir installDir, IFinding paramFinding, ISession s, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyFindingOCPanel(IConfiguration configuration, InstallDir installDir, IFinding paramFinding, ISession s,
+            Boolean editable) throws IllegalArgumentException {
 
         super(configuration, paramFinding, s, editable);
 
@@ -74,8 +73,8 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
                 this.finding = (DeepSkyFindingOC) paramFinding;
             }
         }
-       this.imagePath = this.installDir.getPathForFolder("images")
-               + "deepSky" + File.separatorChar + "clusterTypes" + File.separatorChar;
+        this.imagePath = this.installDir.getPathForFolder("images") + "deepSky" + File.separatorChar + "clusterTypes"
+                + File.separatorChar;
 
         this.createOCPanel();
 

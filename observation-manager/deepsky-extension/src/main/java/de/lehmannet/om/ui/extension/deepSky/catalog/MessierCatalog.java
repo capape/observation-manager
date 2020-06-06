@@ -50,7 +50,7 @@ public class MessierCatalog implements IListableCatalog {
 
     // Key = Messier Number
     // Value = Target
-    private final Map<String,ITarget> map = new LinkedHashMap<>();
+    private final Map<String, ITarget> map = new LinkedHashMap<>();
 
     private AbstractSchemaTableModel tableModel = null;
 

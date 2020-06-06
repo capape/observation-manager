@@ -74,7 +74,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds this IImager to a given parent XML DOM Element. The IImager element will be set as a child element of the
      * passed element.
      * 
@@ -84,7 +84,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     void addToXmlElement(Element element);
 
-/**
+    /**
      * Adds the imager link to an given XML DOM Element The IImager element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no IImager container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -112,7 +112,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     Element addAsLinkToXmlElement(Element parent, boolean addElementToContainer);
 
-/**
+    /**
      * Adds the imager link to an given XML DOM Element The imager element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -130,30 +130,30 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     Element addAsLinkToXmlElement(Element element);
 
-/**
+    /**
      * Returns the model name of this imager.<br>
      * 
      * @return Returns the model name of this imager.<br>
      */
     String getModel();
 
-/**
+    /**
      * Returns the vendor name of this imager.<br>
      * 
      * @return Returns the vendor name of this imager or <code>NULL</code> if vendor name was not set.<br>
      */
     String getVendor();
 
-// public String getType();
+    // public String getType();
 
-/**
+    /**
      * Returns the remarks to this imager.<br>
      * 
      * @return Returns the remarks to this imager or <code>NULL</code> if no remarks were set.<br>
      */
     String getRemarks();
 
-/**
+    /**
      * Sets the model name for the imager.<br>
      * 
      * @param modelname
@@ -163,7 +163,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     void setModel(String modelname) throws IllegalArgumentException;
 
-/**
+    /**
      * Sets the vendor name for the imager.<br>
      * 
      * @param vendor
@@ -171,9 +171,9 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     void setVendor(String vendor);
 
-// public void setType(String type);
+    // public void setType(String type);
 
-/**
+    /**
      * Sets the remarks for this imager.<br>
      * 
      * @param remarks

@@ -40,10 +40,8 @@ public class AboutDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
         this.setSize(AboutDialog.serialVersionUID, 400, 260);
-        
-        
-        this.setVisible(true);
 
+        this.setVisible(true);
 
     }
 

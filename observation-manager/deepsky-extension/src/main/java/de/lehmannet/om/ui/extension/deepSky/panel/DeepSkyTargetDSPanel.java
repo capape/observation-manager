@@ -45,10 +45,10 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
     private JTextField positionAngle = null;
     private AngleContainer separation = null;
     private final ObservationManagerModel model;
-     private final UserInterfaceHelper uiHelper;
+    private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetDSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetDSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -60,7 +60,6 @@ public class DeepSkyTargetDSPanel extends AbstractPanel {
         this.target = (DeepSkyTargetDS) target;
         this.model = model;
         this.uiHelper = uiHelper;
-      
 
         this.createPanel();
 

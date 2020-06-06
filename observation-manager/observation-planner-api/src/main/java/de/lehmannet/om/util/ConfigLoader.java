@@ -20,9 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The ConfigLoader is used to find config files inside the classpath (and the
- * extension directory), and if config files are found, it can provide easy
- * access to the config information.
+ * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
+ * are found, it can provide easy access to the config information.
  * 
  * @author doergn@users.sourceforge.net
  * @since 1.0
@@ -66,28 +65,29 @@ public class ConfigLoader {
     // Public methods ----------------------------------------------------
     // --------------
     /**
-     * Returns the java classname for a target that matches the given xsi:type
-     * attribute, which can be found at additional schema elements<br>
+     * Returns the java classname for a target that matches the given xsi:type attribute, which can be found at
+     * additional schema elements<br>
      * E.g.:<br>
      * <target id="someID" <b>xsi:type="oal:deepSkyGX"</b>><br>
      * // More Target data goes here<br>
      * </target><br>
-     * If for example the type "oal:deepSkyGX" would be passed to this method, it
-     * would return the classname: "de.lehmannet.om.deepSky.DeepSkyTarget". The
-     * classname may then be used to load the corresponding java class via java
-     * reflection API for a given schema element.
+     * If for example the type "oal:deepSkyGX" would be passed to this method, it would return the classname:
+     * "de.lehmannet.om.deepSky.DeepSkyTarget". The classname may then be used to load the corresponding java class via
+     * java reflection API for a given schema element.
      * 
-     * @param ptype The xsi:type value which can be found at additional schema
-     *              elements (can be a finding xsi:type or an target xsi_type)
-     * @return The corresponding target java classname for the given type, or
-     *         <code>null</code> if the type could not be resolved.
-     * @throws ConfigException if problems occured during load of config
+     * @param ptype
+     *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
+     *            target xsi_type)
+     * @return The corresponding target java classname for the given type, or <code>null</code> if the type could not be
+     *         resolved.
+     * @throws ConfigException
+     *             if problems occured during load of config
      */
     public static String getTargetClassnameFromType(String ptype) throws ConfigException {
         if (ptype == null) {
             return null;
         }
-      
+
         LOGGER.debug("Searching class for type: {}", ptype);
         synchronized (LOCK) {
             if (targets.isEmpty()) {
@@ -123,23 +123,23 @@ public class ConfigLoader {
     }
 
     /**
-     * Returns the java classname for a finding that matches the given xsi:type
-     * attribute, which can be found at additional schema elements<br>
+     * Returns the java classname for a finding that matches the given xsi:type attribute, which can be found at
+     * additional schema elements<br>
      * E.g.:<br>
      * <result id="someID" <b>xsi:type="oal:findingsDeepSky"</b>><br>
      * // More finding data goes here<br>
      * </result><br>
-     * If for example the type "oal:findingsDeepSky" would be passed to this method,
-     * it would return the classname:
-     * "de.lehmannet.om.extension.deepSky.DeepSkyFinding". The classname may then be
-     * used to load the corresponding java class via java reflection API for a given
-     * schema element.
+     * If for example the type "oal:findingsDeepSky" would be passed to this method, it would return the classname:
+     * "de.lehmannet.om.extension.deepSky.DeepSkyFinding". The classname may then be used to load the corresponding java
+     * class via java reflection API for a given schema element.
      * 
-     * @param ptype The xsi:type value which can be found at additional schema
-     *              elements (can be a finding xsi:type or an target xsi_type)
-     * @return The corresponding finding java classname for the given type, or
-     *         <code>null</code> if the type could not be resolved.
-     * @throws ConfigException if problems occured during load of config
+     * @param ptype
+     *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
+     *            target xsi_type)
+     * @return The corresponding finding java classname for the given type, or <code>null</code> if the type could not
+     *         be resolved.
+     * @throws ConfigException
+     *             if problems occured during load of config
      */
     public static String getFindingClassnameFromType(String ptype) throws ConfigException {
         if (ptype == null) {
@@ -176,7 +176,8 @@ public class ConfigLoader {
     /**
      * Scans the java classpath again for valid configfile.
      * 
-     * @throws ConfigException if problems occured during load of config
+     * @throws ConfigException
+     *             if problems occured during load of config
      */
     public static void reloadConfig() throws ConfigException {
         // Delete old entries
@@ -201,7 +202,7 @@ public class ConfigLoader {
         StringTokenizer tokenizer = new StringTokenizer(path, sep);
         File token = null;
         while (tokenizer.hasMoreTokens()) {
-            token = new File(tokenizer.nextToken());            
+            token = new File(tokenizer.nextToken());
             if ((token.isFile()) && (token.getName().endsWith(".jar"))) {
                 LOGGER.debug("Searching classpath extensions. File {}", token.getName());
                 scanJarFile(token);

@@ -10,7 +10,7 @@ import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public interface IFindingExtensionPanel extends IFindingPanel {
-    
+
     /**
      * 
      * @return name of panel
@@ -18,14 +18,11 @@ public interface IFindingExtensionPanel extends IFindingPanel {
     String getName();
 
     String getXSIType();
- 
+
     ISchemaElement getSchemaElement();
 
     ISchemaElement createSchemaElement();
 
     ISchemaElement updateSchemaElement();
-
-    
-  
 
 }

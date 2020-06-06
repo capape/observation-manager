@@ -106,14 +106,14 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         }
         case 4: {
             value = new StringBuilder("");
-                    // TODO:
-                    // this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType()));
+            // TODO:
+            // this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType()));
             break;
         }
         case 5: {
             if (target.getConstellation() != null) {
-                boolean i18N = Boolean.parseBoolean(
-                        this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+                boolean i18N = Boolean
+                        .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
                 if (i18N) {
                     value = new StringBuilder(target.getConstellation().getDisplayName());
                 } else {

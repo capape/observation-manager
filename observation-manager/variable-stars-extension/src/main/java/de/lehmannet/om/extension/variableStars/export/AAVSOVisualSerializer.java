@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class AAVSOVisualSerializer implements ISerializer {
 
     private static Logger log = LoggerFactory.getLogger(AAVSOVisualSerializer.class);
-// ---------- AAVSO Comment codes
+    // ---------- AAVSO Comment codes
 
     /* B: Sky is bright, moon, twilight, light pollution, aurorae. */
     private static final String COMMENTCODE_B = "B";
@@ -151,7 +151,7 @@ public class AAVSOVisualSerializer implements ISerializer {
                 this.closeStreamOnError(stream, message);
                 throw new Exception(message);
             }
-          
+
             // Get AAVSO observer initals
             initials = currentObserver.getUsernameForAccount(Observer.ACCOUNT_AAVSO);
             if ((initials == null) || ("".equals(initials.trim()))) {
@@ -178,16 +178,14 @@ public class AAVSOVisualSerializer implements ISerializer {
 
             // Write comparism star data (only first and second here. Rest goes into
             // comments)
-          
+
             writeComparismData(stream, fvs);
 
             writeChartDate(stream, fvs);
 
-           
             writeNotes(stream, fvs);
             // The finding status to exported
             fvs.setAlreadyExportedToAAVSO(true);
-
 
             // Next line for next observation
             stream.write("\n".getBytes("UTF-8"));
@@ -234,44 +232,42 @@ public class AAVSOVisualSerializer implements ISerializer {
         return cs1;
     }
 
-    private void writeNotes(OutputStream stream, FindingVariableStar fvs)
-    throws IOException {
-         // Write notes
-         StringBuilder notes = new StringBuilder();
-
+    private void writeNotes(OutputStream stream, FindingVariableStar fvs) throws IOException {
+        // Write notes
+        StringBuilder notes = new StringBuilder();
 
         List<String> comparismStars = fvs.getComparismStars();
-         // If there are more comp. stars add them here
-         if (comparismStars.size() > 2) {
-             ListIterator<String> compStarItertor = comparismStars.listIterator(2);
-             while (compStarItertor.hasNext()) {
-                 notes.append(compStarItertor.next()).append(","); // This delimiter must be !=
-                 // AAVSOVisualSerializer.DELIMITER
-             }
-             notes.append(" - ");
-         }
-         notes.append(fvs.getDescription());
+        // If there are more comp. stars add them here
+        if (comparismStars.size() > 2) {
+            ListIterator<String> compStarItertor = comparismStars.listIterator(2);
+            while (compStarItertor.hasNext()) {
+                notes.append(compStarItertor.next()).append(","); // This delimiter must be !=
+                // AAVSOVisualSerializer.DELIMITER
+            }
+            notes.append(" - ");
+        }
+        notes.append(fvs.getDescription());
 
-         // GMB - escaping non-ASCII chars to html4 entities and replaces CR LF with
-         // dashes
-         String rawNotes = "";
-         rawNotes = StringEscapeUtils.escapeHtml4(notes.toString());
-         rawNotes = rawNotes.replace('\n', NOTES_LINE_SEP);
-         rawNotes = rawNotes.replace('\r', NOTES_LINE_SEP);
-         notes = new StringBuilder(rawNotes);
-         // GMB - end patch
+        // GMB - escaping non-ASCII chars to html4 entities and replaces CR LF with
+        // dashes
+        String rawNotes = "";
+        rawNotes = StringEscapeUtils.escapeHtml4(notes.toString());
+        rawNotes = rawNotes.replace('\n', NOTES_LINE_SEP);
+        rawNotes = rawNotes.replace('\r', NOTES_LINE_SEP);
+        notes = new StringBuilder(rawNotes);
+        // GMB - end patch
 
-         // Make sure notes are not longer then 100 characters
-         if (notes.length() > 100) {
-             notes = new StringBuilder(notes.substring(0, 100));
-         }
+        // Make sure notes are not longer then 100 characters
+        if (notes.length() > 100) {
+            notes = new StringBuilder(notes.substring(0, 100));
+        }
 
-         // If there's no note/description, set na
-         if ("".equals(notes.toString())) {
-             notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
-         }
+        // If there's no note/description, set na
+        if ("".equals(notes.toString())) {
+            notes = new StringBuilder(AAVSOVisualSerializer.NOT_APPLICABLE);
+        }
 
-         stream.write(notes.toString().getBytes("UTF-8"));
+        stream.write(notes.toString().getBytes("UTF-8"));
     }
 
     private void writeChartDate(OutputStream stream, FindingVariableStar fvs) throws IOException {

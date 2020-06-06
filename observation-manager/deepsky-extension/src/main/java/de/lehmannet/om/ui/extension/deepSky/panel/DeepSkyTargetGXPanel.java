@@ -36,14 +36,13 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    
     private DeepSkyTargetGX target = null;
 
     private DeepSkyTargetContainer deepSkyTargetContainer = null;
     private JTextField hubbleType = null;
     private JTextField positionAngle = null;
     private final ObservationManagerModel model;
-    private final UserInterfaceHelper  uiHelper;
+    private final UserInterfaceHelper uiHelper;
 
     public DeepSkyTargetGXPanel(UserInterfaceHelper om, ObservationManagerModel model, ITarget target, Boolean editable)
             throws IllegalArgumentException {
@@ -172,7 +171,7 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer( this.uiHelper, this.model, this.target,
+        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.uiHelper, this.model, this.target,
                 this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);

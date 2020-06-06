@@ -63,7 +63,7 @@ public abstract class SchemaElement implements ISchemaElement {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of a Schema Element.<br>
      * Any instance of a Schema Element has a unique ID which identifies the element, and which allows to link serveral
      * elements.
@@ -74,7 +74,7 @@ public abstract class SchemaElement implements ISchemaElement {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a Schema Element with a given ID.<br>
      * Any instance of a Schema Element has a unique ID which identifies the element, and which allows to link serveral
      * elements.<br>
@@ -95,7 +95,7 @@ public abstract class SchemaElement implements ISchemaElement {
     // ISchemaElement ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the schema.
      *
@@ -131,7 +131,7 @@ public abstract class SchemaElement implements ISchemaElement {
             return ID.equals(other.ID);
     }
 
-/**
+    /**
      * Sets a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the schema.<br>
      * Call this method only, if your know what you're doing.
@@ -145,7 +145,7 @@ public abstract class SchemaElement implements ISchemaElement {
 
     }
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>

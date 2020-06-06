@@ -58,38 +58,37 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
     class WaitPopup extends OMDialog {
 
         private static final long serialVersionUID = -3950819080525084021L;
-    
+
         private ThreadGroup threadGroup = null;
-    
+
         public WaitPopup(ThreadGroup threadGroup, JFrame om, String title) {
-    
+
             super(om);
             this.setLocationRelativeTo(om);
             this.setTitle(title);
-    
+
             this.threadGroup = threadGroup;
-    
+
             this.getContentPane().setLayout(new BorderLayout());
-    
+
             JProgressBar progressBar = new JProgressBar(0, 100);
             progressBar.setValue(0);
             progressBar.setIndeterminate(true);
-    
+
             this.getContentPane().add(progressBar, BorderLayout.CENTER);
-    
+
             this.setSize(WaitPopup.serialVersionUID, 250, 60);
-          
-    
+
             Runnable wait = WaitPopup.this::waitForCatalogLoaders;
-    
+
             Thread waitThread = new Thread(wait, "WaitPopup");
             waitThread.start();
             this.setVisible(true);
-    
+
         }
-    
+
         private void waitForCatalogLoaders() {
-    
+
             while (this.threadGroup.activeCount() > 0) {
                 try {
                     this.threadGroup.wait(300);
@@ -101,16 +100,14 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
                 }
             }
             this.dispose();
-    
+
         }
     }
 
     @Override
-    public void refreshUI() {        
-            
-        
-        this.parent.refreshUI();        
+    public void refreshUI() {
+
+        this.parent.refreshUI();
     }
 
- 
 }

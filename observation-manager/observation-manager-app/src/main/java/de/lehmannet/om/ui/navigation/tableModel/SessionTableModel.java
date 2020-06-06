@@ -114,7 +114,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
                 value = new StringBuilder("NULL");
             }
             while (i.hasNext()) {
-                value.append( i.next().getDisplayName());
+                value.append(i.next().getDisplayName());
                 if (i.hasNext()) {
                     value.append("; ");
                 }

@@ -26,7 +26,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -8289411368690909665L;
 
-  
     private JTabbedPane tabbedPane = null;
 
     private final JButton ok;
@@ -47,7 +46,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.ok = new JButton(this.textManager.getString("dialog.button.ok"));
         this.cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
-
 
         this.setTitle(this.textManager.getString("dialog.preferences.title"));
         this.setSize(PreferencesDialog.serialVersionUID, 750, 350);

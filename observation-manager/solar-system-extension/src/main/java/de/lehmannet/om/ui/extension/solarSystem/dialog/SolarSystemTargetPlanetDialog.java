@@ -21,14 +21,15 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetPlanetPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -1824120647459055098L;
 
-    public SolarSystemTargetPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, IObservation observation) {
+    public SolarSystemTargetPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget target, IObservation observation) {
 
-        super(om,  model, uiHelper, new SolarSystemTargetPlanetPanel(model.getConfiguration(), model, target, observation, Boolean.TRUE));
+        super(om, model, uiHelper,
+                new SolarSystemTargetPlanetPanel(model.getConfiguration(), model, target, observation, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
                 .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());

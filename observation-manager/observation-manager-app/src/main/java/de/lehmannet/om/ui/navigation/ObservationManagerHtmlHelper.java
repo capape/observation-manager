@@ -38,9 +38,8 @@ public class ObservationManagerHtmlHelper {
     private final ObservationManagerModel model;
 
     public ObservationManagerHtmlHelper(UserInterfaceHelper uiHelper, TextManager textManager,
-    IConfiguration configuration, InstallDir installDir,
-    ObservationManagerModel model) {
-        this.uiHelper=uiHelper;
+            IConfiguration configuration, InstallDir installDir, ObservationManagerModel model) {
+        this.uiHelper = uiHelper;
         this.textManager = textManager;
         this.configuration = configuration;
         this.installDir = installDir;
@@ -48,7 +47,6 @@ public class ObservationManagerHtmlHelper {
         // TODO:
         this.xmlCache = this.model.getXmlCache();
     }
-
 
     public boolean transformXML2HTML(final Document doc, final File htmlFile, final File xslFile) {
 
@@ -96,8 +94,8 @@ public class ObservationManagerHtmlHelper {
                 // Transform
                 try {
                     Templates template = ObservationManagerHtmlHelper.this.getTemplate(xslSource); // Different loading
-                                                                                         // between JDK1.4 and
-                                                                                         // JDK1.5
+                    // between JDK1.4 and
+                    // JDK1.5
                     if (template == null) {
                         returnValue = Worker.RETURN_TYPE_ERROR;
                         message = textManager.getString("error.transformation");
@@ -152,7 +150,7 @@ public class ObservationManagerHtmlHelper {
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
-               uiHelper.showInfo(calculation.getReturnMessage());
+                uiHelper.showInfo(calculation.getReturnMessage());
             }
             return true;
         } else {
@@ -192,9 +190,8 @@ public class ObservationManagerHtmlHelper {
 
     private void createXMLForSchemaElement(ISchemaElement schemaElement, String xmlFile) {
 
-     
         // Create new XMLFileLoader for saving our new XML file
-        XMLFileLoader xmlHelper =  XMLFileLoaderImpl.newInstance(xmlFile);
+        XMLFileLoader xmlHelper = XMLFileLoaderImpl.newInstance(xmlFile);
 
         // Get all observations from currently opened XML that belong to the
         // given schemaElement
@@ -277,8 +274,6 @@ public class ObservationManagerHtmlHelper {
 
     }
 
-   
-
     private File getXSLFile() {
 
         final String TEMPLATE_FILENAME = "transform";
@@ -292,8 +287,8 @@ public class ObservationManagerHtmlHelper {
 
         File path = new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator);
         if (!path.exists()) {
-            this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
-                    + path.getAbsolutePath());
+            this.uiHelper.showWarning(
+                    textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n" + path.getAbsolutePath());
             return null;
         }
 
@@ -366,7 +361,6 @@ public class ObservationManagerHtmlHelper {
     private Templates getTemplate(StreamSource xslSource) {
 
         Templates template = null;
-     
 
         try {
             template = TransformerFactory.newInstance().newTemplates(xslSource);

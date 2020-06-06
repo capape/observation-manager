@@ -17,8 +17,7 @@ import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetCG extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
- * class.<br>
+ * DeepSkyTargetCG extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for clusters of galaxies.<br>
  * 
  * @author doergn@users.sourceforge.net
@@ -49,18 +48,18 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // ------------
 
     /**
-     * Constructs a new instance of a DeepSkyTargetCG from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a DeepSkyTargetCG from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      * 
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
     public DeepSkyTargetCG(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -85,8 +84,10 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetCG.
      * 
-     * @param name       The name of the cluster of galaxies
-     * @param datasource The datasource of the cluster of galaxies
+     * @param name
+     *            The name of the cluster of galaxies
+     * @param datasource
+     *            The datasource of the cluster of galaxies
      */
     public DeepSkyTargetCG(String name, String datasource) {
 
@@ -97,8 +98,10 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     /**
      * Constructs a new instance of a DeepSkyTargetCG.
      * 
-     * @param name     The name of the cluster of galaxies
-     * @param observer The observer who is the originator of the cluster of galaxies
+     * @param name
+     *            The name of the cluster of galaxies
+     * @param observer
+     *            The observer who is the originator of the cluster of galaxies
      */
     public DeepSkyTargetCG(String name, IObserver observer) {
 
@@ -111,10 +114,11 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     // ------
 
     /**
-     * Adds this Target to a given parent XML DOM Element. The Target element will
-     * be set as a child element of the passed element.
+     * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
+     * passed element.
      * 
-     * @param parent The parent element for this Target
+     * @param parent
+     *            The parent element for this Target
      * @see org.w3c.dom.Element
      */
     @Override
@@ -169,8 +173,8 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     /**
      * Returns the magnitude of the 10th brightest member in mag.
      * 
-     * @return The magnitude of the 10th brightest member in mag. The returned value
-     *         might be <code>Float.NaN</code> if the value was never set
+     * @return The magnitude of the 10th brightest member in mag. The returned value might be <code>Float.NaN</code> if
+     *         the value was never set
      */
     public float getMagnitudeOf10thBrightestMember() {
 
@@ -181,7 +185,8 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     /**
      * Sets the magnitude of the 10th brightest member in mag
      * 
-     * @param magTen The magnitude of the 10th brightest member in mag
+     * @param magTen
+     *            The magnitude of the 10th brightest member in mag
      */
     public void setMagnitudeOf10thBrightestMember(float magTen) {
 

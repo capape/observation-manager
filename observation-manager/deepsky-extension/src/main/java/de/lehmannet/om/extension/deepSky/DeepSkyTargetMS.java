@@ -22,10 +22,8 @@ import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.util.SchemaException;
 
 /**
- * DeepSkyTargetMS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget
- * class.<br>
- * Its specialised for multiple stars. (Star systems with at least three
- * components)<br>
+ * DeepSkyTargetMS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
+ * Its specialised for multiple stars. (Star systems with at least three components)<br>
  *
  * @author doergn@users.sourceforge.net
  * @since 2.0
@@ -56,18 +54,18 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // ------------
 
     /**
-     * Constructs a new instance of a DeepSkyTargetMS from a given DOM target
-     * Element.<br>
-     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader.
-     * Please mind that Target has to have a <observer> element, or a <datasource>
-     * element. If a <observer> element is set, a array with Observers must be
+     * Constructs a new instance of a DeepSkyTargetMS from a given DOM target Element.<br>
+     * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
+     * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
      *
-     * @param observers     Array of IObserver that might be linked from this
-     *                      observation, can be <code>NULL</code> if datasource
-     *                      element is set
-     * @param targetElement The origin XML DOM <target> Element
-     * @throws SchemaException if given targetElement was <code>null</code>
+     * @param observers
+     *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
+     *            element is set
+     * @param targetElement
+     *            The origin XML DOM <target> Element
+     * @throws SchemaException
+     *             if given targetElement was <code>null</code>
      */
     public DeepSkyTargetMS(Node targetElement, IObserver... observers) throws SchemaException {
 
@@ -136,10 +134,11 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // ------
 
     /**
-     * Adds this DeepSkyTargetMS to a given parent XML DOM Element. The
-     * DeepSkyTargetMS element will be set as a child element of the passed element.
+     * Adds this DeepSkyTargetMS to a given parent XML DOM Element. The DeepSkyTargetMS element will be set as a child
+     * element of the passed element.
      *
-     * @param parent The parent element for this DeepSkyTargetMS
+     * @param parent
+     *            The parent element for this DeepSkyTargetMS
      * @see org.w3c.dom.Element
      */
     @Override
@@ -214,10 +213,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // --------------
 
     /**
-     * Returns a list with all components of this multiple star given as unique ID
-     * link.<br>
-     * If you want to access all linked targets as de.lehmannet.om.TargetStar
-     * objects, call getComponentTargets().<br>
+     * Returns a list with all components of this multiple star given as unique ID link.<br>
+     * If you want to access all linked targets as de.lehmannet.om.TargetStar objects, call getComponentTargets().<br>
      *
      * @return A list with all components of this multiple star, as unique IDs.
      */
@@ -228,14 +225,11 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     }
 
     /**
-     * Returns a list with all components of this multiple star given as
-     * de.lehmannet.om.TargetStar.<br>
-     * If you want to access all linked targets as unique ID (String) objects, call
-     * getComponents().<br>
+     * Returns a list with all components of this multiple star given as de.lehmannet.om.TargetStar.<br>
+     * If you want to access all linked targets as unique ID (String) objects, call getComponents().<br>
      *
-     * @return A list with all components of this multiple star, as
-     *         de.lehmannet.om.TargetStar or an empty list if the components of this
-     *         multiple star coundn't be found in the given array.
+     * @return A list with all components of this multiple star, as de.lehmannet.om.TargetStar or an empty list if the
+     *         components of this multiple star coundn't be found in the given array.
      */
     @Override
     public List<ITarget> getComponentTargets(ITarget... targets) {
@@ -260,19 +254,17 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     /**
      * Sets a new list of component stars for this multiple star target.<br>
-     * The given list must contain at least three entries of type
-     * de.lehmannet.TargetStar or of type String (which will be interpreted as
-     * unique ID of a linked TargetStar.<br>
+     * The given list must contain at least three entries of type de.lehmannet.TargetStar or of type String (which will
+     * be interpreted as unique ID of a linked TargetStar.<br>
      * For double stars use: de.lehmannet.om.extension.deepSky.DeepSkyTargetDS<br>
-     * The current list of component stars will be overwritten. To add one or more
-     * component stars use addComponent(de.lehmannet.om.TargetStar),
-     * addComponents(List), addComponent(String)
+     * The current list of component stars will be overwritten. To add one or more component stars use
+     * addComponent(de.lehmannet.om.TargetStar), addComponents(List), addComponent(String)
      *
      * @see de.lehmannet.om.extension.deepSky.DeepSkyTargetDS
      * @see de.lehmannet.om.TargetStar
-     * @param newComponents A list with at least 3 entries of type
-     *                      de.lehmannet.om.TargetStar or java.lang.String that
-     *                      represent the components of this multiple star system
+     * @param newComponents
+     *            A list with at least 3 entries of type de.lehmannet.om.TargetStar or java.lang.String that represent
+     *            the components of this multiple star system
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean setComponents(List<String> newComponents) {
@@ -308,14 +300,14 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
     /**
      * Adds a list of component stars to this multiple star target.<br>
-     * The given list must contain at least three entries of type
-     * de.lehmannet.TargetStar or java.lang.String in case getComponents() returns
-     * <code>null</code><br>
+     * The given list must contain at least three entries of type de.lehmannet.TargetStar or java.lang.String in case
+     * getComponents() returns <code>null</code><br>
      * For double stars use: de.lehmannet.om.extension.deepSky.DeepSkyTargetDS<br>
      * The given list will be added to the current list of component stars.
      *
      * @see de.lehmannet.om.TargetStar
-     * @param additionalComponents A list of new components stars
+     * @param additionalComponents
+     *            A list of new components stars
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponents(List<String> additionalComponents) {
@@ -349,12 +341,12 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     }
 
     /**
-     * Adds a new star to a given list of component stars. If getComponents()
-     * returns <code>null</code> you need to use setComponents(List) first, to
-     * initially add (at least three) component stars.
+     * Adds a new star to a given list of component stars. If getComponents() returns <code>null</code> you need to use
+     * setComponents(List) first, to initially add (at least three) component stars.
      *
      * @see addComponents(List)
-     * @param additionalStar A new component star
+     * @param additionalStar
+     *            A new component star
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponent(TargetStar additionalStar) {
@@ -373,12 +365,12 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     }
 
     /**
-     * Adds a new star to a given list of component stars. If getComponents()
-     * returns <code>null</code> you need to use setComponents(List) first, to
-     * initially add (at least three) component stars.
+     * Adds a new star to a given list of component stars. If getComponents() returns <code>null</code> you need to use
+     * setComponents(List) first, to initially add (at least three) component stars.
      *
      * @see addComponents(List)
-     * @param additionalStar A new component star (as unique ID string)
+     * @param additionalStar
+     *            A new component star (as unique ID string)
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponent(String additionalStar) {

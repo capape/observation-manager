@@ -1,7 +1,5 @@
 package de.lehmannet.om.ui.extension;
 
-
-
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -9,9 +7,8 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class ExtensionContext implements IExtensionContext {
 
-
     private final IConfiguration configuration;
-    private final InstallDir installDir;    
+    private final InstallDir installDir;
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
@@ -23,27 +20,25 @@ public class ExtensionContext implements IExtensionContext {
     }
 
     @Override
-    public IConfiguration getConfiguration() {        
+    public IConfiguration getConfiguration() {
         return this.configuration;
     }
 
     @Override
-    public InstallDir getInstallDir() {        
+    public InstallDir getInstallDir() {
         return this.installDir;
     }
 
     @Override
-    public ObservationManagerModel getModel() {       
+    public ObservationManagerModel getModel() {
         return this.model;
     }
 
     @Override
     public UserInterfaceHelper getUserInterfaceHelper() {
-       
+
         return this.uiHelper;
     }
-    
-    
 
     public static class Builder {
 
@@ -53,7 +48,7 @@ public class ExtensionContext implements IExtensionContext {
         private IConfiguration configuration;
 
         public Builder() {
-            
+
         }
 
         public Builder uiHelper(UserInterfaceHelper value) {

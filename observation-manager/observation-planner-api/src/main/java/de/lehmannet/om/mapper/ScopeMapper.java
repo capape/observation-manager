@@ -27,7 +27,8 @@ public class ScopeMapper {
         if (children.getLength() == 1) {
             Element child = (Element) children.item(0);
             if (child != null) {
-                ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT).trim().toLowerCase(Locale.getDefault());
+                ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT).trim()
+                        .toLowerCase(Locale.getDefault());
                 ori_Truesided = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_TRUESIDED).trim()
                         .toLowerCase(Locale.getDefault());
                 return Pair.of(Boolean.parseBoolean(ori_Erect), Boolean.parseBoolean(ori_Truesided));
@@ -48,17 +49,17 @@ public class ScopeMapper {
 
         NodeList children = scopeElement.getElementsByTagName(IScope.XML_ELEMENT_LIGHTGRASP);
         String lightGrasp = null;
-            if (children.getLength() == 1) {
-                Element child = (Element) children.item(0);
-                if (child != null) {
-                    lightGrasp = child.getFirstChild().getNodeValue();
-                    return FloatUtil.parseFloat(lightGrasp);
-                } else {
-                    throw new SchemaException("Problem while retrieving light grasp from scope. ");
-                }
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("Scope can have only one light grasp. ");
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            if (child != null) {
+                lightGrasp = child.getFirstChild().getNodeValue();
+                return FloatUtil.parseFloat(lightGrasp);
+            } else {
+                throw new SchemaException("Problem while retrieving light grasp from scope. ");
             }
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("Scope can have only one light grasp. ");
+        }
         return Float.NaN;
     }
 

@@ -124,20 +124,18 @@ public class DeepSkyFinding extends Finding {
         super(findingElement);
 
         Element finding = (Element) findingElement;
-        
-       
 
         // Getting data
         // First mandatory stuff and down below optional data
 
         // Get mandatory rating
-      NodeList children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_RATING);
+        NodeList children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_RATING);
         if (children.getLength() != 1) {
             // throw new SchemaException("DeepSkyFinding must have exact one rating value.
             // ");
             this.setRating(99); // Use unknown rating value since 2.0
         } else {
-          Element child = (Element) children.item(0);
+            Element child = (Element) children.item(0);
             String rating = null;
             if (child == null) {
                 throw new SchemaException("DeepSkyFinding must have a rating value. ");
@@ -148,31 +146,31 @@ public class DeepSkyFinding extends Finding {
         }
 
         // Get optional small diameter
-      children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_SMALLDIAMETER);
+        children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_SMALLDIAMETER);
         Angle smallDiameter = null;
-            if (children.getLength() == 1) {
-              Element child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-                smallDiameter = new Angle(Double.parseDouble(value), unit);
-                this.setSmallDiameter(smallDiameter);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyFinding can only have one small diameter entry. ");
-            }
-      
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
+            smallDiameter = new Angle(Double.parseDouble(value), unit);
+            this.setSmallDiameter(smallDiameter);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyFinding can only have one small diameter entry. ");
+        }
+
         // Get optional large diameter
-      children =  finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_LARGEDIAMETER);
+        children = finding.getElementsByTagName(DeepSkyFinding.XML_ELEMENT_LARGEDIAMETER);
         Angle largeDiameter = null;
-            if (children.getLength() == 1) {
-              Element child = (Element) children.item(0);
-                String value = child.getFirstChild().getNodeValue();
-                String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
-                largeDiameter = new Angle(Double.parseDouble(value), unit);
-                this.setLargeDiameter(largeDiameter);
-            } else if (children.getLength() > 1) {
-                throw new SchemaException("DeepSkyFinding can only have one large diameter entry. ");
-            }
-      
+        if (children.getLength() == 1) {
+            Element child = (Element) children.item(0);
+            String value = child.getFirstChild().getNodeValue();
+            String unit = child.getAttribute(Angle.XML_ATTRIBUTE_UNIT);
+            largeDiameter = new Angle(Double.parseDouble(value), unit);
+            this.setLargeDiameter(largeDiameter);
+        } else if (children.getLength() > 1) {
+            throw new SchemaException("DeepSkyFinding can only have one large diameter entry. ");
+        }
+
         // Get optional resolved attribute
         String resolved = finding.getAttribute(DeepSkyFinding.XML_ELEMENT_FINDING_ATTRIBUTE_RESOLVED);
         if (!StringUtils.isBlank(resolved)) {
@@ -199,7 +197,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyFinding.
      *
      * @param description
@@ -221,7 +219,7 @@ public class DeepSkyFinding extends Finding {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -241,7 +239,7 @@ public class DeepSkyFinding extends Finding {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this DeepSkyFinding.
      *
@@ -339,7 +337,7 @@ public class DeepSkyFinding extends Finding {
         return stellar == other.stellar;
     }
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -358,7 +356,7 @@ public class DeepSkyFinding extends Finding {
     // Finding -----------------------------------------------------------
     // -------
 
-/**
+    /**
      * Adds this DeepSkyFinding to an given parent XML DOM Element. The DeepSkyFinding Element will be set as a child
      * element of the passed Element.
      *
@@ -387,7 +385,7 @@ public class DeepSkyFinding extends Finding {
     // @Override public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Returns the large visible diameter of the observed object.
      *
      * @return The large visible diameter of the object as Angle.<br>
@@ -400,7 +398,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns the mottled value of this DeepSkyFinding.<br>
      * A observed object is mottled when it can be seen with at least some structures.
      *
@@ -418,7 +416,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns the rating of the observed object.<br>
      * The rating scale is described at <a href="http://www.naa.net/deepsky/">VdS - DeepSky Group</a>. A valid rating
      * value is an integer between 1 and 7 or 99 if the value was unknown, for e.g. historical reasons.
@@ -431,7 +429,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns <code>true</code> if the observed object could be seen resolved during observation.<br>
      *
      * @return <code>true</code> if the observed object could be seen resolved
@@ -448,7 +446,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns the small visible diameter of the observed object.
      *
      * @return The small visible diameter of the object as Angle Might return <code>null</code> if large diameter was
@@ -461,7 +459,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns <code>true</code> if the observed object appeard stellar during observation.
      *
      * @return <code>true</code> if the observed object appeard stellar
@@ -478,7 +476,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Returns <code>true</code> if the observed object appeard extended during observation.
      *
      * @return <code>true</code> if the observed object appeard extended
@@ -495,7 +493,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the large visible diameter of the observed object. The passed Angle needs to have a positiv value. If the
      * Angles value is negativ, the large diameter will not be set and the method returns <code>false</code>.
      *
@@ -515,7 +513,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the mottled value of this DeepSkyFinding.<br>
      * A observed object is mottled when it can be seen with at least some structures.
      *
@@ -538,7 +536,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the rating of the observed object.<br>
      * The rating scale is described at <a href="http://www.naa.net/deepsky/download/dsl_einfuehrung_v70.pdf">VdS -
      * DeepSky Group</a> A valid rating value is an integer between 1 and 7 (including 1 and 7) or 99 if the value is
@@ -590,7 +588,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the resolved value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could be seen resolved during observation.
      *
@@ -612,7 +610,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the small visible diameter of the observed object. The passed Angle needs to have a positiv value. If the
      * Angles value is negativ, the small diameter will not be set and the method returns <code>false</code>.
      *
@@ -632,7 +630,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the stellar value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could only be seen stellar during observation.
      *
@@ -655,7 +653,7 @@ public class DeepSkyFinding extends Finding {
 
     }
 
-/**
+    /**
      * Sets the extended value for this DeepSkyFinding.<br>
      * The value should be <code>true</code> if the observed object could be seen extended during observation.
      *
@@ -682,7 +680,7 @@ public class DeepSkyFinding extends Finding {
     // Protected methods -------------------------------------------------
     // -----------------
 
-@Override
+    @Override
     protected Element createXmlFindingElement(Element parent) {
 
         Document ownerDoc = parent.getOwnerDocument();

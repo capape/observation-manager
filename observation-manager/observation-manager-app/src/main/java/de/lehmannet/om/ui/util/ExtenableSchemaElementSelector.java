@@ -46,7 +46,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     private SchemaUILoader loader = null;
 
-    public ExtenableSchemaElementSelector(JDialog parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
+    public ExtenableSchemaElementSelector(JDialog parent, SchemaUILoader loader,
+            SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 
@@ -59,7 +60,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         this.setVisible(true);
     }
 
-    public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
+    public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader,
+            SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 
@@ -67,7 +69,6 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         this.setTitle(this.bundle.getString("selector.title"));
         this.init(parent, loader);
-       
 
         this.pack();
         this.setVisible(true);

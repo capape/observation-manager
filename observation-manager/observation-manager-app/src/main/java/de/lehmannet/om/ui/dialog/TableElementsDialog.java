@@ -43,7 +43,7 @@ public class TableElementsDialog extends AbstractDialog {
 
     public TableElementsDialog(ObservationManager om, List schemaElements) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
+        super(om, om.getModel(), om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
 
         this.setTitle(AbstractDialog.bundle.getString("dialog.tableElements.title"));
         this.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));

@@ -1,14 +1,13 @@
 package de.lehmannet.om.ui.navigation.observation.utils;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArgumentsParser {
 
     private final Map<String, String> arguments;
-    
-    private ArgumentsParser (String [] paramArgs) {
+
+    private ArgumentsParser(String[] paramArgs) {
         this.arguments = new HashMap<>();
         this.parseArguments(paramArgs);
 
@@ -29,7 +28,7 @@ public class ArgumentsParser {
                 if (ArgumentName.isValid(arg)) {
                     arguments.put(getArgName(arg), getArgValue(arg));
                 }
-              
+
             }
         }
 
@@ -48,8 +47,9 @@ public class ArgumentsParser {
     }
 
     public static class Builder {
-        private String [] args;
-        public Builder(String [] args) {
+        private String[] args;
+
+        public Builder(String[] args) {
             this.args = args;
         }
 

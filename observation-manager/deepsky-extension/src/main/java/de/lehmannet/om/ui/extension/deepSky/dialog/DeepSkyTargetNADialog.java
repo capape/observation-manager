@@ -19,12 +19,12 @@ import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetNAPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
-
 public class DeepSkyTargetNADialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -1996388086618176126L;
 
-    public DeepSkyTargetNADialog(JFrame om,  UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget editableTarget) {
+    public DeepSkyTargetNADialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            ITarget editableTarget) {
 
         super(om, model, uiHelper, new DeepSkyTargetNAPanel(uiHelper, model, editableTarget, Boolean.TRUE));
 

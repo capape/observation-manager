@@ -43,13 +43,13 @@ public class MoonDetailContainer extends JLabel {
     private static final String NEW_MOON = "new.png";
     private static final String FULL_MOON = "full.png";
 
-    private IObservation observation = null;    
+    private IObservation observation = null;
 
-    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images" + File.separatorChar +  "moon" );
+    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl(
+            "images" + File.separatorChar + "moon");
 
     public MoonDetailContainer(IObservation obs) {
 
-      
         this.observation = obs;
 
         this.setImage();
@@ -65,7 +65,6 @@ public class MoonDetailContainer extends JLabel {
 
     private void setImage() {
 
-        
         ISite site = this.observation.getSite();
         if (site == null) {
             return;

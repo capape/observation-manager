@@ -22,20 +22,18 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 
-
 public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -5621507862602343177L;
 
-  
     private SolarSystemTargetMinorPlanet target = null;
 
     private TargetContainer targetContainer = null;
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public SolarSystemTargetMinorPlanetPanel(IConfiguration configuration, ObservationManagerModel model,ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public SolarSystemTargetMinorPlanetPanel(IConfiguration configuration, ObservationManagerModel model,
+            ITarget target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -112,7 +110,8 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
+                true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

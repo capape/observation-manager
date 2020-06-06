@@ -22,18 +22,22 @@ public class TargetPanelFactory {
 
         switch (xsiType) {
 
-            case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
-                return new SolarSystemTargetCometPanel(context.getConfiguration(), context.getModel(), target,editable);
-            case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
-                return new SolarSystemTargetMinorPlanetPanel(context.getConfiguration(), context.getModel(), target,editable);
-            case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
-                return new SolarSystemTargetMoonPanel(context.getConfiguration(), context.getModel(), target, observation, editable);
-            case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
-                return new SolarSystemTargetSunPanel(context.getConfiguration(), context.getModel(), target, observation, editable);
-            case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
-                return new SolarSystemTargetPlanetPanel(context.getConfiguration(), context.getModel(), target, observation, editable);
-            default:
-                throw new IllegalArgumentException("Invalid xsiType");
+        case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
+            return new SolarSystemTargetCometPanel(context.getConfiguration(), context.getModel(), target, editable);
+        case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
+            return new SolarSystemTargetMinorPlanetPanel(context.getConfiguration(), context.getModel(), target,
+                    editable);
+        case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
+            return new SolarSystemTargetMoonPanel(context.getConfiguration(), context.getModel(), target, observation,
+                    editable);
+        case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
+            return new SolarSystemTargetSunPanel(context.getConfiguration(), context.getModel(), target, observation,
+                    editable);
+        case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
+            return new SolarSystemTargetPlanetPanel(context.getConfiguration(), context.getModel(), target, observation,
+                    editable);
+        default:
+            throw new IllegalArgumentException("Invalid xsiType");
         }
     }
 

@@ -36,7 +36,6 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    
     private DeepSkyTargetGC target = null;
 
     private DeepSkyTargetContainer deepSkyTargetContainer = null;
@@ -45,8 +44,8 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetGCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetGCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -58,7 +57,6 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
         this.target = (DeepSkyTargetGC) target;
         this.model = model;
         this.uiHelper = uiHelper;
-      
 
         this.createPanel();
 
@@ -162,7 +160,7 @@ public class DeepSkyTargetGCPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 1, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer( this.uiHelper, this.model, this.target,
+        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.uiHelper, this.model, this.target,
                 this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);

@@ -8,21 +8,24 @@ import de.lehmannet.om.ui.extension.variableStars.panel.VariableStarFindingPanel
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
+
 public class FindingPanelFactory {
 
-	public static AbstractPanel newInstance(IExtensionContext extensionContext, String xsiType, IFinding finding,
-			ISession session, ITarget target, boolean editable) {
-                switch (xsiType) {
+    public static AbstractPanel newInstance(IExtensionContext extensionContext, String xsiType, IFinding finding,
+            ISession session, ITarget target, boolean editable) {
+        switch (xsiType) {
 
-                    case FindingVariableStar.XML_XSI_TYPE_VALUE:
-                        return new VariableStarFindingPanel(extensionContext.getConfiguration(), finding, session, target, editable);
-                    case TargetVariableStar.XML_XSI_TYPE_VALUE:
-                        return new VariableStarFindingPanel(extensionContext.getConfiguration(), finding, session, target, editable);
-                    default:
-                        throw new IllegalArgumentException("Invalid xsi:type");
-        
-                }
+        case FindingVariableStar.XML_XSI_TYPE_VALUE:
+            return new VariableStarFindingPanel(extensionContext.getConfiguration(), finding, session, target,
+                    editable);
+        case TargetVariableStar.XML_XSI_TYPE_VALUE:
+            return new VariableStarFindingPanel(extensionContext.getConfiguration(), finding, session, target,
+                    editable);
+        default:
+            throw new IllegalArgumentException("Invalid xsi:type");
 
-	}
+        }
+
+    }
 
 }

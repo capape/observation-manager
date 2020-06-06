@@ -148,8 +148,7 @@ public class CatalogLoader {
 
     private void loadCatalogues() {
 
-        File catalogDir = new File(
-                this.observationManager.getInstallDir().getPathForFolder(CatalogLoader.CATALOG_DIR));
+        File catalogDir = new File(this.observationManager.getInstallDir().getPathForFolder(CatalogLoader.CATALOG_DIR));
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {
@@ -200,16 +199,16 @@ public class CatalogLoader {
 class CatalogLoaderRunnable implements Runnable {
 
     private IExtension extension = null;
-    private Map<String,ICatalog> resultMap = null;
+    private Map<String, ICatalog> resultMap = null;
     private File catalogDir = null;
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CatalogLoaderRunnable.class);
-    public CatalogLoaderRunnable(IExtension extension, Map<String,ICatalog> resultMap, File catalogDir) {
+
+    public CatalogLoaderRunnable(IExtension extension, Map<String, ICatalog> resultMap, File catalogDir) {
 
         this.extension = extension;
         this.resultMap = resultMap;
         this.catalogDir = catalogDir;
-        
 
     }
 
@@ -265,13 +264,12 @@ class WaitPopup extends OMDialog {
         this.getContentPane().add(progressBar, BorderLayout.CENTER);
 
         this.setSize(WaitPopup.serialVersionUID, 250, 60);
-       
 
         Runnable wait = WaitPopup.this::waitForCatalogLoaders;
 
         Thread waitThread = new Thread(wait, "ProjectLoader: WaitPopup");
         waitThread.start();
-        
+
         this.setVisible(true);
 
     }

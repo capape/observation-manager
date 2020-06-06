@@ -22,11 +22,11 @@ import de.lehmannet.om.util.Ephemerides;
 public class HorizontalSkymap extends JLabel {
 
     /**
-	 *
-	 */
-	private static final long serialVersionUID = -1501342339873856272L;
+     *
+     */
+    private static final long serialVersionUID = -1501342339873856272L;
 
-	private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("ObservationManager", Locale.getDefault());
 
     // Width and height of our map

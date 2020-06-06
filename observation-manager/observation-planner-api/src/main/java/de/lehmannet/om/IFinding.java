@@ -56,7 +56,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
     // Public Methods ---------------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds the IFinding implementation to an given parent XML DOM Element. The finding Element will be set as a child
      * element of the passed Element.<br>
      * Example:<br>
@@ -73,7 +73,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     org.w3c.dom.Element addToXmlElement(org.w3c.dom.Element parent);
 
-/**
+    /**
      * Returns the description of the IFinding. The string describes the impressions the observer had during the
      * observation of an object.
      * 
@@ -81,7 +81,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     String getDescription();
 
-/**
+    /**
      * Sets the description of the IFinding. The string should describe the impressions the observer had during the
      * observation of an object.
      * 
@@ -90,7 +90,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     void setDescription(String description);
 
-/**
+    /**
      * Returns the language in which this finding is described as ISO language string. E.g. de=German, fr=French,
      * ...<br>
      * Might return <code>null</code> if no language was set for this finding.
@@ -101,7 +101,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     String getLanguage();
 
-/**
+    /**
      * Sets the language in which this finding is described. String must be given as ISO language string. E.g.
      * de=German, fr=French, ...<br>
      * 
@@ -111,7 +111,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     void setLanguage(String language);
 
-/**
+    /**
      * Returns <code>true</code> if the target was seen with this finding or not. As findings might be created to
      * document that an object was not seen this flag can be used for checks.
      * 
@@ -120,7 +120,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      */
     boolean wasSeen();
 
-/**
+    /**
      * Set to <code>true</code> if the target was seen by the observer.<br>
      * 
      * @param seen

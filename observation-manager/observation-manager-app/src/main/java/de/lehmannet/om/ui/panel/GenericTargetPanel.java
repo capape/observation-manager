@@ -18,14 +18,14 @@ public class GenericTargetPanel extends AbstractPanel {
 
     private static final long serialVersionUID = 9175024145109241504L;
 
-    
     private GenericTarget target = null;
 
     private TargetContainer targetContainer = null;
     private final ObservationManagerModel model;
     private final ObservationManager observationManager;
 
-    public GenericTargetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable) throws IllegalArgumentException {
+    public GenericTargetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -103,7 +103,8 @@ public class GenericTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target, this.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target,
+                this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

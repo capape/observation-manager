@@ -57,7 +57,7 @@ public class Filter extends SchemaElement implements IFilter {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Constructs a new instance of a Filter from an given XML Schema Node.<br>
      * Normally this constructor is only used by de.lehmannet.om.util.SchemaLoader
      *
@@ -78,8 +78,6 @@ public class Filter extends SchemaElement implements IFilter {
         Element filterElement = (Element) filter;
 
         // Helper classes
-       
-        
 
         // Getting data
         // First mandatory stuff and down below optional data
@@ -94,8 +92,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-
-/**
+    /**
      * Constructs a new instance of a Filter.<br>
      *
      * @param model
@@ -117,7 +114,7 @@ public class Filter extends SchemaElement implements IFilter {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns all fields of the class Filter (unset field will be ignored). The result string will look like this:<br>
      * Example:<br>
@@ -159,7 +156,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/*
+    /*
      * public boolean equals(Object obj) {
      * 
      * if( obj == null || !(obj instanceof IFilter) ) { return false; }
@@ -188,7 +185,7 @@ public class Filter extends SchemaElement implements IFilter {
     // SchemaElement -----------------------------------------------------
     // -------------
 
-/**
+    /**
      * Returns a display name for this element.<br>
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
@@ -215,7 +212,7 @@ public class Filter extends SchemaElement implements IFilter {
     // IEquipment --------------------------------------------------------
     // ----------
 
-/**
+    /**
      * Returns <code>true</code> if this element is still available for use-<br>
      * 
      * @return a boolean with the availability of the element
@@ -227,7 +224,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the availability of this element.<br>
      * 
      * @param available
@@ -244,7 +241,7 @@ public class Filter extends SchemaElement implements IFilter {
     // IFilter -----------------------------------------------------------
     // -------
 
-/**
+    /**
      * Adds this Filter to a given parent XML DOM Element. The Filter element will be set as a child element of the
      * passed element.
      * 
@@ -330,7 +327,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Adds the filter link to an given XML DOM Element The filter element itself will be attached to given elements
      * ownerDocument if the passed boolean was <code>true</code>. If the ownerDocument has no filter container, it will
      * be created (in case the passed boolean was <code>true</code>).<br>
@@ -390,7 +387,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Adds the filter link to an given XML DOM Element The filter element itself will <b>NOT</b> be attached to given
      * elements ownerDocument. Calling this method is equal to calling <code>addAsLinkToXmlElement</code> with
      * parameters <code>element, false</code><br>
@@ -413,7 +410,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the color of this filter.<br>
      * 
      * @return Returns a String representing the filters color, or <code>null</code> if the color was never set (e.g.
@@ -426,7 +423,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the color of this filter.<br>
      * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a IllegalArgumentException is thrown, so make
      * sure to set Filter type to color first.<br>
@@ -466,7 +463,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the model of this filter.<br>
      * 
      * @return Returns a String representing the filter model.<br>
@@ -478,7 +475,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the model name for the filter.<br>
      * 
      * @param model
@@ -497,7 +494,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the schott value of this filter.<br>
      * 
      * @return Returns a String representing the schott value of the filter, or <code>null</code> if the value was never
@@ -510,7 +507,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the schott value for the filter.<br>
      * 
      * @param schott
@@ -528,7 +525,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the filter type.<br>
      * 
      * @return Returns a String representing the filter type.<br>
@@ -540,7 +537,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the filter type.<br>
      * The filter type must be a value from the types defined in IFilter.<br>
      * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type is not, then the filters color is
@@ -578,7 +575,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the wratten value of this filter.<br>
      * 
      * @return Returns a String representing the wratten value of the filter, or <code>null</code> if the value was
@@ -591,7 +588,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the wratten value for the filter.<br>
      *
      */
@@ -607,7 +604,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Returns the vendor name of this filter.<br>
      * 
      * @return Returns a String representing the vendor name of the filter, or <code>null</code> if the vendor was never
@@ -620,7 +617,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
-/**
+    /**
      * Sets the vendor name of the filter.<br>
      * 
      * @param vendor

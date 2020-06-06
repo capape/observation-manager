@@ -68,9 +68,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     private final InstallDir installDir;
     private final IConfiguration configuration;
 
-    public StatisticsDetailsDialog(final ObservationManager om, final ObservationManagerModel omModel, final ObservationStatisticsTableModel tableModel) {
+    public StatisticsDetailsDialog(final ObservationManager om, final ObservationManagerModel omModel,
+            final ObservationStatisticsTableModel tableModel) {
 
-        super(om, omModel, om.getUiHelper(),new DetailPanel(om, tableModel), true);
+        super(om, omModel, om.getUiHelper(), new DetailPanel(om, tableModel), true);
         this.uiHelper = om.getUiHelper();
         this.htmlHelper = om.getHtmlHelper();
         this.configuration = om.getConfiguration();
@@ -183,7 +184,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_observed", "xml").getAbsolutePath();
+                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_observed", "xml")
+                        .getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
 
@@ -212,7 +214,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
             }
 
         };
-        
+
         this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
                 AbstractDialog.bundle.getString("progress.wait.xml.info"), calculation);
 
@@ -269,7 +271,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         };
 
         // Show progresDialog for first part of export
-        this.uiHelper.createProgressDialog( AbstractDialog.bundle.getString("progress.wait.title"),
+        this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
                 AbstractDialog.bundle.getString("progress.wait.html.info"), calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
@@ -304,7 +306,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_missing", "xml").getAbsolutePath();
+                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_missing", "xml")
+                        .getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
 
@@ -408,12 +411,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        this.htmlHelper.createHTML(calculation.getDocument(), this.model.getExportFile(catalogName + "_missing", "html"),
-                getXSLFile());
+        this.htmlHelper.createHTML(calculation.getDocument(),
+                this.model.getExportFile(catalogName + "_missing", "html"), getXSLFile());
 
     }
-
-    
 
     private File getXSLFile() {
 
@@ -427,10 +428,11 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        final File path = new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        final File path = new File(
+                this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
             this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
-                            + path.getAbsolutePath());
+                    + path.getAbsolutePath());
             return null;
         }
 
@@ -440,10 +442,10 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         if (!xslFile.exists()) { // OK, maybe a language independent file can be found...
             xslFile = new File(path.getAbsolutePath() + File.separator + XSLFILENAME + ".xsl");
             if (!xslFile.exists()) { // Nothing found, raise warning
-                this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
-                                + path.getAbsolutePath() + File.separator + "targetsOnly" + ".xsl\n"
-                                + path.getAbsolutePath() + File.separator + "targetsOnly" + "_"
-                                + Locale.getDefault().getLanguage() + ".xsl");
+                this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.noFileFoundWithName")
+                        + "\n" + path.getAbsolutePath() + File.separator + "targetsOnly" + ".xsl\n"
+                        + path.getAbsolutePath() + File.separator + "targetsOnly" + "_"
+                        + Locale.getDefault().getLanguage() + ".xsl");
                 return null;
             }
         }

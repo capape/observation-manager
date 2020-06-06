@@ -42,21 +42,13 @@ public final class ObservationManagerMenuExtras {
     private final TextManager textManager;
     private final InstallDir installDir;
     private final File logFile;
-        
 
+    public ObservationManagerMenuExtras(IConfiguration configuration, ImageResolver imageResolver,
+            ThemeManager themeManager, TextManager textManager, UserInterfaceHelper uiHelper,
+            ObservationManagerModel model, InstallDir installDir, ObservationManager om) {
 
-    public ObservationManagerMenuExtras(        
-        IConfiguration configuration,
-        ImageResolver imageResolver,
-        ThemeManager themeManager,
-        TextManager textManager,
-        UserInterfaceHelper uiHelper,
-        ObservationManagerModel model,
-        InstallDir installDir,
-        ObservationManager om) {
-       
         // Load configuration
-        this.configuration = configuration; 
+        this.configuration = configuration;
         this.observationManager = om;
         this.imageResolver = imageResolver;
         this.themeManager = themeManager;
@@ -65,8 +57,9 @@ public final class ObservationManagerMenuExtras {
         this.textManager = textManager;
         this.installDir = installDir;
         this.menu = this.createMenuExtraItems();
-        this.logFile = new File(this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
- 
+        this.logFile = new File(
+                this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
+
     }
 
     public JMenu getMenu() {
@@ -93,7 +86,7 @@ public final class ObservationManagerMenuExtras {
         }
 
         if (this.observationManager.getExtensionLoader().getExtensions().isEmpty()) {
-            this.uiHelper.showInfo(this.textManager.getString("info.noCatalogsInstalled"));            
+            this.uiHelper.showInfo(this.textManager.getString("info.noCatalogsInstalled"));
             return;
         }
 
@@ -103,7 +96,8 @@ public final class ObservationManagerMenuExtras {
 
     public void showPreferencesDialog() {
 
-        new PreferencesDialog(this.observationManager, this.model, this.textManager,observationManager.getExtensionLoader().getPreferencesTabs());
+        new PreferencesDialog(this.observationManager, this.model, this.textManager,
+                observationManager.getExtensionLoader().getPreferencesTabs());
 
     }
 
@@ -112,7 +106,6 @@ public final class ObservationManagerMenuExtras {
         new DidYouKnowDialog(this.observationManager);
 
     }
-
 
     public void showLogDialog() {
 
@@ -137,7 +130,7 @@ public final class ObservationManagerMenuExtras {
         UpdateChecker updateChecker = new UpdateChecker(this.observationManager);
 
         updateChecker.run();
-        
+
         return updateChecker;
 
     }
@@ -146,9 +139,8 @@ public final class ObservationManagerMenuExtras {
         // ----- Extras Menu
         final JMenu extraMenu = new JMenu(this.textManager.getString("menu.extra"));
         extraMenu.setMnemonic('e');
-      
 
-        JMenuItem  showStatistics = new JMenuItem(this.textManager.getString("menu.showStatistics"),
+        JMenuItem showStatistics = new JMenuItem(this.textManager.getString("menu.showStatistics"),
                 new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
         showStatistics.setMnemonic('s');
         showStatistics.addActionListener(new StatisticsActionListener());
@@ -209,6 +201,7 @@ public final class ObservationManagerMenuExtras {
             ObservationManagerMenuExtras.this.showPreferencesDialog();
         }
     }
+
     class DidYouKnowDialogActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -216,6 +209,7 @@ public final class ObservationManagerMenuExtras {
 
         }
     }
+
     class NightVisionActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -226,6 +220,7 @@ public final class ObservationManagerMenuExtras {
             }
         }
     }
+
     class LogMenuActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -233,6 +228,7 @@ public final class ObservationManagerMenuExtras {
 
         }
     }
+
     class UpdateMenuListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -240,6 +236,5 @@ public final class ObservationManagerMenuExtras {
 
         }
     }
-
 
 }

@@ -39,7 +39,8 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
 
     private TargetSelectionModel tableModel = null;
 
-    public TargetSelectorPopup(ObservationManager om, ObservationManagerModel model,String title, String targetType, List<ITarget> preSelectedTargets) {
+    public TargetSelectorPopup(ObservationManager om, ObservationManagerModel model, String title, String targetType,
+            List<ITarget> preSelectedTargets) {
 
         super(om, true);
 
@@ -239,7 +240,7 @@ class TargetSelectionModel extends AbstractTableModel {
         ITarget current = null;
         Boolean currentValue = null;
         while (keyIterator.hasNext()) {
-            current =  keyIterator.next();
+            current = keyIterator.next();
             currentValue = this.targetMap.get(current);
             if (currentValue) {
                 result.add(current);

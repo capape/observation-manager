@@ -73,8 +73,6 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TableView extends JPanel {
 
-  
-
     /**
      *
      */
@@ -103,7 +101,7 @@ public class TableView extends JPanel {
         this.model = omModel;
         this.textManager = textManager;
 
-       // this.observationManager = om;
+        // this.observationManager = om;
 
         this.abstracthSchemaTableModel = new ObservationTableModel(null, this.observationManager);
         this.sorter = new TableSorter(null);
@@ -272,8 +270,8 @@ public class TableView extends JPanel {
                             .getSchemaElement(row);
 
                     if (element != null) {
-                        new PopupMenuHandler(TableView.this.observationManager, TableView.this.model , TableView.this.textManager,
-                                element, p.x, p.y,
+                        new PopupMenuHandler(TableView.this.observationManager, TableView.this.model,
+                                TableView.this.textManager, element, p.x, p.y,
                                 (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
                                         + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
                                         + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS),
@@ -314,7 +312,7 @@ public class TableView extends JPanel {
                 if (coObserver != null) {
                     // Add coObserver observations to other observations (and remove doublicates via
                     // HashSet)
-                    List<IObservation> obsList= new ArrayList<>(Arrays.asList(obs));
+                    List<IObservation> obsList = new ArrayList<>(Arrays.asList(obs));
                     int coObsLength = coObserver.length;
                     for (IObservation iObservation : coObserver) {
                         if (!obsList.contains(iObservation)) { // New observation
@@ -400,7 +398,8 @@ public class TableView extends JPanel {
              * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
              * TargetTableModel(targets), false); } else {
              */
-            this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
+            this.sorter.setTableModel(
+                    new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
             // }
             this.abstracthSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
@@ -631,7 +630,7 @@ public class TableView extends JPanel {
         this.saveCurrentTableModelSettings();
 
         IConfiguration config = observationManager.getConfiguration();
-        Map<String,String> cache = observationManager.getUIDataCache();
+        Map<String, String> cache = observationManager.getUIDataCache();
         Iterator<String> iterator = cache.keySet().iterator();
         String currentKey = null;
         while (iterator.hasNext()) {
@@ -648,11 +647,10 @@ public class TableView extends JPanel {
         final IConfiguration config = this.observationManager.getConfiguration();
         final Set<String> tableKeys = config.getKeysStartingWith(TableView.CONFIG_TABLESETTINGS_PREFIX);
 
-      
-        Map<String,String> cache = observationManager.getUIDataCache();
-       
+        Map<String, String> cache = observationManager.getUIDataCache();
+
         for (String currentKey : tableKeys) {
-                cache.put(currentKey, config.getConfig(currentKey));
+            cache.put(currentKey, config.getConfig(currentKey));
         }
 
         // Now set the loaded settings

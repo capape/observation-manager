@@ -8,13 +8,9 @@ import java.util.List;
  * Enum of valid command line arguments
  */
 public enum ArgumentName {
-    
-    INSTALL_DIR("instDir"),
-    LANGUAGE("lang"),
-    CONFIGURATION("config"),
-    NIGHTVISION("nightvision"),
-    LOGGING("log"),
-    DEBUG("debug");
+
+    INSTALL_DIR("instDir"), LANGUAGE("lang"), CONFIGURATION("config"), NIGHTVISION("nightvision"), LOGGING(
+            "log"), DEBUG("debug");
 
     private final String value;
     private static final List<String> validNames = new ArrayList<>();
@@ -22,13 +18,12 @@ public enum ArgumentName {
     static {
         for (ArgumentName arg : ArgumentName.values()) {
             validNames.add(arg.value);
-        }   
+        }
     }
-    
 
     ArgumentName(String value) {
         this.value = value;
-       
+
     }
 
     public final String getValue() {

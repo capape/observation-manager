@@ -376,7 +376,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
     // --------------------------------------------------------------------------
 
     @Override
-    protected JComboBox<String>  getVisualRatingBox() {
+    protected JComboBox<String> getVisualRatingBox() {
 
         JComboBox<String> box = new JComboBox<>();
         box.addItem("----");

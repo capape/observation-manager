@@ -31,19 +31,19 @@ public class GenericTarget extends Target {
     // Constructor -------------------------------------------------------
     // -----------
 
-public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
+    public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 
     }
 
-public GenericTarget(String name, String datasource) throws IllegalArgumentException {
+    public GenericTarget(String name, String datasource) throws IllegalArgumentException {
 
         super(name, datasource);
 
     }
 
-public GenericTarget(String name, IObserver observer) throws IllegalArgumentException {
+    public GenericTarget(String name, IObserver observer) throws IllegalArgumentException {
 
         super(name, observer);
 
@@ -53,7 +53,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this GenericTarget.
      * 
@@ -87,7 +87,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
 
     }
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this GenericTarget and the given Object are equal. The given object is equal with this GenericTarget,
      * if it derives from ITarget, both XSI types are equal and its name equals this GenericTarget name.<br>
@@ -123,7 +123,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
-        result = prime * result +  this.getXSIType().hashCode();
+        result = prime * result + this.getXSIType().hashCode();
         return result;
     }
 
@@ -131,7 +131,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
     // Target ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 
@@ -200,7 +200,7 @@ public GenericTarget(String name, IObserver observer) throws IllegalArgumentExce
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>

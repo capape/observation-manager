@@ -25,7 +25,6 @@ public class ThemeManagerImpl implements ThemeManager {
     private final TextManager textManager;
 
     private static NightVisionTheme NIGHT_THEME = new NightVisionTheme();
-    
 
     public ThemeManagerImpl(IConfiguration config, TextManager textManager, ObservationManager om) {
         this.observationManager = om;
@@ -35,7 +34,7 @@ public class ThemeManagerImpl implements ThemeManager {
 
     @Override
     public boolean isNightVision() {
-        
+
         return this.nightVision;
     }
 

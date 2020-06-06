@@ -16,9 +16,9 @@ public class SessionDialog extends AbstractDialog {
 
     private static final long serialVersionUID = 3246978868012633237L;
 
-    public SessionDialog(ObservationManager om, ObservationManagerModel model,ISession editableSession) {
+    public SessionDialog(ObservationManager om, ObservationManagerModel model, ISession editableSession) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new SessionPanel(om, model, editableSession, true));
+        super(om, om.getModel(), om.getUiHelper(), new SessionPanel(om, model, editableSession, true));
 
         if (editableSession == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.session.title"));

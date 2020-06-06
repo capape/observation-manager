@@ -16,7 +16,6 @@ import de.lehmannet.om.ui.image.ImageResolver;
 
 public class SplashScreen extends JFrame implements Runnable {
 
-   
     private static final String SPLASH_PNG = "splash.png";
     private static final long serialVersionUID = 1L;
     private Image image;
@@ -26,25 +25,25 @@ public class SplashScreen extends JFrame implements Runnable {
 
         this.imageResolver = resolver;
         this.init();
-       
+
     }
 
     private void init() {
 
         this.imageResolver.getImageURL(SPLASH_PNG).ifPresent(
 
-            imageFile -> {
-                this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
-    
-                MediaTracker mt = new MediaTracker(this);
-                mt.addImage(this.image, 0);
-                try {
-                    mt.waitForAll();
-                } catch (InterruptedException ie) {
-                    // Interrupted while loading image
-                    System.err.println("Interrupted while loading SplashScreen");
-                }
-            });
+                imageFile -> {
+                    this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
+
+                    MediaTracker mt = new MediaTracker(this);
+                    mt.addImage(this.image, 0);
+                    try {
+                        mt.waitForAll();
+                    } catch (InterruptedException ie) {
+                        // Interrupted while loading image
+                        System.err.println("Interrupted while loading SplashScreen");
+                    }
+                });
     }
 
     @Override
@@ -56,8 +55,7 @@ public class SplashScreen extends JFrame implements Runnable {
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
 
-       
-        int x = (width/ 2) - (this.image.getWidth(null) / 2);
+        int x = (width / 2) - (this.image.getWidth(null) / 2);
         int y = (height / 2) - (this.image.getHeight(null) / 2);
         this.setLocation(x, y);
         this.setUndecorated(true);

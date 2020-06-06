@@ -69,7 +69,6 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
 
-       
         this.setVisible(true);
 
     }
@@ -86,8 +85,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
             if (source.equals(this.close)) {
                 // Save config value
                 boolean show = this.showOnStartup.isSelected();
-                this.om.getConfiguration().setConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP,
-                        Boolean.toString(show));
+                this.om.getConfiguration().setConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, Boolean.toString(show));
 
                 // Close UI;
                 this.dispose();
@@ -130,8 +128,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 2, 1, 10, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.showOnStartup.setSelected(Boolean.parseBoolean(
-                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, "true")));
+        this.showOnStartup.setSelected(Boolean
+                .parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, "true")));
         gridbag.setConstraints(this.showOnStartup, constraints);
         this.getContentPane().add(this.showOnStartup);
 
@@ -153,11 +151,12 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private String getText() {
 
-        String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH) + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
+        String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH)
+                + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
         File textDir = new File(path);
 
         LOGGER.info("Hints folder: {}", path);
-        
+
         File[] files = textDir.listFiles(); // Get all files in dir
         if ((files == null) // No files found...
                 || (files.length == 0)) {
@@ -184,9 +183,9 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
                 current = br.readLine();
             }
         } catch (FileNotFoundException fnfe) {
-            LOGGER.error("Cannot find hint file: {}" , files[iNumber]);
+            LOGGER.error("Cannot find hint file: {}", files[iNumber]);
         } catch (IOException ioe) {
-            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber] , current);
+            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber], current);
         }
 
         return text.toString();

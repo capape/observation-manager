@@ -57,7 +57,8 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
     private static final long serialVersionUID = 3386387945098447550L;
 
-    public VariableStarChartDialog(JFrame om, UserInterfaceHelper uiHelper, IConfiguration configuration, IObservation[] observations, Map<IObserver, Color> colorMap) {
+    public VariableStarChartDialog(JFrame om, UserInterfaceHelper uiHelper, IConfiguration configuration,
+            IObservation[] observations, Map<IObserver, Color> colorMap) {
 
         super(om);
 
@@ -82,7 +83,7 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
         this.addComponentListener(this);
 
         this.setLocationRelativeTo(om);
-        
+
         this.setVisible(true);
 
     }
@@ -156,7 +157,6 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     private static final int CIRCLE_DIAMETER = 6;
 
-  
     // The data to be drawn
     private SortedSet<IObservation> observations = null;
 
@@ -195,9 +195,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
     private final IConfiguration configuration;
     private final UserInterfaceHelper uiHelper;
 
-    public MagnitudeDiagramm(IConfiguration configuration, UserInterfaceHelper uiHelper, SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
-
-     
+    public MagnitudeDiagramm(IConfiguration configuration, UserInterfaceHelper uiHelper,
+            SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
 
         this.observations = this.getObservations(observations, colorMap);
         this.dataSpots = new DataSpot[observations.size()];
@@ -207,9 +206,9 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         this.uiHelper = uiHelper;
 
         // if (this.om.isNightVisionEnabled()) {
-        //     this.setBackground(new Color(255, 175, 175));
+        // this.setBackground(new Color(255, 175, 175));
         // } else {
-        //     this.setBackground(Color.white);
+        // this.setBackground(Color.white);
         // }
 
         this.addMouseListener(this);
@@ -490,7 +489,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
                 int width = valueWidth + 8;
                 if ((Math.round(this.xPopup + dataSpot.width * 2) + width + 4) >= this.getWidth()) { // Popup doesn't
-                                                                                                      // fit into frame
+                                                                                                     // fit into frame
                     // Paint popup
                     this.g2d.drawRect(Math.round(this.xPopup - (dataSpot.width * 2) - width), this.yPopup + 2, width,
                             valueHeight * info.length + (valueHeight / 4 * info.length));
@@ -781,7 +780,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         Iterator<IObservation> iterator = this.observations.iterator();
         float mag = 0.0f;
         while (iterator.hasNext()) {
-            mag = ((FindingVariableStar) (( iterator.next()).getResults().get(0))).getMagnitude();
+            mag = ((FindingVariableStar) ((iterator.next()).getResults().get(0))).getMagnitude();
             max = Math.max(mag, max);
         }
 
@@ -884,7 +883,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     }
 
-    private SortedSet<IObservation> getObservations(SortedSet<IObservation> observations, Map<IObserver, Color> colorMap) {
+    private SortedSet<IObservation> getObservations(SortedSet<IObservation> observations,
+            Map<IObserver, Color> colorMap) {
 
         Iterator<IObservation> iterator = observations.iterator();
         IObservation current = null;

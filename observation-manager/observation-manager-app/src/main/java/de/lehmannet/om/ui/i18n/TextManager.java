@@ -5,7 +5,7 @@ import java.util.PropertyResourceBundle;
 public interface TextManager {
 
     String getString(String key);
-    
+
     String getCurrentLanguage();
 
     void useLanguage(String isoKey);
@@ -15,5 +15,5 @@ public interface TextManager {
      */
     @Deprecated
     PropertyResourceBundle getBundle();
-    
+
 }

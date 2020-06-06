@@ -35,16 +35,15 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
     private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
-    
     private DeepSkyTargetSC target = null;
 
     private DeepSkyTargetContainer deepSkyTargetContainer = null;
     private JTextField positionAngle = null;
     private final ObservationManagerModel model;
-    private final UserInterfaceHelper  uiHelper;
+    private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetSCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyTargetSCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -54,7 +53,7 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
         }
 
         this.target = (DeepSkyTargetSC) target;
-        this.uiHelper = uiHelper;        
+        this.uiHelper = uiHelper;
         this.model = model;
 
         this.createPanel();

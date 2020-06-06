@@ -16,7 +16,6 @@ import javax.swing.table.AbstractTableModel;
 
 import de.lehmannet.om.ISchemaElement;
 
-
 public abstract class AbstractSchemaTableModel extends AbstractTableModel {
 
     /**
@@ -24,12 +23,10 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = -3423592371149917442L;
 
-    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager",
+    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
             Locale.getDefault());
 
     protected ISchemaElement[] elements = null;
-  
 
     public ISchemaElement getSchemaElement(int row) {
 

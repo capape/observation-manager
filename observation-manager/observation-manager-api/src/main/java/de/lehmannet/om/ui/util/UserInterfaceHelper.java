@@ -8,14 +8,15 @@ package de.lehmannet.om.ui.util;
 public interface UserInterfaceHelper {
 
     void showInfo(String message);
-    void showWarning(String message);
-    void showError(String message);
 
+    void showWarning(String message);
+
+    void showError(String message);
 
     void createProgressDialog(String title, String messageInfo, Worker task);
 
     void createWaitPopUp(String title, ThreadGroup threadGrop);
 
-    void refreshUI();    
+    void refreshUI();
 
 }

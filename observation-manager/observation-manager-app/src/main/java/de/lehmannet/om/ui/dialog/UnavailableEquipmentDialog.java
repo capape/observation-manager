@@ -44,7 +44,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    
     private ObservationManager om = null;
     private JTree tree = null;
 
@@ -55,7 +54,8 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     private final ObservationManagerModel model;
     private final TextManager textManager;
 
-    public UnavailableEquipmentDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager, ImageResolver resolver) {
+    public UnavailableEquipmentDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+            ImageResolver resolver) {
 
         super(om);
 
@@ -150,8 +150,8 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         this.tree.setEnabled(true);
         this.tree.setToolTipText(this.textManager.getString("dialog.unavailableEquipment.tooltip.tree"));
         JScrollPane scrollPanel = new JScrollPane(this.tree);
-        scrollPanel.setBorder(
-                BorderFactory.createTitledBorder(this.textManager.getString("dialog.unavailableEquipment.border.tree")));
+        scrollPanel.setBorder(BorderFactory
+                .createTitledBorder(this.textManager.getString("dialog.unavailableEquipment.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 50, 92);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);

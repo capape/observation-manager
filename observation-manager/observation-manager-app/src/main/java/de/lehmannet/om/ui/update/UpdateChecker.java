@@ -29,7 +29,7 @@ public class UpdateChecker implements Runnable {
         try {
             UPDATE_URL = new URL("http://observation.sourceforge.net/update");
         } catch (MalformedURLException url) {
-            LOGGER.error("Malformed update check URL: {} ",  UPDATE_URL);
+            LOGGER.error("Malformed update check URL: {} ", UPDATE_URL);
         }
     }
 
@@ -69,8 +69,8 @@ public class UpdateChecker implements Runnable {
                 currentExtension = iterator.next();
                 currentExtensionURL = currentExtension.getUpdateInformationURL();
                 if (currentExtensionURL != null) {
-                    currentResult = this.checkForUpdates(currentExtension.getName(), String.valueOf(currentExtension.getVersion()),
-                            currentExtensionURL);
+                    currentResult = this.checkForUpdates(currentExtension.getName(),
+                            String.valueOf(currentExtension.getVersion()), currentExtensionURL);
                     if (currentResult != null) { // New version found
                         result.add(currentResult);
                     }
@@ -104,7 +104,7 @@ public class UpdateChecker implements Runnable {
             } else {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String currentLine = null;
-                
+
                 URL downloadURL = null;
                 do {
                     currentLine = in.readLine();
@@ -146,7 +146,7 @@ public class UpdateChecker implements Runnable {
                 LOGGER.error(
                         "** start javaw -Dhttp.proxyHost={YOURPROXY} -Dhttp.proxyPort={YOURPROXYPORT} -Dextensions.dirs=.....");
             } else {
-                LOGGER.error("Error during update check for URL:  {}" , checkURL , ioe);
+                LOGGER.error("Error during update check for URL:  {}", checkURL, ioe);
             }
 
             throw new ConnectException("Unable to connect to host for update");
@@ -157,8 +157,5 @@ public class UpdateChecker implements Runnable {
         }
 
     }
-
-
-
 
 }

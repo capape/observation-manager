@@ -17,10 +17,10 @@ public class CatalogManagerImpl implements CatalogManager {
     private final ExtensionLoader extensionLoader;
     private ProjectLoader projectLoader;
 
-    public CatalogManagerImpl(final ObservationManagerModel model,
-        InstallDir installDir, ExtensionLoader extensionLoader, UserInterfaceHelper uiHelper) {
+    public CatalogManagerImpl(final ObservationManagerModel model, InstallDir installDir,
+            ExtensionLoader extensionLoader, UserInterfaceHelper uiHelper) {
         this.model = model;
-        this.installDir =installDir;
+        this.installDir = installDir;
         this.uiHelper = uiHelper;
         this.extensionLoader = extensionLoader;
         this.loadProjectFiles();
@@ -71,10 +71,9 @@ public class CatalogManagerImpl implements CatalogManager {
 
                             LOGGER.debug("Catalog loading done. Start project loading in background...");
                             // Initialite ProjectLoader and start loading projects
-                            this.catalogManager.projectLoader = 
-                            new ProjectLoader(CatalogManagerImpl.this.model, 
-                            this.catalogManager.extensionLoader.getCatalogLoader(),
-                            CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
+                            this.catalogManager.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
+                                    this.catalogManager.extensionLoader.getCatalogLoader(),
+                                    CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
                         } else {
                             this.wait(300);
                         }

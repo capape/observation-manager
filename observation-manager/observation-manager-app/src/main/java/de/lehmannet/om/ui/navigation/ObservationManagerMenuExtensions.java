@@ -40,9 +40,8 @@ public final class ObservationManagerMenuExtensions {
     private final TextManager textManager;
     private final UserInterfaceHelper uiHelper;
 
-    public ObservationManagerMenuExtensions(IConfiguration configuration, 
-            ExtensionLoader extLoader, ImageResolver imageResolver,
-            TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
+    public ObservationManagerMenuExtensions(IConfiguration configuration, ExtensionLoader extLoader,
+            ImageResolver imageResolver, TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
@@ -52,7 +51,7 @@ public final class ObservationManagerMenuExtensions {
         this.textManager = textManager;
         this.uiHelper = uiHelper;
         this.menu = this.createMenuExtensionItems();
-        
+
     }
 
     public JMenu getMenu() {
@@ -132,7 +131,7 @@ public final class ObservationManagerMenuExtensions {
                     positiveResult.append(", ");
                 }
             } catch (IOException ioe) {
-               LOGGER.error("Error in extension zip file. Zip file may be corrupted." ,ioe);
+                LOGGER.error("Error in extension zip file. Zip file may be corrupted.", ioe);
 
                 Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                 this.observationManager.setCursor(normalCursor);
@@ -161,16 +160,15 @@ public final class ObservationManagerMenuExtensions {
                                              // whether we had some
                                              // problems during check OR
                                              // installation
-            this.observationManager.createWarning(
-                    this.textManager.getString("error.addExtensionFail") + " " + negativeResult);
+            this.observationManager
+                    .createWarning(this.textManager.getString("error.addExtensionFail") + " " + negativeResult);
 
         }
 
         // Inform about restart (if any installation was successfull)
         /*
-         * if( successCounter > 0 ) { // Until we found a better way to handle
-         * extension, we need to restart... :-( this.createInfo(ObservationManager
-         * .bundle.getString("info.addExtensionRestart")); this.exit(); }
+         * if( successCounter > 0 ) { // Until we found a better way to handle extension, we need to restart... :-(
+         * this.createInfo(ObservationManager .bundle.getString("info.addExtensionRestart")); this.exit(); }
          */
 
         Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -258,10 +256,9 @@ public final class ObservationManagerMenuExtensions {
         extensionInfo.addActionListener(new ExtensionInfoListener());
         extensionMenu.add(extensionInfo);
 
-
         // TODO: implement new extension loader
         // JMenuItem installExtension = new JMenuItem(this.textManager.getString("menu.installExtension"),
-        //         new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
+        // new ImageIcon(this.imageResolver.getImageURL("extension.png").orElse(null), ""));
         // installExtension.setMnemonic('i');
         // installExtension.addActionListener(new AddExtensionListener());
         // extensionMenu.add(installExtension);
@@ -273,11 +270,10 @@ public final class ObservationManagerMenuExtensions {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          
-          
+
             if (extensionLoader.getExtensions().isEmpty()) {
                 ObservationManagerMenuExtensions.this.uiHelper.showInfo(
-                    ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
+                        ObservationManagerMenuExtensions.this.textManager.getString("info.noExtensionsInstalled"));
             } else {
                 new ExtensionInfoDialog(ObservationManagerMenuExtensions.this.observationManager);
             }

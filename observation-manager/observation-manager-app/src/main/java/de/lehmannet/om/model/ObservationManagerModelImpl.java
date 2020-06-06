@@ -194,8 +194,8 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     public Optional<String> getRootName() {
         String[] fileNames = this.xmlCache.getAllOpenedFiles();
         if ((fileNames != null) && (fileNames.length > 0)) {
-           String rootName = new File(fileNames[0]).getName();
-           return Optional.of(rootName);
+            String rootName = new File(fileNames[0]).getName();
+            return Optional.of(rootName);
         }
         return Optional.empty();
     }
@@ -207,11 +207,10 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         }
         return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
     }
-    
-    private  File createPath (String x ) {
-        if (x.startsWith("." + File.separator)) { 
-            return new File(this.xmlCache.getXMLPathForSchemaElement(this.getSelectedElement())
-        + File.separator + x);
+
+    private File createPath(String x) {
+        if (x.startsWith("." + File.separator)) {
+            return new File(this.xmlCache.getXMLPathForSchemaElement(this.getSelectedElement()) + File.separator + x);
         } else {
             return new File(x);
         }
@@ -227,13 +226,11 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         return this.xmlCache.getXMLPathForSchemaElement(schemaElement);
     }
 
-
     public File getExportFile(final String filename, final String extension) {
 
         String path = null;
 
-        if ((this.xmlCache.getAllOpenedFiles() != null)
-                && (this.xmlCache.getAllOpenedFiles().length > 0)) {
+        if ((this.xmlCache.getAllOpenedFiles() != null) && (this.xmlCache.getAllOpenedFiles().length > 0)) {
             path = new File(this.xmlCache.getAllOpenedFiles()[0]).getParent();
         } else {
             path = this.installDir.getInstallDir().getParent();
@@ -251,10 +248,9 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public String[] getAllOpenedFiles() {
-       
+
         return this.xmlCache.getAllOpenedFiles();
     }
-
 
     @Override
     public final void setSelectedElement(ISchemaElement selected) {
@@ -268,14 +264,14 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     @Override
     public boolean save(String name) {
-        
+
         return this.xmlCache.save(name);
     }
 
     @Override
     public boolean saveAs(String oldPath, String newPath) {
         return this.xmlCache.saveAs(oldPath, newPath);
-        
+
     }
 
     @Override
@@ -283,5 +279,4 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         return this.configuration;
     }
 
-        
 }

@@ -22,7 +22,7 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
 
     public GenericTargetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget) {
 
-        super(om,  om.getModel(), om.getUiHelper(), new GenericTargetPanel(om, model, editableTarget, Boolean.TRUE));
+        super(om, om.getModel(), om.getUiHelper(), new GenericTargetPanel(om, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());

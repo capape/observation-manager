@@ -62,7 +62,7 @@ class EquPositionReferenceFrame {
     // Constructors ------------------------------------------------------
     // ------------
 
-/**
+    /**
      * Creates an instance of an EquPositionReferenceFrame.<br>
      *
      * @param origin
@@ -92,7 +92,7 @@ class EquPositionReferenceFrame {
     // Object ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the position reference frame as string in form:<br>
      * Example:<br>
@@ -110,7 +110,7 @@ class EquPositionReferenceFrame {
 
     }
 
-/**
+    /**
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this EquPositionReferenceFrame and the given Object are equal. The given object is equal with this
      * EquPositionReferenceFrame, if its an instance from class EquPositionReferenceFrame and its equinox date and the
@@ -131,8 +131,10 @@ class EquPositionReferenceFrame {
 
         EquPositionReferenceFrame frame = (EquPositionReferenceFrame) obj;
 
-        return (frame.getEquinox().toLowerCase(Locale.getDefault()).trim().equals(equinox.toLowerCase(Locale.getDefault()).trim()))
-                && (frame.getOrigin().toLowerCase(Locale.getDefault()).trim().equals(origin.toLowerCase(Locale.getDefault()).trim()));
+        return (frame.getEquinox().toLowerCase(Locale.getDefault()).trim()
+                .equals(equinox.toLowerCase(Locale.getDefault()).trim()))
+                && (frame.getOrigin().toLowerCase(Locale.getDefault()).trim()
+                        .equals(origin.toLowerCase(Locale.getDefault()).trim()));
 
     }
 
@@ -149,7 +151,7 @@ class EquPositionReferenceFrame {
     // Public methods ----------------------------------------------------
     // --------------
 
-/**
+    /**
      * Adds this EquPositionReferenceFrame to an given parent XML DOM Element. The EquPositionReferenceFrame Element
      * will be set as a child element of the passed Element.
      *
@@ -183,7 +185,7 @@ class EquPositionReferenceFrame {
 
     }
 
-/**
+    /**
      * Returns the equinox date of this position reference frame.
      *
      * @return The equinox date of this position reference frame
@@ -194,7 +196,7 @@ class EquPositionReferenceFrame {
 
     }
 
-/**
+    /**
      * Returns the origin of this position reference frame.
      *
      * @return The origin of this position reference frame
@@ -205,7 +207,7 @@ class EquPositionReferenceFrame {
 
     }
 
-/**
+    /**
      * Sets the equinox date of this position reference frame.<br>
      * String should be formed like <code>J2000.0</code>
      *
@@ -224,7 +226,7 @@ class EquPositionReferenceFrame {
 
     }
 
-/**
+    /**
      * Sets the origin of this position reference frame.<br>
      * All valid origin values can be accessed by this classes constants.
      *

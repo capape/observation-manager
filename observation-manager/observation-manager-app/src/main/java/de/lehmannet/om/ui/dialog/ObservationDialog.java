@@ -29,15 +29,18 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
     private JButton next = new JButton("Next");
     private boolean createAdditionalObservation = false;
 
-    public ObservationDialog(ObservationManager om,  ObservationManagerModel model, TextManager textManager,  IObservation observation) {
+    public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+            IObservation observation) {
 
         this(om, model, textManager, observation, null);
 
     }
 
-    public ObservationDialog(ObservationManager om,  ObservationManagerModel model, TextManager textManager, IObservation observation, ISchemaElement se) {
+    public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+            IObservation observation, ISchemaElement se) {
 
-        super(om,  model, om.getUiHelper(),  new ObservationDialogPanel(om, model, textManager, observation, se, om.getImageResolver()));
+        super(om, model, om.getUiHelper(),
+                new ObservationDialogPanel(om, model, textManager, observation, se, om.getImageResolver()));
 
         if (observation == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));

@@ -37,8 +37,8 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private ObservationManagerModel model;
 
-    public SolarSystemTargetCometPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public SolarSystemTargetCometPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -117,7 +117,8 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
+                true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

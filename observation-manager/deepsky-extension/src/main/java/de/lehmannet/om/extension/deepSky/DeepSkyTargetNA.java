@@ -22,7 +22,6 @@ import de.lehmannet.om.util.SchemaException;
  */
 public class DeepSkyTargetNA extends DeepSkyTarget {
 
-
     // XSML schema instance value. Enables class/schema loaders to identify this
     public static final String XML_XSI_TYPE_VALUE = "oal:deepSkyNA";
 
@@ -60,7 +59,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
 
     }
 
-/**
+    /**
      * Constructs a new instance of a DeepSkyTargetNA.
      * 
      * @param name
@@ -78,7 +77,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     // IExtendableSchemaElement ------------------------------------------
     // ------------------------
 
-/**
+    /**
      * Returns the XML schema instance type of the implementation.<br>
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
@@ -97,7 +96,7 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     // Target ------------------------------------------------------------
     // ------
 
-/**
+    /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
      * 

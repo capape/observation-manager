@@ -244,7 +244,6 @@ public class SchemaUILoader {
                 return extension.getFindingPanelForXSIType(xsiType, finding, session, target, editable);
             }
 
-
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.FINDING);
             if (classname != null) {
                 break;
@@ -261,7 +260,8 @@ public class SchemaUILoader {
 
     }
 
-    private AbstractPanel getTargetPanelFromXSIType(String xsiType, ITarget target, IObservation observation, boolean editable) {
+    private AbstractPanel getTargetPanelFromXSIType(String xsiType, ITarget target, IObservation observation,
+            boolean editable) {
 
         Iterator<IExtension> iterator = this.extensions.iterator();
         IExtension extension = null;
@@ -274,7 +274,6 @@ public class SchemaUILoader {
                 return extension.getTargetPanelForXSIType(xsiType, target, observation, editable);
             }
 
-
             classname = extension.getPanelForXSIType(xsiType, SchemaElementConstants.TARGET);
             if (classname != null) {
                 break;
@@ -286,8 +285,8 @@ public class SchemaUILoader {
             return null;
         }
 
-        return (AbstractPanel) this.loadByReflection(classname, ITarget.class, target, IObservation.class, observation, null,
-                null, editable);
+        return (AbstractPanel) this.loadByReflection(classname, ITarget.class, target, IObservation.class, observation,
+                null, null, editable);
 
     }
 
@@ -371,13 +370,12 @@ public class SchemaUILoader {
                         object = constructor.newInstance(this.observationManager, findingOrTarget, additionalParameter1,
                                 editable);
                         break;
-                    } else if ((parameters.length == 4) 
-                            && (parameters[0].isInstance(this.observationManager))
+                    } else if ((parameters.length == 4) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isInstance(this.observationManager.getModel())
-                            && (parameters[3].isInstance(Boolean.FALSE))
-                            && (parameters[2].isAssignableFrom(exampleClass)))) {
+                                    && (parameters[3].isInstance(Boolean.FALSE))
+                                    && (parameters[2].isAssignableFrom(exampleClass)))) {
                         object = constructor.newInstance(this.observationManager, this.observationManager.getModel(),
-                                findingOrTarget,editable);
+                                findingOrTarget, editable);
                         break;
                     } else if ((parameters.length == 5) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
@@ -396,11 +394,11 @@ public class SchemaUILoader {
                     }
                 }
             } catch (InstantiationException ie) {
-                LOGGER.error("Unable to instantiate class: {}", classname , ie);
+                LOGGER.error("Unable to instantiate class: {}", classname, ie);
             } catch (InvocationTargetException ite) {
-                LOGGER.error("Unable to invocate class: {} ", classname , ite);
+                LOGGER.error("Unable to invocate class: {} ", classname, ite);
             } catch (IllegalAccessException iae) {
-                LOGGER.error("Unable to access class: {} ", classname , iae);
+                LOGGER.error("Unable to access class: {} ", classname, iae);
             }
         } else {
             LOGGER.error("Unable to load class: {}. Maybe class has no correct constructor. ", classname);
@@ -413,41 +411,41 @@ public class SchemaUILoader {
     private Class<?> getExampleClass(SchemaElementConstants schemaElementConstant) {
 
         switch (schemaElementConstant) {
-            case EYEPIECE: {
-                return IEyepiece.class;
-            }
-            case FILTER: {
-                return IFilter.class;
-            }
-            case FINDING: {
-                return IFinding.class;
-            }
-            case IMAGER: {
-                return IImager.class;
-            }
-            case LENS: {
-                return ILens.class;
-            }
-            case OBSERVATION: {
-                return IObservation.class;
-            }
-            case OBSERVER: {
-                return IObserver.class;
-            }
-            case SCOPE: {
-                return IScope.class;
-            }
-            case SESSION: {
-                return ISession.class;
-            }
-            case SITE: {
-                return ISite.class;
-            }
-            case TARGET: {
-                return ITarget.class;
-            }
-            default:
-                break;
+        case EYEPIECE: {
+            return IEyepiece.class;
+        }
+        case FILTER: {
+            return IFilter.class;
+        }
+        case FINDING: {
+            return IFinding.class;
+        }
+        case IMAGER: {
+            return IImager.class;
+        }
+        case LENS: {
+            return ILens.class;
+        }
+        case OBSERVATION: {
+            return IObservation.class;
+        }
+        case OBSERVER: {
+            return IObserver.class;
+        }
+        case SCOPE: {
+            return IScope.class;
+        }
+        case SESSION: {
+            return ISession.class;
+        }
+        case SITE: {
+            return ISite.class;
+        }
+        case TARGET: {
+            return ITarget.class;
+        }
+        default:
+            break;
         }
 
         return null;
@@ -466,9 +464,10 @@ public class SchemaUILoader {
             if (dialog) {
 
                 if (extension.supports(xsiType)) {
-                    //TODO: extract real types
+                    // TODO: extract real types
                     LOGGER.debug("New load without reflection");
-                    return extension.getImagerDialogForXSIType(xsiType, this.observationManager, (IImager) schemaElement, true);
+                    return extension.getImagerDialogForXSIType(xsiType, this.observationManager,
+                            (IImager) schemaElement, true);
                 }
                 classname = extension.getDialogForXSIType(xsiType, schemaElementConstant);
 
