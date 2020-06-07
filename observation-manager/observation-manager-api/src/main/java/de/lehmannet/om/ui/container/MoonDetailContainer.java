@@ -22,6 +22,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.eclipse.core.runtime.Path;
+
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
@@ -46,7 +48,7 @@ public class MoonDetailContainer extends JLabel {
     private IObservation observation = null;
 
     private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl(
-            "images" + File.separatorChar + "moon");
+            "images" + Path.SEPARATOR + "moon");
 
     public MoonDetailContainer(IObservation obs) {
 
