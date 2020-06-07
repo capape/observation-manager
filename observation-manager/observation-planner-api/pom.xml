@@ -8,7 +8,7 @@
 	<parent>
 		<artifactId>observation-manager</artifactId>
 		<groupId>de.lehmannet.om</groupId>
-		<version>1.6.0-RC1</version>
+		<version>1.6.0-RC2-SNAPSHOT</version>
 	</parent>
 
 
