@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
+<Configuration monitorInterval="30">
 
     <Properties>
         <Property name="custom-pattern-layout">%highlight{[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n}</Property>
@@ -10,48 +10,46 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${custom-pattern-layout}"/>
         </Console>
-        <File name="obs" fileName=".logs/obs.log" append="false">
-            
+        <File name="obs" fileName=".logs/obs.log" append="false">            
             <PatternLayout pattern="${custom-file-pattern-layout}"/>
         </File>
     </Appenders>
 
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="obs" />
-            
+            <AppenderRef ref="obs" />                     
         </Root>
 
         <Logger name="org.apache.xerces" level="info" additivity="false">
             <AppenderRef ref="obs" />
-            
+            <AppenderRef ref="console" />                        
         </Logger>
         <Logger name="org.xml.sax" level="info" additivity="false">
             <AppenderRef ref="obs" />
-            
+            <AppenderRef ref="console" />                        
         </Logger>
         <Logger name="de.lehmannet.om" level="info" additivity="false">
             <AppenderRef ref="obs" />
-            
+            <AppenderRef ref="console" />                        
         </Logger>        
                 
         <Logger name="de.lehmannet.om.ui.dialog" level="info" additivity="false">
-            <AppenderRef ref="obs" />
+            <AppenderRef ref="console" />            
         </Logger>
         <Logger name="de.lehmannet.om.ui.navigation.ObservationManager" level="info" additivity="false">
-            <AppenderRef ref="obs" />
+            <AppenderRef ref="console" />            
         </Logger>
         <Logger name="de.lehmannet.om.ui.navigation.ObservationManagerFileLoader" level="info" additivity="false">
-            <AppenderRef ref="obs" />
+            <AppenderRef ref="console" />            
         </Logger>
         <Logger name="de.lehmannet.om.ui.extension" level="info" additivity="false">
-            <AppenderRef ref="obs" />
+            <AppenderRef ref="console" />            
         </Logger>
-        <Logger name="de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl" level="warn" additivity="false">
-            <AppenderRef ref="obs" />
+        <Logger name="de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl" level="debug" additivity="false">
+            <AppenderRef ref="console" />            
         </Logger>
         <Logger name="de.lehmannet.om.util.SchemaLoader" level="info" additivity="false">
-            <AppenderRef ref="obs" />
+            <AppenderRef ref="console" />            
         </Logger>
     </Loggers>
 
