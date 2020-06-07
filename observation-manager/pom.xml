@@ -13,6 +13,10 @@
     <groupId>de.lehmannet.om</groupId>
     <version>1.6.0-SNAPSHOT</version>
 
+    <scm>
+        <developerConnection>scm:git:git@github.com:capape/observation-manager.git</developerConnection>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
