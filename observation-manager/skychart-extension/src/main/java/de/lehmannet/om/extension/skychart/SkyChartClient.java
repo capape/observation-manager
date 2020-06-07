@@ -56,7 +56,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class SkyChartClient implements IExtension, ActionListener {
 
     private static final String NAME = "Starchart Remote Control";
-    private static final float VERSION = 0.91f;
+    private static final String VERSION = "0.9.2";
     private static URL UPDATE_URL = null;
     static {
         try {
@@ -703,7 +703,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return SkyChartClient.VERSION;
 

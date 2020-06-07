@@ -10,12 +10,10 @@ package de.lehmannet.om.extension.imaging;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.Imager;
 import de.lehmannet.om.mapper.CCDImagerMapper;
-import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**

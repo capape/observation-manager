@@ -33,7 +33,7 @@ public interface IExtension {
 
     String getName();
 
-    float getVersion();
+    String getVersion();
 
     JMenu getMenu();
 

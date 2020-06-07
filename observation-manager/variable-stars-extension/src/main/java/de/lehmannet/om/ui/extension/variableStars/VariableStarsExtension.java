@@ -65,7 +65,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class VariableStarsExtension extends AbstractExtension implements ActionListener {
 
     private static final String NAME = "Variable Stars";
-    private static final float VERSION = 0.92f;
+    private static final String VERSION = "0.9.3";
     private static URL UPDATE_URL = null;
     static {
         try {
@@ -119,7 +119,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return VariableStarsExtension.VERSION;
 

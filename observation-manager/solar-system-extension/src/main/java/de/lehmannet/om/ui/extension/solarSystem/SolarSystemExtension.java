@@ -41,7 +41,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class SolarSystemExtension extends AbstractExtension {
 
     private static final String NAME = "Solar System";
-    private static final float VERSION = 0.9f;
+    private static final String VERSION = "0.9.1";
     private static URL UPDATE_URL = null;
     static {
         try {
@@ -78,7 +78,7 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return SolarSystemExtension.VERSION;
 

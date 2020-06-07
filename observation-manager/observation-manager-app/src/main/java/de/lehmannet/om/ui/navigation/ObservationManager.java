@@ -571,7 +571,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private void setTitle() {
 
         // final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
-        String title = String.format("Observation Manager - %s " , this.getVersion());
+        String title = String.format("Observation Manager - %s ", this.getVersion());
         // if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
         // // correct in
         // // Linux/Gnome3

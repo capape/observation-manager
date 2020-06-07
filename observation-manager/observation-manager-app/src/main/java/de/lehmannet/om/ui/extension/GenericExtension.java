@@ -28,7 +28,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class GenericExtension implements IExtension {
 
     public static final String NAME = "Build-In extension";
-    private static final float VERSION = 0.8f;
+    private static final String VERSION = "0.9.0";
 
     private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
             .getBundle("genericTargetDisplayNames", Locale.getDefault());
@@ -62,7 +62,7 @@ public class GenericExtension implements IExtension {
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return GenericExtension.VERSION;
 

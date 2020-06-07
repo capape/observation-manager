@@ -61,7 +61,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class DeepSkyExtension implements IExtension {
 
     private static final String NAME = "DeepSky";
-    private static final float VERSION = 0.91f;
+    private static final String VERSION = "0.9.2";
     private static URL UPDATE_URL = null;
     static {
         try {
@@ -106,7 +106,7 @@ public class DeepSkyExtension implements IExtension {
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return DeepSkyExtension.VERSION;
 

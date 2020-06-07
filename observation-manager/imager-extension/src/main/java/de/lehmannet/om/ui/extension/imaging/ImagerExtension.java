@@ -36,7 +36,7 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class ImagerExtension extends AbstractExtension {
 
     private static final String NAME = "Imager";
-    private static final float VERSION = 0.9f;
+    private static final String VERSION = "0.9.1";
     private static URL UPDATE_URL = null;
     static {
         try {
@@ -149,7 +149,7 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public float getVersion() {
+    public String getVersion() {
 
         return ImagerExtension.VERSION;
 

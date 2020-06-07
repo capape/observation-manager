@@ -47,7 +47,7 @@ public class TextManagerImpl implements TextManager {
 
     @Override
     public String getString(String key) {
-        
+
         final String value = this.bundle.getString(key);
         if (value == null) {
             return key;

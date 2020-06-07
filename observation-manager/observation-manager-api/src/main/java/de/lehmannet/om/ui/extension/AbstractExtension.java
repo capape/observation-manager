@@ -32,7 +32,7 @@ public abstract class AbstractExtension implements IExtension {
     public abstract String getName();
 
     @Override
-    public abstract float getVersion();
+    public abstract String getVersion();
 
     @Override
     public abstract JMenu getMenu();

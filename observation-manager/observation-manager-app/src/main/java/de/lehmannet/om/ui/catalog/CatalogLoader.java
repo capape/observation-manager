@@ -27,6 +27,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.update.Version;
 
 public class CatalogLoader {
 
@@ -44,7 +45,7 @@ public class CatalogLoader {
 
     // Key: Extension name (String)
     // Value: Extension version (Float)
-    private final Map<String, Float> knownExtensions = new HashMap<>();
+    private final Map<String, Version> knownExtensions = new HashMap<>();
 
     // Used to load catalogs in parallel
     private final ThreadGroup loadCatalogs = new ThreadGroup("Load all catalogs");
@@ -168,9 +169,10 @@ public class CatalogLoader {
             if (this.knownExtensions.containsKey(current.getName())) { // Is extension already known (we're in an update
                                                                        // run)
                 // Extension is known...check if version is equal
-                float knownVersion = (Float) this.knownExtensions.get(current.getName());
-                float version = current.getVersion();
-                if (knownVersion >= version) {
+
+                Version knownVersion = this.knownExtensions.get(current.getName());
+                Version version = Version.createVersion(current.getVersion());
+                if (knownVersion.compareTo(version) >= 0) {
                     continue; // Extension in that version is already known to us
                 }
             }
@@ -184,7 +186,7 @@ public class CatalogLoader {
             catalogs.add(thread);
 
             // Add current extension to list of known extesions
-            this.knownExtensions.put(current.getName(), current.getVersion());
+            this.knownExtensions.put(current.getName(), Version.createVersion(current.getVersion()));
         }
 
         // Start loading all catalogs
