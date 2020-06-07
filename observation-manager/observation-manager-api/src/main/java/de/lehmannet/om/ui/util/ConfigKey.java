@@ -2,6 +2,7 @@ package de.lehmannet.om.ui.util;
 
 public enum ConfigKey implements IConfigKey {
 
+    // @formatter:off
     CONFIG_LASTDIR("om.lastOpenedDir"), CONFIG_LASTXML("om.lastOpenedXML"), CONFIG_OPENONSTARTUP(
             "om.lastOpenedXML.onStartup"), CONFIG_CONTENTDEFAULTLANG(
                     "om.content.language.default"), CONFIG_MAINWINDOW_SIZE("om.mainwindow.size"), CONFIG_MAINWINDOW_POS(
@@ -20,6 +21,7 @@ public enum ConfigKey implements IConfigKey {
                                                                                                                             "om.constellation.useI18N"), CONFIG_UPDATECHECK_STARTUP(
                                                                                                                                     "om.update.checkForUpdates"), CONFIG_NIGHTVISION_ENABLED(
                                                                                                                                             "om.nightvision.enable");
+    // @formatter:on
 
     private final String key;
 

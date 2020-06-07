@@ -12,13 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.util.FloatUtil;
 
 public class UpdateChecker implements Runnable {
 
@@ -78,7 +76,7 @@ public class UpdateChecker implements Runnable {
             }
 
             // Check OM itself
-            currentResult = this.checkForUpdates("Observation Manager", ObservationManager.VERSION, UPDATE_URL);
+            currentResult = this.checkForUpdates("Observation Manager", om.getVersion(), UPDATE_URL);
             if (currentResult != null) { // New version found
                 result.add(currentResult);
             }

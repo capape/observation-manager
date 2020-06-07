@@ -44,9 +44,13 @@ public class ObservationManagerApp {
 
         LOGGER.info("Install dir: {}", installDir.getPath());
 
+        final TextManager versionTextManager = new TextManagerImpl("version", "en");
+        final String version = versionTextManager.getString("observation.manager.version");
+        LOGGER.info("App version: {}", version);
+
         LOGGER.info("Reading configuration...");
         final String configDir = argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
-        final Configuration configuration = new Configuration(configDir);
+        final Configuration configuration = new Configuration(configDir, version);
 
         final String locale = argumentsParser.getArgumentValue(ArgumentName.LANGUAGE);
         final String nightVision = argumentsParser.getArgumentValue(ArgumentName.NIGHTVISION);
@@ -60,7 +64,7 @@ public class ObservationManagerApp {
 
         LOGGER.info("Initializing text manager...");
         final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
-        final TextManager textManager = new TextManagerImpl(isoKey);
+        final TextManager textManager = new TextManagerImpl("ObservationManager", isoKey);
 
         LOGGER.info("Creating model for app...");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
@@ -68,7 +72,8 @@ public class ObservationManagerApp {
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
         new ObservationManager.Builder(model).locale(locale).nightVision(nightVision).installDir(installDir)
-                .configuration(configuration).imageResolver(imageResolver).textManager(textManager).build();
+                .configuration(configuration).imageResolver(imageResolver).textManager(textManager)
+                .versionTextManager(versionTextManager).build();
         // @formatter:on
 
     }

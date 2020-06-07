@@ -28,9 +28,6 @@ public class Configuration implements IConfiguration {
 
     private static final String CONFIG_FILE = "config";
 
-    private static final String CONFIG_FILE_HEADER = "ObservationManager configfile" + "\n#Written by version: "
-            + ObservationManager.VERSION + "\n#If you edit this, make sure you know what you're doing...";
-
     private Properties persistence = null;
 
     private boolean changed = false;
@@ -38,9 +35,15 @@ public class Configuration implements IConfiguration {
     private String configPath;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
+    private final String version;
+    private final String configFileHeader;
 
-    public Configuration(String path) {
+    public Configuration(String path, String appVersion) {
         this.configPath = path;
+        this.version = appVersion;
+        this.configFileHeader = String.format(
+                "ObservationManager configfile \n#Written by version: %s \n#If you edit this, make sure you know what you're doing...",
+                this.version);
 
         try {
             this.loadConfiguration(this.configPath);
@@ -94,7 +97,7 @@ public class Configuration implements IConfiguration {
             String configFilePath = realPath + File.separatorChar + CONFIG_FILE;
             try {
                 FileOutputStream fos = new FileOutputStream(configFilePath);
-                this.persistence.store(new BufferedOutputStream(fos), Configuration.CONFIG_FILE_HEADER);
+                this.persistence.store(new BufferedOutputStream(fos), this.configFileHeader);
                 fos.close();
             } catch (IOException ioe) {
                 LOGGER.error("Cannot save configuration file {} ", configFilePath);

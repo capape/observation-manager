@@ -83,7 +83,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
     // Version
-    public static final String VERSION = "1.5.0alpha-SNAPSHOT";
+    // public static final String VERSION = "1.5.0alpha-SNAPSHOT";
 
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
@@ -122,6 +122,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private final ImageResolver imageResolver;
     private final ThemeManager themeManager;
     private final TextManager textManager;
+    private final TextManager versionTextManager;
 
     private final Map<String, String> uiDataCache = new HashMap<>();
 
@@ -148,11 +149,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.configuration = builder.configuration;
         this.imageResolver = builder.imageResolver;
         this.textManager = builder.textManager;
+        this.versionTextManager = builder.versionTextManager;
         this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
         this.model = builder.model;
         this.uiHelper = new UserInterfaceHelperImpl(this, textManager);
 
-        LOGGER.info("Observation Manager {} starting up...", VERSION);
+        LOGGER.info("Observation Manager {} starting up...", this.getVersion());
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
@@ -568,9 +570,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private void setTitle() {
 
-        final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
-        String title = "Observation Manager - " + this.textManager.getString("version") + " "
-                + ObservationManager.VERSION;
+        // final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
+        String title = String.format("Observation Manager - %s " , this.getVersion());
         // if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
         // // correct in
         // // Linux/Gnome3
@@ -893,6 +894,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         private IConfiguration configuration;
         private ImageResolver imageResolver;
         private TextManager textManager;
+        private TextManager versionTextManager;
         private ObservationManagerModel model;
 
         public Builder(ObservationManagerModel model) {
@@ -929,6 +931,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             return this;
         }
 
+        public Builder versionTextManager(TextManager value) {
+            this.versionTextManager = value;
+            return this;
+        }
+
         public ObservationManager build() {
 
             return new ObservationManager(this);
@@ -943,5 +950,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public ObservationManagerModel getModel() {
         return this.model;
 
+    }
+
+    public String getVersion() {
+        return this.versionTextManager.getString("observation.manager.version");
     }
 }

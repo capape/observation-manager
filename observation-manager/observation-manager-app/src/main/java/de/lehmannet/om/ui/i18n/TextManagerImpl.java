@@ -5,17 +5,19 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.swing.JComponent;
+//import javax.swing.JComponent;
 
 public class TextManagerImpl implements TextManager {
 
-    private static final String DEFAULT_RESOURCE = "ObservationManager";
+    private final String resource;
     private PropertyResourceBundle bundle;
     private String isoLanguage;
 
-    public TextManagerImpl(String isoLanguage) {
+    public TextManagerImpl(String resource, String isoLanguage) {
+        this.resource = resource;
         this.isoLanguage = isoLanguage.trim();
         this.bundle = this.initLanguage(isoLanguage);
+
     }
 
     private PropertyResourceBundle initLanguage(String isoKey) {
@@ -23,20 +25,21 @@ public class TextManagerImpl implements TextManager {
         PropertyResourceBundle bundle;
 
         // Try to find value in config
-        if (isoKey != null) {
-            Locale.setDefault(new Locale(isoKey, isoKey));
-            System.setProperty("user.language", isoKey);
-            System.setProperty("user.region", isoKey);
-            JComponent.setDefaultLocale(Locale.getDefault());
-        }
+        if (isoKey == null) {
+            bundle = (PropertyResourceBundle) ResourceBundle.getBundle(resource, Locale.ENGLISH);
+        } else {
 
-        try {
-            bundle = (PropertyResourceBundle) ResourceBundle.getBundle(DEFAULT_RESOURCE, Locale.getDefault());
-        } catch (final MissingResourceException mre) { // Unknown VM language (and
-            // language not explicitly
-            // set)
-            Locale.setDefault(Locale.ENGLISH);
-            bundle = (PropertyResourceBundle) ResourceBundle.getBundle(DEFAULT_RESOURCE, Locale.getDefault());
+            try {
+                final Locale textLocale = new Locale.Builder().setLanguage(isoKey).build();
+                // System.setProperty("user.language", isoKey);
+                // System.setProperty("user.region", isoKey);
+                // JComponent.setDefaultLocale(Locale.getDefault());
+
+                bundle = (PropertyResourceBundle) ResourceBundle.getBundle(resource, textLocale);
+            } catch (final MissingResourceException mre) { // Unknown VM language (and
+
+                bundle = (PropertyResourceBundle) ResourceBundle.getBundle(resource, Locale.ENGLISH);
+            }
         }
 
         return bundle;
@@ -44,6 +47,11 @@ public class TextManagerImpl implements TextManager {
 
     @Override
     public String getString(String key) {
+        
+        final String value = this.bundle.getString(key);
+        if (value == null) {
+            return key;
+        }
         return this.bundle.getString(key);
     }
 
