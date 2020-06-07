@@ -72,6 +72,13 @@
                 <include>**/*</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>../observation-planner-api/src/main/resources/schema</directory>
+            <outputDirectory>classpath/schema</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
 
         <fileSet>
             <directory>../observation-manager/src/main/resources</directory>
