@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.mapper.ObservationMapper;
 import de.lehmannet.om.util.DateConverter;
@@ -1439,8 +1438,10 @@ public class Observation extends SchemaElement implements IObservation {
         Calendar sessionStart = session.getBegin();
         Calendar sessionEnd = session.getEnd();
 
-        LOGGER.debug("Session from:  {} to : {}", sessionStart.getTimeInMillis(), sessionEnd.getTimeInMillis());
-        LOGGER.debug("Observation from:  {} to : {}", this.begin.getTimeInMillis(), this.end.getTimeInMillis());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
+            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin), toMillisString(this.end));
+        }
 
         // Check if start date of observation is equal or later then session start
         if (sessionStart.after(this.begin)) {
@@ -1477,6 +1478,13 @@ public class Observation extends SchemaElement implements IObservation {
 
         this.site = site;
 
+    }
+
+    private String toMillisString(Calendar date) {
+        if (date == null) {
+            return "";
+        }
+        return String.valueOf(date.getTimeInMillis());
     }
 
     /**
