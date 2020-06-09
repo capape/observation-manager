@@ -11,8 +11,8 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 
 public class GenericTargetPanel extends AbstractPanel {
 
@@ -22,10 +22,10 @@ public class GenericTargetPanel extends AbstractPanel {
 
     private TargetContainer targetContainer = null;
     private final ObservationManagerModel model;
-    private final ObservationManager observationManager;
+    private final IConfiguration configuration;
 
-    public GenericTargetPanel(ObservationManager om, ObservationManagerModel model, ITarget target, Boolean editable)
-            throws IllegalArgumentException {
+    public GenericTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+            Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
@@ -34,7 +34,7 @@ public class GenericTargetPanel extends AbstractPanel {
         }
 
         this.target = (GenericTarget) target;
-        this.observationManager = om;
+        this.configuration = configuration;
         this.model = model;
 
         this.createPanel();
@@ -103,8 +103,8 @@ public class GenericTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.observationManager.getConfiguration(), this.model, this.target,
-                this.isEditable(), false);
+        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
+                false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 

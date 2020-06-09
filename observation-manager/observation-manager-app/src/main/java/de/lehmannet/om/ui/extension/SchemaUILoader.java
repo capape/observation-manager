@@ -323,6 +323,7 @@ public class SchemaUILoader {
             Class<?> additionalParameterClass1, Object additionalParameter1, Class<?> additionalParameterClass2,
             Object additionalParameter2, boolean editable) {
 
+        LOGGER.warn("***WARNING*** loading by reflection class: {}, object: {}", classname, findingOrTarget);
         // Get Java class
         Class<?> currentClass = null;
         try {

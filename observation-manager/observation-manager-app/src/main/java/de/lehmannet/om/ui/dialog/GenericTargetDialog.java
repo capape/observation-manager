@@ -11,18 +11,22 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
+
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.GenericTargetPanel;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class GenericTargetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -8858493947135823299L;
 
-    public GenericTargetDialog(ObservationManager om, ObservationManagerModel model, ITarget editableTarget) {
+    public GenericTargetDialog(JFrame om, IConfiguration configuration, UserInterfaceHelper uiHelper,
+            ObservationManagerModel model, ITarget editableTarget) {
 
-        super(om, om.getModel(), om.getUiHelper(), new GenericTargetPanel(om, model, editableTarget, Boolean.TRUE));
+        super(om, model, uiHelper, new GenericTargetPanel(configuration, model, editableTarget, Boolean.TRUE));
 
         PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
                 Locale.getDefault());

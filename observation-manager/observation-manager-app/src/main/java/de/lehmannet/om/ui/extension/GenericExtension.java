@@ -2,7 +2,15 @@ package de.lehmannet.om.ui.extension;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -38,7 +46,13 @@ public class GenericExtension implements IExtension {
     private final Map<String, String> targetDialogs = new HashMap<>();
     private IExtensionContext extensionContext;
 
+    private final Set<String> supportedTargetXSITypes = new HashSet<>();
+    private final Set<String> supportedFinfingXSITypes = new HashSet<>();
+    private final Set<String> allSupportedXSITypes = new HashSet<>();
+
     public GenericExtension() {
+
+        this.initAllSupportedXSITypes();
 
         this.initFindingPanels();
         this.initTargetDialogs();
@@ -97,48 +111,46 @@ public class GenericExtension implements IExtension {
 
     }
 
+    private void initAllSupportedXSITypes() {
+
+        this.initSupportedTargetXSITypes();
+        this.initSupportedFindingXSITypes();
+
+        allSupportedXSITypes.addAll(this.supportedFinfingXSITypes);
+        allSupportedXSITypes.addAll(this.supportedTargetXSITypes);
+
+    }
+
+    private void initSupportedTargetXSITypes() {
+
+        supportedTargetXSITypes.add(GenericTarget.XML_XSI_TYPE_VALUE);
+        supportedTargetXSITypes.add(TargetStar.XML_XSI_TYPE_VALUE);
+
+    }
+
+    private void initSupportedFindingXSITypes() {
+
+        supportedFinfingXSITypes.add(GenericFinding.XML_XSI_TYPE_VALUE);
+    }
+
     @Override
     public Set<String> getAllSupportedXSITypes() {
 
-        // Return all XSI types which are supported by this extension
-        Set<String> result = new HashSet<>();
-        result.addAll(this.getSupportedFindingXSITypes());
-        result.addAll(this.getSupportedTargetXSITypes());
-
-        return result;
+        return Collections.unmodifiableSet(this.allSupportedXSITypes);
 
     }
 
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
-        Set<String> result = null;
         if (SchemaElementConstants.TARGET == schemaElementConstant) {
-            result = this.getSupportedTargetXSITypes();
+            return Collections.unmodifiableSet(this.supportedTargetXSITypes);
+
         } else if (SchemaElementConstants.FINDING == schemaElementConstant) {
-            result = this.getSupportedFindingXSITypes();
+            return Collections.unmodifiableSet(this.supportedFinfingXSITypes);
+        } else {
+            return Collections.emptySet();
         }
-
-        return result;
-
-    }
-
-    private Set<String> getSupportedTargetXSITypes() {
-
-        Set<String> result = new HashSet<>();
-        result.add(GenericTarget.XML_XSI_TYPE_VALUE);
-        result.add(TargetStar.XML_XSI_TYPE_VALUE);
-
-        return result;
-
-    }
-
-    private Set<String> getSupportedFindingXSITypes() {
-
-        Set<String> result = new HashSet<>();
-        result.add(GenericFinding.XML_XSI_TYPE_VALUE);
-
-        return result;
 
     }
 
@@ -225,8 +237,7 @@ public class GenericExtension implements IExtension {
     @Override
     public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
+        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
     }
 
     @Override
@@ -237,21 +248,21 @@ public class GenericExtension implements IExtension {
     @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
+        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
+        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
     }
 
     @Override
     public boolean supports(String xsiType) {
-        // TODO Auto-generated method stub
-        return false;
+        if (xsiType == null) {
+            return false;
+        }
+        return this.allSupportedXSITypes.contains(xsiType);
     }
 
     @Override
