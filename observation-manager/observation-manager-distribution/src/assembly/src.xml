@@ -56,7 +56,13 @@
                 <include>**/*</include>
             </includes>
         </fileSet>
-
+        <fileSet>
+            <directory>../observation-manager-app/src/main/resources/xsl</directory>
+            <outputDirectory>xsl</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
         <fileSet>
             <directory>../observation-manager-app/src/main/resources/help</directory>
             <outputDirectory>help</outputDirectory>
