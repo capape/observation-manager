@@ -712,8 +712,8 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.skychart.Skychart", Locale.getDefault());
+        this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart",
+                Locale.getDefault());
         this.initMenus();
 
     }
