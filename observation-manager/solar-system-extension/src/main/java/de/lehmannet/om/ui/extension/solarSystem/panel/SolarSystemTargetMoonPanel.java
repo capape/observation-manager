@@ -29,8 +29,8 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
 
     private static final long serialVersionUID = 3570332966774923754L;
 
-    // private final PropertyResourceBundle bundle =
-    // (PropertyResourceBundle)ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+    // private final ResourceBundle bundle =
+    // LocaleToolsFactory.extensionInstance().getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
     // Locale.getDefault());
 
     private IConfiguration configuration = null;

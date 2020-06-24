@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.variableStars.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -30,8 +30,8 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
         super(om, model, uiHelper,
                 new VariableStarTargetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
+                Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.variableTarget.title"));
         } else {

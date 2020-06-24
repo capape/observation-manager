@@ -9,7 +9,7 @@ package de.lehmannet.om;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 /**
@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public enum Constellation {
 
     // Each constellation is created once in a static manner
-
+    // @formatter:off
     ANDROMEDA("And", "Andromeda"), ANTLIA("Ant", "Antlia"), APUS("Aps", "Apus"), AQUARIUS("Aqr", "Aquarius"), AQUILA(
             "Aql", "Aquila"), ARA("Ara", "Ara"), ARIES("Ari", "Aries"), AURIGA("Aur", "Auriga"), BOOTES("Boo",
                     "Bootes"), CAELUM("Cae", "Caelum"), CAMELOPARDALIS("Cam", "Camelopardalis"), CANCER("Cnc",
@@ -160,9 +160,9 @@ public enum Constellation {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     "Volans"), VULPECULA(
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             "Vul",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             "Vulpecula");
+    // @formatter:on
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("Constellations",
-            Locale.getDefault());
+    private ResourceBundle bundle = ResourceBundle.getBundle("Constellations", Locale.getDefault());
 
     // Constellation abbreviation in latin
     private String abbreviation;
@@ -247,7 +247,7 @@ public enum Constellation {
 
         try {
             if (!this.bundle.getLocale().equals(Locale.getDefault())) { // Check whether language has changed
-                this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("Constellations", Locale.getDefault());
+                this.bundle = ResourceBundle.getBundle("Constellations", Locale.getDefault());
             }
             result = this.bundle.getString(this.getAbbreviation());
         } catch (MissingResourceException mre1) { // Try with name as key

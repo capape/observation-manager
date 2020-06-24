@@ -15,7 +15,7 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Vector;
 

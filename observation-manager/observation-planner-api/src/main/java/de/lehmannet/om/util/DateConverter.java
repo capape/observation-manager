@@ -220,6 +220,7 @@ public class DateConverter {
      *         given date was <code>null</code>
      */
     public static String toISO8601(Calendar calendar) {
+
         if (calendar == null) {
             return null;
         }

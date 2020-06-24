@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -39,6 +39,7 @@ import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.AtlasUtil;
 
@@ -46,8 +47,8 @@ public class TargetContainer extends Container implements MouseListener {
 
     private static final long serialVersionUID = -9052717626196198395L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ITarget target = null;
 

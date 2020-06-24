@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.navigation;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -44,6 +44,7 @@ import de.lehmannet.om.ui.panel.ObserverPanel;
 import de.lehmannet.om.ui.panel.ScopePanel;
 import de.lehmannet.om.ui.panel.SessionPanel;
 import de.lehmannet.om.ui.panel.SitePanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ItemView extends JPanel implements ChangeListener {
@@ -63,8 +64,8 @@ public class ItemView extends JPanel implements ChangeListener {
     private static final TabIDComponent IMAGER_TIC = new TabIDComponent((byte) 9);
     private static final TabIDComponent LENS_TIC = new TabIDComponent((byte) 10);
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ObservationManager main = null;
 

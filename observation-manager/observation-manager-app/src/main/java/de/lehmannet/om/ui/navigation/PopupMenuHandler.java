@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
@@ -43,6 +43,7 @@ import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 class PopupMenuHandler implements ActionListener {
@@ -93,8 +94,7 @@ class PopupMenuHandler implements ActionListener {
         // again (see below)
         SchemaElementConstants seType = SchemaElementConstants.NONE;
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         if (se instanceof IObservation || createType == SchemaElementConstants.OBSERVATION) {
             menuTitle = new JMenuItem(bundle.getString("observation"));
             seType = SchemaElementConstants.OBSERVATION;

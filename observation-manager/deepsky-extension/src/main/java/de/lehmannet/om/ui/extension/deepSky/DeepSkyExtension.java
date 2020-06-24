@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -77,8 +77,7 @@ public class DeepSkyExtension implements IExtension {
 
     private final String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
+    private ResourceBundle bundle;
 
     private IExtensionContext extensionContext;
 
@@ -88,6 +87,7 @@ public class DeepSkyExtension implements IExtension {
 
     public DeepSkyExtension() {
 
+        this.initLanguage();
         // this.OAL_EXTENSION_FILE = "./extensions/ext_DeepSky.xsd";
         this.initAllSupportedXSITypes();
         // Return all XSI types which are supported by this extension
@@ -96,6 +96,17 @@ public class DeepSkyExtension implements IExtension {
         this.initTargetPanels();
         this.initTargetDialogs();
 
+    }
+
+    private void initLanguage() {
+        try {
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames",
+                    Locale.getDefault());
+        } catch (MissingResourceException mre) {
+
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames",
+                    Locale.ENGLISH);
+        }
     }
 
     @Override
@@ -122,8 +133,7 @@ public class DeepSkyExtension implements IExtension {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
+        this.initLanguage();
         DeepSkyTableModel.reloadLanguage();
 
     }

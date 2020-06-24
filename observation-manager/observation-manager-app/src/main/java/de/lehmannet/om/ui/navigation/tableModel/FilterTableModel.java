@@ -8,18 +8,19 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.ui.panel.FilterPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class FilterTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Filter";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     public FilterTableModel(IFilter[] filter) {
 

@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.imaging.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -30,8 +30,8 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
         super(om, model, uiHelper, new CCDImagerPanel(editableImager, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging",
+                Locale.getDefault());
         if (editableImager == null) {
             this.setTitle(bundle.getString("dialog.ccdImager.title"));
         } else {

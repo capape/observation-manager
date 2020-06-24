@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
@@ -55,7 +55,7 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private Calendar endDate = null;
     private JButton endPicker = null;
 
-    private final PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle uiBundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private ExtendedSchemaTableModel tableModel = null;

@@ -18,7 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.Icon;
@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
@@ -44,8 +45,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private static final String TEXT_PATH = "help" + File.separatorChar + "hints";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ObservationManager om = null;
 

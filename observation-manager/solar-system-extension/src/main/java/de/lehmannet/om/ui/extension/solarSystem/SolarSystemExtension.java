@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -36,6 +35,7 @@ import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.solarSystem.catalog.SolarSystemCatalog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class SolarSystemExtension extends AbstractExtension {
@@ -52,8 +52,7 @@ public class SolarSystemExtension extends AbstractExtension {
         }
     }
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle(
-            "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.getDefault());
+    private ResourceBundle bundle;
     private IExtensionContext extensionContext;
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> getSupportedFindingXSITypes = new HashSet<>();
@@ -63,11 +62,23 @@ public class SolarSystemExtension extends AbstractExtension {
 
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_SolarSystem.xsd";
 
+        this.initLanguage();
         this.initAllSupportedXSITypes();
         this.initFindingPanels();
         this.initTargetPanels();
         this.initTargetDialogs();
 
+    }
+
+    private void initLanguage() {
+        try {
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.getDefault());
+        } catch (MissingResourceException mre) {
+
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.ENGLISH);
+        }
     }
 
     @Override
@@ -102,7 +113,7 @@ public class SolarSystemExtension extends AbstractExtension {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle(
+        this.bundle = LocaleToolsFactory.extensionInstance().getBundle(
                 "de.lehmannet.om.ui.extension.solarSystem.oalSolarSystemTargetDisplayNames", Locale.getDefault());
 
     }

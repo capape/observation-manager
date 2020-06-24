@@ -87,6 +87,7 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
@@ -1995,8 +1996,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 class SeeingBoxEntry {
 
     private static final String BUNDLE_PREFIX = "seeing.antoniadi.short.";
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private static final String EMPTY_ENTRY = "----";
 

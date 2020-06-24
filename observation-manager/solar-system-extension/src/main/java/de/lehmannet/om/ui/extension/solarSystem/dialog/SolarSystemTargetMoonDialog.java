@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.solarSystem.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -31,8 +31,8 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
         super(om, model, uiHelper,
                 new SolarSystemTargetMoonPanel(model.getConfiguration(), model, target, o, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+                Locale.getDefault());
         if (target == null) {
             this.setTitle(bundle.getString("dialog.moon.title"));
         } else {

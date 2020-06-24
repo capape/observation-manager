@@ -12,7 +12,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 class EquPositionContainer extends Container {
 
@@ -28,8 +29,8 @@ class EquPositionContainer extends Container {
      */
     private static final long serialVersionUID = 4434903051968591296L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private EquPosition equPosition = null;
 

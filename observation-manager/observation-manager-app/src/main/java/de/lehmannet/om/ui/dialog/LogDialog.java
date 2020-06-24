@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -36,14 +36,15 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LogDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3508562400111692974L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogDialog.class);
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private JTextPane text = null;
     private final JButton close = new JButton(this.bundle.getString("log.button.close"));

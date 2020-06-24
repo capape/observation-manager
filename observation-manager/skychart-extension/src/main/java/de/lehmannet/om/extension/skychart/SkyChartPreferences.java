@@ -10,15 +10,14 @@ package de.lehmannet.om.extension.skychart;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 
 public class SkyChartPreferences extends PreferencesPanel {
 
@@ -28,8 +27,8 @@ public class SkyChartPreferences extends PreferencesPanel {
     public static final String SERVER_DEFAULT_IP = "127.0.0.1";
     public static final int SERVER_DEFAULT_PORT = 3292;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.getDefault());
+    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart",
+            Locale.getDefault());
 
     private JTextField serverIP = null;
     private JTextField serverPort = null;

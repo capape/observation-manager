@@ -10,12 +10,13 @@ package de.lehmannet.om.ui.statistics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
@@ -26,8 +27,8 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Statistics";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private CatalogTargets catalogTargets = null;
     private List<TargetObservation> rowIndexMapping = null;

@@ -9,12 +9,13 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public abstract class AbstractSchemaTableModel extends AbstractTableModel {
 
@@ -23,7 +24,7 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = -3423592371149917442L;
 
-    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+    static ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
     protected ISchemaElement[] elements = null;
@@ -62,7 +63,7 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
 
     public static void reloadLanguage() {
 
-        bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager", Locale.getDefault());
+        bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     }
 

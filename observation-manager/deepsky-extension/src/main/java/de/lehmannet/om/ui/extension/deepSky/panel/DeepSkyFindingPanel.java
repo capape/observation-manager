@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.extension.deepSky.panel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -40,8 +40,8 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
      */
     private static final long serialVersionUID = 1L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+    final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+            Locale.getDefault());
 
     private static final String XSI_TYPE = "oal:findingsDeepSkyType";
 

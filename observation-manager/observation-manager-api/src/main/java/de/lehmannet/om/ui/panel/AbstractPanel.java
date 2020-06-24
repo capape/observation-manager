@@ -8,17 +8,18 @@
 package de.lehmannet.om.ui.panel;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public abstract class AbstractPanel extends JPanel {
 
-    static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
+    static ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
     private boolean editable = false;
@@ -49,7 +50,7 @@ public abstract class AbstractPanel extends JPanel {
 
     public static void reloadLanguage() {
 
-        bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager", Locale.getDefault());
+        bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     }
 

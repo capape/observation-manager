@@ -11,7 +11,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JSeparator;
@@ -39,8 +39,8 @@ class DeepSkyTargetContainer extends Container {
 
     private static final long serialVersionUID = 7287706985477081449L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+            Locale.getDefault());
 
     private DeepSkyTarget target = null;
     private boolean editable = false;

@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.deepSky.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -29,8 +29,8 @@ public class DeepSkyTargetSCDialog extends AbstractDialog implements ITargetDial
 
         super(om, model, uiHelper, new DeepSkyTargetSCPanel(uiHelper, model, editableTarget, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+                Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.sc.title"));
         } else {

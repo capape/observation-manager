@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -46,8 +45,7 @@ public class ImagerExtension extends AbstractExtension {
         }
     }
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames", Locale.getDefault());
+    private ResourceBundle bundle;
     private IExtensionContext extensionContext;
 
     private final Set<String> supportedXSITypes = new HashSet<>();
@@ -55,6 +53,7 @@ public class ImagerExtension extends AbstractExtension {
 
     public ImagerExtension() {
 
+        this.initLanguage();
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
 
         this.initAllSupportedXSITypes();
@@ -62,6 +61,17 @@ public class ImagerExtension extends AbstractExtension {
         this.initPanels();
         this.initDialogs();
 
+    }
+
+    private void initLanguage() {
+        try {
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames",
+                    Locale.getDefault());
+        } catch (MissingResourceException mre) {
+
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames",
+                    Locale.ENGLISH);
+        }
     }
 
     @Override
@@ -92,8 +102,7 @@ public class ImagerExtension extends AbstractExtension {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames", Locale.getDefault());
+        this.initLanguage();
 
     }
 

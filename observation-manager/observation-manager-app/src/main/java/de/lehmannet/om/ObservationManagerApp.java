@@ -66,6 +66,9 @@ public class ObservationManagerApp {
         final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
         final TextManager textManager = new TextManagerImpl("ObservationManager", isoKey);
 
+        final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
+        Locale.setDefault(aLocale);
+
         LOGGER.info("Creating model for app...");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
 

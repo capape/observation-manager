@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -49,6 +49,7 @@ import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -66,8 +67,7 @@ public class SkyChartClient implements IExtension, ActionListener {
         }
     }
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.getDefault());
+    private ResourceBundle bundle;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SkyChartClient.class);
     private IObservationManagerJFrame om = null;
@@ -80,10 +80,20 @@ public class SkyChartClient implements IExtension, ActionListener {
 
     public SkyChartClient(IObservationManagerJFrame om) {
 
+        this.initLanguage();
         this.om = om;
 
         this.initMenus();
 
+    }
+
+    private void initLanguage() {
+        try {
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.getDefault());
+        } catch (MissingResourceException mre) {
+
+            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.ENGLISH);
+        }
     }
 
     // --------------
@@ -712,8 +722,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart",
-                Locale.getDefault());
+        this.initLanguage();
         this.initMenus();
 
     }

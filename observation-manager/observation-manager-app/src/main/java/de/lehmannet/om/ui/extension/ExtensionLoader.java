@@ -162,6 +162,8 @@ public class ExtensionLoader {
     }
 
     private List<URL> addJarToClassLoader(File jar) {
+
+        LOGGER.debug("Adding {} to class loader", jar.getName());
         List<File> files = new ArrayList<>(1);
         files.add(jar);
         return addJarsToClassLoader(files);
@@ -201,7 +203,6 @@ public class ExtensionLoader {
         }
         this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
                 ClassLoader.getSystemClassLoader());
-
         // Add classloader to XMLCache (-> API SchemaLoader) to make sure extension
     }
 
@@ -410,8 +411,6 @@ public class ExtensionLoader {
 
         // Get extension name and classname of main extension class
         String className = properties.getProperty(ExtensionLoader.CONFIG_FILE_ENTRY_EXTENSION_CLASS);
-
-        // --- Load extension main class
 
         // Get Java class
         Class<?> currentClass = null;

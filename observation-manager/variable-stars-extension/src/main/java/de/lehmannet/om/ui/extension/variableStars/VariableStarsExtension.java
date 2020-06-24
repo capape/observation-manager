@@ -27,7 +27,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Objects;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,10 +75,8 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         }
     }
 
-    private PropertyResourceBundle typeBundle = (PropertyResourceBundle) ResourceBundle.getBundle(
-            "de.lehmannet.om.ui.extension.variableStars.oalVariableStarTargetDisplayNames", Locale.getDefault());
-    private PropertyResourceBundle uiBundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private ResourceBundle typeBundle;
+    private ResourceBundle uiBundle;
 
     private JMenuItem exportAAVSO = null;
     private JMenuItem showChart = null;
@@ -94,6 +91,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
 
     public VariableStarsExtension() {
 
+        this.initLanguage();
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_VariableStars.xsd";
 
         this.initAllSupportedXSITypes();
@@ -102,6 +100,22 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         this.initTargetPanels();
         this.initTargetDialogs();
 
+    }
+
+    private void initLanguage() {
+        try {
+            this.typeBundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.variableStars.oalVariableStarTargetDisplayNames",
+                    Locale.getDefault());
+            this.uiBundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
+                    Locale.getDefault());
+        } catch (MissingResourceException mre) {
+            LOGGER.warn("Cannot load resources using English ", mre);
+            this.typeBundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.variableStars.oalVariableStarTargetDisplayNames", Locale.ENGLISH);
+            this.uiBundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
+                    Locale.ENGLISH);
+        }
     }
 
     @Override
@@ -128,10 +142,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     @Override
     public void reloadLanguage() {
 
-        this.typeBundle = (PropertyResourceBundle) ResourceBundle.getBundle(
-                "de.lehmannet.om.ui.extension.variableStars.oalVariableStarTargetDisplayNames", Locale.getDefault());
-        this.uiBundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        this.initLanguage();
 
     }
 

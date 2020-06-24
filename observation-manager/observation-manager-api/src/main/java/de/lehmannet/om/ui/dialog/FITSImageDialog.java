@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
@@ -21,14 +21,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import eap.fitsbrowser.FITSFileDisplay;
 
 public class FITSImageDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 5090506213345186056L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private File fitsImageFile = null;
 

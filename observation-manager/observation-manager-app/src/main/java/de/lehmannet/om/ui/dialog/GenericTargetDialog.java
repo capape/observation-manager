@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -17,6 +17,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.GenericTargetPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class GenericTargetDialog extends AbstractDialog implements ITargetDialog {
@@ -28,8 +29,7 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
 
         super(om, model, uiHelper, new GenericTargetPanel(configuration, model, editableTarget, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.genericTarget.title"));
         } else {

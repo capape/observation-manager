@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.extension.solarSystem.catalog;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.ITarget;
@@ -226,8 +226,8 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         if (column == 0) {
-            PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                    .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
+            ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+                    Locale.getDefault());
             name = bundle.getString("catalog.table.columnHeader.name");
         }
 

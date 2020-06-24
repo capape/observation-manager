@@ -12,7 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -36,6 +36,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class TableElementsDialog extends AbstractDialog {
 
@@ -170,8 +171,8 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "SimpleSE";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     public SimpleSchemaElementModel(ISchemaElement[] elements) {
 

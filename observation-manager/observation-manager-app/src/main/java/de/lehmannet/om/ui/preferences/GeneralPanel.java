@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
@@ -25,6 +25,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.ConfigLoader;
 
@@ -32,8 +33,8 @@ public class GeneralPanel extends PreferencesPanel {
 
     private static final long serialVersionUID = 7383101472997890151L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ObservationManager om = null;
 

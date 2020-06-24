@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JProgressBar;
@@ -28,11 +27,11 @@ import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.update.Version;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class CatalogLoader {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle;
 
     private static final String CATALOG_DIR = "catalog";
 
@@ -52,6 +51,7 @@ public class CatalogLoader {
 
     public CatalogLoader(ObservationManager om, List<IExtension> extensions) {
 
+        this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.observationManager = om;
         this.extensions = extensions;
 
@@ -251,8 +251,7 @@ class WaitPopup extends OMDialog {
 
         super(om);
         this.setLocationRelativeTo(om);
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.setTitle(bundle.getString("catalogLoader.info.waitOnLoaders"));
 
         this.threadGroup = threadGroup;

@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -36,8 +36,8 @@ import de.lehmannet.om.util.DateConverter;
 
 public class DatePicker extends JDialog {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private final JButton[] fields = new JButton[37];
 
@@ -296,8 +296,8 @@ public class DatePicker extends JDialog {
 
 class JulianDateDialog extends JDialog implements ActionListener {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private Calendar calendar = null;
     private TimeZone timeZone = null;

@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.EquPosition;
@@ -25,8 +24,8 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "DeepSky";
 
-    private static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+    private static ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+            Locale.getDefault());
 
     public DeepSkyTableModel(IListableCatalog catalog) {
 
@@ -165,8 +164,8 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
     public static void reloadLanguage() {
 
-        DeepSkyTableModel.bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+        DeepSkyTableModel.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+                Locale.getDefault());
 
     }
 

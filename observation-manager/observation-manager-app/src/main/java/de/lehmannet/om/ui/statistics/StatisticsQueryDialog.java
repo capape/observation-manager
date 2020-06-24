@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -27,13 +27,14 @@ import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -3368366919141412617L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ICatalog[] catalogs = null;
 

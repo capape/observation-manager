@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.extension.deepSky.panel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -34,8 +34,8 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -1417896902967737514L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+            Locale.getDefault());
 
     private DeepSkyTargetCG target = null;
 

@@ -14,7 +14,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JMenuItem;
@@ -35,8 +35,7 @@ public class EditPopupHandler implements ActionListener {
 
         JPopupMenu popupMenu = new JPopupMenu();
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.copy = new JMenuItem(bundle.getString("copy"));
         this.copy.addActionListener(this);
         popupMenu.add(this.copy);

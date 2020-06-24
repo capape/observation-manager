@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -47,7 +46,6 @@ import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.comparator.ObservationComparator;
 import de.lehmannet.om.ui.dialog.OMDialog;
-
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
@@ -62,8 +60,8 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 
         super(om);
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
+                Locale.getDefault());
         this.setTitle(bundle.getString("chart.title") + " " + observations[0].getTarget().getName());
 
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -147,7 +145,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
      */
     private static final long serialVersionUID = 1L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private static final int BORDER_TOP = 120;
@@ -943,8 +941,8 @@ class ChartPopupHandler implements ActionListener {
 
         JPopupMenu popupMenu = new JPopupMenu();
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
+                Locale.getDefault());
         this.save = new JMenuItem(bundle.getString("chart.popup.save"));
         this.save.addActionListener(this);
         popupMenu.add(this.save);

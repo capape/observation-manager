@@ -8,10 +8,11 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.ILens;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LensTableModel extends AbstractSchemaTableModel {
 
@@ -22,8 +23,8 @@ public class LensTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Lens";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     public LensTableModel(ILens[] lenses) {
 

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -30,16 +29,17 @@ import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 // Build-In extension for ObservationManager
 public class GenericExtension implements IExtension {
 
-    public static final String NAME = "Build-In extension";
+    public static final String NAME = "Built-In extension";
     private static final String VERSION = "0.9.0";
 
-    private PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("genericTargetDisplayNames", Locale.getDefault());
+    private ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("genericTargetDisplayNames",
+            Locale.getDefault());
 
     private final Map<String, String> findingPanels = new HashMap<>();
     private final Map<String, String> targetPanels = new HashMap<>();
@@ -85,8 +85,7 @@ public class GenericExtension implements IExtension {
     @Override
     public void reloadLanguage() {
 
-        this.bundle = (PropertyResourceBundle) ResourceBundle.getBundle("genericTargetDisplayNames",
-                Locale.getDefault());
+        this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     }
 

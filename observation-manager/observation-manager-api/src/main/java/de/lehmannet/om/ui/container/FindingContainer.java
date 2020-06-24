@@ -16,7 +16,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -32,6 +32,7 @@ import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class FindingContainer extends Container implements MouseListener {
 
@@ -40,8 +41,8 @@ public class FindingContainer extends Container implements MouseListener {
      */
     private static final long serialVersionUID = 6234708970033440904L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private IFinding finding = null;
     private ISession session = null;

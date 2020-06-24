@@ -14,7 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -22,13 +22,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class TimeContainer extends Container implements FocusListener {
 
     private static final long serialVersionUID = 2217864566103147417L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private final JTextField h = new JTextField(2);
     private final JTextField m = new JTextField(2);

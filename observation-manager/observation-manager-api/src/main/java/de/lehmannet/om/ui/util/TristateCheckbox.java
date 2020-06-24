@@ -9,7 +9,7 @@ package de.lehmannet.om.ui.util;
 
 import java.awt.GridLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
@@ -34,8 +34,7 @@ public class TristateCheckbox extends JPanel {
 
         this.naValue.setSelected(true);
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.add(new JLabel(bundle.getString("checkbox.label.false")));
         this.add(new JLabel(bundle.getString("checkbox.label.na")));
         this.add(new JLabel(bundle.getString("checkbox.label.true")));

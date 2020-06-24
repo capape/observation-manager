@@ -11,7 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -404,8 +404,8 @@ class BoxItem {
     @Override
     public String toString() {
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+                Locale.getDefault());
 
         return bundle.getString("panel.findingDS.dropdown.color." + color.toLowerCase());
 

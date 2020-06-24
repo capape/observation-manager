@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.TargetStarPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
@@ -27,8 +28,7 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
 
         super(om, model, uiHelper, new TargetStarPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.targetStar.title"));
         } else {

@@ -7,9 +7,19 @@
 
 package de.lehmannet.om.ui.box;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.JComboBox;
+
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LanguageBox extends JComboBox {
 
@@ -29,8 +39,7 @@ public class LanguageBox extends JComboBox {
     private LanguageBox(List<String> acceptedLanguages, boolean acceptEmptyEntry) {
 
         // Load language file (default locale is set by OM)
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("contentLanguages",
-                Locale.getDefault());
+        ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("contentLanguages", Locale.getDefault());
 
         this.allowEmptyEntry = acceptEmptyEntry;
 
@@ -41,11 +50,10 @@ public class LanguageBox extends JComboBox {
 
         // Put all isoKeys and language strings in a TreeMap which will sort them
         if (this.map.size() == 0) { // Do only once (static)
-            Enumeration<String> e = bundle.getKeys();
-            String isoKey = null;
+            Set<String> e = bundle.keySet();
             String lang = null;
-            while (e.hasMoreElements()) {
-                isoKey = e.nextElement();
+            for (String isoKey : e) {
+
                 if (!acceptedLanguages.isEmpty()) { // An empty list = accept all languages
                     if (!acceptedLanguages.contains(isoKey)) { // Check if language is allowed
                         continue;

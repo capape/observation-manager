@@ -17,7 +17,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -30,12 +30,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+
 public class ImageDialog extends JDialog implements ActionListener, KeyListener, MouseWheelListener {
 
     private static final long serialVersionUID = -3798904199589986801L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private Image origImage = null; // Won't be resized/changed at all
     private Image image = null; // Will be used for display

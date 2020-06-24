@@ -17,6 +17,7 @@ import de.lehmannet.om.ui.comparator.ScopeComparator;
 import de.lehmannet.om.ui.comparator.SessionComparator;
 import de.lehmannet.om.ui.comparator.SiteComparator;
 import de.lehmannet.om.ui.comparator.TargetComparator;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ExtendedSchemaTableModel extends AbstractTableModel {
@@ -26,8 +27,8 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = 1L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private Map<ISchemaElement, Boolean> elementMap = null;
     private boolean multipleSelection = false;

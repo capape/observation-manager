@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -48,7 +48,7 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     private final static String DELIMITER_COMPARISM_STAR = ",";
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private FindingVariableStar finding = null;

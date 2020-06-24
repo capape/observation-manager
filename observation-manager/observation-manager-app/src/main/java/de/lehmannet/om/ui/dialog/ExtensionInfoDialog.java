@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -26,13 +25,14 @@ import javax.swing.table.TableColumn;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3369603577422579950L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private final JButton close = new JButton(this.bundle.getString("extensionInfo.button.close"));
 
@@ -110,8 +110,8 @@ class ExtensionTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 7980803807760340818L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private List<IExtension> extensions = null;
 

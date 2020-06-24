@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.extension.variableStars.panel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -34,7 +34,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -7456755701627150427L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private TargetVariableStar target = null;

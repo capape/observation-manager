@@ -27,8 +27,8 @@ import de.lehmannet.om.util.Ephemerides;
 public class SolarSystemTargetSunPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -1272347298165613077L;
-    // private final PropertyResourceBundle bundle =
-    // (PropertyResourceBundle)ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+    // private final ResourceBundle bundle =
+    // LocaleToolsFactory.extensionInstance().getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
     // Locale.getDefault());
 
     private IConfiguration configuration = null;

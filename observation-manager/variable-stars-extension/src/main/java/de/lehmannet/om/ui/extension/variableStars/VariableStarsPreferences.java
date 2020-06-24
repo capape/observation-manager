@@ -10,7 +10,7 @@ package de.lehmannet.om.ui.extension.variableStars;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JCheckBox;
@@ -22,7 +22,7 @@ import de.lehmannet.om.ui.util.IConfiguration;
 
 public class VariableStarsPreferences extends PreferencesPanel {
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private JCheckBox cacheEnabled = null;

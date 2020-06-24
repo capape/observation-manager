@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -33,7 +33,7 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private IObservation[] observations = null;

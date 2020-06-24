@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class AngleContainer extends Container {
 
@@ -29,8 +30,8 @@ public class AngleContainer extends Container {
      */
     private static final long serialVersionUID = 1L;
     private static final String UNIT_KEY_PREFIX = "Angle.Unit.";
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private double angleValue = Double.NaN;
     private String angleUnit = Angle.DEGREE;

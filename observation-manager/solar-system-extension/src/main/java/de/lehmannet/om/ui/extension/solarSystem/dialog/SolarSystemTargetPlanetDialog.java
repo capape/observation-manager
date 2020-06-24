@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.solarSystem.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -31,8 +31,8 @@ public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITa
         super(om, model, uiHelper,
                 new SolarSystemTargetPlanetPanel(model.getConfiguration(), model, target, observation, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+                Locale.getDefault());
         if (target == null) {
             this.setTitle(bundle.getString("dialog.planet.title"));
         } else {

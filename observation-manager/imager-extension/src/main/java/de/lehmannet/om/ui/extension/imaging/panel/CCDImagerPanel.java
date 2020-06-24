@@ -15,7 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -37,8 +37,8 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
 
     private static final long serialVersionUID = 6535037526525557736L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());
+    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging",
+            Locale.getDefault());
 
     private CCDImager imager = null;
 

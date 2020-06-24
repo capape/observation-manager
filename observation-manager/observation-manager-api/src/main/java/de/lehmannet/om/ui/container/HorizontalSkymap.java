@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ISite;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.Ephemerides;
 
 public class HorizontalSkymap extends JLabel {
@@ -26,8 +27,8 @@ public class HorizontalSkymap extends JLabel {
      */
     private static final long serialVersionUID = -1501342339873856272L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     // Width and height of our map
     private static final int WIDTH = 50;

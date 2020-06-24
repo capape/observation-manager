@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -31,8 +31,8 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
 
     private static final long serialVersionUID = -162741988653614067L;
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
+    final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
+            Locale.getDefault());
 
     private TraitPanel panel = null;
 

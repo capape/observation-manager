@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
@@ -18,7 +18,7 @@ public class ObserverColorTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = 1L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
+    private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private IObserver[] observers = null;

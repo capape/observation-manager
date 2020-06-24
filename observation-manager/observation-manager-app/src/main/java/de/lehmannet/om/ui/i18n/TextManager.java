@@ -1,6 +1,6 @@
 package de.lehmannet.om.ui.i18n;
 
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 public interface TextManager {
 
@@ -14,6 +14,6 @@ public interface TextManager {
      * To remove after refactor all textbundles
      */
     @Deprecated
-    PropertyResourceBundle getBundle();
+    ResourceBundle getBundle();
 
 }

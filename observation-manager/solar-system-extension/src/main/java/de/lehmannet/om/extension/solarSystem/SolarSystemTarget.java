@@ -9,7 +9,7 @@ package de.lehmannet.om.extension.solarSystem;
 
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
@@ -355,8 +355,8 @@ public abstract class SolarSystemTarget extends Target {
 
     private void setI18NName() {
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem",
+                Locale.getDefault());
 
         switch (this.getName()) {
         case SolarSystemTarget.KEY_SUN:

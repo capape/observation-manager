@@ -12,7 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -23,14 +23,15 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public abstract class AbstractDialog extends OMDialog implements ActionListener, IDialog {
 
     private static final long serialVersionUID = 3761803558554164428L;
 
-    protected static PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    protected static ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     protected ISchemaElement schemaElement = null;
 
@@ -134,7 +135,7 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
 
     public static void reloadLanguage() {
 
-        bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager", Locale.getDefault());
+        bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     }
 

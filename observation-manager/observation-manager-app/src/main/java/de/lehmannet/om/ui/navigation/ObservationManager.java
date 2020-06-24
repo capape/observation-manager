@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -327,8 +328,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void reloadLanguage() {
 
         // Load new bundle
-        final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE);
+        final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE,
+                Locale.getDefault().getLanguage());
         this.textManager.useLanguage(isoKey);
+
+        final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
+        Locale.setDefault(aLocale);
 
         // Reload title
         this.setTitle();

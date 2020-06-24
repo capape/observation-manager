@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -40,6 +40,7 @@ import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.RelativPath;
 
 public class ImageContainer extends Container implements MouseListener, Scrollable {
@@ -49,8 +50,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
      */
     private static final long serialVersionUID = 1L;
 
-    private final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-            .getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private static final int THUMBNAIL_SIZE_WIDTH = 96;
     private static final int THUMBNAIL_SIZE_HEIGHT = 96;

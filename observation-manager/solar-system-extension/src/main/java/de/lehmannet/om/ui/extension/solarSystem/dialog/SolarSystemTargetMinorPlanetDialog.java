@@ -8,7 +8,7 @@
 package de.lehmannet.om.ui.extension.solarSystem.dialog;
 
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -30,8 +30,8 @@ public class SolarSystemTargetMinorPlanetDialog extends AbstractDialog implement
         super(om, model, uiHelper,
                 new SolarSystemTargetMinorPlanetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 
-        PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle
-                .getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
+                Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.minor.title"));
         } else {

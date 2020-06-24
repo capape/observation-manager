@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
@@ -29,12 +28,12 @@ import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class ProjectLoader {
 
-    final PropertyResourceBundle bundle = (PropertyResourceBundle) ResourceBundle.getBundle("ObservationManager",
-            Locale.getDefault());
+    final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private static final String PROJECTS_DIR = "projects";
 
