@@ -18,6 +18,7 @@ import de.lehmannet.om.ui.navigation.observation.utils.ArgumentsParser;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.Configuration;
+import de.lehmannet.om.ui.util.SplashScreenWithText;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
@@ -35,6 +36,9 @@ public class ObservationManagerApp {
 
     public static void main(final String[] args) {
 
+        SplashScreenWithText.showSplash();
+        SplashScreenWithText.updateText("Loading...");
+
         // Get install dir and parse arguments
         LOGGER.info("Reading command line arguments...");
         final ArgumentsParser argumentsParser = new ArgumentsParser.Builder(args).build();
@@ -43,12 +47,16 @@ public class ObservationManagerApp {
         final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
 
         LOGGER.info("Install dir: {}", installDir.getPath());
+        SplashScreenWithText.updateText("Setting installation folder...");
 
         final TextManager versionTextManager = new TextManagerImpl("version", "en");
         final String version = versionTextManager.getString("observation.manager.version");
         LOGGER.info("App version: {}", version);
 
+        SplashScreenWithText.updateTextVersion(String.format("Version: %s",version));
+
         LOGGER.info("Reading configuration...");
+        SplashScreenWithText.updateText("Reading configuration....");
         final String configDir = argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
         final Configuration configuration = new Configuration(configDir, version);
 
@@ -57,12 +65,15 @@ public class ObservationManagerApp {
         final String logging = argumentsParser.getArgumentValue(ArgumentName.LOGGING);
 
         LOGGER.info("Initializing xml loader...");
+        SplashScreenWithText.updateText("Initializing xml loader...");
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
 
         LOGGER.info("Initializing image resolver...");
+        SplashScreenWithText.updateText("Initializing images...");
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
 
         LOGGER.info("Initializing text manager...");
+        SplashScreenWithText.updateText("Initializing text manager...");
         final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
         final TextManager textManager = new TextManagerImpl("ObservationManager", isoKey);
 
@@ -72,6 +83,7 @@ public class ObservationManagerApp {
         LOGGER.info("Creating model for app...");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
 
+        SplashScreenWithText.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
         new ObservationManager.Builder(model).locale(locale).nightVision(nightVision).installDir(installDir)

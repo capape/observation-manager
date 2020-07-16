@@ -1,16 +1,15 @@
 package de.lehmannet.om.ui.util;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.io.File;
-import java.net.URL;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
+import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import de.lehmannet.om.ui.image.ImageResolver;
 
@@ -20,10 +19,12 @@ public class SplashScreen extends JFrame implements Runnable {
     private static final long serialVersionUID = 1L;
     private Image image;
     private final ImageResolver imageResolver;
+    private final String version;
 
-    public SplashScreen(ImageResolver resolver) {
+    public SplashScreen(ImageResolver resolver, String version) {
 
         this.imageResolver = resolver;
+        this.version = version;
         this.init();
 
     }
@@ -37,6 +38,7 @@ public class SplashScreen extends JFrame implements Runnable {
 
                     MediaTracker mt = new MediaTracker(this);
                     mt.addImage(this.image, 0);
+
                     try {
                         mt.waitForAll();
                     } catch (InterruptedException ie) {
@@ -62,7 +64,7 @@ public class SplashScreen extends JFrame implements Runnable {
         this.setVisible(true);
 
         long now = System.currentTimeMillis();
-        long then = now + 3 * 1000; // Show screen at least 2 seconds
+        long then = now + 15 * 1000; // Show screen at least 2 seconds
         while (now < then) {
             try {
                 Thread.currentThread();
@@ -82,7 +84,10 @@ public class SplashScreen extends JFrame implements Runnable {
     @Override
     public void paint(Graphics g) {
 
+        Font font = new JLabel().getFont();
+        g.setFont(font);
         g.drawImage(this.image, 0, 0, this);
+        g.drawString(this.version, 0, 0);
 
     }
 

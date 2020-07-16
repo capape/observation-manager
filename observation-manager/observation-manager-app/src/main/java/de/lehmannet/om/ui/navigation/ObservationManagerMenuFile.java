@@ -62,11 +62,11 @@ public final class ObservationManagerMenuFile {
     private final ObservationManager observationManager;
     private final ObservationManagerHtmlHelper htmlHelper;
     private final ImageResolver imageResolver;
-    private final JMenu menu;
     private final TextManager textManager;
     private final UserInterfaceHelper uiHelper;
     private final ObservationManagerModel model;
     private final InstallDir installDir;
+    private JMenu menu;
 
     public ObservationManagerMenuFile(IConfiguration configuration, ObservationManagerModel model,
             ObservationManagerHtmlHelper htmlHelper, ImageResolver imageResolver, TextManager textManager,

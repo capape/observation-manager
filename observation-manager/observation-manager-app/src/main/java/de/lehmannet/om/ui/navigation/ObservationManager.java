@@ -8,22 +8,29 @@
 package de.lehmannet.om.ui.navigation;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.Color;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
@@ -70,12 +77,13 @@ import de.lehmannet.om.ui.theme.ThemeManagerImpl;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
-import de.lehmannet.om.ui.util.SplashScreen;
+// import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.SplashScreen;
 
 public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
@@ -105,7 +113,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                                      // load.
 
     private Boolean nightVisionOnStartup;
-    private Thread splash;
+    // private Thread splash;
 
     private final InstallDir installDir;
 
@@ -144,6 +152,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
+    static SplashScreen splash;
+
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
@@ -160,7 +170,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
-        LOGGER.debug("Launching splash screen...");
+        LOGGER.debug("Launching extension loader ...");
         this.extLoader = new ExtensionLoader(this, this.model, this.installDir); // --> DEP VARIABLE STARS --> DIALOG
 
         LOGGER.debug("Start: {}", new Date());
@@ -178,8 +188,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.debug("Launching splash screen...");
         // Load SplashScreen
         if (!nightVisionOnStartup) {
-            this.splash = new Thread(new SplashScreen(this.imageResolver));
-            this.splash.start();
+            // this.splash = new Thread(new SplashScreen(this.imageResolver, this.getVersion());
+            // this.splash.start();
+
         }
 
         // Set title
@@ -207,7 +218,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.enableMenus(false);
 
         // Set nightvision theme
-        if (nightVisionOnStartup) {
+        if (nightVisionOnStartup)
+
+        {
             this.menuExtras.enableNightVisionTheme(true);
         }
 
@@ -627,13 +640,13 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.setDividerLocation();
 
         // Wait til SplashScreen disappears
-        if (this.splash != null) { // In night mode there is no Splash screen
-            try {
-                this.splash.join();
-            } catch (final InterruptedException ie) {
-                System.out.println("Waiting for SplashScreen interrupted");
-            }
-        }
+        // if (this.splash != null) { // In night mode there is no Splash screen
+        // try {
+        // this.splash.join();
+        // } catch (final InterruptedException ie) {
+        // System.out.println("Waiting for SplashScreen interrupted");
+        // }
+        // }
 
         this.setVisible(true);
 
