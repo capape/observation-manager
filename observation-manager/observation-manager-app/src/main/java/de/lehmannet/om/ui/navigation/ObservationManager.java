@@ -8,29 +8,22 @@
 package de.lehmannet.om.ui.navigation;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.awt.Color;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
@@ -83,16 +76,12 @@ import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
-import java.awt.SplashScreen;
 
 public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
-
-    // Version
-    // public static final String VERSION = "1.5.0alpha-SNAPSHOT";
 
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
@@ -152,8 +141,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
-    static SplashScreen splash;
-
+    
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
@@ -164,6 +152,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.themeManager = new ThemeManagerImpl(this.configuration, this.textManager, this);
         this.model = builder.model;
         this.uiHelper = new UserInterfaceHelperImpl(this, textManager);
+        this.nightVisionOnStartup = builder.nightVision;
 
         LOGGER.info("Observation Manager {} starting up...", this.getVersion());
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
@@ -177,22 +166,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
-
-        LOGGER.debug("Configure night vision...");
-        boolean nightVisionOnStartup = Boolean
-                .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
-        if (this.nightVisionOnStartup != null) { // If set by command line, overrule config
-            nightVisionOnStartup = this.nightVisionOnStartup;
-        }
-
-        LOGGER.debug("Launching splash screen...");
-        // Load SplashScreen
-        if (!nightVisionOnStartup) {
-            // this.splash = new Thread(new SplashScreen(this.imageResolver, this.getVersion());
-            // this.splash.start();
-
-        }
-
+       
         // Set title
         this.setTitle();
 
@@ -218,9 +192,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.enableMenus(false);
 
         // Set nightvision theme
-        if (nightVisionOnStartup)
-
-        {
+        if (nightVisionOnStartup) {
             this.menuExtras.enableNightVisionTheme(true);
         }
 
@@ -907,7 +879,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public static class Builder {
         private String locale;
-        private String nightVision;
+        private boolean nightVision;
         private InstallDir installDir;
         private IConfiguration configuration;
         private ImageResolver imageResolver;
@@ -924,7 +896,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             return this;
         }
 
-        public Builder nightVision(String nightVision) {
+        public Builder nightVision(boolean nightVision) {
             this.nightVision = nightVision;
             return this;
         }
