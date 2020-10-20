@@ -83,7 +83,7 @@ public class XMLFileLoaderImplTest {
         final ISchemaElement element = new Scope(150.0f, 0, "Orion XT6 Plus");
         emptyNewFile.addSchemaElement(element);
         assertNotNull("Empty document", emptyNewFile.getDocument());
-        
+
     }
 
     @Test
@@ -125,10 +125,9 @@ public class XMLFileLoaderImplTest {
      * 
      * @Test public void addSchemaElementImager() {
      * 
-     *       emptyNewFile.addSchemaElement(element); IImager[] observers =
-     *       emptyNewFile.getImagers(); assertEquals("Only one eyepiece", 1,
-     *       observers.length); assertEquals("Eyepiece added", "Orion",
-     *       observers[0].getModel()); fail("IImager"); }
+     *       emptyNewFile.addSchemaElement(element); IImager[] observers = emptyNewFile.getImagers(); assertEquals("Only
+     *       one eyepiece", 1, observers.length); assertEquals("Eyepiece added", "Orion", observers[0].getModel());
+     *       fail("IImager"); }
      */
     @Test
     public void addSchemaElementFilter() {
@@ -156,41 +155,40 @@ public class XMLFileLoaderImplTest {
     }
 
     @Test
-    public void addSchemaElementSession() {      
+    public void addSchemaElementSession() {
 
         final Angle longitude = new Angle(0, "");
         final Angle latitude = new Angle(0, "");
 
         final Site site = new Site("Moon", longitude, latitude, 60);
 
-        final ISchemaElement element = new Session(Calendar.getInstance(), 
-            Calendar.getInstance(),site);
+        final ISchemaElement element = new Session(Calendar.getInstance(), Calendar.getInstance(), site);
         emptyNewFile.addSchemaElement(element);
-        
+
         final ISession[] sessions = emptyNewFile.getSessions();
         assertEquals("Only one session", 1, sessions.length);
         assertEquals("Session added", "Moon", sessions[0].getSite().getName());
         assertFalse("No empty document", emptyNewFile.isEmpty());
-        
+
     }
 
     @Test
-    public void addSchemaElementTarget() {      
-        final ISchemaElement element = new GenericTarget("Mars","planet");
+    public void addSchemaElementTarget() {
+        final ISchemaElement element = new GenericTarget("Mars", "planet");
         emptyNewFile.addSchemaElement(element);
-        
+
         final ITarget[] targets = emptyNewFile.getTargets();
         assertEquals("Only one target", 1, targets.length);
         assertEquals("Target added", "Mars", targets[0].getName());
         assertFalse("No empty document", emptyNewFile.isEmpty());
-        
+
     }
 
     @Test
-    public void addSchemaElementLens() {      
+    public void addSchemaElementLens() {
         final ISchemaElement element = new Eyepiece("Orion", 25.0f);
         emptyNewFile.addSchemaElement(element);
-        
+
         final IEyepiece[] eyepieces = emptyNewFile.getEyepieces();
         assertEquals("Only one eyepiece", 1, eyepieces.length);
         assertEquals("Eyepiece added", "Orion", eyepieces[0].getModel());
@@ -198,33 +196,29 @@ public class XMLFileLoaderImplTest {
     }
 
     @Test
-    public void addSchemaElementOther() {      
+    public void addSchemaElementOther() {
         final ISchemaElement element = new Eyepiece("Orion", 25.0f);
         emptyNewFile.addSchemaElement(element);
-        
+
         final IEyepiece[] eyepieces = emptyNewFile.getEyepieces();
         assertEquals("Only one eyepiece", 1, eyepieces.length);
         assertEquals("Eyepiece added", "Orion", eyepieces[0].getModel());
         assertFalse("No empty document", emptyNewFile.isEmpty());
     }
-    
+
     @Test
-    public void addSchemaElementNull() {      
-        
+    public void addSchemaElementNull() {
+
         emptyNewFile.addSchemaElement(null);
         assertTrue("Empty document", emptyNewFile.isEmpty());
-        
-        
-        
+
     }
 
-
-
     /*
-    * void addSchemaElement(ISchemaElement element);
+     * void addSchemaElement(ISchemaElement element);
      * 
      * void addSchemaElement(ISchemaElement element, boolean dependend);
-    
+     * 
      * boolean save(String path);
      * 
      * boolean saveAs(String oldPath, String newPath);

@@ -108,7 +108,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             // below!
             ((CacheEntry) this.cache.iterator().next()).setXMLPath(newPath); // Works only with one XML!!!
         } catch (SchemaException se) {
-            LOGGER.error("Unable to write file: {} ",  newPath , se);
+            LOGGER.error("Unable to write file: {} ", newPath, se);
             return false;
         }
 
