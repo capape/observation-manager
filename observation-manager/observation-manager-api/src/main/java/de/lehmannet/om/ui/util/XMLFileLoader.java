@@ -32,15 +32,20 @@ public interface XMLFileLoader {
 
     /**
      * Save the current document
-     * @param path Path to save xml data
+     * 
+     * @param path
+     *            Path to save xml data
      * @return true if file is saved, false in other case
      */
     boolean save(String path);
 
     /**
      * Save the current document in new path
-     * @param path oldPath to save xml data
-     * @param path new path to save xml data
+     * 
+     * @param path
+     *            oldPath to save xml data
+     * @param path
+     *            new path to save xml data
      * @return true if file is saved, false in other case
      */
     boolean saveAs(String oldPath, String newPath);
