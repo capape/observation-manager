@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<oal:observations version="2.1" xmlns:oal="http://groups.google.com/group/openastronomylog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://groups.google.com/group/openastronomylog oal21.xsd">
+  <observers>
+    <!--Zero or more repetitions:-->
+    <observer id="string">
+      <name>string</name>
+      <surname>string</surname>
+      <!--Zero or more repetitions:-->
+      <contact>string</contact>
+      <!--Optional:-->
+      <DSL>string</DSL>
+      <!--Zero or more repetitions:-->
+      <account name="string">string</account>
+      <!--Optional:-->
+      <fstOffset>1.051732E7</fstOffset>
+    </observer>
+  </observers>
+  <sites>
+    <!--Zero or more repetitions:-->
+    <site id="string">
+      <name>string</name>
+      <longitude unit="deg">1.051732E7</longitude>
+      <latitude unit="arcsec">1.051732E7</latitude>
+      <!--Optional:-->
+      <elevation>1.051732E7</elevation>
+      <timezone>100</timezone>
+      <!--Optional:-->
+      <code>100</code>
+    </site>
+  </sites>
+  <sessions>
+    <!--Zero or more repetitions:-->
+    <session id="string" lang="string">
+      <begin>2013-11-23T15:44:07</begin>
+      <end>2014-06-09T17:15:04+02:00</end>
+      <site>string</site>
+      <!--Zero or more repetitions:-->
+      <coObserver>string</coObserver>
+      <!--Optional:-->
+      <weather>string</weather>
+      <!--Optional:-->
+      <equipment>string</equipment>
+      <!--Optional:-->
+      <comments>string</comments>
+      <!--Zero or more repetitions:-->
+      <image>string</image>
+    </session>
+  </sessions>
+  <targets>
+    <!--Zero or more repetitions:-->
+    <target id="string">
+      <!--You have a CHOICE of the next 2 items at this level-->
+      <datasource>string</datasource>
+      <observer>string</observer>
+      <name>string</name>
+      <!--Zero or more repetitions:-->
+      <alias>string</alias>
+      <!--Optional:-->
+      <position>
+        <ra unit="rad">1.051732E7</ra>
+        <dec unit="deg">1.051732E7</dec>
+        <!--Optional:-->
+        <frame>
+          <origin>geo</origin>
+          <equinox>B1950</equinox>
+        </frame>
+      </position>
+      <!--Optional:-->
+      <constellation>string</constellation>
+      <!--Optional:-->
+      <notes>string</notes>
+    </target>
+  </targets>
+  <scopes>
+    <!--Zero or more repetitions:-->
+    <scope id="string">
+      <model>string</model>
+      <!--Optional:-->
+      <type>string</type>
+      <!--Optional:-->
+      <vendor>string</vendor>
+      <aperture>1.051732E7</aperture>
+      <!--Optional:-->
+      <lightGrasp>1.051732E7</lightGrasp>
+      <!--Optional:-->
+      <orientation erect="false" truesided="true"/>
+    </scope>
+  </scopes>
+  <eyepieces>
+    <!--Zero or more repetitions:-->
+    <eyepiece id="string">
+      <model>string</model>
+      <!--Optional:-->
+      <vendor>string</vendor>
+      <focalLength>1.051732E7</focalLength>
+      <!--Optional:-->
+      <maxFocalLength>1.051732E7</maxFocalLength>
+      <!--Optional:-->
+      <apparentFOV unit="rad">1.051732E7</apparentFOV>
+    </eyepiece>
+  </eyepieces>
+  <lenses>
+    <!--Zero or more repetitions:-->
+    <lens id="string">
+      <model>string</model>
+      <!--Optional:-->
+      <vendor>string</vendor>
+      <factor>1.051732E7</factor>
+    </lens>
+  </lenses>
+  <filters>
+    <!--Zero or more repetitions:-->
+    <filter id="string">
+      <model>string</model>
+      <!--Optional:-->
+      <vendor>string</vendor>
+      <type>H-beta</type>
+      <!--Optional:-->
+      <color>deep red</color>
+      <!--Optional:-->
+      <wratten>string</wratten>
+      <!--Optional:-->
+      <schott>string</schott>
+    </filter>
+  </filters>
+  <imagers>
+    <!--Zero or more repetitions:-->
+    <imager id="string">
+      <model>string</model>
+      <!--Optional:-->
+      <vendor>string</vendor>
+      <!--Optional:-->
+      <remarks>string</remarks>
+    </imager>
+  </imagers>
+  <!--Zero or more repetitions:-->
+  <observation id="string">
+    <observer>string</observer>
+    <!--Optional:-->
+    <site>string</site>
+    <!--Optional:-->
+    <session>string</session>
+    <target>string</target>
+    <begin>2016-01-01T20:07:42</begin>
+    <!--Optional:-->
+    <end>2012-01-07T20:42:56</end>
+    <!--Optional:-->
+    <faintestStar>1.051732E7</faintestStar>
+    <!--Optional:-->
+    <sky-quality unit="mags-per-squarearcsec">1.051732E7</sky-quality>
+    <!--Optional:-->
+    <seeing>5</seeing>
+    <!--Optional:-->
+    <scope>string</scope>
+    <!--Optional:-->
+    <accessories>string</accessories>
+    <!--Optional:-->
+    <eyepiece>string</eyepiece>
+    <!--Optional:-->
+    <lens>string</lens>
+    <!--Optional:-->
+    <filter>string</filter>
+    <!--Optional:-->
+    <magnification>1.051732E7</magnification>
+    <!--Optional:-->
+    <imager>string</imager>
+    <!--1 or more repetitions:-->
+    <result lang="string">
+      <description>string</description>
+    </result>
+    <!--Zero or more repetitions:-->
+    <image>string</image>
+  </observation>
+</oal:observations>

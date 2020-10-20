@@ -108,7 +108,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             // below!
             ((CacheEntry) this.cache.iterator().next()).setXMLPath(newPath); // Works only with one XML!!!
         } catch (SchemaException se) {
-            System.err.println("Unable to write file: " + newPath + "\n" + se);
+            LOGGER.error("Unable to write file: {} ",  newPath , se);
             return false;
         }
 
@@ -124,10 +124,10 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             if (root != null) {
                 return root.getDocument();
             } else {
-                System.err.println("Unable to retrieve DOM Document\n");
+                LOGGER.error("Unable to retrieve DOM Document");
             }
         } catch (SchemaException se) {
-            System.err.println("Unable to retrieve DOM Document\n" + se);
+            LOGGER.error("Unable to retrieve DOM Document", se);
         }
 
         return null;
@@ -241,7 +241,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else if (element instanceof ILens) {
             entry.addLens((ILens) element);
         } else {
-            System.out.print("Unknown element: " + element);
+            LOGGER.warn("Unknown element: {} ", element);
         }
 
     }

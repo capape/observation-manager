@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oal:observations version="2.1" xmlns:oal="http://groups.google.com/group/openastronomylog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://groups.google.com/group/openastronomylog oal21.xsd">
+    <observers>
+        <observer id="id_xPFKZHJv4r">
+            <name>
+                <![CDATA[Jordi]]>
+            </name>
+            <surname>
+                <![CDATA[Poch]]>
+            </surname>
+            <contact>
+                <![CDATA[jordi.poch@gmail.com]]>
+            </contact>
+            <account name="jordi.poch@gmail.com">
+                <![CDATA[jordi.poch@gmail.com]]>
+            </account>
+        </observer>
+    </observers>
+    <sites>
+        <site id="id_0PCB474yWL">
+            <name>
+                <![CDATA[Casa]]>
+            </name>
+            <longitude unit="deg">2.113903323188424</longitude>
+            <latitude unit="deg">41.54218280687928</latitude>
+            <elevation>241.0</elevation>
+            <timezone>60</timezone>
+        </site>
+    </sites>
+    <sessions>
+        <session id="OMa4de3d7b98ff456eb874f44b175967b4" lang="ca">
+            <begin>2020-04-12T19:15:00+01:00</begin>
+            <end>2020-04-12T20:30:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Alguns núvols alts però sense núvols al nord oest]]>
+            </weather>
+            <comments>
+                <![CDATA[Sessió feta des de la cuina. ]]>
+            </comments>
+        </session>
+        <session id="id_BDfTguRWo7" lang="ca">
+            <begin>2020-04-14T19:30:00+01:00</begin>
+            <end>2020-04-14T20:45:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[El cel s'aprecia transparent però hi ha una certa turbulència.]]>
+            </weather>
+            <comments>
+                <![CDATA[Sessió feta des de la cuina. ]]>
+            </comments>
+        </session>
+        <session id="OM65ea3f3513a84cdb863f70a46a2df78b" lang="ca">
+            <begin>2020-04-28T20:00:00+01:00</begin>
+            <end>2020-04-28T22:00:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Cel completament seré i molt transparent. ]]>
+            </weather>
+            <comments>
+                <![CDATA[Sessió feta des de la cuina. ]]>
+            </comments>
+        </session>
+        <session id="OMbd02076682f84f06956804bbc5fc3ffa" lang="ca">
+            <begin>2020-05-08T20:00:00+01:00</begin>
+            <end>2020-05-08T23:00:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[El cel estava lliure de núvols. Era 2 dies després del pleniluni. ]]>
+            </weather>
+        </session>
+        <session id="OMef6b11a26fcb41a89cc3c2068e1a305e" lang="ca">
+            <begin>2020-05-11T20:00:00+01:00</begin>
+            <end>2020-05-11T22:00:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Cel serè després d'un dia de fort vent. El vent va afluixar cap al vespre. ]]>
+            </weather>
+            <comments>
+                <![CDATA[Sessió feta des de la cuina. S'arriba a observar una estrella de magnitud 11,1. Se n'entreveu una de 12,1.]]>
+            </comments>
+        </session>
+        <session id="OM1a9ee7fe67ba49e1a8ef290766cd2711" lang="ca">
+            <begin>2020-05-18T20:15:00+01:00</begin>
+            <end>2020-05-18T22:00:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Cel serè, bon seeing.]]>
+            </weather>
+            <comments>
+                <![CDATA[Observació des de la cuina. Després d'haver vist M81 i M82 s'intenta veure si es poden observar galàxies de magnitud 8 o 9. ]]>
+            </comments>
+        </session>
+        <session id="OMe9f8159333ed4a309c849cfd67ce4458" lang="ca">
+            <begin>2020-05-19T20:30:00+01:00</begin>
+            <end>2020-05-19T22:00:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Bon seeing. ]]>
+            </weather>
+            <comments>
+                <![CDATA[Observació des de la cuina. Després d'haver vist M81 i M82 s'intenta veure si es poden observar galàxies de magnitud 8 o 9. ]]>
+            </comments>
+        </session>
+        <session id="OMbc6ce4bc9e92470cbc94fba0b2179ae6" lang="ca">
+            <begin>2020-05-20T20:15:00+01:00</begin>
+            <end>2020-05-20T21:30:00+01:00</end>
+            <site>id_0PCB474yWL</site>
+            <weather>
+                <![CDATA[Bon seeing]]>
+            </weather>
+            <comments>
+                <![CDATA[Observació des de la cuina. Llums una mica molestes de les cases del carrer grua. ]]>
+            </comments>
+        </session>
+    </sessions>
+    <targets>
+        <target id="OMefae03c8fa3d47ce869567f75931bbe5" xsi:type="oal:deepSkyOC">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[NGC 457]]>
+            </name>
+            <alias>
+                <![CDATA[Dragonfly Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[Owl Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[E.T. Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[C13]]>
+            </alias>
+            <alias>
+                <![CDATA[OCl 321]]>
+            </alias>
+            <alias>
+                <![CDATA[OCl 321.0]]>
+            </alias>
+            <alias>
+                <![CDATA[OCISM 73]]>
+            </alias>
+            <position>
+                <ra unit="deg">19.8875</ra>
+                <dec unit="deg">58.29083333333333</dec>
+            </position>
+            <constellation>
+                <![CDATA[Cassiopeia]]>
+            </constellation>
+            <notes>
+                <![CDATA[Situat a la constel·lació de Cassiopea, prop de Ruchbah]]>
+            </notes>
+            <smallDiameter unit="arcmin">7.8</smallDiameter>
+            <visMag>6.4</visMag>
+        </target>
+        <target id="id_1_0_2_2" xsi:type="oal:observationTargetType">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[Venus]]>
+            </name>
+            <alias>
+                <![CDATA[2]]>
+            </alias>
+            <alias>
+                <![CDATA[Venus]]>
+            </alias>
+        </target>
+        <target id="OM561f9401f15741f6b2f1b35b50af4767" xsi:type="oal:deepSkyDS">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[STF 331]]>
+            </name>
+            <alias>
+                <![CDATA[HR 890]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 18537]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 890]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 23763]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 14043]]>
+            </alias>
+            <alias>
+                <![CDATA[TYC 3322-1409-1]]>
+            </alias>
+            <alias>
+                <![CDATA[BD+51 665]]>
+            </alias>
+            <alias>
+                <![CDATA[Gaia DR2 440905919385318656]]>
+            </alias>
+            <alias>
+                <![CDATA[YPAC 87]]>
+            </alias>
+            <alias>
+                <![CDATA[CEL 299]]>
+            </alias>
+            <alias>
+                <![CDATA[HGAM 179]]>
+            </alias>
+            <alias>
+                <![CDATA[ROT 399]]>
+            </alias>
+            <alias>
+                <![CDATA[WEB 2768]]>
+            </alias>
+            <alias>
+                <![CDATA[ADS 2270A]]>
+            </alias>
+            <alias>
+                <![CDATA[GC 3600]]>
+            </alias>
+            <alias>
+                <![CDATA[GCRV 1672]]>
+            </alias>
+            <alias>
+                <![CDATA[SKY# 453]]>
+            </alias>
+            <alias>
+                <![CDATA[UBV 2891]]>
+            </alias>
+            <alias>
+                <![CDATA[UBV M 9265]]>
+            </alias>
+            <alias>
+                <![CDATA[AG+52 319]]>
+            </alias>
+            <alias>
+                <![CDATA[HIC 14043]]>
+            </alias>
+            <alias>
+                <![CDATA[PPM 28164]]>
+            </alias>
+            <alias>
+                <![CDATA[ALS 17091]]>
+            </alias>
+            <alias>
+                <![CDATA[CSI+51 665 2]]>
+            </alias>
+            <alias>
+                <![CDATA[PMC 90-93 4696]]>
+            </alias>
+            <alias>
+                <![CDATA[CCDM J03009+5221A]]>
+            </alias>
+            <alias>
+                <![CDATA[GEN# +1.00018537]]>
+            </alias>
+            <alias>
+                <![CDATA[IDS 02537+5157 A]]>
+            </alias>
+            <alias>
+                <![CDATA[WDS J03009+5221]]>
+            </alias>
+            <alias>
+                <![CDATA[GSC 03322-01409]]>
+            </alias>
+            <alias>
+                <![CDATA[uvby98]]>
+            </alias>
+            <alias>
+                <![CDATA[100018537]]>
+            </alias>
+            <alias>
+                <![CDATA[2MASS J03005221+5221061]]>
+            </alias>
+            <position>
+                <ra unit="deg">51.56666666666667</ra>
+                <dec unit="deg">52.42972222222222</dec>
+            </position>
+            <constellation>
+                <![CDATA[Perseus]]>
+            </constellation>
+            <notes>
+                <![CDATA[Segons Jose Luis Comellas la principal s'aprecia verda i la secundària blava.
+Sembla que seria també STF 331.]]>
+            </notes>
+            <visMag>5.2</visMag>
+            <separation unit="arcsec">12.0</separation>
+            <pa>86</pa>
+            <magComp>6.7</magComp>
+        </target>
+        <target id="OM337ed69b17b04ed194c5bc55c43c7c61" xsi:type="oal:deepSkyDS">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[STF 314]]>
+            </name>
+            <alias>
+                <![CDATA[HR 846]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 23674]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 13424]]>
+            </alias>
+            <alias>
+                <![CDATA[BD+52 640]]>
+            </alias>
+            <alias>
+                <![CDATA[PLX 585]]>
+            </alias>
+            <alias>
+                <![CDATA[CEL 296]]>
+            </alias>
+            <alias>
+                <![CDATA[NSV 971]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 314]]>
+            </alias>
+            <alias>
+                <![CDATA[WEB 2685]]>
+            </alias>
+            <alias>
+                <![CDATA[GC 3439]]>
+            </alias>
+            <alias>
+                <![CDATA[GCRV 1608]]>
+            </alias>
+            <alias>
+                <![CDATA[SKY# 4320]]>
+            </alias>
+            <alias>
+                <![CDATA[UBV 2778]]>
+            </alias>
+            <alias>
+                <![CDATA[UBV M 9185]]>
+            </alias>
+            <alias>
+                <![CDATA[ADS 2185]]>
+            </alias>
+            <alias>
+                <![CDATA[AG+52 310]]>
+            </alias>
+            <alias>
+                <![CDATA[HIC 13424]]>
+            </alias>
+            <alias>
+                <![CDATA[PPM 28062]]>
+            </alias>
+            <alias>
+                <![CDATA[TD1 1705]]>
+            </alias>
+            <alias>
+                <![CDATA[ALS 16408]]>
+            </alias>
+            <alias>
+                <![CDATA[PLX 585.00]]>
+            </alias>
+            <alias>
+                <![CDATA[CSV 102393]]>
+            </alias>
+            <alias>
+                <![CDATA[YZ 52 1309]]>
+            </alias>
+            <alias>
+                <![CDATA[CCDM J02529+5300ABC]]>
+            </alias>
+            <alias>
+                <![CDATA[GEN# +1.00017743J]]>
+            </alias>
+            <alias>
+                <![CDATA[PMSC 02458+5235]]>
+            </alias>
+            <alias>
+                <![CDATA[WDS J02529+5300AB,C]]>
+            </alias>
+            <alias>
+                <![CDATA[2MASS J02525196+5259508]]>
+            </alias>
+            <position>
+                <ra unit="deg">43.56666666666667</ra>
+                <dec unit="deg">53.077222222222225</dec>
+            </position>
+            <constellation>
+                <![CDATA[Perseus]]>
+            </constellation>
+            <notes>
+                <![CDATA[En realitat és una triple, la principal es pot desdoblar en 2 estrelles també, però només estan a 0.2 arcsegons de distància.
+Situada 15 arcmin al NE de Tau Per.]]>
+            </notes>
+            <visMag>6.4</visMag>
+            <separation unit="arcsec">1.7</separation>
+            <pa>310</pa>
+            <magComp>7.2</magComp>
+        </target>
+        <target id="OMe75514dd68f34da6b94260187f8fa61e" xsi:type="oal:deepSkyDS">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[Eta Per]]>
+            </name>
+            <alias>
+                <![CDATA[Miram]]>
+            </alias>
+            <alias>
+                <![CDATA[η Per]]>
+            </alias>
+            <alias>
+                <![CDATA[15 Per]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 17506]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 834]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 23655]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 13268]]>
+            </alias>
+            <alias>
+                <![CDATA[TYC 3704-1332-1]]>
+            </alias>
+            <position>
+                <ra unit="deg">43.041666666666664</ra>
+                <dec unit="deg">55.97416666666667</dec>
+            </position>
+            <constellation>
+                <![CDATA[Perseus]]>
+            </constellation>
+            <notes>
+                <![CDATA[L'estrella més a la dreta de Perseu, prop del doble cúmul de Perseu, de color vermell.]]>
+            </notes>
+            <visMag>3.8</visMag>
+            <separation unit="arcsec">30.0</separation>
+            <pa>301</pa>
+            <magComp>8.5</magComp>
+        </target>
+        <target id="OMb942dea02a224b0099c623393b0a3c90" xsi:type="oal:deepSkyOC">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[Double Cluster Per]]>
+            </name>
+            <alias>
+                <![CDATA[Chi Per]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 884]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 869]]>
+            </alias>
+            <position>
+                <ra unit="deg">35.104166666666664</ra>
+                <dec unit="deg">57.20777777777778</dec>
+            </position>
+            <constellation>
+                <![CDATA[Perseus]]>
+            </constellation>
+            <notes>
+                <![CDATA[Es posen les coordenades de NGC 869.]]>
+            </notes>
+            <visMag>6.0</visMag>
+        </target>
+        <target id="OM2e639fbc92004edf8fa0f3ea1f7e0138" xsi:type="oal:deepSkyOC">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[NGC 1502]]>
+            </name>
+            <alias>
+                <![CDATA[Jolly Roger Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[Golden Harp Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[OCl 383]]>
+            </alias>
+            <alias>
+                <![CDATA[OCl 383.0]]>
+            </alias>
+            <alias>
+                <![CDATA[OCISM 94]]>
+            </alias>
+            <position>
+                <ra unit="deg">62.3875</ra>
+                <dec unit="deg">62.38388888888889</dec>
+            </position>
+            <constellation>
+                <![CDATA[Camelopardalis]]>
+            </constellation>
+            <visMag>6.88</visMag>
+        </target>
+        <target id="OMdc2633f026af47c4942b76b19960efad" xsi:type="oal:deepSkyGX">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[M81]]>
+            </name>
+            <alias>
+                <![CDATA[Bode's Galaxy]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC3031]]>
+            </alias>
+            <position>
+                <ra unit="deg">149.29583333333332</ra>
+                <dec unit="deg">68.97444444444444</dec>
+            </position>
+            <constellation>
+                <![CDATA[Ursa Maior]]>
+            </constellation>
+            <smallDiameter unit="arcmin">11.2</smallDiameter>
+            <largeDiameter unit="arcmin">21.6</largeDiameter>
+            <visMag>6.94</visMag>
+            <surfBr unit="mags-per-squarearcsec">13.3</surfBr>
+        </target>
+        <target id="OM3df45ce7044e47838b4938c3fb8fb0c7" xsi:type="oal:deepSkyGX">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[M82]]>
+            </name>
+            <alias>
+                <![CDATA[Cygar Galaxy]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC3034]]>
+            </alias>
+            <position>
+                <ra unit="deg">149.38333333333333</ra>
+                <dec unit="deg">69.5886111111111</dec>
+            </position>
+            <constellation>
+                <![CDATA[Ursa Maior]]>
+            </constellation>
+            <notes>
+                <![CDATA[Propera a M81]]>
+            </notes>
+            <smallDiameter unit="arcmin">5.1</smallDiameter>
+            <largeDiameter unit="arcmin">11.0</largeDiameter>
+            <visMag>8.4</visMag>
+            <surfBr unit="mags-per-squarearcsec">12.35</surfBr>
+        </target>
+        <target id="OM6ebfc78ce42143f4ad80b1d588a477d2" xsi:type="oal:deepSkyGX">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[NGC 2403]]>
+            </name>
+            <alias>
+                <![CDATA[C7]]>
+            </alias>
+            <alias>
+                <![CDATA[UGC3918]]>
+            </alias>
+            <position>
+                <ra unit="deg">86.3625</ra>
+                <dec unit="deg">65.55638888888889</dec>
+            </position>
+            <constellation>
+                <![CDATA[Camelopardalis]]>
+            </constellation>
+            <notes>
+                <![CDATA[Situada entre Cam i Uma]]>
+            </notes>
+            <smallDiameter unit="arcmin">10.1</smallDiameter>
+            <largeDiameter unit="arcmin">19.9</largeDiameter>
+            <visMag>8.25</visMag>
+            <surfBr unit="mags-per-squarearcsec">14.71</surfBr>
+        </target>
+        <target id="OM8624fc46eaed4763a68737beb2802ea7" xsi:type="oal:deepSkyGX">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[NGC 2841]]>
+            </name>
+            <alias>
+                <![CDATA[Tiger's Eye Galaxy]]>
+            </alias>
+            <position>
+                <ra unit="deg">140.85416666666666</ra>
+                <dec unit="deg">50.890277777777776</dec>
+            </position>
+            <constellation>
+                <![CDATA[Ursa Maior]]>
+            </constellation>
+            <smallDiameter unit="arcmin">3.3</smallDiameter>
+            <largeDiameter unit="arcmin">6.9</largeDiameter>
+            <visMag>9.12</visMag>
+            <surfBr unit="mags-per-squarearcsec">12.1</surfBr>
+        </target>
+        <target id="OMdd3ad358430044e48a934cb0fe4d4c81" xsi:type="oal:deepSkyGX">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[NGC 3077]]>
+            </name>
+            <alias>
+                <![CDATA[UGC 5398]]>
+            </alias>
+            <position>
+                <ra unit="deg">151.225</ra>
+                <dec unit="deg">68.63666666666667</dec>
+            </position>
+            <constellation>
+                <![CDATA[Ursa Maior]]>
+            </constellation>
+            <notes>
+                <![CDATA[Prop de M81]]>
+            </notes>
+            <smallDiameter unit="arcmin">4.3</smallDiameter>
+            <largeDiameter unit="arcmin">5.2</largeDiameter>
+            <visMag>9.94</visMag>
+            <surfBr unit="mags-per-squarearcsec">12.0</surfBr>
+        </target>
+        <target id="OM68b0893914684a35a7825fe8356f1385" xsi:type="oal:observationTargetType">
+            <observer>id_xPFKZHJv4r</observer>
+            <name>
+                <![CDATA[Mercuri]]>
+            </name>
+        </target>
+    </targets>
+    <scopes>
+        <scope id="id_CGmyxsR6dg">
+            <model>
+                <![CDATA[Evostar AC 90/900]]>
+            </model>
+            <type>
+                <![CDATA[Telescope]]>
+            </type>
+            <vendor>
+                <![CDATA[Sky-Watcher]]>
+            </vendor>
+            <aperture>90.0</aperture>
+            <orientation erect="false" truesided="false" />
+        </scope>
+        <scope id="OMbffc0c6c9ceb4b8085e15830b6a6a8d1" xsi:type="oal:fixedMagnificationOpticsType">
+            <model>
+                <![CDATA[Scenix 7x50]]>
+            </model>
+            <type>
+                <![CDATA[Binoculars]]>
+            </type>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <aperture>50.0</aperture>
+            <orientation erect="false" truesided="false" />
+            <magnification>7.0</magnification>
+            <trueField unit="deg">6.5</trueField>
+        </scope>
+    </scopes>
+    <eyepieces>
+        <eyepiece id="OMbda79364ef1644e3b13923e89d67bea8">
+            <model>
+                <![CDATA[UWAN 16mm 82° 1,25"]]>
+            </model>
+            <vendor>
+                <![CDATA[TS Optics]]>
+            </vendor>
+            <focalLength>16.0</focalLength>
+            <apparentFOV unit="arcmin">4920.0</apparentFOV>
+        </eyepiece>
+        <eyepiece id="OM9a9c596044ed4da4ba372fa905c20998">
+            <model>
+                <![CDATA[Omni]]>
+            </model>
+            <vendor>
+                <![CDATA[Celestron]]>
+            </vendor>
+            <focalLength>40.0</focalLength>
+            <apparentFOV unit="deg">44.0</apparentFOV>
+        </eyepiece>
+        <eyepiece id="id_onAXz4BqtV">
+            <model>
+                <![CDATA[MA]]>
+            </model>
+            <vendor>
+                <![CDATA[Sky-Watcher]]>
+            </vendor>
+            <focalLength>25.0</focalLength>
+            <apparentFOV unit="deg">52.0</apparentFOV>
+        </eyepiece>
+        <eyepiece id="id_gLaxpjNdnX">
+            <model>
+                <![CDATA[MA]]>
+            </model>
+            <vendor>
+                <![CDATA[Sky-Watcher]]>
+            </vendor>
+            <focalLength>10.0</focalLength>
+            <apparentFOV unit="deg">52.0</apparentFOV>
+        </eyepiece>
+        <eyepiece id="OM266cde34fa9a436187d55eb752eb8e1b">
+            <model>
+                <![CDATA[N2]]>
+            </model>
+            <vendor>
+                <![CDATA[Explore Scientific]]>
+            </vendor>
+            <focalLength>6.7</focalLength>
+            <apparentFOV unit="arcmin">4920.0</apparentFOV>
+        </eyepiece>
+    </eyepieces>
+    <lenses>
+        <lens id="id_hBidk2CZET">
+            <model>
+                <![CDATA[Barlow x2]]>
+            </model>
+            <vendor>
+                <![CDATA[Sky-Watcher]]>
+            </vendor>
+            <factor>2.0</factor>
+        </lens>
+    </lenses>
+    <filters />
+    <imagers />
+    <observation id="OM34d46f52d5474e04b0b79771bc380961">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMa4de3d7b98ff456eb874f44b175967b4</session>
+        <target>OMefae03c8fa3d47ce869567f75931bbe5</target>
+        <begin>2020-04-12T19:15:00+01:00</begin>
+        <end>2020-04-12T19:25:00+01:00</end>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="id_937uv31iHx">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>id_BDfTguRWo7</session>
+        <target>id_1_0_2_2</target>
+        <begin>2020-04-14T20:30:00+01:00</begin>
+        <end>2020-04-14T20:45:00+01:00</end>
+        <seeing>3</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="id_QTb5kFD9Zt">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>id_BDfTguRWo7</session>
+        <target>OMe75514dd68f34da6b94260187f8fa61e</target>
+        <begin>2020-04-14T19:45:00+01:00</begin>
+        <end>2020-04-14T20:00:00+01:00</end>
+        <seeing>3</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM9a9c596044ed4da4ba372fa905c20998</eyepiece>
+        <magnification>22.5</magnification>
+    </observation>
+    <observation id="id_bfiLGmNfEL">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>id_BDfTguRWo7</session>
+        <target>OM561f9401f15741f6b2f1b35b50af4767</target>
+        <begin>2020-04-14T19:30:00+01:00</begin>
+        <end>2020-04-14T19:40:00+01:00</end>
+        <seeing>3</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM9a9c596044ed4da4ba372fa905c20998</eyepiece>
+        <magnification>22.5</magnification>
+    </observation>
+    <observation id="OM772d7f2e2fc44adfb1fd713d095e7614">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OM65ea3f3513a84cdb863f70a46a2df78b</session>
+        <target>id_1_0_2_2</target>
+        <begin>2020-04-28T20:00:00+01:00</begin>
+        <end>2020-04-28T20:10:00+01:00</end>
+        <seeing>2</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OM6dccd3de33eb41dd98fffaee7ff20729">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OM65ea3f3513a84cdb863f70a46a2df78b</session>
+        <target>OMe75514dd68f34da6b94260187f8fa61e</target>
+        <begin>2020-04-28T21:00:00+01:00</begin>
+        <end>2020-04-28T21:15:00+01:00</end>
+        <seeing>2</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OM3637f3cc8c7b4d43a8386b265ded742c">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OM65ea3f3513a84cdb863f70a46a2df78b</session>
+        <target>OMb942dea02a224b0099c623393b0a3c90</target>
+        <begin>2020-04-28T20:00:00+01:00</begin>
+        <end>2020-04-28T21:15:00+01:00</end>
+        <seeing>2</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OM662394baea1841748291d89f17be99f4">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMbd02076682f84f06956804bbc5fc3ffa</session>
+        <target>OM2e639fbc92004edf8fa0f3ea1f7e0138</target>
+        <begin>2020-05-08T20:15:00+01:00</begin>
+        <end>2020-05-08T20:45:00+01:00</end>
+        <seeing>2</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OM47b290211b93451a9905f23ef3c52eff">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMbd02076682f84f06956804bbc5fc3ffa</session>
+        <target>OMdc2633f026af47c4942b76b19960efad</target>
+        <begin>2020-05-08T20:30:00+01:00</begin>
+        <end>2020-05-08T22:15:00+01:00</end>
+        <faintestStar>9.94</faintestStar>
+        <seeing>2</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OMaa5586869ced4cd09a67d5afcb97e7d9">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMef6b11a26fcb41a89cc3c2068e1a305e</session>
+        <target>OM2e639fbc92004edf8fa0f3ea1f7e0138</target>
+        <begin>2020-05-11T20:00:00+01:00</begin>
+        <end>2020-05-11T20:10:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OMd4f1a06ef26a499c8c66d6e37990e098">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMef6b11a26fcb41a89cc3c2068e1a305e</session>
+        <target>OMdc2633f026af47c4942b76b19960efad</target>
+        <begin>2020-05-11T21:00:00+01:00</begin>
+        <end>2020-05-11T22:00:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OM1586ecee63b54e0a9fce3f604b5aa4b2">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMef6b11a26fcb41a89cc3c2068e1a305e</session>
+        <target>OM3df45ce7044e47838b4938c3fb8fb0c7</target>
+        <begin>2020-05-11T20:00:00+01:00</begin>
+        <end>2020-05-11T22:00:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OMa5a3807ae9b2430ead8773735779892d">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMbc6ce4bc9e92470cbc94fba0b2179ae6</session>
+        <target>OM6ebfc78ce42143f4ad80b1d588a477d2</target>
+        <begin>2020-05-20T20:15:00+01:00</begin>
+        <end>2020-05-20T20:25:00+01:00</end>
+        <faintestStar>11.4</faintestStar>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OMfa8744f3f2b94b3391f86cddfecb55d8">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMe9f8159333ed4a309c849cfd67ce4458</session>
+        <target>OM6ebfc78ce42143f4ad80b1d588a477d2</target>
+        <begin>2020-05-19T20:30:00+01:00</begin>
+        <end>2020-05-19T20:40:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OMd53a67066ec34cc6be16dba4ccb36249">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OM1a9ee7fe67ba49e1a8ef290766cd2711</session>
+        <target>OM6ebfc78ce42143f4ad80b1d588a477d2</target>
+        <begin>2020-05-18T20:15:00+01:00</begin>
+        <end>2020-05-18T20:25:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OM725d28cd9e174284847a78037fb4fc3a">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMbc6ce4bc9e92470cbc94fba0b2179ae6</session>
+        <target>OMdc2633f026af47c4942b76b19960efad</target>
+        <begin>2020-05-20T20:15:00+01:00</begin>
+        <end>2020-05-20T20:25:00+01:00</end>
+        <faintestStar>11.4</faintestStar>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OM266cde34fa9a436187d55eb752eb8e1b</eyepiece>
+        <magnification>134.33</magnification>
+    </observation>
+    <observation id="OM73a46b7489d54d2087ff8e2aba92f8cf">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMe9f8159333ed4a309c849cfd67ce4458</session>
+        <target>OMdd3ad358430044e48a934cb0fe4d4c81</target>
+        <begin>2020-05-19T20:30:00+01:00</begin>
+        <end>2020-05-19T20:40:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OMd7757d1825044db9947185c674f10f6c">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMe9f8159333ed4a309c849cfd67ce4458</session>
+        <target>id_1_0_2_2</target>
+        <begin>2020-05-19T20:30:00+01:00</begin>
+        <end>2020-05-19T20:40:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+    <observation id="OMcd1fbc4df86a4f75bfbad13f25b16e1a">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OMe9f8159333ed4a309c849cfd67ce4458</session>
+        <target>OM68b0893914684a35a7825fe8356f1385</target>
+        <begin>2020-05-19T20:30:00+01:00</begin>
+        <end>2020-05-19T20:40:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>OMbffc0c6c9ceb4b8085e15830b6a6a8d1</scope>
+        <magnification>7.0</magnification>
+    </observation>
+    <observation id="OM31c8b856e081406dbfe921c793805b17">
+        <observer>id_xPFKZHJv4r</observer>
+        <site>id_0PCB474yWL</site>
+        <session>OM1a9ee7fe67ba49e1a8ef290766cd2711</session>
+        <target>OM8624fc46eaed4763a68737beb2802ea7</target>
+        <begin>2020-05-18T20:15:00+01:00</begin>
+        <end>2020-05-18T20:25:00+01:00</end>
+        <seeing>1</seeing>
+        <scope>id_CGmyxsR6dg</scope>
+        <eyepiece>OMbda79364ef1644e3b13923e89d67bea8</eyepiece>
+        <magnification>56.25</magnification>
+    </observation>
+</oal:observations>

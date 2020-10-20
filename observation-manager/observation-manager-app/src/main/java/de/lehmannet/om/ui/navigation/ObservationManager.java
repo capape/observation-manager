@@ -141,7 +141,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private final CatalogManager catalogManager;
 
-    
     private ObservationManager(Builder builder) {
 
         this.installDir = builder.installDir;
@@ -166,7 +165,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.debug(SystemInfo.printMemoryUsage());
 
         LoggerConfig.initLogs();
-       
+
         // Set title
         this.setTitle();
 

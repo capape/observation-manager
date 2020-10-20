@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><oal:observations version="2.1" xmlns:oal="http://groups.google.com/group/openastronomylog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://groups.google.com/group/openastronomylog oal21.xsd"><observers><observer id="id_WGgYlNVI99"><name><![CDATA[JOSE ANTONIO]]></name><surname><![CDATA[        CAPAPE GIL]]></surname><contact><![CDATA[
+        capapegil@gmail.com
+      ]]></contact><account name="LiveSky.com"><![CDATA[
+        capapegil@gmail.com
+      ]]></account></observer></observers><sites><site id="id_gOPSkZosK1"><name><![CDATA[
+        Current Location  41º 32' N 002º 05' E
+      ]]></name><longitude unit="deg">2.0850777566032805</longitude><latitude unit="deg">41.53091982719279</latitude><elevation>164.0</elevation><timezone>60</timezone></site></sites><sessions><session id="OMda11e0a5c9394b1eb844891c4c5e60a3" lang="es"><begin>2020-04-14T18:49:52+01:00</begin><end>2020-04-15T18:49:53+01:00</end><site>id_gOPSkZosK1</site><weather><![CDATA[Buena]]></weather></session></sessions><targets/><scopes><scope id="id_K3IySJHA5h"><model><![CDATA[
+        SkyQuest XT6 Classic Dobsonian
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><aperture>150.0</aperture><orientation erect="false" truesided="false"/></scope></scopes><eyepieces><eyepiece id="id_fGVEVSdRsA"><model><![CDATA[
+        Stratus Wide-Field 8
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>8.0</focalLength><apparentFOV unit="deg">68.0</apparentFOV></eyepiece><eyepiece id="id_8MMa0gNqlP"><model><![CDATA[
+        Sirius Plössl 10
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>10.0</focalLength><apparentFOV unit="deg">52.0</apparentFOV></eyepiece><eyepiece id="id_akht1p0FbQ"><model><![CDATA[
+        Sirius Plössl 25
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>25.0</focalLength><apparentFOV unit="deg">52.0</apparentFOV></eyepiece></eyepieces><lenses><lens id="id_eyFvqJB2xv"><model><![CDATA[
+        Shorty 2x Barlow Lens
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><factor>2.0</factor></lens></lenses><filters/><imagers/></oal:observations>

@@ -43,7 +43,7 @@ public class SplashScreenWithText {
         if (image != null) {
             try {
                 splash.setImageURL(image);
-            } catch (NullPointerException | IllegalStateException | IOException e) {                
+            } catch (NullPointerException | IllegalStateException | IOException e) {
                 return;
             }
         }
@@ -63,8 +63,8 @@ public class SplashScreenWithText {
         }
     }
 
-    public  void updateText(String text) {
-        
+    public void updateText(String text) {
+
         if (nightMode) {
             return;
         }
@@ -81,10 +81,7 @@ public class SplashScreenWithText {
         }
     }
 
-    
-
-    public  void updateTextVersion(String text) {
-
+    public void updateTextVersion(String text) {
 
         if (nightMode) {
             return;
@@ -102,7 +99,7 @@ public class SplashScreenWithText {
         }
     }
 
-    private  void resetGraphicText(int x, int y, int height) {
+    private void resetGraphicText(int x, int y, int height) {
 
         splash = SplashScreen.getSplashScreen();
         if (splash != null && splash.isVisible()) {
@@ -116,14 +113,13 @@ public class SplashScreenWithText {
         waitForNextMessage();
     }
 
-    private  void waitForNextMessage() {
+    private void waitForNextMessage() {
         try {
             Thread.sleep(millisecondsToWait);
         } catch (InterruptedException e) {
 
         }
     }
-
 
     public static class Builder {
 
@@ -148,7 +144,7 @@ public class SplashScreenWithText {
         }
 
         public SplashScreenWithText build() {
-           return new SplashScreenWithText(this);
+            return new SplashScreenWithText(this);
         }
     }
 }

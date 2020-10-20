@@ -37,7 +37,6 @@ public class ObservationManagerApp {
 
     public static void main(final String[] args) {
 
-
         final TextManager versionTextManager = new TextManagerImpl("version", "en");
         final String version = versionTextManager.getString("observation.manager.version");
         LOGGER.info("App version: {}", version);
@@ -49,7 +48,7 @@ public class ObservationManagerApp {
         LOGGER.info("Reading configuration...");
         final String configDir = argumentsParser.getArgumentValue(ArgumentName.CONFIGURATION);
         final Configuration configuration = new Configuration(configDir, version);
-      
+
         LOGGER.debug("Configure night vision...");
         boolean nightVision = Boolean
                 .parseBoolean(configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
@@ -58,7 +57,7 @@ public class ObservationManagerApp {
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
 
         final URL splashURL = imageResolver.getImageURL("splash.png").orElse(null);
-        
+
         SplashScreenWithText splash = new SplashScreenWithText.Builder(nightVision).image(splashURL).build();
         splash.showSplash();
         splash.updateText("Loading...");
@@ -70,11 +69,9 @@ public class ObservationManagerApp {
         LOGGER.info("Install dir: {}", installDir.getPath());
         splash.updateText("Setting installation folder...");
 
-       
         LOGGER.info("Initializing xml loader...");
         splash.updateText("Initializing xml loader...");
         final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
-
 
         LOGGER.info("Initializing text manager...");
         splash.updateText("Initializing text manager...");
@@ -90,15 +87,9 @@ public class ObservationManagerApp {
         splash.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
-        new ObservationManager.Builder(model)
-                .locale(isoKey)
-                .nightVision(nightVision)
-                .installDir(installDir)
-                .configuration(configuration)
-                .imageResolver(imageResolver)
-                .textManager(textManager)
-                .versionTextManager(versionTextManager)
-                .build();
+        new ObservationManager.Builder(model).locale(isoKey).nightVision(nightVision).installDir(installDir)
+                .configuration(configuration).imageResolver(imageResolver).textManager(textManager)
+                .versionTextManager(versionTextManager).build();
         // @formatter:on
 
     }

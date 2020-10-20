@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><oal:observations version="2.1" xmlns:oal="http://groups.google.com/group/openastronomylog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://groups.google.com/group/openastronomylog oal21.xsd"><observers><observer id="id_WGgYlNVI99"><name><![CDATA[Add Your Given Name HERE]]></name><surname><![CDATA[Add Your Surname Name HERE]]></surname><contact><![CDATA[capapegil@gmail.com]]></contact><account name="&#10;        capapegil@gmail.com&#10;      "><![CDATA[
+        capapegil@gmail.com
+      ]]></account></observer></observers><sites><site id="id_gOPSkZosK1"><name><![CDATA[
+        Sant Quirze 41º 32' N 002º 05' E
+      ]]></name><longitude unit="deg">2.0850833333333334</longitude><latitude unit="deg">41.53091666666666</latitude><elevation>164.0</elevation><timezone>60</timezone></site><site id="id_6BiYx3yQF6"><name><![CDATA[
+        Ubicación actual
+      ]]></name><longitude unit="deg">2.085194444444445</longitude><latitude unit="deg">41.53097222222222</latitude><elevation>164.0</elevation><timezone>60</timezone></site></sites><sessions><session id="id_MfUpM4ggOi"><begin>2020-05-22T21:35:13Z</begin><end>2020-05-22T23:05:45Z</end><site>id_gOPSkZosK1</site></session></sessions><targets><target id="id_4_0_158_3602879701896396803" xsi:type="oal:observationTargetType"><datasource><![CDATA[
+        SkySafari
+      ]]></datasource><name><![CDATA[
+        M 3
+      ]]></name><alias><![CDATA[
+        M 3
+      ]]></alias><alias><![CDATA[
+        NGC 5272
+      ]]></alias></target><target id="id_4_0_343_3602879701896396853" xsi:type="oal:observationTargetType"><datasource><![CDATA[
+        SkySafari
+      ]]></datasource><name><![CDATA[
+        M 53
+      ]]></name><alias><![CDATA[
+        M 53
+      ]]></alias><alias><![CDATA[
+        NGC 5024
+      ]]></alias></target><target id="id_4_0_9_4323455642276306271" xsi:type="oal:observationTargetType"><datasource><![CDATA[
+        SkySafari
+      ]]></datasource><name><![CDATA[
+        Mel 111
+      ]]></name><alias><![CDATA[
+        Mel 111
+      ]]></alias></target><target id="id_4_0_22_3602879701896396844" xsi:type="oal:observationTargetType"><datasource><![CDATA[
+        SkySafari
+      ]]></datasource><name><![CDATA[
+        Beehive Cluster
+      ]]></name><alias><![CDATA[
+        M 44
+      ]]></alias><alias><![CDATA[
+        NGC 2632
+      ]]></alias><alias><![CDATA[
+        Beehive Cluster
+      ]]></alias><alias><![CDATA[
+        Praesepe
+      ]]></alias></target></targets><scopes><scope id="id_K3IySJHA5h"><model><![CDATA[
+        SkyQuest XT6 Classic Dobsonian
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><aperture>150.0</aperture><orientation erect="false" truesided="false"/></scope></scopes><eyepieces><eyepiece id="id_fGVEVSdRsA"><model><![CDATA[
+        Stratus Wide-Field 8
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>8.0</focalLength><apparentFOV unit="deg">68.0</apparentFOV></eyepiece><eyepiece id="id_akht1p0FbQ"><model><![CDATA[
+        Sirius Plössl 25
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>25.0</focalLength><apparentFOV unit="deg">52.0</apparentFOV></eyepiece><eyepiece id="id_8MMa0gNqlP"><model><![CDATA[
+        Sirius Plössl 10
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><focalLength>10.0</focalLength><apparentFOV unit="deg">52.0</apparentFOV></eyepiece></eyepieces><lenses><lens id="id_eyFvqJB2xv"><model><![CDATA[
+        Shorty 2x Barlow Lens
+      ]]></model><vendor><![CDATA[
+        Orion
+      ]]></vendor><factor>2.0</factor></lens></lenses><filters/><imagers/><observation id="id_h8gDzEzkg7"><observer>id_WGgYlNVI99</observer><site>id_gOPSkZosK1</site><session>id_MfUpM4ggOi</session><target>id_4_0_158_3602879701896396803</target><begin>2020-05-22T22:49:03Z</begin><end>2020-05-22T22:49:03Z</end><scope>id_K3IySJHA5h</scope><eyepiece>id_fGVEVSdRsA</eyepiece></observation><observation id="id_RhbIQnebEO"><observer>id_WGgYlNVI99</observer><site>id_gOPSkZosK1</site><session>id_MfUpM4ggOi</session><target>id_4_0_343_3602879701896396853</target><begin>2020-05-22T23:05:45Z</begin><end>2020-05-22T23:05:45Z</end></observation><observation id="id_cL99IVvBEX"><observer>id_WGgYlNVI99</observer><site>id_gOPSkZosK1</site><session>id_MfUpM4ggOi</session><target>id_4_0_9_4323455642276306271</target><begin>2020-05-22T22:26:06Z</begin><end>2020-05-22T22:26:06Z</end></observation><observation id="id_Zv2zQZiFjD"><observer>id_WGgYlNVI99</observer><site>id_gOPSkZosK1</site><session>id_MfUpM4ggOi</session><target>id_4_0_22_3602879701896396844</target><begin>2020-05-22T21:58:13Z</begin><end>2020-05-22T21:58:13Z</end></observation></oal:observations>

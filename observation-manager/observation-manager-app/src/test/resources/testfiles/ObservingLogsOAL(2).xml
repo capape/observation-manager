@@ -1,0 +1,1776 @@
+<?xml version="1.0"?>
+<oal:observations version="2.1" xmlns:oal="http://groups.google.com/group/openastronomylog" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://raw.githubusercontent.com/openastronomylog/openastronomylog/master/src/oal21.xsd">
+    <observers>
+        <observer id="id_WGgYlNVI99">
+            <name>
+                <![CDATA[Add Your Given Name HERE]]>
+            </name>
+            <surname>
+                <![CDATA[Add Your Surname Name HERE]]>
+            </surname>
+            <contact>
+                <![CDATA[capapegil@gmail.com]]>
+            </contact>
+            <account name="LiveSky.com">
+                <![CDATA[capapegil@gmail.com]]>
+            </account>
+        </observer>
+    </observers>
+    <sites>
+        <site id="id_6BiYx3yQF6">
+            <name>
+                <![CDATA[Ubicación actual]]>
+            </name>
+            <longitude unit="deg">2.085194444444445</longitude>
+            <latitude unit="deg">41.53097222222222</latitude>
+            <elevation>164</elevation>
+            <timezone>60</timezone>
+        </site>
+        <site id="id_gOPSkZosK1">
+            <name>
+                <![CDATA[Sant Quirze 41º 32' N 002º 05' E]]>
+            </name>
+            <longitude unit="deg">2.0850833333333334</longitude>
+            <latitude unit="deg">41.53091666666666</latitude>
+            <elevation>164</elevation>
+            <timezone>60</timezone>
+        </site>
+    </sites>
+    <sessions>
+        <session id="id_KytK12x4GN">
+            <begin>2019-10-26T16:15:02Z</begin>
+            <end>2019-10-27T07:23:49Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_kjfQNFzTwp">
+            <begin>2020-04-04T22:03:55Z</begin>
+            <end>2020-04-04T23:15:38Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_8rDG9p9QOc">
+            <begin>2020-04-09T21:05:41Z</begin>
+            <end>2020-04-09T23:27:38Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[Desde el balcon de casa por confinamiento 
+Buena visibilidad
+Alta contaminacion luminica]]>
+            </comments>
+        </session>
+        <session id="id_UDUfvuTgd8">
+            <begin>2020-04-14T20:38:41Z</begin>
+            <end>2020-04-14T21:15:26Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_0k7xSPBjKW">
+            <begin>2020-04-10T19:29:09Z</begin>
+            <end>2020-04-10T22:45:50Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_nKEa2Vcs1R">
+            <begin>2020-04-28T19:57:21Z</begin>
+            <end>2020-04-28T20:41:30Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_MfUpM4ggOi">
+            <begin>2020-05-22T21:35:13Z</begin>
+            <end>2020-05-22T23:05:45Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_5GDYJfBxf3">
+            <begin>2020-05-21T21:20:18Z</begin>
+            <end>2020-05-21T21:20:18Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_eKwBrI5GAi">
+            <begin>2020-05-18T20:38:07Z</begin>
+            <end>2020-05-18T20:38:49Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_0811F5RMrr">
+            <begin>2020-05-13T21:03:19Z</begin>
+            <end>2020-05-13T21:33:04Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_C6zwQtL7bt">
+            <begin>2020-05-11T20:32:17Z</begin>
+            <end>2020-05-11T20:53:03Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_AO6EQF7fIC">
+            <begin>2020-04-30T21:52:39Z</begin>
+            <end>2020-04-30T22:00:01Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+        <session id="id_jNkm4cx3Tb">
+            <begin>2020-05-30T23:13:51Z</begin>
+            <end>2020-05-30T23:13:51Z</end>
+            <site>id_gOPSkZosK1</site>
+            <comments>
+                <![CDATA[]]>
+            </comments>
+        </session>
+    </sessions>
+    <targets>
+        <target id="id_4_0_343_3602879701896396853" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 53]]>
+            </name>
+            <alias>
+                <![CDATA[M 53]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 5024]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_1_0_10_301" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Luna]]>
+            </name>
+            <alias>
+                <![CDATA[301]]>
+            </alias>
+            <alias>
+                <![CDATA[Moon]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_158_3602879701896396803" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 3]]>
+            </name>
+            <alias>
+                <![CDATA[M 3]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 5272]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_9_4323455642276306271" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Mel 111]]>
+            </name>
+            <alias>
+                <![CDATA[Mel 111]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_22_3602879701896396844" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Beehive Cluster]]>
+            </name>
+            <alias>
+                <![CDATA[M 44]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 2632]]>
+            </alias>
+            <alias>
+                <![CDATA[Beehive Cluster]]>
+            </alias>
+            <alias>
+                <![CDATA[Praesepe]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_238729_4_360287970189734703" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[HD 95023]]>
+            </name>
+            <alias>
+                <![CDATA[HD 95023]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 99378]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +14 2324]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 53633]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1496]]>
+            </alias>
+            <alias>
+                <![CDATA[ADS 7996]]>
+            </alias>
+            <alias>
+                <![CDATA[WDS 10583+1317]]>
+            </alias>
+            <alias>
+                <![CDATA[TYC 0853-1327-1]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_235_3602879701896396867" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 67]]>
+            </name>
+            <alias>
+                <![CDATA[M 67]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 2682]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_471_3674937295934348936" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[NGC 2420]]>
+            </name>
+            <alias>
+                <![CDATA[NGC 2420]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_98_3674937295934347546" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[NGC 2281]]>
+            </name>
+            <alias>
+                <![CDATA[NGC 2281]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_500_3674937295934348046" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[NGC 2331]]>
+            </name>
+            <alias>
+                <![CDATA[NGC 2331]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_29841_52_144115188083555907" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[35 Sex]]>
+            </name>
+            <alias>
+                <![CDATA[35 Sex]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 118448]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +05 2384]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 52452]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1466]]>
+            </alias>
+            <alias>
+                <![CDATA[ADS 7902]]>
+            </alias>
+            <alias>
+                <![CDATA[WDS 10433+0445]]>
+            </alias>
+            <alias>
+                <![CDATA[TYC 0257-1275-1]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_128_3602879701896396848" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 48]]>
+            </name>
+            <alias>
+                <![CDATA[M 48]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 2548]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_1_0_2_2" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Venus]]>
+            </name>
+            <alias>
+                <![CDATA[2]]>
+            </alias>
+            <alias>
+                <![CDATA[Venus]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_7_1_144115188076655918" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Psi1 Aur]]>
+            </name>
+            <alias>
+                <![CDATA[Psi1 Aur]]>
+            </alias>
+            <alias>
+                <![CDATA[46 Aur]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 2289]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 44537]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 41076]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +49 1488]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 30520]]>
+            </alias>
+            <alias>
+                <![CDATA[TYC 3384-1194-1]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_238744_1_144115188076655913" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[41 Aur]]>
+            </name>
+            <alias>
+                <![CDATA[41 Aur]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 2175]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 42126]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 40924]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +48 1352]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 29388]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 845]]>
+            </alias>
+            <alias>
+                <![CDATA[ADS 4773]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_1909906_29_72057594039128537" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Tegmen]]>
+            </name>
+            <alias>
+                <![CDATA[Zet1 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[16 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 3209]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 68255]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 97645]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +18 1867]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 40167]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1196]]>
+            </alias>
+            <alias>
+                <![CDATA[Tegmen]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_1909906_20_72057594039128537" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Tegmine]]>
+            </name>
+            <alias>
+                <![CDATA[Zet1 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[16 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 3208]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 68257]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 97645]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +18 1867]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 40167]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1196]]>
+            </alias>
+            <alias>
+                <![CDATA[Tegmine]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_29844_8_72057594039128436" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Epsilon Cnc]]>
+            </name>
+            <alias>
+                <![CDATA[Epsilon Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[41 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 3429]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 73731]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 98024]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +20 2171]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 42556]]>
+            </alias>
+            <alias>
+                <![CDATA[S 574]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_4169_6_72057594038728736" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Theta Aur]]>
+            </name>
+            <alias>
+                <![CDATA[Theta Aur]]>
+            </alias>
+            <alias>
+                <![CDATA[37 Aur]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 2095]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 40312]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 58636]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +37 1380]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 28380]]>
+            </alias>
+            <alias>
+                <![CDATA[STT 545]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_3730_3_72057594042528237" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Algieba]]>
+            </name>
+            <alias>
+                <![CDATA[Gamma1 Leo]]>
+            </alias>
+            <alias>
+                <![CDATA[41 Leo]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 4057]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 89484]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 81298]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +20 2467]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 50583]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1424]]>
+            </alias>
+            <alias>
+                <![CDATA[Algieba]]>
+            </alias>
+            <alias>
+                <![CDATA[Juba]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_238738_126_72057594039128836" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Iota Cnc]]>
+            </name>
+            <alias>
+                <![CDATA[Iota Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[48 Cnc]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 3474]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 74738]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 80415]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +29 1823]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 43100]]>
+            </alias>
+            <alias>
+                <![CDATA[STF 1268]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_3730_13_72057594042528536" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Adhafera]]>
+            </name>
+            <alias>
+                <![CDATA[Zet Leo]]>
+            </alias>
+            <alias>
+                <![CDATA[36 Leo]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 4031]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 89025]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 81265]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +24 2209]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 50335]]>
+            </alias>
+            <alias>
+                <![CDATA[STFA 18]]>
+            </alias>
+            <alias>
+                <![CDATA[Adhafera]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_407_3674937295934348686" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[NGC 2395]]>
+            </name>
+            <alias>
+                <![CDATA[NGC 2395]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_173_3602879701896396838" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Starfish Cluster]]>
+            </name>
+            <alias>
+                <![CDATA[M 38]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 1912]]>
+            </alias>
+            <alias>
+                <![CDATA[Starfish Cluster]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_147_3602879701896396836" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Pinwheel Cluster]]>
+            </name>
+            <alias>
+                <![CDATA[M 36]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 1960]]>
+            </alias>
+            <alias>
+                <![CDATA[Pinwheel Cluster]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_89_3602879701896396835" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 35]]>
+            </name>
+            <alias>
+                <![CDATA[M 35]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 2168]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_112_3602879701896396837" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 37]]>
+            </name>
+            <alias>
+                <![CDATA[M 37]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 2099]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_1_0_1_1" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Mercury]]>
+            </name>
+            <alias>
+                <![CDATA[1]]>
+            </alias>
+            <alias>
+                <![CDATA[Mercury]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_7_3602879701896396845" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Pleiades]]>
+            </name>
+            <alias>
+                <![CDATA[M 45]]>
+            </alias>
+            <alias>
+                <![CDATA[Mel 22]]>
+            </alias>
+            <alias>
+                <![CDATA[Pleiades]]>
+            </alias>
+            <alias>
+                <![CDATA[Seven Sisters]]>
+            </alias>
+            <alias>
+                <![CDATA[Subaru Cluster]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_1_0_6_6" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Saturn]]>
+            </name>
+            <alias>
+                <![CDATA[6]]>
+            </alias>
+            <alias>
+                <![CDATA[Saturn]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_1_0_5_5" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Jupiter]]>
+            </name>
+            <alias>
+                <![CDATA[5]]>
+            </alias>
+            <alias>
+                <![CDATA[Jupiter]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_92_3602879701896396834" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 34]]>
+            </name>
+            <alias>
+                <![CDATA[M 34]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 1039]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_23_3602879701896396831" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Andromeda Galaxy]]>
+            </name>
+            <alias>
+                <![CDATA[M 31]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 224]]>
+            </alias>
+            <alias>
+                <![CDATA[UGC 454]]>
+            </alias>
+            <alias>
+                <![CDATA[PGC 2557]]>
+            </alias>
+            <alias>
+                <![CDATA[MCG 7-2-16]]>
+            </alias>
+            <alias>
+                <![CDATA[CGCG 535-17]]>
+            </alias>
+            <alias>
+                <![CDATA[2MASS 00424433+4116074]]>
+            </alias>
+            <alias>
+                <![CDATA[Andromeda Galaxy]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_42_3602879701896396842" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Orion Nebula]]>
+            </name>
+            <alias>
+                <![CDATA[M 42]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 1976]]>
+            </alias>
+            <alias>
+                <![CDATA[LBN 974]]>
+            </alias>
+            <alias>
+                <![CDATA[Orion Nebula]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_4_0_64_3602879701896396839" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[M 39]]>
+            </name>
+            <alias>
+                <![CDATA[M 39]]>
+            </alias>
+            <alias>
+                <![CDATA[NGC 7092]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_411_1_72057594041028137" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Albireo]]>
+            </name>
+            <alias>
+                <![CDATA[Beta1 Cyg]]>
+            </alias>
+            <alias>
+                <![CDATA[6 Cyg]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 7417]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 183912]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 87301]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +27 3410]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 95947]]>
+            </alias>
+            <alias>
+                <![CDATA[STFA 43]]>
+            </alias>
+            <alias>
+                <![CDATA[Albireo]]>
+            </alias>
+            <alias />
+        </target>
+        <target id="id_2_3291_66_72057594041028138" xsi:type="oal:observationTargetType">
+            <datasource>
+                <![CDATA[SkySafari]]>
+            </datasource>
+            <name>
+                <![CDATA[Albireo]]>
+            </name>
+            <alias>
+                <![CDATA[Beta2 Cyg]]>
+            </alias>
+            <alias>
+                <![CDATA[6 Cyg]]>
+            </alias>
+            <alias>
+                <![CDATA[HR 7418]]>
+            </alias>
+            <alias>
+                <![CDATA[HD 183914]]>
+            </alias>
+            <alias>
+                <![CDATA[SAO 87302]]>
+            </alias>
+            <alias>
+                <![CDATA[BD +27 3411]]>
+            </alias>
+            <alias>
+                <![CDATA[HIP 95951]]>
+            </alias>
+            <alias>
+                <![CDATA[STFA 43]]>
+            </alias>
+            <alias>
+                <![CDATA[Albireo]]>
+            </alias>
+            <alias />
+        </target>
+    </targets>
+    <scopes>
+        <scope id="id_K3IySJHA5h" xsi:type="oal:scopeType">
+            <model>
+                <![CDATA[SkyQuest XT6 Classic Dobsonian]]>
+            </model>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <aperture>150</aperture>
+            <focalLength>1200</focalLength>
+        </scope>
+    </scopes>
+    <eyepieces>
+        <eyepiece id="id_fGVEVSdRsA">
+            <model>
+                <![CDATA[Stratus Wide-Field 8]]>
+            </model>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <focalLength>8</focalLength>
+            <apparentFOV unit="deg">68</apparentFOV>
+        </eyepiece>
+        <eyepiece id="id_akht1p0FbQ">
+            <model>
+                <![CDATA[Sirius Plössl 25]]>
+            </model>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <focalLength>25</focalLength>
+            <apparentFOV unit="deg">52</apparentFOV>
+        </eyepiece>
+        <eyepiece id="id_8MMa0gNqlP">
+            <model>
+                <![CDATA[Sirius Plössl 10]]>
+            </model>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <focalLength>10</focalLength>
+            <apparentFOV unit="deg">52</apparentFOV>
+        </eyepiece>
+    </eyepieces>
+    <lenses>
+        <lens id="id_eyFvqJB2xv">
+            <model>
+                <![CDATA[Shorty 2x Barlow Lens]]>
+            </model>
+            <vendor>
+                <![CDATA[Orion]]>
+            </vendor>
+            <factor>2</factor>
+        </lens>
+    </lenses>
+    <filters />
+    <imagers />
+    <observation id="id_RhbIQnebEO">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_343_3602879701896396853</target>
+        <begin>2020-05-22T23:05:45Z</begin>
+        <end>2020-05-22T23:05:45Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_MfUpM4ggOi</session>
+        <seeing>1</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description>Mas tenue que m3</description>
+        </result>
+    </observation>
+    <observation id="id_OJxvp5YUiW">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_10_301</target>
+        <begin>2020-05-30T23:13:51Z</begin>
+        <end>2020-05-30T23:13:51Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_jNkm4cx3Tb</session>
+        <seeing>2</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description>Turbulencia</description>
+        </result>
+    </observation>
+    <observation id="id_h8gDzEzkg7">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_158_3602879701896396803</target>
+        <begin>2020-05-22T22:49:03Z</begin>
+        <end>2020-05-22T22:49:03Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_MfUpM4ggOi</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_cL99IVvBEX">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_9_4323455642276306271</target>
+        <begin>2020-05-22T22:26:06Z</begin>
+        <end>2020-05-22T22:26:06Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_MfUpM4ggOi</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_Zv2zQZiFjD">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-05-22T21:58:13Z</begin>
+        <end>2020-05-22T21:58:13Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_MfUpM4ggOi</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_XatBJzz8SZ">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_238729_4_360287970189734703</target>
+        <begin>2020-05-21T21:20:18Z</begin>
+        <end>2020-05-21T21:20:18Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_5GDYJfBxf3</session>
+        <result>
+            <description>Buscando cometa vinesta
+</description>
+        </result>
+    </observation>
+    <observation id="id_gGxExsgDQB">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-05-18T20:38:49Z</begin>
+        <end>2020-05-18T20:38:49Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_eKwBrI5GAi</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_KKSewqPaGX">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-05-18T20:38:07Z</begin>
+        <end>2020-05-18T20:38:07Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_eKwBrI5GAi</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_FlhzGhsbKb">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-05-13T21:33:04Z</begin>
+        <end>2020-05-13T21:33:04Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_IV5xFqdHT7">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_471_3674937295934348936</target>
+        <begin>2020-05-13T21:32:24Z</begin>
+        <end>2020-05-13T21:32:24Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Imposible todo contaminacion</description>
+        </result>
+    </observation>
+    <observation id="id_oSfrKPZJQf">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_471_3674937295934348936</target>
+        <begin>2020-05-13T21:32:01Z</begin>
+        <end>2020-05-13T21:32:01Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Imposible, todo naranja</description>
+        </result>
+    </observation>
+    <observation id="id_SeexhbMmop">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_98_3674937295934347546</target>
+        <begin>2020-05-13T21:24:16Z</begin>
+        <end>2020-05-13T21:24:16Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Con 8mm lo veo mal. Mejor con 25mm</description>
+        </result>
+    </observation>
+    <observation id="id_IAP1o1vOpo">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-05-13T21:04:15Z</begin>
+        <end>2020-05-13T21:04:15Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Apenas visible</description>
+        </result>
+    </observation>
+    <observation id="id_V9rP5rXImE">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-05-13T21:03:19Z</begin>
+        <end>2020-05-13T21:03:19Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0811F5RMrr</session>
+        <result>
+            <description>Apenas visible</description>
+        </result>
+    </observation>
+    <observation id="id_YpiGUSjdNP">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-05-11T20:53:03Z</begin>
+        <end>2020-05-11T20:53:03Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_C6zwQtL7bt</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_un77UE7wA5">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_471_3674937295934348936</target>
+        <begin>2020-05-11T20:46:02Z</begin>
+        <end>2020-05-11T20:46:02Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_C6zwQtL7bt</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_uEM9pV6apQ">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_500_3674937295934348046</target>
+        <begin>2020-05-11T20:38:09Z</begin>
+        <end>2020-05-11T20:38:09Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_C6zwQtL7bt</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description>Dificil de observar</description>
+        </result>
+    </observation>
+    <observation id="id_5nd6JZ7SeN">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_98_3674937295934347546</target>
+        <begin>2020-05-11T20:32:17Z</begin>
+        <end>2020-05-11T20:32:17Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_C6zwQtL7bt</session>
+        <result>
+            <description>No distingo todas las estrellas</description>
+        </result>
+    </observation>
+    <observation id="id_rBQ0ULU8Hl">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_10_301</target>
+        <begin>2020-04-30T22:00:01Z</begin>
+        <end>2020-04-30T22:00:01Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_AO6EQF7fIC</session>
+        <seeing>3</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_Iyn3xqRVRV">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_29841_52_144115188083555907</target>
+        <begin>2020-04-30T21:52:39Z</begin>
+        <end>2020-04-30T21:52:39Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_AO6EQF7fIC</session>
+        <seeing>3</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_pgFBFxI4ts">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-04-28T20:41:30Z</begin>
+        <end>2020-04-28T20:41:30Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_nKEa2Vcs1R</session>
+        <seeing>2</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_eqczKwgEVW">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_128_3602879701896396848</target>
+        <begin>2020-04-28T20:30:49Z</begin>
+        <end>2020-04-28T20:30:49Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_nKEa2Vcs1R</session>
+        <seeing>2</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description>Muy debil por luna</description>
+        </result>
+    </observation>
+    <observation id="id_0zqxayZS2s">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-04-28T20:19:20Z</begin>
+        <end>2020-04-28T20:19:20Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_nKEa2Vcs1R</session>
+        <seeing>2</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description>perfecto</description>
+        </result>
+    </observation>
+    <observation id="id_u9dWUnvTPo">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_2_2</target>
+        <begin>2020-04-28T19:57:21Z</begin>
+        <end>2020-04-28T19:58:11Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_nKEa2Vcs1R</session>
+        <seeing>2</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description>Fase muy definida</description>
+        </result>
+    </observation>
+    <observation id="id_N8UGfNxvM3">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_7_1_144115188076655918</target>
+        <begin>2020-04-14T21:15:26Z</begin>
+        <end>2020-04-14T21:15:26Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <result>
+            <description>Se ve el color anaranjado.</description>
+        </result>
+    </observation>
+    <observation id="id_S08HaG3YIY">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_238744_1_144115188076655913</target>
+        <begin>2020-04-14T21:15:26Z</begin>
+        <end>2020-04-14T21:15:26Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <result>
+            <description>Se ve bien</description>
+        </result>
+    </observation>
+    <observation id="id_zaqcAfMyt5">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_1909906_29_72057594039128537</target>
+        <begin>2020-04-14T21:15:26Z</begin>
+        <end>2020-04-14T21:15:26Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <eyepiece>id_fGVEVSdRsA</eyepiece>
+        <result>
+            <description>no se si quiero distinguirlo o si lo hago</description>
+        </result>
+    </observation>
+    <observation id="id_bN7SHZGVnx">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_1909906_20_72057594039128537</target>
+        <begin>2020-04-14T21:15:26Z</begin>
+        <end>2020-04-14T21:15:26Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <seeing>2</seeing>
+        <result>
+            <description>Se desdobla ya a 48x  a 150 perdexta</description>
+        </result>
+    </observation>
+    <observation id="id_hJjVULc7HK">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_29844_8_72057594039128436</target>
+        <begin>2020-04-14T21:15:26Z</begin>
+        <end>2020-04-14T21:15:26Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <result>
+            <description>Dificil distinguir cual entre tantas</description>
+        </result>
+    </observation>
+    <observation id="id_8aHkHvICAa">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_4169_6_72057594038728736</target>
+        <begin>2020-04-14T20:38:41Z</begin>
+        <end>2020-04-14T20:38:41Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_UDUfvuTgd8</session>
+        <result>
+            <description>No la desdoblo </description>
+        </result>
+    </observation>
+    <observation id="id_hOuDmh3AJR">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_3730_3_72057594042528237</target>
+        <begin>2020-04-10T22:45:50Z</begin>
+        <end>2020-04-10T22:45:50Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0k7xSPBjKW</session>
+        <result>
+            <description>a 120x se desdobal</description>
+        </result>
+    </observation>
+    <observation id="id_sBlsCcgMLE">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_29844_8_72057594039128436</target>
+        <begin>2020-04-10T22:27:31Z</begin>
+        <end>2020-04-10T22:27:31Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0k7xSPBjKW</session>
+        <result>
+            <description>No la desdoblo</description>
+        </result>
+    </observation>
+    <observation id="id_9cDbILIETK">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-04-10T22:24:28Z</begin>
+        <end>2020-04-10T22:24:28Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0k7xSPBjKW</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_CE87CrLmxi">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-04-10T22:23:07Z</begin>
+        <end>2020-04-10T22:23:07Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0k7xSPBjKW</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_MIoV0IF36b">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_238738_126_72057594039128836</target>
+        <begin>2020-04-10T22:20:05Z</begin>
+        <end>2020-04-10T22:20:05Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_0k7xSPBjKW</session>
+        <result>
+            <description>pantallabde caixa encencida un horror</description>
+        </result>
+    </observation>
+    <observation id="id_elCyMAotyk">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_3730_13_72057594042528536</target>
+        <begin>2020-04-09T23:27:38Z</begin>
+        <end>2020-04-09T23:27:38Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_egA1mgp5A9">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_3730_3_72057594042528237</target>
+        <begin>2020-04-09T23:19:47Z</begin>
+        <end>2020-04-09T23:19:47Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>Separada a 150x con 48x aparece una sola. Es espectacular</description>
+        </result>
+    </observation>
+    <observation id="id_kpdz5sKDO8">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_238738_126_72057594039128836</target>
+        <begin>2020-04-09T23:05:30Z</begin>
+        <end>2020-04-09T23:05:30Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>Las veo amarilla y azul. Preciosas. Se ven perfectas a 48 y 150</description>
+        </result>
+    </observation>
+    <observation id="id_7wqosLFInR">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_407_3674937295934348686</target>
+        <begin>2020-04-09T22:30:44Z</begin>
+        <end>2020-04-09T22:30:44Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>creo que lo he viato</description>
+        </result>
+    </observation>
+    <observation id="id_eqguBtUD0N">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_235_3602879701896396867</target>
+        <begin>2020-04-09T22:11:01Z</begin>
+        <end>2020-04-09T22:11:01Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>Se ve fantastico a 48x. A 150x no veo lo explicado creo que por la alta contaminacion luminica</description>
+        </result>
+    </observation>
+    <observation id="id_HEm5w9j6e9">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-04-09T22:03:34Z</begin>
+        <end>2020-04-09T22:03:34Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_KaVEnEwjfC">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_173_3602879701896396838</target>
+        <begin>2020-04-09T21:54:06Z</begin>
+        <end>2020-04-09T21:54:06Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_DAMmPs5Z7m">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_147_3602879701896396836</target>
+        <begin>2020-04-09T21:50:07Z</begin>
+        <end>2020-04-09T21:50:07Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>no se ve bien</description>
+        </result>
+    </observation>
+    <observation id="id_hmjeNUW2nw">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_89_3602879701896396835</target>
+        <begin>2020-04-09T21:43:42Z</begin>
+        <end>2020-04-09T21:43:42Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_8rDG9p9QOc</session>
+        <result>
+            <description>No he visto las vecinas</description>
+        </result>
+    </observation>
+    <observation id="id_t24nTOJ7pV">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_10_301</target>
+        <begin>2020-04-04T22:15:37Z</begin>
+        <end>2020-04-04T23:00:37Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_kjfQNFzTwp</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_gg86zm40Jr">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_98_3674937295934347546</target>
+        <begin>2020-04-04T22:18:39Z</begin>
+        <end>2020-04-04T22:18:39Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_kjfQNFzTwp</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Creo que lo he visto, pero ya hay mucha luna. Dificil</description>
+        </result>
+    </observation>
+    <observation id="id_47BSWtFSHz">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_112_3602879701896396837</target>
+        <begin>2020-04-04T21:55:54Z</begin>
+        <end>2020-04-04T22:00:55Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_kjfQNFzTwp</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Apenas se ve. Con 8mm</description>
+        </result>
+    </observation>
+    <observation id="id_yvfbUBuY9H">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_22_3602879701896396844</target>
+        <begin>2020-04-04T22:00:04Z</begin>
+        <end>2020-04-04T22:05:05Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_kjfQNFzTwp</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description>Muy bien pese a estar cerca de la luna</description>
+        </result>
+    </observation>
+    <observation id="id_h4tY6L83v6">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_1_1</target>
+        <begin>2019-10-26T17:20:48Z</begin>
+        <end>2019-10-26T17:25:48Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_eWsa89nl0c">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_2_2</target>
+        <begin>2019-10-26T17:25:45Z</begin>
+        <end>2019-10-27T07:22:46Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_c4VX2V0jPs">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_7_3602879701896396845</target>
+        <begin>2019-10-26T21:00:46Z</begin>
+        <end>2019-10-26T21:10:46Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_KWUwwxUNTN">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_6_6</target>
+        <begin>2019-10-26T18:05:54Z</begin>
+        <end>2019-10-26T18:20:53Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_BE9zH0WS5r">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_1_0_5_5</target>
+        <begin>2019-10-26T17:45:17Z</begin>
+        <end>2019-10-26T18:00:16Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <seeing>1</seeing>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_Su82fhBLkE">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_92_3602879701896396834</target>
+        <begin>2019-10-26T20:55:32Z</begin>
+        <end>2019-10-26T21:15:33Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_rBQwAFAX1B">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_23_3602879701896396831</target>
+        <begin>2019-10-26T18:30:32Z</begin>
+        <end>2019-10-26T19:00:32Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_Rlpvg2iBGr">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_42_3602879701896396842</target>
+        <begin>2019-10-26T23:15:22Z</begin>
+        <end>2019-10-26T23:45:22Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_dTCwiGMeGL">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_64_3602879701896396839</target>
+        <begin>2019-10-26T21:35:40Z</begin>
+        <end>2019-10-26T21:45:39Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_akht1p0FbQ</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_eGHDSuOFGC">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_411_1_72057594041028137</target>
+        <begin>2019-10-26T22:30:12Z</begin>
+        <end>2019-10-27T05:33:13Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_v04yV99GNG">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_2_3291_66_72057594041028138</target>
+        <begin>2019-10-26T22:30:00Z</begin>
+        <end>2019-10-26T22:30:00Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+    <observation id="id_hLA7ZIGYBD">
+        <observer>id_WGgYlNVI99</observer>
+        <target>id_4_0_89_3602879701896396835</target>
+        <begin>2019-10-26T20:40:52Z</begin>
+        <end>2019-10-26T20:45:14Z</end>
+        <site>id_gOPSkZosK1</site>
+        <session>id_KytK12x4GN</session>
+        <scope>id_K3IySJHA5h</scope>
+        <eyepiece>id_8MMa0gNqlP</eyepiece>
+        <result>
+            <description />
+        </result>
+    </observation>
+</oal:observations>
