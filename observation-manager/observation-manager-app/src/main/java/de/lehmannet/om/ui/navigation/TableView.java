@@ -7,12 +7,13 @@
 
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -67,7 +69,6 @@ import de.lehmannet.om.ui.navigation.tableModel.SessionTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.SiteTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.TableSorter;
 import de.lehmannet.om.ui.navigation.tableModel.TargetTableModel;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -151,7 +152,7 @@ public class TableView extends JPanel {
         this.scrollTable = new JScrollPane(this.table);
         this.add(scrollTable);
 
-        table.setDefaultRenderer(Angle.class, (table, value, isSelected, hasFocus, row, column) -> {
+        this.table.setDefaultRenderer(Angle.class, (table, value, isSelected, hasFocus, row, column) -> {
 
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
@@ -170,7 +171,6 @@ public class TableView extends JPanel {
 
             return cr;
         });
-
         this.table.setDefaultRenderer(Float.class, (table, value, isSelected, hasFocus, row, column) -> {
 
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
@@ -195,7 +195,6 @@ public class TableView extends JPanel {
 
             return cr;
         });
-
         this.table.setDefaultRenderer(Integer.class, (table, value, isSelected, hasFocus, row, column) -> {
 
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
@@ -208,17 +207,19 @@ public class TableView extends JPanel {
             }
 
             return cr;
-        }
-
-        );
-
+        });
         this.table.setDefaultRenderer(Calendar.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-                Calendar cal = (Calendar) value;
-                cr.setText(sdf.format(cal.getTime()));
+                final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+                if (value instanceof GregorianCalendar) {
+                    final Calendar cal = (GregorianCalendar) value;
+                    cr.setText(sdf.format(cal.getTime()));
+                } else {
+                    LOGGER.warn("Bad data {}", value.getClass(), value);
+                }
             }
+
             if (isSelected) {
                 cr.setBackground(Color.LIGHT_GRAY);
             }
@@ -228,8 +229,10 @@ public class TableView extends JPanel {
         this.table.setDefaultRenderer(SchemaElement.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
-                ISchemaElement se = (ISchemaElement) value;
-                cr.setText(se.getDisplayName());
+                if (value instanceof ISchemaElement) {
+                    ISchemaElement se = (ISchemaElement) value;
+                    cr.setText(se.getDisplayName());
+                }
             }
             if (isSelected) {
                 cr.setBackground(Color.LIGHT_GRAY);
@@ -330,8 +333,8 @@ public class TableView extends JPanel {
 
         if ((obs != null) && (obs.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ObservationTableModel) { this.sorter.setTableModel(new
-             * ObservationTableModel(obs), false); } else {
+             * if( this.sorter.getTableModel() instanceof ObservationTableModel) {
+             * this.sorter.setTableModel(new ObservationTableModel(obs), false); } else {
              */
             this.sorter.setTableModel(new ObservationTableModel(obs, this.observationManager), true);
             // }
@@ -367,8 +370,8 @@ public class TableView extends JPanel {
         IObserver[] obs = this.model.getObservers();
         if ((obs != null) && (obs.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ObserverTableModel) { this.sorter.setTableModel(new
-             * ObserverTableModel(obs), false); } else {
+             * if( this.sorter.getTableModel() instanceof ObserverTableModel) {
+             * this.sorter.setTableModel(new ObserverTableModel(obs), false); } else {
              */
             this.sorter.setTableModel(new ObserverTableModel(obs), true);
             // }
@@ -395,8 +398,8 @@ public class TableView extends JPanel {
         ITarget[] targets = this.model.getTargets();
         if ((targets != null) && (targets.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
-             * TargetTableModel(targets), false); } else {
+             * if( this.sorter.getTableModel() instanceof TargetTableModel) {
+             * this.sorter.setTableModel(new TargetTableModel(targets), false); } else {
              */
             this.sorter.setTableModel(
                     new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
@@ -424,8 +427,8 @@ public class TableView extends JPanel {
         ISite[] sites = this.model.getSites();
         if ((sites != null) && (sites.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof SiteTableModel) { this.sorter.setTableModel(new
-             * SiteTableModel(sites), false); } else {
+             * if( this.sorter.getTableModel() instanceof SiteTableModel) {
+             * this.sorter.setTableModel(new SiteTableModel(sites), false); } else {
              */
             this.sorter.setTableModel(new SiteTableModel(sites), true);
             // }
@@ -452,8 +455,8 @@ public class TableView extends JPanel {
         IScope[] scopes = this.model.getScopes();
         if ((scopes != null) && (scopes.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ScopeTableModel) { this.sorter.setTableModel(new
-             * ScopeTableModel(scopes), false); } else {
+             * if( this.sorter.getTableModel() instanceof ScopeTableModel) {
+             * this.sorter.setTableModel(new ScopeTableModel(scopes), false); } else {
              */
             this.sorter.setTableModel(new ScopeTableModel(scopes), true);
             // }
@@ -480,8 +483,8 @@ public class TableView extends JPanel {
         ISession[] session = this.model.getSessions();
         if ((session != null) && (session.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof SessionTableModel) { this.sorter.setTableModel(new
-             * SessionTableModel(session), false); } else {
+             * if( this.sorter.getTableModel() instanceof SessionTableModel) {
+             * this.sorter.setTableModel(new SessionTableModel(session), false); } else {
              */
             this.sorter.setTableModel(new SessionTableModel(session), true);
             // }
@@ -508,8 +511,8 @@ public class TableView extends JPanel {
         IImager[] imager = this.model.getImagers();
         if ((imager != null) && (imager.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof ImagerTableModel) { this.sorter.setTableModel(new
-             * ImagerTableModel(imager), false); } else {
+             * if( this.sorter.getTableModel() instanceof ImagerTableModel) {
+             * this.sorter.setTableModel(new ImagerTableModel(imager), false); } else {
              */
             this.sorter.setTableModel(new ImagerTableModel(imager), true);
             // }
@@ -536,8 +539,8 @@ public class TableView extends JPanel {
         IFilter[] filter = this.model.getFilters();
         if ((filter != null) && (filter.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof FilterTableModel) { this.sorter.setTableModel(new
-             * FilterTableModel(filter), false); } else {
+             * if( this.sorter.getTableModel() instanceof FilterTableModel) {
+             * this.sorter.setTableModel(new FilterTableModel(filter), false); } else {
              */
             this.sorter.setTableModel(new FilterTableModel(filter), true);
             // }
@@ -564,8 +567,8 @@ public class TableView extends JPanel {
         IEyepiece[] eyepiece = this.model.getEyepieces();
         if ((eyepiece != null) && (eyepiece.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
-             * EyepieceTableModel(eyepiece), false); } else {
+             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) {
+             * this.sorter.setTableModel(new EyepieceTableModel(eyepiece), false); } else {
              */
             this.sorter.setTableModel(new EyepieceTableModel(eyepiece), true);
             // }
@@ -592,8 +595,8 @@ public class TableView extends JPanel {
         ILens[] lens = this.model.getLenses();
         if ((lens != null) && (lens.length > 0)) {
             /*
-             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) { this.sorter.setTableModel(new
-             * EyepieceTableModel(eyepiece), false); } else {
+             * if( this.sorter.getTableModel() instanceof EyepieceTableModel) {
+             * this.sorter.setTableModel(new EyepieceTableModel(eyepiece), false); } else {
              */
             this.sorter.setTableModel(new LensTableModel(lens), true);
             // }
@@ -690,7 +693,8 @@ public class TableView extends JPanel {
 
         // Current and selected element is equal...so we can stop here
         /*
-         * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return; }
+         * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return;
+         * }
          */// Comment this out 02.04.08: Need to update table (setSelection) and ItemView
            // as selected element can have
            // different parent elements in tree
@@ -725,8 +729,8 @@ public class TableView extends JPanel {
             /*
              * this.table.setModel(this.model);
              *
-             * int sel = this.model.getRow(selected); if( this.sorter.isSorting() ) { sel = this.sorter.viewIndex(sel);
-             * }
+             * int sel = this.model.getRow(selected); if( this.sorter.isSorting() ) { sel =
+             * this.sorter.viewIndex(sel); }
              *
              * this.selectedElement = selected;
              *
