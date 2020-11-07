@@ -10,8 +10,14 @@ package de.lehmannet.om.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -84,9 +90,8 @@ public class ConfigLoader {
      *             if problems occured during load of config
      */
     public static String getTargetClassnameFromType(String ptype) throws ConfigException {
-        if (ptype == null) {
-            return null;
-        }
+
+        checkValidPtype(ptype);
 
         LOGGER.debug("Searching class for type: {}", ptype);
         synchronized (LOCK) {
@@ -112,14 +117,24 @@ public class ConfigLoader {
                 }
             }
         }
-        LOGGER.debug("Trying to search class for type: {}", type);
-        // Load classname from type
         String classname = targets.get(type);
+        checkValidClassname(type, classname);
+
+        LOGGER.debug("Found {} for {}", classname, type);
+        return classname;
+    }
+
+    private static void checkValidClassname(String type, String classname) throws ConfigException {
         if ((classname == null) || ("".equals(classname.trim()))) {
             throw new ConfigException("No target class defined for target type: " + type
                     + ". Please check plugin Manifest files, or download new extension. ");
         }
-        return classname;
+    }
+
+    private static void checkValidPtype(String ptype) {
+        if (ptype == null) {
+            throw new IllegalArgumentException("Ptype is null");
+        }
     }
 
     /**
@@ -142,9 +157,7 @@ public class ConfigLoader {
      *             if problems occured during load of config
      */
     public static String getFindingClassnameFromType(String ptype) throws ConfigException {
-        if (ptype == null) {
-            return null;
-        }
+        checkValidPtype(ptype);
         synchronized (LOCK) {
             if (findings.isEmpty()) {
                 loadConfig();
@@ -164,12 +177,11 @@ public class ConfigLoader {
                 }
             }
         }
-        // Load classname from type
-        String classname = (String) findings.get(type);
-        if ((classname == null) || ("".equals(classname.trim()))) {
-            throw new ConfigException("No findings class defined for findings type: " + type
-                    + ". Please check plugin Manifest files, or download new extension. ");
-        }
+
+        final String classname = findings.get(type);
+        checkValidClassname(type, classname);
+
+        LOGGER.debug("Found {} for {}", classname, type);
         return classname;
     }
 

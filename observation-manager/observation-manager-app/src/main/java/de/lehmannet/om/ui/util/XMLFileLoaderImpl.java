@@ -2673,7 +2673,6 @@ class CacheEntry {
         }
 
         return dependencyList;
-
     }
 
     public List<ISchemaElement> removeLens(ILens lens) {

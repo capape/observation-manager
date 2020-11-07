@@ -62,7 +62,7 @@ public class TargetStar extends Target {
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
-    protected TargetStar(Node targetElement, IObserver... observers) throws SchemaException {
+    public TargetStar(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
 

@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -511,24 +511,51 @@ public class SchemaLoader {
     private static Object getObjectFromXSIType(String xsiType, Node currentNode, IObserver[] observers,
             SchemaElementConstants schemaElementType) throws SchemaException {
 
-        // Resolve xsiType to java classname
-        LOGGER.debug("Getting class for type: {} and schemaType {}", xsiType, schemaElementType.name());
-        String classname = null;
-        try {
-            if (SchemaElementConstants.FINDING == schemaElementType) {
-                classname = ConfigLoader.getFindingClassnameFromType(xsiType);
-            } else { // TARGETs and all other extenable schemaElements can be found in Targetable of
-                     // ConfigLoader
-                classname = ConfigLoader.getTargetClassnameFromType(xsiType);
-            }
-            LOGGER.debug("Classname : {}", classname);
-            if (classname == null) {
-                throw new SchemaException("Unknown class name");
-            }
-        } catch (ConfigException ce) {
-            throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage(), ce);
-        }
+        final String classname = getClassNameToLoad(xsiType, schemaElementType);
 
+        Class<?> currentClass = getClass(classname);
+
+        Object object = createObject(currentNode, observers, classname, currentClass);
+
+        return object;
+
+    }
+
+    private static Object createObject(Node currentNode, IObserver[] observers, final String classname,
+            Class<?> currentClass) throws SchemaException {
+        Constructor<?>[] constructors = currentClass.getConstructors();
+        Object object = null;
+        if (constructors.length > 0) {
+            try {
+                 
+                for (Constructor<?> constructor : constructors) {
+                    Class<?>[] parameters = constructor.getParameterTypes();
+                    if (observers == null) { // create IFinding (Constructor has one parameter)
+                        if ((parameters.length == 1) && (parameters[0].isInstance(currentNode))) {
+                            return constructor.newInstance(currentNode);
+                        }
+                    } else {
+                        if ((parameters.length == 2) && (parameters[0].isInstance(currentNode))
+                                && (parameters[1].isInstance(observers))) {
+                            return constructor.newInstance(currentNode, observers);
+                        } 
+                    }
+                }
+            } catch (InstantiationException ie) {
+                throw new SchemaException("Unable to instantiate class: " + classname + "\n" + ie.getMessage(), ie);
+            } catch (InvocationTargetException ite) {
+                throw new SchemaException("Unable to invocate class: " + classname + "\n" + ite.getMessage(), ite);
+            } catch (IllegalAccessException iae) {
+                throw new SchemaException("Unable to access class: " + classname + "\n" + iae.getMessage(), iae);
+            }
+        } else {
+            throw new SchemaException(
+                    "Unable to load class: " + classname + "\nMaybe class has no default constructor. ");
+        }
+        return object;
+    }
+
+    private static Class<?> getClass(final String classname) throws SchemaException {
         // Get Java class
         Class<?> currentClass = null;
         try { // First try default ClassLoader
@@ -551,42 +578,24 @@ public class SchemaLoader {
                 throw new SchemaException("Unable to load class for classname:" + classname);
             }
         }
+        return currentClass;
+    }
 
-        // Get constructors for class
-        Constructor<?>[] constructors = currentClass.getConstructors();
-        Object object = null;
-        if (constructors.length > 0) {
-            try {
-                Class<?>[] parameters = null;
-                for (Constructor<?> constructor : constructors) {
-                    parameters = constructor.getParameterTypes();
-                    if (observers == null) { // create IFinding (Constructor has one parameter)
-                        if ((parameters.length == 1) && (parameters[0].isInstance(currentNode))) {
-                            object = constructor.newInstance(currentNode);
-                            break;
-                        }
-                    } else { // create ITarget (Constructor takes 2 parameters)
-                        if ((parameters.length == 2) && (parameters[0].isInstance(currentNode))
-                                && (parameters[1].isInstance(observers))) {
-                            object = constructor.newInstance(currentNode, observers);
-                            break;
-                        }
-                    }
-                }
-            } catch (InstantiationException ie) {
-                throw new SchemaException("Unable to instantiate class: " + classname + "\n" + ie.getMessage(), ie);
-            } catch (InvocationTargetException ite) {
-                throw new SchemaException("Unable to invocate class: " + classname + "\n" + ite.getMessage(), ite);
-            } catch (IllegalAccessException iae) {
-                throw new SchemaException("Unable to access class: " + classname + "\n" + iae.getMessage(), iae);
+    private static String getClassNameToLoad(String xsiType, SchemaElementConstants schemaElementType)
+            throws SchemaException {
+        LOGGER.debug("Getting class for type: {} and schemaType {}", xsiType, schemaElementType.name());
+
+        try {
+            if (SchemaElementConstants.FINDING == schemaElementType) {
+                return ConfigLoader.getFindingClassnameFromType(xsiType);
+            } else { // TARGETs and all other extenable schemaElements can be found in Targetable of
+                     // ConfigLoader
+                return ConfigLoader.getTargetClassnameFromType(xsiType);
             }
-        } else {
-            throw new SchemaException(
-                    "Unable to load class: " + classname + "\nMaybe class has no default constructor. ");
+        } catch (ConfigException ce) {
+            LOGGER.error("Fail to load custom type {}.", ce.getLocalizedMessage());
+            throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage(), ce);
         }
-
-        return object;
-
     }
 
     // ---------------

@@ -86,7 +86,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
-    protected Target(Node targetElement, IObserver... observers) throws SchemaException {
+    public Target(Node targetElement, IObserver... observers) throws SchemaException {
 
         if (targetElement == null) {
             throw new SchemaException("Given element is NULL. ");
