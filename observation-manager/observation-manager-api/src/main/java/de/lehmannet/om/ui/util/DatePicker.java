@@ -287,19 +287,18 @@ public class DatePicker extends JDialog {
             field.setEnabled(false);
         }
 
-        YearMonth yearMonth = YearMonth.of(this.year, this.month);        
+        YearMonth yearMonth = YearMonth.of(this.year, this.month);
         int daysInMonth = yearMonth.lengthOfMonth();
         int dayOfWeek = yearMonth.atDay(1).getDayOfWeek().getValue();
 
         OffsetDateTime now = OffsetDateTime.now();
-        
+
         int currentMonth = now.getMonthValue();
         int currentYear = now.getYear();
         int currentDay = now.getDayOfMonth();
-        
 
         this.day = 1;
-        for (int buttonDayIndex = dayOfWeek - 1 ; day <= daysInMonth; buttonDayIndex++, day++) {
+        for (int buttonDayIndex = dayOfWeek - 1; day <= daysInMonth; buttonDayIndex++, day++) {
             if ((this.year == currentYear) && (this.month == currentMonth) && (this.day == currentDay)) {
                 fields[buttonDayIndex].setForeground(Color.RED);
             } else {

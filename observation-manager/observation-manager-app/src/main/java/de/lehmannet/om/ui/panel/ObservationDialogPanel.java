@@ -344,7 +344,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
-                : ZoneOffset.ofHoursMinutes(site.getTimezone()/60,site.getTimezone()%60 );
+                : ZoneOffset.ofHoursMinutes(site.getTimezone() / 60, site.getTimezone() % 60);
         // @formatter:off
         this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),

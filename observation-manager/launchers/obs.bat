@@ -4,4 +4,4 @@ echo Starting ObservationManager
 cd %0\..\
 
 :. Starting up Observation Manager
-java -Duser.timezone=UTC -Dextensions.dir=.\extensions -cp classpath;classpath/observation-manager-jar-with-dependencies.jar de.lehmannet.om.ObservationManagerApp %1 %2 %3 %4 %5 %6 %7 %8 %9
+java  -Dextensions.dir=.\extensions -cp classpath;classpath/observation-manager-jar-with-dependencies.jar de.lehmannet.om.ObservationManagerApp %1 %2 %3 %4 %5 %6 %7 %8 %9
