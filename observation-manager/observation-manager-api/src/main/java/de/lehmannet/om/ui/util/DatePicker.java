@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Locale;
@@ -170,66 +171,37 @@ public class DatePicker extends JDialog {
         GridBagConstraints constraints = new GridBagConstraints();
         JPanel footerPanel = new JPanel(gridbag);
 
-        JButton prevYearButton = new JButton(this.bundle.getString("datePicker.button.previousYear"));
-        prevYearButton.addActionListener(ae -> {
-            DatePicker.this.year--;
-            DatePicker.this.setDates();
-            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-        });
-        ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 20, 50);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(prevYearButton, constraints);
+        JButton prevYearButton = createPreviousYearButton(gridbag, constraints);
         footerPanel.add(prevYearButton);
 
-        JButton prevButton = new JButton(this.bundle.getString("datePicker.button.previous"));
-        prevButton.addActionListener(ae -> {
-            if (DatePicker.this.month == 0) {
-                DatePicker.this.month = 11;
-                DatePicker.this.year--;
-            } else {
-                DatePicker.this.month--;
-            }
-            DatePicker.this.setDates();
-            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-        });
-        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 50);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(prevButton, constraints);
+        JButton prevButton = createPreviousMonthButton(gridbag, constraints);
         footerPanel.add(prevButton);
 
-        this.monthYearLabel = new JLabel("" + (this.month + 1) + "/" + this.year, SwingConstants.CENTER);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 20, 50);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(this.monthYearLabel, constraints);
+        this.monthYearLabel = createMonthYearLabel(gridbag, constraints);
         footerPanel.add(monthYearLabel);
 
-        JButton nextButton = new JButton(this.bundle.getString("datePicker.button.next"));
-        nextButton.addActionListener(ae -> {
-            if (DatePicker.this.month == 11) {
-                DatePicker.this.month = 0;
-                DatePicker.this.year++;
-            } else {
-                DatePicker.this.month++;
-            }
-            DatePicker.this.setDates();
-            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-        });
-        ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 20, 50);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(nextButton, constraints);
+        JButton nextButton = createNextMonthButton(gridbag, constraints);
         footerPanel.add(nextButton);
 
-        JButton nextYearButton = new JButton(this.bundle.getString("datePicker.button.nextYear"));
-        nextYearButton.addActionListener(ae -> {
-            DatePicker.this.year++;
-            DatePicker.this.setDates();
-            DatePicker.this.monthYearLabel.setText("" + (DatePicker.this.month + 1) + "/" + DatePicker.this.year);
-        });
-        ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 20, 50);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(nextYearButton, constraints);
+        JButton nextYearButton = createNextYearButton(gridbag, constraints);
         footerPanel.add(nextYearButton);
 
+        JButton julianDateButton = createJulianDateButton(gridbag, constraints);
+        footerPanel.add(julianDateButton);
+
+        this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
+
+    }
+
+    private JLabel createMonthYearLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        final JLabel label = new JLabel("" + this.month + "/" + this.year, SwingConstants.CENTER);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 20, 50);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(label, constraints);
+        return label;
+    }
+
+    private JButton createJulianDateButton(GridBagLayout gridbag, GridBagConstraints constraints) {
         JButton julianDateButton = new JButton(this.bundle.getString("datePicker.button.julianDate"));
         julianDateButton.addActionListener(ae -> {
 
@@ -243,10 +215,69 @@ public class DatePicker extends JDialog {
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 5, 1, 100, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(julianDateButton, constraints);
-        footerPanel.add(julianDateButton);
+        return julianDateButton;
+    }
 
-        this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
+    private JButton createNextYearButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JButton nextYearButton = new JButton(this.bundle.getString("datePicker.button.nextYear"));
+        nextYearButton.addActionListener(ae -> {
+            DatePicker.this.year++;
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + DatePicker.this.month + "/" + DatePicker.this.year);
+        });
+        ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 20, 50);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(nextYearButton, constraints);
+        return nextYearButton;
+    }
 
+    private JButton createNextMonthButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JButton nextButton = new JButton(this.bundle.getString("datePicker.button.next"));
+        nextButton.addActionListener(ae -> {
+            if (DatePicker.this.month == 12) {
+                DatePicker.this.month = 1;
+                DatePicker.this.year++;
+            } else {
+                DatePicker.this.month++;
+            }
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + DatePicker.this.month + "/" + DatePicker.this.year);
+        });
+        ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 20, 50);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(nextButton, constraints);
+        return nextButton;
+    }
+
+    private JButton createPreviousYearButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JButton prevYearButton = new JButton(this.bundle.getString("datePicker.button.previousYear"));
+        prevYearButton.addActionListener(ae -> {
+            DatePicker.this.year--;
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + DatePicker.this.month + "/" + DatePicker.this.year);
+        });
+        ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 20, 50);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(prevYearButton, constraints);
+        return prevYearButton;
+    }
+
+    private JButton createPreviousMonthButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JButton prevButton = new JButton(this.bundle.getString("datePicker.button.previous"));
+        prevButton.addActionListener(ae -> {
+            if (DatePicker.this.month == 1) {
+                DatePicker.this.month = 12;
+                DatePicker.this.year--;
+            } else {
+                DatePicker.this.month--;
+            }
+            DatePicker.this.setDates();
+            DatePicker.this.monthYearLabel.setText("" + DatePicker.this.month + "/" + DatePicker.this.year);
+        });
+        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 50);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(prevButton, constraints);
+        return prevButton;
     }
 
     private void setDates() {
@@ -256,25 +287,26 @@ public class DatePicker extends JDialog {
             field.setEnabled(false);
         }
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(this.year, this.month, 1);
-        int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
-        int daysInMonth = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        YearMonth yearMonth = YearMonth.of(this.year, this.month);        
+        int daysInMonth = yearMonth.lengthOfMonth();
+        int dayOfWeek = yearMonth.atDay(1).getDayOfWeek().getValue();
 
-        Calendar currentDate = Calendar.getInstance();
-        int currentMonth = currentDate.get(java.util.Calendar.MONTH);
-        int currentYear = currentDate.get(java.util.Calendar.YEAR);
-        int currentDay = currentDate.get(java.util.Calendar.DAY_OF_MONTH);
+        OffsetDateTime now = OffsetDateTime.now();
+        
+        int currentMonth = now.getMonthValue();
+        int currentYear = now.getYear();
+        int currentDay = now.getDayOfMonth();
+        
 
         this.day = 1;
-        for (int x = dayOfWeek - 1; day <= daysInMonth; x++, day++) {
+        for (int buttonDayIndex = dayOfWeek - 1 ; day <= daysInMonth; buttonDayIndex++, day++) {
             if ((this.year == currentYear) && (this.month == currentMonth) && (this.day == currentDay)) {
-                fields[x].setForeground(Color.RED);
+                fields[buttonDayIndex].setForeground(Color.RED);
             } else {
-                fields[x].setForeground(Color.BLACK);
+                fields[buttonDayIndex].setForeground(Color.BLACK);
             }
-            fields[x].setText(String.valueOf(this.day));
-            fields[x].setEnabled(true);
+            fields[buttonDayIndex].setText(String.valueOf(this.day));
+            fields[buttonDayIndex].setEnabled(true);
         }
 
         this.getContentPane().repaint();
