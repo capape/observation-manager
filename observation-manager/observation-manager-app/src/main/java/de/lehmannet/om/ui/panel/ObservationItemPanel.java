@@ -13,11 +13,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -52,6 +50,8 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.DateConverter;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.Ephemerides;
 import de.lehmannet.om.util.OpticsUtil;
 
@@ -91,6 +91,7 @@ public class ObservationItemPanel extends AbstractPanel {
 
     private final ObservationManager om;
     private final ObservationManagerModel model;
+    private final DateManager dateManager = new DateManagerImpl();
 
     // Only used to display all observation own values plus some values from other
     // elementso
@@ -114,17 +115,14 @@ public class ObservationItemPanel extends AbstractPanel {
 
     private void loadSchemaElement() {
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-
         DecimalFormat df = new DecimalFormat("0.00");
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator('.');
         df.setDecimalFormatSymbols(dfs);
 
         // Load mandatory stuff
-        Calendar begin = observation.getBegin();
-        format.setCalendar(begin);
-        this.begin.setText(format.format(begin.getTime()));
+        OffsetDateTime begin = observation.getBegin();
+        this.begin.setText(this.dateManager.offsetDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
         this.begin.setToolTipText("JD: " + DateConverter.toJulianDate(begin));
 
@@ -139,12 +137,11 @@ public class ObservationItemPanel extends AbstractPanel {
             this.finding.setText(finding.getDescription());
         }
         // Load optional stuff
-        Calendar end = observation.getEnd();
-        if (end != null) {
-            format.setCalendar(end);
-            this.end.setText(format.format(end.getTime()));
+
+        if (observation.getEnd() != null) {
+            this.end.setText(this.dateManager.offsetDateTimeToStringWithSeconds(observation.getEnd()));
             this.end.setCaretPosition(0);
-            this.end.setToolTipText("JD: " + DateConverter.toJulianDate(end));
+            this.end.setToolTipText("JD: " + DateConverter.toJulianDate(observation.getEnd()));
         }
 
         float fs = observation.getFaintestStar();

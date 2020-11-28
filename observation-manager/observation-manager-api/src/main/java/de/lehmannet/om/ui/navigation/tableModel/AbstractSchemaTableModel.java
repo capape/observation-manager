@@ -10,8 +10,6 @@ package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
-
 import javax.swing.table.AbstractTableModel;
 
 import de.lehmannet.om.ISchemaElement;

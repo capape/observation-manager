@@ -1,4 +1,3 @@
-
 package de.lehmannet.om.ui.util;
 
 import java.util.List;

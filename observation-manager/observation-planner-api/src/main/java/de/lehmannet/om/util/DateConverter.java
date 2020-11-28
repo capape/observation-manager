@@ -7,11 +7,12 @@
 
 package de.lehmannet.om.util;
 
+import java.time.OffsetDateTime;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
-import java.util.StringTokenizer;
+import java.util.Date;
 import java.util.TimeZone;
+
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -34,17 +35,6 @@ import java.util.TimeZone;
  * @since 1.0
  */
 public class DateConverter {
-    // ---------
-    // Constants ---------------------------------------------------------
-    // ---------
-    /* Delimiter for ISO8601 date entries. Example: year-month-day */
-    private static final String DATE_DELIMITER = "-";
-    /* Delimiter for ISO8601 time entries. Example: hour-minute-second */
-    private static final String TIME_DELIMITER = ":";
-    /* Delimiter for ISO8601 date and time section. Example: dateTtime */
-    private static final String DATETIME_DELIMITER = "T";
-    /* Timezone symbol for UTC (zulu) time. Used when time is set in UTC. */
-    private static final String UTC_TIMEZONE_OFFSET = "Z";
 
     // --------------
     // Public methods ----------------------------------------------------
@@ -102,25 +92,29 @@ public class DateConverter {
         long c = (long) (365.25 * (year + 4716));
         long d = (long) (30.6001 * (month + 1));
 
-        /*
-         * double julianDate = c + d + hourAndMinutes + leapYear - 1524.5;
-         *
-         * if( (month == 5) || (month == 7) || (month == 10) || (month == 12) ) { // Those month have 31 days julianDate
-         * = julianDate-1; }
-         */
-
-        // System.out.println("@@ day= " + Double.toString(day) + " month= " +
-        // Long.toString(month) + " year= " + Long.toString(year) + " hour= " +
-        // Long.toString(hour) + " mimute= " + Long.toString(minute) + " seconds= " +
-        // Long.toString(seconds) + " tzOffset= " + Long.toString(tzOffset));
-        // System.out.println("@@ JULIAN DATE: " + Double.toString(julianDate) + " ==>
-        // c=" + Long.toString(c) + " d= " + Long.toString(d) + " fracSecs= " +
-        // Double.toString(fracSecs) + " leapYear= " + Double.toString(leapYear));
-
-        // GMB APR12,2012 - end fix #3514617
-        // -------------------------------------------------------------------------------
-
         return day + c + d + fracSecs + leapYear - 1524.5;
+    }
+
+    // --------------
+    // Public methods ----------------------------------------------------
+    // --------------
+    /**
+     *
+     * Converts a gregorian date into a julian date.
+     *
+     *
+     *
+     * @return A julian date with seconds accuracy
+     */
+    public static double toJulianDate(OffsetDateTime datetime) {
+        if (datetime == null) {
+            throw new IllegalArgumentException("Gregorian date has illegal value. (NULL)");
+        }
+
+        final Date date = Date.from(datetime.toInstant());
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return toJulianDate(calendar);
     }
 
     /**
@@ -224,22 +218,18 @@ public class DateConverter {
         if (calendar == null) {
             return null;
         }
-        StringBuilder iso8601 = new StringBuilder();
-        iso8601.append(calendar.get(Calendar.YEAR));
-        iso8601.append(DATE_DELIMITER);
-        iso8601.append(setLeadingZero(calendar.get(Calendar.MONTH) + 1));
-        iso8601.append(DATE_DELIMITER);
-        iso8601.append(setLeadingZero(calendar.get(Calendar.DAY_OF_MONTH)));
-        iso8601.append(DATETIME_DELIMITER);
-        iso8601.append(setLeadingZero(calendar.get(Calendar.HOUR_OF_DAY)));
-        iso8601.append(TIME_DELIMITER);
-        iso8601.append(setLeadingZero(calendar.get(Calendar.MINUTE)));
-        iso8601.append(TIME_DELIMITER);
-        iso8601.append(setLeadingZero(calendar.get(Calendar.SECOND)));
-        // Get Offset in minutes
-        int offset = ((calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / 1000) / 60;
-        iso8601.append(formatTimezone(offset));
-        return iso8601.toString();
+
+        return DatatypeConverter.printDateTime(calendar);
+        /*
+         * StringBuilder iso8601 = new StringBuilder(); iso8601.append(calendar.get(Calendar.YEAR));
+         * iso8601.append(DATE_DELIMITER); iso8601.append(setLeadingZero(calendar.get(Calendar.MONTH) + 1));
+         * iso8601.append(DATE_DELIMITER); iso8601.append(setLeadingZero(calendar.get(Calendar.DAY_OF_MONTH)));
+         * iso8601.append(DATETIME_DELIMITER); iso8601.append(setLeadingZero(calendar.get(Calendar.HOUR_OF_DAY)));
+         * iso8601.append(TIME_DELIMITER); iso8601.append(setLeadingZero(calendar.get(Calendar.MINUTE)));
+         * iso8601.append(TIME_DELIMITER); iso8601.append(setLeadingZero(calendar.get(Calendar.SECOND))); // Get Offset
+         * in minutes int offset = ((calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / 1000) /
+         * 60; iso8601.append(formatTimezone(offset)); return iso8601.toString();
+         */
     }
 
     /**
@@ -264,101 +254,9 @@ public class DateConverter {
         if (iso8601 == null || "".equals(iso8601)) {
             return null;
         }
-        StringTokenizer tokenizer = new StringTokenizer(iso8601);
-        String year = tokenizer.nextToken(DATE_DELIMITER);
-        String month = tokenizer.nextToken(DATE_DELIMITER);
-        String day = tokenizer.nextToken(DATETIME_DELIMITER);
-        day = day.substring(1); // cutoff '-'
-        String hour = tokenizer.nextToken(TIME_DELIMITER);
-        hour = hour.substring(1); // cutoff 'T'
-        hour = cutLeadingZeroAndPlus(hour);
-        String minute = tokenizer.nextToken(TIME_DELIMITER);
-        minute = cutLeadingZeroAndPlus(minute);
-        String secAndTZ = iso8601.substring(iso8601.indexOf(TIME_DELIMITER) + 4);
-        String second = secAndTZ.substring(0, 2);
-        second = cutLeadingZeroAndPlus(second);
-        String timeZone = secAndTZ.substring(2);
-        int i_year = 0;
-        int i_month = 0;
-        int i_day = 0;
-        int i_hour = 0;
-        int i_minute = 0;
-        int i_second = 0;
-        String step = "";
-        try {
-            step = "year";
-            i_year = Integer.parseInt(year);
-            step = "month";
-            i_month = Integer.parseInt(month) - 1;
-            step = "day";
-            i_day = Integer.parseInt(day);
-            step = "hour";
-            i_hour = Integer.parseInt(hour);
-            step = "minute";
-            i_minute = Integer.parseInt(minute);
-            step = "second";
-            i_second = Integer.parseInt(second);
-        } catch (NumberFormatException nfe) {
-            throw new NumberFormatException("Cannot generate ISO8601 date because " + step + " is malformed. ");
-        }
-        Calendar calendar = null;
-        if ((UTC_TIMEZONE_OFFSET.equals(timeZone)) || ("".equals(timeZone.trim()))) {
-            calendar = new GregorianCalendar(new SimpleTimeZone(0, "GMT"));
-        } else {
-            calendar = new GregorianCalendar(createTimezone(timeZone));
-        }
-        calendar.set(Calendar.YEAR, i_year);
-        calendar.set(Calendar.MONTH, i_month);
-        calendar.set(Calendar.DAY_OF_MONTH, i_day);
-        calendar.set(Calendar.HOUR_OF_DAY, i_hour);
-        calendar.set(Calendar.MINUTE, i_minute);
-        calendar.set(Calendar.SECOND, i_second);
-        calendar.set(Calendar.MILLISECOND, 0); // make sure they have no meanings if we compare dates
-        return calendar;
-    }
 
-    // ---------------
-    // Private methods ---------------------------------------------------
-    // ---------------
-    /*
-     *
-     * Creates a TimeZone object from the last part of a ISO8601 date
-     *
-     * representing String. (e.g. +1:00)
-     */
-    private static TimeZone createTimezone(String timeZone) throws NumberFormatException {
-        String h = timeZone.substring(0, timeZone.indexOf(TIME_DELIMITER));
-        if (h.startsWith("+")) {
-            h = cutLeadingZeroAndPlus(h);
-        }
-        String m = timeZone.substring(timeZone.indexOf(TIME_DELIMITER) + 1);
-        int hour = 0;
-        int minute = 0;
-        try {
-            hour = Integer.parseInt(h);
-            minute = Integer.parseInt(m);
-        } catch (NumberFormatException nfe) {
-            throw new NumberFormatException(
-                    "Cannot generate ISO8601 date because timezones hour or minute value is malformed. ");
-        }
-        // Calculate Timezone Offset:
-        // Hour: hour * secOfHour(3600) * mSecOfSecond(1000)
-        // Minute: minute * mSecOfSecond(1000) * secOfMinute(60)
-        // Depending on negative or positiv offset the minutes have to be added or
-        // subtracted from hour offset.
-        // Therefore add always and set minutes positiv or negativ (depending on hour
-        // value (if it is set)).
-        SimpleTimeZone tz = null;
-        int offset = 0;
-        if (hour == 0) {
-            offset = (hour * 3600 * 1000) + ((minute * 1000 * 60));
-            tz = new SimpleTimeZone(offset, "");
-        } else {
-            offset = (hour * 3600 * 1000) + ((minute * 1000 * 60) * (hour / Math.abs(hour)));
-            tz = new SimpleTimeZone(offset, "");
-        }
-        tz.setDSTSavings(1); // We request user to not enter DST
-        return tz;
+        return DatatypeConverter.parseDateTime(iso8601);
+
     }
 
     /*
@@ -389,46 +287,4 @@ public class DateConverter {
         return "" + value;
     }
 
-    /*
-     *
-     * Cuts off leadings zeros (and the + sign, if given) from a string
-     */
-    private static String cutLeadingZeroAndPlus(String value) {
-        if (value.startsWith("+0")) {
-            return value.substring(2);
-        } else if (value.startsWith("-0")) {
-            return "-" + value.substring(2);
-        }
-        if (value.startsWith("+")) {
-            return value.substring(1);
-        }
-        return value;
-    }
-
-    /*
-     *
-     * Takes a value in minutes and formats it an ISO8601 timezone String.
-     *
-     * If the timezone is UTC, then the returned String will only contain
-     *
-     * a 'Z' (not 0:00).
-     */
-    private static String formatTimezone(int min) {
-        // Get complete hours
-        int hour = min / 60;
-        // Get minutes from not complete hour
-        int minutes = (hour * 60) - min;
-        // If hour and minutes equal 0 (UTC) the offset is given as Z
-        if ((hour == 0) && (minutes == 0)) {
-            return UTC_TIMEZONE_OFFSET;
-        }
-        // Calculate the hour offset
-        String hourOffset = setLeadingZero(hour);
-        if (hour > -1) {
-            hourOffset = "+" + hourOffset;
-        }
-        // Calculate the minute offset
-        String minOffset = setLeadingZero(Math.abs(minutes));
-        return hourOffset + TIME_DELIMITER + minOffset;
-    }
 }

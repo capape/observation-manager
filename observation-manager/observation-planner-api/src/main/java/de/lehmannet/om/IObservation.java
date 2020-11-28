@@ -9,6 +9,7 @@ package de.lehmannet.om;
 
 import org.w3c.dom.Element;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -148,7 +149,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return The start date of the observation
      */
-    java.util.Calendar getBegin();
+    OffsetDateTime getBegin();
 
     /**
      * Returns the end date of the observation.<br>
@@ -156,7 +157,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
-    java.util.Calendar getEnd();
+    OffsetDateTime getEnd();
 
     /**
      * Returns the accessories used for this observation.<br>
@@ -402,7 +403,7 @@ public interface IObservation extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new begin date is <code>null</code>
      */
-    void setBegin(java.util.Calendar begin) throws IllegalArgumentException;
+    void setBegin(OffsetDateTime begin) throws IllegalArgumentException;
 
     /**
      * Sets the end date of the observation.<br>
@@ -411,7 +412,7 @@ public interface IObservation extends ISchemaElement {
      * @param end
      *            The end date of the observation
      */
-    void setEnd(java.util.Calendar end);
+    void setEnd(OffsetDateTime end);
 
     /**
      * Sets the eyepiece of the observation.<br>

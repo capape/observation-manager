@@ -16,9 +16,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +59,8 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 import de.lehmannet.om.ui.util.OMLabel;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class SessionPanel extends AbstractPanel implements ActionListener, MouseListener {
@@ -68,13 +71,15 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private ObservationManager observationManager = null;
 
+    private static final DateTimeFormatter formatterDay = DateTimeFormatter.ofPattern("dd.MM.yy", Locale.getDefault());
+
     private JTextField begin = null;
-    private Calendar beginDate = null;
+    private OffsetDateTime beginDate = null;
     private JButton beginPicker = null;
     private JButton beginNow = null;
     private TimeContainer beginTime = null;
     private JTextField end = null;
-    private Calendar endDate = null;
+    private OffsetDateTime endDate = null;
     private JButton endPicker = null;
     private JButton endNow = null;
     private TimeContainer endTime = null;
@@ -98,6 +103,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private final List<IObserver> coObserversList = new ArrayList<>();
     private final ObservationManagerModel model;
 
+    private final DateManager dateManager;
+
     // Requires ObservationManager to load Observers
     public SessionPanel(ObservationManager manager, ObservationManagerModel model, ISession session, boolean editable) {
 
@@ -119,6 +126,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         this.setVisible(true);
+        this.dateManager = new DateManagerImpl();
 
     }
 
@@ -190,10 +198,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 DatePicker dp = null;
                 if (this.beginDate != null) {
                     dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.beginDate);
+                            AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.beginDate,
+                            this.dateManager);
                 } else {
                     dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.start"));
+                            AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.dateManager);
                 }
                 this.beginDate = dp.getDate();
                 this.begin.setText(dp.getDateString());
@@ -201,27 +210,28 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 DatePicker dp = null;
                 if (this.endDate != null) {
                     dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.endDate);
+                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.endDate,
+                            this.dateManager);
                 } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
                     dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.beginDate);
+                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.beginDate,
+                            this.dateManager);
                 } else {
                     dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"));
+                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.dateManager);
                 }
                 this.endDate = dp.getDate();
                 this.end.setText(dp.getDateString());
 
             } else if (source.equals(this.endNow)) {
-                Calendar now = Calendar.getInstance();
-                this.endDate = now;
-                this.endTime.setTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+
+                this.endDate = OffsetDateTime.now();
+                this.endTime.setTime(endDate.getHour(), endDate.getMinute(), endDate.getSecond());
                 this.end.setText(this.formatDate(this.endDate));
             } else if (source.equals(this.beginNow)) {
-                Calendar now = Calendar.getInstance();
-                this.beginDate = now;
-                this.beginTime.setTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
-                        now.get(Calendar.SECOND));
+
+                this.beginDate = OffsetDateTime.now();
+                this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
                 this.begin.setText(this.formatDate(this.beginDate));
             } else if (sourceButton.equals(this.newSite)) {
                 SiteDialog dialog = new SiteDialog(this.observationManager, null);
@@ -248,28 +258,18 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private void loadSchemaElement() {
 
-        SimpleDateFormat format = null;
-        if (this.isEditable()) {
-            format = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-        } else {
-            format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-        }
-
         this.beginDate = this.session.getBegin();
-        format.setCalendar(this.beginDate); // Important! Otherwiese Timezone will not be used for formatting!
-        this.begin.setText(format.format(this.beginDate.getTime()));
+
+        this.begin.setText(this.beginDate.format(formatterDay));
         this.begin.setEditable(this.isEditable());
-        this.beginTime.setTime(this.beginDate.get(Calendar.HOUR_OF_DAY), this.beginDate.get(Calendar.MINUTE),
-                this.beginDate.get(Calendar.SECOND));
+        this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
         this.endDate = this.session.getEnd();
 
-        format.setCalendar(this.endDate); // Important! Otherwiese Timezone will not be used for formatting!
-        this.end.setText(format.format(this.endDate.getTime()));
+        this.end.setText(this.endDate.format(formatterDay));
         this.end.setEditable(this.isEditable());
-        this.endTime.setTime(this.endDate.get(Calendar.HOUR_OF_DAY), this.endDate.get(Calendar.MINUTE),
-                this.endDate.get(Calendar.SECOND));
+        this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         this.endTime.setEditable(this.isEditable());
 
         this.weather.setText(this.session.getWeather());
@@ -305,7 +305,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (beginDate == null) {
+        if (this.beginDate == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.noStart"));
             return null;
         }
@@ -315,7 +315,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (endDate == null) {
+        if (this.endDate == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.noEnd"));
             return null;
         }
@@ -325,29 +325,21 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
 
-        if (siteBox.getSelectedSchemaElement() == null) {
+        if (this.siteBox.getSelectedSchemaElement() == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.noSite"));
             return null;
         }
 
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-        // Set site's timezone (make sure that timezone is set in ms)
-        beginDate.setTimeZone(new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName()));
-        endDate.setTimeZone(new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName()));
 
+        // Set site's timezone (make sure that timezone is set in ms)
         this.session.setSite(site);
 
-        this.endDate.set(Calendar.HOUR_OF_DAY, this.endTime.getHour());
-        this.endDate.set(Calendar.MINUTE, this.endTime.getMinutes());
-        this.endDate.set(Calendar.SECOND, this.endTime.getSeconds());
-        this.session.setEnd(endDate);
+        SimpleTimeZone simpleTimeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
+        this.endDate = this.createOffSetDateTime(this.endDate, this.endTime, simpleTimeZone);
+        this.beginDate = this.createOffSetDateTime(this.beginDate, this.beginTime, simpleTimeZone);
 
-        this.beginDate.set(Calendar.HOUR_OF_DAY, this.beginTime.getHour());
-        this.beginDate.set(Calendar.MINUTE, this.beginTime.getMinutes());
-        this.beginDate.set(Calendar.SECOND, this.beginTime.getSeconds());
-        this.session.setBegin(beginDate);
-
-        if (this.endDate.before(this.beginDate)) {
+        if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
             return null;
         }
@@ -377,6 +369,16 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.session.setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(session)));
 
         return this.session;
+
+    }
+
+    private OffsetDateTime createOffSetDateTime(OffsetDateTime date, TimeContainer timeContainer,
+            SimpleTimeZone simpleTimeZone) {
+
+        final ZoneOffset zoneOffSet = ZoneOffset.ofTotalSeconds(simpleTimeZone.getRawOffset() / 1000);
+
+        return OffsetDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
+                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, zoneOffSet);
 
     }
 
@@ -410,24 +412,18 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
         // Set site's timezone (make sure that timezone is set in ms)
-        beginDate.setTimeZone(new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName()));
-        endDate.setTimeZone(new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName()));
+        SimpleTimeZone simpleTimeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
 
-        this.endDate.set(Calendar.HOUR_OF_DAY, this.endTime.getHour());
-        this.endDate.set(Calendar.MINUTE, this.endTime.getMinutes());
-        this.endDate.set(Calendar.SECOND, this.endTime.getSeconds());
+        this.endDate = createOffSetDateTime(endDate, endTime, simpleTimeZone);
+        this.beginDate = createOffSetDateTime(beginDate, beginTime, simpleTimeZone);
 
-        this.beginDate.set(Calendar.HOUR_OF_DAY, this.beginTime.getHour());
-        this.beginDate.set(Calendar.MINUTE, this.beginTime.getMinutes());
-        this.beginDate.set(Calendar.SECOND, this.beginTime.getSeconds());
-
-        if (this.endDate.before(this.beginDate)) {
+        if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
             return null;
         }
 
         // Create session
-        this.session = new Session(beginDate, endDate, site);
+        this.session = new Session(this.dateManager, beginDate, endDate, site);
 
         // Set optional elements
         String weather = this.weather.getText();
@@ -840,13 +836,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     }
 
-    private String formatDate(Calendar cal) {
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
-        format.setCalendar(cal);
-        return format.format(cal.getTime());
-
+    private String formatDate(OffsetDateTime cal) {
+        return this.dateManager.offsetDateTimeToString(cal);
     }
 
     private void addNewImages() {

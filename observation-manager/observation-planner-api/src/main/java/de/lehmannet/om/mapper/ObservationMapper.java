@@ -3,8 +3,9 @@ package de.lehmannet.om.mapper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+
 import java.util.List;
+import java.time.OffsetDateTime;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -401,7 +402,7 @@ public class ObservationMapper {
         return null;
     }
 
-    public static Calendar getOptionalEndDate(Element observationElement) throws SchemaException {
+    public static OffsetDateTime getOptionalEndDate(Element observationElement) throws SchemaException {
 
         NodeList children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_END);
 
@@ -412,7 +413,7 @@ public class ObservationMapper {
             } else {
                 String ISO8601End = child.getFirstChild().getNodeValue();
                 try {
-                    return DateConverter.toDate(ISO8601End);
+                    return OffsetDateTime.parse(ISO8601End);
 
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException("End date is malformed. ", nfe);
@@ -500,7 +501,7 @@ public class ObservationMapper {
         }
     }
 
-    public static Calendar getMandatoryBeginDate(Element observationElement) throws SchemaException {
+    public static OffsetDateTime getMandatoryBeginDate(Element observationElement) throws SchemaException {
 
         // Get mandatory begin date
         NodeList children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_BEGIN);
@@ -518,7 +519,7 @@ public class ObservationMapper {
                 throw new SchemaException("Begin date is empty. ");
             }
             try {
-                return DateConverter.toDate(ISO8601Begin);
+                return OffsetDateTime.parse(ISO8601Begin);
 
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);

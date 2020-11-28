@@ -15,7 +15,7 @@ import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -49,9 +49,7 @@ import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.Worker;
-import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class SkyChartClient implements IExtension, ActionListener {
@@ -641,9 +639,9 @@ public class SkyChartClient implements IExtension, ActionListener {
 
     }
 
-    private String createDateCommand(Calendar date) {
+    private String createDateCommand(OffsetDateTime date) {
 
-        String dateString = DateConverter.toISO8601(date);
+        String dateString = date.toString();
 
         return "SETDATE " + dateString.substring(0, dateString.lastIndexOf("T") + 9);
 

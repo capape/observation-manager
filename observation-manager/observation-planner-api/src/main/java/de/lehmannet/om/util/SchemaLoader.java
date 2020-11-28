@@ -122,6 +122,8 @@ public class SchemaLoader {
     // reflection
     private static final List<ClassLoader> extensionClassLoaders = new ArrayList<>();
 
+    private final DateManager dateManager = new DateManagerImpl();
+
     // ---------------------
     // Public Static Methods ---------------------------------------------
     // ---------------------
@@ -527,7 +529,7 @@ public class SchemaLoader {
         Object object = null;
         if (constructors.length > 0) {
             try {
-                 
+
                 for (Constructor<?> constructor : constructors) {
                     Class<?>[] parameters = constructor.getParameterTypes();
                     if (observers == null) { // create IFinding (Constructor has one parameter)
@@ -538,7 +540,7 @@ public class SchemaLoader {
                         if ((parameters.length == 2) && (parameters[0].isInstance(currentNode))
                                 && (parameters[1].isInstance(observers))) {
                             return constructor.newInstance(currentNode, observers);
-                        } 
+                        }
                     }
                 }
             } catch (InstantiationException ie) {
@@ -695,7 +697,7 @@ public class SchemaLoader {
         ISession[] sessionElements = new ISession[sessionList.getLength()];
 
         for (int i = 0; i < sessionList.getLength(); i++) {
-            sessionElements[i] = new Session(sessionList.item(i), this.observers, this.sites);
+            sessionElements[i] = new Session(sessionList.item(i), this.dateManager, this.observers, this.sites);
         }
 
         return sessionElements;

@@ -5,9 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +27,7 @@ import de.lehmannet.om.Observer;
 import de.lehmannet.om.Scope;
 import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
+import de.lehmannet.om.util.DateManagerImpl;
 
 public class XMLFileLoaderImplTest {
 
@@ -162,7 +162,8 @@ public class XMLFileLoaderImplTest {
 
         final Site site = new Site("Moon", longitude, latitude, 60);
 
-        final ISchemaElement element = new Session(Calendar.getInstance(), Calendar.getInstance(), site);
+        final ISchemaElement element = new Session(new DateManagerImpl(), OffsetDateTime.now(), OffsetDateTime.now(),
+                site);
         emptyNewFile.addSchemaElement(element);
 
         final ISession[] sessions = emptyNewFile.getSessions();

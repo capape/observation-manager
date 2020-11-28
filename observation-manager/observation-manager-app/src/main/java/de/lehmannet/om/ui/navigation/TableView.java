@@ -17,15 +17,15 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,6 +70,8 @@ import de.lehmannet.om.ui.navigation.tableModel.SiteTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.TableSorter;
 import de.lehmannet.om.ui.navigation.tableModel.TargetTableModel;
 import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TableView extends JPanel {
@@ -95,6 +97,7 @@ public class TableView extends JPanel {
 
     private final ObservationManagerModel model;
     private final TextManager textManager;
+    private final DateManager dateManager = new DateManagerImpl();
 
     public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager) {
 
@@ -208,13 +211,15 @@ public class TableView extends JPanel {
 
             return cr;
         });
-        this.table.setDefaultRenderer(Calendar.class, (table, value, isSelected, hasFocus, row, column) -> {
+
+        this.table.setDefaultRenderer(LocalDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
-                final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-                if (value instanceof GregorianCalendar) {
-                    final Calendar cal = (GregorianCalendar) value;
-                    cr.setText(sdf.format(cal.getTime()));
+
+                if (value instanceof LocalDateTime) {
+                    final LocalDateTime cal = (LocalDateTime) value;
+                    cr.setText(this.dateManager
+                            .offsetDateTimeToString(OffsetDateTime.of(cal, OffsetDateTime.now().getOffset())));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -226,6 +231,26 @@ public class TableView extends JPanel {
 
             return cr;
         });
+
+        this.table.setDefaultRenderer(OffsetDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                if (value instanceof OffsetDateTime) {
+                    final OffsetDateTime cal = (OffsetDateTime) value;
+                    cr.setText(this.dateManager.offsetDateTimeToString(cal));
+                } else {
+                    LOGGER.warn("Bad data {}", value.getClass(), value);
+                }
+            }
+
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        });
+
         this.table.setDefaultRenderer(SchemaElement.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {

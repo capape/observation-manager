@@ -7,12 +7,10 @@
 
 package de.lehmannet.om;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.lehmannet.om.mapper.ObservationMapper;
-import de.lehmannet.om.util.DateConverter;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -42,10 +41,10 @@ public class Observation extends SchemaElement implements IObservation {
     // ------------------
 
     // Start date of observation
-    private Calendar begin = null;
+    private OffsetDateTime begin = null;
 
     // End date of observation
-    private Calendar end = null;
+    private OffsetDateTime end = null;
 
     // Faintest start that could be seen with the naked eye (in magnitude)
     private float faintestStar = Float.NaN;
@@ -94,6 +93,8 @@ public class Observation extends SchemaElement implements IObservation {
 
     // The results (IFinding) of the observation as List
     private List<IFinding> results = new LinkedList<>();
+
+    private final DateManager dateManager = new DateManagerImpl();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Observation.class);
 
@@ -201,7 +202,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code>
      */
-    public Observation(Calendar begin, ITarget target, IObserver observer, IFinding result)
+    public Observation(OffsetDateTime begin, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
 
         if (begin == null) {
@@ -242,7 +243,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code> or the result list is empty
      */
-    public Observation(Calendar begin, ITarget target, IObserver observer, List<IFinding> results)
+    public Observation(OffsetDateTime begin, ITarget target, IObserver observer, List<IFinding> results)
             throws IllegalArgumentException {
 
         if (begin == null) {
@@ -288,8 +289,8 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
-    public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, List<IFinding> results)
-            throws IllegalArgumentException {
+    public Observation(OffsetDateTime begin, OffsetDateTime end, ITarget target, IObserver observer,
+            List<IFinding> results) throws IllegalArgumentException {
 
         this(begin, target, observer, results);
 
@@ -313,7 +314,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>
      */
-    public Observation(Calendar begin, Calendar end, ITarget target, IObserver observer, IFinding result)
+    public Observation(OffsetDateTime begin, OffsetDateTime end, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
 
         this(begin, target, observer, result);
@@ -361,7 +362,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, result or
      *             seeing is < 1 or > 5
      */
-    public Observation(Calendar begin, Calendar end, float faintestStar, SurfaceBrightness sq, int seeing,
+    public Observation(OffsetDateTime begin, OffsetDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
             IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, IFinding result)
             throws IllegalArgumentException {
@@ -422,7 +423,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, results or
      *             result list is empty. Also if seeing is < 1 or > 5
      */
-    public Observation(Calendar begin, Calendar end, float faintestStar, SurfaceBrightness sq, int seeing,
+    public Observation(OffsetDateTime begin, OffsetDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
             IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, List<IFinding> results)
             throws IllegalArgumentException {
@@ -460,11 +461,7 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public String getDisplayName() {
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-
-        format.setCalendar(this.begin);
-
-        return format.format(this.begin.getTime()) + " - " + this.target.getDisplayName();
+        return this.dateManager.offsetDateTimeToString(this.begin) + " - " + this.target.getDisplayName();
 
     }
 
@@ -484,11 +481,11 @@ public class Observation extends SchemaElement implements IObservation {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("Observation: Begin Date=");
-        buffer.append(DateConverter.toISO8601(begin));
+        buffer.append(begin.toString());
 
         if (end != null) {
             buffer.append(" End date=");
-            buffer.append(DateConverter.toISO8601(end));
+            buffer.append(end.toString());
         }
 
         buffer.append(" Target=");
@@ -759,7 +756,7 @@ public class Observation extends SchemaElement implements IObservation {
     private void addEnd(Document ownerDoc, Element e_Observation) {
         if (end != null) {
             Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
-            Node n_EndText = ownerDoc.createTextNode(DateConverter.toISO8601(end));
+            Node n_EndText = ownerDoc.createTextNode(end.toString());
             e_End.appendChild(n_EndText);
             e_Observation.appendChild(e_End);
         }
@@ -767,7 +764,7 @@ public class Observation extends SchemaElement implements IObservation {
 
     private void addBegin(Document ownerDoc, Element e_Observation) {
         Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
-        Node n_BeginText = ownerDoc.createTextNode(DateConverter.toISO8601(begin));
+        Node n_BeginText = ownerDoc.createTextNode(begin.toString());
         e_Begin.appendChild(n_BeginText);
         e_Observation.appendChild(e_Begin);
     }
@@ -778,9 +775,9 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The start date of the observation
      */
     @Override
-    public Calendar getBegin() {
+    public OffsetDateTime getBegin() {
 
-        return (Calendar) begin.clone();
+        return begin;
 
     }
 
@@ -804,13 +801,8 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
     @Override
-    public Calendar getEnd() {
-
-        if (end != null) {
-            return (Calendar) end.clone();
-        }
-
-        return null;
+    public OffsetDateTime getEnd() {
+        return end;
 
     }
 
@@ -1231,14 +1223,14 @@ public class Observation extends SchemaElement implements IObservation {
      *             if new begin date is <code>null</code>
      */
     @Override
-    public void setBegin(Calendar begin) throws IllegalArgumentException {
+    public void setBegin(OffsetDateTime begin) throws IllegalArgumentException {
 
         if (begin == null) {
             LOGGER.error("Begin date cannot be null. ");
             throw new IllegalArgumentException("Begin date cannot be null. ");
         }
 
-        this.begin = (Calendar) begin.clone();
+        this.begin = begin;
 
     }
 
@@ -1250,14 +1242,9 @@ public class Observation extends SchemaElement implements IObservation {
      *            The end date of the observation
      */
     @Override
-    public void setEnd(Calendar end) {
+    public void setEnd(OffsetDateTime end) {
 
-        if (end == null) {
-            this.end = null;
-            return;
-        }
-
-        this.end = (Calendar) end.clone();
+        this.end = end;
 
     }
 
@@ -1435,8 +1422,8 @@ public class Observation extends SchemaElement implements IObservation {
             return;
         }
 
-        Calendar sessionStart = session.getBegin();
-        Calendar sessionEnd = session.getEnd();
+        OffsetDateTime sessionStart = session.getBegin();
+        OffsetDateTime sessionEnd = session.getEnd();
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
@@ -1444,7 +1431,7 @@ public class Observation extends SchemaElement implements IObservation {
         }
 
         // Check if start date of observation is equal or later then session start
-        if (sessionStart.after(this.begin)) {
+        if (sessionStart.isAfter(this.begin)) {
             LOGGER.error("Session start date is after observation start date  for:  {}", this.getDisplayName());
             throw new IllegalArgumentException(
                     "Session start date is after observation start date  for:  " + this.getDisplayName());
@@ -1452,7 +1439,7 @@ public class Observation extends SchemaElement implements IObservation {
         } else {
             // Check if also end date is correct (if set)
             if (this.end != null) {
-                if (this.end.after(sessionEnd)) {
+                if (this.end.isAfter(sessionEnd)) {
                     LOGGER.error("Observation end date is after session start date  for:  {}", this.getDisplayName());
                     throw new IllegalArgumentException(
                             "Observation end date is after session start date " + this.getDisplayName());
@@ -1480,11 +1467,11 @@ public class Observation extends SchemaElement implements IObservation {
 
     }
 
-    private String toMillisString(Calendar date) {
+    private String toMillisString(OffsetDateTime date) {
         if (date == null) {
             return "";
         }
-        return String.valueOf(date.getTimeInMillis());
+        return String.valueOf(date.toInstant().toEpochMilli());
     }
 
     /**

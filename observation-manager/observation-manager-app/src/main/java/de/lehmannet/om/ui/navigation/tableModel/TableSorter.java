@@ -14,9 +14,10 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,6 @@ import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.ui.comparator.AngleComparator;
-import de.lehmannet.om.ui.comparator.CalendarComparator;
 import de.lehmannet.om.ui.comparator.EyepieceComparator;
 import de.lehmannet.om.ui.comparator.FilterComparator;
 import de.lehmannet.om.ui.comparator.ImagerComparator;
@@ -310,7 +310,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private void initColumnComparator() {
 
-        this.columnComparators.put(Calendar.class, new CalendarComparator());
+        this.columnComparators.put(OffsetDateTime.class, OffsetDateTime.timeLineOrder());
         this.columnComparators.put(Target.class, new TargetComparator());
         this.columnComparators.put(Site.class, new SiteComparator());
         this.columnComparators.put(Scope.class, new ScopeComparator());

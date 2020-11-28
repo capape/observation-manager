@@ -8,6 +8,7 @@
 package de.lehmannet.om;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,13 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -442,6 +450,35 @@ public class RootElement {
             throw new SchemaException(e.toString(), e);
         }
 
+    }
+
+    public void serializeAsXmlFormatted(File xmlFile) throws SchemaException {
+
+        if (xmlFile == null) {
+            throw new SchemaException("File cannot be null. ");
+        }
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+        DOMSource source = new DOMSource(this.getDocument());
+
+        try {
+            FileWriter writer = new FileWriter(xmlFile);
+            StreamResult result = new StreamResult(writer);
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.transform(source, result);
+        } catch (TransformerConfigurationException e) {
+            LOG.error("Cannot configure xml format", e);
+
+        } catch (TransformerException e) {
+            LOG.error("Error transorming to xml file", e);
+            throw new SchemaException(e.getLocalizedMessage(), e);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            LOG.error("Error writing to xml file", e);
+            throw new RuntimeException(e);
+        }
     }
 
     public Document getDocument() throws SchemaException {

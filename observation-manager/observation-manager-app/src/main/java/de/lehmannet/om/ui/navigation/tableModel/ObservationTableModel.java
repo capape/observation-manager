@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.Observer;
@@ -106,7 +106,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         switch (columnIndex) {
         case 0: {
-            c = Calendar.class;
+            c = OffsetDateTime.class;
             break;
         }
         case 1: {

@@ -19,14 +19,23 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -82,13 +91,14 @@ import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -124,7 +134,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private final TargetBox targetBox = new TargetBox();
     private JButton newTarget = null;
     private JButton selectTarget = null;
-    private final SessionBox sessionBox = new SessionBox();
+    private final SessionBox sessionBox;
     private JButton newSession = null;
     private final ScopeBox scopeBox = new ScopeBox();
     private JButton newScope = null;
@@ -143,12 +153,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JButton newImage = null;
 
     private JTextField begin = null;
-    private Calendar beginDate = null;
+    private OffsetDateTime beginDate = null;
     private JButton beginPicker = null;
     private TimeContainer beginTime = null;
     private JButton beginNow = null;
     private JTextField end = null;
-    private Calendar endDate = null;
+    private OffsetDateTime endDate = null;
     private JButton endPicker = null;
     private TimeContainer endTime = null;
     private JButton endNow = null;
@@ -162,6 +172,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private final ImageResolver imageResolver;
     private final ObservationManagerModel model;
     private final TextManager textManager;
+    private final DateManager dateManager;
 
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
@@ -178,6 +189,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.imageResolver = resolver;
         this.observation = observation;
         this.textManager = textManager;
+        this.dateManager = new DateManagerImpl();
+
+        // TODO IOC
+        this.sessionBox = new SessionBox(this.dateManager);
 
         this.cache = this.observationManager.getUIDataCache();
 
@@ -319,10 +334,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation.setObserver(observer);
         this.cache.put(ObservationDialogPanel.CACHEKEY_OBSERVER, observer); // Fill cache
 
-        this.beginDate.set(Calendar.HOUR_OF_DAY, this.beginTime.getHour());
-        this.beginDate.set(Calendar.MINUTE, this.beginTime.getMinutes());
-        this.beginDate.set(Calendar.SECOND, this.beginTime.getSeconds());
-
         // Try to get and set timezone
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
         if (site == null) {
@@ -331,13 +342,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 site = session.getSite();
             }
         }
-        TimeZone tz = null;
-        if (site != null) {
-            tz = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-        } else {
-            tz = TimeZone.getDefault(); // Use hosts default timezone
-        }
-        this.beginDate.setTimeZone(tz);
+
+        ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
+                : ZoneOffset.ofHoursMinutes(0, site.getTimezone());
+        // @formatter:off
+        this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
+                this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
+                this.beginDate.getSecond(), 0, offset);
+        // @formatter:on
 
         this.observation.setBegin(this.beginDate);
         this.cache.put(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
@@ -348,13 +360,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // setting session (start-end-date) will fail
         this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, null); // Reset cache
         if (this.endDate != null) {
-            this.endDate.set(Calendar.HOUR_OF_DAY, this.endTime.getHour());
-            this.endDate.set(Calendar.MINUTE, this.endTime.getMinutes());
-            this.endDate.set(Calendar.SECOND, this.endTime.getSeconds());
-            if (tz != null) {
-                this.endDate.setTimeZone(tz);
-            }
-            if (this.endDate.before(this.beginDate)) {
+
+            // @formatter:off
+            this.endDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
+                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
+                    this.endTime.getSeconds(), 0, offset);
+            // @formatter:on
+
+            if (this.endDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
             }
@@ -514,10 +527,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             return null;
         }
 
-        this.beginDate.set(Calendar.HOUR_OF_DAY, this.beginTime.getHour());
-        this.beginDate.set(Calendar.MINUTE, this.beginTime.getMinutes());
-        this.beginDate.set(Calendar.SECOND, this.beginTime.getSeconds());
-
         // Try to get and set timezone
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
         if (site == null) {
@@ -526,13 +535,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 site = session.getSite();
             }
         }
-        TimeZone tz = null;
-        if (site != null) {
-            tz = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-        } else {
-            tz = TimeZone.getDefault(); // Use hosts default timezone
-        }
-        this.beginDate.setTimeZone(tz);
+
+        ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
+                : ZoneOffset.ofHoursMinutes(0, site.getTimezone());
+        this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
+                this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
+                this.beginDate.getSecond(), 0, offset);
 
         this.observation = new Observation(this.beginDate, target, observer, finding);
 
@@ -547,17 +555,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // are not within sessions begin/end date
         this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, null); // Reset cache
         if (this.endDate != null) {
-            this.endDate.set(Calendar.HOUR_OF_DAY, this.endTime.getHour());
-            this.endDate.set(Calendar.MINUTE, this.endTime.getMinutes());
-            this.endDate.set(Calendar.SECOND, this.endTime.getSeconds());
-            if (tz != null) {
-                this.endDate.setTimeZone(tz);
-            }
-            if (this.endDate.before(this.beginDate)) {
+
+            final OffsetDateTime newEndDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
+                    this.endDate.getDayOfMonth(), this.endDate.getHour(), this.endDate.getMinute(),
+                    this.endDate.getSecond(), 0, offset);
+
+            if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
             }
 
+            this.endDate = newEndDate;
             this.observation.setEnd(this.endDate);
             this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
         } else {
@@ -768,65 +776,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     }
                 }
             } else if (source.equals(this.beginPicker)) {
-                DatePicker dp = null;
-                TimeZone timeZone = null;
-                if (this.siteBox.getSelectedSchemaElement() != null) {
-                    // Try to get and set timezone
-                    ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-                    if (site == null) {
-                        ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
-                        if (session != null) {
-                            site = session.getSite();
-                        }
-                    }
-                    if (site != null) {
-                        timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-                    }
-                }
-                if (this.beginDate != null) {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
-                            timeZone);
-                } else {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), timeZone);
-                }
-                this.beginDate = dp.getDate();
-                this.beginTime.setTime(this.beginDate.get(Calendar.HOUR_OF_DAY), this.beginDate.get(Calendar.MINUTE),
-                        this.beginDate.get(Calendar.SECOND));
-                this.begin.setText(dp.getDateString());
+                this.readBeginDate();
             } else if (source.equals(this.endPicker)) {
-                DatePicker dp = null;
-                TimeZone timeZone = null;
-                if (this.siteBox.getSelectedSchemaElement() != null) {
-                    // Try to get and set timezone
-                    ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-                    if (site == null) {
-                        ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
-                        if (session != null) {
-                            site = session.getSite();
-                        }
-                    }
-                    if (site != null) {
-                        timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-                    }
-                }
-                if (this.endDate != null) {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate,
-                            timeZone);
-                } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate,
-                            timeZone);
-                } else {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), timeZone);
-                }
-                this.endDate = dp.getDate();
-                this.endTime.setTime(this.endDate.get(Calendar.HOUR_OF_DAY), this.endDate.get(Calendar.MINUTE),
-                        this.endDate.get(Calendar.SECOND));
-                this.end.setText(dp.getDateString());
+                this.readEndDate();
             } else if (source.equals(this.newImage)) {
                 this.addNewImages();
             } else if (source.equals(this.clearEndDateAndTime)) {
@@ -834,15 +786,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 this.endDate = null;
                 this.endTime.setTime(0, 0, 0);
             } else if (source.equals(this.endNow)) {
-                Calendar now = Calendar.getInstance();
-                this.endDate = now;
-                this.endTime.setTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+                this.endDate = OffsetDateTime.now();
+                this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
                 this.end.setText(this.formatDate(this.endDate));
             } else if (source.equals(this.beginNow)) {
-                Calendar now = Calendar.getInstance();
-                this.beginDate = now;
-                this.beginTime.setTime(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
-                        now.get(Calendar.SECOND));
+                this.beginDate = OffsetDateTime.now();
+                this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(),
+                        this.beginDate.getSecond());
                 this.begin.setText(this.formatDate(this.beginDate));
             }
         } else if (source instanceof AbstractBox) {
@@ -851,6 +801,70 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.calculateMagnification(-1);
         }
 
+    }
+
+    private void readEndDate() {
+        DatePicker dp = null;
+        TimeZone timeZone = null;
+        if (this.siteBox.getSelectedSchemaElement() != null) {
+            // Try to get and set timezone
+            ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
+            if (site == null) {
+                ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+                if (session != null) {
+                    site = session.getSite();
+                }
+            }
+            if (site != null) {
+                timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
+            }
+        }
+        if (this.endDate != null) {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate, timeZone,
+                    this.dateManager);
+        } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate, timeZone,
+                    this.dateManager);
+        } else {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), timeZone,
+                    this.dateManager);
+        }
+        this.endDate = dp.getDate();
+        this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
+        this.end.setText(dp.getDateString());
+    }
+
+    private void readBeginDate() {
+        DatePicker dp = null;
+        TimeZone timeZone = null;
+        if (this.siteBox.getSelectedSchemaElement() != null) {
+            // Try to get and set timezone
+            ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
+            if (site == null) {
+                ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+                if (session != null) {
+                    site = session.getSite();
+                }
+            }
+            if (site != null) {
+                timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
+            }
+        }
+        if (this.beginDate != null) {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
+                    timeZone, this.dateManager);
+        } else {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), timeZone,
+                    this.dateManager);
+        }
+        this.beginDate = dp.getDate();
+        this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
+        this.begin.setText(dp.getDateString());
     }
 
     // --------------
@@ -930,21 +944,18 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         }
                     }
 
-                    Calendar start = session.getBegin();
-                    this.beginDate = start;
-                    this.begin.setText(this.formatDate(start));
-                    this.beginTime.setTime(start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE),
-                            start.get(Calendar.SECOND));
+                    this.beginDate = session.getBegin();
+                    this.begin.setText(this.formatDate(beginDate));
+                    this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
                     // Check whether enddate/time should be autom. set
                     if (Boolean.parseBoolean(this.observationManager.getConfiguration()
                             .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
-                        this.endDate = (Calendar) start.clone();
-                        this.endDate.add(Calendar.MINUTE, 10); // Add 10 minutes, as end date should be after begin date
-
+                        this.endDate = this.beginDate.plusMinutes(10L); // Add 10 minutes, as end date should be after
+                                                                        // begin date
                         this.end.setText(this.formatDate(endDate));
-                        this.endTime.setTime(endDate.get(Calendar.HOUR_OF_DAY), endDate.get(Calendar.MINUTE),
-                                endDate.get(Calendar.SECOND));
+                        this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(),
+                                this.endDate.getSecond());
                     }
 
                     // Set site
@@ -1059,12 +1070,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     }
 
-    private String formatDate(Calendar cal) {
+    private String formatDate(OffsetDateTime cal) {
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
-        format.setCalendar(cal);
-        return format.format(cal.getTime());
+        return this.dateManager.offsetDateTimeToString(cal);
 
     }
 
@@ -1110,8 +1118,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.beginDate = this.observation.getBegin();
         this.begin.setText(this.formatDate(this.beginDate));
         this.beginPicker.setEnabled(this.isEditable());
-        this.beginTime.setTime(this.beginDate.get(Calendar.HOUR_OF_DAY), this.beginDate.get(Calendar.MINUTE),
-                this.beginDate.get(Calendar.SECOND));
+        this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
         this.observerBox.setSelectedItem(this.observation.getObserver());
@@ -1129,8 +1136,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
             this.end.setText(this.formatDate(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
-            this.endTime.setTime(this.endDate.get(Calendar.HOUR_OF_DAY), this.endDate.get(Calendar.MINUTE),
-                    this.endDate.get(Calendar.SECOND));
+            this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }
         this.endTime.setEditable(this.isEditable());
 
@@ -1885,12 +1891,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Set new begin date to last observation end date
         if (this.cache.get(CACHEKEY_ENDDATE) != null) {
-            this.beginDate = (Calendar) this.cache.get(CACHEKEY_ENDDATE);
+            this.beginDate = (OffsetDateTime) this.cache.get(CACHEKEY_ENDDATE);
 
             this.begin.setText(this.formatDate(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
-            this.beginTime.setTime(this.beginDate.get(Calendar.HOUR_OF_DAY), this.beginDate.get(Calendar.MINUTE),
-                    this.beginDate.get(Calendar.SECOND));
+            this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         }
 
         if (this.cache.get(CACHEKEY_OBSERVER) != null) {
@@ -1916,13 +1921,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         if (this.cache.get(CACHEKEY_ENDDATE) != null) {
             // Set end date to last observation end date +10 minutes
-            this.endDate = (Calendar) this.cache.get(CACHEKEY_ENDDATE);
-            this.endDate.add(Calendar.MINUTE, 10);
-
+            this.endDate = (OffsetDateTime) this.cache.get(CACHEKEY_ENDDATE);
+            this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
             this.end.setText(this.formatDate(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
-            this.endTime.setTime(this.endDate.get(Calendar.HOUR_OF_DAY), this.endDate.get(Calendar.MINUTE),
-                    this.endDate.get(Calendar.SECOND));
+            this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }
 
         if (this.cache.get(CACHEKEY_FAINTESTSTAR) != null) {

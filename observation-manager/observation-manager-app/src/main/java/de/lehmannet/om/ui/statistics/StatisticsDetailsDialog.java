@@ -14,12 +14,11 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.SimpleDateFormat;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -37,7 +36,6 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
-import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.ObservationManagerHtmlHelper;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
@@ -50,6 +48,8 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 
 public class StatisticsDetailsDialog extends AbstractDialog {
 
@@ -465,6 +465,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
+    private final DateManager dateManager = new DateManagerImpl();
 
     public DetailPanel(final ObservationManager om, final AbstractSchemaTableModel model) {
 
@@ -525,9 +526,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                final SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
-                df.setCalendar(o.getBegin());
-                cr.setText(df.format(o.getBegin().getTime()));
+                cr.setText(this.dateManager.offsetDateTimeToString(o.getBegin()));
             }
 
             if (isSelected) {
@@ -539,18 +538,6 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             return cr;
         });
 
-        /*
-         * this.table.setDefaultRenderer(List.class, new TableCellRenderer() { public Component
-         * getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int
-         * column) { DefaultTableCellRenderer cr = new DefaultTableCellRenderer(); if( value != null ) { List l =
-         * (List)value; Iterator i = l.iterator(); IObservation o = null; String text = ""; DateFormat df =
-         * DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()); while( i.hasNext() )
-         * { o = (IObservation)i.next(); df.setCalendar(o.getBegin()); text = text + df.format(o.getBegin().getTime());
-         * if( i.hasNext() ) { text = text + "; "; } } cr.setText(text); } else { cr.setText(""); } if( isSelected ) {
-         * cr.setBackground(Color.LIGHT_GRAY); }
-         *
-         * return cr; } } );
-         */
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumn c = table.getColumnModel().getColumn(0);
         c.setPreferredWidth(this.model.getColumnSize(0));

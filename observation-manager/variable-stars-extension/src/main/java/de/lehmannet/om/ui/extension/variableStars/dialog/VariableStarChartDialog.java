@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
@@ -50,6 +49,8 @@ import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.DateConverter;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 
 public class VariableStarChartDialog extends OMDialog implements PropertyChangeListener, ComponentListener {
 
@@ -144,6 +145,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
      *
      */
     private static final long serialVersionUID = 1L;
+
+    private final DateManager dateManager = new DateManagerImpl();
 
     private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
@@ -310,14 +313,15 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             type = variableStar.getType();
         }
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         String fromDateLabel = this.bundle.getString("chart.label.from");
         String toDateLabel = this.bundle.getString("chart.label.to");
         String fromDateJD = "JD: "
                 + DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin());
-        String fromDate = format.format(((IObservation) (this.observations.first())).getBegin().getTime());
+        String fromDate = this.dateManager
+                .offsetDateTimeToStringWithSeconds(((IObservation) (this.observations.first())).getBegin());
         String toDateJD = "" + DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin());
-        String toDate = format.format(((IObservation) (this.observations.last())).getBegin().getTime());
+        String toDate = this.dateManager
+                .offsetDateTimeToStringWithSeconds(((IObservation) (this.observations.last())).getBegin());
 
         // ---- Print large box as border
         this.g2d.drawRect(0, 0, (int) this.getSize().getWidth(), BORDER_TOP - 10);
@@ -462,15 +466,11 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
                 FontMetrics valueFontMetric = this.getFontMetrics(valueFont);
                 g2d.setFont(valueFont);
 
-                // The popup text
-                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-                format.setCalendar(dataSpot.getObservation().getBegin());
-
                 String sign = dataSpot.getResult().isMagnitudeFainterThan() ? "<" : "";
                 String[] info = new String[] { (sign + dataSpot.getResult().getMagnitude() + "mag"),
                         ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin())),
                         (this.bundle.getString("chart.popup.date") + ": "
-                                + format.format(dataSpot.getObservation().getBegin().getTime())) };
+                                + this.dateManager.offsetDateTimeToString(dataSpot.getObservation().getBegin())) };
 
                 // Get largest popup text
                 String maxInfoString = "";

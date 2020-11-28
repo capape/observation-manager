@@ -4,14 +4,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
@@ -37,6 +35,8 @@ import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class VariableStarSelectorPopup extends JDialog implements ActionListener, TableModelListener {
@@ -49,10 +49,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private JButton cancel = null;
 
     private JTextField beginField = null;
-    private Calendar beginDate = null;
+    private OffsetDateTime beginDate = null;
     private JButton beginPicker = null;
     private JTextField endField = null;
-    private Calendar endDate = null;
+    private OffsetDateTime endDate = null;
     private JButton endPicker = null;
 
     private final ResourceBundle uiBundle = ResourceBundle
@@ -62,6 +62,7 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private final ObservationManagerModel model;
     private final JFrame parent;
     private final UserInterfaceHelper uiHelper;
+    private final DateManager dateManager;
 
     /**
      * @see SchemaElementConstants
@@ -76,6 +77,7 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
 
         this.model = model;
 
+        this.dateManager = new DateManagerImpl();
         this.setTitle(this.uiBundle.getString("popup.selectVariableStar.title"));
         this.setSize(500, 250);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -155,10 +157,12 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                 DatePicker dp = null;
                 if (this.beginDate != null) {
                     dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"), this.beginDate);
+                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"), this.beginDate,
+                            this.dateManager);
                 } else {
                     dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"));
+                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"),
+                            this.dateManager);
                 }
 
                 // Make sure selected date is in observation period
@@ -169,10 +173,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    Calendar first = ((IObservation) set.first()).getBegin();
-                    Calendar last = ((IObservation) set.last()).getBegin();
+                    OffsetDateTime first = ((IObservation) set.first()).getBegin();
+                    OffsetDateTime last = ((IObservation) set.last()).getBegin();
 
-                    if ((dp.getDate().before(first)) || (dp.getDate().after(last))) {
+                    if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.begin.datePicker.outOfScope"));
                         return;
@@ -186,13 +190,15 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                 DatePicker dp = null;
                 if (this.endDate != null) {
                     dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.endDate);
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.endDate,
+                            this.dateManager);
                 } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
                     dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.beginDate);
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.beginDate,
+                            this.dateManager);
                 } else {
                     dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"));
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.dateManager);
                 }
 
                 // Make sure selected date is in observation period
@@ -203,10 +209,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    Calendar first = ((IObservation) set.first()).getBegin();
-                    Calendar last = ((IObservation) set.last()).getBegin();
+                    OffsetDateTime first = ((IObservation) set.first()).getBegin();
+                    OffsetDateTime last = ((IObservation) set.last()).getBegin();
 
-                    if ((dp.getDate().before(first)) || (dp.getDate().after(last))) {
+                    if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.end.datePicker.outOfScope"));
                         return;
@@ -237,7 +243,7 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         // Filter by start/end date
         List<IObservation> result = new ArrayList<>();
         for (IObservation observation : observations) {
-            if ((observation.getBegin().before(this.beginDate)) || (observation.getBegin().after(this.endDate))) {
+            if ((observation.getBegin().isBefore(this.beginDate)) || (observation.getBegin().isAfter(this.endDate))) {
                 // Observation not in selected time period
             } else {
                 result.add(observation);
@@ -327,13 +333,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
 
     }
 
-    private String formatDate(Calendar cal) {
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
-        format.setCalendar(cal);
-        return format.format(cal.getTime());
-
+    private String formatDate(OffsetDateTime cal) {
+        return this.dateManager.offsetDateTimeToString(cal);
     }
 
 }

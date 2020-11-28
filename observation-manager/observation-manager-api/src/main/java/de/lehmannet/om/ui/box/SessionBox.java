@@ -7,12 +7,9 @@
 
 package de.lehmannet.om.ui.box;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
+import de.lehmannet.om.util.DateManager;
 
 public class SessionBox extends AbstractBox {
 
@@ -20,6 +17,14 @@ public class SessionBox extends AbstractBox {
      *
      */
     private static final long serialVersionUID = 1L;
+
+    private final DateManager dateManager;
+
+    public SessionBox(DateManager dateManager) {
+        super();
+        this.dateManager = dateManager;
+
+    }
 
     @Override
     public void addItem(ISchemaElement element) {
@@ -41,17 +46,9 @@ public class SessionBox extends AbstractBox {
         // The displayname of Session does not show time, so we build own string...
 
         ISession session = (ISession) element;
-        Calendar begin = session.getBegin();
-        Calendar end = session.getEnd();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-
-        df.setCalendar(begin);
-        String result = df.format(begin.getTime()) + " - ";
-        df.setCalendar(end);
-        result = result + df.format(end.getTime());
-
-        return result;
+        return dateManager.offsetDateTimeToString(session.getBegin()) + " - "
+                + dateManager.offsetDateTimeToString(session.getEnd());
 
     }
 

@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 import java.util.Comparator;
 
 import de.lehmannet.om.IObservation;
@@ -42,21 +42,21 @@ public class ObservationComparator implements Comparator<IObservation> {
                 ob1 = (IObservation) o2;
             }
 
-            Calendar ob1B = ob1.getBegin();
-            Calendar ob2B = ob2.getBegin();
+            OffsetDateTime ob1B = ob1.getBegin();
+            OffsetDateTime ob2B = ob2.getBegin();
 
-            if (ob1B.before(ob2B)) {
+            if (ob1B.isBefore(ob2B)) {
                 return -1;
-            } else if (ob1B.after(ob2B)) {
+            } else if (ob1B.isAfter(ob2B)) {
                 return 1;
             } else if (ob1B.equals(ob2B)) { // Same start date. Try to check end date
-                Calendar ob1E = ob1.getEnd();
-                Calendar ob2E = ob2.getEnd();
+                OffsetDateTime ob1E = ob1.getEnd();
+                OffsetDateTime ob2E = ob2.getEnd();
                 if (ob1E != null) {
                     if (ob2E != null) {
-                        if (ob1E.before(ob2E)) {
+                        if (ob1E.isBefore(ob2E)) {
                             return -1;
-                        } else if (ob1E.after(ob2E)) {
+                        } else if (ob1E.isAfter(ob2E)) {
                             return 1;
                         }
                     } else { // Observation 1 has end date, while Observation 2 has none

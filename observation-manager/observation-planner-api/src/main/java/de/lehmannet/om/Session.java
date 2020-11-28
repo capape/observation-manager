@@ -8,12 +8,11 @@
 package de.lehmannet.om;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.OffsetDateTime;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
@@ -22,7 +21,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.lehmannet.om.util.DateConverter;
+import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.SchemaException;
 
 /**
@@ -40,10 +39,10 @@ public class Session extends SchemaElement implements ISession {
     // ------------------
 
     // Start date of session
-    private Calendar begin = Calendar.getInstance();
+    private OffsetDateTime begin = OffsetDateTime.now();
 
     // End date of session
-    private Calendar end = Calendar.getInstance();
+    private OffsetDateTime end = OffsetDateTime.now();
 
     // Site where session took place
     private ISite site = null;
@@ -62,6 +61,8 @@ public class Session extends SchemaElement implements ISession {
 
     // Language (since 1.5)
     private String lang = null;
+
+    private final DateManager dateManager;
 
     // Relative paths to an image (list of String) (since 2.1)
     /**
@@ -90,7 +91,7 @@ public class Session extends SchemaElement implements ISession {
      * @throws SchemaException
      *             if the given Node does not match the XML Schema specifications
      */
-    public Session(Node session, IObserver[] observers, ISite... sites)
+    public Session(Node session, DateManager dateManager, IObserver[] observers, ISite... sites)
             throws SchemaException, IllegalArgumentException {
 
         if (session == null) {
@@ -99,6 +100,8 @@ public class Session extends SchemaElement implements ISession {
 
         // Cast to element as we need some methods from it
         Element sessionElement = (Element) session;
+
+        this.dateManager = dateManager;
 
         // Getting data
         // First mandatory stuff and down below optional data
@@ -303,13 +306,13 @@ public class Session extends SchemaElement implements ISession {
             throw new SchemaException("Session must have exact one end date. ");
         }
         Element child = (Element) children.item(0);
-        Calendar end = null;
+        OffsetDateTime end = null;
         if (child == null) {
             throw new SchemaException("Session must have end date. ");
         } else {
             String ISO8601End = child.getFirstChild().getNodeValue();
             try {
-                end = DateConverter.toDate(ISO8601End);
+                end = OffsetDateTime.parse(ISO8601End);
                 this.setEnd(end);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("End date is malformed. ", nfe);
@@ -324,7 +327,7 @@ public class Session extends SchemaElement implements ISession {
             throw new SchemaException("Session must have exact one begin date. ");
         }
         Element child = (Element) children.item(0);
-        Calendar begin = null;
+        OffsetDateTime begin = null;
         if (child == null) {
             throw new SchemaException("Session must have begin date. ");
         } else {
@@ -335,7 +338,7 @@ public class Session extends SchemaElement implements ISession {
                 throw new SchemaException("Session cannot have an empty begin date. ");
             }
             try {
-                begin = DateConverter.toDate(ISO8601Begin);
+                begin = OffsetDateTime.parse(ISO8601Begin);
                 this.setBegin(begin);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);
@@ -355,8 +358,10 @@ public class Session extends SchemaElement implements ISession {
      * @throws IllegalArgumentException
      *             if site, begin or end date is <code>null</code>
      */
-    public Session(Calendar begin, Calendar end, ISite site) throws IllegalArgumentException {
+    public Session(DateManager dateManager, OffsetDateTime begin, OffsetDateTime end, ISite site)
+            throws IllegalArgumentException {
 
+        this.dateManager = dateManager;
         this.setBegin(begin);
         this.setEnd(end);
         this.setSite(site);
@@ -379,14 +384,8 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public String getDisplayName() {
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-
-        df.setCalendar(this.getBegin());
-        String result = df.format(this.getBegin().getTime()) + " - ";
-        df.setCalendar(this.getEnd());
-        result = result + df.format(this.getEnd().getTime());
-
-        return result;
+        return this.dateManager.offsetDateTimeToString(this.getBegin()) + " - "
+                + this.dateManager.offsetDateTimeToString(this.getEnd());
 
     }
 
@@ -406,10 +405,10 @@ public class Session extends SchemaElement implements ISession {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("Session: Begin=");
-        buffer.append(DateConverter.toISO8601(begin));
+        buffer.append(begin.toString());
 
         buffer.append(" End=");
-        buffer.append(DateConverter.toISO8601(end));
+        buffer.append(end.toString());
 
         buffer.append(" Site=");
         buffer.append(this.site);
@@ -511,12 +510,12 @@ public class Session extends SchemaElement implements ISession {
         element.appendChild(e_Session);
 
         Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
-        Node n_BeginText = ownerDoc.createTextNode(DateConverter.toISO8601(begin));
+        Node n_BeginText = ownerDoc.createTextNode(begin.toString());
         e_Begin.appendChild(n_BeginText);
         e_Session.appendChild(e_Begin);
 
         Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
-        Node n_EndText = ownerDoc.createTextNode(DateConverter.toISO8601(end));
+        Node n_EndText = ownerDoc.createTextNode(end.toString());
         e_End.appendChild(n_EndText);
         e_Session.appendChild(e_End);
 
@@ -677,9 +676,9 @@ public class Session extends SchemaElement implements ISession {
      * @return Returns the start date of the session
      */
     @Override
-    public Calendar getBegin() {
+    public OffsetDateTime getBegin() {
 
-        return (Calendar) begin.clone();
+        return begin;
 
     }
 
@@ -702,9 +701,9 @@ public class Session extends SchemaElement implements ISession {
      * @return Returns the end date of the session
      */
     @Override
-    public Calendar getEnd() {
+    public OffsetDateTime getEnd() {
 
-        return (Calendar) end.clone();
+        return end;
 
     }
 
@@ -791,13 +790,13 @@ public class Session extends SchemaElement implements ISession {
      *             if new start date is <code>null</code>
      */
     @Override
-    public void setBegin(Calendar begin) throws IllegalArgumentException {
+    public void setBegin(OffsetDateTime begin) throws IllegalArgumentException {
 
         if (begin == null) {
             throw new IllegalArgumentException("Start date cannot be null. ");
         }
 
-        this.begin = (Calendar) begin.clone();
+        this.begin = begin;
 
     }
 
@@ -829,13 +828,13 @@ public class Session extends SchemaElement implements ISession {
      *             if new end date is <code>null</code>
      */
     @Override
-    public void setEnd(Calendar end) throws IllegalArgumentException {
+    public void setEnd(OffsetDateTime end) throws IllegalArgumentException {
 
         if (end == null) {
             throw new IllegalArgumentException("End date cannot be null. ");
         }
 
-        this.end = (Calendar) end.clone();
+        this.end = end;
 
     }
 

@@ -7,9 +7,8 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Calendar;
+import java.time.OffsetDateTime;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
@@ -42,10 +41,10 @@ public class HorizontalSkymap extends JLabel {
 
     // The object data to display on the sky
     private EquPosition position = null;
-    private Calendar calendar = null;
+    private OffsetDateTime calendar = null;
     private ISite site = null;
 
-    public HorizontalSkymap(EquPosition position, Calendar date, ISite site) {
+    public HorizontalSkymap(EquPosition position, OffsetDateTime date, ISite site) {
 
         this.position = position;
         this.calendar = date;

@@ -7,7 +7,8 @@
 
 package de.lehmannet.om.util;
 
-import java.util.Calendar;
+import java.time.OffsetDateTime;
+
 import java.util.Objects;
 
 import de.lehmannet.om.Angle;
@@ -68,7 +69,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getPosition(int planet, Calendar date) {
+    public static EquPosition getPosition(int planet, OffsetDateTime date) {
 
         // We've own methods for sun...
         if (planet == SUN) {
@@ -98,7 +99,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getSunPosition(Calendar date) {
+    public static EquPosition getSunPosition(OffsetDateTime date) {
 
         double[] equRecPos = Ephemerides.getSunEquatorialRectangularGeocentric(date);
 
@@ -115,7 +116,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getMoonPosition(Calendar date, double geoLongitude) {
+    public static EquPosition getMoonPosition(OffsetDateTime date, double geoLongitude) {
 
         double[] helioPos = Ephemerides.getHeliocentricPosition(Ephemerides.MOON, date);
 
@@ -153,7 +154,7 @@ public class Ephemerides {
 
     }
 
-    public static boolean isMoonAboveHorizon(Calendar date, double geoLongitude, double geoLatitude) {
+    public static boolean isMoonAboveHorizon(OffsetDateTime date, double geoLongitude, double geoLatitude) {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
@@ -171,7 +172,7 @@ public class Ephemerides {
 
     }
 
-    public static double altitudeAboveHorizon(EquPosition equPos, Calendar date, double geoLongitude,
+    public static double altitudeAboveHorizon(EquPosition equPos, OffsetDateTime date, double geoLongitude,
             double geoLatitude) {
 
         double Dec = equPos.getDecAngle().toDegree();
@@ -182,8 +183,8 @@ public class Ephemerides {
         // Greenwich Mean Sidereal Time
         double GMST0 = Ls + 180;
 
-        double UT = date.get(Calendar.HOUR_OF_DAY) - (date.get(Calendar.ZONE_OFFSET) / 3600000)
-                + date.get(Calendar.MINUTE) / 60.0; // Offset is in ms
+        double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
+                                                                                                          // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -200,7 +201,7 @@ public class Ephemerides {
 
     }
 
-    public static double getAzimut(EquPosition equPos, Calendar date, double geoLongitude, double geoLatitude) {
+    public static double getAzimut(EquPosition equPos, OffsetDateTime date, double geoLongitude, double geoLatitude) {
 
         double Dec = equPos.getDecAngle().toDegree();
 
@@ -212,8 +213,8 @@ public class Ephemerides {
         // Greenwich Mean Sidereal Time
         double GMST0 = Ls + 180;
 
-        double UT = date.get(Calendar.HOUR_OF_DAY) - (date.get(Calendar.ZONE_OFFSET) / 3600000)
-                + date.get(Calendar.MINUTE) / 60.0; // Offset is in ms
+        double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
+                                                                                                          // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -233,14 +234,12 @@ public class Ephemerides {
 
     }
 
-    public static double getMoonPhase(Calendar date) {
+    public static double getMoonPhase(OffsetDateTime date) {
 
         // Get current phase
         double currentPhase = Ephemerides.getMoonPhasePercentage(date);
 
-        // Get phase in 1 hours
-        Calendar phaseTrendDate = (Calendar) date.clone();
-        phaseTrendDate.add(Calendar.HOUR_OF_DAY, 24); // Calculate phase one day ahead to get trend
+        OffsetDateTime phaseTrendDate = date.plusDays(1L);
 
         double trendPhase = Ephemerides.getMoonPhasePercentage(phaseTrendDate);
 
@@ -252,7 +251,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMoonPhasePercentage(Calendar date) {
+    private static double getMoonPhasePercentage(OffsetDateTime date) {
 
         double[] moonEcliptic = Ephemerides.getGeocentricPosition(Ephemerides.MOON, date);
 
@@ -269,7 +268,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMoonHourAngle(Calendar date, double geoLongitude) {
+    private static double getMoonHourAngle(OffsetDateTime date, double geoLongitude) {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
@@ -280,8 +279,8 @@ public class Ephemerides {
         // Greenwich Mean Sidereal Time
         double GMST0 = Ls + 180;
 
-        double UT = date.get(Calendar.HOUR_OF_DAY) - (date.get(Calendar.ZONE_OFFSET) / 3600000)
-                + date.get(Calendar.MINUTE) / 60.0; // Offset is in ms
+        double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
+                                                                                                          // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -292,7 +291,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunXY(int planet, Calendar date) {
+    private static double[] getSunXY(int planet, OffsetDateTime date) {
 
         double e = Ephemerides.getEccentricity(planet, date);
         double E = Ephemerides.getEccentricAnomaly(planet, date);
@@ -304,7 +303,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getXY(int planet, Calendar date) {
+    private static double[] getXY(int planet, OffsetDateTime date) {
 
         double e = Ephemerides.getEccentricity(planet, date);
         double E = Ephemerides.getEccentricAnomaly(planet, date);
@@ -317,7 +316,7 @@ public class Ephemerides {
 
     }
 
-    private static double getDistance(int planet, Calendar date) {
+    private static double getDistance(int planet, OffsetDateTime date) {
 
         double[] XvYv = Ephemerides.getXY(planet, date);
 
@@ -329,7 +328,7 @@ public class Ephemerides {
 
     }
 
-    private static double getTrueAnomaly(int planet, Calendar date) {
+    private static double getTrueAnomaly(int planet, OffsetDateTime date) {
 
         double[] XvYv = Ephemerides.getXY(planet, date);
 
@@ -343,7 +342,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunEclipticRectangularGeocentric(Calendar date) {
+    private static double[] getSunEclipticRectangularGeocentric(OffsetDateTime date) {
 
         double lonsun = Ephemerides.getSunLongitude(date);
         double r = Ephemerides.getDistance(Ephemerides.SUN, date);
@@ -355,7 +354,7 @@ public class Ephemerides {
 
     }
 
-    private static double getSunLongitude(Calendar date) {
+    private static double getSunLongitude(OffsetDateTime date) {
 
         int planet = Ephemerides.SUN;
 
@@ -363,7 +362,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunEquatorialRectangularGeocentric(Calendar date) {
+    private static double[] getSunEquatorialRectangularGeocentric(OffsetDateTime date) {
 
         double[] ecliptivRectangularGeocentric = Ephemerides.getSunEclipticRectangularGeocentric(date);
 
@@ -378,7 +377,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getHeliocentricPosition(int planet, Calendar date) {
+    private static double[] getHeliocentricPosition(int planet, OffsetDateTime date) {
 
         double r = Ephemerides.getDistance(planet, date);
 
@@ -420,7 +419,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getGeocentricPosition(int planet, Calendar date) {
+    private static double[] getGeocentricPosition(int planet, OffsetDateTime date) {
 
         double[] helio = Ephemerides.getHeliocentricPosition(planet, date);
 
@@ -444,12 +443,12 @@ public class Ephemerides {
 
     }
 
-    private static double getD(Calendar date) {
+    private static double getD(OffsetDateTime date) {
 
-        int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH) + 1;
-        int day = date.get(Calendar.DAY_OF_MONTH);
-        double time = (double) date.get(Calendar.HOUR_OF_DAY) / (double) 24;
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
+        double time = (double) date.getHour() / (double) 24;
 
         double d = 367 * year - 7 * (year + (month + 9) / 12) / 4 + 275 * month / 9 + day - 730530;
         d = d + time;
@@ -458,7 +457,7 @@ public class Ephemerides {
 
     }
 
-    private static double getObliquityOfTheEcliptic(Calendar date) {
+    private static double getObliquityOfTheEcliptic(OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -466,7 +465,7 @@ public class Ephemerides {
 
     }
 
-    private static double getLongitudeOfTheAscendingNode(int planet, Calendar date) {
+    private static double getLongitudeOfTheAscendingNode(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -495,7 +494,7 @@ public class Ephemerides {
 
     }
 
-    private static double getInclination(int planet, Calendar date) {
+    private static double getInclination(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -524,7 +523,7 @@ public class Ephemerides {
 
     }
 
-    private static double getArgumentOfPerihelion(int planet, Calendar date) {
+    private static double getArgumentOfPerihelion(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -553,7 +552,7 @@ public class Ephemerides {
 
     }
 
-    private static double getSemiMajorAxis(int planet, Calendar date) {
+    private static double getSemiMajorAxis(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -582,7 +581,7 @@ public class Ephemerides {
 
     }
 
-    private static double getEccentricity(int planet, Calendar date) {
+    private static double getEccentricity(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -611,7 +610,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMeanAnomaly(int planet, Calendar date) {
+    private static double getMeanAnomaly(int planet, OffsetDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -640,7 +639,7 @@ public class Ephemerides {
 
     }
 
-    private static double getEccentricAnomaly(int planetKey, Calendar date) {
+    private static double getEccentricAnomaly(int planetKey, OffsetDateTime date) {
 
         double aoP = Ephemerides.getArgumentOfPerihelion(planetKey, date);
 
@@ -670,7 +669,7 @@ public class Ephemerides {
 
     }
 
-    private static double getPerturbationsForMoonDistance(double pdistance, Calendar date) {
+    private static double getPerturbationsForMoonDistance(double pdistance, OffsetDateTime date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -689,7 +688,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getPerturbationsForMoon(double plongitude, double platitude, Calendar date) {
+    private static double[] getPerturbationsForMoon(double plongitude, double platitude, OffsetDateTime date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -727,11 +726,12 @@ public class Ephemerides {
     /*
      * public static void main(String args[]) {
      * 
-     * Calendar date = Calendar.getInstance(); date.set(Calendar.HOUR_OF_DAY, 1); date.set(Calendar.DAY_OF_MONTH, 22);
-     * //date.set(Calendar.MONTH, 11); System.out.println("" + new java.util.Date(date.getTimeInMillis()) + "\n" +
-     * Ephemerides.getMoonPosition(date, 0)); System.out.println("Moon phase: " + Ephemerides.getMoonPhase(date) +
-     * "\t Date: " + new java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " +
-     * Ephemerides.isMoonAboveHorizon(date, 9, 49)); }
+     * OffsetDateTime date = OffsetDateTime.getInstance(); date.set(OffsetDateTime.HOUR_OF_DAY, 1);
+     * date.set(OffsetDateTime.DAY_OF_MONTH, 22); //date.set(OffsetDateTime.MONTH, 11); System.out.println("" + new
+     * java.util.Date(date.getTimeInMillis()) + "\n" + Ephemerides.getMoonPosition(date, 0));
+     * System.out.println("Moon phase: " + Ephemerides.getMoonPhase(date) + "\t Date: " + new
+     * java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " + Ephemerides.isMoonAboveHorizon(date,
+     * 9, 49)); }
      */
 
 }

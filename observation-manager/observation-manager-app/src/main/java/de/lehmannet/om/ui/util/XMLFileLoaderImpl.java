@@ -101,7 +101,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         RootElement root = this.getRootElement();
 
         try {
-            Objects.requireNonNull(root).serializeAsXml(new File(newPath));
+            Objects.requireNonNull(root).serializeAsXmlFormatted(new File(newPath));
             // this.loadObservations(newPath); // Fill cache .... Not good! Strange
             // behaviour. After save, first try to do
             // chnaged (e.g. stellar etc) is not taken. Second try works...) Better solution
