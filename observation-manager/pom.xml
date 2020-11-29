@@ -11,13 +11,13 @@
     <packaging>pom</packaging>
     <artifactId>observation-manager</artifactId>
     <groupId>de.lehmannet.om</groupId>
-    <version>1.6.0-RC3-SNAPSHOT</version>
+    <version>1.6.0-RC3</version>
 
     <scm>
         <connection>scm:git:git@github.com:capape/observation-manager.git</connection>        
         <developerConnection>scm:git:git@github.com:capape/observation-manager.git</developerConnection>
         <url>https://github.com/capape/observation-manager</url>
-      <tag>HEAD</tag>
+      <tag>observation-manager-1.6.0-RC3</tag>
   </scm>
 
     <build>
