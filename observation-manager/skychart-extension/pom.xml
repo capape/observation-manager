@@ -4,7 +4,7 @@
     <parent>
         <artifactId>observation-manager</artifactId>
         <groupId>de.lehmannet.om</groupId>
-        <version>1.6.0-RC3</version>
+        <version>1.6.0-RC4-SNAPSHOT</version>
     </parent>
     <groupId>de.lehmannet.om</groupId>
     <artifactId>skychart-extension</artifactId>
