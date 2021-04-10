@@ -7,7 +7,6 @@
 
 package de.lehmannet.om.ui.container;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,7 +15,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -27,7 +25,6 @@ import javax.swing.SwingConstants;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ui.box.LanguageBox;
-
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;

@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;

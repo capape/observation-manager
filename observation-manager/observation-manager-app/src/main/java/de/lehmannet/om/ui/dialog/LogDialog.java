@@ -21,7 +21,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;

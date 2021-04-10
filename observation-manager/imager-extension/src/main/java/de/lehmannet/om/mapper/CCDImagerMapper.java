@@ -1,7 +1,5 @@
 package de.lehmannet.om.mapper;
 
-import java.util.Optional;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

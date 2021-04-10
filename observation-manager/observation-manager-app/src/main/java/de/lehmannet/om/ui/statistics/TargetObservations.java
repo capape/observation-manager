@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
-import de.lehmannet.om.Target;
 
 public class TargetObservations {
 

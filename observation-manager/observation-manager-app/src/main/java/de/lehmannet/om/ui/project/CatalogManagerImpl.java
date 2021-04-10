@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 

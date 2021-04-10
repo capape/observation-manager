@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.panel;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

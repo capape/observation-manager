@@ -1,5 +1,8 @@
 package de.lehmannet.om.ui.navigation;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -10,9 +13,6 @@ import org.slf4j.LoggerFactory;
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.XMLFileLoader;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public final class ObservationManagerMenuHelp {
 

@@ -1,15 +1,15 @@
 package de.lehmannet.om.ui.util;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
-import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import java.awt.BorderLayout;
 
 public class UserInterfaceHelperImpl implements UserInterfaceHelper {
 

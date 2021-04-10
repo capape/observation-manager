@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -23,7 +22,6 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetPN;
 import de.lehmannet.om.model.ObservationManagerModel;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;

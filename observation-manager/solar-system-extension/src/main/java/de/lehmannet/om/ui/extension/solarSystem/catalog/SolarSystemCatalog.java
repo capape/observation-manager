@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;

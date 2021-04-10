@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.extension;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFrame;

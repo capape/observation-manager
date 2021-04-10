@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JFrame;

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;

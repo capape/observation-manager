@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;

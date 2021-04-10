@@ -19,7 +19,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.mapper.ScopeMapper;
-import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 
 /**

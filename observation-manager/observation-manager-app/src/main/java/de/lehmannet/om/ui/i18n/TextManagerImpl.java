@@ -1,8 +1,5 @@
 package de.lehmannet.om.ui.i18n;
 
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.ui.util.LocaleToolsFactory;

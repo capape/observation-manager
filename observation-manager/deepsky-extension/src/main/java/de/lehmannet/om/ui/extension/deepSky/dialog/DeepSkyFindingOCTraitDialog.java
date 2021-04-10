@@ -14,17 +14,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import de.lehmannet.om.extension.deepSky.DeepSkyFindingOC;
 import de.lehmannet.om.ui.dialog.OMDialog;
-
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class DeepSkyFindingOCTraitDialog extends OMDialog {

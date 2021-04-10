@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.dialog;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 

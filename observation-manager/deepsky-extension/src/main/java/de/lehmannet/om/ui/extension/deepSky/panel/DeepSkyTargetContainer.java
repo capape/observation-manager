@@ -12,7 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -30,7 +29,6 @@ import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.container.SurfaceBrightnessContainer;
 import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.FloatUtil;

@@ -2,8 +2,20 @@ package de.lehmannet.om.ui.extension.deepSky;
 
 import javax.swing.JFrame;
 
-import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetAS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetCG;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetDN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetDS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGC;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetGX;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetMS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetNA;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetOC;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetPN;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetASDialog;
@@ -19,22 +31,6 @@ import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetOCDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetPNDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetQSDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetSCDialog;
-import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
-import de.lehmannet.om.extension.deepSky.DeepSkyFindingDS;
-import de.lehmannet.om.extension.deepSky.DeepSkyFindingOC;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetAS;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetCG;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetDN;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetDS;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetGC;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetGN;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetGX;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetMS;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetNA;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetOC;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetPN;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
-import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
 
 public class TargetDialogFactory {
 

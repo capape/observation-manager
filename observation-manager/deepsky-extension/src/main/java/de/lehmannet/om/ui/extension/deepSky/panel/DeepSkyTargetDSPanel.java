@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -27,7 +26,6 @@ import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 

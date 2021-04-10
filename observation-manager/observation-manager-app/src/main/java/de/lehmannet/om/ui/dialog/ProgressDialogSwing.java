@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,7 +21,6 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.Worker;
 
 public class ProgressDialogSwing extends JDialog implements ComponentListener, PropertyChangeListener {
 

@@ -1,12 +1,5 @@
 package de.lehmannet.om.ui.extension.deepSky;
 
-import de.lehmannet.om.ui.extension.IExtensionContext;
-import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel;
-import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel;
-import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel;
-import de.lehmannet.om.ui.panel.AbstractPanel;
-import de.lehmannet.om.ui.panel.GenericFindingPanel;
-import de.lehmannet.om.util.SchemaElementConstants;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
@@ -25,6 +18,12 @@ import de.lehmannet.om.extension.deepSky.DeepSkyTargetOC;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetPN;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
+import de.lehmannet.om.ui.extension.IExtensionContext;
+import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel;
+import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel;
+import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel;
+import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.GenericFindingPanel;
 
 public class FindingPanelFactory {
 

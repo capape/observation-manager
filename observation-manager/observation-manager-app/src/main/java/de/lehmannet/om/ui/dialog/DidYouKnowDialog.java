@@ -16,9 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.swing.Icon;

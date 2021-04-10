@@ -10,7 +10,6 @@ package de.lehmannet.om;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 /**
  * Constellation enum represents all 88 IAU constellations. The constellation name (and abbreviation) used in this class

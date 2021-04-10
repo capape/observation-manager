@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 

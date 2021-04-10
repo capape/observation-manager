@@ -12,7 +12,6 @@ import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -25,7 +24,6 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
 import de.lehmannet.om.extension.deepSky.DeepSkyFindingDS;
-
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;

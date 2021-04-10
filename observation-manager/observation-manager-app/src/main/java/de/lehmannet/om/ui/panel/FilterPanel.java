@@ -15,7 +15,6 @@ import java.awt.event.ItemListener;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;

@@ -10,7 +10,6 @@ package de.lehmannet.om.extension.solarSystem;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

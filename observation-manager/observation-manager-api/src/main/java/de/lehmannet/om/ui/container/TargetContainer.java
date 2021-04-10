@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 import javax.swing.JLabel;

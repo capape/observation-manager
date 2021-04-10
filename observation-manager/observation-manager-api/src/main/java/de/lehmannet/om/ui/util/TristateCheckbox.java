@@ -10,7 +10,6 @@ package de.lehmannet.om.ui.util;
 import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;

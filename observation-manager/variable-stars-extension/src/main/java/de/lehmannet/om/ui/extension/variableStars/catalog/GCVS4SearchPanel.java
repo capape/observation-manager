@@ -2,7 +2,6 @@ package de.lehmannet.om.ui.extension.variableStars.catalog;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
 
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;

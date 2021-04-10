@@ -1,11 +1,10 @@
 package de.lehmannet.om.mapper;
 
 import java.io.File;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.List;
-import java.time.OffsetDateTime;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -25,7 +24,6 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SurfaceBrightness;
-import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;

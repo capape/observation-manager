@@ -9,17 +9,15 @@ package de.lehmannet.om.ui.extension.deepSky.dialog;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle;
+
+import javax.swing.JFrame;
 
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
-import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetCGPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
-
-import javax.swing.JFrame;
 
 public class DeepSkyTargetCGDialog extends AbstractDialog implements ITargetDialog {
 
