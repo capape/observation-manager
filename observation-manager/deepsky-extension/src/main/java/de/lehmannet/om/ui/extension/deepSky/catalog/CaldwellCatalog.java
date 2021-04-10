@@ -118,17 +118,17 @@ public class CaldwellCatalog implements IListableCatalog {
     private boolean loadTargets(File file) {
 
         Reader reader = null;
-        BufferedReader bufferedReader = null;
+
         try {
             // Must read UTF-8 as we run into problems on some OS
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-            bufferedReader = new BufferedReader(reader);
+
         } catch (FileNotFoundException fnfe) {
             System.err.println("File not found: " + file);
             return false;
         }
 
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
             String line = null;
             String caldwellNumber = null;
             DeepSkyTarget target = null;

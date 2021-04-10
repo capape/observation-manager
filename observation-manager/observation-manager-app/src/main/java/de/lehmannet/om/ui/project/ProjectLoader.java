@@ -288,10 +288,8 @@ class ProjectLoaderRunnable implements Runnable {
         List<ITarget> targets = new ArrayList<>();
         ITarget target = null;
         String name = null;
-        try {
-            FileInputStream fis = new FileInputStream(projectFile);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader reader = new BufferedReader(isr);
+        try (FileInputStream fis = new FileInputStream(projectFile); InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader reader = new BufferedReader(isr);) {
 
             String line = null;
             while ((line = reader.readLine()) != null) {

@@ -173,8 +173,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         String current = null;
         StringBuilder text = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(files[iNumber]));
+        try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber]));) {
+
             current = br.readLine();
             while (current != null) {
                 current = this.loadConvert(current);

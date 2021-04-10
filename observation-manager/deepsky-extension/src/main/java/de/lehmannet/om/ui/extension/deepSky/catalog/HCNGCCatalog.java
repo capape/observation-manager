@@ -103,11 +103,10 @@ public class HCNGCCatalog implements IListableCatalog {
 
         // Check catalog file
         Reader reader = null;
-        BufferedReader bufferedReader = null;
         try {
             // Must read UTF-16 as we run into problems on some OS
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-            bufferedReader = new BufferedReader(reader);
+
         } catch (FileNotFoundException fnfe) {
             System.err.println("File not found: " + file);
             return false;
@@ -118,7 +117,7 @@ public class HCNGCCatalog implements IListableCatalog {
         String hcngcNumber = null;
         StringTokenizer tokenizer = null;
         ITarget target = null;
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
             int counter = 1;
             while ((line = bufferedReader.readLine()) != null) {
                 if (!(line.startsWith("" + counter)) || ("".equals(line.trim()))) { // Comment, header or empty line.

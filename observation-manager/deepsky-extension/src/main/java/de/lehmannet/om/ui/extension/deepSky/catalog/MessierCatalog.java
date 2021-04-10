@@ -119,11 +119,11 @@ public class MessierCatalog implements IListableCatalog {
 
         // Read file
         Reader reader = null;
-        BufferedReader bufferedReader = null;
+
         try {
             // Must read UTF-8 as we run into problems on some OS
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-            bufferedReader = new BufferedReader(reader);
+
         } catch (FileNotFoundException fnfe) {
             System.err.println("File not found: " + file);
             return false;
@@ -134,7 +134,7 @@ public class MessierCatalog implements IListableCatalog {
         String messierNumber = null;
         DeepSkyTarget target = null;
         StringTokenizer tokenizer = null;
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
             while ((line = bufferedReader.readLine()) != null) {
                 if ((line.startsWith("#")) || ("".equals(line.trim()))) { // Comment or empty line
                     // line = bufferedReader.readLine();
