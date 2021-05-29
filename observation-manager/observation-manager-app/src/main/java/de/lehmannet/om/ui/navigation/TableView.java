@@ -53,6 +53,7 @@ import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.EyepieceTableModel;
@@ -95,12 +96,15 @@ public class TableView extends JPanel {
     private final ObservationManagerModel model;
     private final TextManager textManager;
     private final DateManager dateManager = new DateManagerImpl();
+    private final UIDataCache cache;
 
-    public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager) {
+    public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
+            UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
         this.textManager = textManager;
+        this.cache = cache;
 
         // this.observationManager = om;
 
@@ -295,13 +299,14 @@ public class TableView extends JPanel {
                             .getSchemaElement(row);
 
                     if (element != null) {
+                        byte options = (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
+                                + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
+                                + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS);
+
                         new PopupMenuHandler(TableView.this.observationManager, TableView.this.model,
-                                TableView.this.textManager, element, p.x, p.y,
-                                (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
-                                        + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
-                                        + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS),
-                                SchemaElementConstants.NONE,
-                                TableView.this.observationManager.getExtensionLoader().getPopupMenus());
+                                TableView.this.textManager, element, p.x, p.y, options, SchemaElementConstants.NONE,
+                                TableView.this.observationManager.getExtensionLoader().getPopupMenus(),
+                                TableView.this.cache);
                     }
                 }
             }
@@ -655,13 +660,12 @@ public class TableView extends JPanel {
         this.saveCurrentTableModelSettings();
 
         IConfiguration config = observationManager.getConfiguration();
-        Map<String, String> cache = observationManager.getUIDataCache();
         Iterator<String> iterator = cache.keySet().iterator();
         String currentKey = null;
         while (iterator.hasNext()) {
             currentKey = iterator.next();
             if (currentKey.startsWith(TableView.CONFIG_TABLESETTINGS_PREFIX)) {
-                config.setConfig(currentKey, "" + cache.get(currentKey));
+                config.setConfig(currentKey, "" + cache.getString(currentKey));
             }
         }
 
@@ -672,10 +676,8 @@ public class TableView extends JPanel {
         final IConfiguration config = this.observationManager.getConfiguration();
         final Set<String> tableKeys = config.getKeysStartingWith(TableView.CONFIG_TABLESETTINGS_PREFIX);
 
-        Map<String, String> cache = observationManager.getUIDataCache();
-
         for (String currentKey : tableKeys) {
-            cache.put(currentKey, config.getConfig(currentKey));
+            cache.putString(currentKey, config.getConfig(currentKey));
         }
 
         // Now set the loaded settings
@@ -809,9 +811,8 @@ public class TableView extends JPanel {
         while (en.hasMoreElements()) {
             current = en.nextElement();
             preferedWidth = current.getPreferredWidth();
-            this.observationManager.getUIDataCache().put(
-                    TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex(),
-                    String.valueOf(preferedWidth));
+            String key = TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex();
+            this.cache.putString(key, String.valueOf(preferedWidth));
         }
 
     }
@@ -829,8 +830,9 @@ public class TableView extends JPanel {
         Enumeration<TableColumn> en = tcm.getColumns();
         while (en.hasMoreElements()) {
             TableColumn current = en.nextElement();
-            String value = observationManager.getUIDataCache()
-                    .get(TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex());
+            String keySettings = TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "."
+                    + current.getModelIndex();
+            String value = this.cache.getString(keySettings);
             if (value == null)
                 break;
             try {

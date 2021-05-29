@@ -50,6 +50,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -87,14 +88,16 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private final ObservationManagerModel model;
     private final ObservationManager observationManager;
     private final TextManager textManager;
+    private final UIDataCache cache;
 
     public TreeView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
-            ImageResolver resolver) {
+            ImageResolver resolver, UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
         this.textManager = textManager;
         this.imageResolver = resolver;
+        this.cache = cache;
 
         this.root = new DefaultMutableTreeNode(this.textManager.getString("treeRoot"));
         this.observation = new DefaultMutableTreeNode(this.textManager.getString("tree.observations"));
@@ -147,14 +150,14 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
                             if (node instanceof SchemaElementMutableTreeNode) {
                                 ISchemaElement element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
+                                byte options = (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
+                                        + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
+                                        + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS);
                                 new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
-                                        TreeView.this.textManager, element, p.x, p.y,
-                                        (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
-                                                + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
-                                                + PopupMenuHandler.CREATE_NEW_OBSERVATION
-                                                + PopupMenuHandler.EXTENSIONS),
+                                        TreeView.this.textManager, element, p.x, p.y, options,
                                         SchemaElementConstants.NONE,
-                                        TreeView.this.observationManager.getExtensionLoader().getPopupMenus());
+                                        TreeView.this.observationManager.getExtensionLoader().getPopupMenus(),
+                                        TreeView.this.cache);
                             } else if (node instanceof DefaultMutableTreeNode) {
                                 SchemaElementConstants type = SchemaElementConstants.NONE;
                                 Object o = selPath.getLastPathComponent();
@@ -182,7 +185,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                 }
 
                                 new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
-                                        TreeView.this.textManager, null, p.x, p.y, PopupMenuHandler.CREATE, type, null);
+                                        TreeView.this.textManager, null, p.x, p.y, PopupMenuHandler.CREATE, type, null,
+                                        TreeView.this.cache);
                             }
                         }
                     }

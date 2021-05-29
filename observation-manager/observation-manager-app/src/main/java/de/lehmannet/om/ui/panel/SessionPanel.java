@@ -48,6 +48,7 @@ import de.lehmannet.om.Session;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.box.SiteBox;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.container.ImageContainer;
 import de.lehmannet.om.ui.container.TimeContainer;
 import de.lehmannet.om.ui.dialog.ObserverDialog;
@@ -98,15 +99,15 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private ImageContainer imageContainer = null;
     private JButton newImage = null;
 
-    private Map<String, String> cache = null; // Non-persistant cache
-
     private final List<IObserver> coObserversList = new ArrayList<>();
     private final ObservationManagerModel model;
 
     private final DateManager dateManager;
+    private final UIDataCache cache;
 
     // Requires ObservationManager to load Observers
-    public SessionPanel(ObservationManager manager, ObservationManagerModel model, ISession session, boolean editable) {
+    public SessionPanel(ObservationManager manager, ObservationManagerModel model, ISession session, boolean editable,
+            UIDataCache cache) {
 
         super(editable);
 
@@ -114,7 +115,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.session = session;
         this.model = model;
 
-        this.cache = this.observationManager.getUIDataCache();
+        this.cache = cache;
 
         this.language = new LanguageBox(
                 this.observationManager.getConfiguration().getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
@@ -859,7 +860,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         };
         chooser.setFileFilter(imageFileFilter);
         chooser.setMultiSelectionEnabled(true);
-        String pathname = this.cache.get(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
+        String pathname = this.cache.getString(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
         if (pathname != null) {
             File last = new File(pathname);
             if ((last != null) && (last.exists()) && (last.isDirectory())) {
@@ -882,7 +883,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.updateUI();
 
             if (files.length > 0) {
-                this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR,
+                this.cache.putString(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR,
                         files[0].getParentFile().getAbsolutePath());
             }
 

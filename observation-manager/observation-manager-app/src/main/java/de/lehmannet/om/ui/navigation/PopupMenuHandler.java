@@ -29,6 +29,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
 import de.lehmannet.om.ui.dialog.FilterDialog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
@@ -71,10 +72,11 @@ class PopupMenuHandler implements ActionListener {
 
     private final ObservationManagerModel model;
     private final TextManager textManager;
+    private final UIDataCache cache;
 
     public PopupMenuHandler(ObservationManager om, ObservationManagerModel model, TextManager textManager,
             ISchemaElement se, int x, int y, byte operation, SchemaElementConstants createType,
-            PopupMenuExtension[] extensions) {
+            PopupMenuExtension[] extensions, UIDataCache cache) {
 
         final int xSize = 450;
         final int ySize = 25;
@@ -82,6 +84,7 @@ class PopupMenuHandler implements ActionListener {
         int entries = 1;
 
         this.observationManager = om;
+        this.cache = cache;
         this.element = se;
         this.model = model;
         this.textManager = textManager;
@@ -282,7 +285,7 @@ class PopupMenuHandler implements ActionListener {
                     FilterDialog dialog = new FilterDialog(this.observationManager, (IFilter) this.element);
                 } else if (element instanceof ISession) {
                     SessionDialog dialog = new SessionDialog(this.observationManager, this.model,
-                            (ISession) this.element);
+                            (ISession) this.element, this.cache);
                 } else if (element instanceof IObserver) {
                     ObserverDialog dialog = new ObserverDialog(this.observationManager, (IObserver) this.element);
                 } else if (element instanceof ILens) {
@@ -325,7 +328,7 @@ class PopupMenuHandler implements ActionListener {
                     break;
                 }
                 case SESSION: {
-                    SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null);
+                    SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null, this.cache);
                     this.observationManager.update(dialog.getSession());
                     break;
                 }

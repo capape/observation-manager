@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.model.ObservationManagerModelImpl;
+import de.lehmannet.om.ui.cache.UIDataCache;
+import de.lehmannet.om.ui.cache.UIDataCacheImpl;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.i18n.TextManagerImpl;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
@@ -84,12 +86,16 @@ public class ObservationManagerApp {
         LOGGER.info("Creating model for app...");
         final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
 
+        splash.updateText("Creating cache...");
+        LOGGER.info("Creating cache app...");
+        final UIDataCache cache = new UIDataCacheImpl();
+
         splash.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
         new ObservationManager.Builder(model).locale(isoKey).nightVision(nightVision).installDir(installDir)
                 .configuration(configuration).imageResolver(imageResolver).textManager(textManager)
-                .versionTextManager(versionTextManager).build();
+                .versionTextManager(versionTextManager).uiCache(cache).build();
         // @formatter:on
 
     }

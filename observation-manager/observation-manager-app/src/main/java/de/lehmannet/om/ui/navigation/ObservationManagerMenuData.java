@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
 import de.lehmannet.om.ui.dialog.FilterDialog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
@@ -39,15 +40,17 @@ public final class ObservationManagerMenuData {
     private final TextManager textManager;
     private final ObservationManager observationManager;
     private final JMenu menu;
+    private final UIDataCache uiCache;
 
     public ObservationManagerMenuData(ObservationManagerModel model, ImageResolver imageResolver,
-            TextManager textManager, ObservationManager om) {
+            TextManager textManager, ObservationManager om, UIDataCache cache) {
 
         // Load configuration
         this.model = model;
         this.observationManager = om;
         this.imageResolver = imageResolver;
         this.textManager = textManager;
+        this.uiCache = cache;
 
         this.menu = this.createMenuDataItems();
 
@@ -168,7 +171,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewSession() {
 
-        SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null);
+        SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null, this.uiCache);
         this.model.add(dialog.getSession());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)

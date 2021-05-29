@@ -26,7 +26,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.SimpleTimeZone;
@@ -73,6 +72,7 @@ import de.lehmannet.om.ui.box.ScopeBox;
 import de.lehmannet.om.ui.box.SessionBox;
 import de.lehmannet.om.ui.box.SiteBox;
 import de.lehmannet.om.ui.box.TargetBox;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.container.ImageContainer;
 import de.lehmannet.om.ui.container.SurfaceBrightnessContainer;
 import de.lehmannet.om.ui.container.TimeContainer;
@@ -123,8 +123,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private ObservationManager observationManager = null;
     private IObservation observation = null;
 
-    private Map cache = null;
-
     private JTabbedPane tabbedPane = null;
     private JPanel selectionPanel = null;
     private AbstractPanel findingsPanel = null;
@@ -173,12 +171,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private final ObservationManagerModel model;
     private final TextManager textManager;
     private final DateManager dateManager;
+    private final UIDataCache cache;
 
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
     // values
     public ObservationDialogPanel(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation, ISchemaElement se, ImageResolver resolver) {
+            IObservation observation, ISchemaElement se, ImageResolver resolver, UIDataCache uiCache) {
 
         super(true);
 
@@ -194,7 +193,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // TODO IOC
         this.sessionBox = new SessionBox(this.dateManager);
 
-        this.cache = this.observationManager.getUIDataCache();
+        this.cache = uiCache;
 
         this.tabbedPane = new JTabbedPane(SwingConstants.TOP);
 
@@ -332,7 +331,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation.setResult(finding);
         this.observation.setTarget(target);
         this.observation.setObserver(observer);
-        this.cache.put(ObservationDialogPanel.CACHEKEY_OBSERVER, observer); // Fill cache
+        this.cache.putObserver(ObservationDialogPanel.CACHEKEY_OBSERVER, observer); // Fill cache
 
         // Try to get and set timezone
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
@@ -352,13 +351,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // @formatter:on
 
         this.observation.setBegin(this.beginDate);
-        this.cache.put(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
+        this.cache.putDate(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
 
         // Set optional fields
 
         // Setting of end date must be before setting of session, as otherwise check in
         // setting session (start-end-date) will fail
-        this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
             // @formatter:off
@@ -371,13 +370,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
             }
-            this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
+            this.cache.putDate(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
             this.observation.setEnd(this.endDate);
         } else {
             this.observation.setEnd(null);
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SESSION); // Reset cache
         try {
             // Check whether observer is not listed as coObserver
             ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
@@ -398,36 +397,36 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
 
             this.observation.setSession((ISession) this.sessionBox.getSelectedSchemaElement());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION, this.sessionBox.getSelectedSchemaElement());
+            this.cache.putSession(ObservationDialogPanel.CACHEKEY_SESSION, this.observation.getSession());
         } catch (IllegalArgumentException iae) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongTimeForSession"));
             return null;
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SCOPE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SCOPE); // Reset cache
         this.observation.setScope((IScope) this.scopeBox.getSelectedSchemaElement());
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SCOPE, this.scopeBox.getSelectedSchemaElement());
+        this.cache.putScope(ObservationDialogPanel.CACHEKEY_SCOPE, this.observation.getScope());
 
         this.observation.setEyepiece((IEyepiece) this.eyepieceBox.getSelectedSchemaElement());
 
         this.observation.setFilter((IFilter) this.filterBox.getSelectedSchemaElement());
 
         // this.observation.setSite((ISite)this.siteBox.getSelectedSchemaElement());
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SITE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SITE); // Reset cache
         this.observation.setSite(site);
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SITE, site);
+        this.cache.putSite(ObservationDialogPanel.CACHEKEY_SITE, site);
 
         this.observation.setImager((IImager) this.imagerBox.getSelectedSchemaElement());
 
         this.observation.setLens((ILens) this.lensBox.getSelectedSchemaElement());
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR); // Reset cache
         String fs = this.faintestStar.getText();
         if ((fs != null) && !("".equals(fs.trim()))) {
             try {
                 float faintest = FloatUtil.parseFloat(fs);
                 this.observation.setFaintestStar(faintest);
-                this.cache.put(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, fs);
+                this.cache.putString(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, fs);
             } catch (NumberFormatException nfe) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noNumberFaintestStar"));
                 return null;
@@ -436,7 +435,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.observation.setFaintestStar(Float.NaN);
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SQM, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SQM); // Reset cache
         SurfaceBrightness sqm = null;
         try {
             sqm = this.sqmValue.getSurfaceBrightness();
@@ -446,7 +445,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         if (sqm != null) {
             this.observation.setSkyQuality(sqm);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SQM, sqm);
+            this.cache.putSurfaceBrightness(ObservationDialogPanel.CACHEKEY_SQM, sqm);
         } else {
             this.observation.setSkyQuality(null);
         }
@@ -464,13 +463,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.observation.setMagnification(Float.NaN);
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SEEING); // Reset cache
         SeeingBoxEntry s = (SeeingBoxEntry) this.seeing.getSelectedItem();
         if (Objects.requireNonNull(s).isEmptyItem()) { // No seeing selected
             this.observation.setSeeing(-1);
         } else {
             this.observation.setSeeing(s.getValue());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
+            this.cache.putInteger(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
         /*
@@ -545,15 +544,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation = new Observation(this.beginDate, target, observer, finding);
 
         // Fill cache
-        this.cache.put(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate);
-        this.cache.put(ObservationDialogPanel.CACHEKEY_OBSERVER, observer);
+        this.cache.putDate(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate);
+        this.cache.putObserver(ObservationDialogPanel.CACHEKEY_OBSERVER, observer);
 
         // Set optional fields
         ISchemaElement se = null;
 
         // Set endDate here, as only setSession will fail if observation begin/end date
         // are not within sessions begin/end date
-        this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
             final OffsetDateTime newEndDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
@@ -567,12 +566,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
             this.endDate = newEndDate;
             this.observation.setEnd(this.endDate);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
+            this.cache.putDate(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
         } else {
             this.observation.setEnd(null);
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SESSION); // Reset cache
         try {
             se = this.sessionBox.getSelectedSchemaElement();
             if (se != null) {
@@ -595,18 +594,18 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 }
 
                 this.observation.setSession((ISession) se);
-                this.cache.put(ObservationDialogPanel.CACHEKEY_SESSION, se);
+                this.cache.putSession(ObservationDialogPanel.CACHEKEY_SESSION, this.observation.getSession());
             }
         } catch (IllegalArgumentException iae) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.wrongTimeForSession"));
             return null;
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SCOPE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SCOPE); // Reset cache
         se = this.scopeBox.getSelectedSchemaElement();
         if (se != null) {
             this.observation.setScope((IScope) se);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SCOPE, se);
+            this.cache.putScope(ObservationDialogPanel.CACHEKEY_SCOPE, this.observation.getScope());
         }
 
         se = this.eyepieceBox.getSelectedSchemaElement();
@@ -624,11 +623,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.observation.setFilter((IFilter) se);
         }
 
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SITE, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SITE); // Reset cache
         se = this.siteBox.getSelectedSchemaElement();
         if (se != null) {
             this.observation.setSite((ISite) se);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SITE, se);
+            this.cache.putSite(ObservationDialogPanel.CACHEKEY_SITE, this.observation.getSite());
         }
 
         se = this.imagerBox.getSelectedSchemaElement();
@@ -637,12 +636,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         String fs = this.faintestStar.getText();
-        this.cache.put(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, null); // Reset cache
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR); // Reset cache
         if ((fs != null) && !("".equals(fs.trim()))) {
             try {
                 float faintest = FloatUtil.parseFloat(fs);
                 this.observation.setFaintestStar(faintest);
-                this.cache.put(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, fs);
+                this.cache.putFloat(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, faintest);
             } catch (NumberFormatException nfe) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noNumberFaintestStar"));
                 return null;
@@ -656,10 +655,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noNumberSQM"));
             return null;
         }
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SQM, null); // Reset cache
+        this.cache.putSurfaceBrightness(ObservationDialogPanel.CACHEKEY_SQM, null); // Reset cache
         if (sqm != null) {
             this.observation.setSkyQuality(sqm);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SQM, sqm);
+            this.cache.putSurfaceBrightness(ObservationDialogPanel.CACHEKEY_SQM, sqm);
         }
 
         String mg = this.magnification.getText();
@@ -674,12 +673,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         SeeingBoxEntry s = (SeeingBoxEntry) this.seeing.getSelectedItem();
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, null); // Reset cache
+        this.cache.putInteger(ObservationDialogPanel.CACHEKEY_SEEING, null); // Reset cache
         if (Objects.requireNonNull(s).isEmptyItem()) { // No seeing selected
             this.observation.setSeeing(-1);
         } else {
             this.observation.setSeeing(s.getValue());
-            this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
+            this.cache.putInteger(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
         /*
@@ -694,7 +693,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         String ac = this.accessories.getText();
         if ((ac != null) && !("".equals(ac.trim()))) {
             this.observation.setAccessories(ac);
-            this.cache.put(ObservationDialogPanel.CACHEKEY_ACCESSORIES, ac);
+            this.cache.putString(ObservationDialogPanel.CACHEKEY_ACCESSORIES, ac);
         }
 
         this.observation
@@ -729,7 +728,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 LensDialog lensDialog = new LensDialog(this.observationManager, null);
                 this.lensBox.addItem(lensDialog.getLens());
             } else if (source.equals(this.newSession)) {
-                SessionDialog sessionDialog = new SessionDialog(this.observationManager, this.model, null);
+                SessionDialog sessionDialog = new SessionDialog(this.observationManager, this.model, null, this.cache);
                 this.sessionBox.addItem(sessionDialog.getSession());
                 // In the session dialog there might be new observers
                 // or sites be created, so refill lists
@@ -936,8 +935,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     }
 
                     // Clear cache and all preset fields if different session is choosen
-                    if (this.cache.get(CACHEKEY_SESSION) != null) {
-                        ISession cacheSession = (ISession) this.cache.get(CACHEKEY_SESSION);
+                    if (this.cache.getSession(CACHEKEY_SESSION) != null) {
+                        ISession cacheSession = this.cache.getSession(CACHEKEY_SESSION);
                         if (!cacheSession.equals(session)) {
                             this.clearCacheData();
                             // this.cache.clear();
@@ -1045,7 +1044,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         };
         chooser.setFileFilter(imageFileFilter);
         chooser.setMultiSelectionEnabled(true);
-        File last = (File) this.cache.get(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
+        File last = this.cache.getFile(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
         if ((last != null) && (last.exists()) && (last.isDirectory())) {
             chooser.setCurrentDirectory(last);
         }
@@ -1061,7 +1060,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.repaint();
 
             if (files.length > 0) {
-                this.cache.put(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile());
+                this.cache.putFile(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR, files[0].getParentFile());
             }
 
             Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -1890,24 +1889,24 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private void loadFromCache() {
 
         // Set new begin date to last observation end date
-        if (this.cache.get(CACHEKEY_ENDDATE) != null) {
-            this.beginDate = (OffsetDateTime) this.cache.get(CACHEKEY_ENDDATE);
+        if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
+            this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE);
 
             this.begin.setText(this.formatDate(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
             this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         }
 
-        if (this.cache.get(CACHEKEY_OBSERVER) != null) {
-            this.observerBox.setSelectedItem((IObserver) this.cache.get(CACHEKEY_OBSERVER));
+        if (this.cache.getObserver(CACHEKEY_OBSERVER) != null) {
+            this.observerBox.setSelectedItem(this.cache.getObserver(CACHEKEY_OBSERVER));
         }
 
-        if (this.cache.get(CACHEKEY_SITE) != null) {
-            this.siteBox.setSelectedItem((ISite) this.cache.get(CACHEKEY_SITE));
+        if (this.cache.getSite(CACHEKEY_SITE) != null) {
+            this.siteBox.setSelectedItem(this.cache.getSite(CACHEKEY_SITE));
         }
 
-        if (this.cache.get(CACHEKEY_SESSION) != null) {
-            ISession session = (ISession) this.cache.get(CACHEKEY_SESSION);
+        if (this.cache.getSession(CACHEKEY_SESSION) != null) {
+            ISession session = this.cache.getSession(CACHEKEY_SESSION);
             this.sessionBox.setSelectedItem(session);
             // If session has own site overwrite previous value
             if (session.getSite() != null) {
@@ -1915,33 +1914,33 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        if (this.cache.get(CACHEKEY_SCOPE) != null) {
-            this.scopeBox.setSelectedItem((IScope) this.cache.get(CACHEKEY_SCOPE));
+        if (this.cache.getScope(CACHEKEY_SCOPE) != null) {
+            this.scopeBox.setSelectedItem(this.cache.getScope(CACHEKEY_SCOPE));
         }
 
-        if (this.cache.get(CACHEKEY_ENDDATE) != null) {
+        if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
             // Set end date to last observation end date +10 minutes
-            this.endDate = (OffsetDateTime) this.cache.get(CACHEKEY_ENDDATE);
+            this.endDate = this.cache.getDate(CACHEKEY_ENDDATE);
             this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
             this.end.setText(this.formatDate(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }
 
-        if (this.cache.get(CACHEKEY_FAINTESTSTAR) != null) {
-            this.faintestStar.setText("" + FloatUtil.parseFloat(((String) this.cache.get(CACHEKEY_FAINTESTSTAR))));
+        if (this.cache.getFloat(CACHEKEY_FAINTESTSTAR) != null) {
+            this.faintestStar.setText(String.valueOf(this.cache.getFloat(CACHEKEY_FAINTESTSTAR)));
         }
 
-        if (this.cache.get(CACHEKEY_SQM) != null) {
-            this.sqmValue.setSurfaceBrightness((SurfaceBrightness) this.cache.get(CACHEKEY_SQM));
+        if (this.cache.getSurfaceBrightness(CACHEKEY_SQM) != null) {
+            this.sqmValue.setSurfaceBrightness(this.cache.getSurfaceBrightness(CACHEKEY_SQM));
         }
 
-        if (this.cache.get(CACHEKEY_SEEING) != null) {
-            this.seeing.setSelectedItem(new SeeingBoxEntry((Integer) this.cache.get(CACHEKEY_SEEING)));
+        if (this.cache.getInteger(CACHEKEY_SEEING) != null) {
+            this.seeing.setSelectedItem(new SeeingBoxEntry(this.cache.getInteger(CACHEKEY_SEEING)));
         }
 
-        if (this.cache.get(CACHEKEY_ACCESSORIES) != null) {
-            this.accessories.setText("" + this.cache.get(CACHEKEY_ACCESSORIES));
+        if (this.cache.getString(CACHEKEY_ACCESSORIES) != null) {
+            this.accessories.setText("" + this.cache.getString(CACHEKEY_ACCESSORIES));
         }
 
     }
@@ -1949,7 +1948,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private void clearCacheData() {
 
         this.beginDate = null;
-        this.cache.put(ObservationDialogPanel.CACHEKEY_STARTDATE, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_STARTDATE);
 
         // this.observerBox.selectEmptyItem(); Don't clear observer
         // this.sessionBox.selectEmptyItem(); Don' clear session, was we're called from
@@ -1957,19 +1956,19 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // this.scopeBox.selectEmptyItem(); Don't clear scope
 
         this.siteBox.selectEmptyItem();
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SITE, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SITE);
 
         this.endDate = null;
-        this.cache.put(ObservationDialogPanel.CACHEKEY_ENDDATE, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE);
 
         this.faintestStar.setText("");
-        this.cache.put(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR);
 
         this.sqmValue.setSurfaceBrightness(null);
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SQM, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SQM);
 
         this.seeing.setSelectedItem(new SeeingBoxEntry(0));
-        this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, null);
+        this.cache.remove(ObservationDialogPanel.CACHEKEY_SEEING);
 
         this.accessories.setText("");
 
