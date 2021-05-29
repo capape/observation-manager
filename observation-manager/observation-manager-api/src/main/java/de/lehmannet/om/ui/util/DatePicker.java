@@ -160,6 +160,7 @@ public class DatePicker extends JDialog {
                 if (event.getSource() instanceof JButton) {
                     DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
                     DatePicker.this.dispose();
+                    DatePicker.this.date = DatePicker.this.date.withDayOfMonth(DatePicker.this.day);
                 }
             });
             this.fields[x] = currentButton;
