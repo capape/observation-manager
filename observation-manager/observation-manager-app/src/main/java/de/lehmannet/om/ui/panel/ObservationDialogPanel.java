@@ -346,8 +346,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 : ZoneOffset.ofHoursMinutes(site.getTimezone() / 60, site.getTimezone() % 60);
         // @formatter:off
         this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
-                this.beginDate.getSecond(), 0, offset);
+                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
+                this.beginTime.getSeconds(), 0, offset);
         // @formatter:on
 
         this.observation.setBegin(this.beginDate);
@@ -472,13 +472,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.cache.putInteger(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
-        /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
-         * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
-         * } } catch(NumberFormatException nfe) { this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return null; } } else { this.observation.setSeeing(-1); }
-         */
+        
 
         this.observation.setAccessories(this.accessories.getText());
 
@@ -535,8 +529,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
+        int  hourOffset = site.getTimezone() / 60;
+        int  minOffset = site.getTimezone() % 60;
+
         ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
-                : ZoneOffset.ofHoursMinutes(0, site.getTimezone());
+                : ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
         this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
                 this.beginDate.getSecond(), 0, offset);
@@ -556,8 +553,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
 
             final OffsetDateTime newEndDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), this.endDate.getHour(), this.endDate.getMinute(),
-                    this.endDate.getSecond(), 0, offset);
+                    this.endDate.getDayOfMonth(), 
+                    this.endTime.getHour(),
+                    this.endTime.getMinutes(),
+                    this.endTime.getSeconds(), 0, offset);
 
             if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
