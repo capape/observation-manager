@@ -467,143 +467,98 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
-        OMLabel Lbegin = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.begin"), true);
-        Lbegin.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
+        addBeginDateLabel(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 4, 1, 25, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;                
+        addBeginDateBox(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 5, 0, 1, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(Lbegin, constraints);
-        this.add(Lbegin);
-        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 25, 1);
+        addBeginDateSelectorButton(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 6, 0, 1, 1, 25, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;       
+        addBeginTimeLabel(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 7, 0, 1, 1, 3, 1);
+        constraints.anchor = GridBagConstraints.WEST;            
+        addBeginTimeBox(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 8, 0, 1, 1, 5, 1);        
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.begin = new JTextField(8);
-        this.begin.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
-        this.begin.setEditable(false);
-        gridbag.setConstraints(this.begin, constraints);
-        this.add(this.begin);
-        if (this.isEditable()) {
-            ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 2, 1);
-            constraints.fill = GridBagConstraints.HORIZONTAL;
-            this.beginPicker = new JButton("...");
-            this.beginPicker.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectStartDate"));
-            this.beginPicker.addActionListener(this);
-            gridbag.setConstraints(this.beginPicker, constraints);
-            this.add(this.beginPicker);
-        }
-        ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.beginTime = new TimeContainer(0, 0, 0, this.isEditable());
-        this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
-        gridbag.setConstraints(this.beginTime, constraints);
-        this.add(this.beginTime);
+        addSeparator1(gridbag, constraints);
 
-        if (this.isEditable()) {
-            ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 3, 1);
-            constraints.anchor = GridBagConstraints.WEST;
-            this.beginNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.beginNow"));
-            this.beginNow.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.beginNow"));
-            this.beginNow.addActionListener(this);
-            gridbag.setConstraints(this.beginNow, constraints);
-            this.add(this.beginNow);
-        }
-
-        ConstraintsBuilder.buildConstraints(constraints, 5, 0, 6, 1, 5, 1);
-        JLabel Ldummy = new JLabel(" ");
+        ConstraintsBuilder.buildConstraints(constraints, 9, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(Ldummy, constraints);
-        this.add(Ldummy);
-
-        ConstraintsBuilder.buildConstraints(constraints, 11, 0, 1, 1, 5, 1);
+        addLanguageLabel(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 10, 0, 1, 1, 15, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel Llanguage = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.language"),
-                SwingConstants.RIGHT, false);
-        Llanguage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
-        gridbag.setConstraints(Llanguage, constraints);
-        this.add(Llanguage);
-        ConstraintsBuilder.buildConstraints(constraints, 12, 0, 1, 1, 15, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.language.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
-        this.language.setEnabled(this.isEditable());
-        gridbag.setConstraints(this.language, constraints);
-        this.add(this.language);
+        addLanguageSelector(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT,
-                true);
-        Lend.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
-        gridbag.setConstraints(Lend, constraints);
-        this.add(Lend);
-        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.end = new JTextField(8);
-        this.end.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
-        this.end.setEditable(false);
-        gridbag.setConstraints(this.end, constraints);
-        this.add(this.end);
-        if (this.isEditable()) {
-            ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 2, 1);
-            constraints.fill = GridBagConstraints.HORIZONTAL;
-            this.endPicker = new JButton("...");
-            this.endPicker.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectEndDate"));
-            this.endPicker.addActionListener(this);
-            gridbag.setConstraints(this.endPicker, constraints);
-            this.add(this.endPicker);
-        }
-        ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.endTime = new TimeContainer(0, 0, 0, this.isEditable());
-        this.endTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
-        gridbag.setConstraints(this.endTime, constraints);
-        this.add(this.endTime);
+        addEndDateLabel(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 4, 1, 25, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;       
+        addEndDateBox(gridbag, constraints);
 
-        if (this.isEditable()) {
-            ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 3, 1);
-            constraints.anchor = GridBagConstraints.WEST;
-            this.endNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.endNow"));
-            this.endNow.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.endNow"));
-            this.endNow.addActionListener(this);
-            gridbag.setConstraints(this.endNow, constraints);
-            this.add(this.endNow);
-        }
+        ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        addEndDateSelectorButton(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 25, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        addEndTimeLabel(gridbag, constraints);
+        
+        ConstraintsBuilder.buildConstraints(constraints, 7, 1, 1, 1, 3, 1);
+        constraints.anchor = GridBagConstraints.WEST;
+        addEndTimeBox(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 13, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel Lweather = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.weather"), false);
-        Lweather.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.weather"));
-        gridbag.setConstraints(Lweather, constraints);
-        this.add(Lweather);
+        addWeatherLabel(gridbag, constraints);
+        
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 13, 1, 15, 1);
-        this.weather = new JTextArea(3, 30);
-        this.weather.addMouseListener(this);
-        this.weather.setLineWrap(true);
-        this.weather.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.weather"));
-        JScrollPane weatherScroll = new JScrollPane(this.weather);
-        weatherScroll.setMinimumSize(new Dimension(300, 60));
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(weatherScroll, constraints);
-        this.add(weatherScroll);
+        addWeatherTextArea(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 13, 1, 5, 1);
-        OMLabel Lequipment = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.equipment"), false);
-        Lequipment.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.equipment"));
-        gridbag.setConstraints(Lequipment, constraints);
-        this.add(Lequipment);
+        addEquipmentLabel(gridbag, constraints);
+        
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 13, 1, 15, 1);
-        this.equipment = new JTextArea(3, 30);
-        this.equipment.addMouseListener(this);
-        this.equipment.setLineWrap(true);
-        this.equipment.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.equipment"));
-        JScrollPane equipmentScroll = new JScrollPane(this.equipment);
-        equipmentScroll.setMinimumSize(new Dimension(300, 60));
-        gridbag.setConstraints(equipmentScroll, constraints);
-        this.add(equipmentScroll);
+        addEquipmentTextArea(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 6, 13, 1, 5, 1);
-        OMLabel Lcomments = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.comments"), false);
-        Lcomments.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.comments"));
-        gridbag.setConstraints(Lcomments, constraints);
-        this.add(Lcomments);
+        addCommentsLabel(gridbag, constraints);
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 13, 1, 15, 1);
+        addCommentsTextArea(gridbag, constraints);
+
+        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 13, 1, 15, 1);       
+        addSeparator(gridbag, constraints);
+
+        final boolean readOnly = this.session != null && !this.isEditable();
+        if (readOnly) {
+            showNonEditableData(gridbag, constraints);
+        } else { // Create or edit
+            showEditableData(gridbag, constraints);
+
+        }
+
+    }
+
+
+    private void addSeparator(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JSeparator seperator1 = new JSeparator(SwingConstants.HORIZONTAL);
+        gridbag.setConstraints(seperator1, constraints);
+        this.add(seperator1);
+    }
+
+    private void addCommentsTextArea(GridBagLayout gridbag, GridBagConstraints constraints) {
         this.comments = new JTextArea(3, 40);
         this.comments.addMouseListener(this);
         this.comments.setLineWrap(true);
@@ -612,179 +567,356 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         commentsScroll.setMinimumSize(new Dimension(300, 60));
         gridbag.setConstraints(commentsScroll, constraints);
         this.add(commentsScroll);
+    }
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 13, 1, 15, 1);
-        JSeparator seperator1 = new JSeparator(SwingConstants.HORIZONTAL);
-        gridbag.setConstraints(seperator1, constraints);
-        this.add(seperator1);
+    private void addCommentsLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Lcomments = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.comments"), false);
+        Lcomments.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.comments"));
+        gridbag.setConstraints(Lcomments, constraints);
+        this.add(Lcomments);
+    }
 
-        // Use border instead on SitePanel
-        /*
-         * ConstraintsBuilder.buildConstraints(constraints, 0, 8, 11, 1, 100, 1); JLabel Lsite = new
-         * JLabel(AbstractPanel.bundle.getString("panel.session.label.site"));
-         * Lsite.setToolTipText(AbstractPanel.bundle.getString( "panel.session.tooltip.site"));
-         * gridbag.setConstraints(Lsite, constraints); this.add(Lsite);
-         */
+    private void addEquipmentTextArea(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.equipment = new JTextArea(3, 30);
+        this.equipment.addMouseListener(this);
+        this.equipment.setLineWrap(true);
+        this.equipment.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.equipment"));
+        JScrollPane equipmentScroll = new JScrollPane(this.equipment);
+        equipmentScroll.setMinimumSize(new Dimension(300, 60));
+        gridbag.setConstraints(equipmentScroll, constraints);
+        this.add(equipmentScroll);
+    }
 
-        if ((this.session != null) // Show
-                && !(this.isEditable())) {
+    private void addEquipmentLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Lequipment = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.equipment"), false);
+        Lequipment.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.equipment"));
+        gridbag.setConstraints(Lequipment, constraints);
+        this.add(Lequipment);
+    }
 
-            SitePanel sitePanel = new SitePanel(this.session.getSite(), false);
-            ConstraintsBuilder.buildConstraints(constraints, 0, 10, 13, 1, 15, 1);
-            gridbag.setConstraints(sitePanel, constraints);
-            sitePanel.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
-            sitePanel.setBorder(
-                    BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.session.label.site")));
-            this.add(sitePanel);
+    private void addWeatherTextArea(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 13, 1, 15, 1);
+        this.weather = new JTextArea(3, 30);
+        this.weather.setLineWrap(true);
+        this.weather.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.weather"));
+        JScrollPane weatherScroll = new JScrollPane(this.weather);
+        weatherScroll.setMinimumSize(new Dimension(300, 60));
+        gridbag.setConstraints(weatherScroll, constraints);
+        this.add(weatherScroll);
+    }
 
-            int yPos = 10;
-            if (!(this.session.getCoObservers().isEmpty())) {
-                ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 1);
-                JSeparator seperator2 = new JSeparator(SwingConstants.HORIZONTAL);
-                gridbag.setConstraints(seperator2, constraints);
-                this.add(seperator2);
+    private void addWeatherLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Lweather = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.weather"), false);
+        Lweather.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.weather"));
+        gridbag.setConstraints(Lweather, constraints);
+        this.add(Lweather);
+    }
 
-                /*
-                 * ConstraintsBuilder.buildConstraints(constraints, 0, 11, 11, 1, 100, 1); JLabel LcoObservers = new
-                 * JLabel(AbstractPanel.bundle.getString("panel.session.label.addObservers"));
-                 * LcoObservers.setToolTipText(AbstractPanel.bundle.getString( "panel.session.tooltip.addObservers"));
-                 * gridbag.setConstraints(LcoObservers, constraints); LcoObservers.setFont(new
-                 * Font("sansserif",Font.ITALIC + Font.BOLD, 12)); this.add(LcoObservers);
-                 */
-                ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 45);
-                this.coObserverTabbedPane = new JTabbedPane(SwingConstants.TOP);
-                this.coObserverTabbedPane.setBorder(BorderFactory
-                        .createTitledBorder(AbstractPanel.bundle.getString("panel.session.label.addObservers")));
-                this.coObserverTabbedPane
-                        .setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
-                JScrollPane scrollPane = new JScrollPane(this.coObserverTabbedPane,
-                        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                constraints.anchor = GridBagConstraints.NORTH;
-                constraints.fill = GridBagConstraints.BOTH;
-                gridbag.setConstraints(scrollPane, constraints);
-                this.add(scrollPane);
-                this.createObserverPanel();
+    private void addEndTimeBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        if (this.isEditable()) {
+            this.endNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.endNow"));
+            this.endNow.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.endNow"));
+            this.endNow.addActionListener(this);
+            gridbag.setConstraints(this.endNow, constraints);
+            this.add(this.endNow);
+        }
+    }
 
-            }
-            /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 2, 1, 100, 1); constraints.fill =
-             * GridBagConstraints.BOTH; constraints.anchor = GridBagConstraints.SOUTH; JLabel LimageContainer = new
-             * JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"));
-             * LimageContainer.setToolTipText(AbstractPanel.bundle.getString( "panel.observationItem.tooltip.images"));
-             * gridbag.setConstraints(LimageContainer, constraints); LimageContainer.setFont(new Font("sansserif",
-             * Font.ITALIC + Font.BOLD, 12)); this.add(LimageContainer);
-             */
-            ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
-            constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager,
-                    this.observationManager.getConfiguration(), this.model, false,
-                    this.observationManager.getImageResolver());
-            JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            imageContainerScroll.setBorder(BorderFactory
-                    .createTitledBorder(AbstractPanel.bundle.getString("panel.observationItem.label.images")));
-            imageContainerScroll.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
-            gridbag.setConstraints(imageContainerScroll, constraints);
-            // Make sure size of scroll container can handle image thumbnail
-            imageContainerScroll.setPreferredSize(this.imageContainer.getPreferredSize());
-            this.add(imageContainerScroll);
+    private void addEndTimeLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.endTime = new TimeContainer(0, 0, 0, this.isEditable());
+        this.endTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
+        gridbag.setConstraints(this.endTime, constraints);
+        this.add(this.endTime);
+    }
 
-            /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, 14, 11, 1, 100, 82); constraints.fill =
-             * GridBagConstraints.BOTH; JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
-             * this.add(Lfill);
-             */
+    private void addEndDateBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.end = new JTextField(8);
+        this.end.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
+        this.end.setEditable(false);
+        gridbag.setConstraints(this.end, constraints);
+        this.add(this.end);
+        
+    }
 
-        } else { // Create or edit
-            ConstraintsBuilder.buildConstraints(constraints, 0, 10, 1, 1, 5, 1);
-            OMLabel Lsite = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.site"), false);
-            Lsite.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
-            gridbag.setConstraints(Lsite, constraints);
-            this.add(Lsite);
+    private void addEndDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        if (this.isEditable()) {
+            
+            this.endPicker = new JButton("...");
+            this.endPicker.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectEndDate"));
+            this.endPicker.addActionListener(this);
+            gridbag.setConstraints(this.endPicker, constraints);
+            this.add(this.endPicker);
+        }
+    }
 
-            this.createSiteDropDownBox();
-            ConstraintsBuilder.buildConstraints(constraints, 0, 11, 9, 1, 5, 1);
-            gridbag.setConstraints(siteBox, constraints);
-            siteBox.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
-            this.add(siteBox);
+    private void addEndDateLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT,
+                true);
+        Lend.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
+        gridbag.setConstraints(Lend, constraints);
+        this.add(Lend);
+    }
 
-            this.newSite = new JButton(AbstractPanel.bundle.getString("panel.session.label.newSite"));
-            ConstraintsBuilder.buildConstraints(constraints, 9, 11, 4, 1, 10, 1);
-            gridbag.setConstraints(this.newSite, constraints);
-            this.newSite.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newSite"));
-            this.newSite.addActionListener(this);
-            this.add(this.newSite);
+    private void addLanguageSelector(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.language.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
+        this.language.setEnabled(this.isEditable());
+        gridbag.setConstraints(this.language, constraints);
+        this.add(this.language);
+    }
 
-            ConstraintsBuilder.buildConstraints(constraints, 0, 12, 13, 1, 15, 1);
-            JSeparator seperator2 = new JSeparator(SwingConstants.HORIZONTAL);
-            gridbag.setConstraints(seperator2, constraints);
-            this.add(seperator2);
+    private void addSeparator1(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JLabel Ldummy = new JLabel(" ");
+        gridbag.setConstraints(Ldummy, constraints);
+        this.add(Ldummy);
+    }
 
-            ConstraintsBuilder.buildConstraints(constraints, 0, 13, 13, 1, 15, 1);
-            OMLabel LcoObservers = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.addObservers"),
-                    false);
-            LcoObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
-            gridbag.setConstraints(LcoObservers, constraints);
-            this.add(LcoObservers);
-            ConstraintsBuilder.buildConstraints(constraints, 0, 14, 9, 1, 10, 1);
-            this.coObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
-            this.coObservers.setEditable(false);
-            if (this.session != null) {
-                this.fillCoObserverTextField(this.session.getCoObservers());
-            }
-            gridbag.setConstraints(this.coObservers, constraints);
-            this.add(this.coObservers);
-            ConstraintsBuilder.buildConstraints(constraints, 9, 14, 2, 1, 5, 1);
-            this.selectCoObservers = new JButton(
-                    AbstractPanel.bundle.getString("panel.session.label.selectCoObserver"));
-            this.selectCoObservers
-                    .setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectCoObserver"));
-            this.selectCoObservers.addActionListener(this);
-            gridbag.setConstraints(this.selectCoObservers, constraints);
-            this.add(this.selectCoObservers);
+    private void addLanguageLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Llanguage = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.language"),
+                SwingConstants.RIGHT, false);
+        Llanguage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
+        gridbag.setConstraints(Llanguage, constraints);
+        this.add(Llanguage);
+    }
 
-            ConstraintsBuilder.buildConstraints(constraints, 11, 14, 2, 1, 5, 1);
-            this.newCoObservers = new JButton(AbstractPanel.bundle.getString("panel.session.label.newObserver"));
-            this.newCoObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newObserver"));
-            this.newCoObservers.addActionListener(this);
-            gridbag.setConstraints(this.newCoObservers, constraints);
-            this.add(this.newCoObservers);
+    private void addBeginTimeBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        if (this.isEditable()) {
+            this.beginNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.beginNow"));
+            this.beginNow.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.beginNow"));
+            this.beginNow.addActionListener(this);
+            gridbag.setConstraints(this.beginNow, constraints);
+            this.add(this.beginNow);
+        }
+    }
 
-            ConstraintsBuilder.buildConstraints(constraints, 0, 15, 13, 1, 2, 1);
-            OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.images"), false);
-            LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.images"));
-            gridbag.setConstraints(LimageContainer, constraints);
-            this.add(LimageContainer);
-            ConstraintsBuilder.buildConstraints(constraints, 0, 16, 11, 4, 1, 100);
-            constraints.fill = GridBagConstraints.BOTH;
-            this.imageContainer = new ImageContainer(null, this.observationManager,
-                    this.observationManager.getConfiguration(), this.model, true,
-                    this.observationManager.getImageResolver());
-            JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            gridbag.setConstraints(imageContainerScroll, constraints);
-            imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
-            this.add(imageContainerScroll);
-            ConstraintsBuilder.buildConstraints(constraints, 11, 16, 2, 1, 1, 1);
-            constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.anchor = GridBagConstraints.CENTER;
-            this.newImage = new JButton(AbstractPanel.bundle.getString("panel.session.button.newImages"));
-            this.newImage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newImages"));
-            this.newImage.addActionListener(this);
-            gridbag.setConstraints(this.newImage, constraints);
-            this.add(this.newImage);
+    private void addBeginTimeLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.beginTime = new TimeContainer(0, 0, 0, this.isEditable());
+        this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
+        gridbag.setConstraints(this.beginTime, constraints);
+        this.add(this.beginTime);
+    }
 
-            /*
-             * ConstraintsBuilder.buildConstraints(constraints, 0, 18, 11, 1, 100, 82); constraints.fill =
-             * GridBagConstraints.BOTH; constraints.anchor = GridBagConstraints.NORTH; JLabel Lfill = new JLabel("");
-             * gridbag.setConstraints(Lfill, constraints); this.add(Lfill);
-             */
+    private void addBeginDateBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.begin = new JTextField(8);
+        this.begin.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
+        this.begin.setEditable(false);
+        
+        gridbag.setConstraints(this.begin, constraints);
+
+        this.add(this.begin);
+        
+        
+    }
+
+    private void addBeginDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        if (this.isEditable()) {
+            this.beginPicker = new JButton("...");
+            this.beginPicker.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectStartDate"));
+            this.beginPicker.addActionListener(this);
+
+            gridbag.setConstraints(this.beginPicker, constraints);
+
+            this.add(this.beginPicker);
+        }
+    }
+
+    private void addBeginDateLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+
+        OMLabel Lbegin = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.begin"), true);
+        Lbegin.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(Lbegin, constraints);
+        this.add(Lbegin);
+    }
+
+
+    private void showEditableData(GridBagLayout gridbag, GridBagConstraints constraints) {
+
+        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 1, 1, 5, 1);
+        addSiteLabel(gridbag, constraints);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 11, 9, 1, 5, 1);
+        addSiteSelectBox(gridbag, constraints);
+        ConstraintsBuilder.buildConstraints(constraints, 9, 11, 4, 1, 10, 1);
+        addNewSiteButton(gridbag, constraints);
+
+        ConstraintsBuilder.buildConstraints(constraints, 0, 12, 13, 1, 15, 1);
+        addSeparator2(gridbag, constraints);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 13, 13, 1, 15, 1);
+        addObserversLabel(gridbag, constraints);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 14, 9, 1, 10, 1);
+        addObserversTextBox(gridbag, constraints);
+        ConstraintsBuilder.buildConstraints(constraints, 9, 14, 2, 1, 5, 1);
+        addObserversSelectButton(gridbag, constraints);
+
+        ConstraintsBuilder.buildConstraints(constraints, 11, 14, 2, 1, 5, 1);        
+        addNewObserverButton(gridbag, constraints);
+
+        
+        ConstraintsBuilder.buildConstraints(constraints, 0, 15, 13, 1, 2, 1);        
+        addImagesLabel(gridbag, constraints);
+
+        ConstraintsBuilder.buildConstraints(constraints, 0, 16, 11, 4, 1, 100);
+        constraints.fill = GridBagConstraints.BOTH;      
+        addImagesPanel(gridbag, constraints);
+
+        ConstraintsBuilder.buildConstraints(constraints, 11, 16, 2, 1, 1, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.CENTER;
+        addNewImageButton(gridbag, constraints);
+
+    }
+
+    private void addNewImageButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        
+        this.newImage = new JButton(AbstractPanel.bundle.getString("panel.session.button.newImages"));
+        this.newImage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newImages"));
+        this.newImage.addActionListener(this);
+        gridbag.setConstraints(this.newImage, constraints);
+        this.add(this.newImage);
+    }
+
+    private void addImagesPanel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.imageContainer = new ImageContainer(null, this.observationManager,
+                this.observationManager.getConfiguration(), this.model, true,
+                this.observationManager.getImageResolver());
+        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        gridbag.setConstraints(imageContainerScroll, constraints);
+        imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
+        this.add(imageContainerScroll);
+    }
+
+    private void addImagesLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.images"), false);
+        LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.images"));
+        gridbag.setConstraints(LimageContainer, constraints);
+        this.add(LimageContainer);
+    }
+
+    private void addNewObserverButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.newCoObservers = new JButton(AbstractPanel.bundle.getString("panel.session.label.newObserver"));
+        this.newCoObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newObserver"));
+        this.newCoObservers.addActionListener(this);
+        gridbag.setConstraints(this.newCoObservers, constraints);
+        this.add(this.newCoObservers);
+    }
+
+    private void addObserversSelectButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.selectCoObservers = new JButton(AbstractPanel.bundle.getString("panel.session.label.selectCoObserver"));
+        this.selectCoObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectCoObserver"));
+        this.selectCoObservers.addActionListener(this);
+        gridbag.setConstraints(this.selectCoObservers, constraints);
+        this.add(this.selectCoObservers);
+    }
+
+    private void addObserversTextBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.coObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
+        this.coObservers.setEditable(false);
+        if (this.session != null) {
+            this.fillCoObserverTextField(this.session.getCoObservers());
+        }
+        gridbag.setConstraints(this.coObservers, constraints);
+        this.add(this.coObservers);
+    }
+
+    private void addObserversLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel LcoObservers = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.addObservers"), false);
+        LcoObservers.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
+        gridbag.setConstraints(LcoObservers, constraints);
+        this.add(LcoObservers);
+    }
+
+    private void addSeparator2(GridBagLayout gridbag, GridBagConstraints constraints) {
+        JSeparator seperator2 = new JSeparator(SwingConstants.HORIZONTAL);
+        gridbag.setConstraints(seperator2, constraints);
+        this.add(seperator2);
+    }
+
+    private void addNewSiteButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.newSite = new JButton(AbstractPanel.bundle.getString("panel.session.label.newSite"));
+        gridbag.setConstraints(this.newSite, constraints);
+        this.newSite.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newSite"));
+        this.newSite.addActionListener(this);
+        this.add(this.newSite);
+    }
+
+    private void addSiteSelectBox(GridBagLayout gridbag, GridBagConstraints constraints) {
+        this.createSiteDropDownBox();
+        gridbag.setConstraints(siteBox, constraints);
+        siteBox.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
+        this.add(siteBox);
+    }
+
+    private void addSiteLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        OMLabel Lsite = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.site"), false);
+        Lsite.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
+        gridbag.setConstraints(Lsite, constraints);
+        this.add(Lsite);
+    }
+
+    private void showNonEditableData(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 13, 1, 15, 1);        
+        addSitePanel(gridbag, constraints);
+
+        int yPos = 10;
+        if (!(this.session.getCoObservers().isEmpty())) {
+            yPos = addNewSeparator(gridbag, constraints, yPos);
+            yPos = addObserverTabbedPanel(gridbag, constraints, yPos);
+            this.createObserverPanel();
 
         }
 
+        addImagesScrollPanel(gridbag, constraints, yPos);
+
+    }
+
+    private void addImagesScrollPanel(GridBagLayout gridbag, GridBagConstraints constraints, int yPos) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
+        constraints.fill = GridBagConstraints.BOTH;
+        this.imageContainer = new ImageContainer(null, this.observationManager,
+                this.observationManager.getConfiguration(), this.model, false,
+                this.observationManager.getImageResolver());
+        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        imageContainerScroll.setBorder(
+                BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.observationItem.label.images")));
+        imageContainerScroll.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
+        gridbag.setConstraints(imageContainerScroll, constraints);
+        // Make sure size of scroll container can handle image thumbnail
+        imageContainerScroll.setPreferredSize(this.imageContainer.getPreferredSize());
+        this.add(imageContainerScroll);
+    }
+
+    private int addObserverTabbedPanel(GridBagLayout gridbag, GridBagConstraints constraints, int yPos) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 45);
+        this.coObserverTabbedPane = new JTabbedPane(SwingConstants.TOP);
+        this.coObserverTabbedPane.setBorder(
+                BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.session.label.addObservers")));
+        this.coObserverTabbedPane.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
+        JScrollPane scrollPane = new JScrollPane(this.coObserverTabbedPane,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.fill = GridBagConstraints.BOTH;
+        gridbag.setConstraints(scrollPane, constraints);
+        this.add(scrollPane);
+        return yPos;
+    }
+
+    private int addNewSeparator(GridBagLayout gridbag, GridBagConstraints constraints, int yPos) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 1);
+        JSeparator seperator2 = new JSeparator(SwingConstants.HORIZONTAL);
+        gridbag.setConstraints(seperator2, constraints);
+        this.add(seperator2);
+        return yPos;
+    }
+
+    private void addSitePanel(GridBagLayout gridbag, GridBagConstraints constraints) {
+        SitePanel sitePanel = new SitePanel(this.session.getSite(), false);
+        gridbag.setConstraints(sitePanel, constraints);
+        sitePanel.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.site"));
+        sitePanel.setBorder(
+                BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.session.label.site")));
+        this.add(sitePanel);
     }
 
     private void fillCoObserverTextField(List<IObserver> coObservers) {
