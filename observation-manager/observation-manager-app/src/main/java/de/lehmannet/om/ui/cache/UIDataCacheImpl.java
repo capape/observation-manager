@@ -17,7 +17,7 @@ public class UIDataCacheImpl implements UIDataCache {
     private Map<String, Object> cache = new ConcurrentHashMap<>();
 
     public void put(String key, Object value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -38,7 +38,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putString(String key, String value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -53,7 +53,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putObserver(String key, IObserver value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -67,7 +67,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putDate(String key, OffsetDateTime value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -80,7 +80,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putSession(String key, ISession value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -94,7 +94,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putScope(String key, IScope value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -108,7 +108,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putSite(String key, ISite value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -122,7 +122,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putSurfaceBrightness(String key, SurfaceBrightness value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -136,7 +136,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putInteger(String key, Integer value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -150,7 +150,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putFloat(String key, Float value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -164,7 +164,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public void putFile(String key, File value) {
-        if (value == null)  {
+        if (value == null) {
             return;
         }
         this.cache.putIfAbsent(key, value);
@@ -173,9 +173,7 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public File getFile(String key) {
-        if (value == null)  {
-            return;
-        }
+
         return (File) this.cache.get(key);
     }
 }

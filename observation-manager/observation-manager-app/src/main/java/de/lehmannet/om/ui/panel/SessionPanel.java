@@ -468,31 +468,31 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
         addBeginDateLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 4, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;                
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         addBeginDateBox(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 5, 0, 1, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addBeginDateSelectorButton(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 6, 0, 1, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;       
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         addBeginTimeLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 7, 0, 1, 1, 3, 1);
-        constraints.anchor = GridBagConstraints.WEST;            
+        constraints.anchor = GridBagConstraints.WEST;
         addBeginTimeBox(gridbag, constraints);
-        
-        ConstraintsBuilder.buildConstraints(constraints, 8, 0, 1, 1, 5, 1);        
+
+        ConstraintsBuilder.buildConstraints(constraints, 8, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addSeparator1(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addLanguageLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 10, 0, 1, 1, 15, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addLanguageSelector(gridbag, constraints);
@@ -501,19 +501,19 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         addEndDateLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 4, 1, 25, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;       
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         addEndDateBox(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addEndDateSelectorButton(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 25, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addEndTimeLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 7, 1, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
         addEndTimeBox(gridbag, constraints);
@@ -521,14 +521,14 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 13, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addWeatherLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 13, 1, 15, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         addWeatherTextArea(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 13, 1, 5, 1);
         addEquipmentLabel(gridbag, constraints);
-        
+
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 13, 1, 15, 1);
         addEquipmentTextArea(gridbag, constraints);
 
@@ -538,7 +538,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 13, 1, 15, 1);
         addCommentsTextArea(gridbag, constraints);
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 13, 1, 15, 1);       
+        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 13, 1, 15, 1);
         addSeparator(gridbag, constraints);
 
         final boolean readOnly = this.session != null && !this.isEditable();
@@ -550,7 +550,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
     }
-
 
     private void addSeparator(GridBagLayout gridbag, GridBagConstraints constraints) {
         JSeparator seperator1 = new JSeparator(SwingConstants.HORIZONTAL);
@@ -635,12 +634,12 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.end.setEditable(false);
         gridbag.setConstraints(this.end, constraints);
         this.add(this.end);
-        
+
     }
 
     private void addEndDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
         if (this.isEditable()) {
-            
+
             this.endPicker = new JButton("...");
             this.endPicker.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.selectEndDate"));
             this.endPicker.addActionListener(this);
@@ -699,12 +698,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.begin = new JTextField(8);
         this.begin.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.begin"));
         this.begin.setEditable(false);
-        
+
         gridbag.setConstraints(this.begin, constraints);
 
         this.add(this.begin);
-        
-        
+
     }
 
     private void addBeginDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -729,7 +727,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.add(Lbegin);
     }
 
-
     private void showEditableData(GridBagLayout gridbag, GridBagConstraints constraints) {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 10, 1, 1, 5, 1);
@@ -748,15 +745,14 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         ConstraintsBuilder.buildConstraints(constraints, 9, 14, 2, 1, 5, 1);
         addObserversSelectButton(gridbag, constraints);
 
-        ConstraintsBuilder.buildConstraints(constraints, 11, 14, 2, 1, 5, 1);        
+        ConstraintsBuilder.buildConstraints(constraints, 11, 14, 2, 1, 5, 1);
         addNewObserverButton(gridbag, constraints);
 
-        
-        ConstraintsBuilder.buildConstraints(constraints, 0, 15, 13, 1, 2, 1);        
+        ConstraintsBuilder.buildConstraints(constraints, 0, 15, 13, 1, 2, 1);
         addImagesLabel(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 16, 11, 4, 1, 100);
-        constraints.fill = GridBagConstraints.BOTH;      
+        constraints.fill = GridBagConstraints.BOTH;
         addImagesPanel(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 11, 16, 2, 1, 1, 1);
@@ -767,7 +763,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void addNewImageButton(GridBagLayout gridbag, GridBagConstraints constraints) {
-        
+
         this.newImage = new JButton(AbstractPanel.bundle.getString("panel.session.button.newImages"));
         this.newImage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.newImages"));
         this.newImage.addActionListener(this);
@@ -855,7 +851,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void showNonEditableData(GridBagLayout gridbag, GridBagConstraints constraints) {
-        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 13, 1, 15, 1);        
+        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 13, 1, 15, 1);
         addSitePanel(gridbag, constraints);
 
         int yPos = 10;

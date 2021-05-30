@@ -12,7 +12,8 @@ import java.awt.Insets;
 
 public class ConstraintsBuilder {
 
-    public static void buildConstraints(GridBagConstraints gbc, int gx, int gy, int gwith, int gheight, int wx, int wy) {
+    public static void buildConstraints(GridBagConstraints gbc, int gx, int gy, int gwith, int gheight, int wx,
+            int wy) {
 
         gbc.gridx = gx;
         gbc.gridy = gy;

@@ -472,8 +472,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.cache.putInteger(ObservationDialogPanel.CACHEKEY_SEEING, s.getValue());
         }
 
-        
-
         this.observation.setAccessories(this.accessories.getText());
 
         this.observation
@@ -529,8 +527,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        int  hourOffset = site.getTimezone() / 60;
-        int  minOffset = site.getTimezone() % 60;
+        int hourOffset = site.getTimezone() / 60;
+        int minOffset = site.getTimezone() % 60;
 
         ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
                 : ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
@@ -553,9 +551,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
 
             final OffsetDateTime newEndDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), 
-                    this.endTime.getHour(),
-                    this.endTime.getMinutes(),
+                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
                     this.endTime.getSeconds(), 0, offset);
 
             if (newEndDate.isBefore(this.beginDate)) {
