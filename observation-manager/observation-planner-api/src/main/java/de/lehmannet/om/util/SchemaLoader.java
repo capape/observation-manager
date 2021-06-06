@@ -287,11 +287,11 @@ public class SchemaLoader {
             javax.xml.validation.Validator validator = schema.newValidator();
 
             validator.validate(new StreamSource(xmlFile));
-        } catch (IOException e ) {
+        } catch (IOException e) {
             LOGGER.error("Error parsing xml file: {}", e.getLocalizedMessage());
             // throw new SchemaException("Unable to parse xml file");
         } catch (SAXException e) {
-            LOGGER.error("Error parsing xml file: {} \n {}", e.getLocalizedMessage(),e);
+            LOGGER.error("Error parsing xml file: {} \n {}", e.getLocalizedMessage(), e);
             // throw new SchemaException("Unable to parse xml file");
         }
 

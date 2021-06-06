@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
@@ -24,6 +25,8 @@ import java.util.zip.ZipFile;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.lehmannet.om.SchemaOalTypeInfo;
 
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
@@ -59,11 +62,11 @@ public class ConfigLoader {
     // Instance variables ------------------------------------------------
     // ------------------
     // All target xsi:types as key and Java classname as value
-    private static final Map<String, String> targets = new HashMap<>();
+    private static final Map<String, String> targets = new ConcurrentHashMap<>();
     // All finding xsi:types as key and Java classname as value
-    private static final Map<String, String> findings = new HashMap<>();
+    private static final Map<String, String> findings = new ConcurrentHashMap<>();
     // All target xsi:types as key and finding xsi:types as value
-    private static final Map<String, String> target_findings = new HashMap<>();
+    private static final Map<String, String> target_findings = new ConcurrentHashMap<>();
 
     private static final Object LOCK = new Object();
 
@@ -294,14 +297,7 @@ public class ConfigLoader {
                 // Add type and classname to our list of known types
                 synchronized (LOCK) {
                     targets.put(target_type, target_classname);
-                }
-                // Add type and classname to our list of known types
-                synchronized (LOCK) {
                     findings.put(finding_type, finding_classname);
-                }
-
-                // Add target type and finding type
-                synchronized (LOCK) {
                     target_findings.put(target_type, finding_type);
                 }
 
@@ -321,14 +317,7 @@ public class ConfigLoader {
         // Add type and classname to our list of known types
         synchronized (LOCK) {
             targets.put(target_type, target_classname);
-        }
-        // Add type and classname to our list of known types
-        synchronized (LOCK) {
             findings.put(finding_type, finding_classname);
-        }
-
-        // Add target type and finding type
-        synchronized (LOCK) {
             target_findings.put(target_type, finding_type);
         }
 
@@ -341,14 +330,7 @@ public class ConfigLoader {
         // Add type and classname to our list of known types
         synchronized (LOCK) {
             targets.put(starTarget_type, starTarget_classname);
-        }
-        // Add type and classname to our list of known types
-        synchronized (LOCK) {
             findings.put(starTarget_finding_type, starTarget_finding_classname);
-        }
-
-        // Add target type and finding type
-        synchronized (LOCK) {
             target_findings.put(starTarget_type, starTarget_finding_type);
         }
 
@@ -365,4 +347,36 @@ public class ConfigLoader {
 
     }
 
+    public static void loadInternalExtension(SchemaOalTypeInfo schemaOalTypeInfo) {
+
+        synchronized (LOCK) {
+            if (hasTargetDefined(schemaOalTypeInfo)) {
+                targets.put(schemaOalTypeInfo.getTargetType(), schemaOalTypeInfo.getTargetClassName());
+            }
+
+            if (hasFindingDefined(schemaOalTypeInfo)) {
+                findings.put(schemaOalTypeInfo.getFindingType(), schemaOalTypeInfo.getFindingClassName());
+            }
+
+            if (hasTypesDefined(schemaOalTypeInfo)) {
+                target_findings.put(schemaOalTypeInfo.getTargetType(), schemaOalTypeInfo.getFindingType());
+            }
+        }
+
+    }
+
+    private static boolean hasTypesDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getTargetType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getFindingType());
+    }
+
+    private static boolean hasFindingDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getFindingType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getFindingClassName());
+    }
+
+    private static boolean hasTargetDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getTargetType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getTargetClassName());
+    }
 }

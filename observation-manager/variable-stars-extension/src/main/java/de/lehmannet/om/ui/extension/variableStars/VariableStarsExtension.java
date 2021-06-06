@@ -53,6 +53,7 @@ import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.extension.AbstractExtension;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
@@ -88,6 +89,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> supportedFinfingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
     public VariableStarsExtension() {
 
@@ -99,7 +101,23 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
         this.initFindingPanels();
         this.initTargetPanels();
         this.initTargetDialogs();
+        this.initExtensionTypes();
 
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.variableStars.TargetVariableStar")
+                .targetType(TargetVariableStar.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.extension.variableStars.FindingVariableStar")
+                .findingType(FindingVariableStar.XML_XSI_TYPE_VALUE).build());
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionTypes);
     }
 
     private void initLanguage() {

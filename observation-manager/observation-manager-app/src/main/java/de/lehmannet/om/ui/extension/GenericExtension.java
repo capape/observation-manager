@@ -23,6 +23,7 @@ import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
@@ -49,6 +50,7 @@ public class GenericExtension implements IExtension {
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> supportedFinfingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionOalTypes = new HashSet<>();
 
     public GenericExtension() {
 
@@ -58,6 +60,26 @@ public class GenericExtension implements IExtension {
         this.initTargetDialogs();
         this.initTargetPanels();
 
+        this.initExtensionTypes();
+
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.GenericTarget")
+                .targetType(GenericTarget.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.TargetStar")
+                .targetType(TargetStar.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionOalTypes);
     }
 
     @Override

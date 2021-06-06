@@ -44,9 +44,13 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
+import de.lehmannet.om.extension.skychart.SkyChartClient;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
-
+import de.lehmannet.om.ui.extension.deepSky.DeepSkyExtension;
+import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
+import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
+import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
@@ -308,9 +312,14 @@ public class ExtensionLoader {
 
     private void loadExtensions() {
 
-        this.extensions.add(new GenericExtension());
+        this.addInternalExtension(new GenericExtension());
+        this.addInternalExtension(new SkyChartClient(this.om));
+        this.addInternalExtension(new DeepSkyExtension());
+        this.addInternalExtension(new ImagerExtension());
+        this.addInternalExtension(new SolarSystemExtension());
+        this.addInternalExtension(new VariableStarsExtension());
 
-        this.loadExternalExtensions();
+        // this.loadExternalExtensions();
         try {
             ConfigLoader.reloadConfig();
         } catch (ConfigException ce) {
@@ -326,10 +335,18 @@ public class ExtensionLoader {
 
         for (IExtension extension : this.extensions) {
             extension.setContext(context);
-            for (String type : extension.getAllSupportedXSITypes()) {
-                LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type);
+            extension.getExtensionTypes().stream().forEach(type -> ConfigLoader.loadInternalExtension(type));
+            if (LOGGER.isDebugEnabled()) {
+                for (String type : extension.getAllSupportedXSITypes()) {
+                    LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type);
+                }
             }
         }
+    }
+
+    private void addInternalExtension(IExtension extension) {
+        this.extensions.add(extension);
+        extension.getExtensionTypes().stream().forEach(type -> ConfigLoader.loadInternalExtension(type));
     }
 
     private void loadExternalExtensions() {

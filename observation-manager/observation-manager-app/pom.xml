@@ -34,6 +34,38 @@
       <artifactId>observation-manager-api</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
+
+    <!-- Extensions -->
+    <dependency>
+        <groupId>de.lehmannet.om</groupId>
+        <artifactId>skychart-extension</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>de.lehmannet.om</groupId>
+        <artifactId>solar-system-extension</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>de.lehmannet.om</groupId>
+        <artifactId>variable-stars-extension</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>de.lehmannet.om</groupId>
+        <artifactId>imager-extension</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>de.lehmannet.om</groupId>
+        <artifactId>deepsky-extension</artifactId>
+        <version>${project.parent.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>eap.fits</groupId>
       <artifactId>fits</artifactId>

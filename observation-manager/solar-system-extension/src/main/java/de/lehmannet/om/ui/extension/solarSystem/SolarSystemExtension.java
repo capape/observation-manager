@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
+import de.lehmannet.om.GenericFinding;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
@@ -30,6 +31,7 @@ import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.solarSystem.catalog.SolarSystemCatalog;
@@ -57,6 +59,7 @@ public class SolarSystemExtension extends AbstractExtension {
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> getSupportedFindingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
     public SolarSystemExtension() {
 
@@ -68,6 +71,45 @@ public class SolarSystemExtension extends AbstractExtension {
         this.initTargetPanels();
         this.initTargetDialogs();
 
+        this.initExtensionTypes();
+
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet")
+                .targetType(SolarSystemTargetComet.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.GenericFinding").findingType(GenericFinding.XML_XSI_TYPE_VALUE)
+                .build());
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet")
+                .targetType(SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.GenericFinding").findingType(GenericFinding.XML_XSI_TYPE_VALUE)
+                .build());
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon")
+                .targetType(SolarSystemTargetMoon.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun")
+                .targetType(SolarSystemTargetSun.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet")
+                .targetType(SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.GenericFinding").findingType(GenericFinding.XML_XSI_TYPE_VALUE)
+                .build());
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionTypes);
     }
 
     private void initLanguage() {

@@ -45,6 +45,7 @@ import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
@@ -83,6 +84,7 @@ public class DeepSkyExtension implements IExtension {
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> supportedFinfingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionOalTypes = new HashSet<>();
 
     public DeepSkyExtension() {
 
@@ -95,6 +97,81 @@ public class DeepSkyExtension implements IExtension {
         this.initTargetPanels();
         this.initTargetDialogs();
 
+        this.initExtensionTypes();
+
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDN").targetType("oal:deepSkyDN")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDS").targetType("oal:deepSkyDS")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFindingDS")
+                .findingType("oal:findingsDeepSkyDSType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGC").targetType("oal:deepSkyGC")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGN").targetType("oal:deepSkyGN")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGX").targetType("oal:deepSkyGX")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetOC").targetType("oal:deepSkyOC")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFindingOC")
+                .findingType("oal:findingsDeepSkyOCType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetPN").targetType("oal:deepSkyPN")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetQS").targetType("oal:deepSkyQS")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetNA").targetType("oal:deepSkyNA")
+                .findingClassName("de.lehmannet.om.GenericFinding").findingType("oal:findingsType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetAS").targetType("oal:deepSkyAS")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetSC").targetType("oal:deepSkySC")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetMS").targetType("oal:deepSkyMS")
+                .findingClassName("de.lehmannet.om.GenericFinding").findingType("oal:findingsType").build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetCG").targetType("oal:deepSkyCG")
+                .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
+                .findingType("oal:findingsDeepSkyType").build());
+
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionOalTypes);
     }
 
     private void initLanguage() {

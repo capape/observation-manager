@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.OffsetDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -43,6 +44,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
@@ -75,6 +77,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     private JMenu popupMenu = null;
     private JMenuItem popupMoveTo = null;
     private IExtensionContext extensionContext;
+    private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
     public SkyChartClient(IObservationManagerJFrame om) {
 
@@ -83,6 +86,12 @@ public class SkyChartClient implements IExtension, ActionListener {
 
         this.initMenus();
 
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionTypes);
     }
 
     private void initLanguage() {
