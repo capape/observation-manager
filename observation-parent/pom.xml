@@ -25,7 +25,7 @@
         <jacoco.line.covered.ratio>0.0</jacoco.line.covered.ratio>
         <jacoco.method.covered.ratio>0.0</jacoco.method.covered.ratio>
         <jacoco.class.covered.ratio>0.0</jacoco.class.covered.ratio>
-        <log4j2.version>2.13.3</log4j2.version>
+        <log4j2.version>2.15.0</log4j2.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <maven.compiler.version>13</maven.compiler.version>
