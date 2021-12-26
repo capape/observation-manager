@@ -74,8 +74,6 @@ public interface IExtension {
 
     IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable);
 
-    void setContext(IExtensionContext context);
-
     boolean supports(String xsiType);
 
     Set<SchemaOalTypeInfo> getExtensionTypes();
