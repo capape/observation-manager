@@ -45,14 +45,16 @@ public class GenericExtension implements IExtension {
     private final Map<String, String> findingPanels = new HashMap<>();
     private final Map<String, String> targetPanels = new HashMap<>();
     private final Map<String, String> targetDialogs = new HashMap<>();
-    private IExtensionContext extensionContext;
+    private final IExtensionContext context;
 
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> supportedFinfingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
     private final Set<SchemaOalTypeInfo> extensionOalTypes = new HashSet<>();
 
-    public GenericExtension() {
+    public GenericExtension(IExtensionContext context) {
+
+        this.context = context;
 
         this.initAllSupportedXSITypes();
 
@@ -258,24 +260,19 @@ public class GenericExtension implements IExtension {
     @Override
     public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
-        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
-    }
-
-    @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
+        return FindingPanelFactory.newInstance(this.context, xsiType, finding, session, editable);
     }
 
     @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
-        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
+        return TargetPanelFactory.newInstance(this.context, xsiType, target, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
+        return TargetDialogFactory.newInstance(this.context, xsiType, parent, target, editable);
     }
 
     @Override
