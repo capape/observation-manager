@@ -47,14 +47,15 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     private ResourceBundle bundle;
-    private IExtensionContext extensionContext;
+    private final IExtensionContext context;
 
     private final Set<String> supportedXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
     private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
-    public ImagerExtension() {
+    public ImagerExtension(IExtensionContext context) {
 
+        this.context = context;
         this.initLanguage();
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
 
@@ -222,11 +223,6 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
-    }
-
-    @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
         // TODO Auto-generated method stub
@@ -252,8 +248,7 @@ public class ImagerExtension extends AbstractExtension {
     @Override
     public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
 
-        return new CCDImagerDialog(parent, this.extensionContext.getUserInterfaceHelper(),
-                this.extensionContext.getModel(), imager);
+        return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager);
     }
 
 }
