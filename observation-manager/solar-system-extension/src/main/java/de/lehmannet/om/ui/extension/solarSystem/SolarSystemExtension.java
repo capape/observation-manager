@@ -55,14 +55,15 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     private ResourceBundle bundle;
-    private IExtensionContext extensionContext;
+    private IExtensionContext context;
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> getSupportedFindingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
     private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
-    public SolarSystemExtension() {
+    public SolarSystemExtension(IExtensionContext context) {
 
+        this.context = context;
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_SolarSystem.xsd";
 
         this.initLanguage();
@@ -300,28 +301,22 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
-
-    }
-
-    @Override
     public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
-        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
+        return FindingPanelFactory.newInstance(this.context, xsiType, finding, session, editable);
     }
 
     @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
 
-        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, observation, editable);
+        return TargetPanelFactory.newInstance(this.context, xsiType, target, observation, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, observation, editable);
+        return TargetDialogFactory.newInstance(this.context, xsiType, parent, target, observation, editable);
     }
 
     @Override
