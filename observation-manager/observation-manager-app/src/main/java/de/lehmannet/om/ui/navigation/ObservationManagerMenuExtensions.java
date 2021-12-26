@@ -123,8 +123,8 @@ public final class ObservationManagerMenuExtensions {
         int successCounter = 0;
         for (int i = 0; i < filesCheckedOK.length; i++) {
             try {
-                positiveResult.append(" ").append(
-                        this.observationManager.getExtensionLoader().addExtension(new ZipFile(filesCheckedOK[i])));
+                this.observationManager.getExtensionLoader().addExternalExtension(new ZipFile(filesCheckedOK[i]));
+                positiveResult.append(" ");
                 successCounter++;
                 if (i < filesCheckedOK.length - 1) { // There is at least one
                                                      // more ZIP to add
@@ -282,13 +282,13 @@ public final class ObservationManagerMenuExtensions {
 
     }
 
-    private class AddExtensionListener implements ActionListener {
+    // private class AddExtensionListener implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ObservationManagerMenuExtensions.this.installExtension(null);
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // ObservationManagerMenuExtensions.this.installExtension(null);
 
-        }
+    // }
 
-    }
+    // }
 }
