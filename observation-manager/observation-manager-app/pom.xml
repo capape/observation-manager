@@ -34,6 +34,7 @@
       <artifactId>observation-manager-api</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
+    
 
     <!-- Extensions -->
     <dependency>
