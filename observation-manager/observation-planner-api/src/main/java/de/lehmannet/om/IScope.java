@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
  * (magnification should be set if the optical instrument does not allow to change eyepieces).<br>
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface IScope extends ISchemaElement, IEquipment {
@@ -151,6 +152,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param parent
      *            The parent element for this Scope
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -176,9 +178,12 @@ public interface IScope extends ISchemaElement, IEquipment {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional scope link, and the scope element under the
      *         scope container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -195,8 +200,10 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param element
      *            The element under which the the scope link is created
+     * 
      * @return Returns the Element given as parameter with a additional scope link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
@@ -283,6 +290,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the scopes picture vertical orientation.
      * 
      * @return <b>true</b> if the scopes picture is errected
+     * 
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -292,6 +300,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the scopes picture horizontal orientation.
      * 
      * @return <b>true</b> if the scopes picture is truesided
+     * 
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -302,6 +311,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param tfov
      *            The true field of view of the scope
+     * 
      * @throws IllegalArgumentException
      *             if focal length is set.
      */
@@ -313,6 +323,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param aperture
      *            The new aperture of the scope
+     * 
      * @throws IllegalArgumentException
      *             if the given aperture is smaller or equal 0.0 or if the aperture is Float.NaN
      */
@@ -327,6 +338,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param focalLength
      *            The new focal length of the scope
+     * 
      * @throws IllegalArgumentException
      *             if the given focal length is smaller or equal 0.0 or if the new focal length is Float.NaN while
      *             magnification is also Float.NaN. Or magnification is already set.
@@ -350,6 +362,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param magnification
      *            The new magnification value of the scope
+     * 
      * @throws IllegalArgumentException
      *             if the given focal length is Float.NaN while focal length is not set. Or focal length is already set.
      */
@@ -361,6 +374,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * 
      * @param model
      *            The new model name of the scope
+     * 
      * @throws IllegalArgumentException
      *             if the given model name is <code>null</code>
      */

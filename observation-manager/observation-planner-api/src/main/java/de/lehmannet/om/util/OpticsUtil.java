@@ -16,6 +16,7 @@ import de.lehmannet.om.IScope;
  * Simple calculations on eyepieces, scopes, cameras.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.7
  */
 public class OpticsUtil {
@@ -153,6 +154,7 @@ public class OpticsUtil {
      *            The eyepiece focal length used
      * @param lens
      *            The lens used (can be null if no lens was used)
+     * 
      * @return The magnification or Float.NaN if one of required parameters was <b>NULL</b>
      */
     public static float getMagnification(IScope scope, float eyepieceFL, ILens lens) {
@@ -188,6 +190,7 @@ public class OpticsUtil {
      *            The lens used (can be null if no lens was used)
      * @param magnification
      *            The magnification of the observation
+     * 
      * @return The actual focal length of the (zoom-)eyepiece used for that observation or Float.NaN if one of required
      *         parameters was <b>NULL</b>
      */

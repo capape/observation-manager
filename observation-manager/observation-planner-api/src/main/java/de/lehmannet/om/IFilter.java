@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
  * The model name and the type are mandatory fields which have to be set.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.5
  */
 public interface IFilter extends ISchemaElement, IEquipment {
@@ -131,6 +132,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * 
      * @param parent
      *            The parent element for this Filter
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -156,9 +158,12 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional filter link, and the filter element under the
      *         filter container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -175,8 +180,10 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * 
      * @param element
      *            The element under which the the filter link is created
+     * 
      * @return Returns the Element given as parameter with a additional filter link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
@@ -197,9 +204,11 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * 
      * @param color
      *            The new color of the filter.
+     * 
      * @throws IllegalArgumentException
      *             if filter type is not IFilter.FILTER_TYPE_COLOR, or the given color is empty <code>null</code> or
      *             does not contain a valid value.
+     * 
      * @see IFilter
      */
     void setColor(String color);
@@ -216,6 +225,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * 
      * @param model
      *            The new model name to be set.
+     * 
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */
@@ -252,8 +262,10 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * 
      * @param type
      *            The new filter type to be set.
+     * 
      * @throws IllegalArgumentException
      *             if type was empty, <code>null</code> or does not contain a valid value (see IFilter constants).
+     * 
      * @see IFilter
      */
     void setType(String type);

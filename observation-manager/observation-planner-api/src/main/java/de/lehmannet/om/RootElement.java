@@ -56,6 +56,7 @@ import de.lehmannet.om.util.SchemaException;
  * Also the RootElement object contains the serializeToSchema() method, that will create a schema valid XML file.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class RootElement {

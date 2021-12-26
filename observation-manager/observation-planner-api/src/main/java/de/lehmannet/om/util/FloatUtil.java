@@ -12,6 +12,7 @@ package de.lehmannet.om.util;
  * 
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.1_p1
  */
 public class FloatUtil {

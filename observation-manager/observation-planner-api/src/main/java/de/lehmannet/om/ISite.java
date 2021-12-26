@@ -15,6 +15,7 @@ import org.w3c.dom.Element;
  * should have more mandatory fields, such as elevation and timezone.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface ISite extends ISchemaElement {
@@ -94,6 +95,7 @@ public interface ISite extends ISchemaElement {
      * 
      * @param parent
      *            The parent element for this Site
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -119,9 +121,12 @@ public interface ISite extends ISchemaElement {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional site link, and the site element under the site
      *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, boolean addElementToContainer);
@@ -138,8 +143,10 @@ public interface ISite extends ISchemaElement {
      * 
      * @param element
      *            The element under which the the site link is created
+     * 
      * @return Returns the Element given as parameter with a additional site link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     org.w3c.dom.Element addAsLinkToXmlElement(Element element);
@@ -210,6 +217,7 @@ public interface ISite extends ISchemaElement {
      * 
      * @param latitude
      *            The new latitude for this site
+     * 
      * @throws IllegalArgumentException
      *             if latitude is <code>null</code>
      */
@@ -221,6 +229,7 @@ public interface ISite extends ISchemaElement {
      * 
      * @param longitude
      *            The new longitude for this site
+     * 
      * @throws IllegalArgumentException
      *             if longitude is <code>null</code>
      */
@@ -232,6 +241,7 @@ public interface ISite extends ISchemaElement {
      * 
      * @param name
      *            The new name for this site
+     * 
      * @throws IllegalArgumentException
      *             if name is <code>null</code>
      */
@@ -252,6 +262,7 @@ public interface ISite extends ISchemaElement {
      * 
      * @param timezone
      *            The new timezone for this site in minutes
+     * 
      * @throws IllegalArgumentException
      *             if new timezone is greater than 720 (12*60) or lower than -720 (12*60)
      */

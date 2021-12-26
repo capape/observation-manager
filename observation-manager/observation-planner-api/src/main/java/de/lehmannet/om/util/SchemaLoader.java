@@ -70,6 +70,7 @@ import de.lehmannet.om.Site;
  * You can see this as a Factory of the Schema Objects.
  *
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class SchemaLoader {
@@ -141,7 +142,9 @@ public class SchemaLoader {
      *            The XML Node that represents the object e.g. <target>...</target>
      * @param observers
      *            A array of Observers that are needed to instanciate a object of type Target
+     * 
      * @return A ITarget that represents the given node as Java object
+     * 
      * @throws SchemaException
      *             if the given node is not well formed according to the Schema specifications
      */
@@ -160,7 +163,9 @@ public class SchemaLoader {
      *            The unique xsi:Type that identifies the object/element
      * @param currentNode
      *            The XML Node that represents the object e.g. <result>...</result>
+     * 
      * @return A IFinding that represents the given node as Java object
+     * 
      * @throws SchemaException
      *             if the given node is not well formed according to the Schema specifications
      */
@@ -177,7 +182,9 @@ public class SchemaLoader {
      *            The unique xsi:Type that identifies the object/element
      * @param currentNode
      *            The XML Node that represents the object e.g. <imager>...</imager>
+     * 
      * @return A IImager that represents the given node as Java object
+     * 
      * @throws SchemaException
      *             if the given node is not well formed according to the Schema specifications
      */
@@ -256,6 +263,7 @@ public class SchemaLoader {
      *
      * @param schemaPath
      *            The path to the XML Schemas
+     * 
      * @throws OALException
      *             if schema File cannot be accessed
      * @throws SchemaException
@@ -336,6 +344,7 @@ public class SchemaLoader {
      *
      * @param doc
      *            The XML Document which should be parsed
+     * 
      * @throws OALException
      *             if doc is <code>NULL</code> or empty
      * @throws SchemaException

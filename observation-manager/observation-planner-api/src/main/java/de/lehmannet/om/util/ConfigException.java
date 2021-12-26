@@ -15,6 +15,7 @@ import de.lehmannet.om.OALException;
  * (header information bad, or not given, type or classpath not set...)
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class ConfigException extends OALException {

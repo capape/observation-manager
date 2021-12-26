@@ -32,6 +32,7 @@ import de.lehmannet.om.util.SchemaException;
  * provides access to almost all other XML Schema elements.
  *
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class Observation extends SchemaElement implements IObservation {
@@ -137,6 +138,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @param lenses
      *            Array of ILens that might be linked from this observation (as Lens is optional by XML Schema, this
      *            parameter can be <code>NULL</code> if passed Observation Node has no <lens> subelement)
+     * 
      * @throws IllegalArgumentException
      *             if parameter observation is <code>null</code> or Observation Node has subelements of which no
      *             according array was passed (or the passed array was empty).
@@ -199,6 +201,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The observer who made the observation
      * @param result
      *            The result of this observation
+     * 
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code>
      */
@@ -240,6 +243,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The observer who made the observation
      * @param results
      *            The results of this observation as List
+     * 
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code> or the result list is empty
      */
@@ -286,6 +290,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The observer who made the observation
      * @param results
      *            The results of this observation as List
+     * 
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
@@ -311,6 +316,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The observer who made the observation
      * @param result
      *            The result of this observation
+     * 
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>
      */
@@ -358,6 +364,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The session this observation belongs to
      * @param result
      *            The result of this observation
+     * 
      * @throws IllegalArgumentException
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, result or
      *             seeing is < 1 or > 5
@@ -419,6 +426,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The session this observation belongs to
      * @param results
      *            The results of this observation as List
+     * 
      * @throws IllegalArgumentException
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, results or
      *             result list is empty. Also if seeing is < 1 or > 5
@@ -474,6 +482,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Returns the field values of this Observation.
      *
      * @return This Observation field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -615,6 +624,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param parent
      *            The parent element for this Observation
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -837,6 +847,7 @@ public class Observation extends SchemaElement implements IObservation {
      * Might return <code>null</code> if no filter was used at all.
      *
      * @return The filter used for the observation or <code>null</code> if no filter was used.
+     * 
      * @since 1.5
      */
     @Override
@@ -948,10 +959,12 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param results
      *            A new result for this observation
+     * 
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IObservation#setResults(List results)
      * @see de.lehmannet.om.IFinding
+     * 
      * @throws IllegalArgumentException
      *             if the new result is <code>null</code>
      */
@@ -978,11 +991,14 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param results
      *            The new list of results for this observation
+     * 
      * @return <b>true</b> if the given list was successfully attached to this observation. <b>false</b> if one of the
      *         new result elements in the list did not implement the the IFinding interface.
+     * 
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IFinding
+     * 
      * @throws IllegalArgumentException
      *             if new results list is <code>null</code> or empty
      */
@@ -1029,8 +1045,10 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param imagesList
      *            The new (String) list of images for this observation
+     * 
      * @see de.lehmannet.om.IObservation#addImages(java.util.List images)
      * @see de.lehmannet.om.IObservation#addImage(String image)
+     * 
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code>
      */
@@ -1074,8 +1092,10 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param results
      *            A list with more results for this observation
+     * 
      * @return <b>true</b> if the given list was successfully added to this observations result list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
+     * 
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
     @Override
@@ -1116,8 +1136,10 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param images
      *            A list (containing Strings) with additional images (path) for this observation
+     * 
      * @return <b>true</b> if the given list was successfully added to this observations images list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
+     * 
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
     @Override
@@ -1219,6 +1241,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param begin
      *            The start date of the observation
+     * 
      * @throws IllegalArgumentException
      *             if new begin date is <code>null</code>
      */
@@ -1282,6 +1305,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param filter
      *            The filter used during this observation
+     * 
      * @since 1.5
      */
     @Override
@@ -1375,6 +1399,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param observer
      *            The observer of the observation
+     * 
      * @throws IllegalArgumentException
      *             if new observer is <code>null</code>
      */
@@ -1411,6 +1436,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param session
      *            The session this observation belongs to
+     * 
      * @throws IllegalArgumentException
      *             if this observations start date is not between the session start and end date
      */
@@ -1480,6 +1506,7 @@ public class Observation extends SchemaElement implements IObservation {
      *
      * @param target
      *            The target of this observation
+     * 
      * @throws IllegalArgumentException
      *             if new Target is <code>null</code>
      */

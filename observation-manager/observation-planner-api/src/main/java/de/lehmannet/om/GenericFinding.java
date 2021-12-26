@@ -17,6 +17,7 @@ import de.lehmannet.om.util.SchemaException;
  * The GenericFinding class stores a description of the findings and provides simple access to this description field.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.3
  */
 public class GenericFinding extends Finding {
@@ -62,6 +63,7 @@ public class GenericFinding extends Finding {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
+     * 
      * @see java.lang.Object.toString();
      */
     @Override
@@ -80,6 +82,7 @@ public class GenericFinding extends Finding {
      * Returns the field values of this GenericFinding.
      * 
      * @return This GenericFinding field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -96,9 +99,11 @@ public class GenericFinding extends Finding {
      * 
      * @param obj
      *            The Object to compare this GenericFinding with.
+     * 
      * @return <code>true</code> if both Objects are instances from class GenericFinding, their XSI type is equal and
      *         their fields contain the same values. (Can be checked with calling and comparing both objects toString()
      *         method)
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -149,8 +154,10 @@ public class GenericFinding extends Finding {
      * 
      * @param parent
      *            The parent element for this GenericFinding
+     * 
      * @return Returns the Element given as parameter with this GenericFinding as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     @Override

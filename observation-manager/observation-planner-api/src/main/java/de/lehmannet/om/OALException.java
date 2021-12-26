@@ -11,6 +11,7 @@ package de.lehmannet.om;
  * The root class for all exceptions used in the API. Replaces COMASTException with OAL 2.0
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.7
  */
 public class OALException extends Exception {

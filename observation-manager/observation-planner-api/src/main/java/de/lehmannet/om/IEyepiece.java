@@ -14,6 +14,7 @@ import org.w3c.dom.Element;
  * set.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface IEyepiece extends ISchemaElement, IEquipment {
@@ -88,6 +89,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * 
      * @param parent
      *            The parent element for this Eyepiece
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -113,10 +115,13 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional eyepiece link, and the eyepiece element under
      *         the eyepiece container of the ownerDocument Might return <code>null</code> if element was
      *         <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -133,8 +138,10 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * 
      * @param element
      *            The element under which the the eyepiece link is created
+     * 
      * @return Returns the Element given as parameter with a additional eyepiece link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
@@ -144,6 +151,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * 
      * @return Returns the apparent field of view of this eyepiece. The Angles value cannot be negative or 0.<br>
      *         If <code>null</code> is returned the apparent field of view value was never set.
+     * 
      * @see de.lehmannet.om.Angle
      */
     de.lehmannet.om.Angle getApparentFOV();
@@ -161,6 +169,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * <code>Float.NaN</code> in case this eyepiece is not a zoom eyepiece.
      * 
      * @return Returns the maximal focal length of the eyepiece.
+     * 
      * @since 1.7
      */
     float getMaxFocalLength();
@@ -186,6 +195,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * Basically this method just checks if the maxFocalLength field is set.
      * 
      * @return <code>true</code> if this eyepiece is a zoom eyepiece
+     * 
      * @since 1.7
      */
     boolean isZoomEyepiece();
@@ -213,6 +223,7 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      * 
      * @param maxFocalLength
      *            The new maximal focal length to be set.
+     * 
      * @since 1.7
      */
     void setMaxFocalLength(float maxFocalLength);

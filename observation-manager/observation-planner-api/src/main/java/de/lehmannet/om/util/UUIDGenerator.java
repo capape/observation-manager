@@ -14,6 +14,7 @@ import java.util.UUID;
  * (Requires JRE 1.5 or higher)
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.0
  */
 public class UUIDGenerator implements IIDGenerator {

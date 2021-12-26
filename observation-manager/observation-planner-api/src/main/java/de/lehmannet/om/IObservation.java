@@ -21,6 +21,7 @@ import java.util.List;
  * access to almost all other XML Schema elements.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface IObservation extends ISchemaElement {
@@ -140,6 +141,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param parent
      *            The parent element for the IObservation implementation
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element parent);
@@ -195,6 +197,7 @@ public interface IObservation extends ISchemaElement {
      * Might return <code>null</code> if no filter was used at all.
      * 
      * @return The filter used for the observation or <code>null</code> if no filter was used.
+     * 
      * @since 1.5
      */
     IFilter getFilter();
@@ -294,10 +297,12 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param results
      *            A new result for this observation
+     * 
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IObservation#setResults(List results)
      * @see de.lehmannet.om.IFinding
+     * 
      * @throws IllegalArgumentException
      *             if the new result is <code>null</code>
      */
@@ -313,11 +318,14 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param results
      *            The new list of results for this observation
+     * 
      * @return <b>true</b> if the given list was successfully attached to this observation. <b>false</b> if one of the
      *         new result elements in the list did not implement the the IFinding interface.
+     * 
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IFinding
+     * 
      * @throws IllegalArgumentException
      *             if new results list is <code>null</code> or empty
      */
@@ -332,8 +340,10 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param results
      *            A list with more results for this observation
+     * 
      * @return <b>true</b> if the given list was successfully added to this observations result list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
+     * 
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
     boolean addResults(List<IFinding> results);
@@ -355,8 +365,10 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param images
      *            A list (containing Strings) with additional images (path) for this observation
+     * 
      * @return <b>true</b> if the given list was successfully added to this observations images list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
+     * 
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
     boolean addImages(List<String> images);
@@ -379,8 +391,10 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param imagesList
      *            The new (String) list of images for this observation
+     * 
      * @see de.lehmannet.om.IObservation#addImages(java.util.List images)
      * @see de.lehmannet.om.IObservation#addImage(String image)
+     * 
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code> or empty
      */
@@ -400,6 +414,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param begin
      *            The start date of the observation
+     * 
      * @throws IllegalArgumentException
      *             if new begin date is <code>null</code>
      */
@@ -438,6 +453,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param filter
      *            The filter used during this observation
+     * 
      * @since 1.5
      */
     void setFilter(IFilter filter);
@@ -503,6 +519,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param observer
      *            The observer of the observation
+     * 
      * @throws IllegalArgumentException
      *             if new observer is <code>null</code>
      */
@@ -524,6 +541,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param session
      *            The session this observation belongs to
+     * 
      * @throws IllegalArgumentException
      *             if this observations start date is not between the session start and end date
      */
@@ -535,6 +553,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param site
      *            The site this observation took place
+     * 
      * @throws IllegalArgumentException
      *             if new site is <code>null</code>
      */
@@ -546,6 +565,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @param target
      *            The target of this observation
+     * 
      * @throws IllegalArgumentException
      *             if new target is <code>null</code>
      */
