@@ -6,6 +6,7 @@ import java.io.OutputStream;
  * Interface for variable star observations serializers
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.0
  */
 interface ISerializer {
