@@ -21,6 +21,7 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for double stars.<br>
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class DeepSkyTargetDS extends DeepSkyTarget {
@@ -71,6 +72,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -157,6 +159,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
      * 
      * @param parent
      *            The parent element for this Target
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -240,6 +243,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
      * 
      * @return The separation of the double star components as Angle The returned value might be <code>null</code> if
      *         the value was never set
+     * 
      * @see de.lehmannet.om.Angle
      */
     public Angle getSeparation() {
@@ -296,8 +300,10 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
      * 
      * @param newSeparation
      *            The new separation of the double star components.
+     * 
      * @throws IllegalArgumentException
      *             If new angle doesn't have a degree value between 0 and 359.9
+     * 
      * @see de.lehmannet.om.Angle
      */
     public void setSeparation(Angle newSeparation) {

@@ -30,6 +30,7 @@ import de.lehmannet.om.util.SchemaException;
  * Mostly all fields of the class are optional, only the name (which is derived from class Target) is madatory.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public abstract class DeepSkyTarget extends Target {
@@ -83,6 +84,7 @@ public abstract class DeepSkyTarget extends Target {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -186,6 +188,7 @@ public abstract class DeepSkyTarget extends Target {
      * Returns the field values of this DeepSkyTarget.
      * 
      * @return This DeepSkyTarget field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -260,6 +263,7 @@ public abstract class DeepSkyTarget extends Target {
      * 
      * @param parent
      *            The parent element for this Target
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -289,9 +293,11 @@ public abstract class DeepSkyTarget extends Target {
      *            The element under which the the target link is created
      * @param xsiType
      *            The XSI:Type identification of the child class
+     * 
      * @return Returns a new created target Element that contains all data from a DeepSkyTarget. Please mind, NOT the
      *         passed element is given, but a child element of the passed elements ownerDocument. Might return
      *         <code>null</code> if element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element createXmlDeepSkyTargetElement(Element element, String xsiType) {
@@ -390,6 +396,7 @@ public abstract class DeepSkyTarget extends Target {
      * 
      * @return The large diameter of the astronomical object as Angle The returned value might be <code>null</code> if
      *         the value was never set
+     * 
      * @see de.lehmannet.om.Angle
      */
     public Angle getLargeDiameter() {
@@ -403,6 +410,7 @@ public abstract class DeepSkyTarget extends Target {
      * 
      * @return The small diameter of the astronomical object as Angle The returned value might be <code>null</code> if
      *         the value was never set
+     * 
      * @see de.lehmannet.om.Angle
      */
     public Angle getSmallDiameter() {

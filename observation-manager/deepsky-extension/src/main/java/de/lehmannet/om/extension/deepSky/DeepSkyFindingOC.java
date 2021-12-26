@@ -42,6 +42,7 @@ import de.lehmannet.om.util.SchemaException;
  * </table>
  *
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.5
  */
 public class DeepSkyFindingOC extends DeepSkyFinding {
@@ -154,6 +155,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      *            The description of the finding
      * @param rating
      *            The rating of the finding
+     * 
      * @throws IllegalArgumentException
      *             if description was <code>null</code> or rating had a illegal value.
      */
@@ -172,6 +174,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Returns the field values of this DeepSkyFindingOC.
      *
      * @return This DeepSkyFindingOC field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -267,8 +270,10 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      *
      * @param parent
      *            The parent element for this DeepSkyFindingOC
+     * 
      * @return Returns the Element given as parameter with this DeepSkyFindingOC as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -322,6 +327,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object has an unusualShape.
      *
      * @return <code>true</code> if the observed object has an unusual Shape
+     * 
      * @throws IllegalStateException
      *             if unusualShape was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -340,6 +346,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object was partly unresolved.
      *
      * @return <code>true</code> if the observed object was partly unresolved
+     * 
      * @throws IllegalStateException
      *             if partlyUnresolved was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -358,6 +365,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * Describes if the observed object showed some color contrasts.
      *
      * @return <code>true</code> if the observed object showed some color contrasts
+     * 
      * @throws IllegalStateException
      *             if colorContrasts was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -460,6 +468,7 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
      * @param c
      *            The colorContrasts value to set for this DeepSkyFindingOC or <code>NULL</code> if the value should be
      *            not set at all.
+     * 
      * @throws IllegalArgumentException
      *             if the given character value is invalid
      */
