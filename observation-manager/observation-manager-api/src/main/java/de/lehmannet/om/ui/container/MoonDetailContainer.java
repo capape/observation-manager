@@ -9,6 +9,7 @@ package de.lehmannet.om.ui.container;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -19,8 +20,6 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
-import org.eclipse.core.runtime.Path;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISite;
@@ -47,7 +46,7 @@ public class MoonDetailContainer extends JLabel {
     private IObservation observation = null;
 
     private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl(
-            "images" + Path.SEPARATOR + "moon");
+            "images" + File.separator + "moon");
 
     public MoonDetailContainer(IObservation obs) {
 
