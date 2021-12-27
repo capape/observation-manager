@@ -25,6 +25,7 @@ import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog;
@@ -46,13 +47,15 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     private ResourceBundle bundle;
-    private IExtensionContext extensionContext;
+    private final IExtensionContext context;
 
     private final Set<String> supportedXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
-    public ImagerExtension() {
+    public ImagerExtension(IExtensionContext context) {
 
+        this.context = context;
         this.initLanguage();
         this.OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_Imaging.xsd";
 
@@ -61,6 +64,15 @@ public class ImagerExtension extends AbstractExtension {
         this.initPanels();
         this.initDialogs();
 
+        this.initExtensionTypes();
+
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionTypes
+                .add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.extension.imaging.CCDImager")
+                        .targetType(CCDImager.XML_ATTRIBUTE_CCDIMAGER).build());
     }
 
     private void initLanguage() {
@@ -72,6 +84,11 @@ public class ImagerExtension extends AbstractExtension {
             this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames",
                     Locale.ENGLISH);
         }
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+        return Collections.unmodifiableSet(this.extensionTypes);
     }
 
     @Override
@@ -206,11 +223,6 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
-    }
-
-    @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
         // TODO Auto-generated method stub
@@ -236,8 +248,7 @@ public class ImagerExtension extends AbstractExtension {
     @Override
     public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
 
-        return new CCDImagerDialog(parent, this.extensionContext.getUserInterfaceHelper(),
-                this.extensionContext.getModel(), imager);
+        return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager);
     }
 
 }

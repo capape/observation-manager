@@ -58,6 +58,7 @@ public class GenericTarget extends Target {
      * Returns the field values of this GenericTarget.
      * 
      * @return This GenericTarget field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -94,9 +95,11 @@ public class GenericTarget extends Target {
      * 
      * @param obj
      *            The Object to compare this GenericTarget with.
+     * 
      * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
      *         equal to this GenericTarget name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -137,6 +140,7 @@ public class GenericTarget extends Target {
      * 
      * @param parent
      *            The parent element for this Target
+     * 
      * @see org.w3c.dom.Element
      */
     @Override

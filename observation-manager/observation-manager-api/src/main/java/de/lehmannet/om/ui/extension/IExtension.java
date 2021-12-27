@@ -21,6 +21,7 @@ import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -73,7 +74,7 @@ public interface IExtension {
 
     IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable);
 
-    void setContext(IExtensionContext context);
-
     boolean supports(String xsiType);
+
+    Set<SchemaOalTypeInfo> getExtensionTypes();
 }

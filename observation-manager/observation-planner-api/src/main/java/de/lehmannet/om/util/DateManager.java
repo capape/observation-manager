@@ -9,6 +9,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String dateToString(Date date);
@@ -16,6 +17,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String calendarToString(Calendar calendar);
@@ -23,6 +25,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String dateToStringWithSeconds(Date date);
@@ -30,6 +33,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String calendarToStringWithSeconds(Calendar calendar);
@@ -37,6 +41,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String offsetDateTimeToString(OffsetDateTime date);
@@ -44,6 +49,7 @@ public interface DateManager {
     /**
      * 
      * @param date
+     * 
      * @return the date formatted or empty string
      */
     String offsetDateTimeToStringWithSeconds(OffsetDateTime date);

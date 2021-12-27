@@ -15,6 +15,7 @@ import de.lehmannet.om.OALException;
  * missing).
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class SchemaException extends OALException {

@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
  * informations may be stored here.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface IObserver extends ISchemaElement {
@@ -115,6 +116,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param parent
      *            The parent element for this Observer
+     * 
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -141,10 +143,13 @@ public interface IObserver extends ISchemaElement {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with the Observer as linked child element, and the elements
      *         ownerDocument with the additional Observer element Might return <code>null</code> if element was
      *         <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, String NameOfLinkElement,
@@ -162,8 +167,10 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param element
      *            The element under which the the observer link is created
+     * 
      * @return Returns the Element given as parameter with a additional observer link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element, String nameOfLinkElement);
@@ -187,6 +194,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @return a Map with additional account information of the observer, or <code>null</code> if no informations are
      *         given.
+     * 
      * @since 2.0
      */
     Map<String, String> getAccounts();
@@ -212,6 +220,7 @@ public interface IObserver extends ISchemaElement {
      * Might return <code>NULL</code> if observer has no DSL code
      * 
      * @return the DeepSkyList (DSL) Code of the observer, or <code>NULL</code> if DSL was never set
+     * 
      * @deprecated Use getUsernameForAccount(String accountName) instead
      */
     @Deprecated
@@ -225,8 +234,10 @@ public interface IObserver extends ISchemaElement {
      *            the new account name (name of service, organisation, website, ...)
      * @param username
      *            the username/ID/User#/... to the new account
+     * 
      * @return <b>true</b> if the new accout information could be added successfully. <b>false</b> if the new accout
      *         information could not be added.
+     * 
      * @since 2.0
      */
     boolean addAccount(String accountName, String username);
@@ -236,8 +247,10 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param accountName
      *            the account name (name of service, organisation, website, ...) to be removed
+     * 
      * @return <b>true</b> if the accout information could be removed successfully. <b>false</b> if the accout
      *         information could not be removed.
+     * 
      * @since 2.0
      */
     boolean removeAccount(String accountName);
@@ -258,6 +271,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param newAccounts
      *            new list of account informations
+     * 
      * @since 2.0
      */
     void setAccounts(Map<String, String> newAccounts);
@@ -268,8 +282,10 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param accountName
      *            Name of service, organisation, website, ...
+     * 
      * @return The username/ID/User#/... of this observer beloging to the passed accountName, or <code>NULL</code> if
      *         the accountName wasn't set for this observer.
+     * 
      * @since 2.0
      */
     String getUsernameForAccount(String accountName);
@@ -289,6 +305,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param DSLCode
      *            the DeepSkyList (DSL) Code of the observer
+     * 
      * @deprecated Use addAccount(String accountName, String username) instead
      */
     @Deprecated
@@ -300,6 +317,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param name
      *            the new name of the observer
+     * 
      * @throws IllegalArgumentException
      *             if the given name is <code>null</code>
      */
@@ -311,6 +329,7 @@ public interface IObserver extends ISchemaElement {
      * 
      * @param surname
      *            the new surname of the observer
+     * 
      * @throws IllegalArgumentException
      *             if the given surname is <code>null</code>
      */
@@ -335,6 +354,7 @@ public interface IObserver extends ISchemaElement {
      * brightness) given in magnitudes per square arcsecond
      * 
      * @return the fst Offset of the Observer or <code>Float.NaN</code> if the value was never set.
+     * 
      * @since 2.0
      */
     float getFSTOffset();

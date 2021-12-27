@@ -20,6 +20,7 @@ import de.lehmannet.om.util.SchemaException;
  * Describes a CCD camera.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.3
  */
 public class CCDImager extends Imager {
@@ -88,6 +89,7 @@ public class CCDImager extends Imager {
      * 
      * @param imagerElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given imagerElement was <code>null</code>
      */
@@ -116,6 +118,7 @@ public class CCDImager extends Imager {
      *            The amount of pixel on the x axis
      * @param yPixels
      *            The amount of pixel on the y axis
+     * 
      * @throws SchemaException
      *             if given model was <code>null</code>, or on of the pixel values was <= 0.
      */
@@ -217,6 +220,7 @@ public class CCDImager extends Imager {
      * 
      * @param pixels
      *            The new amount of pixel on the x axis
+     * 
      * @throws IllegalArgumentException
      *             if given pixels are <= 0
      */
@@ -246,6 +250,7 @@ public class CCDImager extends Imager {
      * 
      * @param pixels
      *            The new amount of pixel on the y axis
+     * 
      * @throws IllegalArgumentException
      *             if given pixels are <= 0
      */
@@ -263,6 +268,7 @@ public class CCDImager extends Imager {
      * Returns the pixel size on the x axis.<br>
      * 
      * @return Returns the pixel size on the x axis or Float.NaN if the value was never set
+     * 
      * @since 2.0
      */
     public float getXPixelSize() {
@@ -276,8 +282,10 @@ public class CCDImager extends Imager {
      * 
      * @param pixelSize
      *            The new size of the pixel on the x axis
+     * 
      * @throws IllegalArgumentException
      *             if given pixel size is < 0
+     * 
      * @since 2.0
      */
     public void setXPixelSize(float pixelSize) throws IllegalArgumentException {
@@ -299,6 +307,7 @@ public class CCDImager extends Imager {
      * Returns the pixel size on the y axis.<br>
      * 
      * @return Returns the pixel size on the y axis or Float.NaN if the value was never set<br>
+     * 
      * @since 2.0
      */
     public float getYPixelSize() {
@@ -312,8 +321,10 @@ public class CCDImager extends Imager {
      * 
      * @param pixelSize
      *            The new size of the pixel on the y axis
+     * 
      * @throws IllegalArgumentException
      *             if given pixel size is < 0
+     * 
      * @since 2.0
      */
     public void setYPixelSize(float pixelSize) throws IllegalArgumentException {
@@ -335,6 +346,7 @@ public class CCDImager extends Imager {
      * Returns the binning.<br>
      * 
      * @return Returns the binning value of the camera. Default = 1<br>
+     * 
      * @since 2.0
      */
     public byte getBinning() {
@@ -348,8 +360,10 @@ public class CCDImager extends Imager {
      * 
      * @param binning
      *            The new binning value of the camera
+     * 
      * @throws IllegalArgumentException
      *             if given binning value size is < 1 or > 9
+     * 
      * @since 2.0
      */
     public void setBinning(byte binning) throws IllegalArgumentException {

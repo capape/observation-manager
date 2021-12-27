@@ -18,6 +18,7 @@ import de.lehmannet.om.util.SchemaException;
  * more due to extension reasons as this class does not add new functions to de.lehmannet.om.Target
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.3
  */
 public class SolarSystemTargetMoon extends SolarSystemTarget {
@@ -45,6 +46,7 @@ public class SolarSystemTargetMoon extends SolarSystemTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -111,6 +113,7 @@ public class SolarSystemTargetMoon extends SolarSystemTarget {
      * 
      * @param parent
      *            The parent element for this Target
+     * 
      * @see org.w3c.dom.Element
      */
     @Override

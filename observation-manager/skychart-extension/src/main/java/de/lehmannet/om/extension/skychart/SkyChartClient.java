@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.OffsetDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -43,6 +44,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
@@ -74,15 +76,21 @@ public class SkyChartClient implements IExtension, ActionListener {
 
     private JMenu popupMenu = null;
     private JMenuItem popupMoveTo = null;
-    private IExtensionContext extensionContext;
+    private IExtensionContext context;
+    private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
 
-    public SkyChartClient(IObservationManagerJFrame om) {
+    public SkyChartClient(IExtensionContext context) {
 
+        this.context = context;
         this.initLanguage();
-        this.om = om;
-
         this.initMenus();
 
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionTypes);
     }
 
     private void initLanguage() {
@@ -104,13 +112,14 @@ public class SkyChartClient implements IExtension, ActionListener {
         if (e.getSource() instanceof JMenuItem) { // Should always be the case
             JMenuItem source = (JMenuItem) e.getSource();
             if ((source.equals(this.mainMoveTo)) || (source.equals(this.popupMoveTo))) {
-                ISchemaElement se = this.om.getSelectedTableElement();
+                ISchemaElement se = this.context.getModel().getSelectedElement();
                 if (se instanceof IObservation) {
                     this.moveSkychart((IObservation) se);
                 } else if (se instanceof ITarget) {
                     this.moveSkychart((ITarget) se);
                 } else {
-                    this.om.createWarning(this.bundle.getString("skychart.move.wrongSchemaElementType"));
+                    this.context.getUserInterfaceHelper()
+                            .showWarning(this.bundle.getString("skychart.move.wrongSchemaElementType"));
                 }
             }
         }
@@ -135,14 +144,15 @@ public class SkyChartClient implements IExtension, ActionListener {
                         // cancel here.
             } else if (response) {
                 // Inform user
-                this.om.createInfo(this.bundle.getString("skychart.move.ok") + target.getDisplayName());
+                this.context.getUserInterfaceHelper()
+                        .showInfo(this.bundle.getString("skychart.move.ok") + target.getDisplayName());
             } else {
                 // Inform user
-                this.om.createInfo(this.bundle.getString("skychart.move.failed"));
+                this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
             }
         } else {
             // Inform user
-            this.om.createInfo(this.bundle.getString("skychart.move.failed"));
+            this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
         }
 
         // Close socket
@@ -200,15 +210,15 @@ public class SkyChartClient implements IExtension, ActionListener {
                         // cancel here.
             } else if (response) {
                 // Inform user
-                this.om.createInfo(
-                        this.bundle.getString("skychart.move.ok") + observation.getTarget().getDisplayName());
+                this.context.getUserInterfaceHelper()
+                        .showInfo(this.bundle.getString("skychart.move.ok") + observation.getTarget().getDisplayName());
             } else {
                 // Inform user
-                this.om.createInfo(this.bundle.getString("skychart.move.failed"));
+                this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
             }
         } else {
             // Inform user
-            this.om.createInfo(this.bundle.getString("skychart.move.failed"));
+            this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
         }
 
         // Close socket
@@ -437,13 +447,13 @@ public class SkyChartClient implements IExtension, ActionListener {
     private StarchartSocket createSocket() {
 
         // Get IP
-        String ip = this.om.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY);
+        String ip = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY);
         if ((ip == null) || ("".equals(ip.trim()))) {
             ip = SkyChartPreferences.SERVER_DEFAULT_IP;
         }
 
         // Get Port
-        String s_port = this.om.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
+        String s_port = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
         int port = SkyChartPreferences.SERVER_DEFAULT_PORT;
         if ((s_port != null) && !("".equals(s_port.trim()))) {
             port = Integer.parseInt(s_port);
@@ -460,7 +470,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                                         // So try to start it
             // Try to get application path
             // final String applicationPath =
-            final String applicationPath = this.om.getConfiguration()
+            final String applicationPath = this.context.getConfiguration()
                     .getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
             if (applicationPath == null || "".equals(applicationPath.trim())) { // No
                                                                                 // application
@@ -518,9 +528,9 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                 };
 
-                this.om.createProgressDialog(startApplication,
+                this.context.getUserInterfaceHelper().createProgressDialog(
                         this.bundle.getString("skychart.application.start.title"),
-                        this.bundle.getString("skychart.application.start.loading"));
+                        this.bundle.getString("skychart.application.start.loading"), startApplication);
 
                 try {
                     socket = new StarchartSocket(ip, port);
@@ -706,7 +716,7 @@ public class SkyChartClient implements IExtension, ActionListener {
     @Override
     public PreferencesPanel getPreferencesPanel() {
 
-        return new SkyChartPreferences(this.om.getConfiguration());
+        return new SkyChartPreferences(this.context.getConfiguration());
 
     }
 
@@ -769,11 +779,6 @@ public class SkyChartClient implements IExtension, ActionListener {
 
         return true;
 
-    }
-
-    @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
     }
 
     @Override

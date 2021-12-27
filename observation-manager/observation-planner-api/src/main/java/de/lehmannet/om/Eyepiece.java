@@ -22,6 +22,7 @@ import de.lehmannet.om.util.SchemaException;
  * the focalLength are mandatory fields which have to be set.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class Eyepiece extends SchemaElement implements IEyepiece {
@@ -58,6 +59,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      *
      * @param eyepiece
      *            The XML Schema element that represents this eyepiece
+     * 
      * @throws IllegalArgumentException
      *             if parameter is <code>null</code>,
      * @throws SchemaException
@@ -91,6 +93,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      *            The eyepieces model name
      * @param focalLength
      *            The focal length of the eyepiece
+     * 
      * @throws IllegalArgumentException
      *             if model is <code>null</code> or focalLength is Float.NaN
      */
@@ -112,6 +115,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
+     * 
      * @see java.lang.Object.toString();
      */
     @Override
@@ -146,6 +150,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * </code>
      * 
      * @return A string representing the eyepiece
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -239,6 +244,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @param parent
      *            The parent element for this Eyepiece
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -332,10 +338,13 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional eyepiece link, and the eyepiece element under
      *         the eyepiece container of the ownerDocument Might return <code>null</code> if element was
      *         <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     @Override
@@ -384,8 +393,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @param element
      *            The element under which the the eyepiece link is created
+     * 
      * @return Returns the Element given as parameter with a additional eyepiece link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -400,6 +411,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @return Returns the apparent field of view of this eyepiece. The Angles value cannot be negative or 0.<br>
      *         If <code>null</code> is returned the apparent field of view value was never set.
+     * 
      * @see de.lehmannet.om.Angle
      */
     @Override
@@ -416,6 +428,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * focal length, please use getMaxFocalLength()
      * 
      * @see getMaxFocalLength()
+     * 
      * @return Returns the focal length of the eyepiece.
      */
     @Override
@@ -430,6 +443,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * <code>Float.NaN</code> in case this eyepiece is not a zoom eyepiece.
      * 
      * @return Returns the maximal focal length of the eyepiece.
+     * 
      * @since 1.7
      */
     @Override
@@ -469,6 +483,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * Basically this method just checks if the maxFocalLength field is set.
      * 
      * @return <code>true</code> if this eyepiece is a zoom eyepiece
+     * 
      * @since 1.7
      */
     @Override
@@ -501,6 +516,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @param focalLength
      *            The new focal length to be set.
+     * 
      * @throws IllegalArgumentException
      *             if focalLength was <code>Float.NaN</code>
      */
@@ -521,6 +537,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @param maxFocalLength
      *            The new maximal focal length to be set.
+     * 
      * @since 1.7
      */
     @Override
@@ -535,6 +552,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
      * 
      * @param modelname
      *            The new model name to be set.
+     * 
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */

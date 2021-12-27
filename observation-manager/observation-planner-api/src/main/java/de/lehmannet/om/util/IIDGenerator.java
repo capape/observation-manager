@@ -13,6 +13,7 @@ package de.lehmannet.om.util;
  * 
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface IIDGenerator {

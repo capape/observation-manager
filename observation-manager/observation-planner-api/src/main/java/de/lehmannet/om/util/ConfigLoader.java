@@ -7,63 +7,38 @@
 
 package de.lehmannet.om.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.lehmannet.om.SchemaOalTypeInfo;
 
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
  * are found, it can provide easy access to the config information.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class ConfigLoader {
 
-    /**
-     * Property to define extesions dir.
-     */
-    public static final String EXTENSIONS_DIR_PROPERTY = "extensions.dir";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoader.class);
-
-    // ---------
-    // Constants ---------------------------------------------------------
-    // ---------
-    // Extension of config files
-    private static final String MANIFEST_FILENAME = "META-INF/SCHEMATYPE";
-    // Config file XSI relation entry: XSI_Type target ending
-    private static final String CONFIG_FILE_TARGETENTRY_TYPE_ENDING = "XSI_Relation_Type";
-    // Config file XSI relation entry: XSI_Type target ending
-    private static final String CONFIG_FILE_TARGETENTRY_CLASSNAME_ENDING = "XSI_Relation_Class";
-    // Config file XSI relation entry: XSI_Type finding ending
-    private static final String CONFIG_FILE_FINDINGENTRY_TYPE_ENDING = "XSI_Relation_Finding_Type";
-    // Config file XSI relation entry: XSI_Type finding ending
-    private static final String CONFIG_FILE_FINDINGENTRY_CLASSNAME_ENDING = "XSI_Relation_Finding_Class";
 
     // ------------------
     // Instance variables ------------------------------------------------
     // ------------------
     // All target xsi:types as key and Java classname as value
-    private static final Map<String, String> targets = new HashMap<>();
+    private static final Map<String, String> targets = new ConcurrentHashMap<>();
     // All finding xsi:types as key and Java classname as value
-    private static final Map<String, String> findings = new HashMap<>();
+    private static final Map<String, String> findings = new ConcurrentHashMap<>();
     // All target xsi:types as key and finding xsi:types as value
-    private static final Map<String, String> target_findings = new HashMap<>();
+    private static final Map<String, String> target_findings = new ConcurrentHashMap<>();
 
     private static final Object LOCK = new Object();
 
@@ -84,8 +59,10 @@ public class ConfigLoader {
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
+     * 
      * @return The corresponding target java classname for the given type, or <code>null</code> if the type could not be
      *         resolved.
+     * 
      * @throws ConfigException
      *             if problems occured during load of config
      */
@@ -151,8 +128,10 @@ public class ConfigLoader {
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
+     * 
      * @return The corresponding finding java classname for the given type, or <code>null</code> if the type could not
      *         be resolved.
+     * 
      * @throws ConfigException
      *             if problems occured during load of config
      */
@@ -208,106 +187,6 @@ public class ConfigLoader {
         // Add fixed generic elements (no extenstion package required)
         ConfigLoader.addGenericElements();
 
-        // Get JARs from classpath
-        String sep = System.getProperty("path.separator");
-        String path = System.getProperty("java.class.path");
-        StringTokenizer tokenizer = new StringTokenizer(path, sep);
-        File token = null;
-        while (tokenizer.hasMoreTokens()) {
-            token = new File(tokenizer.nextToken());
-            if ((token.isFile()) && (token.getName().endsWith(".jar"))) {
-                LOGGER.debug("Searching classpath extensions. File {}", token.getName());
-                scanJarFile(token);
-            }
-        }
-        // Get JARs under extension path
-        String extPath = System.getProperty(EXTENSIONS_DIR_PROPERTY);
-        if (!StringUtils.isBlank(extPath)) {
-            File ext = new File(extPath);
-            if (ext.exists()) {
-                File[] jars = ext.listFiles((dir, name) -> name.toLowerCase(Locale.getDefault()).endsWith(".jar"));
-                if (jars != null) {
-                    for (File jar : jars) {
-                        LOGGER.debug("Searching configured dir extensions. File {}", jar.getName());
-                        scanJarFile(jar);
-                    }
-                }
-            }
-        }
-
-    }
-
-    private static void scanJarFile(File jar) throws ConfigException {
-
-        try (ZipFile archive = new ZipFile(jar)) {
-            Enumeration<? extends ZipEntry> enu = archive.entries();
-            while (enu.hasMoreElements()) {
-                ZipEntry entry = enu.nextElement();
-                String name = entry.getName();
-                if (name.toUpperCase(Locale.getDefault()).equals(MANIFEST_FILENAME)) {
-                    LOGGER.debug("Loading extension {}:{}", jar.getName(), name);
-                    try (InputStream in = archive.getInputStream(entry)) {
-
-                        Properties prop = new Properties();
-                        prop.load(in);
-                        addConfig(prop);
-                    } catch (IOException ioe) {
-                        throw new ConfigException("Error while accessing entry from JAR file. ", ioe);
-                    }
-                    // we can't do anything here
-                }
-            }
-        } catch (IOException zipEx) {
-            throw new ConfigException("Error while accessing JAR file. ", zipEx);
-        }
-
-    }
-
-    private static void addConfig(Properties newProperties) {
-        Iterator keys = newProperties.keySet().iterator();
-        String currentKey = null;
-        String prefix = null;
-        String target_classname = null;
-        String target_type = null;
-        String finding_classname = null;
-        String finding_type = null;
-
-        while (keys.hasNext()) {
-            currentKey = (String) keys.next();
-            // Check if key ends with target TYPE ending
-            if (currentKey.endsWith(ConfigLoader.CONFIG_FILE_TARGETENTRY_TYPE_ENDING)) {
-                // Get target TYPE value
-                target_type = newProperties.getProperty(currentKey);
-
-                // Get prefix (everything that is before our target TYPE ending)
-                prefix = currentKey.substring(0,
-                        currentKey.lastIndexOf(ConfigLoader.CONFIG_FILE_TARGETENTRY_TYPE_ENDING));
-                // Use prefix and CLASS ending to get target class property
-                target_classname = newProperties
-                        .getProperty(prefix + ConfigLoader.CONFIG_FILE_TARGETENTRY_CLASSNAME_ENDING);
-                // Use prefix and CLASS ending to get finding class property
-                finding_type = newProperties.getProperty(prefix + ConfigLoader.CONFIG_FILE_FINDINGENTRY_TYPE_ENDING);
-                // Use prefix and CLASS ending to get finding class property
-                finding_classname = newProperties
-                        .getProperty(prefix + ConfigLoader.CONFIG_FILE_FINDINGENTRY_CLASSNAME_ENDING);
-
-                // Add type and classname to our list of known types
-                synchronized (LOCK) {
-                    targets.put(target_type, target_classname);
-                }
-                // Add type and classname to our list of known types
-                synchronized (LOCK) {
-                    findings.put(finding_type, finding_classname);
-                }
-
-                // Add target type and finding type
-                synchronized (LOCK) {
-                    target_findings.put(target_type, finding_type);
-                }
-
-            }
-        }
-
     }
 
     private static void addGenericElements() {
@@ -321,14 +200,7 @@ public class ConfigLoader {
         // Add type and classname to our list of known types
         synchronized (LOCK) {
             targets.put(target_type, target_classname);
-        }
-        // Add type and classname to our list of known types
-        synchronized (LOCK) {
             findings.put(finding_type, finding_classname);
-        }
-
-        // Add target type and finding type
-        synchronized (LOCK) {
             target_findings.put(target_type, finding_type);
         }
 
@@ -341,14 +213,7 @@ public class ConfigLoader {
         // Add type and classname to our list of known types
         synchronized (LOCK) {
             targets.put(starTarget_type, starTarget_classname);
-        }
-        // Add type and classname to our list of known types
-        synchronized (LOCK) {
             findings.put(starTarget_finding_type, starTarget_finding_classname);
-        }
-
-        // Add target type and finding type
-        synchronized (LOCK) {
             target_findings.put(starTarget_type, starTarget_finding_type);
         }
 
@@ -365,4 +230,36 @@ public class ConfigLoader {
 
     }
 
+    public static void loadInternalExtension(SchemaOalTypeInfo schemaOalTypeInfo) {
+
+        synchronized (LOCK) {
+            if (hasTargetDefined(schemaOalTypeInfo)) {
+                targets.put(schemaOalTypeInfo.getTargetType(), schemaOalTypeInfo.getTargetClassName());
+            }
+
+            if (hasFindingDefined(schemaOalTypeInfo)) {
+                findings.put(schemaOalTypeInfo.getFindingType(), schemaOalTypeInfo.getFindingClassName());
+            }
+
+            if (hasTypesDefined(schemaOalTypeInfo)) {
+                target_findings.put(schemaOalTypeInfo.getTargetType(), schemaOalTypeInfo.getFindingType());
+            }
+        }
+
+    }
+
+    private static boolean hasTypesDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getTargetType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getFindingType());
+    }
+
+    private static boolean hasFindingDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getFindingType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getFindingClassName());
+    }
+
+    private static boolean hasTargetDefined(SchemaOalTypeInfo schemaOalTypeInfo) {
+        return StringUtils.isNotBlank(schemaOalTypeInfo.getTargetType())
+                && StringUtils.isNotBlank(schemaOalTypeInfo.getTargetClassName());
+    }
 }

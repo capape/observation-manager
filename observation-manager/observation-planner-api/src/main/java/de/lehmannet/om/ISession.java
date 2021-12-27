@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
  * date.
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public interface ISession extends ISchemaElement {
@@ -131,6 +132,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns the element given as parameter with this Session as child element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     Element addToXmlElement(Element element);
@@ -154,9 +156,12 @@ public interface ISession extends ISchemaElement {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
+     * 
      * @return Returns the Element given as parameter with a additional Session link, and the session element under the
      *         session container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
+     * 
      * @since 2.0
      */
     org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, boolean addElementToContainer);
@@ -173,8 +178,10 @@ public interface ISession extends ISchemaElement {
      * 
      * @param element
      *            The element under which the the session link is created
+     * 
      * @return Returns the Element given as parameter with a additional session link Might return <code>null</code> if
      *         element was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     org.w3c.dom.Element addAsLinkToXmlElement(Element element);
@@ -242,6 +249,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns a ISO language code that represents the sessions describtion language or <code>null</code> if no
      *         language was set at all.
+     * 
      * @since 1.5
      */
     String getLanguage();
@@ -251,6 +259,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @param begin
      *            The new start date of the session.
+     * 
      * @throws IllegalArgumentException
      *             if new start date is <code>null</code>
      */
@@ -261,6 +270,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @param end
      *            The new end date of the session.
+     * 
      * @throws IllegalArgumentException
      *             if new end date is <code>null</code>
      */
@@ -272,6 +282,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @param site
      *            The site where the session took place.
+     * 
      * @throws IllegalArgumentException
      *             if site is <code>null</code>
      */
@@ -313,6 +324,7 @@ public interface ISession extends ISchemaElement {
      * @param coObservers
      *            A List of coobservers which will be added to the existing List of coobservers which is stored in the
      *            session
+     * 
      * @return <b>true</b> if the list could be added to the existing list, <b>false</b> if the operation fails, because
      *         e.g. one of the lists elements does not implement the IObserver interface. If <b>false</b> is returned
      *         the existing list is not changed at all.
@@ -343,6 +355,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @param language
      *            ISO language string
+     * 
      * @since 1.5
      */
     void setLanguage(String language);
@@ -357,8 +370,10 @@ public interface ISession extends ISchemaElement {
      * 
      * @param imagesList
      *            The new (String) list of images for this session
+     * 
      * @see de.lehmannet.om.ISession#addImages(List images)
      * @see de.lehmannet.om.ISession#addImage(String image)
+     * 
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code>
      */
@@ -381,6 +396,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @param images
      *            A list (containing Strings) with additional images (path) for this session
+     * 
      * @return <b>true</b> if the given list was successfully added to this session images list. <b>false</b> if the new
      *         list could not be added and the old list remains unchanged.
      */

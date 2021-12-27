@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * the ISchemaInterface, so that any subclass inherits a unique ID.
  *
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public abstract class SchemaElement implements ISchemaElement {
@@ -152,6 +153,7 @@ public abstract class SchemaElement implements ISchemaElement {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
+     * 
      * @see java.lang.Object.toString();
      */
     @Override

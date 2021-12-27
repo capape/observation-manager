@@ -11,7 +11,9 @@ package de.lehmannet.om;
  * The root class for all exceptions used in the API. Was called FCGAException before version 1.7
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.7
+ * 
  * @deprecated Use OALException instead
  */
 @Deprecated

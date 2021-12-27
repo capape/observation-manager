@@ -15,6 +15,7 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for variable stars.<br>
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.0
  */
 public class TargetVariableStar extends TargetStar {
@@ -65,6 +66,7 @@ public class TargetVariableStar extends TargetStar {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -152,6 +154,7 @@ public class TargetVariableStar extends TargetStar {
      * Returns the field values of this TargetVariableStar.
      * 
      * @return This TargetVariableStar field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -189,6 +192,7 @@ public class TargetVariableStar extends TargetStar {
      * 
      * @param parent
      *            The parent element for this TargetVariableStar
+     * 
      * @see org.w3c.dom.Element
      */
     @Override

@@ -20,6 +20,7 @@ import de.lehmannet.om.util.SchemaException;
  * Variable Star Observers" (<a href="http://www.aavso.org/">AAVSO Homepage</a>).<br>
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.0
  */
 public class FindingVariableStar extends Finding {
@@ -209,6 +210,7 @@ public class FindingVariableStar extends Finding {
      * Returns the field values of this FindingVariableStar.
      * 
      * @return This FindingVariableStar field values
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -286,8 +288,10 @@ public class FindingVariableStar extends Finding {
      * 
      * @param parent
      *            The parent element for this FindingVariableStar
+     * 
      * @return Returns the Element given as parameter with this FindingVariableStar as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     @Override
@@ -497,6 +501,7 @@ public class FindingVariableStar extends Finding {
      * 
      * @param chartDate
      *            A date string for chart identification
+     * 
      * @thorows IllegalArgumentException In case the given chart date was <code>null</code> or an empty string
      */
     public void setChartDate(String chartDate) throws IllegalArgumentException {
@@ -515,6 +520,7 @@ public class FindingVariableStar extends Finding {
      * 
      * @param magnitude
      *            The observed magnitude of the variable star
+     * 
      * @throws IllegalArgumentException
      *             in case the given magnitude is Float.NaN
      */
@@ -549,6 +555,7 @@ public class FindingVariableStar extends Finding {
      * 
      * @param comparismStars
      *            The new List of comparism star of the finding
+     * 
      * @throws IllegalArgumentException
      *             if the given new List doesn't contain at least one entry
      */
@@ -893,9 +900,11 @@ public class FindingVariableStar extends Finding {
      * 
      * @param obj
      *            The Object to compare this FindingVariableStar with.
+     * 
      * @return <code>true</code> if both Objects are instances from class FindingVariableStar, both XSI types are equal
      *         and their fields contain the same values. (Can be checked with calling and comparing both objects
      *         toString() method)
+     * 
      * @see java.lang.Object
      */
 

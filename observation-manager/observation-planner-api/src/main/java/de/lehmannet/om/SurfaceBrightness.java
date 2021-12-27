@@ -19,6 +19,7 @@ import java.util.Objects;
  * Surface Brightness represents the value and the unit of a celestial objects surface brightness
  *
  * @author doergn@users.sourceforge.net
+ * 
  * @since 2.0
  */
 public class SurfaceBrightness {
@@ -123,6 +124,7 @@ public class SurfaceBrightness {
      * 5.67 mags-per-squarearcsec
      *
      * @return The surface brightness value followed by its unit
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -139,8 +141,10 @@ public class SurfaceBrightness {
      *
      * @param obj
      *            The Object to compare this surface brightness with.
+     * 
      * @return <code>true</code> if both Objects are instances from class de.lehmannet.om.SurfaceBrightness and their
      *         values in mags-per-squarearcsec is equal.
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -185,8 +189,10 @@ public class SurfaceBrightness {
      *
      * @param element
      *            The XML DOM Element this SurfaceBrightness belongs to
+     * 
      * @return Returns the element given as parameter with this SurfaceBrightness value as element value and this
      *         SurfaceBrightness unit as attribute
+     * 
      * @see org.w3c.dom.Element
      */
     public Element setToXmlElement(Element element) {
@@ -263,6 +269,7 @@ public class SurfaceBrightness {
      *
      * @param unit
      *            A String which represents an Surface Brightness unit
+     * 
      * @return true if the given string is a valid Surface Brightness unit
      */
     public static boolean isValidUnit(String unit) {

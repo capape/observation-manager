@@ -22,6 +22,7 @@ import de.lehmannet.om.util.SchemaException;
  * third value).
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.0
  */
 public class EquPosition extends SchemaElement {
@@ -79,6 +80,7 @@ public class EquPosition extends SchemaElement {
      * 
      * @param positionNode
      *            The origin XML DOM position Element
+     * 
      * @throws SchemaException
      *             if given positionNode was <code>null</code>
      */
@@ -170,6 +172,7 @@ public class EquPosition extends SchemaElement {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      * 
      * @return Returns a String with a one line display name
+     * 
      * @see java.lang.Object.toString();
      */
     @Override
@@ -194,6 +197,7 @@ public class EquPosition extends SchemaElement {
      * </code>
      * 
      * @return A string representing the equatorial position
+     * 
      * @see java.lang.Object
      */
     @Override
@@ -224,6 +228,7 @@ public class EquPosition extends SchemaElement {
      *            Minute value
      * @param sec
      *            Second value
+     * 
      * @return The right ascension as correct formated sting.
      */
     private static String getRaString(int hours, int min, int sec) {
@@ -240,6 +245,7 @@ public class EquPosition extends SchemaElement {
      *            Minute value
      * @param sec
      *            Second value
+     * 
      * @return The right ascension as correct formated sting.
      */
     public static String getRaString(int hours, int min, double sec) {
@@ -258,6 +264,7 @@ public class EquPosition extends SchemaElement {
      *            Minute value
      * @param sec
      *            Second value
+     * 
      * @return The declination as correct formated sting.
      */
     public static String getDecString(int deg, int min, int sec) {
@@ -282,6 +289,7 @@ public class EquPosition extends SchemaElement {
      *            Minute value
      * @param sec
      *            Second value
+     * 
      * @return The declination as correct formated sting.
      */
     public static String getDecString(int deg, int min, double sec) {
@@ -307,8 +315,10 @@ public class EquPosition extends SchemaElement {
      * 
      * @param parent
      *            The parent element for this EquPosition
+     * 
      * @return Returns the Element given as parameter with this EquPosition as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
+     * 
      * @see org.w3c.dom.Element
      */
     public Element addToXmlElement(Element parent) {
@@ -458,6 +468,7 @@ public class EquPosition extends SchemaElement {
      * 
      * @param paramdec
      *            The new declination of the equatorial position
+     * 
      * @throws IllegalArgumentException
      *             if dec was <code>null</code> or the string was malformed
      */
@@ -492,6 +503,7 @@ public class EquPosition extends SchemaElement {
      * 
      * @param paramra
      *            The right ascension of the equatorial position
+     * 
      * @throws IllegalArgumentException
      *             if ra is <code>null</code> or the string was malformed
      */
@@ -521,6 +533,7 @@ public class EquPosition extends SchemaElement {
      * 
      * @param dec
      *            The new declination of the equatorial position
+     * 
      * @throws IllegalArgumentException
      *             if dec was <code>null</code>
      */
@@ -539,6 +552,7 @@ public class EquPosition extends SchemaElement {
      * 
      * @param ra
      *            The right ascension of the equatorial position
+     * 
      * @throws IllegalArgumentException
      *             if ra is <code>null</code> or ra value is negative
      */
@@ -602,8 +616,10 @@ public class EquPosition extends SchemaElement {
      * 
      * @param obj
      *            The Object to compare this EquPosition with.
+     * 
      * @return <code>true</code> if the given Object is an instance of EquPosition and its right ascension, declination
      *         and position reference frame are equal with this EquPosition.<br>
+     * 
      * @see java.lang.Object
      */
     @Override

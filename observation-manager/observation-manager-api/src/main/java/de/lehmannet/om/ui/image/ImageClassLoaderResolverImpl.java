@@ -1,10 +1,10 @@
 package de.lehmannet.om.ui.image;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.core.runtime.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
 
     private String buildImagePath(String name) {
 
-        return this.imagePath + Path.SEPARATOR + name;
+        return this.imagePath + File.separator + name;
     }
 
 }

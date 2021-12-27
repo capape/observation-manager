@@ -23,6 +23,7 @@ import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
@@ -44,13 +45,16 @@ public class GenericExtension implements IExtension {
     private final Map<String, String> findingPanels = new HashMap<>();
     private final Map<String, String> targetPanels = new HashMap<>();
     private final Map<String, String> targetDialogs = new HashMap<>();
-    private IExtensionContext extensionContext;
+    private final IExtensionContext context;
 
     private final Set<String> supportedTargetXSITypes = new HashSet<>();
     private final Set<String> supportedFinfingXSITypes = new HashSet<>();
     private final Set<String> allSupportedXSITypes = new HashSet<>();
+    private final Set<SchemaOalTypeInfo> extensionOalTypes = new HashSet<>();
 
-    public GenericExtension() {
+    public GenericExtension(IExtensionContext context) {
+
+        this.context = context;
 
         this.initAllSupportedXSITypes();
 
@@ -58,6 +62,26 @@ public class GenericExtension implements IExtension {
         this.initTargetDialogs();
         this.initTargetPanels();
 
+        this.initExtensionTypes();
+
+    }
+
+    private void initExtensionTypes() {
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.GenericTarget")
+                .targetType(GenericTarget.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.TargetStar")
+                .targetType(TargetStar.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+
+    }
+
+    @Override
+    public Set<SchemaOalTypeInfo> getExtensionTypes() {
+
+        return Collections.unmodifiableSet(this.extensionOalTypes);
     }
 
     @Override
@@ -236,24 +260,19 @@ public class GenericExtension implements IExtension {
     @Override
     public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable) {
-        return FindingPanelFactory.newInstance(this.extensionContext, xsiType, finding, session, editable);
-    }
-
-    @Override
-    public void setContext(IExtensionContext context) {
-        this.extensionContext = context;
+        return FindingPanelFactory.newInstance(this.context, xsiType, finding, session, editable);
     }
 
     @Override
     public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
             boolean editable) {
-        return TargetPanelFactory.newInstance(this.extensionContext, xsiType, target, editable);
+        return TargetPanelFactory.newInstance(this.context, xsiType, target, editable);
     }
 
     @Override
     public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
             IObservation observation, boolean editable) {
-        return TargetDialogFactory.newInstance(this.extensionContext, xsiType, parent, target, editable);
+        return TargetDialogFactory.newInstance(this.context, xsiType, parent, target, editable);
     }
 
     @Override

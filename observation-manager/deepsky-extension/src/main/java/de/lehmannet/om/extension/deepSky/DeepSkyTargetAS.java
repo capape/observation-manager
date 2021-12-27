@@ -20,6 +20,7 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for asterisms.<br>
  * 
  * @author doergn@users.sourceforge.net
+ * 
  * @since 1.7
  */
 public class DeepSkyTargetAS extends DeepSkyTarget {
@@ -57,6 +58,7 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
+     * 
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -118,6 +120,7 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
      * 
      * @param parent
      *            The parent element for this Target
+     * 
      * @see org.w3c.dom.Element
      */
     @Override

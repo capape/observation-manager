@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -145,4 +146,5 @@ public abstract class AbstractExtension implements IExtension {
         return dialogs;
     }
 
+    public abstract Set<SchemaOalTypeInfo> getExtensionTypes();
 }
