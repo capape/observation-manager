@@ -46,7 +46,7 @@ public final class ObservationManagerMenuExtensions {
 
     public JMenu getMenu() {
         return menu;
-    }   
+    }
 
     private JMenu createMenuExtensionItems() {
         // ----- Extensions Menu
@@ -67,7 +67,7 @@ public final class ObservationManagerMenuExtensions {
         extensionInfo.setMnemonic('p');
         extensionInfo.addActionListener(new ExtensionInfoListener());
         extensionMenu.add(extensionInfo);
-       
+
         return extensionMenu;
     }
 
@@ -87,5 +87,4 @@ public final class ObservationManagerMenuExtensions {
 
     }
 
-    
 }

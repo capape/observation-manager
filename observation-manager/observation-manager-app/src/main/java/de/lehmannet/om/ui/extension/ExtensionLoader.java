@@ -226,7 +226,6 @@ public class ExtensionLoader {
         }
         // @formatter:on
 
-
     }
 
     private void addInternalExtension(IExtension extension) {

@@ -259,18 +259,19 @@ public class GeneralPanel extends PreferencesPanel {
         }
 
         // Get JARs under extension path
-        String extPath = System.getProperty(ConfigLoader.EXTENSIONS_DIR_PROPERTY);
-        File ext = new File(extPath);
-        if (ext.exists()) {
-            File[] jars = ext.listFiles((dir, name) -> "observationManager.jar".equals(name));
+        // TODO: new external extension loader
+        // String extPath = System.getProperty(ConfigLoader.EXTENSIONS_DIR_PROPERTY);
+        // File ext = new File(extPath);
+        // if (ext.exists()) {
+        // File[] jars = ext.listFiles((dir, name) -> "observationManager.jar".equals(name));
 
-            if (jars != null) {
-                for (File jar : jars) {
-                    result.addAll(Objects.requireNonNull(scanJarFile(jar)));
-                    return result;
-                }
-            }
-        }
+        // if (jars != null) {
+        // for (File jar : jars) {
+        // result.addAll(Objects.requireNonNull(scanJarFile(jar)));
+        // return result;
+        // }
+        // }
+        // }
 
         return result;
 
