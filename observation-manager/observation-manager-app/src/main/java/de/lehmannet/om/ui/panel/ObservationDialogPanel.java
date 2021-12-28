@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -43,6 +45,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
@@ -93,6 +96,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
+import de.lehmannet.om.ui.util.DebugUI;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -277,6 +281,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 }
             }
         }
+
+    //    DebugUI.showGridToDebug(selectionPanel);
 
     }
 
@@ -1219,40 +1225,355 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.selectionPanel.setLayout(gridbag);
+        
+        sessionRow(gridbag, constraints);
+        timeSessionRow(gridbag, constraints);
+        starAndSeeingRow(gridbag, constraints);
+        magnificationRow(gridbag, constraints);
+        accesoriesRow(gridbag, constraints);
+        observerRow(gridbag, constraints);
+        targetRow(gridbag, constraints);
+        telescopeRow(gridbag, constraints);
+        eyepieceRow(gridbag, constraints);
+        lenseRow(gridbag, constraints);
+        filterRow(gridbag, constraints);
+        siteRow(gridbag, constraints);
+        imagerRow(gridbag, constraints);
+        imagesRow(gridbag, constraints);
 
+
+        
+
+        this.tabbedPane.addTab(AbstractPanel.bundle.getString("panel.observation.mainPannel.title"),
+                this.selectionPanel);
+
+        this.setLayout(new BorderLayout());
+        this.add(this.tabbedPane);
+
+    }
+
+    
+
+    private void imagesRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 13, 2, 1, 2, 1);
+        OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.images"), false);
+        LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.images"));
+        gridbag.setConstraints(LimageContainer, constraints);
+        this.selectionPanel.add(LimageContainer);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
+        constraints.fill = GridBagConstraints.BOTH;
+        this.imageContainer = new ImageContainer(null, this.observationManager,
+                this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
+        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        gridbag.setConstraints(imageContainerScroll, constraints);
+        imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
+        this.selectionPanel.add(imageContainerScroll);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 13, 0, 1, 1, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        this.newImage = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newImages"));
+        this.newImage.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newImages"));
+        this.newImage.addActionListener(this);
+        gridbag.setConstraints(this.newImage, constraints);
+        this.selectionPanel.add(this.newImage);
+    }
+
+    private void imagerRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 12, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LimagerName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.imager"), false);
+        LimagerName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.imager"));
+        gridbag.setConstraints(LimagerName, constraints);
+        this.selectionPanel.add(LimagerName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 12, 14, 1, 6, 1);
+        this.imagerBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.imager"));
+        gridbag.setConstraints(this.imagerBox, constraints);
+        this.selectionPanel.add(this.imagerBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 12, 0, 1, 1, 1);
+        this.newImager = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newImager"));
+        this.newImager.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newImager"));
+        this.newImager.addActionListener(this);
+        gridbag.setConstraints(this.newImager, constraints);
+        this.selectionPanel.add(this.newImager);
+    }
+
+    private void siteRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 11, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LsiteName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.site"), false);
+        LsiteName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.site"));
+        gridbag.setConstraints(LsiteName, constraints);
+        this.selectionPanel.add(LsiteName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 11, 14, 1, 6, 1);
+        this.siteBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.site"));
+        gridbag.setConstraints(this.siteBox, constraints);
+        this.selectionPanel.add(this.siteBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 11, 0, 1, 1, 1);
+        this.newSite = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newSite"));
+        this.newSite.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newSite"));
+        this.newSite.addActionListener(this);
+        gridbag.setConstraints(this.newSite, constraints);
+        this.selectionPanel.add(this.newSite);
+    }
+
+    private void filterRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LfilterName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.filter"), false);
+        LfilterName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.filter"));
+        gridbag.setConstraints(LfilterName, constraints);
+        this.selectionPanel.add(LfilterName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 10, 14, 1, 6, 1);
+        this.filterBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.filter"));
+        this.filterBox.addActionListener(this);
+        gridbag.setConstraints(this.filterBox, constraints);
+        this.selectionPanel.add(this.filterBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 10, 0, 1, 1, 1);
+        this.newFilter = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newFilter"));
+        this.newFilter.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newFilter"));
+        this.newFilter.addActionListener(this);
+        gridbag.setConstraints(this.newFilter, constraints);
+        this.selectionPanel.add(this.newFilter);
+    }
+
+    private void lenseRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 9, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LlensName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.lens"), false);
+        LlensName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.lens"));
+        gridbag.setConstraints(LlensName, constraints);
+        this.selectionPanel.add(LlensName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 9, 14, 1, 6, 1);
+        this.lensBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.lens"));
+        this.lensBox.addActionListener(this);
+        gridbag.setConstraints(this.lensBox, constraints);
+        this.selectionPanel.add(this.lensBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 9, 0, 1, 1, 1);
+        this.newLens = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newLens"));
+        this.newLens.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newLens"));
+        this.newLens.addActionListener(this);
+        gridbag.setConstraints(this.newLens, constraints);
+        this.selectionPanel.add(this.newLens);
+    }
+
+    private void eyepieceRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel leyepieceName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.eyepiece"), false);
+        leyepieceName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
+        gridbag.setConstraints(leyepieceName, constraints);
+        this.selectionPanel.add(leyepieceName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 8, 14, 1, 6, 1);
+        this.eyepieceBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
+        this.eyepieceBox.addActionListener(this);
+        gridbag.setConstraints(this.eyepieceBox, constraints);
+        this.eyepieceBox.addItemListener(this);
+        this.selectionPanel.add(this.eyepieceBox);
+        // Add Slider (but don't show it
+        ConstraintsBuilder.buildConstraints(constraints, 11, 8, 4, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(this.eyepieceFLSlider, constraints);
+        this.eyepieceFLSlider.setMaximum(10);
+        this.eyepieceFLSlider.setMinimum(1);
+        this.eyepieceFLSlider.setMajorTickSpacing(1);
+        this.eyepieceFLSlider.setPaintTicks(true);
+        this.eyepieceFLSlider.setPaintLabels(true);
+        this.eyepieceFLSlider.setSnapToTicks(true);
+        this.eyepieceFLSlider.addChangeListener(this);
+        this.selectionPanel.add(this.eyepieceFLSlider);
+        this.eyepieceFLSlider.setVisible(false);
+        // Add new button
+        ConstraintsBuilder.buildConstraints(constraints, 16, 8, 0, 1, 1, 1);
+        this.newEyepiece = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newEyepiece"));
+        this.newEyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newEyepiece"));
+        this.newEyepiece.addActionListener(this);
+        gridbag.setConstraints(this.newEyepiece, constraints);
+        this.selectionPanel.add(this.newEyepiece);
+    }
+
+    private void telescopeRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 7, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LscopeName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.scope"), false);
+        LscopeName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.scope"));
+        gridbag.setConstraints(LscopeName, constraints);
+        this.selectionPanel.add(LscopeName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 7, 14, 1, 6, 1);
+        this.scopeBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.scope"));
+        this.scopeBox.addActionListener(this);
+        gridbag.setConstraints(this.scopeBox, constraints);
+        this.selectionPanel.add(this.scopeBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 7, 0, 1, 1, 1);
+        this.newScope = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newScope"));
+        this.newScope.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newScope"));
+        this.newScope.addActionListener(this);
+        gridbag.setConstraints(this.newScope, constraints);
+        this.selectionPanel.add(this.newScope);
+    }
+
+    private void targetRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 6, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LtargetName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.target"), true);
+        LtargetName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.target"));
+        gridbag.setConstraints(LtargetName, constraints);
+        this.selectionPanel.add(LtargetName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 6, 9, 1, 6, 1);
+        this.targetBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.target"));
+        this.targetBox.addItemListener(this);
+        gridbag.setConstraints(this.targetBox, constraints);
+        this.selectionPanel.add(this.targetBox);
+        ConstraintsBuilder.buildConstraints(constraints, 11, 6, 4, 1, 1, 1);
+        this.selectTarget = new JButton(
+                AbstractPanel.bundle.getString("panel.observation.button.selectTargetfromCatalog"));
+        this.selectTarget
+                .setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.selectTargetfromCatalog"));
+        this.selectTarget.addActionListener(this);
+        // Check if there are catalogs installed. If not, disable button
+        if ((this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames() == null)
+                || (this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames().length == 0)) {
+            this.selectTarget.setEnabled(false);
+        }
+        gridbag.setConstraints(this.selectTarget, constraints);
+        this.selectionPanel.add(this.selectTarget);
+        ConstraintsBuilder.buildConstraints(constraints, 15, 6, 0, 1, 1, 1);
+        this.newTarget = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newTarget"));
+        this.newTarget.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newTarget"));
+        this.newTarget.addActionListener(this);
+        gridbag.setConstraints(this.newTarget, constraints);
+        this.selectionPanel.add(this.newTarget);
+    }
+
+    private void observerRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 2, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LobserverName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.observer"), true);
+        LobserverName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.observer"));
+        gridbag.setConstraints(LobserverName, constraints);
+        this.selectionPanel.add(LobserverName);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 5, 14, 1, 6, 1);
+        this.observerBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.observer"));
+        gridbag.setConstraints(this.observerBox, constraints);
+        this.selectionPanel.add(this.observerBox);
+        ConstraintsBuilder.buildConstraints(constraints, 16, 5, 0, 1, 1, 1);
+        this.newObserver = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newObserver"));
+        this.newObserver.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newObserver"));
+        this.newObserver.addActionListener(this);
+        gridbag.setConstraints(this.newObserver, constraints);
+        this.selectionPanel.add(this.newObserver);
+    }
+
+    private void accesoriesRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 3, 1);
+        OMLabel LAccessories = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.accessories"),
+                false);
+        LAccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.accessories"));
+        gridbag.setConstraints(LAccessories, constraints);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        this.selectionPanel.add(LAccessories);
+        ConstraintsBuilder.buildConstraints(constraints, 1, 4, 0, 1, 6, 1);
+        this.accessories = new JTextField();
+        this.accessories.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.accessories"));
+        gridbag.setConstraints(this.accessories, constraints);
+        this.selectionPanel.add(this.accessories);
+    }
+
+    private void magnificationRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 2, 1, 3, 1);
+        OMLabel LMagnification = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.magnification"),
+                false);
+        LMagnification.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.magnification"));
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(LMagnification, constraints);
+        this.selectionPanel.add(LMagnification);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 3, 6, 1, 6, 1);
+        this.magnification = new JTextField();
+        this.magnification.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.magnification"));
+        gridbag.setConstraints(this.magnification, constraints);
+        this.selectionPanel.add(this.magnification);
+
+        ConstraintsBuilder.buildConstraints(constraints, 8, 3, 2, 1, 1, 1);
+        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT,
+                false);
+        Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        gridbag.setConstraints(Lsqm, constraints);
+        this.selectionPanel.add(Lsqm);
+        ConstraintsBuilder.buildConstraints(constraints, 10, 3, 0, 1, 6, 1);
+        this.sqmValue = new SurfaceBrightnessContainer(null, true,
+                new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
+        this.sqmValue.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
+        gridbag.setConstraints(this.sqmValue, constraints);
+        this.selectionPanel.add(this.sqmValue);
+    }
+
+    private void sessionRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         OMLabel LsessionName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.session"), false);
         LsessionName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.session"));
         gridbag.setConstraints(LsessionName, constraints);
         this.selectionPanel.add(LsessionName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 0, 14, 1, 6, 1);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 0, 15, 1, 6, 1);
         this.sessionBox.addItemListener(this);
         this.sessionBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.session"));
         gridbag.setConstraints(this.sessionBox, constraints);
         this.selectionPanel.add(this.sessionBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 0, 2, 1, 1, 1);
+        ConstraintsBuilder.buildConstraints(constraints, 17, 0, 0, 1, 1, 1);
         this.newSession = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newSession"));
         this.newSession.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newSession"));
         this.newSession.addActionListener(this);
         gridbag.setConstraints(this.newSession, constraints);
         this.selectionPanel.add(this.newSession);
+    }
 
+    private void starAndSeeingRow(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 3, 1);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        OMLabel LfaintestStar = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.faintestStar"),
+                false);
+        LfaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.faintestStar"));
+        gridbag.setConstraints(LfaintestStar, constraints);
+        this.selectionPanel.add(LfaintestStar);
+        ConstraintsBuilder.buildConstraints(constraints, 2, 2, 7, 1, 6, 1);
+        this.faintestStar = new JTextField();
+        this.faintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.faintestStar"));
+        gridbag.setConstraints(this.faintestStar, constraints);
+        this.selectionPanel.add(this.faintestStar);
+
+        ConstraintsBuilder.buildConstraints(constraints, 9, 2, 1, 1, 1, 1);
+        OMLabel LSeeing = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.seeing"),
+                SwingConstants.RIGHT, false);
+        LSeeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
+        gridbag.setConstraints(LSeeing, constraints);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        this.selectionPanel.add(LSeeing);
+        ConstraintsBuilder.buildConstraints(constraints, 10, 2, 0, 1, 6, 1);
+        this.seeing = new JComboBox();
+        this.seeing.setEditable(false);
+        this.fillSeeingBox();
+        this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
+        gridbag.setConstraints(this.seeing, constraints);
+        this.selectionPanel.add(this.seeing);
+    }
+
+    private void timeSessionRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 2, 1);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel Lbegin = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.begin"), true);
         Lbegin.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.begin"));
         gridbag.setConstraints(Lbegin, constraints);
         this.selectionPanel.add(Lbegin);
-        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 3, 1, 5, 1);
+
+        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 4, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.begin = new JTextField(8);
+        this.begin = new JTextField(6);
         this.begin.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.begin"));
         this.begin.setEditable(false);
         gridbag.setConstraints(this.begin, constraints);
         this.selectionPanel.add(this.begin);
         if (this.isEditable()) {
-            ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 1, 1);
+            ConstraintsBuilder.buildConstraints(constraints, 5, 1, 1, 1, 1, 1);
             constraints.fill = GridBagConstraints.NONE;
             this.beginPicker = new JButton("...");
             this.beginPicker.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.selectBegin"));
@@ -1260,14 +1581,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             gridbag.setConstraints(this.beginPicker, constraints);
             this.selectionPanel.add(this.beginPicker);
         }
-        ConstraintsBuilder.buildConstraints(constraints, 5, 1, 2, 1, 6, 1);
+        ConstraintsBuilder.buildConstraints(constraints, 6, 1, 2, 1, 2, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.beginTime = new TimeContainer(0, 0, 0, this.isEditable());
         this.beginTime.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.begin"));
         gridbag.setConstraints(this.beginTime, constraints);
         this.selectionPanel.add(this.beginTime);
 
-        ConstraintsBuilder.buildConstraints(constraints, 7, 1, 2, 1, 1, 1);
+        ConstraintsBuilder.buildConstraints(constraints, 8, 1, 1, 1, 1, 1);
         this.beginNow = new JButton(AbstractPanel.bundle.getString("panel.observation.button.beginNow"));
         this.beginNow.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.beginNow"));
         this.beginNow.addActionListener(this);
@@ -1280,10 +1601,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 false);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
+
+
         this.selectionPanel.add(Lend);
+
+
+
         ConstraintsBuilder.buildConstraints(constraints, 10, 1, 2, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.end = new JTextField(8);
+        this.end = new JTextField(6);
         this.end.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         this.end.setEditable(false);
         constraints.anchor = GridBagConstraints.WEST;
@@ -1312,7 +1638,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         gridbag.setConstraints(this.endNow, constraints);
         this.selectionPanel.add(this.endNow);
 
-        ConstraintsBuilder.buildConstraints(constraints, 17, 1, 1, 1, 1, 1);
+        ConstraintsBuilder.buildConstraints(constraints, 17, 1, 0, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         this.clearEndDateAndTime = new JButton();
@@ -1323,272 +1649,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.clearEndDateAndTime.addActionListener(this);
         gridbag.setConstraints(this.clearEndDateAndTime, constraints);
         this.selectionPanel.add(this.clearEndDateAndTime);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 3, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LfaintestStar = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.faintestStar"),
-                false);
-        LfaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.faintestStar"));
-        gridbag.setConstraints(LfaintestStar, constraints);
-        this.selectionPanel.add(LfaintestStar);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 2, 7, 1, 6, 1);
-        this.faintestStar = new JTextField();
-        this.faintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.faintestStar"));
-        gridbag.setConstraints(this.faintestStar, constraints);
-        this.selectionPanel.add(this.faintestStar);
-
-        ConstraintsBuilder.buildConstraints(constraints, 9, 2, 1, 1, 1, 1);
-        OMLabel LSeeing = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.seeing"),
-                SwingConstants.RIGHT, false);
-        LSeeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
-        gridbag.setConstraints(LSeeing, constraints);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.selectionPanel.add(LSeeing);
-        ConstraintsBuilder.buildConstraints(constraints, 10, 2, 8, 1, 6, 1);
-        this.seeing = new JComboBox();
-        this.seeing.setEditable(false);
-        this.fillSeeingBox();
-        this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
-        gridbag.setConstraints(this.seeing, constraints);
-        this.selectionPanel.add(this.seeing);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 2, 1, 3, 1);
-        OMLabel LMagnification = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.magnification"),
-                false);
-        LMagnification.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.magnification"));
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(LMagnification, constraints);
-        this.selectionPanel.add(LMagnification);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 3, 7, 1, 6, 1);
-        this.magnification = new JTextField();
-        this.magnification.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.magnification"));
-        gridbag.setConstraints(this.magnification, constraints);
-        this.selectionPanel.add(this.magnification);
-
-        ConstraintsBuilder.buildConstraints(constraints, 9, 3, 1, 1, 1, 1);
-        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT,
-                false);
-        Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(Lsqm, constraints);
-        this.selectionPanel.add(Lsqm);
-        ConstraintsBuilder.buildConstraints(constraints, 10, 3, 8, 1, 6, 1);
-        this.sqmValue = new SurfaceBrightnessContainer(null, true,
-                new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
-        this.sqmValue.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
-        gridbag.setConstraints(this.sqmValue, constraints);
-        this.selectionPanel.add(this.sqmValue);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 3, 1);
-        OMLabel LAccessories = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.accessories"),
-                false);
-        LAccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.accessories"));
-        gridbag.setConstraints(LAccessories, constraints);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.selectionPanel.add(LAccessories);
-        ConstraintsBuilder.buildConstraints(constraints, 1, 4, 17, 1, 6, 1);
-        this.accessories = new JTextField();
-        this.accessories.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.accessories"));
-        gridbag.setConstraints(this.accessories, constraints);
-        this.selectionPanel.add(this.accessories);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LobserverName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.observer"), true);
-        LobserverName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.observer"));
-        gridbag.setConstraints(LobserverName, constraints);
-        this.selectionPanel.add(LobserverName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 5, 14, 1, 6, 1);
-        this.observerBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.observer"));
-        gridbag.setConstraints(this.observerBox, constraints);
-        this.selectionPanel.add(this.observerBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 5, 2, 1, 1, 1);
-        this.newObserver = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newObserver"));
-        this.newObserver.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newObserver"));
-        this.newObserver.addActionListener(this);
-        gridbag.setConstraints(this.newObserver, constraints);
-        this.selectionPanel.add(this.newObserver);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 6, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LtargetName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.target"), true);
-        LtargetName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.target"));
-        gridbag.setConstraints(LtargetName, constraints);
-        this.selectionPanel.add(LtargetName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 6, 9, 1, 6, 1);
-        this.targetBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.target"));
-        this.targetBox.addItemListener(this);
-        gridbag.setConstraints(this.targetBox, constraints);
-        this.selectionPanel.add(this.targetBox);
-        ConstraintsBuilder.buildConstraints(constraints, 11, 6, 4, 1, 1, 1);
-        this.selectTarget = new JButton(
-                AbstractPanel.bundle.getString("panel.observation.button.selectTargetfromCatalog"));
-        this.selectTarget
-                .setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.selectTargetfromCatalog"));
-        this.selectTarget.addActionListener(this);
-        // Check if there are catalogs installed. If not, disable button
-        if ((this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames() == null)
-                || (this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames().length == 0)) {
-            this.selectTarget.setEnabled(false);
-        }
-        gridbag.setConstraints(this.selectTarget, constraints);
-        this.selectionPanel.add(this.selectTarget);
-        ConstraintsBuilder.buildConstraints(constraints, 15, 6, 3, 1, 1, 1);
-        this.newTarget = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newTarget"));
-        this.newTarget.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newTarget"));
-        this.newTarget.addActionListener(this);
-        gridbag.setConstraints(this.newTarget, constraints);
-        this.selectionPanel.add(this.newTarget);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 7, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LscopeName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.scope"), false);
-        LscopeName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.scope"));
-        gridbag.setConstraints(LscopeName, constraints);
-        this.selectionPanel.add(LscopeName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 7, 14, 1, 6, 1);
-        this.scopeBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.scope"));
-        this.scopeBox.addActionListener(this);
-        gridbag.setConstraints(this.scopeBox, constraints);
-        this.selectionPanel.add(this.scopeBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 7, 2, 1, 1, 1);
-        this.newScope = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newScope"));
-        this.newScope.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newScope"));
-        this.newScope.addActionListener(this);
-        gridbag.setConstraints(this.newScope, constraints);
-        this.selectionPanel.add(this.newScope);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 8, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel leyepieceName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.eyepiece"), false);
-        leyepieceName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
-        gridbag.setConstraints(leyepieceName, constraints);
-        this.selectionPanel.add(leyepieceName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 8, 14, 1, 6, 1);
-        this.eyepieceBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.eyepiece"));
-        this.eyepieceBox.addActionListener(this);
-        gridbag.setConstraints(this.eyepieceBox, constraints);
-        this.eyepieceBox.addItemListener(this);
-        this.selectionPanel.add(this.eyepieceBox);
-        // Add Slider (but don't show it
-        ConstraintsBuilder.buildConstraints(constraints, 11, 8, 4, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        gridbag.setConstraints(this.eyepieceFLSlider, constraints);
-        this.eyepieceFLSlider.setMaximum(10);
-        this.eyepieceFLSlider.setMinimum(1);
-        this.eyepieceFLSlider.setMajorTickSpacing(1);
-        this.eyepieceFLSlider.setPaintTicks(true);
-        this.eyepieceFLSlider.setPaintLabels(true);
-        this.eyepieceFLSlider.setSnapToTicks(true);
-        this.eyepieceFLSlider.addChangeListener(this);
-        this.selectionPanel.add(this.eyepieceFLSlider);
-        this.eyepieceFLSlider.setVisible(false);
-        // Add new button
-        ConstraintsBuilder.buildConstraints(constraints, 16, 8, 2, 1, 1, 1);
-        this.newEyepiece = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newEyepiece"));
-        this.newEyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newEyepiece"));
-        this.newEyepiece.addActionListener(this);
-        gridbag.setConstraints(this.newEyepiece, constraints);
-        this.selectionPanel.add(this.newEyepiece);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 9, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LlensName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.lens"), false);
-        LlensName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.lens"));
-        gridbag.setConstraints(LlensName, constraints);
-        this.selectionPanel.add(LlensName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 9, 14, 1, 6, 1);
-        this.lensBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.lens"));
-        this.lensBox.addActionListener(this);
-        gridbag.setConstraints(this.lensBox, constraints);
-        this.selectionPanel.add(this.lensBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 9, 2, 1, 1, 1);
-        this.newLens = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newLens"));
-        this.newLens.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newLens"));
-        this.newLens.addActionListener(this);
-        gridbag.setConstraints(this.newLens, constraints);
-        this.selectionPanel.add(this.newLens);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 10, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LfilterName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.filter"), false);
-        LfilterName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.filter"));
-        gridbag.setConstraints(LfilterName, constraints);
-        this.selectionPanel.add(LfilterName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 10, 14, 1, 6, 1);
-        this.filterBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.filter"));
-        this.filterBox.addActionListener(this);
-        gridbag.setConstraints(this.filterBox, constraints);
-        this.selectionPanel.add(this.filterBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 10, 2, 1, 1, 1);
-        this.newFilter = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newFilter"));
-        this.newFilter.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newFilter"));
-        this.newFilter.addActionListener(this);
-        gridbag.setConstraints(this.newFilter, constraints);
-        this.selectionPanel.add(this.newFilter);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 11, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LsiteName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.site"), false);
-        LsiteName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.site"));
-        gridbag.setConstraints(LsiteName, constraints);
-        this.selectionPanel.add(LsiteName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 11, 14, 1, 6, 1);
-        this.siteBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.site"));
-        gridbag.setConstraints(this.siteBox, constraints);
-        this.selectionPanel.add(this.siteBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 11, 2, 1, 1, 1);
-        this.newSite = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newSite"));
-        this.newSite.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newSite"));
-        this.newSite.addActionListener(this);
-        gridbag.setConstraints(this.newSite, constraints);
-        this.selectionPanel.add(this.newSite);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 12, 2, 1, 2, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LimagerName = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.imager"), false);
-        LimagerName.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.imager"));
-        gridbag.setConstraints(LimagerName, constraints);
-        this.selectionPanel.add(LimagerName);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 12, 14, 1, 6, 1);
-        this.imagerBox.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.imager"));
-        gridbag.setConstraints(this.imagerBox, constraints);
-        this.selectionPanel.add(this.imagerBox);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 12, 2, 1, 1, 1);
-        this.newImager = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newImager"));
-        this.newImager.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newImager"));
-        this.newImager.addActionListener(this);
-        gridbag.setConstraints(this.newImager, constraints);
-        this.selectionPanel.add(this.newImager);
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 13, 2, 1, 2, 1);
-        OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.images"), false);
-        LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.images"));
-        gridbag.setConstraints(LimageContainer, constraints);
-        this.selectionPanel.add(LimageContainer);
-        ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
-        constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager,
-                this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
-        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        gridbag.setConstraints(imageContainerScroll, constraints);
-        imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
-        this.selectionPanel.add(imageContainerScroll);
-        ConstraintsBuilder.buildConstraints(constraints, 16, 13, 2, 1, 1, 1);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.newImage = new JButton(AbstractPanel.bundle.getString("panel.observation.button.newImages"));
-        this.newImage.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.newImages"));
-        this.newImage.addActionListener(this);
-        gridbag.setConstraints(this.newImage, constraints);
-        this.selectionPanel.add(this.newImage);
-
-        this.tabbedPane.addTab(AbstractPanel.bundle.getString("panel.observation.mainPannel.title"),
-                this.selectionPanel);
-
-        this.setLayout(new BorderLayout());
-        this.add(this.tabbedPane);
-
     }
 
     private void fillLists(boolean refill) {

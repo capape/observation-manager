@@ -24,6 +24,7 @@ public class ConstraintsBuilder {
         gbc.ipadx = 1;
         gbc.ipady = 1;
         gbc.insets = new Insets(1, 1, 1, 1);
+     
 
     }
 
