@@ -100,6 +100,7 @@ class TraitPanel extends JPanel implements ActionListener {
         this.character = character;
 
         this.createPanel();
+        
 
     }
 
