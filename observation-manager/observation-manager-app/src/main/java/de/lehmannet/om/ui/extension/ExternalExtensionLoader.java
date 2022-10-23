@@ -37,7 +37,6 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
-import de.lehmannet.om.util.ConfigException;
 import de.lehmannet.om.util.ConfigLoader;
 import de.lehmannet.om.util.SchemaLoader;
 
@@ -89,11 +88,6 @@ public class ExternalExtensionLoader {
         if (urlArray.isEmpty()) {
             return null;
         }
-        try {
-            ConfigLoader.reloadConfig();
-        } catch (ConfigException ce) {
-            LOGGER.error("Error reloading API config ", ce);
-        }
 
         // Load/add new extension (IExtension implementation)
         ListIterator<File> iterator;
@@ -104,10 +98,29 @@ public class ExternalExtensionLoader {
             tempResult = this.scanJarFile((File) iterator.next(), true);
             result = tempResult == null ? result : tempResult; // At least one jar contained a extension description
                                                                // file
+            loadExtensionTypes(tempResult);
         }
 
         return result;
 
+    }
+
+    private void loadExtensionTypes(IExtension extension) {
+        try {
+            extension.getExtensionTypes().stream().forEach(type -> ConfigLoader.loadInternalExtension(type));
+            // this.extensions.add(extension);
+            this.logSupported(extension);
+
+        } catch (Throwable e) {
+            LOGGER.error("Cannot load types for {}", extension.getName());
+        }
+    }
+
+    private void logSupported(IExtension extension) {
+        if (LOGGER.isDebugEnabled()) {
+            extension.getAllSupportedXSITypes()
+                    .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type));
+        }
     }
 
     private List<File> getJarFilesInExtensionFile(ZipFile extension) {

@@ -164,22 +164,6 @@ public class ConfigLoader {
         return classname;
     }
 
-    /**
-     * Scans the java classpath again for valid configfile.
-     * 
-     * @throws ConfigException
-     *             if problems occured during load of config
-     */
-    public static void reloadConfig() throws ConfigException {
-        // Delete old entries
-        targets.clear();
-        findings.clear();
-        target_findings.clear();
-
-        // Load entries again
-        loadConfig();
-    }
-
     // ---------------
     // Private methods ---------------------------------------------------
     // ---------------

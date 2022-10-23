@@ -216,15 +216,6 @@ public class ExtensionLoader {
         this.addInternalExtension(new SolarSystemExtension(context));
         this.addInternalExtension(new VariableStarsExtension(context));
 
-        // this.loadExternalExtensions();
-        // try {
-        //     ConfigLoader.reloadConfig();
-        // } catch (ConfigException ce) {
-        //     LOGGER.error("Cannot read extension config. Aborting", ce);
-        //     throw new RuntimeException("Cannot read extension config. Aborting", ce);
-        // }
-        // @formatter:on
-
     }
 
     private void addInternalExtension(IExtension extension) {
