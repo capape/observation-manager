@@ -282,7 +282,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-    //    DebugUI.showGridToDebug(selectionPanel);
+        // DebugUI.showGridToDebug(selectionPanel);
 
     }
 
@@ -1225,7 +1225,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.selectionPanel.setLayout(gridbag);
-        
+
         sessionRow(gridbag, constraints);
         timeSessionRow(gridbag, constraints);
         starAndSeeingRow(gridbag, constraints);
@@ -1241,9 +1241,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         imagerRow(gridbag, constraints);
         imagesRow(gridbag, constraints);
 
-
-        
-
         this.tabbedPane.addTab(AbstractPanel.bundle.getString("panel.observation.mainPannel.title"),
                 this.selectionPanel);
 
@@ -1251,8 +1248,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.add(this.tabbedPane);
 
     }
-
-    
 
     private void imagesRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 13, 2, 1, 2, 1);
@@ -1602,10 +1597,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
 
-
         this.selectionPanel.add(Lend);
-
-
 
         ConstraintsBuilder.buildConstraints(constraints, 10, 1, 2, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;

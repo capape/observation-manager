@@ -30,19 +30,16 @@ public final class DebugUI {
             } else if (component instanceof JComponent) {
 
                 JComponent jcomponent = (JComponent) component;
-                
+
                 jcomponent.setBorder(redline);
                 jcomponent.setBackground(Color.yellow);
 
             }
 
             /*
-             * Component container = component.getParent();
-             * if (container instanceof JComponent) {
-             * final Border blackLine = BorderFactory.createLineBorder(Color.black);
-             * JComponent panel = (JComponent) container;
-             * panel.setBorder(blackLine);
-             * }
+             * Component container = component.getParent(); if (container instanceof JComponent) { final Border
+             * blackLine = BorderFactory.createLineBorder(Color.black); JComponent panel = (JComponent) container;
+             * panel.setBorder(blackLine); }
              */
 
         }

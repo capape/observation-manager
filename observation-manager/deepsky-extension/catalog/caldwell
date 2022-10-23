@@ -1,0 +1,130 @@
+# Caldwell Catalog 
+# Created for Observation Manager (http://observation.sourceforge.net) by Dirk lehmann (doergn@users.sourceforge.net)
+#
+# The Caldwell Catalog is copyrighted © 1995 by Patrick Moore and Sky Publishing Corporation. 
+# It is a collection of Deep-Sky objects for amateur astronomers
+#
+# This specific version for Observation Manager
+# is distributed under the Apache License Version 2.0 (see: http://www.apache.org/licenses/)
+#
+# This file must be UTF-8 encoded
+#
+# 1) MessierNumber
+# 2) Alt. catalog number
+# 3) Constellation
+# 4) RA
+# 5) Dec
+# 6) Magnitude
+# 7) Size
+# 8) Type
+# 9) Additional informations
+
+C1;NGC188;Cep;00h44m24s;+85°20'00";8.1;14;OC; ;
+C2;NGC40;Cep;00h13m0s;+72°32'00";12.4;0.6;PN; ;
+C3;NGC4236;Dra;12h16m42s;+69°28'00";9.7;19x7;GX; ;
+C4;NGC7023;Cep;21h01m48s;+68°12'00"; ;18x18;GN;Emission nebula;Reflection nebula
+C5;IC342;Cam;03h46m48s;+68°06'00";9.2;18x17;GX; ;
+C6;NGC6543;Dra;17h58m36s;+66°38'00";8.1;5.8;PN; ;Cat's Eye Nebula
+C7;NGC2403;Cam;07h36m54s;+65°36'00";8.4;18x10;GX; ;
+C8;NGC559;Cas;01h29m30s;+63°18'00";9.5;4;OC; ;
+C9;Sh2-155;Cep;22h56m48s;+62°37'00"; ;50x10;GN;Emission nebula;Cave Nebula
+C10;NGC663;Cas;01h46m0s;+61°15'00";7.1;16;OC; ;
+C11;NGC7635;Cas;23h20m42s;+61°12'00"; ;15x8;GN;Emission nebula;Bubble Nebula
+C12;NGC6946;Cep;20h34m48s;+60°09'00";8.9;11x10;GX; ;
+C13;NGC457;Cas;01h19m6s;+58°20'00";6.4;13;OC; ;Phi Cas Cluster
+C14;NGC869/884;Per;02h20m0s;+57°08'00";4.3;70;OC; ;Double Cluster
+C15;NGC6826;Cyg;19h44m48s;+50°31'00";8.8;2.3;PN; ;Blinking Nebula
+C16;NGC7243;Lac;22h15m18s;+49°53'00";6.4;21;OC; ;
+C17;NGC147;Cas;00h33m12s;+48°30'00";9.3;13x8;GX; ;
+C18;NGC185;Cas;00h39m0s;+48°20'00";9.2;12x10;GX; ;
+C19;IC5146;Cyg;21h53m30s;+47°16'00"; ;12x12;GN;Emission nebula;Cocoon Nebula
+C20;NGC7000;Cyg;20h58m48s;+44°20'00"; ;120x100;GN;Emission nebula;North America Nebula
+C21;NGC4449;CVn;12h28m12s;+44°06'00";9.4;5x4;GX; ;
+C22;NGC7662;And;23h25m54s;+42°33'00";8.3;2.2;PN; ;
+C23;NGC891;And;02h22m36s;+42°21'00";9.9;14x3;GX; ;
+C24;NGC1275;Per;03h19m48s;+41°31'00";11.6;2.6x2;GX; ;Perseus A
+C25;NGC2419;Lyn;07h38m6s;+38°53'00";10.4;4.1;GC; ;
+C26;NGC4244;CVn;12h17m30s;+37°49'00";10.2;16x2.5;GX; ;
+C27;NGC6888;Cyg;20h12m0s;+38°21'00"; ;20x10;GN;Emission nebula;Crescent Nebula
+C28;NGC752;And;01h57m48s;+37°41'00";5.7;50;OC; ;
+C29;NGC5005;CVn;13h10m54s;+37°03'00";9.8;5.4x2;GX; ;
+C30;NGC7331;Peg;22h37m6s;+34°25'00";9.5;11x4;GX; ;
+C31;IC405;Aur;05h16m12s;+34°16'00"; ;30x19;GN;Emission nebula;Flaming Star
+C32;NGC4631;CVn;12h42m6s;+32°32'00";9.3;15x3;GX; ;
+C33;NGC6992/5;Cyg;20h56m24s;+31°43'00"; ;60x8;GN;Supernova remnant;Eastern Veil
+C34;NGC6960;Cyg;20h45m42s;+30°43'00"; ;70x6;GN;Supernova remnant;Western Veil
+C35;NGC4889;Com;13h00m6s;+27°59'00";11.4;3x2;GX; ;In Coma Cluster
+C36;NGC4559;Com;12h36m0s;+27°58'00";9.8;10x5;GX; ;
+C37;NGC6885;Vul;20h12m0s;+26°29'00";5.9;7;OC; ;
+C38;NGC4565;Com;12h36m18s;+25°59'00";9.6;16x3;GX; ;
+C39;NGC2392;Gem;07h29m12s;+20°55'00";9.2;0.7;PN; ;Eskimo Nebula
+C40;NGC3626;Leo;11h20m6s;+18°21'00";10.9;3x2;GX; ;
+C41; ;Tau;04h27m0s;+16°00'00";0.5;330;OC; ;Hyades
+C42;NGC7006;Del;21h01m30s;+16°11'00";10.6;2.8;GC; ;Very distant
+C43;NGC7814;Peg;00h03m18s;+16°09'00";10.5;6x2;GX; ;
+C44;NGC7479;Peg;23h04m54s;+12°19'00";11.0;4x3;GX; ;
+C45;NGC5248;Boo;13h37m30s;+08°53'00";10.2;6x4;GX; ;
+C46;NGC2261;Mon;06h39m12s;+08°44'00"; ;2x1;GN;Emission nebula;Hubble's Variable Star
+C47;NGC6934;Del;20h34m12s;+07°24'00";8.9;5.9;GC; ;
+C48;NGC2775;Can;09h10m18s;+07°02'00";10.3;4.5x3;GX; ;
+C49;NGC2237-9;Mon;06h32m18s;+05°03'00"; ;80x60;GN;Emission nebula;Rosette Nebula
+C50;NGC2244;Mon;06h32m24s;+04°52'00";4.8;24;OC; ;
+C51;IC1613;Cet;01h04m48s;+02°07'00";9.3;12x11;GX; ;
+C52;NGC4697;Vir;12h48m36s;-05°48'00";9.3;6x4;GX; ;
+C53;NGC3115;Sex;10h05m12s;-07°43'00";9.1;8x3;GX; ;Spindle Galaxy
+C54;NGC2506;Mon;08h00m12s;-10°47'00";7.6;7;OC; ;
+C55;NGC7009;Aqr;21h04m12s;-11°22'00";8.0;1.6;PN; ;Saturn Nebula
+C56;NGC246;Cet;00h47m0s;-11°53'00";10.9;3.8;PN; ;
+C57;NGC6822;Sgr;19h44m54s;-14°48'00";8.8;10x9;GX; ;Barnard's Galaxy
+C58;NGC2360;CMa;07h17m48s;-15°37'00";7.2;13;OC; ;
+C59;NGC3242;Hya;10h24m48s;-18°38'00";7.8;21;PN; ;Ghost of Jupiter
+C60;NGC4038;Crv;12h01m54s;-18°52'00";10.7;2.6x2;GX; ;
+C61;NGC4039;Crv;12h01m54s;-18°53'00";10.7;3x2;GX; ;
+C62;NGC247;Cet;00h47m6s;-20°46'00";9.1;20x7;GX; ;
+C63;NGC7293;Aqr;22h29m36s;-20°48'00";7.3;13;PN; ;Helix Nebula
+C64;NGC2362;CMa;07h18m48s;-24°57'00";4.1;8;OC; ;Tau CMa Cluster
+C65;NGC253;Scl;00h47m36s;-25°17'00";7.1;25x7;GX; ;Sculptor Galaxy
+C66;NGC5694;Hya;14h39m36s;-26°32'00";10.2;3.6;GC; ;
+C67;NGC1097;For;02h46m18s;-30°17'00";9.2;9x7;GX; ;
+C68;NGC6729;CrA;19h01m54s;-36°57'00"; ;1.0;GN;Emission nebula;R CrA Nebula
+C69;NGC6302;Sco;17h13m42s;-37°06'00";9.6;0.8;PN; ;Bug Nebula
+C70;NGC300;Scl;00h54m54s;-37°41'00";8.7;20x13;GX; ;
+C71;NGC2477;Pup;07h52m18s;-38°33'00";5.8;27;OC; ;
+C72;NGC55;Scl;00h14m54s;-39°11'00";7.9;32x6;GX; ;In Scl Group
+C73;NGC1851;Col;05h14m6s;-40°03'00";7.3;11;GC; ;
+C74;NGC3132;Vel;10h07m42s;-40°26'00";9.4;0.8;PN; ;
+C75;NGC6124;Sco;16h25m36s;-40°40'00";5.8;29;OC; ;
+C76;NGC6231;Sco;16h54m0s;-41°48'00";2.6;15;OC; ;
+C77;NGC5128;Cen;13h25m30s;-43°01'00";7.0;18x14;GX; ;Centaurus A
+C78;NGC6541;CrA;18h08m0s;-43°42'00";6.6;13;GC; ;
+C79;NGC3201;Vel;10h17m36s;-46°25'00";6.7;18;GC; ;
+C80;NGC5139;Cen;13h26m48s;-47°29'00";3.6;36;GC; ;Omega Centauri
+C81;NGC6352;Ara;17h25m30s;-48°25'00";8.1;7;GC; ;
+C82;NGC6193;Ara;16h41m18s;-48°46'00";5.2;15;OC; ;
+C83;NGC4945;Cen;13h05m24s;-49°28'00";8.7;20x4;GX; ;
+C84;NGC5286;Cen;13h46m24s;-51°22'00";7.6;9;GC; ;
+C85;IC2391;Vel;08h40m12s;-53°04'00";2.5;50;OC; ;Omicron Vel Cluster
+C86;NGC6397;Ara;17h40m42s;-53°40'00";5.6;26;GC; ;
+C87;NGC1261;Hor;03h12m18s;-55°13'00";8.4;7;GC; ;
+C88;NGC5823;Cir;15h05m42s;-55°36'00";7.9;10;OC; ;
+C89;NGC6067;Nor;16h18m54s;-57°54'00";5.4;12;OC; ;S Nor Cluster
+C90;NGC2867;Car;09h21m24s;-58°19'00"; ;0.2;PN; ;
+C91;NGC3532;Car;11h06m24s;-58°40'00";3.0;55;OC; ;
+C92;NGC3372;Car;10h43m48s;-59°52'00"; ;120x120;GN;Emission nebula;Eta Car Nebula
+C93;NGC6752;Pav;19h10m54s;-59°59'00";5.4;20;GC; ;
+C94;NGC4755;Cru;12h53m36s;-60°20'00";4.2;10;OC; ;Jewel Box Cluster
+C95;NGC6025;TrA;16h03m42s;-60°30'00";5.1;12;OC; ;
+C96;NGC2516;Car;07h58m18s;-60°52'00";3.8;30;OC; ;
+C97;NGC3766;Cen;11h36m6s;-61°37'00";5.3;12;OC; ;
+C98;NGC4609;Cru;12h42m18s;-62°58'00";6.9;5;OC; ;
+C99; ;Cru;12h53m0s;-63°00'00"; ;400x300;DN; ;Coalsack
+C100;IC2944;Cen;11h36m36s;-63°02'00";4.5;15;OC; ;Gamma Cen Cluster
+C101;NGC6744;Pav;19h09m48s;-63°51'00";8.3;16x10;GX; ;
+C102;IC2602;Car;10h43m12s;-64°24'00";1.9;50;OC; ;Theta Car Cluster
+C103;NGC2070;Dor;05h38m42s;-69°06'00"; ;40x25;GN;Emission nebula;Tarantula Nebula
+C104;NGC362;Tuc;01h03m12s;-70°51'00";6.6;13;GC; ;
+C105;NGC4833;Mus;12h59m36s;-70°53'00";7.3;14;GC; ;
+C106;NGC104;Tuc;00h24m6s;-72°05'00";4.0;31;GC; ;47 Tucanae
+C107;NGC6101;Aps;16h25m48s;-72°12'00";9.3;11;GC; ;
+C108;NGC4372;Mus;12h25m48s;-72°40'00";7.8;19;GC; 
+C109;NGC3195;Cha;10h09m30s;-80°52'00"; ;0.6;PN;

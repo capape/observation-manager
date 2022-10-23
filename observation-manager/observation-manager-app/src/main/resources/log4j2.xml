@@ -16,7 +16,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="obs" />                     
             <AppenderRef ref="console" />   
         </Root>
@@ -29,7 +29,7 @@
             <AppenderRef ref="obs" />
             <AppenderRef ref="console" />                        
         </Logger>
-        <Logger name="de.lehmannet.om" level="info" additivity="false">
+        <Logger name="de.lehmannet.om" level="debug" additivity="false">
             <AppenderRef ref="obs" />
             <AppenderRef ref="console" />                        
         </Logger>        
