@@ -29,7 +29,6 @@ import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.util.ConfigException;
 import de.lehmannet.om.util.ConfigLoader;
 
 public class ExtensionLoader {
@@ -218,12 +217,12 @@ public class ExtensionLoader {
         this.addInternalExtension(new VariableStarsExtension(context));
 
         // this.loadExternalExtensions();
-        try {
-            ConfigLoader.reloadConfig();
-        } catch (ConfigException ce) {
-            LOGGER.error("Cannot read extension config. Aborting", ce);
-            throw new RuntimeException("Cannot read extension config. Aborting", ce);
-        }
+        // try {
+        //     ConfigLoader.reloadConfig();
+        // } catch (ConfigException ce) {
+        //     LOGGER.error("Cannot read extension config. Aborting", ce);
+        //     throw new RuntimeException("Cannot read extension config. Aborting", ce);
+        // }
         // @formatter:on
 
     }
