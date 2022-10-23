@@ -159,13 +159,12 @@ public class DatePicker extends JDialog {
             currentButton.addActionListener(event -> {
                 if (event.getSource() instanceof JButton) {
                     DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
-                  
+
                     // @formatter:off
                     DatePicker.this.date = DatePicker.this.date.withDayOfMonth(DatePicker.this.day)
-                                                               .withMonth(DatePicker.this.month)
-                                                               .withYear(DatePicker.this.year);
+                            .withMonth(DatePicker.this.month).withYear(DatePicker.this.year);
                     // @formatter:on
-                    
+
                     DatePicker.this.dispose();
                 }
             });
