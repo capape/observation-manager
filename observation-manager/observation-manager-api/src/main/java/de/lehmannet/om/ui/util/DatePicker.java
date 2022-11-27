@@ -93,7 +93,7 @@ public class DatePicker extends JDialog {
         super(parent, true);
 
         this.timeZone = timeZone;
-
+        this.date = date;
         this.initDialog();
         this.setDates();
 
@@ -152,22 +152,9 @@ public class DatePicker extends JDialog {
 
         // Set day matrix
         JPanel centerPanel = new JPanel(new GridLayout(6, 7));
-        JButton currentButton = null;
+
         for (int x = 0; x < this.fields.length; x++) {
-            currentButton = new JButton();
-            currentButton.setFocusPainted(false);
-            currentButton.addActionListener(event -> {
-                if (event.getSource() instanceof JButton) {
-                    DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
-
-                    // @formatter:off
-                    DatePicker.this.date = DatePicker.this.date.withDayOfMonth(DatePicker.this.day)
-                            .withMonth(DatePicker.this.month).withYear(DatePicker.this.year);
-                    // @formatter:on
-
-                    DatePicker.this.dispose();
-                }
-            });
+            JButton currentButton = createDayButton();
             this.fields[x] = currentButton;
             centerPanel.add(this.fields[x]);
         }
@@ -197,6 +184,28 @@ public class DatePicker extends JDialog {
 
         this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
+    }
+
+    private JButton createDayButton() {
+        JButton currentButton = new JButton();
+        currentButton.setFocusPainted(false);
+        currentButton.addActionListener(dayButtonActionListener());
+        return currentButton;
+    }
+
+    private ActionListener dayButtonActionListener() {
+        return event -> {
+            if (event.getSource() instanceof JButton) {
+                DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
+
+                // @formatter:off
+                DatePicker.this.date = DatePicker.this.date.withDayOfMonth(DatePicker.this.day)
+                        .withMonth(DatePicker.this.month).withYear(DatePicker.this.year);
+                // @formatter:on
+
+                DatePicker.this.dispose();
+            }
+        };
     }
 
     private JLabel createMonthYearLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -304,7 +313,7 @@ public class DatePicker extends JDialog {
         int currentDay = now.getDayOfMonth();
 
         this.day = 1;
-        for (int buttonDayIndex = dayOfWeek ; day <= daysInMonth; buttonDayIndex++, day++) {
+        for (int buttonDayIndex = dayOfWeek; day <= daysInMonth; buttonDayIndex++, day++) {
             if ((this.year == currentYear) && (this.month == currentMonth) && (this.day == currentDay)) {
                 fields[buttonDayIndex].setForeground(Color.RED);
             } else {
