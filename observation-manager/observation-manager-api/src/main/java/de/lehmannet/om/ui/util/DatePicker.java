@@ -304,7 +304,7 @@ public class DatePicker extends JDialog {
         int currentDay = now.getDayOfMonth();
 
         this.day = 1;
-        for (int buttonDayIndex = dayOfWeek - 1; day <= daysInMonth; buttonDayIndex++, day++) {
+        for (int buttonDayIndex = dayOfWeek ; day <= daysInMonth; buttonDayIndex++, day++) {
             if ((this.year == currentYear) && (this.month == currentMonth) && (this.day == currentDay)) {
                 fields[buttonDayIndex].setForeground(Color.RED);
             } else {
