@@ -339,7 +339,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         SimpleTimeZone simpleTimeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
         this.endDate = this.createOffSetDateTime(this.endDate, this.endTime, simpleTimeZone);
         this.beginDate = this.createOffSetDateTime(this.beginDate, this.beginTime, simpleTimeZone);
-        
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
