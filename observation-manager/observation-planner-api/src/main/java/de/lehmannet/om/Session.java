@@ -9,7 +9,6 @@ package de.lehmannet.om;
 
 import java.io.File;
 import java.time.OffsetDateTime;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -388,8 +387,8 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public String getDisplayName() {
 
-        return this.dateManager.offsetDateTimeToString(this.getBegin()) + " - "
-                + this.dateManager.offsetDateTimeToString(this.getEnd());
+        return this.dateManager.offsetDateTimeToStringWithHour(this.getBegin()) + " - "
+                + this.dateManager.offsetDateTimeToStringWithHour(this.getEnd());
 
     }
 

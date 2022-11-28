@@ -47,8 +47,8 @@ public class SessionBox extends AbstractBox {
 
         ISession session = (ISession) element;
 
-        return dateManager.offsetDateTimeToString(session.getBegin()) + " - "
-                + dateManager.offsetDateTimeToString(session.getEnd());
+        return dateManager.offsetDateTimeToStringWithHour(session.getBegin()) + " - "
+                + dateManager.offsetDateTimeToStringWithHour(session.getEnd());
 
     }
 

@@ -469,8 +469,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
                 String sign = dataSpot.getResult().isMagnitudeFainterThan() ? "<" : "";
                 String[] info = new String[] { (sign + dataSpot.getResult().getMagnitude() + "mag"),
                         ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin())),
-                        (this.bundle.getString("chart.popup.date") + ": "
-                                + this.dateManager.offsetDateTimeToString(dataSpot.getObservation().getBegin())) };
+                        (this.bundle.getString("chart.popup.date") + ": " + this.dateManager
+                                .offsetDateTimeToStringWithHour(dataSpot.getObservation().getBegin())) };
 
                 // Get largest popup text
                 String maxInfoString = "";

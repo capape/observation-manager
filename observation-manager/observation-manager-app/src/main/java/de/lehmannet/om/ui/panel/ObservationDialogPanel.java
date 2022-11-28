@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.panel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -32,7 +31,6 @@ import java.util.ResourceBundle;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -45,7 +43,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
@@ -96,7 +93,6 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.DatePicker;
-import de.lehmannet.om.ui.util.DebugUI;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -683,11 +679,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
+         * Integer.parseInt(s); try {
          * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
-         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); } catch(NumberFormatException nfe)
-         * { this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.noNumberSeeing")); return
+         * this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.invalidSeeing")); return null;
+         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); }
+         * catch(NumberFormatException nfe)
+         * { this.createWarning(AbstractPanel.bundle.getString(
+         * "panel.observation.warning.noNumberSeeing")); return
          * null; } }
          */
 
@@ -788,12 +788,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             } else if (source.equals(this.endNow)) {
                 this.endDate = OffsetDateTime.now();
                 this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
-                this.end.setText(this.formatDate(this.endDate));
+                this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
             } else if (source.equals(this.beginNow)) {
                 this.beginDate = OffsetDateTime.now();
                 this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(),
                         this.beginDate.getSecond());
-                this.begin.setText(this.formatDate(this.beginDate));
+                this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
             }
         } else if (source instanceof AbstractBox) {
             // As we've only added the ActionListener to ScopeBox and EyepieceBox
@@ -834,7 +834,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         this.endDate = dp.getDate();
         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
-        this.end.setText(dp.getDateString());
+        this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
     }
 
     private void readBeginDate() {
@@ -864,7 +864,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         this.beginDate = dp.getDate();
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
-        this.begin.setText(dp.getDateString());
+        this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
     }
 
     // --------------
@@ -945,7 +945,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     }
 
                     this.beginDate = session.getBegin();
-                    this.begin.setText(this.formatDate(beginDate));
+                    this.begin.setText(this.dateManager.offsetDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
                     // Check whether enddate/time should be autom. set
@@ -953,7 +953,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                             .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
                         this.endDate = this.beginDate.plusMinutes(10L); // Add 10 minutes, as end date should be after
                                                                         // begin date
-                        this.end.setText(this.formatDate(endDate));
+                        this.end.setText(this.dateManager.offsetDateTimeToString(endDate));
                         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(),
                                 this.endDate.getSecond());
                     }
@@ -1070,12 +1070,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     }
 
-    private String formatDate(OffsetDateTime cal) {
-
-        return this.dateManager.offsetDateTimeToString(cal);
-
-    }
-
     private ITarget getTarget() {
 
         ITarget target = (ITarget) this.targetBox.getSelectedSchemaElement();
@@ -1116,8 +1110,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // Load mandatory stuff
 
         this.beginDate = this.observation.getBegin();
-        this.begin.setText(this.formatDate(this.beginDate));
+        this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
         this.beginPicker.setEnabled(this.isEditable());
+        
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
@@ -1134,7 +1129,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // Load optional stuff
         this.endDate = this.observation.getEnd();
         if (this.endDate != null) {
-            this.end.setText(this.formatDate(this.endDate));
+            this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }
@@ -1939,7 +1934,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
             this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE);
 
-            this.begin.setText(this.formatDate(this.beginDate));
+            this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
             this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         }
@@ -1969,7 +1964,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             // Set end date to last observation end date +10 minutes
             this.endDate = this.cache.getDate(CACHEKEY_ENDDATE);
             this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
-            this.end.setText(this.formatDate(this.endDate));
+            this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }

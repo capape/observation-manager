@@ -14,7 +14,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -526,7 +525,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                cr.setText(this.dateManager.offsetDateTimeToString(o.getBegin()));
+                cr.setText(this.dateManager.offsetDateTimeToStringWithHour(o.getBegin()));
             }
 
             if (isSelected) {

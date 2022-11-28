@@ -28,6 +28,22 @@ public interface DateManager {
      * 
      * @return the date formatted or empty string
      */
+    String dateToStringWithHour(Date date);
+
+    /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string
+     */
+    String calendarToStringWithHour(Calendar calendar);
+
+    /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string
+     */
     String dateToStringWithSeconds(Date date);
 
     /**
@@ -45,6 +61,14 @@ public interface DateManager {
      * @return the date formatted or empty string
      */
     String offsetDateTimeToString(OffsetDateTime date);
+
+    /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string
+     */
+    String offsetDateTimeToStringWithHour(OffsetDateTime date);
 
     /**
      * 

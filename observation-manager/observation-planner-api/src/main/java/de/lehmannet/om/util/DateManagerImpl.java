@@ -2,6 +2,7 @@ package de.lehmannet.om.util;
 
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,14 +12,28 @@ import org.apache.commons.lang3.StringUtils;
 
 public class DateManagerImpl implements DateManager {
 
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
-    private final SimpleDateFormat sdfSeconds = new SimpleDateFormat("dd.MM.yy HH:mm:ss", Locale.getDefault());
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+    private final SimpleDateFormat sdfDateOnly = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    private final SimpleDateFormat sdfSeconds = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
 
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
-    private final DateTimeFormatter dtfSeconds = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+            .withZone(ZoneId.systemDefault());
+    private final DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            .withZone(ZoneId.systemDefault());
+    private final DateTimeFormatter dtfSeconds = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+            .withZone(ZoneId.systemDefault());
 
     @Override
     public String dateToString(Date date) {
+        if (date == null) {
+            return StringUtils.EMPTY;
+        }
+
+        return this.sdfDateOnly.format(date);
+    }
+
+    @Override
+    public String dateToStringWithHour(Date date) {
 
         if (date == null) {
             return StringUtils.EMPTY;
@@ -28,12 +43,12 @@ public class DateManagerImpl implements DateManager {
     }
 
     @Override
-    public String calendarToString(Calendar calendar) {
+    public String calendarToStringWithHour(Calendar calendar) {
 
         if (calendar == null) {
             return StringUtils.EMPTY;
         }
-        return this.dateToString(calendar.getTime());
+        return this.dateToStringWithHour(calendar.getTime());
     }
 
     @Override
@@ -56,11 +71,19 @@ public class DateManagerImpl implements DateManager {
     }
 
     @Override
-    public String offsetDateTimeToString(OffsetDateTime date) {
+    public String calendarToString(Calendar calendar) {
+        if (calendar == null) {
+            return StringUtils.EMPTY;
+        }
+        return this.dateToString(calendar.getTime());
+    }
+
+    @Override
+    public String offsetDateTimeToStringWithHour(OffsetDateTime date) {
         if (date == null) {
             return StringUtils.EMPTY;
         }
-        return date.toLocalDateTime().format(dtf);
+        return date.format(dtf);
     }
 
     @Override
@@ -68,7 +91,15 @@ public class DateManagerImpl implements DateManager {
         if (date == null) {
             return StringUtils.EMPTY;
         }
-        return date.toLocalDateTime().format(dtfSeconds);
+        return date.format(dtfSeconds);
+    }
+
+    @Override
+    public String offsetDateTimeToString(OffsetDateTime date) {
+        if (date == null) {
+            return StringUtils.EMPTY;
+        }
+        return date.format(dtfDateOnly);
     }
 
 }

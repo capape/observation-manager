@@ -14,8 +14,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Locale;
@@ -46,7 +48,7 @@ public class DatePicker extends JDialog {
     private JLabel monthYearLabel = null;
 
     private TimeZone timeZone;
-    private OffsetDateTime date = OffsetDateTime.now();
+    private OffsetDateTime date;
 
     private int day = OffsetDateTime.now().getDayOfMonth();
     private int month = OffsetDateTime.now().getMonthValue();
@@ -56,63 +58,48 @@ public class DatePicker extends JDialog {
 
         super(parent, true);
 
-        this.initDialog();
-        this.setDates();
-
-        this.setTitle(title);
-        this.setSize(500, 330);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.setResizable(false);
+        TimeZone timeZone = TimeZone.getDefault();
+        ZoneOffset offset = ZoneId.of(timeZone.getID()).getRules().getOffset(LocalDateTime.now());
+        OffsetDateTime newDate = OffsetDateTime.of(year, month, day, 0, 0, 0, 0, offset);
         this.dateManager = dateManager;
+        createDatePicker(title, newDate, timeZone);
 
     }
 
     public DatePicker(JFrame parent, String title, TimeZone timeZone, DateManager dateManager) {
 
         super(parent, true);
-
-        this.timeZone = timeZone;
-
-        this.initDialog();
-        this.setDates();
-
-        this.setTitle(title);
-        this.setSize(500, 250);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.setResizable(false);
         this.dateManager = dateManager;
 
-    }
+        ZoneOffset offset = ZoneId.of(timeZone.getID()).getRules().getOffset(LocalDateTime.now());
+        OffsetDateTime newDate = OffsetDateTime.of(year, month, day, 0, 0, 0, 0, offset);
 
-    public DatePicker(JFrame parent, String title, OffsetDateTime date, TimeZone timeZone, DateManager dateManager) {
-
-        super(parent, true);
-
-        this.timeZone = timeZone;
-        this.date = date;
-        this.initDialog();
-        this.setDates();
-
-        this.setTitle(title);
-        this.setSize(500, 250);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.setResizable(false);
-        this.dateManager = dateManager;
+        createDatePicker(title, newDate, timeZone);
 
     }
 
     public DatePicker(JFrame parent, String title, OffsetDateTime date, DateManager dateManager) {
 
         super(parent, true);
+        this.dateManager = dateManager;
 
+        TimeZone newTimeZone = TimeZone.getTimeZone(date.getOffset().getId());
+        createDatePicker(title, date, newTimeZone);
+
+    }
+
+    public DatePicker(JFrame parent, String title, OffsetDateTime date, TimeZone timeZone, DateManager dateManager) {
+
+        super(parent, true);
+        this.dateManager = dateManager;
+
+        createDatePicker(title, date, timeZone);
+    }
+
+    private void createDatePicker(String title, OffsetDateTime date, TimeZone timeZone) {
+
+        this.timeZone = timeZone;
         this.date = date;
-
         this.initDialog();
         this.setDates();
 
@@ -122,7 +109,6 @@ public class DatePicker extends JDialog {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-        this.dateManager = dateManager;
 
     }
 
@@ -132,7 +118,7 @@ public class DatePicker extends JDialog {
 
     public String getDateString() {
 
-        return this.dateManager.offsetDateTimeToString(this.date);
+        return this.dateManager.offsetDateTimeToStringWithHour(this.date);
 
     }
 

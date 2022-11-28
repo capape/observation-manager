@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -220,7 +219,7 @@ public class TableView extends JPanel {
                 if (value instanceof LocalDateTime) {
                     final LocalDateTime cal = (LocalDateTime) value;
                     cr.setText(this.dateManager
-                            .offsetDateTimeToString(OffsetDateTime.of(cal, OffsetDateTime.now().getOffset())));
+                            .offsetDateTimeToStringWithHour(OffsetDateTime.of(cal, OffsetDateTime.now().getOffset())));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -239,7 +238,7 @@ public class TableView extends JPanel {
 
                 if (value instanceof OffsetDateTime) {
                     final OffsetDateTime cal = (OffsetDateTime) value;
-                    cr.setText(this.dateManager.offsetDateTimeToString(cal));
+                    cr.setText(this.dateManager.offsetDateTimeToStringWithHour(cal));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }

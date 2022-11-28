@@ -469,7 +469,7 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public String getDisplayName() {
 
-        return this.dateManager.offsetDateTimeToString(this.begin) + " - " + this.target.getDisplayName();
+        return this.dateManager.offsetDateTimeToStringWithHour(this.begin) + " - " + this.target.getDisplayName();
 
     }
 

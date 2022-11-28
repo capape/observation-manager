@@ -334,7 +334,7 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     }
 
     private String formatDate(OffsetDateTime cal) {
-        return this.dateManager.offsetDateTimeToString(cal);
+        return this.dateManager.offsetDateTimeToStringWithHour(cal);
     }
 
 }
