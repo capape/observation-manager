@@ -340,12 +340,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
-                : ZoneOffset.ofHoursMinutes(site.getTimezone() / 60, site.getTimezone() % 60);
+        // ZoneOffset offset = this.beginDate.getOffset();
         // @formatter:off
         this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
-                this.beginTime.getSeconds(), 0, offset);
+                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
         // @formatter:on
 
         this.observation.setBegin(this.beginDate);
@@ -361,7 +360,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             // @formatter:off
             this.endDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
                     this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, offset);
+                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
             // @formatter:on
 
             if (this.endDate.isBefore(this.beginDate)) {
@@ -528,8 +527,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         int hourOffset = site.getTimezone() / 60;
         int minOffset = site.getTimezone() % 60;
 
-        ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
-                : ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
+        ZoneOffset offset = ZonedDateTime.now().getOffset();
+        /*
+         * ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId()) :
+         * ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
+         */
+
         this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
                 this.beginDate.getSecond(), 0, offset);

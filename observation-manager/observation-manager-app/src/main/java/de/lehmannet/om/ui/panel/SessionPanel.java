@@ -19,11 +19,9 @@ import java.io.File;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.stream.Collectors;
 
@@ -333,9 +331,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         // Set site's timezone (make sure that timezone is set in ms)
         this.session.setSite(site);
 
-        SimpleTimeZone simpleTimeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-        this.endDate = this.createZonedDateTime(this.endDate, this.endTime, simpleTimeZone);
-        this.beginDate = this.createZonedDateTime(this.beginDate, this.beginTime, simpleTimeZone);
+        this.endDate = this.createZonedDateTime(this.endDate, this.endTime);
+        this.beginDate = this.createZonedDateTime(this.beginDate, this.beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
@@ -372,13 +369,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     }
 
-    private ZonedDateTime createZonedDateTime(ZonedDateTime date, TimeContainer timeContainer,
-            SimpleTimeZone simpleTimeZone) {
-
-        final ZoneOffset zoneOffSet = ZoneOffset.ofTotalSeconds(simpleTimeZone.getRawOffset() / 1000);
+    private ZonedDateTime createZonedDateTime(ZonedDateTime date, TimeContainer timeContainer) {
 
         return ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
-                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, zoneOffSet);
+                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
 
     }
 
@@ -411,11 +405,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-        // Set site's timezone (make sure that timezone is set in ms)
-        SimpleTimeZone simpleTimeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
 
-        this.endDate = createZonedDateTime(endDate, endTime, simpleTimeZone);
-        this.beginDate = createZonedDateTime(beginDate, beginTime, simpleTimeZone);
+        this.endDate = createZonedDateTime(endDate, endTime);
+        this.beginDate = createZonedDateTime(beginDate, beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));

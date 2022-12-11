@@ -17,7 +17,6 @@ import javax.swing.JButton;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.cache.UIDataCacheImpl;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
