@@ -524,18 +524,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        int hourOffset = site.getTimezone() / 60;
-        int minOffset = site.getTimezone() % 60;
-
-        ZoneOffset offset = ZonedDateTime.now().getOffset();
-        /*
-         * ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId()) :
-         * ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
-         */
-
+      
         this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
-                this.beginDate.getSecond(), 0, offset);
+                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
+                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
 
         this.observation = new Observation(this.beginDate, target, observer, finding);
 
@@ -553,7 +545,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
             final ZonedDateTime newEndDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
                     this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, offset);
+                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
 
             if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
@@ -800,20 +792,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void readEndDate() {
         DatePicker dp = null;
-        TimeZone timeZone = null;
-        if (this.siteBox.getSelectedSchemaElement() != null) {
-            // Try to get and set timezone
-            ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-            if (site == null) {
-                ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
-                if (session != null) {
-                    site = session.getSite();
-                }
-            }
-            if (site != null) {
-                timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-            }
-        }
+        TimeZone timeZone = TimeZone.getDefault();
+       
         if (this.endDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate, timeZone,
@@ -834,20 +814,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void readBeginDate() {
         DatePicker dp = null;
-        TimeZone timeZone = null;
-        if (this.siteBox.getSelectedSchemaElement() != null) {
-            // Try to get and set timezone
-            ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
-            if (site == null) {
-                ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
-                if (session != null) {
-                    site = session.getSite();
-                }
-            }
-            if (site != null) {
-                timeZone = new SimpleTimeZone(site.getTimezone() * 60 * 1000, site.getName());
-            }
-        }
+        TimeZone timeZone = TimeZone.getDefault();
+        
         if (this.beginDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
