@@ -15,7 +15,7 @@ import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -649,7 +649,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
     }
 
-    private String createDateCommand(OffsetDateTime date) {
+    private String createDateCommand(ZonedDateTime date) {
 
         String dateString = date.toString();
 

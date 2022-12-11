@@ -24,6 +24,8 @@ import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.SplashScreenWithText;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
 
 public class ObservationManagerApp {
 
@@ -90,12 +92,14 @@ public class ObservationManagerApp {
         LOGGER.info("Creating cache app...");
         final UIDataCache cache = new UIDataCacheImpl();
 
+        final DateManager dateManager = new DateManagerImpl();
+
         splash.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
         new ObservationManager.Builder(model).locale(isoKey).nightVision(nightVision).installDir(installDir)
                 .configuration(configuration).imageResolver(imageResolver).textManager(textManager)
-                .versionTextManager(versionTextManager).uiCache(cache).build();
+                .versionTextManager(versionTextManager).uiCache(cache).dateManager(dateManager).build();
         // @formatter:on
 
     }

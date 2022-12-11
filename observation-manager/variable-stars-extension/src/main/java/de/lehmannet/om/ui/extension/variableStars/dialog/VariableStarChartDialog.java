@@ -318,10 +318,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         String fromDateJD = "JD: "
                 + DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin());
         String fromDate = this.dateManager
-                .offsetDateTimeToStringWithSeconds(((IObservation) (this.observations.first())).getBegin());
+                .zonedDateTimeToStringWithSeconds(((IObservation) (this.observations.first())).getBegin());
         String toDateJD = "" + DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin());
         String toDate = this.dateManager
-                .offsetDateTimeToStringWithSeconds(((IObservation) (this.observations.last())).getBegin());
+                .zonedDateTimeToStringWithSeconds(((IObservation) (this.observations.last())).getBegin());
 
         // ---- Print large box as border
         this.g2d.drawRect(0, 0, (int) this.getSize().getWidth(), BORDER_TOP - 10);
@@ -470,7 +470,7 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
                 String[] info = new String[] { (sign + dataSpot.getResult().getMagnitude() + "mag"),
                         ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin())),
                         (this.bundle.getString("chart.popup.date") + ": " + this.dateManager
-                                .offsetDateTimeToStringWithHour(dataSpot.getObservation().getBegin())) };
+                                .zonedDateTimeToStringWithHour(dataSpot.getObservation().getBegin())) };
 
                 // Get largest popup text
                 String maxInfoString = "";

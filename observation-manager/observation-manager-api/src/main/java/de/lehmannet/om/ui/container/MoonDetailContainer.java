@@ -13,7 +13,7 @@ import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -70,7 +70,7 @@ public class MoonDetailContainer extends JLabel {
             return;
         }
 
-        OffsetDateTime date = this.observation.getBegin();
+        ZonedDateTime date = this.observation.getBegin();
 
         String path = "";
         if (Ephemerides.isMoonAboveHorizon(date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {

@@ -7,7 +7,7 @@
 
 package de.lehmannet.om;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -42,10 +42,10 @@ public class Observation extends SchemaElement implements IObservation {
     // ------------------
 
     // Start date of observation
-    private OffsetDateTime begin = null;
+    private ZonedDateTime begin = null;
 
     // End date of observation
-    private OffsetDateTime end = null;
+    private ZonedDateTime end = null;
 
     // Faintest start that could be seen with the naked eye (in magnitude)
     private float faintestStar = Float.NaN;
@@ -205,7 +205,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code>
      */
-    public Observation(OffsetDateTime begin, ITarget target, IObserver observer, IFinding result)
+    public Observation(ZonedDateTime begin, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
 
         if (begin == null) {
@@ -247,7 +247,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters is <code>null</code> or the result list is empty
      */
-    public Observation(OffsetDateTime begin, ITarget target, IObserver observer, List<IFinding> results)
+    public Observation(ZonedDateTime begin, ITarget target, IObserver observer, List<IFinding> results)
             throws IllegalArgumentException {
 
         if (begin == null) {
@@ -294,7 +294,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
-    public Observation(OffsetDateTime begin, OffsetDateTime end, ITarget target, IObserver observer,
+    public Observation(ZonedDateTime begin, ZonedDateTime end, ITarget target, IObserver observer,
             List<IFinding> results) throws IllegalArgumentException {
 
         this(begin, target, observer, results);
@@ -320,7 +320,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>
      */
-    public Observation(OffsetDateTime begin, OffsetDateTime end, ITarget target, IObserver observer, IFinding result)
+    public Observation(ZonedDateTime begin, ZonedDateTime end, ITarget target, IObserver observer, IFinding result)
             throws IllegalArgumentException {
 
         this(begin, target, observer, result);
@@ -369,7 +369,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, result or
      *             seeing is < 1 or > 5
      */
-    public Observation(OffsetDateTime begin, OffsetDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
+    public Observation(ZonedDateTime begin, ZonedDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
             IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, IFinding result)
             throws IllegalArgumentException {
@@ -431,7 +431,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, results or
      *             result list is empty. Also if seeing is < 1 or > 5
      */
-    public Observation(OffsetDateTime begin, OffsetDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
+    public Observation(ZonedDateTime begin, ZonedDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
             float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
             IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, List<IFinding> results)
             throws IllegalArgumentException {
@@ -469,7 +469,7 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public String getDisplayName() {
 
-        return this.dateManager.offsetDateTimeToStringWithHour(this.begin) + " - " + this.target.getDisplayName();
+        return this.dateManager.zonedDateTimeToStringWithHour(this.begin) + " - " + this.target.getDisplayName();
 
     }
 
@@ -785,7 +785,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The start date of the observation
      */
     @Override
-    public OffsetDateTime getBegin() {
+    public ZonedDateTime getBegin() {
 
         return begin;
 
@@ -811,7 +811,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
     @Override
-    public OffsetDateTime getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
 
     }
@@ -1246,7 +1246,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if new begin date is <code>null</code>
      */
     @Override
-    public void setBegin(OffsetDateTime begin) throws IllegalArgumentException {
+    public void setBegin(ZonedDateTime begin) throws IllegalArgumentException {
 
         if (begin == null) {
             LOGGER.error("Begin date cannot be null. ");
@@ -1265,7 +1265,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The end date of the observation
      */
     @Override
-    public void setEnd(OffsetDateTime end) {
+    public void setEnd(ZonedDateTime end) {
 
         this.end = end;
 
@@ -1448,8 +1448,8 @@ public class Observation extends SchemaElement implements IObservation {
             return;
         }
 
-        OffsetDateTime sessionStart = session.getBegin();
-        OffsetDateTime sessionEnd = session.getEnd();
+        ZonedDateTime sessionStart = session.getBegin();
+        ZonedDateTime sessionEnd = session.getEnd();
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
@@ -1493,7 +1493,7 @@ public class Observation extends SchemaElement implements IObservation {
 
     }
 
-    private String toMillisString(OffsetDateTime date) {
+    private String toMillisString(ZonedDateTime date) {
         if (date == null) {
             return "";
         }

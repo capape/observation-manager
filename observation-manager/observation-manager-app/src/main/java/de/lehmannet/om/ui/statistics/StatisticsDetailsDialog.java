@@ -47,8 +47,6 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
 
 public class StatisticsDetailsDialog extends AbstractDialog {
 
@@ -464,7 +462,6 @@ class DetailPanel extends AbstractPanel implements ActionListener {
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
-    private final DateManager dateManager = new DateManagerImpl();
 
     public DetailPanel(final ObservationManager om, final AbstractSchemaTableModel model) {
 
@@ -525,7 +522,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                cr.setText(this.dateManager.offsetDateTimeToStringWithHour(o.getBegin()));
+                cr.setText(this.om.getDateManager().zonedDateTimeToStringWithHour(o.getBegin()));
             }
 
             if (isSelected) {

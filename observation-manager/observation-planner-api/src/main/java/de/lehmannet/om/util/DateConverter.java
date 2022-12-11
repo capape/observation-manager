@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.util;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -106,7 +106,7 @@ public class DateConverter {
      *
      * @return A julian date with seconds accuracy
      */
-    public static double toJulianDate(OffsetDateTime datetime) {
+    public static double toJulianDate(ZonedDateTime datetime) {
         if (datetime == null) {
             throw new IllegalArgumentException("Gregorian date has illegal value. (NULL)");
         }

@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -67,8 +67,6 @@ import de.lehmannet.om.ui.navigation.tableModel.SiteTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.TableSorter;
 import de.lehmannet.om.ui.navigation.tableModel.TargetTableModel;
 import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class TableView extends JPanel {
@@ -94,7 +92,7 @@ public class TableView extends JPanel {
 
     private final ObservationManagerModel model;
     private final TextManager textManager;
-    private final DateManager dateManager = new DateManagerImpl();
+
     private final UIDataCache cache;
 
     public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
@@ -218,8 +216,8 @@ public class TableView extends JPanel {
 
                 if (value instanceof LocalDateTime) {
                     final LocalDateTime cal = (LocalDateTime) value;
-                    cr.setText(this.dateManager
-                            .offsetDateTimeToStringWithHour(OffsetDateTime.of(cal, OffsetDateTime.now().getOffset())));
+                    cr.setText(this.observationManager.getDateManager()
+                            .zonedDateTimeToStringWithHour(ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -232,13 +230,13 @@ public class TableView extends JPanel {
             return cr;
         });
 
-        this.table.setDefaultRenderer(OffsetDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
+        this.table.setDefaultRenderer(ZonedDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
 
-                if (value instanceof OffsetDateTime) {
-                    final OffsetDateTime cal = (OffsetDateTime) value;
-                    cr.setText(this.dateManager.offsetDateTimeToStringWithHour(cal));
+                if (value instanceof ZonedDateTime) {
+                    final ZonedDateTime cal = (ZonedDateTime) value;
+                    cr.setText(this.observationManager.getDateManager().zonedDateTimeToStringWithHour(cal));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }

@@ -1,7 +1,7 @@
 package de.lehmannet.om.ui.cache;
 
 import java.io.File;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,7 +66,7 @@ public class UIDataCacheImpl implements UIDataCache {
     }
 
     @Override
-    public void putDate(String key, OffsetDateTime value) {
+    public void putDate(String key, ZonedDateTime value) {
         if (value == null) {
             return;
         }
@@ -74,8 +74,8 @@ public class UIDataCacheImpl implements UIDataCache {
     }
 
     @Override
-    public OffsetDateTime getDate(String key) {
-        return (OffsetDateTime) this.cache.get(key);
+    public ZonedDateTime getDate(String key) {
+        return (ZonedDateTime) this.cache.get(key);
     }
 
     @Override

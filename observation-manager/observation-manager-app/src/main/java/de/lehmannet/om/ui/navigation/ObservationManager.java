@@ -73,6 +73,7 @@ import de.lehmannet.om.ui.util.LoggerConfig;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
+import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
@@ -120,6 +121,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private final ThemeManager themeManager;
     private final TextManager textManager;
     private final TextManager versionTextManager;
+    private final DateManager dateManager;
 
     private final ObservationManagerHtmlHelper htmlHelper;
     private final UserInterfaceHelper uiHelper;
@@ -137,6 +139,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         return this.uiHelper;
     }
 
+    public DateManager getDateManager() {
+        return this.dateManager;
+    }
+
     private final CatalogManager catalogManager;
 
     private ObservationManager(Builder builder) {
@@ -151,6 +157,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.uiHelper = new UserInterfaceHelperImpl(this, textManager);
         this.nightVisionOnStartup = builder.nightVision;
         this.uiCache = builder.uiCache;
+        this.dateManager = builder.dateManager;
 
         LOGGER.info("Observation Manager {} starting up...", this.getVersion());
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
@@ -883,9 +890,15 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         private TextManager versionTextManager;
         private ObservationManagerModel model;
         private UIDataCache uiCache;
+        private DateManager dateManager;
 
         public Builder(ObservationManagerModel model) {
             this.model = model;
+        }
+
+        public Builder dateManager(DateManager dateManager) {
+            this.dateManager = dateManager;
+            return this;
         }
 
         public Builder locale(String locale) {

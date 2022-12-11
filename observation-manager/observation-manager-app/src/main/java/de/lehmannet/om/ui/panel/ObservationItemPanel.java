@@ -13,7 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,8 +50,6 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.DateConverter;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.Ephemerides;
 import de.lehmannet.om.util.OpticsUtil;
 
@@ -91,7 +89,6 @@ public class ObservationItemPanel extends AbstractPanel {
 
     private final ObservationManager om;
     private final ObservationManagerModel model;
-    private final DateManager dateManager = new DateManagerImpl();
 
     // Only used to display all observation own values plus some values from other
     // elementso
@@ -121,8 +118,8 @@ public class ObservationItemPanel extends AbstractPanel {
         df.setDecimalFormatSymbols(dfs);
 
         // Load mandatory stuff
-        OffsetDateTime begin = observation.getBegin();
-        this.begin.setText(this.dateManager.offsetDateTimeToStringWithSeconds(begin));
+        ZonedDateTime begin = observation.getBegin();
+        this.begin.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
         this.begin.setToolTipText("JD: " + DateConverter.toJulianDate(begin));
 
@@ -139,7 +136,7 @@ public class ObservationItemPanel extends AbstractPanel {
         // Load optional stuff
 
         if (observation.getEnd() != null) {
-            this.end.setText(this.dateManager.offsetDateTimeToStringWithSeconds(observation.getEnd()));
+            this.end.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(observation.getEnd()));
             this.end.setCaretPosition(0);
             this.end.setToolTipText("JD: " + DateConverter.toJulianDate(observation.getEnd()));
         }

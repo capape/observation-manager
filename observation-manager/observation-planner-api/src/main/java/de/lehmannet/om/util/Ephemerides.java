@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.util;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import java.util.Objects;
 
@@ -69,7 +69,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getPosition(int planet, OffsetDateTime date) {
+    public static EquPosition getPosition(int planet, ZonedDateTime date) {
 
         // We've own methods for sun...
         if (planet == SUN) {
@@ -99,7 +99,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getSunPosition(OffsetDateTime date) {
+    public static EquPosition getSunPosition(ZonedDateTime date) {
 
         double[] equRecPos = Ephemerides.getSunEquatorialRectangularGeocentric(date);
 
@@ -116,7 +116,7 @@ public class Ephemerides {
 
     }
 
-    public static EquPosition getMoonPosition(OffsetDateTime date, double geoLongitude) {
+    public static EquPosition getMoonPosition(ZonedDateTime date, double geoLongitude) {
 
         double[] helioPos = Ephemerides.getHeliocentricPosition(Ephemerides.MOON, date);
 
@@ -154,7 +154,7 @@ public class Ephemerides {
 
     }
 
-    public static boolean isMoonAboveHorizon(OffsetDateTime date, double geoLongitude, double geoLatitude) {
+    public static boolean isMoonAboveHorizon(ZonedDateTime date, double geoLongitude, double geoLatitude) {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
@@ -172,7 +172,7 @@ public class Ephemerides {
 
     }
 
-    public static double altitudeAboveHorizon(EquPosition equPos, OffsetDateTime date, double geoLongitude,
+    public static double altitudeAboveHorizon(EquPosition equPos, ZonedDateTime date, double geoLongitude,
             double geoLatitude) {
 
         double Dec = equPos.getDecAngle().toDegree();
@@ -201,7 +201,7 @@ public class Ephemerides {
 
     }
 
-    public static double getAzimut(EquPosition equPos, OffsetDateTime date, double geoLongitude, double geoLatitude) {
+    public static double getAzimut(EquPosition equPos, ZonedDateTime date, double geoLongitude, double geoLatitude) {
 
         double Dec = equPos.getDecAngle().toDegree();
 
@@ -234,12 +234,12 @@ public class Ephemerides {
 
     }
 
-    public static double getMoonPhase(OffsetDateTime date) {
+    public static double getMoonPhase(ZonedDateTime date) {
 
         // Get current phase
         double currentPhase = Ephemerides.getMoonPhasePercentage(date);
 
-        OffsetDateTime phaseTrendDate = date.plusDays(1L);
+        ZonedDateTime phaseTrendDate = date.plusDays(1L);
 
         double trendPhase = Ephemerides.getMoonPhasePercentage(phaseTrendDate);
 
@@ -251,7 +251,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMoonPhasePercentage(OffsetDateTime date) {
+    private static double getMoonPhasePercentage(ZonedDateTime date) {
 
         double[] moonEcliptic = Ephemerides.getGeocentricPosition(Ephemerides.MOON, date);
 
@@ -268,7 +268,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMoonHourAngle(OffsetDateTime date, double geoLongitude) {
+    private static double getMoonHourAngle(ZonedDateTime date, double geoLongitude) {
 
         // Moons equatorial position
         EquPosition equPos = Ephemerides.getPosition(Ephemerides.MOON, date);
@@ -291,7 +291,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunXY(int planet, OffsetDateTime date) {
+    private static double[] getSunXY(int planet, ZonedDateTime date) {
 
         double e = Ephemerides.getEccentricity(planet, date);
         double E = Ephemerides.getEccentricAnomaly(planet, date);
@@ -303,7 +303,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getXY(int planet, OffsetDateTime date) {
+    private static double[] getXY(int planet, ZonedDateTime date) {
 
         double e = Ephemerides.getEccentricity(planet, date);
         double E = Ephemerides.getEccentricAnomaly(planet, date);
@@ -316,7 +316,7 @@ public class Ephemerides {
 
     }
 
-    private static double getDistance(int planet, OffsetDateTime date) {
+    private static double getDistance(int planet, ZonedDateTime date) {
 
         double[] XvYv = Ephemerides.getXY(planet, date);
 
@@ -328,7 +328,7 @@ public class Ephemerides {
 
     }
 
-    private static double getTrueAnomaly(int planet, OffsetDateTime date) {
+    private static double getTrueAnomaly(int planet, ZonedDateTime date) {
 
         double[] XvYv = Ephemerides.getXY(planet, date);
 
@@ -342,7 +342,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunEclipticRectangularGeocentric(OffsetDateTime date) {
+    private static double[] getSunEclipticRectangularGeocentric(ZonedDateTime date) {
 
         double lonsun = Ephemerides.getSunLongitude(date);
         double r = Ephemerides.getDistance(Ephemerides.SUN, date);
@@ -354,7 +354,7 @@ public class Ephemerides {
 
     }
 
-    private static double getSunLongitude(OffsetDateTime date) {
+    private static double getSunLongitude(ZonedDateTime date) {
 
         int planet = Ephemerides.SUN;
 
@@ -362,7 +362,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getSunEquatorialRectangularGeocentric(OffsetDateTime date) {
+    private static double[] getSunEquatorialRectangularGeocentric(ZonedDateTime date) {
 
         double[] ecliptivRectangularGeocentric = Ephemerides.getSunEclipticRectangularGeocentric(date);
 
@@ -377,7 +377,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getHeliocentricPosition(int planet, OffsetDateTime date) {
+    private static double[] getHeliocentricPosition(int planet, ZonedDateTime date) {
 
         double r = Ephemerides.getDistance(planet, date);
 
@@ -419,7 +419,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getGeocentricPosition(int planet, OffsetDateTime date) {
+    private static double[] getGeocentricPosition(int planet, ZonedDateTime date) {
 
         double[] helio = Ephemerides.getHeliocentricPosition(planet, date);
 
@@ -443,7 +443,7 @@ public class Ephemerides {
 
     }
 
-    private static double getD(OffsetDateTime date) {
+    private static double getD(ZonedDateTime date) {
 
         int year = date.getYear();
         int month = date.getMonthValue();
@@ -457,7 +457,7 @@ public class Ephemerides {
 
     }
 
-    private static double getObliquityOfTheEcliptic(OffsetDateTime date) {
+    private static double getObliquityOfTheEcliptic(ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -465,7 +465,7 @@ public class Ephemerides {
 
     }
 
-    private static double getLongitudeOfTheAscendingNode(int planet, OffsetDateTime date) {
+    private static double getLongitudeOfTheAscendingNode(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -494,7 +494,7 @@ public class Ephemerides {
 
     }
 
-    private static double getInclination(int planet, OffsetDateTime date) {
+    private static double getInclination(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -523,7 +523,7 @@ public class Ephemerides {
 
     }
 
-    private static double getArgumentOfPerihelion(int planet, OffsetDateTime date) {
+    private static double getArgumentOfPerihelion(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -552,7 +552,7 @@ public class Ephemerides {
 
     }
 
-    private static double getSemiMajorAxis(int planet, OffsetDateTime date) {
+    private static double getSemiMajorAxis(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -581,7 +581,7 @@ public class Ephemerides {
 
     }
 
-    private static double getEccentricity(int planet, OffsetDateTime date) {
+    private static double getEccentricity(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -610,7 +610,7 @@ public class Ephemerides {
 
     }
 
-    private static double getMeanAnomaly(int planet, OffsetDateTime date) {
+    private static double getMeanAnomaly(int planet, ZonedDateTime date) {
 
         double d = Ephemerides.getD(date);
 
@@ -639,7 +639,7 @@ public class Ephemerides {
 
     }
 
-    private static double getEccentricAnomaly(int planetKey, OffsetDateTime date) {
+    private static double getEccentricAnomaly(int planetKey, ZonedDateTime date) {
 
         double aoP = Ephemerides.getArgumentOfPerihelion(planetKey, date);
 
@@ -669,7 +669,7 @@ public class Ephemerides {
 
     }
 
-    private static double getPerturbationsForMoonDistance(double pdistance, OffsetDateTime date) {
+    private static double getPerturbationsForMoonDistance(double pdistance, ZonedDateTime date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -688,7 +688,7 @@ public class Ephemerides {
 
     }
 
-    private static double[] getPerturbationsForMoon(double plongitude, double platitude, OffsetDateTime date) {
+    private static double[] getPerturbationsForMoon(double plongitude, double platitude, ZonedDateTime date) {
 
         double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);
         double Ms = Ephemerides.getMeanAnomaly(Ephemerides.SUN, date);
@@ -726,8 +726,8 @@ public class Ephemerides {
     /*
      * public static void main(String args[]) {
      * 
-     * OffsetDateTime date = OffsetDateTime.getInstance(); date.set(OffsetDateTime.HOUR_OF_DAY, 1);
-     * date.set(OffsetDateTime.DAY_OF_MONTH, 22); //date.set(OffsetDateTime.MONTH, 11); System.out.println("" + new
+     * ZonedDateTime date = ZonedDateTime.getInstance(); date.set(ZonedDateTime.HOUR_OF_DAY, 1);
+     * date.set(ZonedDateTime.DAY_OF_MONTH, 22); //date.set(ZonedDateTime.MONTH, 11); System.out.println("" + new
      * java.util.Date(date.getTimeInMillis()) + "\n" + Ephemerides.getMoonPosition(date, 0));
      * System.out.println("Moon phase: " + Ephemerides.getMoonPhase(date) + "\t Date: " + new
      * java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " + Ephemerides.isMoonAboveHorizon(date,

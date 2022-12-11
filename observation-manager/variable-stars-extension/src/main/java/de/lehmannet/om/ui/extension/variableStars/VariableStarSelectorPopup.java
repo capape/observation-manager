@@ -4,7 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,10 +49,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private JButton cancel = null;
 
     private JTextField beginField = null;
-    private OffsetDateTime beginDate = null;
+    private ZonedDateTime beginDate = null;
     private JButton beginPicker = null;
     private JTextField endField = null;
-    private OffsetDateTime endDate = null;
+    private ZonedDateTime endDate = null;
     private JButton endPicker = null;
 
     private final ResourceBundle uiBundle = ResourceBundle
@@ -173,8 +173,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    OffsetDateTime first = ((IObservation) set.first()).getBegin();
-                    OffsetDateTime last = ((IObservation) set.last()).getBegin();
+                    ZonedDateTime first = ((IObservation) set.first()).getBegin();
+                    ZonedDateTime last = ((IObservation) set.last()).getBegin();
 
                     if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
@@ -209,8 +209,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    OffsetDateTime first = ((IObservation) set.first()).getBegin();
-                    OffsetDateTime last = ((IObservation) set.last()).getBegin();
+                    ZonedDateTime first = ((IObservation) set.first()).getBegin();
+                    ZonedDateTime last = ((IObservation) set.last()).getBegin();
 
                     if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
@@ -333,8 +333,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
 
     }
 
-    private String formatDate(OffsetDateTime cal) {
-        return this.dateManager.offsetDateTimeToStringWithHour(cal);
+    private String formatDate(ZonedDateTime cal) {
+        return this.dateManager.zonedDateTimeToStringWithHour(cal);
     }
 
 }

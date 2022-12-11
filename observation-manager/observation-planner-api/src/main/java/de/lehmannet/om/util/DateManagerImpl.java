@@ -1,7 +1,7 @@
 package de.lehmannet.om.util;
 
 import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -79,7 +79,7 @@ public class DateManagerImpl implements DateManager {
     }
 
     @Override
-    public String offsetDateTimeToStringWithHour(OffsetDateTime date) {
+    public String zonedDateTimeToStringWithHour(ZonedDateTime date) {
         if (date == null) {
             return StringUtils.EMPTY;
         }
@@ -87,7 +87,7 @@ public class DateManagerImpl implements DateManager {
     }
 
     @Override
-    public String offsetDateTimeToStringWithSeconds(OffsetDateTime date) {
+    public String zonedDateTimeToStringWithSeconds(ZonedDateTime date) {
         if (date == null) {
             return StringUtils.EMPTY;
         }
@@ -95,7 +95,7 @@ public class DateManagerImpl implements DateManager {
     }
 
     @Override
-    public String offsetDateTimeToString(OffsetDateTime date) {
+    public String zonedDateTimeToString(ZonedDateTime date) {
         if (date == null) {
             return StringUtils.EMPTY;
         }

@@ -1,7 +1,7 @@
 package de.lehmannet.om.ui.cache;
 
 import java.io.File;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 import de.lehmannet.om.IObserver;
@@ -26,9 +26,9 @@ public interface UIDataCache {
 
     IObserver getObserver(String key);
 
-    void putDate(String key, OffsetDateTime value);
+    void putDate(String key, ZonedDateTime value);
 
-    OffsetDateTime getDate(String key);
+    ZonedDateTime getDate(String key);
 
     void putSession(String key, ISession value);
 

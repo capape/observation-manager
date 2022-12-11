@@ -19,7 +19,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
@@ -97,8 +97,6 @@ import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -151,12 +149,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JButton newImage = null;
 
     private JTextField begin = null;
-    private OffsetDateTime beginDate = null;
+    private ZonedDateTime beginDate = null;
     private JButton beginPicker = null;
     private TimeContainer beginTime = null;
     private JButton beginNow = null;
     private JTextField end = null;
-    private OffsetDateTime endDate = null;
+    private ZonedDateTime endDate = null;
     private JButton endPicker = null;
     private TimeContainer endTime = null;
     private JButton endNow = null;
@@ -170,7 +168,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private final ImageResolver imageResolver;
     private final ObservationManagerModel model;
     private final TextManager textManager;
-    private final DateManager dateManager;
     private final UIDataCache cache;
 
     // Requires ObservationManager for instancating all dialoges
@@ -188,10 +185,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.imageResolver = resolver;
         this.observation = observation;
         this.textManager = textManager;
-        this.dateManager = new DateManagerImpl();
 
         // TODO IOC
-        this.sessionBox = new SessionBox(this.dateManager);
+        this.sessionBox = new SessionBox(this.observationManager.getDateManager());
 
         this.cache = uiCache;
 
@@ -347,7 +343,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
                 : ZoneOffset.ofHoursMinutes(site.getTimezone() / 60, site.getTimezone() % 60);
         // @formatter:off
-        this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
+        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
                 this.beginTime.getSeconds(), 0, offset);
         // @formatter:on
@@ -363,7 +359,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
 
             // @formatter:off
-            this.endDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
+            this.endDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
                     this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
                     this.endTime.getSeconds(), 0, offset);
             // @formatter:on
@@ -534,7 +530,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         ZoneOffset offset = site == null ? ZoneOffset.of(ZoneId.systemDefault().getId())
                 : ZoneOffset.ofHoursMinutes(hourOffset, minOffset);
-        this.beginDate = OffsetDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
+        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginDate.getHour(), this.beginDate.getMinute(),
                 this.beginDate.getSecond(), 0, offset);
 
@@ -552,7 +548,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
-            final OffsetDateTime newEndDate = OffsetDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
+            final ZonedDateTime newEndDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
                     this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
                     this.endTime.getSeconds(), 0, offset);
 
@@ -679,15 +675,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         /*
-         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing =
-         * Integer.parseInt(s); try {
+         * if( (s != null) && !("".equals(s.trim())) ) { try { int seeing = Integer.parseInt(s); try {
          * this.observation.setSeeing(seeing); } catch(IllegalArgumentException iae) {
-         * this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.invalidSeeing")); return null;
-         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); }
-         * catch(NumberFormatException nfe)
-         * { this.createWarning(AbstractPanel.bundle.getString(
-         * "panel.observation.warning.noNumberSeeing")); return
+         * this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.invalidSeeing")); return null;
+         * } this.cache.put(ObservationDialogPanel.CACHEKEY_SEEING, new Integer(s)); } catch(NumberFormatException nfe)
+         * { this.createWarning(AbstractPanel.bundle.getString( "panel.observation.warning.noNumberSeeing")); return
          * null; } }
          */
 
@@ -786,14 +778,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 this.endDate = null;
                 this.endTime.setTime(0, 0, 0);
             } else if (source.equals(this.endNow)) {
-                this.endDate = OffsetDateTime.now();
+                this.endDate = ZonedDateTime.now();
                 this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
-                this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
+                this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             } else if (source.equals(this.beginNow)) {
-                this.beginDate = OffsetDateTime.now();
+                this.beginDate = ZonedDateTime.now();
                 this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(),
                         this.beginDate.getSecond());
-                this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
+                this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             }
         } else if (source instanceof AbstractBox) {
             // As we've only added the ActionListener to ScopeBox and EyepieceBox
@@ -822,19 +814,19 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate, timeZone,
-                    this.dateManager);
+                    this.observationManager.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate, timeZone,
-                    this.dateManager);
+                    this.observationManager.getDateManager());
         } else {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), timeZone,
-                    this.dateManager);
+                    this.observationManager.getDateManager());
         }
         this.endDate = dp.getDate();
         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
-        this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
+        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
     }
 
     private void readBeginDate() {
@@ -856,15 +848,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.beginDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
-                    timeZone, this.dateManager);
+                    timeZone, this.observationManager.getDateManager());
         } else {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), timeZone,
-                    this.dateManager);
+                    this.observationManager.getDateManager());
         }
         this.beginDate = dp.getDate();
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
-        this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
+        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
     }
 
     // --------------
@@ -945,7 +937,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     }
 
                     this.beginDate = session.getBegin();
-                    this.begin.setText(this.dateManager.offsetDateTimeToString(beginDate));
+                    this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
                     // Check whether enddate/time should be autom. set
@@ -953,7 +945,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                             .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
                         this.endDate = this.beginDate.plusMinutes(10L); // Add 10 minutes, as end date should be after
                                                                         // begin date
-                        this.end.setText(this.dateManager.offsetDateTimeToString(endDate));
+                        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(endDate));
                         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(),
                                 this.endDate.getSecond());
                     }
@@ -1109,10 +1101,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Load mandatory stuff
 
-        this.beginDate = this.observation.getBegin();
-        this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
+        this.beginDate = this.observation.getBegin().withZoneSameInstant(ZoneId.systemDefault());
+        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
         this.beginPicker.setEnabled(this.isEditable());
-        
+
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
@@ -1127,9 +1119,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.setFindingPanel(this.observation.getTarget());
 
         // Load optional stuff
-        this.endDate = this.observation.getEnd();
+        this.endDate = this.observation.getEnd().withZoneSameInstant(ZoneId.systemDefault());
         if (this.endDate != null) {
-            this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
+            this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }
@@ -1934,7 +1926,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
             this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE);
 
-            this.begin.setText(this.dateManager.offsetDateTimeToString(this.beginDate));
+            this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
             this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         }
@@ -1964,7 +1956,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             // Set end date to last observation end date +10 minutes
             this.endDate = this.cache.getDate(CACHEKEY_ENDDATE);
             this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
-            this.end.setText(this.dateManager.offsetDateTimeToString(this.endDate));
+            this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         }

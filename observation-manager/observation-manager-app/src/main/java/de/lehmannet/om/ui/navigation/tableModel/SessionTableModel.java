@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,7 +62,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         switch (columnIndex) {
         case 0:
         case 1: {
-            c = OffsetDateTime.class;
+            c = ZonedDateTime.class;
             break;
         }
         case 2: {

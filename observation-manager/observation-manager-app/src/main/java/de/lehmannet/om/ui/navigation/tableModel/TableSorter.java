@@ -14,7 +14,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -310,7 +311,8 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private void initColumnComparator() {
 
-        this.columnComparators.put(OffsetDateTime.class, OffsetDateTime.timeLineOrder());
+        this.columnComparators.put(ZonedDateTime.class,
+                Comparator.comparing(zdt -> ((ZonedDateTime) zdt).truncatedTo(ChronoUnit.SECONDS)));
         this.columnComparators.put(Target.class, new TargetComparator());
         this.columnComparators.put(Site.class, new SiteComparator());
         this.columnComparators.put(Scope.class, new ScopeComparator());

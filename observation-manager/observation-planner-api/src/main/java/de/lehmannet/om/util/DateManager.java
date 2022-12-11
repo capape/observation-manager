@@ -1,6 +1,6 @@
 package de.lehmannet.om.util;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,7 +60,7 @@ public interface DateManager {
      * 
      * @return the date formatted or empty string
      */
-    String offsetDateTimeToString(OffsetDateTime date);
+    String zonedDateTimeToString(ZonedDateTime date);
 
     /**
      * 
@@ -68,7 +68,7 @@ public interface DateManager {
      * 
      * @return the date formatted or empty string
      */
-    String offsetDateTimeToStringWithHour(OffsetDateTime date);
+    String zonedDateTimeToStringWithHour(ZonedDateTime date);
 
     /**
      * 
@@ -76,6 +76,6 @@ public interface DateManager {
      * 
      * @return the date formatted or empty string
      */
-    String offsetDateTimeToStringWithSeconds(OffsetDateTime date);
+    String zonedDateTimeToStringWithSeconds(ZonedDateTime date);
 
 }
