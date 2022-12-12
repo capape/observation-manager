@@ -524,7 +524,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-      
         this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
                 this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
                 this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
@@ -793,7 +792,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private void readEndDate() {
         DatePicker dp = null;
         TimeZone timeZone = TimeZone.getDefault();
-       
+
         if (this.endDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate, timeZone,
@@ -815,7 +814,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private void readBeginDate() {
         DatePicker dp = null;
         TimeZone timeZone = TimeZone.getDefault();
-        
+
         if (this.beginDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
