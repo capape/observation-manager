@@ -6,13 +6,10 @@ The source code has been checkout from CVS and imported into git
 Build from source.  
   
 1.- Install fits library in your maven repository following instructions at observation-manager/non-mvn-dependencies/fits/README.md  
-2.- Build parent project  
-	cd observation-parent  
-        mvn install  
-3.- Build project  
+2.- Build project  
         cd observation-manager   
         mvn install  
-4.- Build distribution source  
+3.- Build distribution source  
         cd observation-manager/observation-manager-distribution  
         mvn assembly:single  
 
