@@ -1,6 +1,5 @@
 package de.lehmannet.om.ui.image;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
     @Override
     public Optional<URL> getImageURL(String name) {
 
+        LOGGER.debug("Getting image url for {} ", name);
         if (StringUtils.isBlank(name)) {
             LOGGER.error("Not image name provided");
             throw new IllegalArgumentException("Should provide a file name");
@@ -38,7 +38,7 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
 
     private String buildImagePath(String name) {
 
-        return this.imagePath + File.separator + name;
+        return this.imagePath + "/" + name;
     }
 
 }
