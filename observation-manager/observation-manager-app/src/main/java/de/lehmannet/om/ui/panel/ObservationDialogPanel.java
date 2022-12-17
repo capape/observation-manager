@@ -21,14 +21,12 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 import javax.swing.JButton;
@@ -340,12 +338,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        // ZoneOffset offset = this.beginDate.getOffset();
-        // @formatter:off
-        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
-                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
-        // @formatter:on
+        this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
 
         this.observation.setBegin(this.beginDate);
         this.cache.putDate(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
@@ -356,12 +349,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // setting session (start-end-date) will fail
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
-
-            // @formatter:off
-            this.endDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
-            // @formatter:on
+            
+            this.endDate = createDateTimeInUTC(this.endDate, this.endTime);
 
             if (this.endDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
@@ -524,9 +513,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
-                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
+        this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
 
         this.observation = new Observation(this.beginDate, target, observer, finding);
 
@@ -542,10 +529,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
-            final ZonedDateTime newEndDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
-
+            final ZonedDateTime newEndDate =  createDateTimeInUTC(this.endDate, this.endTime);
             if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
@@ -1997,6 +1981,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     }
 
+    private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
+
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
+                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+
+        return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
+
+
+    }
+
+
 }
 
 class SeeingBoxEntry {
@@ -2054,4 +2049,5 @@ class SeeingBoxEntry {
 
     }
 
+   
 }

@@ -331,8 +331,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         // Set site's timezone (make sure that timezone is set in ms)
         this.session.setSite(site);
 
-        this.endDate = this.createZonedDateTime(this.endDate, this.endTime);
-        this.beginDate = this.createZonedDateTime(this.beginDate, this.beginTime);
+        this.endDate = this.createDateTimeInUTC(this.endDate, this.endTime);
+        this.beginDate = this.createDateTimeInUTC(this.beginDate, this.beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
@@ -369,10 +369,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     }
 
-    private ZonedDateTime createZonedDateTime(ZonedDateTime date, TimeContainer timeContainer) {
+    private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        return ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
                 timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+
+        return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
+
 
     }
 
@@ -406,8 +409,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
 
-        this.endDate = createZonedDateTime(endDate, endTime);
-        this.beginDate = createZonedDateTime(beginDate, beginTime);
+        this.endDate = createDateTimeInUTC(endDate, endTime);
+        this.beginDate = createDateTimeInUTC(beginDate, beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
