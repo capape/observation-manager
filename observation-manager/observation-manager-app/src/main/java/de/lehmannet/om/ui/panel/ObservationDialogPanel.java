@@ -1073,7 +1073,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.setFindingPanel(this.observation.getTarget());
 
         // Load optional stuff
-        this.endDate = this.observation.getEnd().withZoneSameInstant(ZoneId.systemDefault());
+        if (this.observation.getEnd() != null) {
+            this.endDate = this.observation.getEnd().withZoneSameInstant(ZoneId.systemDefault());
+        }
         if (this.endDate != null) {
             this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
