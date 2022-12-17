@@ -100,6 +100,9 @@ public class DatePicker extends JDialog {
 
         this.timeZone = timeZone;
         this.date = date;
+        this.day = date.getDayOfMonth();
+        this.month = date.getMonthValue();
+        this.year = date.getYear();
         this.initDialog();
         this.setDates();
 
