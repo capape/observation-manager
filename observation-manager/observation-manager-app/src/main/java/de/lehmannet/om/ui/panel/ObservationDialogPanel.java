@@ -349,7 +349,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // setting session (start-end-date) will fail
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
-            
+
             this.endDate = createDateTimeInUTC(this.endDate, this.endTime);
 
             if (this.endDate.isBefore(this.beginDate)) {
@@ -529,7 +529,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
-            final ZonedDateTime newEndDate =  createDateTimeInUTC(this.endDate, this.endTime);
+            final ZonedDateTime newEndDate = createDateTimeInUTC(this.endDate, this.endTime);
             if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
@@ -1983,14 +1983,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
-                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
+                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
+                ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
 
-
     }
-
 
 }
 
@@ -2049,5 +2048,4 @@ class SeeingBoxEntry {
 
     }
 
-   
 }

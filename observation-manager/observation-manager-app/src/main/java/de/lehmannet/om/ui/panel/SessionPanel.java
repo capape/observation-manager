@@ -371,11 +371,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
-                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
+                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
+                ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
-
 
     }
 
