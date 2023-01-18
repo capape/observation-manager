@@ -68,7 +68,7 @@ public class MoonDetailContainer extends JLabel {
             return;
         }
 
-        ZonedDateTime date = this.observation.getBegin();
+        ZonedDateTime date = this.observation.getBegin().toZonedDateTime();
 
         String path = "";
         if (Ephemerides.isMoonAboveHorizon(date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {

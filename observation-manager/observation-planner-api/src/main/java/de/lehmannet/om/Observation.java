@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,10 +44,10 @@ public class Observation extends SchemaElement implements IObservation {
     // ------------------
 
     // Start date of observation
-    private ZonedDateTime begin = null;
+    private OffsetDateTime begin = null;
 
     // End date of observation
-    private ZonedDateTime end = null;
+    private OffsetDateTime end = null;
 
     // Faintest start that could be seen with the naked eye (in magnitude)
     private float faintestStar = Float.NaN;
@@ -225,7 +227,8 @@ public class Observation extends SchemaElement implements IObservation {
             LOGGER.error("Result cannot be null. ");
             throw new IllegalArgumentException("Result cannot be null. ");
         }
-        this.begin = begin;
+        this.begin = begin.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+
         this.target = target;
         this.observer = observer;
         this.addResult(result);
@@ -269,7 +272,7 @@ public class Observation extends SchemaElement implements IObservation {
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
         }
 
-        this.begin = begin;
+        this.begin = begin.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
         this.target = target;
         this.observer = observer;
 
@@ -299,7 +302,8 @@ public class Observation extends SchemaElement implements IObservation {
 
         this(begin, target, observer, results);
 
-        this.end = end;
+        this.end = end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+        ;
 
     }
 
@@ -325,7 +329,7 @@ public class Observation extends SchemaElement implements IObservation {
 
         this(begin, target, observer, result);
 
-        this.end = end;
+        this.end = end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
     }
 
@@ -469,7 +473,8 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public String getDisplayName() {
 
-        return this.dateManager.zonedDateTimeToStringWithHour(this.begin) + " - " + this.target.getDisplayName();
+        return this.dateManager.zonedDateTimeToStringWithHour(this.begin.toZonedDateTime()) + " - "
+                + this.target.getDisplayName();
 
     }
 
@@ -785,7 +790,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The start date of the observation
      */
     @Override
-    public ZonedDateTime getBegin() {
+    public OffsetDateTime getBegin() {
 
         return begin;
 
@@ -811,7 +816,7 @@ public class Observation extends SchemaElement implements IObservation {
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
     @Override
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
 
     }
@@ -1246,7 +1251,7 @@ public class Observation extends SchemaElement implements IObservation {
      *             if new begin date is <code>null</code>
      */
     @Override
-    public void setBegin(ZonedDateTime begin) throws IllegalArgumentException {
+    public void setBegin(OffsetDateTime begin) throws IllegalArgumentException {
 
         if (begin == null) {
             LOGGER.error("Begin date cannot be null. ");
@@ -1265,7 +1270,7 @@ public class Observation extends SchemaElement implements IObservation {
      *            The end date of the observation
      */
     @Override
-    public void setEnd(ZonedDateTime end) {
+    public void setEnd(OffsetDateTime end) {
 
         this.end = end;
 
@@ -1453,11 +1458,12 @@ public class Observation extends SchemaElement implements IObservation {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
-            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin), toMillisString(this.end));
+            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin.toZonedDateTime()),
+                    toMillisString(this.end.toZonedDateTime()));
         }
 
         // Check if start date of observation is equal or later then session start
-        if (sessionStart.isAfter(this.begin)) {
+        if (sessionStart.isAfter(this.begin.toZonedDateTime())) {
             LOGGER.error("Session start date is after observation start date  for:  {}", this.getDisplayName());
             throw new IllegalArgumentException(
                     "Session start date is after observation start date  for:  " + this.getDisplayName());
@@ -1465,7 +1471,7 @@ public class Observation extends SchemaElement implements IObservation {
         } else {
             // Check if also end date is correct (if set)
             if (this.end != null) {
-                if (this.end.isAfter(sessionEnd)) {
+                if (this.end.toZonedDateTime().isAfter(sessionEnd)) {
                     LOGGER.error("Observation end date is after session start date  for:  {}", this.getDisplayName());
                     throw new IllegalArgumentException(
                             "Observation end date is after session start date " + this.getDisplayName());

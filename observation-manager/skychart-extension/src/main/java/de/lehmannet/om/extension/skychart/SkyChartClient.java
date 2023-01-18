@@ -186,7 +186,7 @@ public class SkyChartClient implements IExtension, ActionListener {
         // ---- Set observation date
         if (observation.getBegin() != null) {
             commands = new String[2];
-            commands[0] = this.createDateCommand(observation.getBegin());
+            commands[0] = this.createDateCommand(observation.getBegin().toZonedDateTime());
             commands[1] = this.createREFRESHCommand();
             for (String command : commands) {
                 response = this.sendData(socket, command);

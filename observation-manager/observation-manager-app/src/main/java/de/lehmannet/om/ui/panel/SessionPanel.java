@@ -238,16 +238,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private void selectEndDate() {
         DatePicker dp = null;
         if (this.endDate != null) {
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.endDate,
-                    this.observationManager.getDateManager());
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.endDate, this.observationManager.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.beginDate,
-                    this.observationManager.getDateManager());
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.beginDate, this.observationManager.getDateManager());
         } else {
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
                     this.observationManager.getDateManager());
         }
         this.endDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())

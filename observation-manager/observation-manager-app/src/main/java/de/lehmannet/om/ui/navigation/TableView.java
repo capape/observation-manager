@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -153,127 +155,14 @@ public class TableView extends JPanel {
         this.scrollTable = new JScrollPane(this.table);
         this.add(scrollTable);
 
-        this.table.setDefaultRenderer(Angle.class, (table, value, isSelected, hasFocus, row, column) -> {
-
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-                String result = null;
-                Angle angle = (Angle) value;
-                DecimalFormat df = new DecimalFormat("0.00");
-                DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-                dfs.setDecimalSeparator('.');
-                df.setDecimalFormatSymbols(dfs);
-                result = df.format(angle.getValue()) + " " + angle.getUnit();
-                cr.setText(result);
-            }
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-        this.table.setDefaultRenderer(Float.class, (table, value, isSelected, hasFocus, row, column) -> {
-
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-
-                Float f = (Float) value;
-                if (Float.isNaN(f)) {
-                    cr.setText("");
-                } else {
-                    String result = null;
-                    DecimalFormat df = new DecimalFormat("0.00");
-                    DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-                    dfs.setDecimalSeparator('.');
-                    df.setDecimalFormatSymbols(dfs);
-                    result = df.format(f.floatValue());
-                    cr.setText(result);
-                }
-            }
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-        this.table.setDefaultRenderer(Integer.class, (table, value, isSelected, hasFocus, row, column) -> {
-
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-                Integer i = (Integer) value;
-                cr.setText("" + i);
-            }
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-
-        this.table.setDefaultRenderer(LocalDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-
-                if (value instanceof LocalDateTime) {
-                    final LocalDateTime cal = (LocalDateTime) value;
-                    cr.setText(this.observationManager.getDateManager()
-                            .zonedDateTimeToStringWithHour(ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));
-                } else {
-                    LOGGER.warn("Bad data {}", value.getClass(), value);
-                }
-            }
-
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-
-        this.table.setDefaultRenderer(ZonedDateTime.class, (table, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-
-                if (value instanceof ZonedDateTime) {
-                    final ZonedDateTime cal = (ZonedDateTime) value;
-                    cr.setText(this.observationManager.getDateManager().zonedDateTimeToStringWithHour(cal));
-                } else {
-                    LOGGER.warn("Bad data {}", value.getClass(), value);
-                }
-            }
-
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-
-        this.table.setDefaultRenderer(SchemaElement.class, (table, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-                if (value instanceof ISchemaElement) {
-                    ISchemaElement se = (ISchemaElement) value;
-                    cr.setText(se.getDisplayName());
-                }
-            }
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
-        this.table.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
-            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
-            if (value != null) {
-                cr.setText(value.toString());
-            }
-            if (isSelected) {
-                cr.setBackground(Color.LIGHT_GRAY);
-            }
-
-            return cr;
-        });
+        this.table.setDefaultRenderer(Angle.class, angleRenderer());
+        this.table.setDefaultRenderer(Float.class, floatRenderer());
+        this.table.setDefaultRenderer(Integer.class, integerRenderer());
+        this.table.setDefaultRenderer(LocalDateTime.class, localDateTimeRenderer());
+        this.table.setDefaultRenderer(ZonedDateTime.class, zonedDateTimeRenderer());
+        this.table.setDefaultRenderer(OffsetDateTime.class, offsetDateTimeRenderer());
+        this.table.setDefaultRenderer(SchemaElement.class, schemaElementRenderer());
+        this.table.setDefaultRenderer(Object.class, objectRenderer());
 
         MouseListener ml = new MouseAdapter() {
             @Override
@@ -313,6 +202,167 @@ public class TableView extends JPanel {
         // Load table column settings
         this.loadSettings();
 
+    }
+
+    private TableCellRenderer objectRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                cr.setText(value.toString());
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer schemaElementRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                if (value instanceof ISchemaElement) {
+                    ISchemaElement se = (ISchemaElement) value;
+                    cr.setText(se.getDisplayName());
+                }
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer offsetDateTimeRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                if (value instanceof OffsetDateTime) {
+                    final OffsetDateTime cal = (OffsetDateTime) value;
+                    cr.setText(this.observationManager.getDateManager()
+                            .zonedDateTimeToStringWithHour(cal.toZonedDateTime()));
+                } else {
+                    LOGGER.warn("Bad data {}", value.getClass(), value);
+                }
+            }
+
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer zonedDateTimeRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                if (value instanceof ZonedDateTime) {
+                    final ZonedDateTime cal = (ZonedDateTime) value;
+                    cr.setText(this.observationManager.getDateManager().zonedDateTimeToStringWithHour(cal));
+                } else {
+                    LOGGER.warn("Bad data {}", value.getClass(), value);
+                }
+            }
+
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer localDateTimeRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                if (value instanceof LocalDateTime) {
+                    final LocalDateTime cal = (LocalDateTime) value;
+                    cr.setText(this.observationManager.getDateManager()
+                            .zonedDateTimeToStringWithHour(ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));
+                } else {
+                    LOGGER.warn("Bad data {}", value.getClass(), value);
+                }
+            }
+
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer integerRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                Integer i = (Integer) value;
+                cr.setText("" + i);
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer angleRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+                String result = null;
+                Angle angle = (Angle) value;
+                DecimalFormat df = new DecimalFormat("0.00");
+                DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+                dfs.setDecimalSeparator('.');
+                df.setDecimalFormatSymbols(dfs);
+                result = df.format(angle.getValue()) + " " + angle.getUnit();
+                cr.setText(result);
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
+    }
+
+    private TableCellRenderer floatRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+
+            DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+            if (value != null) {
+
+                Float f = (Float) value;
+                if (Float.isNaN(f)) {
+                    cr.setText("");
+                } else {
+                    String result = null;
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+                    dfs.setDecimalSeparator('.');
+                    df.setDecimalFormatSymbols(dfs);
+                    result = df.format(f.floatValue());
+                    cr.setText(result);
+                }
+            }
+            if (isSelected) {
+                cr.setBackground(Color.LIGHT_GRAY);
+            }
+
+            return cr;
+        };
     }
 
     public void showObservations(IObservation selected, ISchemaElement parentElement) {

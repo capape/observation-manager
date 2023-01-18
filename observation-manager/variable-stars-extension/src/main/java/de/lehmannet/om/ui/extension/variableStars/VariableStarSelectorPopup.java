@@ -132,8 +132,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                 TreeSet<IObservation> set = new TreeSet<>(comparator);
                 set.addAll(Arrays.asList(observations));
 
-                this.beginDate = ((IObservation) set.first()).getBegin();
-                this.endDate = ((IObservation) set.last()).getBegin();
+                this.beginDate = ((IObservation) set.first()).getBegin().toZonedDateTime();
+                this.endDate = ((IObservation) set.last()).getBegin().toZonedDateTime();
 
                 this.beginField.setText(this.formatDate(this.beginDate));
                 this.endField.setText(this.formatDate(this.endDate));
@@ -173,8 +173,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    ZonedDateTime first = ((IObservation) set.first()).getBegin();
-                    ZonedDateTime last = ((IObservation) set.last()).getBegin();
+                    ZonedDateTime first = ((IObservation) set.first()).getBegin().toZonedDateTime();
+                    ZonedDateTime last = ((IObservation) set.last()).getBegin().toZonedDateTime();
 
                     if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
@@ -209,8 +209,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                     TreeSet<IObservation> set = new TreeSet<>(comparator);
                     set.addAll(Arrays.asList(observations));
 
-                    ZonedDateTime first = ((IObservation) set.first()).getBegin();
-                    ZonedDateTime last = ((IObservation) set.last()).getBegin();
+                    ZonedDateTime first = ((IObservation) set.first()).getBegin().toZonedDateTime();
+                    ZonedDateTime last = ((IObservation) set.last()).getBegin().toZonedDateTime();
 
                     if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
                         this.uiHelper.showWarning(
@@ -243,7 +243,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         // Filter by start/end date
         List<IObservation> result = new ArrayList<>();
         for (IObservation observation : observations) {
-            if ((observation.getBegin().isBefore(this.beginDate)) || (observation.getBegin().isAfter(this.endDate))) {
+            if ((observation.getBegin().toZonedDateTime().isBefore(this.beginDate))
+                    || (observation.getBegin().toZonedDateTime().isAfter(this.endDate))) {
                 // Observation not in selected time period
             } else {
                 result.add(observation);

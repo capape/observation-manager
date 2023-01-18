@@ -125,8 +125,8 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
         if ((!this.isEditable()) && (this.observation != null)) {
             ISite site = this.observation.getSite();
             if (site != null) {
-                this.targetContainer.setPosition(
-                        Ephemerides.getMoonPosition(this.observation.getBegin(), site.getLongitude().toDegree()));
+                this.targetContainer.setPosition(Ephemerides.getMoonPosition(
+                        this.observation.getBegin().toZonedDateTime(), site.getLongitude().toDegree()));
             }
         }
         gridbag.setConstraints(this.targetContainer, constraints);
