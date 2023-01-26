@@ -896,7 +896,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         }
                     }
 
-                    this.beginDate = session.getBegin();
+                    this.beginDate = session.getBegin().toZonedDateTime();
                     this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 

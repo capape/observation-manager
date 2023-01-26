@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -162,7 +162,7 @@ public class XMLFileLoaderImplTest {
 
         final Site site = new Site("Moon", longitude, latitude, 60);
 
-        final ISchemaElement element = new Session(new DateManagerImpl(), ZonedDateTime.now(), ZonedDateTime.now(),
+        final ISchemaElement element = new Session(new DateManagerImpl(), OffsetDateTime.now(), OffsetDateTime.now(),
                 site);
         emptyNewFile.addSchemaElement(element);
 

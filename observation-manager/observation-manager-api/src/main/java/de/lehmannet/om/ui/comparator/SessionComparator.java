@@ -7,7 +7,7 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.Comparator;
 
 import de.lehmannet.om.ISession;
@@ -39,8 +39,8 @@ public class SessionComparator implements Comparator<ISession> {
                 s1 = (ISession) o2;
             }
 
-            ZonedDateTime s1Begin = s1.getBegin();
-            ZonedDateTime s2Begin = s2.getBegin();
+            OffsetDateTime s1Begin = s1.getBegin();
+            OffsetDateTime s2Begin = s2.getBegin();
 
             if (s1Begin.isBefore(s2Begin)) {
                 return -1;

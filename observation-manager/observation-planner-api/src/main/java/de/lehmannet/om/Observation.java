@@ -1453,17 +1453,18 @@ public class Observation extends SchemaElement implements IObservation {
             return;
         }
 
-        ZonedDateTime sessionStart = session.getBegin();
-        ZonedDateTime sessionEnd = session.getEnd();
+        OffsetDateTime sessionStart = session.getBegin();
+        OffsetDateTime sessionEnd = session.getEnd();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
+            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart.toZonedDateTime()),
+                    toMillisString(sessionEnd.toZonedDateTime()));
             LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin.toZonedDateTime()),
                     toMillisString(this.end.toZonedDateTime()));
         }
 
         // Check if start date of observation is equal or later then session start
-        if (sessionStart.isAfter(this.begin.toZonedDateTime())) {
+        if (sessionStart.isAfter(this.begin)) {
             LOGGER.error("Session start date is after observation start date  for:  {}", this.getDisplayName());
             throw new IllegalArgumentException(
                     "Session start date is after observation start date  for:  " + this.getDisplayName());
@@ -1471,7 +1472,7 @@ public class Observation extends SchemaElement implements IObservation {
         } else {
             // Check if also end date is correct (if set)
             if (this.end != null) {
-                if (this.end.toZonedDateTime().isAfter(sessionEnd)) {
+                if (this.end.isAfter(sessionEnd)) {
                     LOGGER.error("Observation end date is after session start date  for:  {}", this.getDisplayName());
                     throw new IllegalArgumentException(
                             "Observation end date is after session start date " + this.getDisplayName());

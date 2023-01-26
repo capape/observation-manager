@@ -277,13 +277,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private void loadSchemaElement() {
 
-        this.beginDate = this.session.getBegin().withZoneSameInstant(ZoneId.systemDefault());
+        this.beginDate = this.session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
         this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
-        this.endDate = this.session.getEnd().withZoneSameInstant(ZoneId.systemDefault());
+        this.endDate = this.session.getEnd().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
         this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
         this.end.setEditable(this.isEditable());
@@ -360,8 +360,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
             return null;
         }
-        this.session.setEnd(this.endDate);
-        this.session.setBegin(this.beginDate);
+        this.session.setEnd(this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
+        this.session.setBegin(this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
 
         // Set optional elements
         String weather = this.weather.getText();
@@ -440,7 +440,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         // Create session
-        this.session = new Session(this.observationManager.getDateManager(), beginDate, endDate, site);
+        this.session = new Session(this.observationManager.getDateManager(),
+                this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
+                this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(), site);
 
         // Set optional elements
         String weather = this.weather.getText();

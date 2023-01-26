@@ -7,9 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.time.OffsetDateTime;
 import java.util.List;
-
-import java.time.ZonedDateTime;
 
 import org.w3c.dom.Element;
 
@@ -191,7 +190,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns the start date of the session
      */
-    ZonedDateTime getBegin();
+    OffsetDateTime getBegin();
 
     /**
      * Returns a List of coobservers who joined this session.<br>
@@ -214,7 +213,7 @@ public interface ISession extends ISchemaElement {
      * 
      * @return Returns the end date of the session
      */
-    ZonedDateTime getEnd();
+    OffsetDateTime getEnd();
 
     /**
      * Returns the site of the session.<br>
@@ -263,7 +262,7 @@ public interface ISession extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new start date is <code>null</code>
      */
-    void setBegin(ZonedDateTime begin) throws IllegalArgumentException;
+    void setBegin(OffsetDateTime begin) throws IllegalArgumentException;
 
     /**
      * Sets the end date of the session.<br>
@@ -274,7 +273,7 @@ public interface ISession extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new end date is <code>null</code>
      */
-    void setEnd(ZonedDateTime end) throws IllegalArgumentException;
+    void setEnd(OffsetDateTime end) throws IllegalArgumentException;
 
     /**
      * Sets a site (location) where the session took place.<br>
