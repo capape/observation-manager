@@ -1,5 +1,6 @@
 package de.lehmannet.om.util;
 
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +54,31 @@ public interface DateManager {
      * @return the date formatted or empty string
      */
     String calendarToStringWithSeconds(Calendar calendar);
+
+   /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string in current zone
+     */
+    String offsetDateTimeToString(OffsetDateTime date);
+
+    /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string in current zone
+     */
+    String offsetDateTimeToStringWithHour(OffsetDateTime date);
+
+    /**
+     * 
+     * @param date
+     * 
+     * @return the date formatted or empty string in current zone
+     */
+    String offsetDateTimeToStringWithSeconds(OffsetDateTime date);
+
 
     /**
      * 

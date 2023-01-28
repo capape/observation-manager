@@ -1,8 +1,9 @@
 package de.lehmannet.om.util;
 
 import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -100,6 +101,33 @@ public class DateManagerImpl implements DateManager {
             return StringUtils.EMPTY;
         }
         return date.format(dtfDateOnly);
+    }
+
+    @Override
+    public String offsetDateTimeToString(OffsetDateTime date) {
+        if (date == null) {
+            return StringUtils.EMPTY;
+        }
+        
+        return zonedDateTimeToString(date.toZonedDateTime());
+    }
+
+    @Override
+    public String offsetDateTimeToStringWithHour(OffsetDateTime date) {
+        if (date == null) {
+            return StringUtils.EMPTY;
+        }
+        
+        return zonedDateTimeToStringWithHour(date.toZonedDateTime());
+    }
+
+    @Override
+    public String offsetDateTimeToStringWithSeconds(OffsetDateTime date) {
+        if (date == null) {
+            return StringUtils.EMPTY;
+        }
+        
+        return zonedDateTimeToStringWithSeconds(date.toZonedDateTime());
     }
 
 }

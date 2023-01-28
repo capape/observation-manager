@@ -7,11 +7,10 @@
 
 package de.lehmannet.om;
 
-import org.w3c.dom.Element;
-
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
+
+import org.w3c.dom.Element;
 
 /**
  * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>
