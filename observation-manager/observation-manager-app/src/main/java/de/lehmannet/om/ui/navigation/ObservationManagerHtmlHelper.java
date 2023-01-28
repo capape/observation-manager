@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 
 import javax.xml.transform.Templates;
@@ -66,18 +67,7 @@ public class ObservationManagerHtmlHelper {
 
                 DOMSource source = new DOMSource(doc);
 
-                File xsl = (xslFile == null) ? ObservationManagerHtmlHelper.this.getXSLFile() : xslFile;
-
-                // Get XSL Template
-                if (xsl == null) { // Cannot load XSL file. Error message was
-                                   // already given
-
-                    returnValue = Worker.RETURN_TYPE_ERROR;
-                    message = textManager.getString("error.transformation");
-                    return;
-
-                }
-                StreamSource xslSource = new StreamSource(xsl);
+                StreamSource xslSource = getXslStreamSource(xslFile);
 
                 StreamResult result = null;
                 FileOutputStream outputStream = null;
@@ -126,6 +116,29 @@ public class ObservationManagerHtmlHelper {
                     System.err.println("Cannot close stream.\n" + ioe);
                 }
 
+            }
+
+            private StreamSource getXslStreamSource(final File xslFile) {
+                
+                File xsl = (xslFile == null) ? ObservationManagerHtmlHelper.this.getXSLFile() : xslFile;
+
+                StreamSource xslSource;
+                // Get XSL Template
+                if (xsl == null) { // Cannot load XSL file. Error message was
+                                   // already given
+
+                    /* returnValue = Worker.RETURN_TYPE_ERROR;
+                       message = textManager.getString("error.transformation");
+                       return;*/
+                   
+                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource("xsl/oal2html/transform_en.xsl");
+                    xslSource = new StreamSource(resource.toExternalForm());
+
+
+                } else {
+                    xslSource = new StreamSource(xsl);
+                }
+                return xslSource;
             }
 
             @Override

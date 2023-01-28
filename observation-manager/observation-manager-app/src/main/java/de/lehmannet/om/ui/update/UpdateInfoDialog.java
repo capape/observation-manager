@@ -78,7 +78,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
             if (source.equals(this.close)) {
                 this.dispose();
             } else if (source.equals(this.download)) {
-                List downloadList = ((UpdateTableModel) this.infoTable.getModel()).getSelected();
+                List<UpdateEntry> downloadList = ((UpdateTableModel) this.infoTable.getModel()).getSelected();
                 if ((downloadList != null) && !(downloadList.isEmpty())) {
 
                     // ---------- Where to save the files?

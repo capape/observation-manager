@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
-
-
-
 	<!-- Formatting Angle -->
 	<xsl:template name="angle">
 		<xsl:param name="angle"/>
@@ -14,10 +11,6 @@
 			<xsl:when test="$angle[@unit='rad']"> rad</xsl:when>
 		</xsl:choose>
 	</xsl:template>
-
-
-
-
 	<xsl:template match="session">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="session</xsl:text>
@@ -27,9 +20,7 @@
 			<xsl:value-of select="session"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
-
 		
-
 		<!-- Date of Observation -->
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			<tr>
@@ -63,8 +54,6 @@
 				</ul>
 			</p>
 		</xsl:if>
-
-
 		<xsl:if test="count(weather)>0 or count(equipment)>0 or count(comments)>0">
 			<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			
@@ -77,8 +66,6 @@
 						</td>
 					</tr>
 				</xsl:if>
-
-
 				<!-- Equipment -->
 				<xsl:if test="count(equipment)>0">
 					<tr>
@@ -88,8 +75,6 @@
 						</td>
 					</tr>
 				</xsl:if>
-
-
 				<!-- Comments -->
 				<xsl:if test="count(comments)>0">
 					<tr>
@@ -104,8 +89,6 @@
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
 	
-
-
 	<xsl:template match="target">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
@@ -132,8 +115,6 @@
 			</xsl:choose>			
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
-
-
 		<xsl:choose>
 			<xsl:when test="@type='oal:deepSkyGX'">Galaxy</xsl:when>
 			<xsl:when test="@type='oal:deepSkyGC'">Globular Cluster</xsl:when>
@@ -156,27 +137,17 @@
 			<xsl:when test="@type='oal:UndefinedTargetType'">(other Object)</xsl:when>
 			<xsl:otherwise>(unknown Type)</xsl:otherwise>
 		</xsl:choose>
-
-
 		<xsl:if test="count(constellation)>0"> in <xsl:value-of select="constellation"/>
-
 		</xsl:if>
-
 		<p/>
-
-
 		<xsl:if test="count(alias)>0">
-
 			<div style="font-size:10">Alias: <xsl:for-each select="alias">
-
 					<xsl:value-of select="."/>
 					<xsl:if test="position() != last()">, </xsl:if>
 				</xsl:for-each>
 			</div>
 			<br/>
 		</xsl:if>
-
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			<xsl:if test="boolean(position/ra)">
 				<tr>
@@ -188,8 +159,6 @@
 					</td>
 				</tr>
 			</xsl:if>
-
-
 			<xsl:if test="boolean(position/dec)">
 				<tr>
 					<td>Dec:</td>
@@ -200,8 +169,6 @@
 					</td>
 				</tr>
 			</xsl:if>
-
-
 			<!-- Output from attributes of Subclasses -->
 			<xsl:if test="contains(@type,'oal:deepSky')">
 				<!-- Deep Sky -->
@@ -219,7 +186,6 @@
 					</tr>
 				</xsl:if>
 				
-
 				<xsl:if test="boolean(visMag)">
 					<tr>
 						<td>m(vis):</td>
@@ -227,8 +193,6 @@
 							<xsl:value-of select="visMag"/> mag</td>
 					</tr>
 				</xsl:if>
-
-
 				<xsl:if test="boolean(surfBr)">
 					<tr>
 						<td>SB:</td>
@@ -236,8 +200,6 @@
 							<xsl:value-of select="surfBr"/> mags/sq.arcmin</td>
 					</tr>
 				</xsl:if>
-
-
 				<!-- TODO -->
 				<xsl:for-each select="surfBr/following-sibling::*">
 					<tr>
@@ -249,13 +211,9 @@
 					</tr>
 				</xsl:for-each>
 			</xsl:if>
-
-
 			<!-- ################################################################### -->
 			<!-- TODO: Other subclasses like planets                                 -->
 			<!-- ################################################################### -->
-
-
 			<xsl:if test="boolean(observer)">
 				<tr>
 					<td>Origin:</td>
@@ -267,7 +225,6 @@
 				</tr>
 			</xsl:if>
 			
-
 			<xsl:if test="boolean(datasource)">
 				<tr>
 					<td>Origin:</td>
@@ -279,11 +236,8 @@
 		</table>
 	</xsl:template>
 	
-
-
 	<xsl:template name="formatHHMM">
 		<xsl:param name="node"/>                
-
 		<xsl:param name="hrs"><xsl:value-of select='floor($node div 15)'/></xsl:param>
 		<xsl:param name="hrs_rest"><xsl:value-of select='$node - ($hrs * 15)'/></xsl:param>
 		<xsl:param name="minutes"><xsl:value-of select='floor($hrs_rest * 60 div 15)'/></xsl:param>
@@ -291,8 +245,6 @@
                 <xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600 div 15)'/></xsl:param>
 		<result><xsl:value-of select="$hrs"/>h <xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/>m <xsl:if test="$sec  &lt; 10">0</xsl:if><xsl:value-of select="$sec"/>s</result>
 	</xsl:template>
-
-
 	<xsl:template name="formatDDMM">
 		<xsl:param name="node"/>
 		<xsl:if test='$node &lt; 0'> 
@@ -306,8 +258,6 @@
 			</xsl:call-template>
 		</xsl:if> 
 	</xsl:template>      
-
-
 	<xsl:template name="formatDDMM_lower">
 		<xsl:param name="node"/>
 		<xsl:param name="abs_degrees"><xsl:value-of select='- $node'/></xsl:param>
@@ -318,8 +268,6 @@
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 		<result>-<xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 	</xsl:template>     
-
-
 	<xsl:template name="formatDDMM_higher">
 		<xsl:param name="node"/>
 		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>				
@@ -329,8 +277,6 @@
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 		<result><xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 	</xsl:template>   
-
-
 	<xsl:template match="observer">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="observer</xsl:text>
@@ -353,8 +299,6 @@
 		</xsl:if>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-
-
 	<xsl:template match="site">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="site</xsl:text>
@@ -364,8 +308,6 @@
 			<xsl:value-of select="name"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
-
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			<tr>
 				<td>Longitude:</td>
@@ -375,8 +317,6 @@
 					</xsl:call-template>
 				</td>
 			</tr>
-
-
 			<tr>
 				<td>Latitude:</td>
 				<td>
@@ -385,8 +325,6 @@
 					</xsl:call-template>
 				</td>
 			</tr>
-
-
 			<tr>
 				<td>Timezone:</td>
 				<td>UT<xsl:if test="timezone >= 0">+</xsl:if>
@@ -395,8 +333,6 @@
 		</table>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-
-
 	<xsl:template match="scope">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="scope</xsl:text>
@@ -406,8 +342,6 @@
 			<xsl:value-of select="model"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
-
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			<xsl:if test="count(type)>0">
 				<tr>
@@ -417,8 +351,6 @@
 					</td>
 				</tr>
 			</xsl:if>
-
-
 			<xsl:if test="count(vendor)>0">
 				<tr>
 					<td>Vendor:</td>
@@ -427,15 +359,11 @@
 					</td>
 				</tr>
 			</xsl:if>
-
-
 			<tr>
 				<td>Aperture:</td>
 				<td>
 					<xsl:value-of select="aperture"/> mm</td>
 			</tr>
-
-
 			<xsl:if test="count(focalLength)>0">
 				<tr>
 					<td>Focal length:</td>
@@ -443,19 +371,13 @@
 						<xsl:value-of select="focalLength"/> mm</td>
 				</tr>
 			</xsl:if>
-
-
 			<xsl:if test="count(magnification)>0">
 				<tr>
 					<td>Magnification:</td>
 					<td>
 						<xsl:value-of select="magnification"/> &#215;</td>
 				</tr>
-
-
 			</xsl:if>
-
-
 			<xsl:if test="count(trueField)>0">
 				<tr>
 					<td>True field of view:</td>
@@ -466,8 +388,6 @@
 					</td>
 				</tr>
 			</xsl:if>
-
-
 			<xsl:if test="count(lightGrasp)>0">
 				<tr>
 					<td>Light grasp:</td>
@@ -479,23 +399,16 @@
 		</table>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-
-
 	<xsl:template match="eyepiece">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="eyepiece</xsl:text>
 			<xsl:value-of select="@id"/>
 			<xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
 			<xsl:if test="count(maxFocalLength)>0">
-
 				<b>Zoom eyepiece: </b>
-
 			</xsl:if>
-
 			<xsl:if test="count(maxFocalLength)=0">
-
 				<b>Eyepiece: </b>
-
 			</xsl:if>			
 			<xsl:value-of select="model"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
@@ -512,11 +425,8 @@
 			<tr>
 				<td>Focal length:</td>
 				<td>
-
 					<xsl:value-of select="focalLength"/>
-
 					<xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> mm									
-
 				</td>
 			</tr>
 			<xsl:if test="count(apparentFOV)>0">
@@ -532,134 +442,68 @@
 		</table>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-
-
 	<xsl:template match="lens">
-
 		<p>
-
 			<xsl:text disable-output-escaping="yes">&lt;a name="lens</xsl:text>
-
 			<xsl:value-of select="@id"/>
-
 			<xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-
 			<b>Lens: </b>
-
 			<xsl:value-of select="model"/>
-
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-
 		</p>
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-
 			<xsl:if test="count(vendor)>0">
-
 				<tr>
-
 					<td>Vendor:</td>
-
 					<td>
-
 						<xsl:value-of select="vendor"/>
-
 					</td>
-
 				</tr>
-
 			</xsl:if>
-
 			<tr>
-
 				<td>Focal length factor:</td>
-
 				<td>
-
 					<xsl:value-of select="factor"/> mm</td>
-
 			</tr>
-
 		</table>
-
 		<xsl:call-template name="linkTop"/>
-
 	</xsl:template>	
-
 	
-
 	
-
 	<xsl:template match="imager">
-
 		<p>
-
 			<xsl:text disable-output-escaping="yes">&lt;a name="imager</xsl:text>
-
 			<xsl:value-of select="@id"/>
-
 			<xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-
 			<xsl:if test="count(pixelsX)>0">
-
 				<b>CCD Camera: </b>
-
 			</xsl:if>
-
 			<xsl:if test="count(pixelsX)=0">
-
 				<b>Camera: </b>
-
 			</xsl:if>			
-
 			<xsl:value-of select="model"/>
-
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-
 		</p>
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-
 			<xsl:if test="count(vendor)>0">
-
 				<tr>
-
 					<td>Vendor:</td>
-
 					<td>
-
 						<xsl:value-of select="vendor"/>
-
 					</td>
-
 				</tr>
-
 			</xsl:if>
-
 			<xsl:if test="count(pixelsX)>0">
-
 				<tr>
-
 					<td>Pixel:</td>
-
 					<td>
-
 						<xsl:value-of select="pixelsX"/>x<xsl:value-of select="pixelsY"/>
-
 					</td>
-
 				</tr>
-
 			</xsl:if>
-
 		</table>
-
 		<xsl:call-template name="linkTop"/>
-
 	</xsl:template>		
-
-
-
 	<xsl:template match="filter">
 		<p>
 			<xsl:text disable-output-escaping="yes">&lt;a name="filter</xsl:text>
@@ -669,8 +513,6 @@
 			<xsl:value-of select="model"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
-
-
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
 			<xsl:if test="count(type)>0">
 				<tr>
@@ -736,8 +578,6 @@
 		</table>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-
-
 	<xsl:template match="result">
 		<ul>
 			<xsl:if test="string-length(description)>0">
@@ -763,8 +603,6 @@
 								<xsl:when test="rating = '7'">Almost no stars at the given position</xsl:when>
 							</xsl:choose>
 						</xsl:when>
-
-
 						<xsl:when test="contains(./@type,'findingsDeepSkyDSType')">
 							<!-- Double stars -->
 							<xsl:choose>
@@ -773,8 +611,6 @@
 								<xsl:when test="rating = '3'">Doublestar couldn't be resolved</xsl:when>
 							</xsl:choose>
 						</xsl:when>
-
-
 						<xsl:otherwise>
 							<!-- other objecttype -->
 							<xsl:choose>
@@ -789,27 +625,19 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</li>
-
-
 				<xsl:if test="./@stellar='true'">
 					<li>Appears stellar<br/>
 					</li>
 				</xsl:if>
-
-
 				<xsl:if test="./@resolved='true'">
 					<li>Appears resolved<br/>
 					</li>
 				</xsl:if>
-
-
 				<xsl:if test="./@mottled='true'">
 					<li>Appears mottled<br/>
 					</li>
 				</xsl:if>
-
 				
-
 				<xsl:if test="count(smallDiameter)>0 and count(largeDiameter)>0">
 					<li>Apparent size: <xsl:call-template name="angle">
 							<xsl:with-param name="angle" select="smallDiameter"/>
@@ -851,9 +679,6 @@
 			</xsl:if>			
 		</ul>
 	</xsl:template>
-
-
-
 	<xsl:template match="image">
         <xsl:param name="imgFile" select="."/>
         <xsl:param name="imgTag" select="concat('img src=&quot;', $imgFile, '&quot;')"/>
@@ -861,12 +686,7 @@
 	    <br/><xsl:value-of select="$imgFile"/>
 	    </p>
 	    
-
     </xsl:template>
-
-
-
-
     <xsl:output method="html"/>
 	<!-- resolve references  -->
 	<xsl:key name="sessionKey" match="sessions/session" use="@id"/>
@@ -876,12 +696,8 @@
 	<xsl:key name="scopeKey" match="scopes/scope" use="@id"/>
 	<xsl:key name="eyepieceKey" match="eyepieces/eyepiece" use="@id"/>
 	<xsl:key name="lensKey" match="lenses/lens" use="@id"/>
-
 	<xsl:key name="imagerKey" match="imagers/imager" use="@id"/>
-
 	<xsl:key name="filterKey" match="filters/filter" use="@id"/>
-
-
 	<xsl:template match="/">
 		<HTML>
 			<HEAD>
@@ -893,74 +709,45 @@
 					<h3>Observations</h3>
 					<a name="obslist"/>
 					<xsl:apply-templates select="//observation"/>
-
 					<h3>References</h3>
-
 					<xsl:for-each select="//sessions/session">
 						<xsl:sort select="begin"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
-
 					<xsl:for-each select="//observers/observer">
 						<xsl:sort select="name"/>
 						<xsl:sort select="surname"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
-
-
 					<xsl:for-each select="//sites/site">
 						<xsl:sort select="name"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
-
-
 					<xsl:for-each select="//scopes/scope">
 						<xsl:sort select="model"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
-
-
 					<xsl:for-each select="//eyepieces/eyepiece">
 						<xsl:sort select="focalLength"/>
 						<xsl:sort select="model"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
 			
-
 					<xsl:for-each select="//lenses/lens">
-
 						<xsl:sort select="factor"/>
-
 						<xsl:sort select="model"/>
-
 						<xsl:apply-templates select="."/>
-
 					</xsl:for-each>
-
-
-
 					<xsl:for-each select="//filters/filter">
-
 						<xsl:sort select="model"/>
-
 						<xsl:sort select="type"/>
-
 						<xsl:apply-templates select="."/>
-
 					</xsl:for-each>
-
-
-
 					<xsl:for-each select="//imagers/imager">
-
 						<xsl:sort select="model"/>
-
 						<xsl:sort select="type"/>
-
 						<xsl:apply-templates select="."/>
-
 					</xsl:for-each>										
-
 					<script type="text/javascript">
 						<xsl:text disable-output-escaping="yes">
                   &#60;!--
@@ -972,10 +759,6 @@
 			</BODY>
 		</HTML>
 	</xsl:template>
-
-
-
-
 	<xsl:template match="observation">
 		<xsl:apply-templates select="key('targetKey', target)"/>
 		
@@ -996,7 +779,6 @@
 								<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 							</td>
 						</tr>
-
 						<xsl:if test="count(site) = 1">
 							<tr>
 								<td>Site</td>
@@ -1009,7 +791,6 @@
 								</td>
 							</tr>
 						</xsl:if>
-
 						<tr>
 							<td>
 								<xsl:choose>
@@ -1029,7 +810,6 @@
 								</tr>
 							</xsl:if>
 						</tr>
-
 						<xsl:if test="count(faintestStar) = 1">
 							<tr>
 								<td>Faintest star</td>
@@ -1037,7 +817,6 @@
 									<xsl:value-of select="faintestStar"/> mag</td>
 							</tr>
 						</xsl:if>
-
 						<xsl:if test="count(seeing) = 1">
 							<tr>
 								<td>Seeing</td>
@@ -1053,8 +832,6 @@
 								</td>
 							</tr>
 						</xsl:if>
-
-
 						<xsl:if test="count(scope) = 1">
 							<tr>
 								<td>Optics</td>
@@ -1067,7 +844,6 @@
 								</td>
 							</tr>
 						</xsl:if>
-
 						<xsl:if test="count(eyepiece) = 1 or count(magnification) = 1">
 							<tr>
 								<td>Eyepiece</td>
@@ -1097,11 +873,9 @@
 											</xsl:choose>
 										</xsl:otherwise>
 									</xsl:choose>
-
 								</td>
 							</tr>
 						</xsl:if>				
-
 						<xsl:if test="count(filter) = 1">
 							<tr>
 								<td>Filter</td>
@@ -1129,60 +903,30 @@
 								</td>
 							</tr>
 						</xsl:if>
-
-
 						<xsl:if test="count(lens) = 1">
-
 							<tr>
-
 								<td>Lens</td>
-
 								<td>
-
 									<xsl:text disable-output-escaping="yes">&lt;a href="#lens</xsl:text>
-
 									<xsl:value-of select="lens"/>
-
 									<xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-
 									<xsl:value-of select="key('lensKey', lens)/model"/>
-
 									<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-
 								</td>
-
 							</tr>
-
 						</xsl:if>
-
-
-
 						<xsl:if test="count(imager) = 1">
-
 							<tr>
-
 								<td>Camera</td>
-
 								<td>
-
 									<xsl:text disable-output-escaping="yes">&lt;a href="#imager</xsl:text>
-
 									<xsl:value-of select="imager"/>
-
 									<xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-
 									<xsl:value-of select="key('imagerKey', imager)/model"/>
-
 									<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-
 								</td>
-
 							</tr>
-
 						</xsl:if>
-
-
-
 						<xsl:if test="count(session) = 1">
 							<tr>
 								<td>Session</td>
@@ -1195,8 +939,6 @@
 						</xsl:if>
 					</table>
 				</td>
-
-
 				<td width="100%" valign="top" bgcolor="#EEEEEE">
 					<h5>Visual impression</h5>
 					<p>
@@ -1210,13 +952,9 @@
 				</td>
 			</tr>
 		</table>
-
-
 		<xsl:for-each select="image">
 			<xsl:apply-templates select="."/>
 		</xsl:for-each>
-
-
 		<hr/>
 	</xsl:template>
 	<xsl:template name="linkTop">
@@ -1225,7 +963,4 @@
 		<hr/>
 	</xsl:template>
 	
-
 </xsl:stylesheet>
-
-
