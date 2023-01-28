@@ -1457,10 +1457,8 @@ public class Observation extends SchemaElement implements IObservation {
         OffsetDateTime sessionEnd = session.getEnd();
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart.toZonedDateTime()),
-                    toMillisString(sessionEnd.toZonedDateTime()));
-            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin.toZonedDateTime()),
-                    toMillisString(this.end.toZonedDateTime()));
+            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
+            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin), toMillisString(this.end));
         }
 
         // Check if start date of observation is equal or later then session start
@@ -1500,11 +1498,11 @@ public class Observation extends SchemaElement implements IObservation {
 
     }
 
-    private String toMillisString(ZonedDateTime date) {
+    private String toMillisString(OffsetDateTime date) {
         if (date == null) {
             return "";
         }
-        return String.valueOf(date.toInstant().toEpochMilli());
+        return String.valueOf(date.toZonedDateTime().toInstant().toEpochMilli());
     }
 
     /**
