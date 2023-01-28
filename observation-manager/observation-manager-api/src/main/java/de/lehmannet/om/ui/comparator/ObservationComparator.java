@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.comparator;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.Comparator;
 
 import de.lehmannet.om.IObservation;
