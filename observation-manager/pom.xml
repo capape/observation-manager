@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <artifactId>observation-manager</artifactId>
     <groupId>de.lehmannet.om</groupId>
-    <version>1.6.0-RC6</version>
+    <version> 1.6.0-RC7</version>
 
     <scm>
         <connection>scm:git:git@github.com:capape/observation-manager.git</connection>
@@ -44,7 +44,7 @@
 
         <disruptor.version>3.4.4</disruptor.version>
         <junit.version>4.13.2</junit.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <log4j2.version>2.19.0</log4j2.version>
 
         <!-- maven plugin versions -->
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>

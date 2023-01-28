@@ -1,6 +1,8 @@
 package de.lehmannet.om.mapper;
 
 import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -400,7 +402,7 @@ public class ObservationMapper {
         return null;
     }
 
-    public static ZonedDateTime getOptionalEndDate(Element observationElement) throws SchemaException {
+    public static OffsetDateTime getOptionalEndDate(Element observationElement) throws SchemaException {
 
         NodeList children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_END);
 
@@ -411,7 +413,7 @@ public class ObservationMapper {
             } else {
                 String ISO8601End = child.getFirstChild().getNodeValue();
                 try {
-                    return ZonedDateTime.parse(ISO8601End);
+                    return ZonedDateTime.parse(ISO8601End).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException("End date is malformed. ", nfe);
@@ -499,7 +501,7 @@ public class ObservationMapper {
         }
     }
 
-    public static ZonedDateTime getMandatoryBeginDate(Element observationElement) throws SchemaException {
+    public static OffsetDateTime getMandatoryBeginDate(Element observationElement) throws SchemaException {
 
         // Get mandatory begin date
         NodeList children = observationElement.getElementsByTagName(IObservation.XML_ELEMENT_BEGIN);
@@ -517,7 +519,7 @@ public class ObservationMapper {
                 throw new SchemaException("Begin date is empty. ");
             }
             try {
-                return ZonedDateTime.parse(ISO8601Begin);
+                return ZonedDateTime.parse(ISO8601Begin).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);

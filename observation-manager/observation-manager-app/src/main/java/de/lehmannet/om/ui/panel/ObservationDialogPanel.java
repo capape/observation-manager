@@ -19,16 +19,15 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 import javax.swing.JButton;
@@ -150,6 +149,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private JTextField begin = null;
     private ZonedDateTime beginDate = null;
+    private OffsetDateTime offSetBeginDate = null;
     private JButton beginPicker = null;
     private TimeContainer beginTime = null;
     private JButton beginNow = null;
@@ -169,6 +169,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private final ObservationManagerModel model;
     private final TextManager textManager;
     private final UIDataCache cache;
+
+    private OffsetDateTime offSetEndDate;
 
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
@@ -340,14 +342,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        // ZoneOffset offset = this.beginDate.getOffset();
-        // @formatter:off
-        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
-                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
-        // @formatter:on
+        this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
+        this.offSetBeginDate = this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
-        this.observation.setBegin(this.beginDate);
+        this.observation.setBegin(this.offSetBeginDate);
         this.cache.putDate(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
 
         // Set optional fields
@@ -357,18 +355,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
-            // @formatter:off
-            this.endDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
-            // @formatter:on
+            this.endDate = createDateTimeInUTC(this.endDate, this.endTime);
+            this.offSetEndDate = this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
             if (this.endDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
             }
             this.cache.putDate(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
-            this.observation.setEnd(this.endDate);
+            this.observation.setEnd(this.offSetEndDate);
         } else {
             this.observation.setEnd(null);
         }
@@ -524,9 +519,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         }
 
-        this.beginDate = ZonedDateTime.of(this.beginDate.getYear(), this.beginDate.getMonthValue(),
-                this.beginDate.getDayOfMonth(), this.beginTime.getHour(), this.beginTime.getMinutes(),
-                this.beginTime.getSeconds(), 0, ZoneId.systemDefault());
+        this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
 
         this.observation = new Observation(this.beginDate, target, observer, finding);
 
@@ -542,17 +535,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_ENDDATE); // Reset cache
         if (this.endDate != null) {
 
-            final ZonedDateTime newEndDate = ZonedDateTime.of(this.endDate.getYear(), this.endDate.getMonthValue(),
-                    this.endDate.getDayOfMonth(), this.endTime.getHour(), this.endTime.getMinutes(),
-                    this.endTime.getSeconds(), 0, ZoneId.systemDefault());
-
+            final ZonedDateTime newEndDate = createDateTimeInUTC(this.endDate, this.endTime);
             if (newEndDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
                 return null;
             }
 
             this.endDate = newEndDate;
-            this.observation.setEnd(this.endDate);
+            this.observation.setEnd(this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
             this.cache.putDate(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
         } else {
             this.observation.setEnd(null);
@@ -906,7 +896,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         }
                     }
 
-                    this.beginDate = session.getBegin();
+                    this.beginDate = session.getBegin().toZonedDateTime();
                     this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
@@ -1071,7 +1061,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Load mandatory stuff
 
-        this.beginDate = this.observation.getBegin().withZoneSameInstant(ZoneId.systemDefault());
+        this.beginDate = this.observation.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
         this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
         this.beginPicker.setEnabled(this.isEditable());
 
@@ -1089,7 +1079,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.setFindingPanel(this.observation.getTarget());
 
         // Load optional stuff
-        this.endDate = this.observation.getEnd().withZoneSameInstant(ZoneId.systemDefault());
+        if (this.observation.getEnd() != null) {
+            this.endDate = this.observation.getEnd().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
+        }
         if (this.endDate != null) {
             this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
@@ -1994,6 +1986,16 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.seeing.setSelectedItem(emptyItem);
 
         // this.seeing.setPrototypeDisplayValue("WWWWWWWWWWWWWWWWWWWW");
+
+    }
+
+    private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
+
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
+                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
+                ZoneId.systemDefault());
+
+        return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
 
     }
 

@@ -7,10 +7,10 @@
 
 package de.lehmannet.om;
 
-import org.w3c.dom.Element;
-
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
+
+import org.w3c.dom.Element;
 
 /**
  * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>
@@ -151,7 +151,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return The start date of the observation
      */
-    ZonedDateTime getBegin();
+    OffsetDateTime getBegin();
 
     /**
      * Returns the end date of the observation.<br>
@@ -159,7 +159,7 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
-    ZonedDateTime getEnd();
+    OffsetDateTime getEnd();
 
     /**
      * Returns the accessories used for this observation.<br>
@@ -418,7 +418,7 @@ public interface IObservation extends ISchemaElement {
      * @throws IllegalArgumentException
      *             if new begin date is <code>null</code>
      */
-    void setBegin(ZonedDateTime begin) throws IllegalArgumentException;
+    void setBegin(OffsetDateTime begin) throws IllegalArgumentException;
 
     /**
      * Sets the end date of the observation.<br>
@@ -427,7 +427,7 @@ public interface IObservation extends ISchemaElement {
      * @param end
      *            The end date of the observation
      */
-    void setEnd(ZonedDateTime end);
+    void setEnd(OffsetDateTime end);
 
     /**
      * Sets the eyepiece of the observation.<br>

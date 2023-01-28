@@ -169,81 +169,103 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         if (source instanceof JButton) {
             JButton sourceButton = (JButton) source;
             if (sourceButton.equals(this.selectCoObservers)) {
-                this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager, this.model,
-                        AbstractPanel.bundle.getString("dialog.coObserver.title"), null, this.coObserversList, true,
-                        SchemaElementConstants.OBSERVER);
-                List<ISchemaElement> selected = new ArrayList<>();
-                if (this.coObsSelector.getAllSelectedElements() != null) {
-                    selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements()); // Create new list
-                                                                                             // instance,
-                                                                                             // as
-                                                                                             // otherwise the clear()
-                                                                                             // below, will
-                                                                                             // clear selection
-                }
-                this.coObserversList.clear(); // Remove entries first
-                List<IObserver> result = selected.stream().map(x -> {
-                    return (IObserver) x;
-                }).collect(Collectors.toList());
-
-                this.fillCoObserverTextField(result);
+                setCoObservers();
             } else if (sourceButton.equals(this.beginPicker)) {
-                DatePicker dp = null;
-                if (this.beginDate != null) {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.beginDate,
-                            this.observationManager.getDateManager());
-                } else {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.start"),
-                            this.observationManager.getDateManager());
-                }
-                this.beginDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
-                        .withSecond(this.beginTime.getSeconds());
-                this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+                selectBeginDate();
             } else if (sourceButton.equals(this.endPicker)) {
-                DatePicker dp = null;
-                if (this.endDate != null) {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.endDate,
-                            this.observationManager.getDateManager());
-                } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"), this.beginDate,
-                            this.observationManager.getDateManager());
-                } else {
-                    dp = new DatePicker(this.observationManager,
-                            AbstractPanel.bundle.getString("panel.session.datePicker.end"),
-                            this.observationManager.getDateManager());
-                }
-                this.endDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
-                        .withSecond(this.beginTime.getSeconds());
-                this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
-
+                selectEndDate();
             } else if (source.equals(this.endNow)) {
-
-                this.endDate = ZonedDateTime.now();
-                this.endTime.setTime(endDate.getHour(), endDate.getMinute(), endDate.getSecond());
-                this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+                setEndDateToNow();
             } else if (source.equals(this.beginNow)) {
-
-                this.beginDate = ZonedDateTime.now();
-                this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
-                this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+                setBeginDateToNow();
             } else if (sourceButton.equals(this.newSite)) {
-                SiteDialog dialog = new SiteDialog(this.observationManager, null);
-                this.siteBox.addItem(dialog.getSite());
+                setSite();
             } else if (sourceButton.equals(this.newCoObservers)) {
-                ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
-                if (dialog.getObserver() != null) { // Maybe no observer was created
-                    this.addCoObserverToTextfield(dialog.getObserver().getDisplayName());
-                    this.coObserversList.add(dialog.getObserver());
-                }
+                setObservers();
             } else if (sourceButton.equals(this.newImage)) {
                 this.addNewImages();
             }
         }
 
+    }
+
+    private void setSite() {
+        SiteDialog dialog = new SiteDialog(this.observationManager, null);
+        this.siteBox.addItem(dialog.getSite());
+    }
+
+    private void setCoObservers() {
+        this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager, this.model,
+                AbstractPanel.bundle.getString("dialog.coObserver.title"), null, this.coObserversList, true,
+                SchemaElementConstants.OBSERVER);
+        List<ISchemaElement> selected = new ArrayList<>();
+        if (this.coObsSelector.getAllSelectedElements() != null) {
+            selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements()); // Create new list
+                                                                                     // instance,
+                                                                                     // as
+                                                                                     // otherwise the clear()
+                                                                                     // below, will
+                                                                                     // clear selection
+        }
+        this.coObserversList.clear(); // Remove entries first
+        List<IObserver> result = selected.stream().map(x -> {
+            return (IObserver) x;
+        }).collect(Collectors.toList());
+
+        this.fillCoObserverTextField(result);
+    }
+
+    private void setObservers() {
+        ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
+        if (dialog.getObserver() != null) { // Maybe no observer was created
+            this.addCoObserverToTextfield(dialog.getObserver().getDisplayName());
+            this.coObserversList.add(dialog.getObserver());
+        }
+    }
+
+    private void setBeginDateToNow() {
+        this.beginDate = ZonedDateTime.now();
+        this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
+        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+    }
+
+    private void setEndDateToNow() {
+        this.endDate = ZonedDateTime.now();
+        this.endTime.setTime(endDate.getHour(), endDate.getMinute(), endDate.getSecond());
+        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+    }
+
+    private void selectEndDate() {
+        DatePicker dp = null;
+        if (this.endDate != null) {
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.endDate, this.observationManager.getDateManager());
+        } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.beginDate, this.observationManager.getDateManager());
+        } else {
+            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.observationManager.getDateManager());
+        }
+        this.endDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
+                .withSecond(this.beginTime.getSeconds());
+        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+    }
+
+    private void selectBeginDate() {
+        DatePicker dp = null;
+        if (this.beginDate != null) {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.beginDate,
+                    this.observationManager.getDateManager());
+        } else {
+            dp = new DatePicker(this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.start"),
+                    this.observationManager.getDateManager());
+        }
+        this.beginDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
+                .withSecond(this.beginTime.getSeconds());
+        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
     }
 
     @Override
@@ -255,13 +277,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private void loadSchemaElement() {
 
-        this.beginDate = this.session.getBegin().withZoneSameInstant(ZoneId.systemDefault());
+        this.beginDate = this.session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
         this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
-        this.endDate = this.session.getEnd().withZoneSameInstant(ZoneId.systemDefault());
+        this.endDate = this.session.getEnd().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
         this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
         this.end.setEditable(this.isEditable());
@@ -331,15 +353,15 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         // Set site's timezone (make sure that timezone is set in ms)
         this.session.setSite(site);
 
-        this.endDate = this.createZonedDateTime(this.endDate, this.endTime);
-        this.beginDate = this.createZonedDateTime(this.beginDate, this.beginTime);
+        this.endDate = this.createDateTimeInUTC(this.endDate, this.endTime);
+        this.beginDate = this.createDateTimeInUTC(this.beginDate, this.beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
             return null;
         }
-        this.session.setEnd(this.endDate);
-        this.session.setBegin(this.beginDate);
+        this.session.setEnd(this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
+        this.session.setBegin(this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
 
         // Set optional elements
         String weather = this.weather.getText();
@@ -369,10 +391,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     }
 
-    private ZonedDateTime createZonedDateTime(ZonedDateTime date, TimeContainer timeContainer) {
+    private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        return ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), timeContainer.getHour(),
-                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
+                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
+                ZoneId.systemDefault());
+
+        return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
 
     }
 
@@ -406,8 +431,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
 
-        this.endDate = createZonedDateTime(endDate, endTime);
-        this.beginDate = createZonedDateTime(beginDate, beginTime);
+        this.endDate = createDateTimeInUTC(endDate, endTime);
+        this.beginDate = createDateTimeInUTC(beginDate, beginTime);
 
         if (this.endDate.isBefore(this.beginDate)) {
             this.createWarning(AbstractPanel.bundle.getString("panel.session.warning.endBeforeStart"));
@@ -415,7 +440,9 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         // Create session
-        this.session = new Session(this.observationManager.getDateManager(), beginDate, endDate, site);
+        this.session = new Session(this.observationManager.getDateManager(),
+                this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
+                this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(), site);
 
         // Set optional elements
         String weather = this.weather.getText();

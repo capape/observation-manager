@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 import de.lehmannet.om.IObservation;
@@ -106,7 +107,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         switch (columnIndex) {
         case 0: {
-            c = ZonedDateTime.class;
+            c = OffsetDateTime.class;
             break;
         }
         case 1: {

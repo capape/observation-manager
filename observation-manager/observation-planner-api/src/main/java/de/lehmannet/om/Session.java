@@ -8,6 +8,8 @@
 package de.lehmannet.om;
 
 import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,10 +41,10 @@ public class Session extends SchemaElement implements ISession {
     // ------------------
 
     // Start date of session
-    private ZonedDateTime begin = ZonedDateTime.now();
+    private OffsetDateTime begin = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
     // End date of session
-    private ZonedDateTime end = ZonedDateTime.now();
+    private OffsetDateTime end = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
     // Site where session took place
     private ISite site = null;
@@ -307,13 +309,13 @@ public class Session extends SchemaElement implements ISession {
             throw new SchemaException("Session must have exact one end date. ");
         }
         Element child = (Element) children.item(0);
-        ZonedDateTime end = null;
+        OffsetDateTime end = null;
         if (child == null) {
             throw new SchemaException("Session must have end date. ");
         } else {
             String ISO8601End = child.getFirstChild().getNodeValue();
             try {
-                end = ZonedDateTime.parse(ISO8601End);
+                end = ZonedDateTime.parse(ISO8601End).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
                 this.setEnd(end);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("End date is malformed. ", nfe);
@@ -328,7 +330,7 @@ public class Session extends SchemaElement implements ISession {
             throw new SchemaException("Session must have exact one begin date. ");
         }
         Element child = (Element) children.item(0);
-        ZonedDateTime begin = null;
+        OffsetDateTime begin = null;
         if (child == null) {
             throw new SchemaException("Session must have begin date. ");
         } else {
@@ -339,7 +341,7 @@ public class Session extends SchemaElement implements ISession {
                 throw new SchemaException("Session cannot have an empty begin date. ");
             }
             try {
-                begin = ZonedDateTime.parse(ISO8601Begin);
+                begin = ZonedDateTime.parse(ISO8601Begin).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
                 this.setBegin(begin);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);
@@ -360,7 +362,7 @@ public class Session extends SchemaElement implements ISession {
      * @throws IllegalArgumentException
      *             if site, begin or end date is <code>null</code>
      */
-    public Session(DateManager dateManager, ZonedDateTime begin, ZonedDateTime end, ISite site)
+    public Session(DateManager dateManager, OffsetDateTime begin, OffsetDateTime end, ISite site)
             throws IllegalArgumentException {
 
         this.dateManager = dateManager;
@@ -387,8 +389,8 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public String getDisplayName() {
 
-        return this.dateManager.zonedDateTimeToStringWithHour(this.getBegin()) + " - "
-                + this.dateManager.zonedDateTimeToStringWithHour(this.getEnd());
+        return this.dateManager.zonedDateTimeToStringWithHour(this.getBegin().toZonedDateTime()) + " - "
+                + this.dateManager.zonedDateTimeToStringWithHour(this.getEnd().toZonedDateTime());
 
     }
 
@@ -686,7 +688,7 @@ public class Session extends SchemaElement implements ISession {
      * @return Returns the start date of the session
      */
     @Override
-    public ZonedDateTime getBegin() {
+    public OffsetDateTime getBegin() {
 
         return begin;
 
@@ -711,7 +713,7 @@ public class Session extends SchemaElement implements ISession {
      * @return Returns the end date of the session
      */
     @Override
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
 
         return end;
 
@@ -802,7 +804,7 @@ public class Session extends SchemaElement implements ISession {
      *             if new start date is <code>null</code>
      */
     @Override
-    public void setBegin(ZonedDateTime begin) throws IllegalArgumentException {
+    public void setBegin(OffsetDateTime begin) throws IllegalArgumentException {
 
         if (begin == null) {
             throw new IllegalArgumentException("Start date cannot be null. ");
@@ -841,7 +843,7 @@ public class Session extends SchemaElement implements ISession {
      *             if new end date is <code>null</code>
      */
     @Override
-    public void setEnd(ZonedDateTime end) throws IllegalArgumentException {
+    public void setEnd(OffsetDateTime end) throws IllegalArgumentException {
 
         if (end == null) {
             throw new IllegalArgumentException("End date cannot be null. ");

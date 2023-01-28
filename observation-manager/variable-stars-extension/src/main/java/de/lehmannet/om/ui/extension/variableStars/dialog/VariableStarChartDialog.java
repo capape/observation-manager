@@ -316,12 +316,13 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         String fromDateLabel = this.bundle.getString("chart.label.from");
         String toDateLabel = this.bundle.getString("chart.label.to");
         String fromDateJD = "JD: "
-                + DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin());
-        String fromDate = this.dateManager
-                .zonedDateTimeToStringWithSeconds(((IObservation) (this.observations.first())).getBegin());
-        String toDateJD = "" + DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin());
-        String toDate = this.dateManager
-                .zonedDateTimeToStringWithSeconds(((IObservation) (this.observations.last())).getBegin());
+                + DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin().toZonedDateTime());
+        String fromDate = this.dateManager.zonedDateTimeToStringWithSeconds(
+                ((IObservation) (this.observations.first())).getBegin().toZonedDateTime());
+        String toDateJD = ""
+                + DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin().toZonedDateTime());
+        String toDate = this.dateManager.zonedDateTimeToStringWithSeconds(
+                ((IObservation) (this.observations.last())).getBegin().toZonedDateTime());
 
         // ---- Print large box as border
         this.g2d.drawRect(0, 0, (int) this.getSize().getWidth(), BORDER_TOP - 10);
@@ -468,9 +469,10 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
                 String sign = dataSpot.getResult().isMagnitudeFainterThan() ? "<" : "";
                 String[] info = new String[] { (sign + dataSpot.getResult().getMagnitude() + "mag"),
-                        ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin())),
-                        (this.bundle.getString("chart.popup.date") + ": " + this.dateManager
-                                .zonedDateTimeToStringWithHour(dataSpot.getObservation().getBegin())) };
+                        ("JD: " + DateConverter.toJulianDate(dataSpot.getObservation().getBegin().toZonedDateTime())),
+                        (this.bundle.getString("chart.popup.date") + ": "
+                                + this.dateManager.zonedDateTimeToStringWithHour(
+                                        dataSpot.getObservation().getBegin().toZonedDateTime())) };
 
                 // Get largest popup text
                 String maxInfoString = "";
@@ -530,8 +532,8 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
             // Set color for painting
             g2d.setPaint((Color) this.colorMap.get(current.getObserver()));
 
-            currentValueXPos = (float) (((DateConverter.toJulianDate(current.getBegin()) - this.minXValue)
-                    / this.xDivisor) * this.xAxisSegmentSize) - (CIRCLE_DIAMETER / 2);
+            currentValueXPos = (float) (((DateConverter.toJulianDate(current.getBegin().toZonedDateTime())
+                    - this.minXValue) / this.xDivisor) * this.xAxisSegmentSize) - (CIRCLE_DIAMETER / 2);
             currentValueYPos = (((this.maxYValue - ((FindingVariableStar) (current.getResults().get(0))).getMagnitude())
                     / this.yDivisor) * -this.yAxisSegmentSize * 10) - (CIRCLE_DIAMETER / 2);
 
@@ -762,13 +764,15 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
 
     private float getMaxX() {
 
-        return (float) Math.ceil(DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin()));
+        return (float) Math.ceil(
+                DateConverter.toJulianDate(((IObservation) (this.observations.last())).getBegin().toZonedDateTime()));
 
     }
 
     private float getMinX() {
 
-        return (float) Math.floor(DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin()));
+        return (float) Math.floor(
+                DateConverter.toJulianDate(((IObservation) (this.observations.first())).getBegin().toZonedDateTime()));
 
     }
 

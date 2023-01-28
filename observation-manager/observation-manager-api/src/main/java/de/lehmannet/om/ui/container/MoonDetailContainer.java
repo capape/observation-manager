@@ -9,7 +9,6 @@ package de.lehmannet.om.ui.container;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -45,8 +44,7 @@ public class MoonDetailContainer extends JLabel {
 
     private IObservation observation = null;
 
-    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl(
-            "images" + File.separator + "moon");
+    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images/moon");
 
     public MoonDetailContainer(IObservation obs) {
 
@@ -70,7 +68,7 @@ public class MoonDetailContainer extends JLabel {
             return;
         }
 
-        ZonedDateTime date = this.observation.getBegin();
+        ZonedDateTime date = this.observation.getBegin().toZonedDateTime();
 
         String path = "";
         if (Ephemerides.isMoonAboveHorizon(date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {

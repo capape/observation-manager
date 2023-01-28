@@ -15,10 +15,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -42,7 +42,7 @@ public class DatePicker extends JDialog {
     private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
-    private final JButton[] fields = new JButton[37];
+    private final JButton[] fields = new JButton[38];
     private final DateManager dateManager;
 
     private JLabel monthYearLabel = null;
@@ -100,6 +100,9 @@ public class DatePicker extends JDialog {
 
         this.timeZone = timeZone;
         this.date = date;
+        this.day = date.getDayOfMonth();
+        this.month = date.getMonthValue();
+        this.year = date.getYear();
         this.initDialog();
         this.setDates();
 

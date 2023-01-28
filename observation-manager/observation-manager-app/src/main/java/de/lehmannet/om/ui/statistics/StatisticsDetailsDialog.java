@@ -522,7 +522,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                cr.setText(this.om.getDateManager().zonedDateTimeToStringWithHour(o.getBegin()));
+                cr.setText(this.om.getDateManager().zonedDateTimeToStringWithHour(o.getBegin().toZonedDateTime()));
             }
 
             if (isSelected) {

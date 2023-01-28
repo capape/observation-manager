@@ -204,7 +204,7 @@ public class AAVSOVisualSerializer implements ISerializer {
 
     private String writeObservation(OutputStream stream, IObservation currentObservation) throws IOException {
         // Get observation julian date and write it into stream
-        String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin());
+        String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin().toZonedDateTime());
         stream.write(obsDate.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         return obsDate;

@@ -118,7 +118,7 @@ public class ObservationItemPanel extends AbstractPanel {
         df.setDecimalFormatSymbols(dfs);
 
         // Load mandatory stuff
-        ZonedDateTime begin = observation.getBegin();
+        ZonedDateTime begin = observation.getBegin().toZonedDateTime();
         this.begin.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
         this.begin.setToolTipText("JD: " + DateConverter.toJulianDate(begin));
@@ -136,9 +136,10 @@ public class ObservationItemPanel extends AbstractPanel {
         // Load optional stuff
 
         if (observation.getEnd() != null) {
-            this.end.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(observation.getEnd()));
+            this.end.setText(
+                    this.om.getDateManager().zonedDateTimeToStringWithSeconds(observation.getEnd().toZonedDateTime()));
             this.end.setCaretPosition(0);
-            this.end.setToolTipText("JD: " + DateConverter.toJulianDate(observation.getEnd()));
+            this.end.setToolTipText("JD: " + DateConverter.toJulianDate(observation.getEnd().toZonedDateTime()));
         }
 
         float fs = observation.getFaintestStar();
@@ -547,13 +548,13 @@ public class ObservationItemPanel extends AbstractPanel {
             EquPosition pos = this.observation.getTarget().getPosition();
             if (pos == null) { // Try to calculate position
                 pos = Ephemerides.getPosition(Ephemerides.planetKey(this.observation.getTarget().getName()),
-                        this.observation.getBegin());
+                        this.observation.getBegin().toZonedDateTime());
             }
             if ((pos != null) && (this.observation.getSite() != null)) {
                 ConstraintsBuilder.buildConstraints(constraints, 7, 6, 1, 2, 1, 1);
                 constraints.fill = GridBagConstraints.BOTH;
                 constraints.anchor = GridBagConstraints.EAST;
-                HorizontalSkymap skyMap = new HorizontalSkymap(pos, this.observation.getBegin(),
+                HorizontalSkymap skyMap = new HorizontalSkymap(pos, this.observation.getBegin().toZonedDateTime(),
                         this.observation.getSite());
                 skyMap.setHorizontalAlignment(SwingConstants.RIGHT);
                 gridbag.setConstraints(skyMap, constraints);
