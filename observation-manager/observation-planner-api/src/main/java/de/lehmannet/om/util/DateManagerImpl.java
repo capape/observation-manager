@@ -108,7 +108,7 @@ public class DateManagerImpl implements DateManager {
         if (date == null) {
             return StringUtils.EMPTY;
         }
-        
+
         return zonedDateTimeToString(date.toZonedDateTime());
     }
 
@@ -117,7 +117,7 @@ public class DateManagerImpl implements DateManager {
         if (date == null) {
             return StringUtils.EMPTY;
         }
-        
+
         return zonedDateTimeToStringWithHour(date.toZonedDateTime());
     }
 
@@ -126,7 +126,7 @@ public class DateManagerImpl implements DateManager {
         if (date == null) {
             return StringUtils.EMPTY;
         }
-        
+
         return zonedDateTimeToStringWithSeconds(date.toZonedDateTime());
     }
 

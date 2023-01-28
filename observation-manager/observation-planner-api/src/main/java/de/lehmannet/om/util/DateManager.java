@@ -55,7 +55,7 @@ public interface DateManager {
      */
     String calendarToStringWithSeconds(Calendar calendar);
 
-   /**
+    /**
      * 
      * @param date
      * 
@@ -78,7 +78,6 @@ public interface DateManager {
      * @return the date formatted or empty string in current zone
      */
     String offsetDateTimeToStringWithSeconds(OffsetDateTime date);
-
 
     /**
      * 
