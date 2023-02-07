@@ -1,5 +1,0 @@
-Voc\ufffd sabia que o versionamento do Observation Manager consiste 
-de duas partes? A primeira parte (ex.: 0.6) representa a vers\ufffdo 
-principal do Observation Manager. A segunda parte (ex.: 16)  
-indica a vers\ufffdo do schema OAL em uso, que \ufffd utilizada para 
-persistir seus dados no formato padr\ufffdo XML.  

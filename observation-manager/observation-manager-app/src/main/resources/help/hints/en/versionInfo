@@ -1,5 +1,0 @@
-Did you know that Observation Managers version consists of 
-two parts? The first part (e.g. 0.6) represents the 
-Observation Manager main version. The second part (e.g. 16)  
-indicates the used OAL schema version, which is used to 
-persist your data in a standardized XML format. 

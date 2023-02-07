@@ -168,6 +168,7 @@ public class Observation extends SchemaElement implements IObservation {
         this.setBegin(ObservationMapper.getMandatoryBeginDate(observationElement));
         this.setTarget(ObservationMapper.getMandatoryTarget(targets, observationElement));
         this.setObserver(ObservationMapper.getMandatoryObserver(observers, observationElement));
+        this.setResults(ObservationMapper.getOptionalResults(this.getTarget(), observationElement));
         this.setEnd(ObservationMapper.getOptionalEndDate(observationElement));
         this.setSite(ObservationMapper.getOptionalSite(sites, observationElement));
         this.setScope(ObservationMapper.getOptionalScope(scopes, observationElement));
@@ -1010,10 +1011,10 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public boolean setResults(List<IFinding> results) {
 
-        if ((results == null) || (results.isEmpty())) {
-            LOGGER.error("Result list cannot be null or empty. ");
-            throw new IllegalArgumentException("Result list cannot be null or empty. ");
-        }
+        /*
+         * if ((results == null) || (results.isEmpty())) { LOGGER.error("Result list cannot be null or empty. "); throw
+         * new IllegalArgumentException("Result list cannot be null or empty. "); }
+         */
 
         this.results = results;
         return true;

@@ -120,7 +120,7 @@ public class DeepSkyFinding extends Finding {
     // Constructors ------------------------------------------------------
     // ------------
 
-    DeepSkyFinding(Node findingElement) throws SchemaException {
+    public DeepSkyFinding(Node findingElement) throws SchemaException {
 
         super(findingElement);
 

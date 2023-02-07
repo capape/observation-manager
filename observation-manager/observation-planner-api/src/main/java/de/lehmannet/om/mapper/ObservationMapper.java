@@ -425,12 +425,12 @@ public class ObservationMapper {
         return null;
     }
 
-    public static List<IFinding> getMandatoryResult(Element observationElement, ITarget target) throws SchemaException {
+    public static List<IFinding> getOptionalResults(ITarget target, Element observationElement) throws SchemaException {
 
         // Get mandatory result
         NodeList children = observationElement.getElementsByTagName(IFinding.XML_ELEMENT_FINDING);
         if (children.getLength() == 0) {
-            throw new SchemaException("Observation must have one or more results. ");
+            return new ArrayList<>();
         }
         IFinding[] results = new IFinding[children.getLength()];
         for (int j = 0; j < children.getLength(); j++) {
