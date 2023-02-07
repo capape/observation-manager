@@ -1011,10 +1011,10 @@ public class Observation extends SchemaElement implements IObservation {
     @Override
     public boolean setResults(List<IFinding> results) {
 
-        /*if ((results == null) || (results.isEmpty())) {
-            LOGGER.error("Result list cannot be null or empty. ");
-            throw new IllegalArgumentException("Result list cannot be null or empty. ");
-        }*/
+        /*
+         * if ((results == null) || (results.isEmpty())) { LOGGER.error("Result list cannot be null or empty. "); throw
+         * new IllegalArgumentException("Result list cannot be null or empty. "); }
+         */
 
         this.results = results;
         return true;
