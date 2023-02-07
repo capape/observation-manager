@@ -425,7 +425,8 @@ public class ObservationMapper {
         return null;
     }
 
-    public static List<IFinding> getMandatoryResult(Element observationElement, ITarget target) throws SchemaException {
+    public static List<IFinding> getMandatoryResults(ITarget target, Element observationElement)
+            throws SchemaException {
 
         // Get mandatory result
         NodeList children = observationElement.getElementsByTagName(IFinding.XML_ELEMENT_FINDING);

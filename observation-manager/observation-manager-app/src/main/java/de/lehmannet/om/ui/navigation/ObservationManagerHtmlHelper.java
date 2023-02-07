@@ -119,7 +119,7 @@ public class ObservationManagerHtmlHelper {
             }
 
             private StreamSource getXslStreamSource(final File xslFile) {
-                
+
                 File xsl = (xslFile == null) ? ObservationManagerHtmlHelper.this.getXSLFile() : xslFile;
 
                 StreamSource xslSource;
@@ -127,13 +127,14 @@ public class ObservationManagerHtmlHelper {
                 if (xsl == null) { // Cannot load XSL file. Error message was
                                    // already given
 
-                    /* returnValue = Worker.RETURN_TYPE_ERROR;
-                       message = textManager.getString("error.transformation");
-                       return;*/
-                   
-                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource("xsl/oal2html/transform_en.xsl");
-                    xslSource = new StreamSource(resource.toExternalForm());
+                    /*
+                     * returnValue = Worker.RETURN_TYPE_ERROR; message = textManager.getString("error.transformation");
+                     * return;
+                     */
 
+                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader()
+                            .getResource("xsl/oal2html/transform_en.xsl");
+                    xslSource = new StreamSource(resource.toExternalForm());
 
                 } else {
                     xslSource = new StreamSource(xsl);

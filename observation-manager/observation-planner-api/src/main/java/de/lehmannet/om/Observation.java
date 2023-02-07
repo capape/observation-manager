@@ -168,6 +168,7 @@ public class Observation extends SchemaElement implements IObservation {
         this.setBegin(ObservationMapper.getMandatoryBeginDate(observationElement));
         this.setTarget(ObservationMapper.getMandatoryTarget(targets, observationElement));
         this.setObserver(ObservationMapper.getMandatoryObserver(observers, observationElement));
+        this.setResults(ObservationMapper.getMandatoryResults(this.getTarget(), observationElement));
         this.setEnd(ObservationMapper.getOptionalEndDate(observationElement));
         this.setSite(ObservationMapper.getOptionalSite(sites, observationElement));
         this.setScope(ObservationMapper.getOptionalScope(scopes, observationElement));
