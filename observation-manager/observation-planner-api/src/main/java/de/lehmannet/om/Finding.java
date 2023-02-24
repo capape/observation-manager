@@ -80,7 +80,9 @@ public abstract class Finding extends SchemaElement implements IFinding {
                     }
                     this.setDescription(description.toString());
                 } else {
-                    throw new SchemaException("Finding must have a description. ");
+
+                    this.setDescription("");
+                    
                 }
             }
 
