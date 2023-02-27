@@ -82,7 +82,7 @@ public abstract class Finding extends SchemaElement implements IFinding {
                 } else {
 
                     this.setDescription("");
-                    
+
                 }
             }
 
