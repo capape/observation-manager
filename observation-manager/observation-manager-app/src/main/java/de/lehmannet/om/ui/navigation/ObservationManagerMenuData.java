@@ -147,7 +147,7 @@ public final class ObservationManagerMenuData {
 
         ObservationDialog dialog = null;
         while (dialog == null || dialog.isCreateAdditionalObservation()) {
-            dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null);
+            dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null, this.uiCache);
             this.model.add(dialog.getObservation());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
             // won't appear on UI)

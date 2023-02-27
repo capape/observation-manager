@@ -260,10 +260,11 @@ class PopupMenuHandler implements ActionListener {
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
                     ObservationDialog dialog = new ObservationDialog(this.observationManager, this.model,
-                            this.textManager, (IObservation) this.element);
+                            this.textManager, (IObservation) this.element, this.cache);
                     // Create new observation
                     while (dialog == null || dialog.isCreateAdditionalObservation()) {
-                        dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null);
+                        dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
+                                this.cache);
                         this.observationManager.update(dialog.getObservation());
                     }
                 } else if (element instanceof ITarget) {
@@ -306,7 +307,8 @@ class PopupMenuHandler implements ActionListener {
                 case OBSERVATION: {
                     ObservationDialog dialog = null;
                     while (dialog == null || dialog.isCreateAdditionalObservation()) {
-                        dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null);
+                        dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
+                                this.cache);
                         this.observationManager.update(dialog.getObservation());
                     }
                     break;
@@ -370,8 +372,8 @@ class PopupMenuHandler implements ActionListener {
             } else if (source.equals(this.createNewObservation)) {
                 ObservationDialog dialog = null;
                 while (dialog == null || dialog.isCreateAdditionalObservation()) {
-                    dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
-                            element);
+                    dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null, element,
+                            this.cache);
                     this.observationManager.update(dialog.getObservation());
                 }
             }
