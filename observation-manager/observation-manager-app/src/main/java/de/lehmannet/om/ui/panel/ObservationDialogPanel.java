@@ -1991,9 +1991,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
-                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
-                ZoneId.systemDefault());
+        // Ensure time zone is default.
+        ZonedDateTime dateInDefaultZone = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(dateInDefaultZone.getYear(),
+                dateInDefaultZone.getMonthValue(), dateInDefaultZone.getDayOfMonth(), timeContainer.getHour(),
+                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
 
