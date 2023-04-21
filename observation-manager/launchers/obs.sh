@@ -7,4 +7,4 @@ DIR=`dirname "$0"`
 cd $DIR
 
 # Starting up Observation Manager
-java -Dextensions.dir="$DIR"/extensions -cp classpath:classpath/observation-manager-jar-with-dependencies.jar de.lehmannet.om.ObservationManagerApp
+java -Dfile.encoding=UTF-8 -Dextensions.dir="$DIR"/extensions -cp classpath:classpath/observation-manager-jar-with-dependencies.jar de.lehmannet.om.ObservationManagerApp
