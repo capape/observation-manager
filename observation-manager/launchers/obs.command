@@ -8,4 +8,3 @@ cd $DIR
 
 # Starting up Observation Manager
 java -Dfile.encoding=UTF-8 -Dextensions.dir="$DIR"/extensions -cp classpath:classpath/observation-manager-jar-with-dependencies.jar de.lehmannet.om.ObservationManagerApp
-git a
