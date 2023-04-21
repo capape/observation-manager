@@ -896,7 +896,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         }
                     }
                     
-                    this.beginDate = session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());;
+                    this.beginDate = session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
                     this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
@@ -1886,7 +1886,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Set new begin date to last observation end date
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
-            this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE);
+            this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE).withZoneSameInstant(ZoneId.systemDefault());
 
             this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
@@ -1916,7 +1916,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
             // Set end date to last observation end date +10 minutes
-            this.endDate = this.cache.getDate(CACHEKEY_ENDDATE);
+            this.endDate = this.cache.getDate(CACHEKEY_ENDDATE).withZoneSameInstant(ZoneId.systemDefault());
             this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
             this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
