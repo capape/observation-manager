@@ -1,6 +1,6 @@
 /* ====================================================================
  * /panel/ObservationDialogPanel.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -116,6 +116,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private static final String CACHEKEY_SEEING = "ObservationDialogPanel.seeing";
     private static final String CACHEKEY_ACCESSORIES = "ObservationDialogPanel.accessories";
     public static final String CACHEKEY_LASTIMAGEDIR = "ObservationDialogPanel.lastImageDir";
+    public static final long OBSERVATION_DURATION_MINUTES = 10L;
 
     private ObservationManager observationManager = null;
     private IObservation observation = null;
@@ -896,15 +897,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         }
                     }
 
-                    this.beginDate = session.getBegin().toZonedDateTime();
+                    this.beginDate = session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
                     this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(beginDate));
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
                     // Check whether enddate/time should be autom. set
                     if (Boolean.parseBoolean(this.observationManager.getConfiguration()
                             .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
-                        this.endDate = this.beginDate.plusMinutes(10L); // Add 10 minutes, as end date should be after
-                                                                        // begin date
+                        this.endDate = this.beginDate.plusMinutes(OBSERVATION_DURATION_MINUTES); // Add 10 minutes, as
+                                                                                                 // end date should be
+                                                                                                 // after
+                        // begin date
                         this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(endDate));
                         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(),
                                 this.endDate.getSecond());
@@ -1886,8 +1889,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Set new begin date to last observation end date
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
-            this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE);
-
+            this.beginDate = this.cache.getDate(CACHEKEY_ENDDATE).withZoneSameInstant(ZoneId.systemDefault());
             this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             this.beginPicker.setEnabled(this.isEditable());
             this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
@@ -1916,8 +1918,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         if (this.cache.getDate(CACHEKEY_ENDDATE) != null) {
             // Set end date to last observation end date +10 minutes
-            this.endDate = this.cache.getDate(CACHEKEY_ENDDATE);
-            this.endDate = this.endDate.plus(10, ChronoUnit.MINUTES);
+            this.endDate = this.cache.getDate(CACHEKEY_ENDDATE).withZoneSameInstant(ZoneId.systemDefault());
+            this.endDate = this.endDate.plus(OBSERVATION_DURATION_MINUTES, ChronoUnit.MINUTES);
             this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             this.endPicker.setEnabled(this.isEditable());
             this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
@@ -1991,9 +1993,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
-                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
-                ZoneId.systemDefault());
+        // Ensure time zone is default.
+        ZonedDateTime dateInDefaultZone = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(dateInDefaultZone.getYear(),
+                dateInDefaultZone.getMonthValue(), dateInDefaultZone.getDayOfMonth(), timeContainer.getHour(),
+                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
 

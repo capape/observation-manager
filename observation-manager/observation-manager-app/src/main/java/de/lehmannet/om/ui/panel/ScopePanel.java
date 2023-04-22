@@ -1,6 +1,6 @@
 /* ====================================================================
  * /panel/ScopePanel.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -79,6 +79,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         if (!Float.isNaN(fl)) {
             this.focalLength.setText("" + fl);
         }
+        this.focalLength.setText(String.valueOf(fl));
         this.focalLength.setEditable(this.isEditable());
 
         this.aperture.setText(String.valueOf(this.scope.getAperture()));
@@ -481,23 +482,16 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
         LfocalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(LfocalLength, constraints);
+
         // Only show focal length in creation mode, or focal length is set
-        if ((this.isEditable()) // Edit mode -> Show focal length
-                || !(Float.isNaN(this.scope.getFocalLength())) // Display mode -> Only show when set
-        ) {
-            this.add(LfocalLength);
-        }
+        this.add(LfocalLength);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 45, 1);
         this.focalLength = new JTextField(6);
         this.focalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(this.focalLength, constraints);
         // Only show focal length in creation mode, or focal length is set
-        if ((this.isEditable()) // Edit mode -> Show focal length
-                || !(Float.isNaN(this.scope.getFocalLength())) // Display mode -> Only show when set
-        ) {
-            this.add(this.focalLength);
-        }
+        this.add(this.focalLength);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 5, 1);
         OMLabel Ltype = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.type"), false);

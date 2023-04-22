@@ -1,6 +1,6 @@
 /* ====================================================================
  * /IScope.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -13,9 +13,9 @@ import org.w3c.dom.Element;
  * An IScope describes an optical instrument which can be used for astronomical observations.<br>
  * An IScope must have an aperture and a model name, as well as either a magnification <b>or</b> a focalLength.
  * (magnification should be set if the optical instrument does not allow to change eyepieces).<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public interface IScope extends ISchemaElement, IEquipment {
@@ -149,10 +149,10 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Adds this Scope to a given parent XML DOM Element. The Scope element will be set as a child element of the passed
      * element.
-     * 
+     *
      * @param parent
      *            The parent element for this Scope
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -172,18 +172,18 @@ public interface IScope extends ISchemaElement, IEquipment {
      * <b>&lt;/scope&gt;</b><br>
      * <b>&lt;/scopeContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the scope link is created
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional scope link, and the scope element under the
      *         scope container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -197,13 +197,13 @@ public interface IScope extends ISchemaElement, IEquipment {
      * <b>&lt;scopeLink&gt;123&lt;/observerLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the scope link is created
-     * 
+     *
      * @return Returns the Element given as parameter with a additional scope link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
@@ -211,7 +211,7 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Returns the aperture of the scope.<br>
      * The aperture can be any positive float value.
-     * 
+     *
      * @return Returns the aperture of the scope
      */
     float getAperture();
@@ -220,7 +220,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the focal length of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the focal length is not set for this scope. In that case
      * the magnification must return a value.
-     * 
+     *
      * @return Returns the focal length of the scope, or Float.NaN if the value does not suit this scope
      */
     float getFocalLength();
@@ -229,7 +229,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the light grasp value of the scope.<br>
      * Allowed values are between 0.0 and 1.0 (including 0.0 and 1.0)<br>
      * This value might return <code>Float.NaN</code> in case the light grasp was never set.
-     * 
+     *
      * @return Returns the light grasp value of the scope, or Float.NaN if the value was never set.
      */
     float getLightGrasp();
@@ -238,14 +238,14 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the magnification of the scope.<br>
      * This value might return <code>Float.NaN</code> in case the magnification is not set for this scope. In that case
      * the focal length must return a value.
-     * 
+     *
      * @return Returns the magnification of the scope, or Float.NaN if the value does not suit this scope
      */
     float getMagnification();
 
     /**
      * Returns the scopes model name.<br>
-     * 
+     *
      * @return Returns the model name of the scope
      */
     String getModel();
@@ -262,9 +262,9 @@ public interface IScope extends ISchemaElement, IEquipment {
      * R: Refractor<br>
      * M: Maksutov<br>
      * <br>
-     * 
+     *
      * This method might return <code>null</code> if the type was never set.
-     * 
+     *
      * @return Returns the scope type, or <code>null</code> if the type was never set.
      */
     String getType();
@@ -272,7 +272,7 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Returns the true field of view, if set.<br>
      * Might return <code>NULL</code> as the field is optional only if magnification is set.
-     * 
+     *
      * @return Returns the true field of view of the scope, or <code>NULL</code> if the value was never set.
      */
     Angle getTrueFieldOfView();
@@ -281,16 +281,16 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Returns the scope's vendor name.<br>
      * E.g. Celestron, TeleVue, Meade, Vixen...<br>
      * This method might return <code>null</code> if the vendor was never set.
-     * 
+     *
      * @return Returns the scope's vendor name, or <code>null</code> if the type was never set.
      */
     String getVendor();
 
     /**
      * Returns the scopes picture vertical orientation.
-     * 
+     *
      * @return <b>true</b> if the scopes picture is errected
-     * 
+     *
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -298,9 +298,9 @@ public interface IScope extends ISchemaElement, IEquipment {
 
     /**
      * Returns the scopes picture horizontal orientation.
-     * 
+     *
      * @return <b>true</b> if the scopes picture is truesided
-     * 
+     *
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -308,10 +308,10 @@ public interface IScope extends ISchemaElement, IEquipment {
 
     /**
      * Sets the true field of view, if magnification is given.<br>
-     * 
+     *
      * @param tfov
      *            The true field of view of the scope
-     * 
+     *
      * @throws IllegalArgumentException
      *             if focal length is set.
      */
@@ -320,10 +320,10 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Sets the aperture of the scope.<br>
      * The aperture must be a positive float value.
-     * 
+     *
      * @param aperture
      *            The new aperture of the scope
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given aperture is smaller or equal 0.0 or if the aperture is Float.NaN
      */
@@ -335,10 +335,10 @@ public interface IScope extends ISchemaElement, IEquipment {
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
      * magnification must be set. Also if the new focal Length is smaller or equal 0.0 a IllegalArgumentException is
      * thrown.
-     * 
+     *
      * @param focalLength
      *            The new focal length of the scope
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given focal length is smaller or equal 0.0 or if the new focal length is Float.NaN while
      *             magnification is also Float.NaN. Or magnification is already set.
@@ -348,7 +348,7 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Sets the light grasp value of the scope.<br>
      * The light grasp must be a positive float value between 0.0 and 1.0 (including 0.0 and 1.0).
-     * 
+     *
      * @param lightGrasp
      *            The new light grasp value of the scope
      */
@@ -359,10 +359,10 @@ public interface IScope extends ISchemaElement, IEquipment {
      * Throws IllegalArgumentException if the given parameter is Float.NaN and focal length is not set. This mechanism
      * should prevent that both values contain an invalid value at the same time. Either focal length <b>or</b>
      * magnification must be set.
-     * 
+     *
      * @param magnification
      *            The new magnification value of the scope
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given focal length is Float.NaN while focal length is not set. Or focal length is already set.
      */
@@ -371,10 +371,10 @@ public interface IScope extends ISchemaElement, IEquipment {
     /**
      * Sets the model name of the scope.<br>
      * The model name cannot be <code>null</code>.
-     * 
+     *
      * @param model
      *            The new model name of the scope
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given model name is <code>null</code>
      */
@@ -389,7 +389,7 @@ public interface IScope extends ISchemaElement, IEquipment {
      * N: Newton K: Kutter (Schiefspiegler)<br>
      * R: Refractor M: Maksutov <br>
      * <br>
-     * 
+     *
      * @param type
      *            The new type of the scope
      */
@@ -397,7 +397,7 @@ public interface IScope extends ISchemaElement, IEquipment {
 
     /**
      * Sets the vendor name of the scope.<br>
-     * 
+     *
      * @param vendor
      *            The new vendor name of the scope
      */
@@ -405,7 +405,7 @@ public interface IScope extends ISchemaElement, IEquipment {
 
     /**
      * Sets the orientation of the scope.<br>
-     * 
+     *
      * @param errected
      *            <code>true</code> if the scope produces errected pictures
      * @param truesided

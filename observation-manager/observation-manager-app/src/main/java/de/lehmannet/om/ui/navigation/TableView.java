@@ -1,6 +1,6 @@
 /* ====================================================================
  * /navigation/TableView.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -32,6 +32,8 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -83,7 +85,7 @@ public class TableView extends JPanel {
 
     final private ObservationManager observationManager;
     private JTable table = null;
-    private AbstractSchemaTableModel abstracthSchemaTableModel = null;
+    private AbstractSchemaTableModel abstractSchemaTableModel = null;
     private JScrollPane scrollTable = null;
     private TableSorter sorter = null;
 
@@ -107,48 +109,12 @@ public class TableView extends JPanel {
 
         // this.observationManager = om;
 
-        this.abstracthSchemaTableModel = new ObservationTableModel(null, this.observationManager);
+        this.abstractSchemaTableModel = new ObservationTableModel(null, this.observationManager);
         this.sorter = new TableSorter(null);
-        this.table = new JTable(this.abstracthSchemaTableModel);
+        this.table = new JTable(this.abstractSchemaTableModel);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectionModel lsm = this.table.getSelectionModel();
-        lsm.addListSelectionListener(e -> {
-            // Ignore extra messages.
-            if (e.getValueIsAdjusting())
-                return;
-
-            ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
-            if (lsm1.isSelectionEmpty()) {
-                // no rows are selected
-            } else {
-                int selectedRow = lsm1.getMinSelectionIndex();
-                int selectedSortedRow = TableView.this.sorter.modelIndex(selectedRow);
-                ISchemaElement se = abstracthSchemaTableModel.getSchemaElement(selectedSortedRow);
-
-                // Update ItemView
-                TableView.this.updateItemView(se);
-
-                // If current selection and new selection is equal stop here
-                // Don't do this before the ItemView was updated (above) as otherwise, clicking
-                // in the
-                // TreeView won't update the ItemView.
-                // RootCause for this is the setting of the selectedElement down in the
-                // updateTable()
-                // method, which come before the rowSelectionInterval gets reset. (Chaning the
-                // sequence there
-                // causes even more trouble...:-( )
-                if ((se != null) && (se.equals(TableView.this.selectedElement))) {
-                    return;
-                }
-
-                // Update TreeView
-                if (se instanceof IObservation) {
-                    observationManager.getTreeView().setSelection(se, parentElement);
-                } else {
-                    observationManager.getTreeView().setSelection(se, null);
-                }
-            }
-        });
+        lsm.addListSelectionListener(selectionListener());
 
         this.table.setDoubleBuffered(true);
         this.setLayout(new BorderLayout());
@@ -164,7 +130,16 @@ public class TableView extends JPanel {
         this.table.setDefaultRenderer(SchemaElement.class, schemaElementRenderer());
         this.table.setDefaultRenderer(Object.class, objectRenderer());
 
-        MouseListener ml = new MouseAdapter() {
+        MouseListener ml = mouseListener();
+        this.table.addMouseListener(ml);
+
+        // Load table column settings
+        this.loadSettings();
+
+    }
+
+    private MouseAdapter mouseListener() {
+        return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
@@ -197,10 +172,52 @@ public class TableView extends JPanel {
                 }
             }
         };
-        this.table.addMouseListener(ml);
+    }
 
-        // Load table column settings
-        this.loadSettings();
+    private ListSelectionListener selectionListener() {
+
+        return new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // TODO Auto-generated method stub
+                if (e.getValueIsAdjusting())
+                    return;
+
+                ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
+                if (lsm1.isSelectionEmpty()) {
+                    // no rows are selected
+                } else {
+                    int selectedRow = lsm1.getMinSelectionIndex();
+                    int selectedSortedRow = TableView.this.sorter.modelIndex(selectedRow);
+                    ISchemaElement se = abstractSchemaTableModel.getSchemaElement(selectedSortedRow);
+
+                    // Update ItemView
+                    TableView.this.updateItemView(se);
+
+                    // If current selection and new selection is equal stop here
+                    // Don't do this before the ItemView was updated (above) as otherwise, clicking
+                    // in the
+                    // TreeView won't update the ItemView.
+                    // RootCause for this is the setting of the selectedElement down in the
+                    // updateTable()
+                    // method, which come before the rowSelectionInterval gets reset. (Chaning the
+                    // sequence there
+                    // causes even more trouble...:-( )
+                    if ((se != null) && (se.equals(TableView.this.selectedElement))) {
+                        return;
+                    }
+
+                    // Update TreeView
+                    if (se instanceof IObservation) {
+                        observationManager.getTreeView().setSelection(se, parentElement);
+                    } else {
+                        observationManager.getTreeView().setSelection(se, null);
+                    }
+                }
+            }
+
+        };
 
     }
 
@@ -412,7 +429,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ObservationTableModel(obs, this.observationManager), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -449,7 +466,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ObserverTableModel(obs), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -478,7 +495,7 @@ public class TableView extends JPanel {
             this.sorter.setTableModel(
                     new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -506,7 +523,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new SiteTableModel(sites), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -534,7 +551,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ScopeTableModel(scopes), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -562,7 +579,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new SessionTableModel(session), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -590,7 +607,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new ImagerTableModel(imager), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -618,7 +635,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new FilterTableModel(filter), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -646,7 +663,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new EyepieceTableModel(eyepiece), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -674,7 +691,7 @@ public class TableView extends JPanel {
              */
             this.sorter.setTableModel(new LensTableModel(lens), true);
             // }
-            this.abstracthSchemaTableModel = this.sorter;
+            this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
 
             this.updateTable(selected);
@@ -775,9 +792,9 @@ public class TableView extends JPanel {
         final ISchemaElement finalSelected = selected;
         SwingUtilities.invokeLater(() -> {
 
-            TableView.this.table.setModel(TableView.this.abstracthSchemaTableModel);
+            TableView.this.table.setModel(TableView.this.abstractSchemaTableModel);
 
-            int sel = TableView.this.abstracthSchemaTableModel.getRow(finalSelected);
+            int sel = TableView.this.abstractSchemaTableModel.getRow(finalSelected);
             if (TableView.this.sorter.isSorting()) {
                 sel = TableView.this.sorter.viewIndex(sel);
             }
@@ -848,7 +865,7 @@ public class TableView extends JPanel {
         if ((sorter != null) && (sorter.getTableModel() != null)) {
             currentTableModelID = sorter.getTableModel().getID();
         } else {
-            currentTableModelID = abstracthSchemaTableModel.getID();
+            currentTableModelID = abstractSchemaTableModel.getID();
         }
 
         TableColumnModel tcm = table.getColumnModel();
@@ -870,7 +887,7 @@ public class TableView extends JPanel {
         if ((sorter != null) && (sorter.getTableModel() != null)) {
             currentTableModelID = sorter.getTableModel().getID();
         } else {
-            currentTableModelID = abstracthSchemaTableModel.getID();
+            currentTableModelID = abstractSchemaTableModel.getID();
         }
 
         TableColumnModel tcm = table.getColumnModel();

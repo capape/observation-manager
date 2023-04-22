@@ -9,7 +9,7 @@ public interface IEquipment {
     // ------------------------------------------------------------------------
     /**
      * Returns <code>true</code> if this element is still available for use-<br>
-     * 
+     *
      * @return a boolean with the availability of the element
      */
     boolean isAvailable();
@@ -17,7 +17,7 @@ public interface IEquipment {
     // ------------------------------------------------------------------------
     /**
      * Sets the availability of this element.<br>
-     * 
+     *
      * @param available
      *            A boolean value indicating whether this element is still available for usage
      */

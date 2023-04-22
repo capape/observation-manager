@@ -1,6 +1,6 @@
 /* ====================================================================
  * /dialog/ObservationDialog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.cache.UIDataCacheImpl;
+import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.ObservationDialogPanel;
@@ -29,22 +29,21 @@ public class ObservationDialog extends AbstractDialog implements ActionListener 
 
     private JButton next = new JButton("Next");
     private boolean createAdditionalObservation = false;
-    // TODO
-    // private final UIDataCache uiCache;
+    private final UIDataCache uiCache;
 
     public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation) {
+            IObservation observation, UIDataCache uiCache) {
 
-        this(om, model, textManager, observation, null);
-
+        this(om, model, textManager, observation, null, uiCache);
     }
 
     public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation, ISchemaElement se) {
-        // this.uiCache = uiCache;
+            IObservation observation, ISchemaElement se, UIDataCache uiCache) {
 
-        super(om, model, om.getUiHelper(), new ObservationDialogPanel(om, model, textManager, observation, se,
-                om.getImageResolver(), new UIDataCacheImpl()));
+        super(om, model, om.getUiHelper(),
+                new ObservationDialogPanel(om, model, textManager, observation, se, om.getImageResolver(), uiCache));
+
+        this.uiCache = uiCache;
 
         if (observation == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));

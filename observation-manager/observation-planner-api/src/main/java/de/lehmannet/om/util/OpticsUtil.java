@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/OpticsUtil.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -14,9 +14,9 @@ import de.lehmannet.om.IScope;
 
 /**
  * Simple calculations on eyepieces, scopes, cameras.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.7
  */
 public class OpticsUtil {
@@ -27,7 +27,7 @@ public class OpticsUtil {
 
     /**
      * Calculates the exit pupil of a given scope eyepiece lens combination.
-     * 
+     *
      * @return The exit pupil of this scope/eyepiece combination, or Float.NaN if no magnification could be accessed or
      *         calculated
      */
@@ -49,7 +49,7 @@ public class OpticsUtil {
 
     /**
      * Calculates the exit pupil of a given scope
-     * 
+     *
      * @return The exit pupil of this scope, or Float.NaN if no magnification could be accessed
      */
     public static float getExitPupil(IScope scope) {
@@ -60,11 +60,11 @@ public class OpticsUtil {
 
     /**
      * Calculates the true field of view
-     * 
+     *
      * In case the scope has a fixed magnification and the true field of view was set, returns this true field of view
      * In case the scope has a focal length set, the eyepieces apparent field of view is divided by the magnification
      * (which is calculated (together with the eyepiece))
-     * 
+     *
      * @param scope
      *            A scope with fixed or variable magnification
      * @param peyepieceFL
@@ -73,7 +73,7 @@ public class OpticsUtil {
      *            The eyepiece used
      * @param lens
      *            Lens used (can be null)
-     * 
+     *
      * @return The true field of view or null on case it could not be calculated
      */
     public static Angle getTrueFieldOfView(IScope scope, float peyepieceFL, IEyepiece eyepiece, ILens lens) {
@@ -124,7 +124,7 @@ public class OpticsUtil {
 
     /**
      * Calculates the magnification of a eyepiece used at a given scope.
-     * 
+     *
      * @return The magnification or Float.NaN if one of both parameters was <b>NULL</b>
      */
     public static float getMagnification(IScope scope, float eyepieceFL) {
@@ -147,14 +147,14 @@ public class OpticsUtil {
 
     /**
      * Calculates the magnification of a eyepiece used at a given scope, and a used lens (barlow or focal reducer).
-     * 
+     *
      * @param scope
      *            The scope used (shouldn't have fixed magnification :-) )
      * @param eyepieceFL
      *            The eyepiece focal length used
      * @param lens
      *            The lens used (can be null if no lens was used)
-     * 
+     *
      * @return The magnification or Float.NaN if one of required parameters was <b>NULL</b>
      */
     public static float getMagnification(IScope scope, float eyepieceFL, ILens lens) {
@@ -183,14 +183,14 @@ public class OpticsUtil {
      * Calculates the actual focal length of an eyepiece used on a scope together with a lens (barlow or focal
      * reducer).<br>
      * This method is used to get the actual focal length used in case an zoom eyepiece was used for an observation.<br>
-     * 
+     *
      * @param scope
      *            The scope used (must not have fixed magnification )
      * @param lens
      *            The lens used (can be null if no lens was used)
      * @param magnification
      *            The magnification of the observation
-     * 
+     *
      * @return The actual focal length of the (zoom-)eyepiece used for that observation or Float.NaN if one of required
      *         parameters was <b>NULL</b>
      */

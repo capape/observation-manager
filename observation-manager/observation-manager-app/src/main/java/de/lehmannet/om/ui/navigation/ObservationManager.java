@@ -805,7 +805,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
                     new ObservationDialog(ObservationManager.this, ObservationManager.this.model,
-                            ObservationManager.this.textManager, (IObservation) element);
+                            ObservationManager.this.textManager, (IObservation) element,
+                            ObservationManager.this.uiCache);
                 } else if (element instanceof ITarget) {
                     final ITarget target = (ITarget) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()

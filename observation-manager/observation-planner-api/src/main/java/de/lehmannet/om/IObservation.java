@@ -1,6 +1,6 @@
 /* ====================================================================
  * /IObservation.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -19,9 +19,9 @@ import org.w3c.dom.Element;
  * Inside the XML Schema the Observation is the central entry point for accessing all other kinds of data. (See:
  * <a href="http://groups.google.com/group/openastronomylog"> XML Schema Doc</a>) Therefore the IObservation provides
  * access to almost all other XML Schema elements.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public interface IObservation extends ISchemaElement {
@@ -79,7 +79,7 @@ public interface IObservation extends ISchemaElement {
      * &lt;observation&gt; <br>
      * <i>More stuff goes here</i> &lt;sqm&gt;<code>Sky quality in magnitudes per square arcsecond</code>&lt;/sqm&gt;
      * <i>More stuff goes here</i> &lt;/observation&gt;
-     * 
+     *
      * @deprecated use XML_ELEMENT_MAGPERSQUAREARCSEC
      */
     @Deprecated
@@ -91,7 +91,7 @@ public interface IObservation extends ISchemaElement {
      * &lt;observation&gt; <br>
      * <i>More stuff goes here</i> &lt;sky-quality&gt;<code>Sky quality</code>&lt;/sky-quality&gt; <i>More stuff goes
      * here</i> &lt;/observation&gt;
-     * 
+     *
      * @since 2.0
      */
     String XML_ELEMENT_SKYQUALITY_NEW = "sky-quality";
@@ -138,17 +138,17 @@ public interface IObservation extends ISchemaElement {
      * <i>More stuff goes here</i><br>
      * &lt;/observation&gt;<br>
      * &lt;/parentElement&gt;
-     * 
+     *
      * @param parent
      *            The parent element for the IObservation implementation
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element parent);
 
     /**
      * Returns the start date of the observation.<br>
-     * 
+     *
      * @return The start date of the observation
      */
     OffsetDateTime getBegin();
@@ -156,7 +156,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the end date of the observation.<br>
      * Might return <code>null</code> if no end date was given.
-     * 
+     *
      * @return The end date of the observation or <code>null</code> if no end date was given
      */
     OffsetDateTime getEnd();
@@ -164,7 +164,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the accessories used for this observation.<br>
      * Might return <code>null</code> if no accessories have been used.
-     * 
+     *
      * @return Accessories used for this observation or <code>null</code> if no accessories were used
      */
     String getAccessories();
@@ -172,7 +172,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the eyepiece with which the observation was made.<br>
      * Might return <code>null</code> if no eyepiece was used at all.
-     * 
+     *
      * @return The eyepiece used for the observation or <code>null</code> if no eyepiece was used.
      */
     IEyepiece getEyepiece();
@@ -180,14 +180,14 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the lens with which the observation was made.<br>
      * Might return <code>null</code> if no lens was used at all.
-     * 
+     *
      * @return The lens used for the observation or <code>null</code> if no lens was used.
      */
     ILens getLens();
 
     /**
      * Returns the sky quality meter value Might return <code>null</code> if no value was set at all.
-     * 
+     *
      * @return The sky quality value, or <code>null</code> if no value was set.
      */
     SurfaceBrightness getSkyQuality();
@@ -195,9 +195,9 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the filter which was used for this observation<br>
      * Might return <code>null</code> if no filter was used at all.
-     * 
+     *
      * @return The filter used for the observation or <code>null</code> if no filter was used.
-     * 
+     *
      * @since 1.5
      */
     IFilter getFilter();
@@ -205,7 +205,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the magnitude of the faintest star that could be seen during observation time with the unaided eye. Might
      * return <code>Float.NaN</code> if no value was set at all.
-     * 
+     *
      * @return The magnitude of the faintest star as float value, or <code>Float.NaN</code> if no value was set.
      */
     float getFaintestStar();
@@ -213,7 +213,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the magnification used for this observation. Might return <code>Float.NaN</code> if no value was set at
      * all.
-     * 
+     *
      * @return The magnification or <code>Float.NaN</code> if no value was set.
      */
     float getMagnification();
@@ -221,7 +221,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns a list of images (relativ path to images), taken at this observation. Might return <code>null</code> if
      * images were set.
-     * 
+     *
      * @return List of images or <code>null</code> if no images were set.
      */
     List<String> getImages();
@@ -230,14 +230,14 @@ public interface IObservation extends ISchemaElement {
      * Returns the seeing during this observation.<br>
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
      * Might return <code>-1</code> if no value was set at all.
-     * 
+     *
      * @return A int between 1-5 representing the seeing, or <code>-1</code> if no value was set for seeing.
      */
     int getSeeing();
 
     /**
      * Returns the observer who made the observation.<br>
-     * 
+     *
      * @return The observer who made this observation.
      */
     IObserver getObserver();
@@ -245,7 +245,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns a List with one or more results of the observation.<br>
      * Every observation has at least one result.
-     * 
+     *
      * @return A List containing the results of the observation.
      */
     List<IFinding> getResults();
@@ -253,7 +253,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the scope that was used for the observation.<br>
      * Might return <code>null</code> if the observation was not made with any scope.
-     * 
+     *
      * @return The scope which was used for the observation, or <code>null</code> if no scope was used at all.
      */
     IScope getScope();
@@ -261,7 +261,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Returns the session this observation belongs to.<br>
      * Might return <code>null</code> if the observation is not part of any observation session.
-     * 
+     *
      * @return The session this observation belongs to, or <code>null</code> if the observation does not belong to any
      *         session.
      */
@@ -269,21 +269,21 @@ public interface IObservation extends ISchemaElement {
 
     /**
      * Returns the site where the observation took place.<br>
-     * 
+     *
      * @return The site of the observation.
      */
     ISite getSite();
 
     /**
      * Returns the target which was observed.<br>
-     * 
+     *
      * @return The target which was observed.
      */
     ITarget getTarget();
 
     /**
      * Returns the imager that was used for this observation.<br>
-     * 
+     *
      * @return The imager used at this observation.
      */
     IImager getImager();
@@ -294,15 +294,15 @@ public interface IObservation extends ISchemaElement {
      * addResults(java.util.List) or addResult(IFinding).<br>
      * If the passed IFinding was successfully attached to this observation, the method will return <b>true</b>. <br>
      * If the passed IFinding is <code>null</code>, an IllegalArgumentException is thrown.
-     * 
+     *
      * @param results
      *            A new result for this observation
-     * 
+     *
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IObservation#setResults(List results)
      * @see de.lehmannet.om.IFinding
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the new result is <code>null</code>
      */
@@ -315,17 +315,17 @@ public interface IObservation extends ISchemaElement {
      * If the new list of results was successfully attached to this observation, the method will return <b>true</b>. If
      * one of the elements in the list does not implement the IFinding interface <b>false</b> is returned.<br>
      * If the new list is empty or <code>null</code>, an IllegalArgumentException is thrown.
-     * 
+     *
      * @param results
      *            The new list of results for this observation
-     * 
+     *
      * @return <b>true</b> if the given list was successfully attached to this observation. <b>false</b> if one of the
      *         new result elements in the list did not implement the the IFinding interface.
-     * 
+     *
      * @see de.lehmannet.om.IObservation#addResults(java.util.List results)
      * @see de.lehmannet.om.IObservation#addResult(IFinding result)
      * @see de.lehmannet.om.IFinding
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new results list is <code>null</code> or empty
      */
@@ -337,20 +337,20 @@ public interface IObservation extends ISchemaElement {
      * to replace the old result list use setResults(java.util.List).<br>
      * If the new list of results was successfully added to the old result list, the method will return <b>true</b>. If
      * the list is empty or <code>null</code>, the old result list will remain unchanged.
-     * 
+     *
      * @param results
      *            A list with more results for this observation
-     * 
+     *
      * @return <b>true</b> if the given list was successfully added to this observations result list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
-     * 
+     *
      * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
      */
     boolean addResults(List<IFinding> results);
 
     /**
      * Adds a new result to this observation.<br>
-     * 
+     *
      * @param result
      *            A new result for this observation
      */
@@ -362,20 +362,20 @@ public interface IObservation extends ISchemaElement {
      * replace the old images list use setImages(java.util.List).<br>
      * If the new list of images was successfully added to the old images list, the method will return <b>true</b>. If
      * the list is empty or <code>null</code>, the old result list will remain unchanged.
-     * 
+     *
      * @param images
      *            A list (containing Strings) with additional images (path) for this observation
-     * 
+     *
      * @return <b>true</b> if the given list was successfully added to this observations images list. <b>false</b> if
      *         the new list could not be added and the old list remains unchanged.
-     * 
+     *
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */
     boolean addImages(List<String> images);
 
     /**
      * Adds a new image (path) to this observation.<br>
-     * 
+     *
      * @param imagePath
      *            A new image for this observation
      */
@@ -388,13 +388,13 @@ public interface IObservation extends ISchemaElement {
      * If the new list of images was successfully attached to this observation, the method will return <b>true</b>. If
      * one of the elements in the list isn't a java.lang.String object <b>false</b> is returned.<br>
      * If the new list is empty or <code>null</code>, an IllegalArgumentException is thrown.
-     * 
+     *
      * @param imagesList
      *            The new (String) list of images for this observation
-     * 
+     *
      * @see de.lehmannet.om.IObservation#addImages(java.util.List images)
      * @see de.lehmannet.om.IObservation#addImage(String image)
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new image list is <code>null</code> or empty
      */
@@ -402,7 +402,7 @@ public interface IObservation extends ISchemaElement {
 
     /**
      * Sets an imager used for this observation.<br>
-     * 
+     *
      * @param imager
      *            The imager used for this observation
      */
@@ -411,10 +411,10 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the start date of the observation.<br>
      * The start date is a mandatory field, as the end date is not.
-     * 
+     *
      * @param begin
      *            The start date of the observation
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new begin date is <code>null</code>
      */
@@ -423,7 +423,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the end date of the observation.<br>
      * The end date is an optional field, as for example old observations might not have an precise end date.
-     * 
+     *
      * @param end
      *            The end date of the observation
      */
@@ -432,7 +432,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the eyepiece of the observation.<br>
      * If there was already an eyepiece attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param eyepiece
      *            The eyepiece of the observation
      */
@@ -441,7 +441,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the lens of the observation.<br>
      * If there was already an lens attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param lens
      *            The lens of the observation
      */
@@ -450,10 +450,10 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the filter used during this observation.<br>
      * If there was already an filter attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param filter
      *            The filter used during this observation
-     * 
+     *
      * @since 1.5
      */
     void setFilter(IFilter filter);
@@ -462,7 +462,7 @@ public interface IObservation extends ISchemaElement {
      * Sets the accessories used during the observation.<br>
      * If there was already an accessories list attached to this observation, the old one will be replaced with the new
      * one.
-     * 
+     *
      * @param accessories
      *            The accessories of the observation
      */
@@ -472,7 +472,7 @@ public interface IObservation extends ISchemaElement {
      * Sets the magnitude value of the faintest star which could be seen with the unaided eye during the
      * observation.<br>
      * If there was already a value set for this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param faintestStar
      *            The faintestStar of the observation in magnitude
      */
@@ -481,7 +481,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the sky quality meter value that was determined during the observation.<br>
      * If there was already a value set for this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param sq
      *            The sky quality meter value
      */
@@ -498,7 +498,7 @@ public interface IObservation extends ISchemaElement {
      * lens (barlow) used had a focal length factor of 2x<br>
      * Magnification set here must be:<br>
      * 1114*2/10 = 222,8
-     * 
+     *
      * @param magnification
      *            The magnification used at the observation
      */
@@ -507,7 +507,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the seeing during this observation.<br>
      * Values can reach from 1 to 5, where 1 is best seeing and 5 the worst seeing.<br>
-     * 
+     *
      * @param seeing
      *            A int between 1-5 representing the seeing
      */
@@ -516,10 +516,10 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the observer of the observation.<br>
      * If there was already an observer attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param observer
      *            The observer of the observation
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new observer is <code>null</code>
      */
@@ -528,7 +528,7 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the scope of the observation.<br>
      * If there was already a scope attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param scope
      *            The scope of the observation
      */
@@ -538,10 +538,10 @@ public interface IObservation extends ISchemaElement {
      * Sets the session which this observation belongs to.<br>
      * This observations start date must be between the sessions start and end date.<br>
      * If there was already a session attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param session
      *            The session this observation belongs to
-     * 
+     *
      * @throws IllegalArgumentException
      *             if this observations start date is not between the session start and end date
      */
@@ -550,10 +550,10 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the site where this observation took place.<br>
      * If there was already a site attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param site
      *            The site this observation took place
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new site is <code>null</code>
      */
@@ -562,10 +562,10 @@ public interface IObservation extends ISchemaElement {
     /**
      * Sets the target of this observation.<br>
      * If there was already a target attached to this observation, the old one will be replaced with the new one.
-     * 
+     *
      * @param target
      *            The target of this observation
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new target is <code>null</code>
      */

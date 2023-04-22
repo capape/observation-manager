@@ -6,7 +6,7 @@ import de.lehmannet.om.ui.panel.IFindingPanel;
 public interface IFindingExtensionPanel extends IFindingPanel {
 
     /**
-     * 
+     *
      * @return name of panel
      */
     String getName();

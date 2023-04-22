@@ -1,6 +1,6 @@
 /* ====================================================================
  * /IFilter.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -13,9 +13,9 @@ import org.w3c.dom.Element;
  * An IFilter describes a optical filter used during the observation.<br>
  * This includes all kind of filters like color filters, band filter, ... <br>
  * The model name and the type are mandatory fields which have to be set.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.5
  */
 public interface IFilter extends ISchemaElement, IEquipment {
@@ -31,7 +31,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: model element name
-     * 
+     *
      * Example:<br>
      * &lt;filter&gt; <br>
      * <i>More stuff goes here</i> &lt;model&gt;<code>Model name goes here</code>&lt;/model&gt; <i>More stuff goes
@@ -41,7 +41,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: filter type element name
-     * 
+     *
      * Example:<br>
      * &lt;filter&gt; <br>
      * <i>More stuff goes here</i> &lt;type&gt;<code>Model name goes here</code>&lt;/type&gt; <i>More stuff goes
@@ -51,7 +51,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: filter vendor element name
-     * 
+     *
      * Example:<br>
      * &lt;filter&gt; <br>
      * <i>More stuff goes here</i> &lt;vendor&gt;<code>Model vendor goes here</code>&lt;/vendor&gt; <i>More stuff goes
@@ -129,10 +129,10 @@ public interface IFilter extends ISchemaElement, IEquipment {
     /**
      * Adds this Filter to a given parent XML DOM Element. The Filter element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Filter
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -152,18 +152,18 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * <b>&lt;/filter&gt;</b><br>
      * <b>&lt;/filterContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the filter link is created
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional filter link, and the filter element under the
      *         filter container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -177,20 +177,20 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * <b>&lt;filterLink&gt;123&lt;/filterLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the filter link is created
-     * 
+     *
      * @return Returns the Element given as parameter with a additional filter link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
 
     /**
      * Returns the color of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the filters color, or <code>null</code> if the color was never set (e.g.
      *         filter type is not IFilter.FILTER_TYPE_COLOR).<br>
      */
@@ -201,31 +201,31 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a IllegalArgumentException is thrown, so make
      * sure to set Filter type to color first.<br>
      * Valid color values can be retrieved from IFilter constants.<br>
-     * 
+     *
      * @param color
      *            The new color of the filter.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if filter type is not IFilter.FILTER_TYPE_COLOR, or the given color is empty <code>null</code> or
      *             does not contain a valid value.
-     * 
+     *
      * @see IFilter
      */
     void setColor(String color);
 
     /**
      * Returns the model of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the filter model.<br>
      */
     String getModel();
 
     /**
      * Sets the model name for the filter.<br>
-     * 
+     *
      * @param model
      *            The new model name to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */
@@ -233,7 +233,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Returns the schott value of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the schott value of the filter, or <code>null</code> if the value was never
      *         set.<br>
      */
@@ -241,7 +241,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Sets the schott value for the filter.<br>
-     * 
+     *
      * @param schott
      *            The new schott value to be set.
      */
@@ -249,7 +249,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Returns the filter type.<br>
-     * 
+     *
      * @return Returns a String representing the filter type.<br>
      */
     String getType();
@@ -259,20 +259,20 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * The filter type must be a value from the types defined in IFilter.<br>
      * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type is not, then the filters color is
      * reset to <code>null</code>.
-     * 
+     *
      * @param type
      *            The new filter type to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if type was empty, <code>null</code> or does not contain a valid value (see IFilter constants).
-     * 
+     *
      * @see IFilter
      */
     void setType(String type);
 
     /**
      * Returns the wratten value of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the wratten value of the filter, or <code>null</code> if the value was
      *         never set.<br>
      */
@@ -286,7 +286,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Returns the vendor name of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the vendor name of the filter, or <code>null</code> if the vendor was never
      *         set.<br>
      */
@@ -294,7 +294,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
 
     /**
      * Sets the vendor name of the filter.<br>
-     * 
+     *
      * @param vendor
      *            The new vendor name to be set.
      */

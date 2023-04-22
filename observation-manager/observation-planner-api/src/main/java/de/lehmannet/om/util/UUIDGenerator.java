@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/UUIDGenerator.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -12,9 +12,9 @@ import java.util.UUID;
 /**
  * The UUIDGenerator implements the IIDGenerator interface by using java.util.UUID, which creates universal unique IDs.
  * (Requires JRE 1.5 or higher)
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 2.0
  */
 public class UUIDGenerator implements IIDGenerator {
@@ -39,7 +39,7 @@ public class UUIDGenerator implements IIDGenerator {
     /**
      * Creates a universal unique ID that can be used to identify and link several schema elements.<br>
      * All elements inside a XML file need to have a unique ID.
-     * 
+     *
      * @return Returns a universal unique ID that can be used to identify a schema element and to link several schema
      *         elements
      */

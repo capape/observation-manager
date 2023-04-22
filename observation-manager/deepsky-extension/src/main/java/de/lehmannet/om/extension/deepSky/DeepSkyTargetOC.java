@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetOC.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -18,9 +18,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * DeepSkyTargetOC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for open clusters.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class DeepSkyTargetOC extends DeepSkyTarget {
@@ -64,13 +64,13 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -124,7 +124,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetOC.
-     * 
+     *
      * @param name
      *            The name of the open cluster
      * @param datasource
@@ -138,7 +138,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetOC.
-     * 
+     *
      * @param name
      *            The name of the open cluster
      * @param observer
@@ -157,10 +157,10 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -214,7 +214,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -230,7 +230,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Returns the amount of stars in the open cluster.
-     * 
+     *
      * @return The amount of stars in the open cluster. The returned value might be <code>-1</code> if the value was
      *         never set
      */
@@ -242,7 +242,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Returns the classification (according to Trumpler) of the open cluster.
-     * 
+     *
      * @return The classification of the open cluster (according to Trumpler) The returned value might be
      *         <code>null</code> if the value was never set
      */
@@ -254,7 +254,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Returns the magnitude of the brightest star in the open cluster.
-     * 
+     *
      * @return The magnitude of the brightest star in the open cluster. The returned value might be
      *         <code>Double.NaN</code> if the value was never set
      */
@@ -267,7 +267,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     /**
      * Sets the amount of stars in the open cluster. All passed values lower than 1 are treated as -1, which means that
      * the value was never set.
-     * 
+     *
      * @param newAmountOfStars
      *            The new amount of stars in the open cluster
      */
@@ -284,7 +284,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Sets the magnitude of the brightest star in the open cluster
-     * 
+     *
      * @param newBrightestStar
      *            The new magnitude of the birghtest star in the open cluster
      */
@@ -296,7 +296,7 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
     /**
      * Sets the cluster classification (according to Trumpler).
-     * 
+     *
      * @param newClassification
      *            The new cluster classification as String
      */

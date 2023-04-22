@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/ConfigLoader.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -21,9 +21,9 @@ import de.lehmannet.om.SchemaOalTypeInfo;
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
  * are found, it can provide easy access to the config information.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class ConfigLoader {
@@ -55,14 +55,14 @@ public class ConfigLoader {
      * If for example the type "oal:deepSkyGX" would be passed to this method, it would return the classname:
      * "de.lehmannet.om.deepSky.DeepSkyTarget". The classname may then be used to load the corresponding java class via
      * java reflection API for a given schema element.
-     * 
+     *
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
-     * 
+     *
      * @return The corresponding target java classname for the given type, or <code>null</code> if the type could not be
      *         resolved.
-     * 
+     *
      * @throws ConfigException
      *             if problems occured during load of config
      */
@@ -124,14 +124,14 @@ public class ConfigLoader {
      * If for example the type "oal:findingsDeepSky" would be passed to this method, it would return the classname:
      * "de.lehmannet.om.extension.deepSky.DeepSkyFinding". The classname may then be used to load the corresponding java
      * class via java reflection API for a given schema element.
-     * 
+     *
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
-     * 
+     *
      * @return The corresponding finding java classname for the given type, or <code>null</code> if the type could not
      *         be resolved.
-     * 
+     *
      * @throws ConfigException
      *             if problems occured during load of config
      */

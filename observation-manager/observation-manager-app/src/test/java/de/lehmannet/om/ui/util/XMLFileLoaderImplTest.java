@@ -122,9 +122,9 @@ public class XMLFileLoaderImplTest {
 
     /**
      * TODO:
-     * 
+     *
      * @Test public void addSchemaElementImager() {
-     * 
+     *
      *       emptyNewFile.addSchemaElement(element); IImager[] observers = emptyNewFile.getImagers(); assertEquals("Only
      *       one eyepiece", 1, observers.length); assertEquals("Eyepiece added", "Orion", observers[0].getModel());
      *       fail("IImager"); }
@@ -217,52 +217,52 @@ public class XMLFileLoaderImplTest {
 
     /*
      * void addSchemaElement(ISchemaElement element);
-     * 
+     *
      * void addSchemaElement(ISchemaElement element, boolean dependend);
-     * 
+     *
      * boolean save(String path);
-     * 
+     *
      * boolean saveAs(String oldPath, String newPath);
-     * 
-     * 
+     *
+     *
      * String getXMLFileForSchemaElement(ISchemaElement schemaElement);
-     * 
+     *
      * String getXMLPathForSchemaElement(ISchemaElement schemaElement);
-     * 
+     *
      * Document getDocumentForSchemaElement(ISchemaElement schemaElement);
-     * 
-     * 
+     *
+     *
      * List<ISchemaElement> removeSchemaElement(ISchemaElement element);
-     * 
+     *
      * void updateSchemaElement(ISchemaElement element);
-     * 
+     *
      * String[] getAllOpenedFiles();
-     * 
+     *
      * IObserver[] getObservers();
-     * 
+     *
      * IEyepiece[] getEyepieces();
-     * 
+     *
      * IImager[] getImagers();
-     * 
+     *
      * IFilter[] getFilters();
-     * 
+     *
      * IObservation[] getObservations();
-     * 
+     *
      * IObservation[] getObservations(ISchemaElement element);
-     * 
+     *
      * IObservation[] getCoObserverObservations(IObserver observer);
-     * 
+     *
      * IScope[] getScopes();
-     * 
+     *
      * ISession[] getSessions();
-     * 
+     *
      * ISite[] getSites();
-     * 
+     *
      * ITarget[] getTargets();
-     * 
+     *
      * ILens[] getLenses();
-     * 
+     *
      * boolean loadObservations(String xmlPath);
-     * 
+     *
      */
 }

@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetGN.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -18,9 +18,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * DeepSkyTargetGN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for galactic nebulaes.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class DeepSkyTargetGN extends DeepSkyTarget {
@@ -58,13 +58,13 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -107,7 +107,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetGN.
-     * 
+     *
      * @param name
      *            The name of the galactic nebula
      * @param datasource
@@ -121,7 +121,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetGN.
-     * 
+     *
      * @param name
      *            The name of the galactic nebula
      * @param observer
@@ -140,10 +140,10 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -189,7 +189,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -205,7 +205,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     /**
      * Returns the large axis position angle of the galactic nebula.
-     * 
+     *
      * @return The position angle of the astronomical object as integer The returned value might be <code>-1</code> if
      *         the value was never set
      */
@@ -217,7 +217,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     /**
      * Returns the nebula type. Nebular type might be something like e.g. emission, reflection, dark nebula
-     * 
+     *
      * @return The nebula type as String The returned value might be <code>null</code> if the value was never set
      */
     public String getNebulaType() {
@@ -229,7 +229,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     /**
      * Sets the large axis position angle of the galactic nebula. If the given new position angle is < 0 or > 359 the
      * position angle will be unset again.
-     * 
+     *
      * @param newPosAngle
      *            The new position angle of the galactic nebula.
      */
@@ -246,7 +246,7 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
     /**
      * Sets the nebula type. E.g. emission, reflection, dark nebula...
-     * 
+     *
      * @param newNebulaType
      *            The new nebula type
      */

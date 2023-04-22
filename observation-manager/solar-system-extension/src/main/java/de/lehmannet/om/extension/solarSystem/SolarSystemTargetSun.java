@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/solarSystem/SolarSystemTargetSun.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -16,9 +16,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * SolarSystemTargetSun extends the de.lehmannet.om.extension.solarSystem.SolarSystemTarget class. This class exists
  * more due to extension reasons as this class does not add new functions to de.lehmannet.om.Target
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.3
  */
 public class SolarSystemTargetSun extends SolarSystemTarget {
@@ -40,13 +40,13 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
      * Normally this constructor is called by a subclass which itself is called by de.lehmannet.om.util.SchemaLoader.
      * Please mind that Target has to have a <observer> element, or a <datasource> element. If a <observer> element is
      * set, a array with Observers must be passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -58,7 +58,7 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
 
     /**
      * Constructs a new instance of a SolarSystemTargetSun.<br>
-     * 
+     *
      * @param name
      *            String with the name of the target
      * @param observer
@@ -72,7 +72,7 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
 
     /**
      * Constructs a new instance of a SolarSystemTargetSun.<br>
-     * 
+     *
      * @param name
      *            String with the name of the target
      * @param datasource
@@ -93,7 +93,7 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -110,10 +110,10 @@ public class SolarSystemTargetSun extends SolarSystemTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override

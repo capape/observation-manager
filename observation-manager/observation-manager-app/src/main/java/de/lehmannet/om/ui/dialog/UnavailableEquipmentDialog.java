@@ -227,14 +227,14 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
     /*
      * private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize) {
-     * 
+     *
      * Class elementType = oldArray.getClass().getComponentType(); ISchemaElement[] newArray =
      * (ISchemaElement[])java.lang.reflect.Array.newInstance(elementType, newSize);
-     * 
+     *
      * System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
-     * 
+     *
      * return newArray;
-     * 
+     *
      * }
      */
 

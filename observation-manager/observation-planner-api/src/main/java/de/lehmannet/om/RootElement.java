@@ -1,6 +1,6 @@
 /* ====================================================================
  * /RootElement.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -54,9 +54,9 @@ import de.lehmannet.om.util.SchemaException;
  * </observers><br>
  * In this example <observers> is the container element of multiple <observer> elements.<br>
  * Also the RootElement object contains the serializeToSchema() method, that will create a schema valid XML file.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class RootElement {

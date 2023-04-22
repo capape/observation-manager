@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetCG.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -19,9 +19,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * DeepSkyTargetCG extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for clusters of galaxies.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 2.0
  */
 public class DeepSkyTargetCG extends DeepSkyTarget {
@@ -53,13 +53,13 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -85,7 +85,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetCG.
-     * 
+     *
      * @param name
      *            The name of the cluster of galaxies
      * @param datasource
@@ -99,7 +99,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetCG.
-     * 
+     *
      * @param name
      *            The name of the cluster of galaxies
      * @param observer
@@ -118,10 +118,10 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -159,7 +159,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -175,7 +175,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     /**
      * Returns the magnitude of the 10th brightest member in mag.
-     * 
+     *
      * @return The magnitude of the 10th brightest member in mag. The returned value might be <code>Float.NaN</code> if
      *         the value was never set
      */
@@ -187,7 +187,7 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
     /**
      * Sets the magnitude of the 10th brightest member in mag
-     * 
+     *
      * @param magTen
      *            The magnitude of the 10th brightest member in mag
      */

@@ -20,7 +20,7 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 
 /**
  * Model for observation manager.
- * 
+ *
  * @autor capapegil
  */
 public interface ObservationManagerModel {

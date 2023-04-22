@@ -33,7 +33,7 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
         /*
          * ISchemaElement[] result = (ISchemaElement[])this.referenceList.toArray(new ISchemaElement[] {});
          * Arrays.sort(result, new ObservationComparator());
-         * 
+         *
          * return result;
          */
         // this.referenceList.

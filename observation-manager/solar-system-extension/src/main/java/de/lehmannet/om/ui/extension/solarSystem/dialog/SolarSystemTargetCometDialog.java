@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/solarSystem/dialog/SolarSystemTargetCometDialog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
