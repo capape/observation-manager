@@ -890,6 +890,10 @@ class CacheEntry {
 
         }
 
+        for (IObservation observation : observations) {
+                updateObservation(observation);
+        }
+
     }
 
     public void updateTarget(ITarget target) {

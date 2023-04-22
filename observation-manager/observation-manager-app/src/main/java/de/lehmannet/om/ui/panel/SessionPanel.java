@@ -16,13 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.time.ZonedDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SimpleTimeZone;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -38,6 +36,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 
+import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
@@ -352,6 +351,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         // Set site's timezone (make sure that timezone is set in ms)
         this.session.setSite(site);
+        setSiteInObservations(this.model, this.session, site);
 
         this.endDate = this.createDateTimeInUTC(this.endDate, this.endTime);
         this.beginDate = this.createDateTimeInUTC(this.beginDate, this.beginTime);
@@ -389,6 +389,16 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         return this.session;
 
+    }
+
+    private void setSiteInObservations(ObservationManagerModel model, ISession session, ISite site) {
+        // Not efficient, need a full refactor
+        IObservation[] observations = model.getObservations();
+        for (IObservation observation : observations) {
+            if (session.getID().equals(observation.getSession().getID())) {
+                observation.setSite(site);                
+            }
+        }
     }
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
