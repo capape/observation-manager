@@ -126,8 +126,7 @@ public class Scope extends SchemaElement implements IScope {
         this.setID(ScopeMapper.getMandatoryID(scopeElement));
         this.setAvailability(ScopeMapper.getOptionalAvailability(scopeElement));
         this.setFocalLengthNoCheckingMagnification(ScopeMapper.getOptionalFocalLength(scopeElement));
-
-        this.setMagnificationNoCheckingFocalLength(ScopeMapper.getOptionalMagnification(scopeElement));
+        this.setMagnification(ScopeMapper.getOptionalMagnification(scopeElement));
         if (!Float.isNaN(this.getMagnification())) {
             this.setTrueFieldOfView(ScopeMapper.getOptionalTrueViewOfField(scopeElement));
         }
@@ -261,32 +260,32 @@ public class Scope extends SchemaElement implements IScope {
         buffer.append(" Aperture=");
         buffer.append(aperture);
 
+        buffer.append(" focal length=");
         if (!Float.isNaN(focalLength)) {
-            buffer.append(" focal length=");
             buffer.append(focalLength);
         }
 
+        buffer.append(" magnification=");
         if (!Float.isNaN(magnification)) {
-            buffer.append(" magnification=");
             buffer.append(magnification);
+            buffer.append(" TrueFieldOfView=");
             if (this.trueFieldOfView != null) {
-                buffer.append(" TrueFieldOfView=");
                 buffer.append(this.trueFieldOfView);
             }
         }
 
+        buffer.append(" type=");
         if (type != null) {
-            buffer.append(" type=");
             buffer.append(type);
         }
 
+        buffer.append(" vendor=");
         if (vendor != null) {
-            buffer.append(" vendor=");
             buffer.append(vendor);
         }
 
+        buffer.append(" light grasp=");
         if (!Float.isNaN(lightGrasp)) {
-            buffer.append(" light grasp=");
             buffer.append(lightGrasp);
         }
 
@@ -891,17 +890,22 @@ public class Scope extends SchemaElement implements IScope {
                     "Magnification cannot be Float.NaN while focal length is also Float.NaN. ");
         }
 
-        this.focalLength = Float.NaN;
-        this.magnification = magnification;
+        if (Float.isNaN(magnification)) {
+            this.magnification = Float.NaN;
+        } else {
+            this.focalLength = Float.NaN;
+            this.magnification = magnification;
+        }
 
     }
 
-    private void setMagnificationNoCheckingFocalLength(float magnification) throws IllegalArgumentException {
-
-        this.focalLength = Float.NaN;
-        this.magnification = magnification;
-
-    }
+    /*
+     * private void setMagnificationNoCheckingFocalLength(float magnification) throws IllegalArgumentException {
+     * 
+     * this.focalLength = Float.NaN; this.magnification = magnification;
+     * 
+     * }
+     */
 
     /**
      * Sets the true field of view, if magnification is given.<br>

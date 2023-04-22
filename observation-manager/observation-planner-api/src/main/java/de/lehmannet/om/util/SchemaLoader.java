@@ -395,7 +395,22 @@ public class SchemaLoader {
             obs.addObservation(observation);
         }
 
+        logData();
         return obs;
+
+    }
+
+    private void logData() {
+        LOGGER.debug("Observations {} ", this.observations);
+        LOGGER.debug("session {} ", this.sessions);
+        LOGGER.debug("targets {} ", this.targets);
+        LOGGER.debug("observers {} ", this.observers);
+        LOGGER.debug("sites {} ", this.sites);
+        LOGGER.debug("scopes {} ", this.scopes);
+        LOGGER.debug("eyepieces {} ", this.eyepieces);
+        LOGGER.debug("filters {} ", this.filters);
+        LOGGER.debug("lenses {} ", this.lenses);
+        LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
 
     }
 
