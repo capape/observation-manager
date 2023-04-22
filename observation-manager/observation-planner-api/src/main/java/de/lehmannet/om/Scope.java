@@ -126,7 +126,7 @@ public class Scope extends SchemaElement implements IScope {
         this.setID(ScopeMapper.getMandatoryID(scopeElement));
         this.setAvailability(ScopeMapper.getOptionalAvailability(scopeElement));
         this.setFocalLengthNoCheckingMagnification(ScopeMapper.getOptionalFocalLength(scopeElement));
-        this.setMagnification(ScopeMapper.getOptionalMagnification(scopeElement));
+        this.setMagnificationOnLoad(ScopeMapper.getOptionalMagnification(scopeElement));
         if (!Float.isNaN(this.getMagnification())) {
             this.setTrueFieldOfView(ScopeMapper.getOptionalTrueViewOfField(scopeElement));
         }
@@ -899,13 +899,20 @@ public class Scope extends SchemaElement implements IScope {
 
     }
 
-    /*
-     * private void setMagnificationNoCheckingFocalLength(float magnification) throws IllegalArgumentException {
-     *
-     * this.focalLength = Float.NaN; this.magnification = magnification;
-     *
-     * }
-     */
+    private void setMagnificationOnLoad(float magnification) throws IllegalArgumentException {
+
+        if ((Float.isNaN(magnification)) && (Float.isNaN(focalLength))) {
+            this.focalLength=1.0f;
+        }
+
+        if (Float.isNaN(magnification)) {
+            this.magnification = Float.NaN;
+        } else {
+            this.focalLength = Float.NaN;
+            this.magnification = magnification;
+        }
+
+    }
 
     /**
      * Sets the true field of view, if magnification is given.<br>
