@@ -1,6 +1,6 @@
 /* ====================================================================
  * /ISchemaElement.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -10,9 +10,9 @@ package de.lehmannet.om;
 /**
  * The ISchemaElement is the root interface for almost all astro XML schema elements. It contains only element
  * informations that are common for all (or almost all) elements.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public interface ISchemaElement {
@@ -45,7 +45,7 @@ public interface ISchemaElement {
     /**
      * Returns a unique ID of this schema element.<br>
      * The ID is used to link this element with other XML elements in the schema.
-     * 
+     *
      * @return Returns a String representing a unique ID of this schema element.
      */
     String getID();
@@ -55,9 +55,9 @@ public interface ISchemaElement {
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
-     * 
+     *
      * @see java.lang.Object.toString();
      */
     String getDisplayName();

@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/Ephemerides.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -725,7 +725,7 @@ public class Ephemerides {
 
     /*
      * public static void main(String args[]) {
-     * 
+     *
      * ZonedDateTime date = ZonedDateTime.getInstance(); date.set(ZonedDateTime.HOUR_OF_DAY, 1);
      * date.set(ZonedDateTime.DAY_OF_MONTH, 22); //date.set(ZonedDateTime.MONTH, 11); System.out.println("" + new
      * java.util.Date(date.getTimeInMillis()) + "\n" + Ephemerides.getMoonPosition(date, 0));

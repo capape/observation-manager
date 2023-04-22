@@ -1,6 +1,6 @@
 /* ====================================================================
  * /ITarget.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,9 +15,9 @@ import org.w3c.dom.Element;
  * position and some optional alias names. The optional names might be used for colloquial names of a astronomical
  * object.<br>
  * E.g. the Messier catalogue object M51 is also known as "Whirlpool Galaxy".
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
@@ -94,7 +94,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Returns true if the given object is an instance of ITarget<br>
      * and the given objects SchmemaElement.getID() returns the same string as this objects getID() method.
-     * 
+     *
      * @return Returns <b>true</b> if this Targets ID is equal to the given objects ID
      */
     boolean equalsID(Object o);
@@ -102,10 +102,10 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -125,18 +125,18 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * <b>&lt;/target&gt;</b><br>
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param xmlElementName
      *            The name of the element that contains the link
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional target link, and the target element under the
      *         target container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName, boolean addElementToContainer);
@@ -150,15 +150,15 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * <b>&lt;targetLink&gt;123&lt;/targetLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the target link is created
      * @param xmlElementName
      *            The name of the element that contains the link
-     * 
+     *
      * @return Returns the Element given as parameter with a additional target link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName);
@@ -169,10 +169,10 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * Example:<br>
      * Object name = M51<br>
      * Alias name = Whirlpool Galaxy<br>
-     * 
+     *
      * @param newAliasName
      *            A alias name of the astronomical object
-     * 
+     *
      * @return Returns <code>true</code> if the alias name could be added to the target.
      */
     boolean addAliasName(String newAliasName);
@@ -182,7 +182,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * All current aliasNames will be deleted! If you want to add alias names without deleting the existing ones, please
      * use Target.addAliasNames(String) or Target.addAliasName(String).<br>
      * If <code>null</code> is passed, the given alias names are deleted.
-     * 
+     *
      * @param newAliasNames
      *            An arry with new alias name
      */
@@ -190,10 +190,10 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Removes a alias name from the target.<br>
-     * 
+     *
      * @param aliasName
      *            The alias name that should be removed
-     * 
+     *
      * @return Returns <code>true</code> if the alias name could be removed from the target. If <code>false</code> is
      *         returned the given alias name could not be found in the targets alias name list.
      */
@@ -202,14 +202,14 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Returns the celestial constellation, where the target can be found.<br>
      * Might return <code>NULL</code> if constellation was never set
-     * 
+     *
      * @return The celestial constellation
      */
     Constellation getConstellation();
 
     /**
      * Sets the celestial constellation, where the target can be found.<br>
-     * 
+     *
      * @param constellation
      *            The celestial constellation of the target
      */
@@ -217,7 +217,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Sets the celestial constellation, where the target can be found.<br>
-     * 
+     *
      * @param constellation
      *            The celestial constellation of the target
      */
@@ -225,7 +225,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Sets the datasource of the target.<br>
-     * 
+     *
      * @param datasource
      *            The datasource of the astronomical object
      */
@@ -233,7 +233,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Sets the observer who is the originator of the target.<br>
-     * 
+     *
      * @param observer
      *            The observer who is the originator of this target
      */
@@ -241,7 +241,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Returns the observer who is the originator of the target.<br>
-     * 
+     *
      * @return The observer who is the originator of this target. Might return <code>null</code> if observer was never
      *         set. (In this case a dataSource must exist)
      */
@@ -249,7 +249,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Returns the datasource which is the origin of the target.<br>
-     * 
+     *
      * @return The datasource which is the origin of this target Might return <code>null</code> if datasource was never
      *         set. (In this case a observer must exist)
      */
@@ -257,7 +257,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
 
     /**
      * Returns all alias names.<br>
-     * 
+     *
      * @return Returns a String array with all alias names. If no alias names were set <code>null</code> is returned.
      */
     String[] getAliasNames();
@@ -265,7 +265,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Returns the name of the target.<br>
      * The name should clearly identify the astronomical object. Use alias names for colloquial names of the object.
-     * 
+     *
      * @return Returns the name of the astronomical object
      */
     String getName();
@@ -275,7 +275,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * The name should clearly identify the astronomical object. For alternative names of the object add a new alias
      * name.<br>
      * If a name is already set to the target, the old name will be overwritten with new new name.
-     * 
+     *
      * @return The name of the target
      */
     void setName(String name);
@@ -284,7 +284,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * Returns the position of the target.<br>
      * The position of the target describes the location of the astronomical object in any popular celestial
      * coordination system.
-     * 
+     *
      * @return The celestial position of the astronomical object
      */
     EquPosition getPosition();
@@ -293,7 +293,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * Sets the position of the target.<br>
      * The position of the target describes the location of the astronomical object in a popular celestial coordination
      * system.
-     * 
+     *
      * @param position
      *            The position of the astronomical object in a popular coordination system
      */
@@ -302,7 +302,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Returns additional notes of the target.<br>
      * Notes can be used for additional descriptions of the target.
-     * 
+     *
      * @return Notes on the target or <code>null</code> if no notes were set
      */
     String getNotes();
@@ -310,7 +310,7 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
     /**
      * Sets additional notes to the target.<br>
      * Additional notes can be used to add any additional textual information to the target.
-     * 
+     *
      * @param notes
      *            Additional notes
      */

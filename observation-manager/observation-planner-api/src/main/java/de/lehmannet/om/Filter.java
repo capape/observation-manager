@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Filter.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -22,9 +22,9 @@ import de.lehmannet.om.util.SchemaException;
  * observation.<br>
  * This includes all kind of filters like color filters, band filter, ... <br>
  * The model name and the type are mandatory fields which have to be set.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.5
  */
 public class Filter extends SchemaElement implements IFilter {
@@ -64,7 +64,7 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param filter
      *            The XML Schema element that represents this filter
-     * 
+     *
      * @throws IllegalArgumentException
      *             if parameter is <code>null</code>,
      * @throws SchemaException
@@ -101,7 +101,7 @@ public class Filter extends SchemaElement implements IFilter {
      *            The filter model name
      * @param type
      *            The type of the filter (use IFilter constants)
-     * 
+     *
      * @throws IllegalArgumentException
      *             if model is empty <code>null</code> or type is empty, <code>null</code> or does not represent a type
      *             value from IFilter.
@@ -125,9 +125,9 @@ public class Filter extends SchemaElement implements IFilter {
      * Filter Model: Meade Narrowband<br>
      * Type: narrow band
      * </code>
-     * 
+     *
      * @return A string representing the filter
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -162,26 +162,26 @@ public class Filter extends SchemaElement implements IFilter {
 
     /*
      * public boolean equals(Object obj) {
-     * 
+     *
      * if( obj == null || !(obj instanceof IFilter) ) { return false; }
-     * 
+     *
      * IFilter filter = (IFilter)obj;
-     * 
+     *
      * if( !(this.model.equals(filter.getModel())) ) { return false; }
-     * 
+     *
      * if( !(this.type.equals(filter.getType())) ) { return false; }
-     * 
+     *
      * if( this.color != null ) { if( !this.color.equals(filter.getColor()) ) { return false; } } else if(
      * filter.getColor() != null ) { return false; }
-     * 
+     *
      * if( this.wratten != null ) { if( !this.wratten.equals(filter.getWratten()) ) { return false; } } else if(
      * filter.getWratten() != null ) { return false; }
-     * 
+     *
      * if( this.schott != null ) { if( !this.schott.equals(filter.getSchott()) ) { return false; } } else if(
      * filter.getSchott() != null ) { return false; }
-     * 
+     *
      * return true;
-     * 
+     *
      * }
      */
 
@@ -194,9 +194,9 @@ public class Filter extends SchemaElement implements IFilter {
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
-     * 
+     *
      */
 
     @Override
@@ -218,7 +218,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns <code>true</code> if this element is still available for use-<br>
-     * 
+     *
      * @return a boolean with the availability of the element
      */
     @Override
@@ -230,7 +230,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Sets the availability of this element.<br>
-     * 
+     *
      * @param available
      *            A boolean value indicating whether this element is still available for usage
      */
@@ -248,10 +248,10 @@ public class Filter extends SchemaElement implements IFilter {
     /**
      * Adds this Filter to a given parent XML DOM Element. The Filter element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param element
      *            The parent element for this Filter
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -347,18 +347,18 @@ public class Filter extends SchemaElement implements IFilter {
      * <b>&lt;/filter&gt;</b><br>
      * <b>&lt;/filterContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the filter link is created
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional filter link, and the filter element under the
      *         filter container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -404,13 +404,13 @@ public class Filter extends SchemaElement implements IFilter {
      * <b>&lt;filterLink&gt;123&lt;/filterLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the filter link is created
-     * 
+     *
      * @return Returns the Element given as parameter with a additional filter link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -422,7 +422,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the color of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the filters color, or <code>null</code> if the color was never set (e.g.
      *         filter type is not IFilter.FILTER_TYPE_COLOR).<br>
      */
@@ -438,14 +438,14 @@ public class Filter extends SchemaElement implements IFilter {
      * In case the current filter type is not IFilter.FILTER_TYPE_COLOR a IllegalArgumentException is thrown, so make
      * sure to set Filter type to color first.<br>
      * Valid color values can be retrieved from IFilter constants.<br>
-     * 
+     *
      * @param color
      *            The new color of the filter.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if filter type is not IFilter.FILTER_TYPE_COLOR, or the given color is empty <code>null</code> or
      *             does not contain a valid value.
-     * 
+     *
      * @see IFilter
      */
     @Override
@@ -477,7 +477,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the model of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the filter model.<br>
      */
     @Override
@@ -489,10 +489,10 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Sets the model name for the filter.<br>
-     * 
+     *
      * @param model
      *            The new model name to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */
@@ -509,7 +509,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the schott value of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the schott value of the filter, or <code>null</code> if the value was never
      *         set.<br>
      */
@@ -522,7 +522,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Sets the schott value for the filter.<br>
-     * 
+     *
      * @param schott
      *            The new schott value to be set.
      */
@@ -540,7 +540,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the filter type.<br>
-     * 
+     *
      * @return Returns a String representing the filter type.<br>
      */
     @Override
@@ -555,13 +555,13 @@ public class Filter extends SchemaElement implements IFilter {
      * The filter type must be a value from the types defined in IFilter.<br>
      * If the old filter type was IFilter.FILTER_TYPE_COLOR and the new filter type is not, then the filters color is
      * reset to <code>null</code>.
-     * 
+     *
      * @param type
      *            The new filter type to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if type was empty, <code>null</code> or does not contain a valid value (see IFilter constants).
-     * 
+     *
      * @see IFilter
      */
     @Override
@@ -592,7 +592,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the wratten value of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the wratten value of the filter, or <code>null</code> if the value was
      *         never set.<br>
      */
@@ -621,7 +621,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Returns the vendor name of this filter.<br>
-     * 
+     *
      * @return Returns a String representing the vendor name of the filter, or <code>null</code> if the vendor was never
      *         set.<br>
      */
@@ -634,7 +634,7 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Sets the vendor name of the filter.<br>
-     * 
+     *
      * @param vendor
      *            The new vendor name to be set.
      */

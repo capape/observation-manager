@@ -14,9 +14,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * TargetStar extends the de.lehmannet.om.Target class.<br>
  * Its specialised for single stars.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 2.0
  */
 public class TargetStar extends Target {
@@ -54,13 +54,13 @@ public class TargetStar extends Target {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -114,9 +114,9 @@ public class TargetStar extends Target {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this TargetStar.
-     * 
+     *
      * @return This TargetStar field values
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -173,10 +173,10 @@ public class TargetStar extends Target {
     /**
      * Adds this TargetStar to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this TargetStar
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -195,7 +195,7 @@ public class TargetStar extends Target {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -212,7 +212,7 @@ public class TargetStar extends Target {
     /**
      * Returns the apparent magnitude of the star.<br>
      * Might be Float.NaN if value was never set.
-     * 
+     *
      * @return The apparent magnitude of the star or Float.NaN if value was never set
      */
     public float getMagnitudeApparent() {
@@ -235,7 +235,7 @@ public class TargetStar extends Target {
      * Returns the stellar classification of the star.<br>
      * Classification might be e.g. O,B,A,F,G,K,M or some more specific value.<br>
      * Might be <code>null</code> if value was never set.
-     * 
+     *
      * @return The stellar classification of the star
      */
     public String getStellarClassification() {
@@ -285,16 +285,16 @@ public class TargetStar extends Target {
      * <b>&lt;/target&gt;</b><br>
      * <b>&lt;/targetContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the target link is created
      * @param xsiType
      *            The XSI:Type identification of the child class
-     * 
+     *
      * @return Returns a new created target Element that contains all data from a DeepSkyTarget. Please mind, NOT the
      *         passed element is given, but a child element of the passed elements ownerDocument. Might return
      *         <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     protected Element createXmlTargetStarElement(Element element, String xsiType) {
@@ -385,14 +385,14 @@ public class TargetStar extends Target {
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this TargetStar and the given Object are equal. The given object is equal with this TargetStar, if it
      * derives from ITarget, both XSI types are equal and its name equals this TargetStar name.<br>
-     * 
+     *
      * @param obj
      *            The Object to compare this TargetStar with.
-     * 
+     *
      * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
      *         equal to this TargetStar name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
-     * 
+     *
      * @see java.lang.Object
      */
     @Override

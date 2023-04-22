@@ -1,6 +1,6 @@
 /* ====================================================================
  * /GenericTarget.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -56,9 +56,9 @@ public class GenericTarget extends Target {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this GenericTarget.
-     * 
+     *
      * @return This GenericTarget field values
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -92,14 +92,14 @@ public class GenericTarget extends Target {
      * Overwrittes equals(Object) method from java.lang.Object.<br>
      * Checks if this GenericTarget and the given Object are equal. The given object is equal with this GenericTarget,
      * if it derives from ITarget, both XSI types are equal and its name equals this GenericTarget name.<br>
-     * 
+     *
      * @param obj
      *            The Object to compare this GenericTarget with.
-     * 
+     *
      * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
      *         equal to this GenericTarget name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -137,10 +137,10 @@ public class GenericTarget extends Target {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -209,7 +209,7 @@ public class GenericTarget extends Target {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override

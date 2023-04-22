@@ -1,6 +1,6 @@
 /* ====================================================================
  * extension/deepSky/DeepSkyTargetGX.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -18,9 +18,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * DeepSkyTargetGX extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
  * Its specialised for Galaxies.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class DeepSkyTargetGX extends DeepSkyTarget {
@@ -58,13 +58,13 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -107,7 +107,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetGX.
-     * 
+     *
      * @param name
      *            The name of the galaxy
      * @param datasource
@@ -121,7 +121,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     /**
      * Constructs a new instance of a DeepSkyTargetGX.
-     * 
+     *
      * @param name
      *            The name of the galaxy
      * @param observer
@@ -140,10 +140,10 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     /**
      * Adds this Target to a given parent XML DOM Element. The Target element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -189,7 +189,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -205,7 +205,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     /**
      * Returns the large axis position angle of the galaxy.
-     * 
+     *
      * @return The large axis position angle of the astronomical object as integer The returned value might be
      *         <code>-1</code> if the value was never set
      */
@@ -217,7 +217,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     /**
      * Returns the hubble type of the galaxy.
-     * 
+     *
      * @return The hubble type of the galaxy as String The returned value might be <code>null</code> if the value was
      *         never set
      */
@@ -230,7 +230,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     /**
      * Sets the large axis position angle of the galaxy. If the given new position angle is < 0 or > 359 the position
      * angle will be unset again.
-     * 
+     *
      * @param newPosAngle
      *            The new position angle of the galaxy.
      */
@@ -247,7 +247,7 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
     /**
      * Sets the hubble type of the galaxy.
-     * 
+     *
      * @param newHubbleType
      *            The new hubble type of the galaxy as String
      */

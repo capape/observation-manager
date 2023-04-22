@@ -20,7 +20,7 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for planetary nebulaes.<br>
  *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class DeepSkyTargetPN extends DeepSkyTarget {
@@ -58,7 +58,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -120,7 +120,7 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
      *
      * @param parent
      *            The parent element for this Target
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override

@@ -13,9 +13,9 @@ import de.lehmannet.om.util.SchemaException;
 /**
  * TargetVariableStar extends the de.lehmannet.om.TargetStar class.<br>
  * Its specialised for variable stars.<br>
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 2.0
  */
 public class TargetVariableStar extends TargetStar {
@@ -60,13 +60,13 @@ public class TargetVariableStar extends TargetStar {
      * Normally this constructor is called by de.lehmannet.om.util.SchemaLoader. Please mind that Target has to have a
      * <observer> element, or a <datasource> element. If a <observer> element is set, a array with Observers must be
      * passed to check, whether the <observer> link is valid.
-     * 
+     *
      * @param observers
      *            Array of IObserver that might be linked from this observation, can be <code>NULL</code> if datasource
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     * 
+     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -152,9 +152,9 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Overwrittes toString() method from java.lang.Object.<br>
      * Returns the field values of this TargetVariableStar.
-     * 
+     *
      * @return This TargetVariableStar field values
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -189,10 +189,10 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Adds this TargetVariableStar to a given parent XML DOM Element. The TargetVariableStar element will be set as a
      * child element of the passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this TargetVariableStar
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -248,7 +248,7 @@ public class TargetVariableStar extends TargetStar {
      * Example:<br>
      * <target xsi:type="myOwnTarget"><br>
      * </target><br>
-     * 
+     *
      * @return The xsi:type value of this implementation
      */
     @Override
@@ -267,7 +267,7 @@ public class TargetVariableStar extends TargetStar {
      * To access the minimal apparent magnitude of this variable star, please use getMagnitudeApparent() (derived vom
      * de.lehmannet.om.TargetStar)<br>
      * Might be <code>Float.NaN</code> if value was never set.
-     * 
+     *
      * @return The maximal apparent magnitude
      */
     public float getMaxApparentMag() {
@@ -294,7 +294,7 @@ public class TargetVariableStar extends TargetStar {
      * A good description of variable star types can be found at the
      * <a href="http://www.aavso.org/vstar/types.shtml">AAVSO page</a><br>
      * Might be <code>null</code> if value was never set.
-     * 
+     *
      * @return The variable star classification
      */
     public String getType() {
@@ -321,7 +321,7 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Returns the period of this variable star in days.<br>
      * Might be <code>Float.NaN</code> if value was never set (or the variable star has no period)
-     * 
+     *
      * @return The period of the variable star in days
      */
     public float getPeriod() {

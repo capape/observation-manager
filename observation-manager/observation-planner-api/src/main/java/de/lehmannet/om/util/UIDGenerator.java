@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/UIDGenerator.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -12,9 +12,9 @@ import java.rmi.server.UID;
 /**
  * The UIDGenerator implements the IIDGenerator interface by using java.rmi.server.UID, which creates pretty exact
  * unique IDs.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.0
  */
 public class UIDGenerator implements IIDGenerator {
@@ -26,7 +26,7 @@ public class UIDGenerator implements IIDGenerator {
     /**
      * Creates a unique ID that can be used to identify and link several schema elements.<br>
      * All elements inside a XML file need to have a unique ID.
-     * 
+     *
      * @return Returns a unique ID that can be used to identify a schema element and to link several schema elements
      */
     @Override

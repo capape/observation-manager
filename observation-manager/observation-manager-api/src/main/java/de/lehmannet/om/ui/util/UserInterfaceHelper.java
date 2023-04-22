@@ -2,7 +2,7 @@ package de.lehmannet.om.ui.util;
 
 /**
  * Refactor to avoid dependency on ObservationManager from other modules.
- * 
+ *
  * @author Antonio Capape
  */
 public interface UserInterfaceHelper {

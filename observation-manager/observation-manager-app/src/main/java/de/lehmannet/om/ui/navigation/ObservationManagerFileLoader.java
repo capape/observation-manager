@@ -38,7 +38,7 @@ public class ObservationManagerFileLoader {
     }
 
     /**
-     * 
+     *
      * @return if empty no load has benn attempted. Other case a value indicating file and result of load.
      */
     public Optional<Pair<String, Boolean>> loadConfig() {

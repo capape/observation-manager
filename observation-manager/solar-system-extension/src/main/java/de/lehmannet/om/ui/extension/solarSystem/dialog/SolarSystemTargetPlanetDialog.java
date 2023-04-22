@@ -1,6 +1,6 @@
 /* ====================================================================
  * /extension/solarSystem/dialog/SolarSystemTargetPlanetDialog.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */

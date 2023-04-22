@@ -42,7 +42,7 @@ import de.lehmannet.om.util.SchemaException;
  * </table>
  *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.5
  */
 public class DeepSkyFindingDS extends DeepSkyFinding {
@@ -171,7 +171,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      *            The description of the finding
      * @param rating
      *            The rating of the finding
-     * 
+     *
      * @throws IllegalArgumentException
      *             if description was <code>null</code> or rating had a illegal value.
      */
@@ -190,7 +190,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Returns the field values of this DeepSkyFindingDS.
      *
      * @return This DeepSkyFindingDS field values
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -289,10 +289,10 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      *
      * @param parent
      *            The parent element for this DeepSkyFindingDS
-     * 
+     *
      * @return Returns the Element given as parameter with this DeepSkyFindingDS as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -348,7 +348,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Describes if both stars have an equal brightness.
      *
      * @return <code>true</code> if both stars have an equal brightness
-     * 
+     *
      * @throws IllegalStateException
      *             if equalBrightness was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -367,7 +367,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * Describes if the double star has a nice surrounding.
      *
      * @return <code>true</code> if the observed object has a nice surrounding.
-     * 
+     *
      * @throws IllegalStateException
      *             if niceSurrounding was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -458,7 +458,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * @param color
      *            The color value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be not set
      *            at all.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given color value is invalid
      */
@@ -486,7 +486,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
      * @param color
      *            The color value to set for this DeepSkyFindingDS or <code>NULL</code> if the value should be not set
      *            at all.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the given color value is invalid
      */

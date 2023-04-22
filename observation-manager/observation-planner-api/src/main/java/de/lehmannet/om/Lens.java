@@ -1,6 +1,6 @@
 /* ====================================================================
  * /Lens.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -21,9 +21,9 @@ import de.lehmannet.om.util.SchemaException;
  * A Lens describes a lens used to extend or reduce a focal length. Implementations of Lens can be Barlow lenses or
  * Shapley lenses depending on the given factor. The model name and the factor are mandatory fields which have to be
  * set.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.7
  */
 public class Lens extends SchemaElement implements ILens {
@@ -57,7 +57,7 @@ public class Lens extends SchemaElement implements ILens {
      *
      * @param lens
      *            The XML Schema element that represents this lens
-     * 
+     *
      * @throws IllegalArgumentException
      *             if parameter is <code>null</code>,
      * @throws SchemaException
@@ -90,7 +90,7 @@ public class Lens extends SchemaElement implements ILens {
      *            Factors > 1 represent barlow lenses<br>
      *            Factors < 1 represent shapley lenses<br>
      *            Factors <= 0 are not allowed
-     * 
+     *
      * @throws IllegalArgumentException
      *             if model is <code>null</code> or factor is Float.NaN or <= 0
      */
@@ -110,9 +110,9 @@ public class Lens extends SchemaElement implements ILens {
      * The method differs from the toString() method as toString() shows more technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
-     * 
+     *
      * @return Returns a String with a one line display name
-     * 
+     *
      * @see java.lang.Object.toString();
      */
     @Override
@@ -140,9 +140,9 @@ public class Lens extends SchemaElement implements ILens {
      * Vendor: TeleVue
      * Focal length factor: 5.0
      * </code>
-     * 
+     *
      * @return A string representing the lens
-     * 
+     *
      * @see java.lang.Object
      */
     @Override
@@ -173,7 +173,7 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Returns <code>true</code> if this element is still available for use-<br>
-     * 
+     *
      * @return a boolean with the availability of the element
      */
     @Override
@@ -185,7 +185,7 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Sets the availability of this element.<br>
-     * 
+     *
      * @param available
      *            A boolean value indicating whether this element is still available for usage
      */
@@ -203,10 +203,10 @@ public class Lens extends SchemaElement implements ILens {
     /**
      * Adds this Lens to a given parent XML DOM Element. The Lens element will be set as a child element of the passed
      * element.
-     * 
+     *
      * @param parent
      *            The parent element for this Lens
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -281,18 +281,18 @@ public class Lens extends SchemaElement implements ILens {
      * <b>&lt;/lens&gt;</b><br>
      * <b>&lt;/lensContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the lens link is created
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional lens link, and the lens element under the lens
      *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -338,13 +338,13 @@ public class Lens extends SchemaElement implements ILens {
      * <b>&lt;lensLink&gt;123&lt;/lensLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the lens link is created
-     * 
+     *
      * @return Returns the Element given as parameter with a additional lens link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -359,7 +359,7 @@ public class Lens extends SchemaElement implements ILens {
      * Factors > 1 represent barlow lenses<br>
      * Factors < 1 represent shapley lenses<br>
      * Factors <= 0 are not allowed<br>
-     * 
+     *
      * @return Returns the focal length factor of the lens.
      */
     @Override
@@ -371,7 +371,7 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Returns the model name of the lens.<br>
-     * 
+     *
      * @return Returns a String representing the lens model name.<br>
      */
     @Override
@@ -383,7 +383,7 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Returns the vendor name of the lens.<br>
-     * 
+     *
      * @return Returns a String representing the lens vendor name.<br>
      *         If <code>null</code> is returned the vendor name was never set.
      */
@@ -396,10 +396,10 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Sets the focal length factor of the lens.<br>
-     * 
+     *
      * @param factor
      *            The new focal length factor to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if factor was <code>Float.NaN</code> or <= 0
      */
@@ -420,10 +420,10 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Sets the model name for the lens.<br>
-     * 
+     *
      * @param modelname
      *            The new model name to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */
@@ -440,7 +440,7 @@ public class Lens extends SchemaElement implements ILens {
 
     /**
      * Sets the vendor name of the lens.<br>
-     * 
+     *
      * @param vendorname
      *            The new vendor name to be set.
      */

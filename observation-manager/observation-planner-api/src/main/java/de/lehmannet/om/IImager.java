@@ -1,6 +1,6 @@
 /* ====================================================================
  * /IImager.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -11,9 +11,9 @@ import org.w3c.dom.Element;
 
 /**
  * An IImager describes a camera. The model name is a mandatory field which has to be set.
- * 
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 1.3
  */
 public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEquipment {
@@ -37,7 +37,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
 
     /**
      * Constant for XML representation: model element name
-     * 
+     *
      * Example:<br>
      * &lt;imager&gt; <br>
      * <i>More stuff goes here</i> &lt;model&gt;<code>Model name goes here</code>&lt;/model&gt; <i>More stuff goes
@@ -78,10 +78,10 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
     /**
      * Adds this IImager to a given parent XML DOM Element. The IImager element will be set as a child element of the
      * passed element.
-     * 
+     *
      * @param parent
      *            The parent element for this IImager
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -101,18 +101,18 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      * <b>&lt;/imager&gt;</b><br>
      * <b>&lt;/imagerContainer&gt;</b><br>
      * <br>
-     * 
+     *
      * @param parent
      *            The element under which the the imager link is created
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     * 
+     *
      * @return Returns the Element given as parameter with a additional imager link, and the imager element under the
      *         imager container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
-     * 
+     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element parent, boolean addElementToContainer);
@@ -126,27 +126,27 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      * <b>&lt;imagerLink&gt;123&lt;/imagerLink&gt;</b><br>
      * &lt;/parameterElement&gt;<br>
      * <br>
-     * 
+     *
      * @param element
      *            The element under which the the imager link is created
-     * 
+     *
      * @return Returns the Element given as parameter with a additional imager link Might return <code>null</code> if
      *         element was <code>null</code>.
-     * 
+     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);
 
     /**
      * Returns the model name of this imager.<br>
-     * 
+     *
      * @return Returns the model name of this imager.<br>
      */
     String getModel();
 
     /**
      * Returns the vendor name of this imager.<br>
-     * 
+     *
      * @return Returns the vendor name of this imager or <code>NULL</code> if vendor name was not set.<br>
      */
     String getVendor();
@@ -155,17 +155,17 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
 
     /**
      * Returns the remarks to this imager.<br>
-     * 
+     *
      * @return Returns the remarks to this imager or <code>NULL</code> if no remarks were set.<br>
      */
     String getRemarks();
 
     /**
      * Sets the model name for the imager.<br>
-     * 
+     *
      * @param modelname
      *            The new model name to be set.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if new modelname is <code>null</code> or empty string
      */
@@ -173,7 +173,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
 
     /**
      * Sets the vendor name for the imager.<br>
-     * 
+     *
      * @param vendor
      *            The new vendor name to be set.
      */
@@ -183,7 +183,7 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
 
     /**
      * Sets the remarks for this imager.<br>
-     * 
+     *
      * @param remarks
      *            The new remarks.
      */

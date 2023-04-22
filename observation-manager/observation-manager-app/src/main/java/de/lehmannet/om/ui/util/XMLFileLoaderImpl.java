@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/XMLFileLoader.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -135,19 +135,19 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     /*
      * public Document getDocumentForObservation(IObservation observation) {
-     * 
+     *
      * RootElement root = new RootElement();
-     * 
+     *
      * // @todo This only works for ONE file opened... if( observation == null ) { // Nothing to save return null; }
-     * 
+     *
      * this.addObservationAndDependentToRoot(observation, root);
-     * 
+     *
      * try { if( root != null ) { return root.getDocument(); } else {
      * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
      * System.err.println("Unable to retrieve DOM Document\n" + se); }
-     * 
+     *
      * return null;
-     * 
+     *
      * }
      */
 

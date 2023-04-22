@@ -6,10 +6,10 @@ import java.util.Optional;
 public interface ImageResolver {
 
     /**
-     * 
+     *
      * @param Name
      *            of image to load
-     * 
+     *
      * @return a URL to the image
      */
     Optional<URL> getImageURL(String name);

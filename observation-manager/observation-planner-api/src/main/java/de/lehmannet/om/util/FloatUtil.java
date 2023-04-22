@@ -1,6 +1,6 @@
 /* ====================================================================
  * /util/FloatUtil.java
- * 
+ *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -9,10 +9,10 @@ package de.lehmannet.om.util;
 
 /**
  * Utility class for java.lang.Float object
- * 
- * 
+ *
+ *
  * @author doergn@users.sourceforge.net
- * 
+ *
  * @since 2.1_p1
  */
 public class FloatUtil {

@@ -107,7 +107,7 @@ public class AAVSOVisualSerializer implements ISerializer {
     // ------------------------------------------------------------------------
     /**
      * Constructor<br>
-     * 
+     *
      * @param softwareName
      *            Name and version of software used to create the format
      * @param variableStarObservations

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
  * is in latin.
  *
  * @author doergn@users.sourceforge.net capapecd cagil
- * 
+ *
  * @since 2.0
  */
 public enum Constellation {
