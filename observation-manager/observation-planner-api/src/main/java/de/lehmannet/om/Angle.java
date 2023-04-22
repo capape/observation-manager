@@ -88,7 +88,11 @@ public class Angle {
         String unit = angle.getAttribute(Angle.XML_ATTRIBUTE_UNIT).trim();
         if ((unit.equals(Angle.RADIANT)) || (unit.equals(Angle.DEGREE)) || (unit.equals(Angle.ARCSECOND))
                 || (unit.equals(Angle.ARCMINUTE))) {
-            this.value = Double.parseDouble(angle.getFirstChild().getNodeValue());
+                    try {
+                        this.value = Double.parseDouble(angle.getFirstChild().getNodeValue());
+                    } catch (NumberFormatException e) {
+                        this.value = 0.0d;
+                    }
             this.unit = unit;
         } else {
             throw new SchemaException("Angle unit is unknown. ");
