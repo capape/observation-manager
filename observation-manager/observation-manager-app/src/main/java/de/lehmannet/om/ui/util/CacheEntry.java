@@ -891,7 +891,7 @@ class CacheEntry {
         }
 
         for (IObservation observation : observations) {
-                updateObservation(observation);
+            updateObservation(observation);
         }
 
     }

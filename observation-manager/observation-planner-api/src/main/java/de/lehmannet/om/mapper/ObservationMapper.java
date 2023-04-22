@@ -34,7 +34,6 @@ import de.lehmannet.om.util.SchemaLoader;
 
 public class ObservationMapper {
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationMapper.class);
 
     public static IImager getOptionalImager(IImager[] imagers, Element observationElement) throws SchemaException {
@@ -496,7 +495,7 @@ public class ObservationMapper {
                         return iTarget;
                     }
                 }
-                 
+
                 LOGGER.error("Cannot find links for target {}", targetID);
 
                 throw new SchemaException("Observation  links to not existing target element!");

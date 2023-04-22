@@ -396,7 +396,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         IObservation[] observations = model.getObservations();
         for (IObservation observation : observations) {
             if (session.getID().equals(observation.getSession().getID())) {
-                observation.setSite(site);                
+                observation.setSite(site);
             }
         }
     }

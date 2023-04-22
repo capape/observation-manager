@@ -137,7 +137,7 @@ public class TargetMapper {
 
         if (children.getLength() == 1) {
             try {
-                if (children.item(0) == null ) {
+                if (children.item(0) == null) {
                     return null;
                 }
                 return new EquPosition(children.item(0));

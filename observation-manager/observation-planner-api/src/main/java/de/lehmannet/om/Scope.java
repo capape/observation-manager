@@ -902,7 +902,7 @@ public class Scope extends SchemaElement implements IScope {
     private void setMagnificationOnLoad(float magnification) throws IllegalArgumentException {
 
         if ((Float.isNaN(magnification)) && (Float.isNaN(focalLength))) {
-            this.focalLength=1.0f;
+            this.focalLength = 1.0f;
         }
 
         if (Float.isNaN(magnification)) {
