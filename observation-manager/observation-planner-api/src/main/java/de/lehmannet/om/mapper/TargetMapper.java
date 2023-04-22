@@ -137,6 +137,9 @@ public class TargetMapper {
 
         if (children.getLength() == 1) {
             try {
+                if (children.item(0) == null ) {
+                    return null;
+                }
                 return new EquPosition(children.item(0));
             } catch (SchemaException schema) {
                 throw new SchemaException("Target cannot set position from element: " + name, schema);

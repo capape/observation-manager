@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -31,6 +33,9 @@ import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
 
 public class ObservationMapper {
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationMapper.class);
 
     public static IImager getOptionalImager(IImager[] imagers, Element observationElement) throws SchemaException {
 
@@ -491,6 +496,8 @@ public class ObservationMapper {
                         return iTarget;
                     }
                 }
+                 
+                LOGGER.error("Cannot find links for target {}", targetID);
 
                 throw new SchemaException("Observation  links to not existing target element!");
 
