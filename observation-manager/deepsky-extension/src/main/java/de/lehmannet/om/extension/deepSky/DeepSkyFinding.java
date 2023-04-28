@@ -8,6 +8,8 @@
 package de.lehmannet.om.extension.deepSky;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,6 +53,8 @@ import de.lehmannet.om.util.SchemaException;
  * @since 1.0
  */
 public class DeepSkyFinding extends Finding {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DeepSkyFinding.class);
 
     // ---------
     // Constants ---------------------------------------------------------
@@ -587,8 +591,14 @@ public class DeepSkyFinding extends Finding {
 
         if ((rating > 7) || (rating < 1)) {
             if (rating != 99) {
-                throw new IllegalArgumentException(
-                        "Rating value cannot be smaller then 1 or greater then 7. Or it must be 99 for unknown value.");
+
+                LOG.warn("Rating value cannot be smaller then 1 or greater then 7: {}. Setting to 99 as unknown value.",
+                        rating);
+                rating = 99;
+                /*
+                 * throw new IllegalArgumentException(
+                 * "Rating value cannot be smaller then 1 or greater then 7. Or it must be 99 for unknown value.");
+                 */
             }
         }
 

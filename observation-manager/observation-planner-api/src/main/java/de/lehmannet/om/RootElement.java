@@ -479,6 +479,10 @@ public class RootElement {
 
             LOG.error("Error writing to xml file", e);
             throw new RuntimeException(e);
+        } catch (Throwable e) {
+
+            LOG.error("Error writing to xml file", e);
+            throw new RuntimeException(e);
         }
     }
 

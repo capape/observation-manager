@@ -8,6 +8,12 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,8 +105,23 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
         RootElement root = this.getRootElement();
 
+        // Saving same file make a copy first
+        Path originalPath = Paths.get(newPath);
+
+        if (originalPath.toFile().exists()) {
+            String bakupPath = newPath + Instant.now() + ".backup";
+            Path copied = Paths.get(bakupPath);
+            try {
+                Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
         try {
-            Objects.requireNonNull(root).serializeAsXmlFormatted(new File(newPath));
+            File xmlFile = new File(newPath);
+            Objects.requireNonNull(root).serializeAsXmlFormatted(xmlFile);
             // this.loadObservations(newPath); // Fill cache .... Not good! Strange
             // behaviour. After save, first try to do
             // chnaged (e.g. stellar etc) is not taken. Second try works...) Better solution

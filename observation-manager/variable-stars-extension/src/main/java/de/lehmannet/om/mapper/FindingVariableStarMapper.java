@@ -76,7 +76,8 @@ public class FindingVariableStarMapper {
         // Get mandatory compStars
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_COMPARISMSTAR);
         if (children.getLength() < 1) {
-            throw new SchemaException("FindingVariableStar must have at least one comparism star.");
+            return List.of("NONE");
+            // hrow new SchemaException("FindingVariableStar must have at least one comparism star.");
         }
 
         List<String> results = new ArrayList<>();
@@ -84,7 +85,8 @@ public class FindingVariableStarMapper {
             StringBuilder currentCompStar = new StringBuilder();
             Element child = (Element) children.item(i);
             if (child == null) {
-                throw new SchemaException("FindingVariableStar must have at least one comparism star. ");
+                return List.of("NONE");
+                // throw new SchemaException("FindingVariableStar must have at least one comparism star. ");
             } else {
                 NodeList textElements = child.getChildNodes();
                 if (textElements.getLength() > 0) {
@@ -104,12 +106,14 @@ public class FindingVariableStarMapper {
         // Get mandatory chartDate
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
         if (children.getLength() != 1) {
-            throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
+            return "070101";
+            // throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
         }
         Element child = (Element) children.item(0);
         StringBuilder chartID = new StringBuilder();
         if (child == null) {
-            throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
+            return "070101";
+            // throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
         } else {
             NodeList textElements = child.getChildNodes();
             if (textElements.getLength() > 0) {
@@ -128,11 +132,13 @@ public class FindingVariableStarMapper {
         // Get mandatory chartDate
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_CHARTID);
         if (children.getLength() != 1) {
-            throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have exact one chart ID or date. ");
         }
         Element child = (Element) children.item(0);
         if (child == null) {
-            throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have a chart ID or date. ");
         } else {
 
             // Get optional non aavso chart attribute
@@ -149,18 +155,22 @@ public class FindingVariableStarMapper {
         // Get mandatory magnitude
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
         if (children.getLength() != 1) {
-            throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
+            // throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
+
+            return 100.0f;
         }
         Element child = (Element) children.item(0);
         String visMag = null;
         if (child == null) {
-            throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
+            // throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
+            return 100.0f;
         } else {
             visMag = child.getFirstChild().getNodeValue();
             try {
                 return FloatUtil.parseFloat(visMag);
             } catch (NumberFormatException nfe) {
-                throw new SchemaException("FindingVariableStar visual magnitude must be a numeric value. ", nfe);
+                return 100.0f;
+                // throw new SchemaException("FindingVariableStar visual magnitude must be a numeric value. ", nfe);
             }
 
         }
@@ -171,12 +181,14 @@ public class FindingVariableStarMapper {
         // Get mandatory magnitude
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
         if (children.getLength() != 1) {
-            throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
         }
         Element child = (Element) children.item(0);
 
         if (child == null) {
-            throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
         } else {
 
             // Get optional magnitude fainter than attribute
@@ -193,12 +205,14 @@ public class FindingVariableStarMapper {
         // Get mandatory magnitude
         NodeList children = finding.getElementsByTagName(FindingVariableStar.XML_ELEMENT_VISMAG);
         if (children.getLength() != 1) {
-            throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have exact one visual magnitude value. ");
         }
         Element child = (Element) children.item(0);
 
         if (child == null) {
-            throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
+            return false;
+            // throw new SchemaException("FindingVariableStar must have a visual magnitude. ");
         } else {
 
             // Get optional magnitude uncertain attribute
