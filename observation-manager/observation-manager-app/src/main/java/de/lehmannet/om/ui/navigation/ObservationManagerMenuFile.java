@@ -554,10 +554,8 @@ public final class ObservationManagerMenuFile {
         Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
         this.observationManager.setCursor(hourglassCursor);
 
-        if (LOGGER.isDebugEnabled()) {
-            System.out.println("Save file: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
-        }
+        LOGGER.debug("Save file: {}", new Date());
+        LOGGER.debug(SystemInfo.printMemoryUsage());
 
         // @todo This works only with ONE file opened
         Worker calculation = new Worker() {
@@ -605,10 +603,8 @@ public final class ObservationManagerMenuFile {
             result = false;
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            System.out.println("Saved: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
-        }
+        LOGGER.debug("Saved: {}", new Date());
+        LOGGER.debug(SystemInfo.printMemoryUsage());
 
         // Update Tree
         this.observationManager.getTreeView().updateTree();
@@ -863,10 +859,8 @@ public final class ObservationManagerMenuFile {
 
         this.cleanUp();
 
-        if (LOGGER.isDebugEnabled()) {
-            System.out.println("Load File: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
-        }
+        LOGGER.debug("Load File: {} ", new Date());
+        LOGGER.debug(SystemInfo.printMemoryUsage());
 
         Worker calculation = new Worker() {
 
@@ -926,10 +920,8 @@ public final class ObservationManagerMenuFile {
             this.createWarning(calculation.getReturnMessage());
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            System.out.println("Loaded: " + new Date());
-            System.out.println(SystemInfo.printMemoryUsage());
-        }
+        LOGGER.debug("Loaded: {}", new Date());
+        LOGGER.debug(SystemInfo.printMemoryUsage());
 
     }
 

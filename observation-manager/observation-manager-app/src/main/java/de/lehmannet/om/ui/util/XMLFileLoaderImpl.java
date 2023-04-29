@@ -99,15 +99,20 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
         RootElement root = this.getRootElement();
 
+        Backup backup = Backup.create(newPath);
+
         try {
-            Objects.requireNonNull(root).serializeAsXmlFormatted(new File(newPath));
+            File xmlFile = new File(newPath);
+            Objects.requireNonNull(root).serializeAsXmlFormatted(xmlFile);
             // this.loadObservations(newPath); // Fill cache .... Not good! Strange
             // behaviour. After save, first try to do
             // chnaged (e.g. stellar etc) is not taken. Second try works...) Better solution
             // below!
             ((CacheEntry) this.cache.iterator().next()).setXMLPath(newPath); // Works only with one XML!!!
+            backup.delete();
         } catch (SchemaException se) {
-            LOGGER.error("Unable to write file: {} ", newPath, se);
+            LOGGER.error("Unable to write file: {}. You have a previous backup of your data in {}", newPath, se,
+                    backup.getPath());
             return false;
         }
 
@@ -198,7 +203,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         try {
             return root.getDocument();
         } catch (SchemaException se) {
-            System.err.println("Unable to retrieve DOM Document for " + schemaElement + "\n" + se);
+            LOGGER.error("Unable to retrieve DOM Document for {}.", schemaElement, se);
         }
 
         return null;
@@ -330,7 +335,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else if (element instanceof ILens) {
             entry.addLens((ILens) element);
         } else {
-            System.out.print("Unknown element: " + element);
+            LOGGER.warn("Unknown element: {}", element);
         }
 
     }
@@ -367,7 +372,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else if (element instanceof ILens) {
             resultList = entry.removeLens((ILens) element);
         } else {
-            System.out.print("Unknown element for deletion: " + element);
+            LOGGER.error("Unknown element for deletion: {}", element);
             return null; // Return null to indicate error
         }
 

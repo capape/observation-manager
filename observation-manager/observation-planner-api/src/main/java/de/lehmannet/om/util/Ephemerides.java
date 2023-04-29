@@ -8,7 +8,6 @@
 package de.lehmannet.om.util;
 
 import java.time.ZonedDateTime;
-
 import java.util.Objects;
 
 import de.lehmannet.om.Angle;
@@ -722,16 +721,5 @@ public class Ephemerides {
         return new double[] { longitude, latitude };
 
     }
-
-    /*
-     * public static void main(String args[]) {
-     *
-     * ZonedDateTime date = ZonedDateTime.getInstance(); date.set(ZonedDateTime.HOUR_OF_DAY, 1);
-     * date.set(ZonedDateTime.DAY_OF_MONTH, 22); //date.set(ZonedDateTime.MONTH, 11); System.out.println("" + new
-     * java.util.Date(date.getTimeInMillis()) + "\n" + Ephemerides.getMoonPosition(date, 0));
-     * System.out.println("Moon phase: " + Ephemerides.getMoonPhase(date) + "\t Date: " + new
-     * java.util.Date(date.getTimeInMillis())); System.out.println("Moon auf? " + Ephemerides.isMoonAboveHorizon(date,
-     * 9, 49)); }
-     */
 
 }

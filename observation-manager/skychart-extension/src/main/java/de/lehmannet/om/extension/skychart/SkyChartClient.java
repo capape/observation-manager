@@ -41,10 +41,10 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
-import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
@@ -307,18 +307,14 @@ public class SkyChartClient implements IExtension, ActionListener {
                     objectName = objectName.replaceAll(" ", "");
                     objectName = objectName.trim().toUpperCase();
                     if (objectName.equals(target.getName().toUpperCase())) {
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Found " + target.getName() + " by name");
-                        }
+                        LOGGER.debug("Found {} by name", target.getName());
                         return true; // Names match. We found our object
                     }
                     String[] aliasNames = target.getAliasNames();
                     if ((aliasNames != null) && (aliasNames.length > 0)) {
                         for (String aliasName : aliasNames) {
                             if (objectName.equals(aliasName.toUpperCase())) {
-                                if (LOGGER.isDebugEnabled()) {
-                                    System.out.println("Found " + target.getName() + " by aliasname " + aliasName);
-                                }
+                                LOGGER.debug("Found {} by aliasname {}", target.getName(), aliasName);
                                 return true; // Names match. We found our object
                             }
                         }
@@ -332,20 +328,14 @@ public class SkyChartClient implements IExtension, ActionListener {
                     EquPosition ep = null;
                     try {
                         ep = new EquPosition(ra, dec);
-                    } catch (IllegalArgumentException iae) { // RA, DEC string
-                        // my be
-                        // malformed
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("RA or DEC string is malformed: RA: " + ra + "\tDEC: " + dec);
-                        }
+                    } catch (IllegalArgumentException iae) {
+                        LOGGER.debug("RA or DEC string is malformed: RA: {} \tDEC: {}", ra, dec);
                         continue;
                     }
                     EquPosition targetEp = target.getPosition();
 
                     if (targetEp == null) {
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Cannot find " + target.getName() + " as target position is NULL");
-                        }
+                        LOGGER.debug("Cannot find {} as target position is NULL", target.getName());
                         continue;
                     }
 
@@ -357,10 +347,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                     double raDiff = Math.abs(epRaDegree - targetEpRaDegree);
                     if (raDiff > 0.5) {
-                        if (LOGGER.isDebugEnabled()) {
-                            System.out
-                                    .println("Found wrong " + target.getName() + " as RA differs more than 0.5 degree");
-                        }
+                        LOGGER.debug("Found wrong {} as RA differs more than 0.5 degree", target.getName());
                         continue; // This is most propably not the object we'Re
                         // searching
                     }
