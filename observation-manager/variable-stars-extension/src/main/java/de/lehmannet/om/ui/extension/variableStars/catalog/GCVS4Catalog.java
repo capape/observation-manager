@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
@@ -24,6 +27,8 @@ import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.FloatUtil;
 
 public class GCVS4Catalog implements ICatalog {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(GCVS4Catalog.class);
 
     private static final String CATALOG_NAME = "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)";
 
@@ -459,7 +464,7 @@ public class GCVS4Catalog implements ICatalog {
             try {
                 raf.close();
             } catch (IOException ioe) {
-                System.err.println("Unable to close data stream. " + this.catalogFile + " (SeqS) \n" + ioe);
+                LOGGER.error("Unable to close data stream.{} (SeqS)", this.catalogFile, ioe);
             }
 
             if (found) {
@@ -469,9 +474,9 @@ public class GCVS4Catalog implements ICatalog {
             }
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Cannot find catalog file: " + this.catalogFile + " (SeqS) \n" + fnfe);
+            LOGGER.error("Cannot find catalog file:{} (SeqS)", this.catalogFile, fnfe);
         } catch (IOException ioe) {
-            System.err.println("Error while accessing catalog file: " + this.catalogFile + " (SeqS) \n" + ioe);
+            LOGGER.error("Error while accessing catalog file:{} (SeqS)", this.catalogFile, ioe);
         }
 
         // Close file in case an exception was thrown
@@ -480,7 +485,7 @@ public class GCVS4Catalog implements ICatalog {
                 raf.close();
             }
         } catch (IOException ioe) {
-            System.err.println("Unable to close data stream. " + this.catalogFile + " (SeqS) \n" + ioe);
+            LOGGER.error("Unable to close data stream.{} (SeqS)", this.catalogFile, ioe);
         }
 
         return -1;
@@ -543,7 +548,7 @@ public class GCVS4Catalog implements ICatalog {
             try {
                 raf.close();
             } catch (IOException ioe) {
-                System.err.println("Unable to close data stream. " + this.catalogFile + "\n" + ioe);
+                LOGGER.error("Unable to close data stream. {}", this.catalogFile, ioe);
             }
 
             if (done) {
@@ -553,9 +558,9 @@ public class GCVS4Catalog implements ICatalog {
             return middle;
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Cannot find catalog file: " + this.catalogFile + "\n" + fnfe);
+            LOGGER.error("Cannot find catalog file: {}", this.catalogFile, fnfe);
         } catch (IOException ioe) {
-            System.err.println("Error while accessing catalog file: " + this.catalogFile + "\n" + ioe);
+            LOGGER.error("Error while accessing catalog file: {}", this.catalogFile, ioe);
         }
 
         // Close file
@@ -564,7 +569,7 @@ public class GCVS4Catalog implements ICatalog {
                 raf.close();
             }
         } catch (IOException ioe) {
-            System.err.println("Unable to close data stream. " + this.catalogFile + "\n" + ioe);
+            LOGGER.error("Unable to close data stream. {}", this.catalogFile, ioe);
         }
 
         return -1;
@@ -722,9 +727,9 @@ public class GCVS4Catalog implements ICatalog {
             }
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Cannot find catalog file: " + this.catalogFile + "\n" + fnfe);
+            LOGGER.error("Cannot find catalog file: {}", this.catalogFile, fnfe);
         } catch (IOException ioe) {
-            System.err.println("Error while accessing catalog file: " + this.catalogFile + "\n" + ioe);
+            LOGGER.error("Error while accessing catalog file: {}", this.catalogFile, ioe);
         }
 
         // Close file
@@ -733,7 +738,7 @@ public class GCVS4Catalog implements ICatalog {
                 raf.close();
             }
         } catch (IOException ioe) {
-            System.err.println("Unable to close data stream. " + this.catalogFile + "\n" + ioe);
+            LOGGER.error("Unable to close data stream. {}", this.catalogFile, ioe);
         }
 
         return target;

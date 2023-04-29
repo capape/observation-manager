@@ -46,6 +46,8 @@ import de.lehmannet.om.util.FloatUtil;
 
 public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractNGCICCatalog.class);
+
     // Key = NGC/IC Number
     // Value = ITarget
     private final Map<String, ITarget> map = new LinkedHashMap<>();
@@ -150,7 +152,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
             try {
                 line = bufferedReader.readLine();
             } catch (IOException ioe) {
-                System.err.println("Error reading first line from: " + file + "\n Catalog cannot be loaded.");
+                LOGGER.error("Error reading first line from: {}. Catalog cannot be loaded.", file, ioe);
                 return false;
             }
 
@@ -414,8 +416,8 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 try {
                     line = bufferedReader.readLine();
                 } catch (IOException ioe) {
-                    System.err.println("Error reading line from: " + file
-                            + "\n Catalog cannot be loaded. Last successful line was: " + catalogNumber);
+                    LOGGER.error("Error reading line from: {} . Catalog cannot be loaded. Last successful line was: {}",
+                            file, catalogNumber);
                     return false;
                 }
 

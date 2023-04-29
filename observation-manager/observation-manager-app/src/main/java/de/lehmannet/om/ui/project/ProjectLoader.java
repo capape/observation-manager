@@ -319,7 +319,7 @@ class ProjectLoaderRunnable implements Runnable {
 
             }
         } catch (IOException ioe) {
-            System.err.println("Cannot load project file: " + projectFile + "\n" + ioe);
+            LOGGER.error("Cannot load project file: {}", projectFile, ioe);
         }
 
         if (targets.isEmpty()) { // Should never happen as exception should be thrown

@@ -12,12 +12,17 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 
 public class ThemeManagerImpl implements ThemeManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThemeManagerImpl.class);
 
     private boolean nightVision = false;
     private final ObservationManager observationManager;
@@ -59,7 +64,7 @@ public class ThemeManagerImpl implements ThemeManager {
             }
 
             if (!found) {
-                System.err.println(this.textManager.getString("error.noMetalLAF"));
+                LOGGER.error(this.textManager.getString("error.noMetalLAF"));
                 this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
                 return;
             }
@@ -83,7 +88,7 @@ public class ThemeManagerImpl implements ThemeManager {
             this.observationManager.setVisible(true);
 
         } catch (Exception e) {
-            System.err.println(e);
+            LOGGER.error("Error in theme", e);
             this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
         }
 
@@ -144,7 +149,7 @@ public class ThemeManagerImpl implements ThemeManager {
             this.observationManager.setVisible(true);
 
         } catch (Exception e) {
-            System.err.println(e);
+            LOGGER.error("Error in theme", e);
         }
     }
 

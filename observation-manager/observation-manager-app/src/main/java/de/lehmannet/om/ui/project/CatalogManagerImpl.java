@@ -37,8 +37,9 @@ public class CatalogManagerImpl implements CatalogManager {
             try {
                 this.waitForCatalogLoaderThread.join();
             } catch (final InterruptedException ie) {
-                System.err.println(
-                        "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.");
+                LOGGER.error(
+                        "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.",
+                        ie);
                 return null;
             }
         }
@@ -77,7 +78,7 @@ public class CatalogManagerImpl implements CatalogManager {
                             this.wait(300);
                         }
                     } catch (final InterruptedException ie) {
-                        System.err.println("Interrupted while waiting for Catalog Loader to finish.\n" + ie);
+                        LOGGER.error("Interrupted while waiting for Catalog Loader to finish", ie);
                     } catch (final IllegalMonitorStateException imse) {
                         // Ignore this
                     }

@@ -402,14 +402,14 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 } catch (FileNotFoundException fnfe) {
                     this.context.getUserInterfaceHelper()
                             .showInfo(this.uiBundle.getString("error.aavsoExportFileNotFound"));
-                    System.err.println(fnfe);
+                    LOGGER.error("File not found", fnfe);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     om.setCursor(defaultCursor);
                     return;
                 } catch (Exception ex) {
                     this.context.getUserInterfaceHelper().showInfo(this.uiBundle.getString("error.aavsoExportNotOK"));
-                    System.err.println(ex);
+                    LOGGER.error("Error aavso export", ex);
 
                     Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     om.setCursor(defaultCursor);

@@ -94,8 +94,8 @@ public class UpdateChecker implements Runnable {
             conn = (HttpURLConnection) checkURL.openConnection();
             conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                LOGGER.error("No update check possible for: " + checkURL + "\nHTTP Response was: "
-                        + conn.getResponseMessage());
+                LOGGER.error("No update check possible for: {}. HTTP Response was: {}", checkURL,
+                        conn.getResponseMessage());
                 conn.disconnect();
 
                 throw new ConnectException("HTTP error while connecting to host for update");

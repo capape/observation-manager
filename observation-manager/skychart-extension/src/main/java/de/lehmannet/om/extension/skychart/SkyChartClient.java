@@ -160,7 +160,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             socket.close();
         } catch (IOException ioe) {
             // Can't do much here.
-            System.err.println("Unable to close socket to Skychart application.\n" + ioe);
+            LOGGER.error("Unable to close socket to Skychart application.", ioe);
         }
 
     }
@@ -226,7 +226,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             socket.close();
         } catch (IOException ioe) {
             // Can't do much here.
-            System.err.println("Unable to close socket to Skychart application.\n" + ioe);
+            LOGGER.error("Unable to close socket to Skychart application.", ioe);
         }
 
     }
@@ -243,7 +243,7 @@ public class SkyChartClient implements IExtension, ActionListener {
         for (String s : commands) {
             responseString = this.sendDataWithServerResponse(socket, s);
             if (responseString == null) { // Communication error
-                System.err.println("Set Target by position...Failed with error");
+                LOGGER.error("Set Target by position...Failed with error");
                 return false;
             } else {
 
@@ -360,18 +360,15 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                     double decDiff = Math.abs(epDecDegree - targetEpDecDegree);
                     if (decDiff > 0.5) {
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Found wrong " + target.getName() + " as DEC differs more than 0.5 degree");
-                        }
+                        LOGGER.debug("Found wrong {} as DEC differs more than 0.5 degree", target.getName());
                         continue; // This is most propably not the object we're
                         // searching
                     }
 
                     // If we come here the found object is max 0.5 degree (in RA
                     // or DEC) away from our target, so we stop searching
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Found " + target.getName() + " as RA and DEC do not differ more than 0.5 degree");
-                    }
+                    LOGGER.debug("Found as RA and DEC do not differ more than 0.5 degree", target.getName());
+
                     return true;
                 }
             }
@@ -383,7 +380,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             for (String command : commands) {
                 response = this.sendData(socket, command);
                 if (response == null) { // Communication error
-                    System.err.println("Set Target by position...Failed with error");
+                    LOGGER.error("Set Target by position...Failed with error");
                     return false;
                 } else {
                     return true;
@@ -410,7 +407,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
-            System.err.println("Unable to send data to Skychart application.\n" + ioe);
+            LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
 
@@ -425,7 +422,7 @@ public class SkyChartClient implements IExtension, ActionListener {
 
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
-            System.err.println("Unable to send data to Skychart application.\n" + ioe);
+            LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
 
@@ -452,7 +449,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             socket = new StarchartSocket(ip, port);
         } catch (UnknownHostException uhe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed.host"));
-            System.err.println("Unable to reach Skychart application. Host unknown.\n" + uhe);
+            LOGGER.error("Unable to reach Skychart application. Host unknown.", uhe);
         } catch (ConnectException ce) { // SkyChart is most probably not open.
                                         // So try to start it
             // Try to get application path
@@ -464,9 +461,9 @@ public class SkyChartClient implements IExtension, ActionListener {
                                                                                 // path
                                                                                 // specified
                 om.createWarning(this.bundle.getString("skychart.application.start.nopath"));
-                System.err.println(
-                        "Unable to reach Skychart application and unable to start it as no application path is provided.\n"
-                                + ce);
+                LOGGER.error(
+                        "Unable to reach Skychart application and unable to start it as no application path is provided.",
+                        ce);
             } else { // Try to start it
                 LOGGER.info("Unable to reach Skychart application. Try to launch it.");
 
@@ -484,15 +481,14 @@ public class SkyChartClient implements IExtension, ActionListener {
 
                         } catch (IOException ioe) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            System.err
-                                    .println("Unable to start Skychart application (" + applicationPath + ").\n" + ioe);
+                            LOGGER.error("Unable to start Skychart application ({}})", applicationPath, ioe);
                         } catch (IllegalMonitorStateException isme) {
                             // Ignore. This comes from the p.wait() call, when
                             // skychart is already launched
-                            System.err.println("Ingnoring \n " + isme);
+                            LOGGER.error("Ingnoring", isme);
                         } catch (Exception e) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            System.err.println("Failed to start Skychart application (" + applicationPath + ").\n" + e);
+                            LOGGER.error("Failed to start Skychart application ({})", applicationPath, e);
                         }
                     }
 
@@ -523,7 +519,7 @@ public class SkyChartClient implements IExtension, ActionListener {
                     socket = new StarchartSocket(ip, port);
                 } catch (IOException ioe) {
                     om.createWarning(this.bundle.getString("skychart.communication.failed"));
-                    System.err.println("Unable to reach Skychart application.\n" + ioe);
+                    LOGGER.error("Unable to reach Skychart application.", ioe);
                 }
 
                 return socket;
@@ -531,7 +527,7 @@ public class SkyChartClient implements IExtension, ActionListener {
             }
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
-            System.err.println("Unable to reach Skychart application.\n" + ioe);
+            LOGGER.error("Unable to reach Skychart application.", ioe);
         }
 
         return socket;

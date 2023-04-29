@@ -19,6 +19,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
@@ -29,6 +32,8 @@ import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.ConfigLoader;
 
 public class GeneralPanel extends PreferencesPanel {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralPanel.class);
 
     private static final long serialVersionUID = 7383101472997890151L;
 
@@ -295,7 +300,7 @@ public class GeneralPanel extends PreferencesPanel {
 
             return result;
         } catch (IOException zipEx) {
-            System.err.println("Error while accessing JAR file.\n" + zipEx);
+            LOGGER.error("Error while accessing JAR file.", zipEx);
             return null;
 
         }

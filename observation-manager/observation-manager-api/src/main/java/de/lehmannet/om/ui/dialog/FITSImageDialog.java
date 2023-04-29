@@ -20,10 +20,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import eap.fitsbrowser.FITSFileDisplay;
 
 public class FITSImageDialog extends OMDialog implements ActionListener {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(FITSImageDialog.class);
 
     private static final long serialVersionUID = 5090506213345186056L;
 
@@ -72,7 +77,7 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
         try {
             fitsDisplay.load(this.fitsImageFile);
         } catch (IOException ioe) {
-            System.err.println("Error while loading fits file: " + this.fitsImageFile);
+            LOGGER.error("Error while loading fits file: {}", this.fitsImageFile);
         }
 
         fitsDisplay.setPreferredSize(new Dimension(608, 337));

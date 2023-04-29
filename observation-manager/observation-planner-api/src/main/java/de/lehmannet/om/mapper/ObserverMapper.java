@@ -91,7 +91,7 @@ public class ObserverMapper {
                 }
             } else {
                 log.error(
-                        "Problem while retrieving DSL code from observer: {} \n As this element is deprecated, error will be ignored.",
+                        "Problem while retrieving DSL code from observer: {}. As this element is deprecated, error will be ignored.",
                         getMandatoryID(observerElement));
             }
         } else if (children.getLength() > 1) {

@@ -165,7 +165,7 @@ public class ObservationManagerMenuExternalExtensions {
     // // which we would need to
     // // overwrite, but do not
     // // have the permission to
-    // System.err.println("Write check failed for: " + currentFile);
+    // LOGGER.error("Write check failed for: {}" , currentFile);
     // result = false;
     // }
     // }

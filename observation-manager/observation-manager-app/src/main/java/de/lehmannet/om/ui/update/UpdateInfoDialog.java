@@ -27,6 +27,9 @@ import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
@@ -171,6 +174,8 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
 class DownloadTask implements Worker {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DownloadTask.class);
+
     private File targetDir = null;
     private List<UpdateEntry> updateEntries = null;
 
@@ -200,8 +205,8 @@ class DownloadTask implements Worker {
                 HttpURLConnection conn = (HttpURLConnection) currentEntry.getDownloadURL().openConnection();
                 conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
                 if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) { // HTTP connection error
-                    System.err.println("No download possible from: " + currentEntry.getDownloadURL()
-                            + "\nHTTP Response was: " + conn.getResponseMessage());
+                    LOGGER.error("No download possible from: {}. HTTP Response was: {}", currentEntry.getDownloadURL(),
+                            conn.getResponseMessage());
                     conn.disconnect();
                     this.returnValue = Worker.RETURN_TYPE_ERROR;
                 } else { // Download file
@@ -227,8 +232,7 @@ class DownloadTask implements Worker {
                 }
 
             } catch (IOException ioe) {
-                System.err.println("Error while downloading file: " + currentEntry.getDownloadURL()
-                        + "\nNested exception was: " + ioe);
+                LOGGER.error("Error while downloading file: {}", currentEntry.getDownloadURL(), ioe);
             }
 
         }

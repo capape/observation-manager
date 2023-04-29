@@ -15,6 +15,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import de.lehmannet.om.IObservation;
@@ -31,6 +33,7 @@ import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class ObservationManagerHtmlHelper {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerHtmlHelper.class);
     private final UserInterfaceHelper uiHelper;
     private final TextManager textManager;
     private final IConfiguration configuration;
@@ -75,7 +78,7 @@ public class ObservationManagerHtmlHelper {
                     outputStream = new FileOutputStream(htmlFile);
                     result = new StreamResult(outputStream);
                 } catch (FileNotFoundException fnfe) {
-                    System.err.println("Cannot transform XML file.\n" + fnfe);
+                    LOGGER.error("Cannot transform XML file.\n", fnfe);
                     returnValue = Worker.RETURN_TYPE_ERROR;
                     message = textManager.getString("error.transformation");
                     return;
@@ -92,20 +95,20 @@ public class ObservationManagerHtmlHelper {
                         try {
                             outputStream.close();
                         } catch (IOException ioe) {
-                            System.err.println("Cannot close stream.\n" + ioe);
+                            LOGGER.error("Cannot close stream.", ioe);
                         }
                         return;
                     }
 
                     template.newTransformer().transform(source, result);
                 } catch (TransformerException tce) {
-                    System.err.println("Cannot transform XML file.\n" + tce);
+                    LOGGER.error("Cannot transform XML file.", tce);
                     returnValue = Worker.RETURN_TYPE_ERROR;
                     message = textManager.getString("error.transformation");
                     try {
                         outputStream.close();
                     } catch (IOException ioe) {
-                        System.err.println("Cannot close stream.\n" + ioe);
+                        LOGGER.error("Cannot close stream.", ioe);
                     }
                     return;
                 }
@@ -113,7 +116,7 @@ public class ObservationManagerHtmlHelper {
                 try {
                     outputStream.close();
                 } catch (IOException ioe) {
-                    System.err.println("Cannot close stream.\n" + ioe);
+                    LOGGER.error("Cannot close stream.", ioe);
                 }
 
             }
@@ -379,7 +382,7 @@ public class ObservationManagerHtmlHelper {
         try {
             template = TransformerFactory.newInstance().newTemplates(xslSource);
         } catch (TransformerConfigurationException tce) {
-            System.err.println("--- Unable to get XSLTransformator: " + tce);
+            LOGGER.error("--- Unable to get XSLTransformator: ", tce);
         }
 
         return template;

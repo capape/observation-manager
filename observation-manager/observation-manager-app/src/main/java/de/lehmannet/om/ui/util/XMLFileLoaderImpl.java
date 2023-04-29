@@ -65,7 +65,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         final File file = new File(pathFile);
         if (!file.exists()) {
 
-            LOGGER.error("Comast schema path not found:{} \n.", pathFile);
+            LOGGER.error("Comast schema path not found:{}", pathFile);
         }
         return new XMLFileLoaderImpl(file);
     };
@@ -147,9 +147,8 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
      *
      * this.addObservationAndDependentToRoot(observation, root);
      *
-     * try { if( root != null ) { return root.getDocument(); } else {
-     * System.err.println("Unable to retrieve DOM Document\n"); } } catch(SchemaException se) {
-     * System.err.println("Unable to retrieve DOM Document\n" + se); }
+     * try { if( root != null ) { return root.getDocument(); } else { LOGGER.error("Unable to retrieve DOM Document\n");
+     * } } catch(SchemaException se) { LOGGER.error("Unable to retrieve DOM Document", se); }
      *
      * return null;
      *
@@ -994,7 +993,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
                     lenses));
 
         } catch (OALException oal) {
-            System.err.print("Cannot load: " + xmlPath + "\nNested Exception is: " + oal.getMessage());
+            LOGGER.error("Cannot load: {} ", xmlPath, oal);
             return false;
         }
 
@@ -1065,7 +1064,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
                 root.addLenses(Arrays.asList(len));
             }
         } catch (SchemaException se) {
-            System.err.println("Unable to add elements\n" + se);
+            LOGGER.error("Unable to add elements", se);
         }
 
         return root;
@@ -1132,7 +1131,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             root.addObservation(observation);
 
         } catch (SchemaException se) {
-            System.err.println("Unable to add element\n" + se);
+            LOGGER.error("Unable to add element", se);
         }
 
     }
