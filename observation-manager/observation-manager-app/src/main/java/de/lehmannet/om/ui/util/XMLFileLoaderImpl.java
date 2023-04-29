@@ -8,12 +8,6 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,19 +99,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
         RootElement root = this.getRootElement();
 
-        // Saving same file make a copy first
-        Path originalPath = Paths.get(newPath);
-
-        if (originalPath.toFile().exists()) {
-            String bakupPath = newPath + Instant.now() + ".backup";
-            Path copied = Paths.get(bakupPath);
-            try {
-                Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        Backup backup = Backup.create(newPath);
 
         try {
             File xmlFile = new File(newPath);
@@ -127,8 +109,10 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             // chnaged (e.g. stellar etc) is not taken. Second try works...) Better solution
             // below!
             ((CacheEntry) this.cache.iterator().next()).setXMLPath(newPath); // Works only with one XML!!!
+            backup.delete();
         } catch (SchemaException se) {
-            LOGGER.error("Unable to write file: {} ", newPath, se);
+            LOGGER.error("Unable to write file: {}. You have a previous backup of your data in {}", newPath, se,
+                    backup.getPath());
             return false;
         }
 
@@ -219,7 +203,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         try {
             return root.getDocument();
         } catch (SchemaException se) {
-            System.err.println("Unable to retrieve DOM Document for " + schemaElement + "\n" + se);
+            LOGGER.error("Unable to retrieve DOM Document for {}.", schemaElement, se);
         }
 
         return null;
@@ -351,7 +335,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else if (element instanceof ILens) {
             entry.addLens((ILens) element);
         } else {
-            System.out.print("Unknown element: " + element);
+            LOGGER.warn("Unknown element: {}", element);
         }
 
     }
@@ -388,7 +372,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else if (element instanceof ILens) {
             resultList = entry.removeLens((ILens) element);
         } else {
-            System.out.print("Unknown element for deletion: " + element);
+            LOGGER.error("Unknown element for deletion: {}", element);
             return null; // Return null to indicate error
         }
 
