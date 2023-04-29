@@ -205,7 +205,7 @@ class DownloadTask implements Worker {
                 HttpURLConnection conn = (HttpURLConnection) currentEntry.getDownloadURL().openConnection();
                 conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
                 if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) { // HTTP connection error
-                    LOGGER.error("No download possible from: {} \nHTTP Response was: {}", currentEntry.getDownloadURL(),
+                    LOGGER.error("No download possible from: {}. HTTP Response was: {}", currentEntry.getDownloadURL(),
                             conn.getResponseMessage());
                     conn.disconnect();
                     this.returnValue = Worker.RETURN_TYPE_ERROR;

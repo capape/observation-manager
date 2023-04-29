@@ -152,7 +152,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
             try {
                 line = bufferedReader.readLine();
             } catch (IOException ioe) {
-                LOGGER.error("Error reading first line from: {} \n Catalog cannot be loaded.", file, ioe);
+                LOGGER.error("Error reading first line from: {}. Catalog cannot be loaded.", file, ioe);
                 return false;
             }
 

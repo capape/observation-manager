@@ -65,7 +65,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         final File file = new File(pathFile);
         if (!file.exists()) {
 
-            LOGGER.error("Comast schema path not found:{} \n.", pathFile);
+            LOGGER.error("Comast schema path not found:{}", pathFile);
         }
         return new XMLFileLoaderImpl(file);
     };

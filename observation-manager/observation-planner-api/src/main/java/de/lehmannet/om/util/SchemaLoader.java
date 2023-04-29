@@ -296,10 +296,10 @@ public class SchemaLoader {
 
             validator.validate(new StreamSource(xmlFile));
         } catch (IOException e) {
-            LOGGER.error("Error parsing xml file: {}", e.getLocalizedMessage());
+            LOGGER.error("Error parsing xml file: {}", xmlFile, e);
             // throw new SchemaException("Unable to parse xml file");
         } catch (SAXException e) {
-            LOGGER.error("Error parsing xml file: {} \n {}", e.getLocalizedMessage(), e);
+            LOGGER.error("Error parsing xml file: {}.", xmlFile, e);
             // throw new SchemaException("Unable to parse xml file");
         }
 
