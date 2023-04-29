@@ -617,15 +617,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
         this.setDividerLocation();
 
-        // Wait til SplashScreen disappears
-        // if (this.splash != null) { // In night mode there is no Splash screen
-        // try {
-        // this.splash.join();
-        // } catch (final InterruptedException ie) {
-        // System.out.println("Waiting for SplashScreen interrupted");
-        // }
-        // }
-
         this.setVisible(true);
 
     }

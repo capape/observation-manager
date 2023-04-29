@@ -18,6 +18,9 @@ import java.util.TreeMap;
 
 import javax.swing.JComboBox;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LanguageBox extends JComboBox {
@@ -27,6 +30,7 @@ public class LanguageBox extends JComboBox {
      */
     private static final long serialVersionUID = -1072100720767774207L;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LanguageBox.class);
     private static final String EMPTY_ENTRY = "----";
 
     // Allow empty entry
@@ -136,7 +140,7 @@ public class LanguageBox extends JComboBox {
 
         // Key not found
         this.setDefaultEntry();
-        System.out.println("ISO language key unknown: " + isoKey);
+        LOGGER.warn("ISO language key unknown: {}", isoKey);
 
     }
 
