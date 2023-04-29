@@ -125,7 +125,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
     }
 
     public void close() {
-        LOGGER.info("Closing progress dialog");
+        LOGGER.debug("Closing progress dialog");
         this.dispose();
 
     }

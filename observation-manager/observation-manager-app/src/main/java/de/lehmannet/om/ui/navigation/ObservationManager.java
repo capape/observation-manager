@@ -380,7 +380,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 this.createWarning(this.textManager.getString("error.deleteTargetFromCatalog"));
                 return;
             }
-            System.err.println("Error during deletion of element: " + element);
+            LOGGER.error("Error during deletion of element: {}", element);
             return;
         }
 

@@ -31,6 +31,8 @@ import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class CatalogLoader {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CatalogLoader.class);
+
     private final ResourceBundle bundle;
 
     private static final String CATALOG_DIR = "catalog";
@@ -153,7 +155,7 @@ public class CatalogLoader {
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {
-                System.err.println("Catalog directory not found: " + catalogDir);
+                LOGGER.error("Catalog directory not found: {}", catalogDir);
                 this.observationManager.createWarning(this.bundle.getString("catalogLoader.warning.noCatalogDir"));
                 return;
             }
@@ -243,6 +245,8 @@ class CatalogLoaderRunnable implements Runnable {
 
 class WaitPopup extends OMDialog {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaitPopup.class);
+
     private static final long serialVersionUID = 4130578764471183037L;
 
     private ThreadGroup threadGroup = null;
@@ -281,9 +285,9 @@ class WaitPopup extends OMDialog {
             try {
                 this.threadGroup.wait(300);
             } catch (InterruptedException ie) {
-                System.err.println("Interrupted while waiting for ThreadGroup.\n" + ie);
+                LOGGER.error("Interrupted while waiting for ThreadGroup.", ie);
             } catch (IllegalMonitorStateException imse) {
-                System.err.println("Ingnoring \n " + imse);
+                LOGGER.error("Ingnoring", imse);
             }
         }
         this.dispose();

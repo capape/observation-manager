@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
@@ -13,6 +16,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class UserInterfaceHelperImpl implements UserInterfaceHelper {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInterfaceHelperImpl.class);
     private final ObservationManager parent;
     private final TextManager textManager;
 
@@ -93,10 +97,10 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
                 try {
                     this.threadGroup.wait(300);
                 } catch (InterruptedException ie) {
-                    System.err.println("Interrupted while waiting for ThreadGroup.\n" + ie);
+                    LOGGER.error("Interrupted while waiting for ThreadGroup", ie);
                 } catch (IllegalMonitorStateException imse) {
                     // Ignore this
-                    System.err.println("Ingnoring \n " + imse);
+                    LOGGER.error("Ingnoring", imse);
                 }
             }
             this.dispose();

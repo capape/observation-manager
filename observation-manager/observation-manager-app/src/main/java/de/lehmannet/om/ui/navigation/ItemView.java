@@ -19,6 +19,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -48,6 +51,8 @@ import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public class ItemView extends JPanel implements ChangeListener {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemView.class);
 
     /**
      *
@@ -509,7 +514,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                             ItemView.this.imageResolver.getImageURL("finding_l.png").orElse(null)),
                                     ItemView.FINDING_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -548,7 +553,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                     new ImageIcon(ItemView.this.imageResolver.getImageURL("target_l.png").orElse(null)),
                                     ItemView.TARGET_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -586,7 +591,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                     new ImageIcon(ItemView.this.imageResolver.getImageURL("site_l.png").orElse(null)),
                                     ItemView.SITE_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -623,7 +628,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                             ItemView.this.imageResolver.getImageURL("session_l.png").orElse(null)),
                                     ItemView.SESSION_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -658,7 +663,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                     new ImageIcon(ItemView.this.imageResolver.getImageURL("scope_l.png").orElse(null)),
                                     ItemView.SCOPE_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -694,7 +699,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                             ItemView.this.imageResolver.getImageURL("observer_l.png").orElse(null)),
                                     ItemView.OBSERVER_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -731,7 +736,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                             ItemView.this.imageResolver.getImageURL("eyepiece_l.png").orElse(null)),
                                     ItemView.EYEPIECE_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -768,7 +773,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                     new ImageIcon(ItemView.this.imageResolver.getImageURL("filter_l.png").orElse(null)),
                                     ItemView.FILTER_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -805,7 +810,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                     new ImageIcon(ItemView.this.imageResolver.getImageURL("imager_l.png").orElse(null)),
                                     ItemView.IMAGER_TIC));
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
         }
@@ -851,7 +856,7 @@ public class ItemView extends JPanel implements ChangeListener {
                                 ItemView.LENS_TIC);
                     });
                 } catch (Exception e) {
-                    System.err.println("Error during add tab. Most probably you can ignore this.\n" + e);
+                    LOGGER.error("Error during add tab. Most probably you can ignore this.", e);
                 }
             }
 

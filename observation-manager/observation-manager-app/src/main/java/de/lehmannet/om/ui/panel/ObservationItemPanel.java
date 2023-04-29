@@ -244,10 +244,10 @@ public class ObservationItemPanel extends AbstractPanel {
                     // Do some checks that should never be true...hopefully
                     // Comment this out, as by using a lens those checks have a good chance to fail
                     /*
-                     * if( afl_i > eye.getMaxFocalLength() ) { System.err.
-                     * println("Actual focal length is larger then max focal length of eyepiece. " + observation); }
-                     * else if( afl_i < eye.getFocalLength() ) { System.err.
-                     * println("Actual focal length is lower then min focal length of eyepiece. " + observation); }
+                     * if( afl_i > eye.getMaxFocalLength() ) { LOGGER.error
+                     * ("Actual focal length is larger then max focal length of eyepiece {} " , observation); } else if(
+                     * afl_i < eye.getFocalLength() ) { LOGGER.error.
+                     * ("Actual focal length is lower then min focal length of eyepiece {} " , observation); }
                      */
 
                     // Set text with additional info on actual focal length

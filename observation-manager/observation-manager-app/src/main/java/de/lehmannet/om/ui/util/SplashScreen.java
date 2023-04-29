@@ -11,9 +11,14 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.ui.image.ImageResolver;
 
 public class SplashScreen extends JFrame implements Runnable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SplashScreen.class);
 
     private static final String SPLASH_PNG = "splash.png";
     private static final long serialVersionUID = 1L;
@@ -43,7 +48,7 @@ public class SplashScreen extends JFrame implements Runnable {
                         mt.waitForAll();
                     } catch (InterruptedException ie) {
                         // Interrupted while loading image
-                        System.err.println("Interrupted while loading SplashScreen");
+                        LOGGER.error("Interrupted while loading SplashScreen");
                     }
                 });
     }
@@ -71,7 +76,7 @@ public class SplashScreen extends JFrame implements Runnable {
                 Thread.sleep(3 * 1000);
             } catch (InterruptedException ie) {
                 now = then; // Break loop
-                System.err.println("SplashScreen interrupted");
+                LOGGER.error("SplashScreen interrupted");
             }
             now = System.currentTimeMillis();
         }

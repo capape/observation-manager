@@ -30,6 +30,9 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
@@ -549,6 +552,8 @@ class CatalogChecker implements Runnable {
 
 class UpdateRunnable implements Runnable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateRunnable.class);
+
     private StatisticsDialog dialog = null;
     private boolean running = true;
 
@@ -588,7 +593,7 @@ class UpdateRunnable implements Runnable {
                 try {
                     watchDog.wait(1000);
                 } catch (InterruptedException ie) {
-                    System.err.println("CatalogChecker thread was interrupted!\n" + ie);
+                    LOGGER.error("CatalogChecker thread was interrupted!", ie);
                 }
             }
             this.running = false;

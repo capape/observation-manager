@@ -21,6 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
@@ -41,6 +44,8 @@ import de.lehmannet.om.ui.panel.GenericListableCatalogSearchPanel;
 import de.lehmannet.om.util.FloatUtil;
 
 public class CaldwellCatalog implements IListableCatalog {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CaldwellCatalog.class);
 
     private static final String CATALOG_NAME = "Caldwell";
 
@@ -124,7 +129,7 @@ public class CaldwellCatalog implements IListableCatalog {
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("File not found: " + file);
+            LOGGER.error("File not found: {} ", file, fnfe);
             return false;
         }
 
@@ -225,7 +230,7 @@ public class CaldwellCatalog implements IListableCatalog {
             }
 
         } catch (IOException ioe) {
-            System.err.println("Error reading file " + file + "\n" + ioe);
+            LOGGER.error("Error reading file {} ", file, ioe);
             return false;
         }
 

@@ -38,6 +38,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
@@ -54,6 +57,7 @@ import de.lehmannet.om.util.DateManagerImpl;
 
 public class VariableStarChartDialog extends OMDialog implements PropertyChangeListener, ComponentListener {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(VariableStarChartDialog.class);
     private static final long serialVersionUID = 3386387945098447550L;
 
     public VariableStarChartDialog(JFrame om, UserInterfaceHelper uiHelper, IConfiguration configuration,
@@ -140,6 +144,8 @@ public class VariableStarChartDialog extends OMDialog implements PropertyChangeL
 }
 
 class MagnitudeDiagramm extends JPanel implements MouseListener {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MagnitudeDiagramm.class);
 
     /**
      *
@@ -864,14 +870,14 @@ class MagnitudeDiagramm extends JPanel implements MouseListener {
         try {
             ImageIO.write(awtImage, "jpg", file);
         } catch (IOException ioe) {
-            System.err.println("Error while saving image.\n" + ioe);
+            LOGGER.error("Error while saving image", ioe);
             error = true;
         }
 
         /*
          * try { FileOutputStream out = new FileOutputStream(file); //JPEGImageEncoderImpl j = new
          * JPEGImageEncoderImpl(out); //j.encode(awtImage); out.close(); } catch (Exception e) {
-         * System.err.println("Error while saving image.\n" + e); }
+         * LOGGER.error("Error while saving image", e); }
          */
 
         hourglassCursor = new Cursor(Cursor.DEFAULT_CURSOR);
