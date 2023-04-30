@@ -10,6 +10,7 @@ package de.lehmannet.om;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -772,7 +773,9 @@ public class Observation extends SchemaElement implements IObservation {
     private void addEnd(Document ownerDoc, Element e_Observation) {
         if (end != null) {
             Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
-            Node n_EndText = ownerDoc.createTextNode(end.toString());
+            String endText = DateTimeFormatter.ISO_INSTANT.format(end);
+
+            Node n_EndText = ownerDoc.createTextNode(endText);
             e_End.appendChild(n_EndText);
             e_Observation.appendChild(e_End);
         }
@@ -780,7 +783,9 @@ public class Observation extends SchemaElement implements IObservation {
 
     private void addBegin(Document ownerDoc, Element e_Observation) {
         Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
-        Node n_BeginText = ownerDoc.createTextNode(begin.toString());
+        String beginText = DateTimeFormatter.ISO_INSTANT.format(begin);
+
+        Node n_BeginText = ownerDoc.createTextNode(beginText);
         e_Begin.appendChild(n_BeginText);
         e_Observation.appendChild(e_Begin);
     }
