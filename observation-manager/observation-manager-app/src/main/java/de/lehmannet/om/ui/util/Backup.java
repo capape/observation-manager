@@ -31,7 +31,7 @@ public final class Backup {
         Path originalPath = Paths.get(newPath);
 
         if (originalPath.toFile().exists()) {
-            String backupPath = newPath + Instant.now() + ".backup";
+            String backupPath = newPath + Instant.now().toEpochMilli() + ".backup";
             Path copied = Paths.get(backupPath);
             try {
                 Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
