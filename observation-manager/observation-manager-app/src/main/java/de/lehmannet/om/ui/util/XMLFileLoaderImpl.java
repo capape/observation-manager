@@ -138,23 +138,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     }
 
-    /*
-     * public Document getDocumentForObservation(IObservation observation) {
-     *
-     * RootElement root = new RootElement();
-     *
-     * // @todo This only works for ONE file opened... if( observation == null ) { // Nothing to save return null; }
-     *
-     * this.addObservationAndDependentToRoot(observation, root);
-     *
-     * try { if( root != null ) { return root.getDocument(); } else { LOGGER.error("Unable to retrieve DOM Document\n");
-     * } } catch(SchemaException se) { LOGGER.error("Unable to retrieve DOM Document", se); }
-     *
-     * return null;
-     *
-     * }
-     */
-
     public String getXMLFileForSchemaElement(ISchemaElement schemaElement) {
 
         // @todo This only works for ONE file opened...

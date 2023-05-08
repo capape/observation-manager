@@ -28,9 +28,11 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +41,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.Filter;
+import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -276,51 +279,105 @@ public class SchemaLoader {
             throw new OALException("XML file is null, does not exist or is directory. ");
         }
 
-        File schemaFile = this.getSchemaFile(xmlFile, schemaPath);
-
-        System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
-                "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(false);
-        dbf.setNamespaceAware(true);
-        dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
-        dbf.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource", schemaFile.getAbsoluteFile());
+        String schemaFilePath = getFilePathInResourcesAccordingToVersionInFile(xmlFile);
 
         try {
-            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-            java.net.URL fileUrl = Thread.currentThread().getContextClassLoader().getResource("schema/oal21.xsd");
-
-            Schema schema = factory.newSchema(new File(fileUrl.getFile()));
-            javax.xml.validation.Validator validator = schema.newValidator();
-
-            validator.validate(new StreamSource(xmlFile));
-        } catch (IOException e) {
-            LOGGER.error("Error parsing xml file: {}", xmlFile, e);
-            // throw new SchemaException("Unable to parse xml file");
-        } catch (SAXException e) {
-            LOGGER.error("Error parsing xml file: {}.", xmlFile, e);
-            // throw new SchemaException("Unable to parse xml file");
-        }
-
-        try (FileInputStream is = new FileInputStream(xmlFile)) {
+            isValid(schemaFilePath, xmlFile.getAbsolutePath());
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setValidating(false);
+            dbf.setNamespaceAware(true);
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Validator handler = new Validator();
-            db.setErrorHandler(handler);
+            try (FileInputStream is = new FileInputStream(xmlFile)) {
+                Document doc = db.parse(is);
+                return this.load(doc);
+            }
 
-            Document doc = db.parse(is);
-            return this.load(doc);
+        } catch (IOException e) {
+            LOGGER.error("Error reading xml file: {}. {}", xmlFile, e.getLocalizedMessage(), e);
+            throw new OALException("Error reading xml  xml file: " + xmlFile.getAbsolutePath(), e);
+        } catch (SAXParseException e) {
+            LOGGER.error("Error parsing xml file: {}. {}", xmlFile, e.toString(), e);
+            throw new OALException("Error parsing  xml file: " + xmlFile.getAbsolutePath(), e);
+        } catch (SAXException e) {
+            LOGGER.error("Error in xml file: {}.{} ", xmlFile, e.getLocalizedMessage(), e);
+            throw new OALException("Error in xml file: " + xmlFile.getAbsolutePath(), e);
+        } catch (ParserConfigurationException e) {
+            LOGGER.error("Error in xml file: {}.{} ", xmlFile, e.getLocalizedMessage(), e);
+            throw new OALException("ror in xmlxml file: " + xmlFile.getAbsolutePath(), e);
 
-        } catch (SAXException sax) {
-            throw new SchemaException("Unable to parse xml file: " + xmlFile.getAbsolutePath(), sax);
-        } catch (IOException ioe) {
-            throw new OALException("Unable to access xml file: " + xmlFile.getAbsolutePath(), ioe);
         }
 
-        catch (ParserConfigurationException pce) {
-            throw new SchemaException("Parser configuration wrong: " + xmlFile.getAbsolutePath(), pce);
+        // throw new OALException("Error reading xml xml file: " + xmlFile.getAbsolutePath());
+    }
+
+    private String getFilePathInResourcesAccordingToVersionInFile(File xmlFile) throws OALException {
+        char[] buffer = getSchemaVersionForXml(xmlFile);
+        // Check if in the first 500 characters of the XML file a known SchemaFile name
+        // is persent.
+        // If so load the Schemafile for validation
+        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
+            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
+            if (index != -1) {
+                return "schema/" + SchemaLoader.VERSIONS[i];
+            }
         }
 
+        throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
+    }
+
+    private File getFile(String location) {
+        return new File(getClass().getClassLoader().getResource(location).getFile());
+    }
+
+    private Validator initValidator(String xsdPath) throws SAXException {
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Source schemaFile = new StreamSource(getFile(xsdPath));
+        Schema schema = factory.newSchema(schemaFile);
+        return schema.newValidator();
+    }
+
+    public boolean isValid(String xsdPath, String xmlPath) throws IOException, SAXException {
+        Validator validator = initValidator(xsdPath);
+        XmlErrorHandler xsdErrorHandler = new XmlErrorHandler();
+        try {
+            validator.setErrorHandler(xsdErrorHandler);
+            validator.validate(new StreamSource(new File(xmlPath)));
+
+        } catch (SAXException e) {
+
+        }
+
+        xsdErrorHandler.getExceptions().forEach(e -> LOGGER.error("Error in xml file: {}. {}", xmlPath, e.toString()));
+        return xsdErrorHandler.getExceptions().isEmpty();
+    }
+
+    public class XmlErrorHandler implements ErrorHandler {
+
+        private List<SAXParseException> exceptions;
+
+        public XmlErrorHandler() {
+            this.exceptions = new ArrayList<>();
+        }
+
+        public List<SAXParseException> getExceptions() {
+            return exceptions;
+        }
+
+        @Override
+        public void warning(SAXParseException exception) {
+            exceptions.add(exception);
+        }
+
+        @Override
+        public void error(SAXParseException exception) {
+            exceptions.add(exception);
+        }
+
+        @Override
+        public void fatalError(SAXParseException exception) {
+            exceptions.add(exception);
+        }
     }
 
     /**
@@ -667,7 +724,6 @@ public class SchemaLoader {
 
         // Helper classes
         Node currentNode = null;
-        Node attribute = null;
 
         for (int i = 0; i < targetList.getLength(); i++) {
 
@@ -676,37 +732,33 @@ public class SchemaLoader {
             // Get classname from xsi:type
             NamedNodeMap attributes = currentNode.getAttributes();
             if ((attributes != null) && (attributes.getLength() != 0)) {
-                attribute = attributes.getNamedItem(ITarget.XML_XSI_TYPE);
-                if (attribute != null) {
-                    String xsiType = attribute.getNodeValue();
+                String xsiType = getAttributeXsiTypeOrAssigneGeneric(attributes);
 
-                    ITarget object = null;
-                    try {
-                        object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);
-                    } catch (SchemaException se) {
-                        LOGGER.error("\n\nContinue with next target element...\n\n", se);
-                        continue;
-                    }
-                    if (object != null) {
-                        ITarget currentTarget = null;
-                        currentTarget = object;
-                        // Make sure catalog targets are unique (fixes Bug that might occur with files
-                        // from 0.516)
-                        // if( currentTarget.getDatasource() != null ) { // Target is catalog object
-                        int index = targetElements.indexOf(currentTarget);
-                        if (index != -1) { // Target already in catalog
-                            this.doublicateTargets.put(currentTarget, targetElements.get(index));
-                        }
-                        // }
-                        // Add target (doublicate targets will be removed later when we've the
-                        // observations)
-                        targetElements.add(currentTarget);
-                    } else {
-                        throw new SchemaException("Unable to load class of type: " + xsiType);
-                    }
-                } else {
-                    throw new SchemaException("No attribute specified: " + ITarget.XML_XSI_TYPE);
+                ITarget object = null;
+                try {
+                    object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);
+                } catch (SchemaException se) {
+                    LOGGER.error("\n\nContinue with next target element...\n\n", se);
+                    continue;
                 }
+                if (object != null) {
+                    ITarget currentTarget = null;
+                    currentTarget = object;
+                    // Make sure catalog targets are unique (fixes Bug that might occur with files
+                    // from 0.516)
+                    // if( currentTarget.getDatasource() != null ) { // Target is catalog object
+                    int index = targetElements.indexOf(currentTarget);
+                    if (index != -1) { // Target already in catalog
+                        this.doublicateTargets.put(currentTarget, targetElements.get(index));
+                    }
+                    // }
+                    // Add target (doublicate targets will be removed later when we've the
+                    // observations)
+                    targetElements.add(currentTarget);
+                } else {
+                    throw new SchemaException("Unable to load class of type: " + xsiType);
+                }
+
             } else {
                 throw new SchemaException("No attribute specified: " + ITarget.XML_XSI_TYPE);
             }
@@ -714,6 +766,19 @@ public class SchemaLoader {
         }
 
         return (ITarget[]) targetElements.toArray(new ITarget[] {});
+    }
+
+    private String getAttributeXsiTypeOrAssigneGeneric(NamedNodeMap attributes) {
+        String xsiType = GenericTarget.XML_XSI_TYPE_VALUE;
+        Node attribute = attributes.getNamedItem(ITarget.XML_XSI_TYPE);
+        if (attribute != null) {
+            xsiType = attribute.getNodeValue();
+        } else {
+            LOGGER.warn("No attribute specified: {}, using: {}", ITarget.XML_XSI_TYPE,
+                    GenericTarget.XML_XSI_TYPE_VALUE);
+            // throw new SchemaException("No attribute specified: " + ITarget.XML_XSI_TYPE);
+        }
+        return xsiType;
     }
 
     private ISession[] createSessionElements(Node sessions) throws SchemaException {
@@ -891,6 +956,22 @@ public class SchemaLoader {
 
     private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
 
+        char[] buffer = getSchemaVersionForXml(xmlFile);
+        // Check if in the first 500 characters of the XML file a known SchemaFile name
+        // is persent.
+        // If so load the Schemafile for validation
+        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
+            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
+            if (index != -1) {
+                return new File(schemaPath.getAbsolutePath() + File.separatorChar + SchemaLoader.VERSIONS[i]);
+            }
+        }
+
+        throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
+
+    }
+
+    private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
         char[] buffer = new char[500];
 
         try (FileInputStream fileStream = new FileInputStream(xmlFile);
@@ -906,18 +987,7 @@ public class SchemaLoader {
             throw new OALException("Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe,
                     ioe);
         }
-        // Check if in the first 500 characters of the XML file a known SchemaFile name
-        // is persent.
-        // If so load the Schemafile for validation
-        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
-            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
-            if (index != -1) {
-                return new File(schemaPath.getAbsolutePath() + File.separatorChar + SchemaLoader.VERSIONS[i]);
-            }
-        }
-
-        throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
-
+        return buffer;
     }
 
     // Remove doublicate catalog targets
@@ -958,35 +1028,6 @@ public class SchemaLoader {
         }
         // Set clean targets array
         this.targets = (ITarget[]) targetElements.toArray(new ITarget[] {});
-
-    }
-
-    // -------------
-    // Inner Classes ----------------------------------------------------------
-    // -------------
-
-    private static class Validator extends DefaultHandler {
-
-        @Override
-        public void error(SAXParseException exception) {
-
-            LOGGER.error("XML Schema error: ", exception);
-
-        }
-
-        @Override
-        public void fatalError(SAXParseException exception) {
-
-            LOGGER.error("XML Schema fatal error: ", exception);
-
-        }
-
-        @Override
-        public void warning(SAXParseException exception) {
-
-            LOGGER.warn("XML Schema warning: ", exception);
-
-        }
 
     }
 
