@@ -7,9 +7,13 @@
 
 package de.lehmannet.om;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -17,13 +21,13 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +81,7 @@ public class RootElement {
     private static final String XML_SI_KEY = "xmlns:xsi";
 
     // XML SI Schema
-    private static final String XML_SI = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String XML_SI = "https://www.w3.org/2001/XMLSchema-instance";
 
     // XML Schema Location Key
     private static final String XML_SCHEMA_LOCATION_KEY = "xsi:schemaLocation";
@@ -465,9 +469,7 @@ public class RootElement {
         try {
             FileWriter writer = new FileWriter(xmlFile);
             StreamResult result = new StreamResult(writer);
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            Transformer transformer = createTransformer(transformerFactory);
             transformer.transform(source, result);
         } catch (TransformerConfigurationException e) {
             LOG.error("Cannot configure xml format", e);
@@ -484,6 +486,32 @@ public class RootElement {
             LOG.error("Error writing to xml file", e);
             throw new RuntimeException(e);
         }
+    }
+
+    private Transformer createTransformer(TransformerFactory transformerFactory)
+            throws TransformerConfigurationException, IOException {
+        Transformer transformer = transformerFactory
+                .newTransformer(new StreamSource(new StringReader(readPrettyPrintXslt())));
+        // Transformer transformer = transformerFactory.newTransformer();
+        // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        // transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        return transformer;
+    }
+
+    private static String readPrettyPrintXslt() throws IOException {
+        InputStream inputStream = RootElement.class.getResourceAsStream("/prettyprint.xsl");
+        return readFromInputStream(inputStream);
+    }
+
+    private static String readFromInputStream(InputStream inputStream) throws IOException {
+        StringBuilder resultStringBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                resultStringBuilder.append(line).append("\n");
+            }
+        }
+        return resultStringBuilder.toString();
     }
 
     public Document getDocument() throws SchemaException {
