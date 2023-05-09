@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
@@ -434,7 +435,7 @@ public class SchemaLoader {
         loadEyePieces(rootElement);
         loadFilters(rootElement);
 
-        loadImager(rootElement);
+        loadImagers(rootElement);
 
         loadSession(rootElement);
 
@@ -483,7 +484,7 @@ public class SchemaLoader {
         sessions = createSessionElements(element);
     }
 
-    private void loadImager(Element rootElement) throws OALException, SchemaException {
+    private void loadImagers(Element rootElement) throws OALException, SchemaException {
         Node element;
         NodeList elementContainer;
         // --------- Imager -----------
@@ -906,52 +907,59 @@ public class SchemaLoader {
 
         Element e = (Element) imagers;
 
-        NodeList imagerList = e.getElementsByTagName(IImager.XML_ELEMENT_IMAGER);
+        List<IImager> imagerElements = extractImagerByNodeName(e, IImager.XML_ELEMENT_IMAGER);
+        imagerElements.addAll(extractImagerByNodeName(e, IImager.XML_ELEMENT_IMAGER_SKY_SAFARI));
+
+        return (IImager[]) imagerElements.toArray(new IImager[] {});
+
+    }
+
+    private List<IImager> extractImagerByNodeName(Element e, String nodeName) throws SchemaException {
+        NodeList imagerList = e.getElementsByTagName(nodeName);
 
         // As loading of imagers might fail (unknown XSI type) we do not know the amount
         // of successfuly loaded elements..
         List<IImager> imagerElements = new ArrayList<>(imagerList.getLength());
-
-        // Helper classes
-        Node currentNode = null;
-        Node attribute = null;
-
         for (int i = 0; i < imagerList.getLength(); i++) {
+            Node currentNode = imagerList.item(i);
+            Optional<IImager> imager = readImager(currentNode);
+            if (imager.isPresent()) {
+                imagerElements.add(imager.get());
+            }
 
-            currentNode = imagerList.item(i);
+        }
+        return imagerElements;
+    }
 
-            // Get classname from xsi:type
-            NamedNodeMap attributes = currentNode.getAttributes();
-            if ((attributes != null) && (attributes.getLength() != 0)) {
-                attribute = attributes.getNamedItem(IImager.XML_XSI_TYPE);
-                if (attribute != null) {
-                    String xsiType = attribute.getNodeValue();
+    private Optional<IImager> readImager(Node currentNode) throws SchemaException {
 
-                    IImager object = null;
-                    try {
-                        object = SchemaLoader.getImagerFromXSIType(xsiType, currentNode);
-                    } catch (SchemaException se) {
-                        LOGGER.error("\n\nContinue with next imager element...\n\n", se);
-                        continue;
-                    }
-                    if (object != null) {
-                        IImager currentImager = null;
-                        currentImager = object;
-                        imagerElements.add(currentImager);
-                    } else {
-                        throw new SchemaException("Unable to load class of type: " + xsiType);
-                    }
+        Node attribute;
+
+        // Get classname from xsi:type
+        NamedNodeMap attributes = currentNode.getAttributes();
+        if ((attributes != null) && (attributes.getLength() != 0)) {
+            attribute = attributes.getNamedItem(IImager.XML_XSI_TYPE);
+            if (attribute != null) {
+                String xsiType = attribute.getNodeValue();
+
+                IImager currentImager = null;
+                try {
+                    currentImager = SchemaLoader.getImagerFromXSIType(xsiType, currentNode);
+                } catch (SchemaException se) {
+                    LOGGER.error("\n\nContinue with next imager element...\n\n", se);
+                    return Optional.empty();
+                }
+                if (currentImager != null) {
+                    return Optional.of(currentImager);
                 } else {
-                    throw new SchemaException("No attribute specified: " + IImager.XML_XSI_TYPE);
+                    throw new SchemaException("Unable to load class of type: " + xsiType);
                 }
             } else {
                 throw new SchemaException("No attribute specified: " + IImager.XML_XSI_TYPE);
             }
-
+        } else {
+            throw new SchemaException("No attribute specified: " + IImager.XML_XSI_TYPE);
         }
-
-        return (IImager[]) imagerElements.toArray(new IImager[] {});
-
     }
 
     private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {

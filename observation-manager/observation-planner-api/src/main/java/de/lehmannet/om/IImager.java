@@ -35,6 +35,8 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      */
     String XML_ELEMENT_IMAGER = "imager";
 
+    String XML_ELEMENT_IMAGER_SKY_SAFARI = "ccdCameraType";
+
     /**
      * Constant for XML representation: model element name
      *
