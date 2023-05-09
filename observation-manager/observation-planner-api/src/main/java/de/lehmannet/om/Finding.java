@@ -294,9 +294,10 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
         Element e_Description = ownerDoc.createElement(XML_ELEMENT_DESCRIPTION);
 
-        Node n_DescriptionText = ownerDoc.createCDATASection(description);
-
-        e_Description.appendChild(n_DescriptionText);
+        if (description != null) {
+            Node n_DescriptionText = ownerDoc.createCDATASection(description);
+            e_Description.appendChild(n_DescriptionText);
+        }
         e_Finding.appendChild(e_Description);
 
         if (this.lang != null) {
