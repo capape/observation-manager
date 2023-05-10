@@ -1477,9 +1477,9 @@ public class Observation extends SchemaElement implements IObservation {
             // Check if also end date is correct (if set)
             if (this.end != null) {
                 if (this.end.isAfter(sessionEnd)) {
-                    LOGGER.error("Observation end date is after session start date  for:  {}", this.getDisplayName());
+                    LOGGER.error("Observation end date is after session end date  for:  {}", this.getDisplayName());
                     throw new IllegalArgumentException(
-                            "Observation end date is after session start date " + this.getDisplayName());
+                            "Observation end date is after session end date " + this.getDisplayName());
                 } else {
                     this.session = session;
                 }
