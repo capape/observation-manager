@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import de.lehmannet.om.util.SchemaException;
 
@@ -86,10 +87,10 @@ public class Angle {
         Element angle = (Element) angleNode;
 
         String unit = angle.getAttribute(Angle.XML_ATTRIBUTE_UNIT).trim();
-        if ((unit.equals(Angle.RADIANT)) || (unit.equals(Angle.DEGREE)) || (unit.equals(Angle.ARCSECOND))
-                || (unit.equals(Angle.ARCMINUTE))) {
+        if (isTextADoubleUnit(unit)) {
             try {
-                this.value = Double.parseDouble(angle.getFirstChild().getNodeValue());
+                String textNode = readTextFromElement(angle);
+                this.value = Double.parseDouble(textNode);
             } catch (NumberFormatException e) {
                 this.value = 0.0d;
             }
@@ -98,6 +99,22 @@ public class Angle {
             throw new SchemaException("Angle unit is unknown. ");
         }
 
+    }
+
+    private boolean isTextADoubleUnit(String unit) {
+        return (unit.equals(Angle.RADIANT)) || (unit.equals(Angle.DEGREE)) || (unit.equals(Angle.ARCSECOND))
+                || (unit.equals(Angle.ARCMINUTE));
+    }
+
+    private String readTextFromElement(Element element) {
+        StringBuffer textNode = new StringBuffer();
+        NodeList textElements = element.getChildNodes();
+        if (textElements.getLength() > 0) {
+            for (int te = 0; te < textElements.getLength(); te++) {
+                textNode.append(textElements.item(te).getNodeValue());
+            }            
+        }
+        return textNode.toString().trim();
     }
 
     /*
