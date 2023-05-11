@@ -562,12 +562,11 @@ public class ObservationMapper {
         }
 
         IFinding finding = SchemaLoader.getFindingFromXSIType(xsiType, elementFinding);
-        if (finding != null) {            
+        if (finding != null) {
             return finding;
-        } 
-        
+        }
+
         throw new SchemaException("Unable to load class of type: " + xsiType);
-        
 
     }
 }
