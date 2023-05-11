@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -15,6 +16,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -550,19 +552,22 @@ public class ObservationMapper {
 
     private static IFinding createFindingElements(Node result, ITarget target) throws SchemaException {
 
-        Element finding = (Element) result;
+        Element elementFinding = (Element) result;
 
         // Get classname from xsi:type
-        // String xsiType = finding.getAttribute(IFinding.XML_XSI_TYPE);
-        String xsiType = target.getXSIType(); // Use XSI:Type from target to determin Finding type
-        IFinding object = SchemaLoader.getFindingFromXSIType(xsiType, finding);
-        if (object != null) {
-            IFinding currentFinding = null;
-            currentFinding = object;
-            return currentFinding;
-        } else {
-            throw new SchemaException("Unable to load class of type: " + xsiType);
+        String xsiType = elementFinding.getAttribute(IFinding.XML_XSI_TYPE);
+        if (StringUtils.isBlank(xsiType)) {
+            xsiType = target.getXSIType(); // Use XSI:Type from target to determin Finding type
+            elementFinding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, xsiType);
         }
+
+        IFinding finding = SchemaLoader.getFindingFromXSIType(xsiType, elementFinding);
+        if (finding != null) {            
+            return finding;
+        } 
+        
+        throw new SchemaException("Unable to load class of type: " + xsiType);
+        
 
     }
 }

@@ -290,11 +290,11 @@ public class Observer extends SchemaElement implements IObserver {
             Iterator<Entry<String, String>> iterator = accounts.entrySet().iterator();
             while (iterator.hasNext()) {
                 Entry<String, String> entry = iterator.next();
-                String account = entry.getValue();
-                String value = this.accounts.get(entry.getKey());
+                String accountKey = entry.getKey();
+                String accountValue = this.accounts.get(accountKey);
                 e_Account = ownerDoc.createElement(XML_ELEMENT_ACCOUNT);
-                e_Account.setAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME, account);
-                Node n_AccountText = ownerDoc.createCDATASection(value);
+                e_Account.setAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME, accountKey);
+                Node n_AccountText = ownerDoc.createCDATASection(accountValue);
                 e_Account.appendChild(n_AccountText);
                 e_Observer.appendChild(e_Account);
             }
