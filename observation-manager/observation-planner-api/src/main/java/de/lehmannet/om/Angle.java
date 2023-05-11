@@ -112,7 +112,7 @@ public class Angle {
         if (textElements.getLength() > 0) {
             for (int te = 0; te < textElements.getLength(); te++) {
                 textNode.append(textElements.item(te).getNodeValue());
-            }            
+            }
         }
         return textNode.toString().trim();
     }
