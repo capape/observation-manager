@@ -14,6 +14,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -329,10 +331,12 @@ class JulianDateDialog extends JDialog implements ActionListener {
     private JButton cancel;
     private JButton ok;
     private JTextField jdString;
+    private DatePicker datePicker;
 
     public JulianDateDialog(DatePicker dp, TimeZone tz) {
 
         super(dp, true);
+        datePicker = dp;
 
         this.timeZone = tz;
 
@@ -366,13 +370,18 @@ class JulianDateDialog extends JDialog implements ActionListener {
                 this.dispose();
             } else if (source.equals(this.ok)) {
                 String jdString = this.jdString.getText();
+
                 try {
-                    double jd = Double.parseDouble(jdString);
+                    Number number = NumberFormat.getInstance().parse(jdString);
+                    double jd = number.doubleValue();
                     Calendar cal = DateConverter.toGregorianDate(jd, this.timeZone);
                     this.calendar = cal.getTime().toInstant().atZone(ZoneId.of(this.timeZone.getID()));
                 } catch (IllegalArgumentException nfe) {
                     JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
                             this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
+                } catch (ParseException e1) {
+                    JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
+                    this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
                 }
                 this.dispose();
             }
@@ -395,9 +404,13 @@ class JulianDateDialog extends JDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 30, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.jdString = new JTextField();
-        String now = "" + DateConverter.toJulianDate(Calendar.getInstance());
-        now = now.substring(0, now.indexOf('.'));
-        this.jdString.setText(now);
+        
+        
+        
+        
+        
+        String julianDate = NumberFormat.getInstance().format(DateConverter.toJulianDate(datePicker.getDate()));
+        this.jdString.setText(julianDate);
         jdString.setEditable(true);
         jdString.setToolTipText(this.bundle.getString("julianDateDialog.tooltip.JDField"));
         gridbag.setConstraints(jdString, constraints);
