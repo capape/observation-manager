@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
 
@@ -35,10 +35,10 @@
 					<td valign="top" width="20%">
 
 						<xsl:if test="count(constellation)>0">
-							<b>Constelación: </b> <xsl:value-of select="constellation"/>
+							<b>ConstelaciÃ³n: </b> <xsl:value-of select="constellation"/>
 						</xsl:if>
 						<xsl:if test="count(constellation)=0">
-							<b>Sin constelación: </b>
+							<b>Sin constelaciÃ³n: </b>
 						</xsl:if>
 												
 					</td>
@@ -71,7 +71,7 @@
 												<xsl:when test="name='EARTH'">Tierra</xsl:when>
 												<xsl:when test="name='MOON'">Luna</xsl:when>
 												<xsl:when test="name='MARS'">Marte</xsl:when>
-												<xsl:when test="name='JUPITER'">Júpiter</xsl:when>
+												<xsl:when test="name='JUPITER'">JÃºpiter</xsl:when>
 												<xsl:when test="name='SATURN'">Saturno</xsl:when>
 												<xsl:when test="name='URANUS'">Urano</xsl:when>
 												<xsl:when test="name='NEPTUNE'">Neptuno</xsl:when>
@@ -102,17 +102,17 @@
 									<xsl:choose>
 
 										<xsl:when test="@type='oal:deepSkyGX'">Galaxia</xsl:when>
-										<xsl:when test="@type='oal:deepSkyGC'">Cúmulo Globular</xsl:when>
-										<xsl:when test="@type='oal:deepSkyGN'">Nebulosa Galáctica</xsl:when>
-										<xsl:when test="@type='oal:deepSkyOC'">Cúmulo Abierto</xsl:when>
+										<xsl:when test="@type='oal:deepSkyGC'">CÃºmulo Globular</xsl:when>
+										<xsl:when test="@type='oal:deepSkyGN'">Nebulosa GalÃ¡ctica</xsl:when>
+										<xsl:when test="@type='oal:deepSkyOC'">CÃºmulo Abierto</xsl:when>
 										<xsl:when test="@type='oal:deepSkyPN'">Nebulosa Planetaria</xsl:when>
-										<xsl:when test="@type='oal:deepSkyQS'">Cuásar</xsl:when>
+										<xsl:when test="@type='oal:deepSkyQS'">CuÃ¡sar</xsl:when>
 										<xsl:when test="@type='oal:deepSkyDS'">Estrella Doble</xsl:when>
 										<xsl:when test="@type='oal:deepSkyDN'">Nebulosa Oscura</xsl:when>
 										<xsl:when test="@type='oal:deepSkyAS'">Asterismo</xsl:when>
 										<xsl:when test="@type='oal:deepSkySC'">Nube Estelar</xsl:when>
-										<xsl:when test="@type='oal:deepSkyMS'">Sistema Estelar Múltiple</xsl:when>
-										<xsl:when test="@type='oal:deepSkyCG'">Cúmulo Galáctico</xsl:when>
+										<xsl:when test="@type='oal:deepSkyMS'">Sistema Estelar MÃºltiple</xsl:when>
+										<xsl:when test="@type='oal:deepSkyCG'">CÃºmulo GalÃ¡ctico</xsl:when>
 										<xsl:when test="@type='oal:variableStarTargetType'">Estrella Variable</xsl:when>
 										<xsl:when test="@type='oal:SunTargetType'">Sol</xsl:when>
 										<xsl:when test="@type='oal:MoonTargetType'">Luna</xsl:when>
@@ -152,7 +152,7 @@
 							<tr>
 
 								<td>
-									<b>Posición: </b>
+									<b>PosiciÃ³n: </b>
 
 									<xsl:if test="boolean(position/ra)">
 
@@ -212,7 +212,7 @@
 								<xsl:if test="boolean(smallDiameter) and boolean(largeDiameter)">
 									<tr>
 										<td>
-											<b>Tamaño </b>
+											<b>TamaÃ±o </b>
 											<xsl:call-template name="angle">
 												<xsl:with-param name="angle" select="smallDiameter"/>
 											</xsl:call-template> &#215;
@@ -519,4 +519,3 @@
 	</xsl:template>
 
 </xsl:stylesheet>
-
