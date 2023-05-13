@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
 
@@ -24,23 +24,23 @@
 
 	</xsl:template>
 
-
+	
 
 	<xsl:template match="target">
-
+		
 			<table border="0" cellspacing="3" cellpadding="3" width="90%" style="font-size:14;font-family:Verdana,Arial">
-
+					
 				<tr>
 
 					<td valign="top" width="20%">
 
 						<xsl:if test="count(constellation)>0">
-							<b>Constelación: </b> <xsl:value-of select="constellation"/>
+							<b>ConstelaciÃ³n: </b> <xsl:value-of select="constellation"/>
 						</xsl:if>
 						<xsl:if test="count(constellation)=0">
-							<b>Sin constelación: </b>
+							<b>Sin constelaciÃ³n: </b>
 						</xsl:if>
-
+												
 					</td>
 
 					<td width="80%"></td>
@@ -71,7 +71,7 @@
 												<xsl:when test="name='EARTH'">Tierra</xsl:when>
 												<xsl:when test="name='MOON'">Luna</xsl:when>
 												<xsl:when test="name='MARS'">Marte</xsl:when>
-												<xsl:when test="name='JUPITER'">Júpiter</xsl:when>
+												<xsl:when test="name='JUPITER'">JÃºpiter</xsl:when>
 												<xsl:when test="name='SATURN'">Saturno</xsl:when>
 												<xsl:when test="name='URANUS'">Urano</xsl:when>
 												<xsl:when test="name='NEPTUNE'">Neptuno</xsl:when>
@@ -98,21 +98,21 @@
 
 								<td>
 									<b>Typ: </b>
-
+									
 									<xsl:choose>
 
 										<xsl:when test="@type='oal:deepSkyGX'">Galaxia</xsl:when>
-										<xsl:when test="@type='oal:deepSkyGC'">Cúmulo Globular</xsl:when>
-										<xsl:when test="@type='oal:deepSkyGN'">Nebulosa Galáctica</xsl:when>
-										<xsl:when test="@type='oal:deepSkyOC'">Cúmulo Abierto</xsl:when>
+										<xsl:when test="@type='oal:deepSkyGC'">CÃºmulo Globular</xsl:when>
+										<xsl:when test="@type='oal:deepSkyGN'">Nebulosa GalÃ¡ctica</xsl:when>
+										<xsl:when test="@type='oal:deepSkyOC'">CÃºmulo Abierto</xsl:when>
 										<xsl:when test="@type='oal:deepSkyPN'">Nebulosa Planetaria</xsl:when>
-										<xsl:when test="@type='oal:deepSkyQS'">Cuásar</xsl:when>
+										<xsl:when test="@type='oal:deepSkyQS'">CuÃ¡sar</xsl:when>
 										<xsl:when test="@type='oal:deepSkyDS'">Estrella Doble</xsl:when>
 										<xsl:when test="@type='oal:deepSkyDN'">Nebulosa Oscura</xsl:when>
 										<xsl:when test="@type='oal:deepSkyAS'">Asterismo</xsl:when>
 										<xsl:when test="@type='oal:deepSkySC'">Nube Estelar</xsl:when>
-										<xsl:when test="@type='oal:deepSkyMS'">Sistema Estelar Múltiple</xsl:when>
-										<xsl:when test="@type='oal:deepSkyCG'">Cúmulo Galáctico</xsl:when>
+										<xsl:when test="@type='oal:deepSkyMS'">Sistema Estelar MÃºltiple</xsl:when>
+										<xsl:when test="@type='oal:deepSkyCG'">CÃºmulo GalÃ¡ctico</xsl:when>
 										<xsl:when test="@type='oal:variableStarTargetType'">Estrella Variable</xsl:when>
 										<xsl:when test="@type='oal:SunTargetType'">Sol</xsl:when>
 										<xsl:when test="@type='oal:MoonTargetType'">Luna</xsl:when>
@@ -152,7 +152,7 @@
 							<tr>
 
 								<td>
-									<b>Posición: </b>
+									<b>PosiciÃ³n: </b>
 
 									<xsl:if test="boolean(position/ra)">
 
@@ -212,7 +212,7 @@
 								<xsl:if test="boolean(smallDiameter) and boolean(largeDiameter)">
 									<tr>
 										<td>
-											<b>Tamaño </b>
+											<b>TamaÃ±o </b>
 											<xsl:call-template name="angle">
 												<xsl:with-param name="angle" select="smallDiameter"/>
 											</xsl:call-template> &#215;
@@ -253,25 +253,25 @@
 									<td>
 										<b>Fuente: </b><xsl:value-of select="datasource"/></td>
 								</tr>
-							</xsl:if>
+							</xsl:if>							
 
 						</table>
 
 					</td>
 
 				</tr>
-
-			</table>
+					
+			</table>		
 
 	</xsl:template>
 
-
+	
 
 	<xsl:template name="formatHHMM">
 
 		<xsl:param name="node"/>
 
-
+                
 
 		<xsl:param name="hrs"><xsl:value-of select='floor($node div 15)'/></xsl:param>
 
@@ -287,15 +287,15 @@
 
 	</xsl:template>
 
+	
 
-
-
+	
 
 	<xsl:template name="formatDDMM">
 
 		<xsl:param name="node"/>
 
-		<xsl:if test='$node &lt; 0'>
+		<xsl:if test='$node &lt; 0'> 
 
 			<xsl:call-template name="formatDDMM_lower">
 
@@ -313,13 +313,13 @@
 
 			</xsl:call-template>
 
-		</xsl:if>
+		</xsl:if> 
 
 	</xsl:template>
 
+	
 
-
-
+        
 
 	<xsl:template name="formatDDMM_lower">
 
@@ -329,29 +329,29 @@
 
 		<xsl:param name="abs_degrees"><xsl:value-of select='- $node'/></xsl:param>
 
-		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>
+		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>				
 
 		<xsl:param name="degs_rest"><xsl:value-of select='$abs_degrees -  $degs'/></xsl:param>
 
-
+		
 
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 
-
+		
 
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 
-
+		
 
 		<result>-<xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 
 	</xsl:template>
 
+        
 
-
-
+        
 
 	<xsl:template name="formatDDMM_higher">
 
@@ -359,27 +359,27 @@
 
 
 
-		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>
+		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>				
 
 		<xsl:param name="degs_rest"><xsl:value-of select='$node -  $degs'/></xsl:param>
 
-
+		
 
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 
-
+		
 
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 
-
+		
 
 		<result><xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 
-	</xsl:template>
+	</xsl:template> 	
 
-
+        
 
 	<xsl:template match="observer">
 
@@ -425,7 +425,7 @@
 
 	</xsl:template>
 
-
+	
 
 	<xsl:output method="html"/>
 
@@ -460,7 +460,7 @@
 					<xsl:for-each select="//targets/target">
 						<xsl:sort select="constellation"/>
 						<xsl:apply-templates select="."/>
-					</xsl:for-each>
+					</xsl:for-each>										
 
 					<!-- Stammdaten ausgeben -->
 
@@ -498,15 +498,15 @@
 
 					</script>
 
-				</div>
+				</div> 
 
 			</BODY>
 
 		</HTML>
 
-	</xsl:template>
+	</xsl:template>		
 
-
+	
 
 	<!-- Link zurueck zur Liste der Beobachtungen -->
 
@@ -519,4 +519,3 @@
 	</xsl:template>
 
 </xsl:stylesheet>
-
