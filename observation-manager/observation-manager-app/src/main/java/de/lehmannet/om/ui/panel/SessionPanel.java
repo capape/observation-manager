@@ -199,12 +199,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 SchemaElementConstants.OBSERVER);
         List<ISchemaElement> selected = new ArrayList<>();
         if (this.coObsSelector.getAllSelectedElements() != null) {
-            selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements()); // Create new list
-                                                                                     // instance,
-                                                                                     // as
-                                                                                     // otherwise the clear()
-                                                                                     // below, will
-                                                                                     // clear selection
+            // Create new list instance, as otherwise the clear() below, will clear selection
+            selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements());
         }
         this.coObserversList.clear(); // Remove entries first
         List<IObserver> result = selected.stream().map(x -> {
@@ -246,8 +242,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
                     this.observationManager.getDateManager());
         }
-        this.endDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
-                .withSecond(this.beginTime.getSeconds());
+        this.endDate = dp.getDate();
+        this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
     }
 
@@ -262,8 +258,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                     AbstractPanel.bundle.getString("panel.session.datePicker.start"),
                     this.observationManager.getDateManager());
         }
-        this.beginDate = dp.getDate().withHour(this.beginTime.getHour()).withMinute(this.beginTime.getMinutes())
-                .withSecond(this.beginTime.getSeconds());
+        this.beginDate = dp.getDate();
+        this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
     }
 

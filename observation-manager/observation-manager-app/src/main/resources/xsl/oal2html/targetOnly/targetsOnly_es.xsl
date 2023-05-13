@@ -24,12 +24,12 @@
 
 	</xsl:template>
 
-	
+
 
 	<xsl:template match="target">
-		
+
 			<table border="0" cellspacing="3" cellpadding="3" width="90%" style="font-size:14;font-family:Verdana,Arial">
-					
+
 				<tr>
 
 					<td valign="top" width="20%">
@@ -40,7 +40,7 @@
 						<xsl:if test="count(constellation)=0">
 							<b>Sin constelación: </b>
 						</xsl:if>
-												
+
 					</td>
 
 					<td width="80%"></td>
@@ -98,7 +98,7 @@
 
 								<td>
 									<b>Typ: </b>
-									
+
 									<xsl:choose>
 
 										<xsl:when test="@type='oal:deepSkyGX'">Galaxia</xsl:when>
@@ -253,25 +253,25 @@
 									<td>
 										<b>Fuente: </b><xsl:value-of select="datasource"/></td>
 								</tr>
-							</xsl:if>							
+							</xsl:if>
 
 						</table>
 
 					</td>
 
 				</tr>
-					
-			</table>		
+
+			</table>
 
 	</xsl:template>
 
-	
+
 
 	<xsl:template name="formatHHMM">
 
 		<xsl:param name="node"/>
 
-                
+
 
 		<xsl:param name="hrs"><xsl:value-of select='floor($node div 15)'/></xsl:param>
 
@@ -287,15 +287,15 @@
 
 	</xsl:template>
 
-	
 
-	
+
+
 
 	<xsl:template name="formatDDMM">
 
 		<xsl:param name="node"/>
 
-		<xsl:if test='$node &lt; 0'> 
+		<xsl:if test='$node &lt; 0'>
 
 			<xsl:call-template name="formatDDMM_lower">
 
@@ -313,13 +313,13 @@
 
 			</xsl:call-template>
 
-		</xsl:if> 
+		</xsl:if>
 
 	</xsl:template>
 
-	
 
-        
+
+
 
 	<xsl:template name="formatDDMM_lower">
 
@@ -329,29 +329,29 @@
 
 		<xsl:param name="abs_degrees"><xsl:value-of select='- $node'/></xsl:param>
 
-		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>				
+		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>
 
 		<xsl:param name="degs_rest"><xsl:value-of select='$abs_degrees -  $degs'/></xsl:param>
 
-		
+
 
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 
-		
+
 
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 
-		
+
 
 		<result>-<xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 
 	</xsl:template>
 
-        
 
-        
+
+
 
 	<xsl:template name="formatDDMM_higher">
 
@@ -359,27 +359,27 @@
 
 
 
-		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>				
+		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>
 
 		<xsl:param name="degs_rest"><xsl:value-of select='$node -  $degs'/></xsl:param>
 
-		
+
 
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 
-		
+
 
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 
-		
+
 
 		<result><xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
 
-	</xsl:template> 	
+	</xsl:template>
 
-        
+
 
 	<xsl:template match="observer">
 
@@ -425,7 +425,7 @@
 
 	</xsl:template>
 
-	
+
 
 	<xsl:output method="html"/>
 
@@ -460,7 +460,7 @@
 					<xsl:for-each select="//targets/target">
 						<xsl:sort select="constellation"/>
 						<xsl:apply-templates select="."/>
-					</xsl:for-each>										
+					</xsl:for-each>
 
 					<!-- Stammdaten ausgeben -->
 
@@ -498,15 +498,15 @@
 
 					</script>
 
-				</div> 
+				</div>
 
 			</BODY>
 
 		</HTML>
 
-	</xsl:template>		
+	</xsl:template>
 
-	
+
 
 	<!-- Link zurueck zur Liste der Beobachtungen -->
 

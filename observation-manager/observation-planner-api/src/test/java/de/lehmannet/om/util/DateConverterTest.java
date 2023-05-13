@@ -1,4 +1,4 @@
-package de.lehmannet.om.util.test;
+package de.lehmannet.om.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,8 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.util.DateConverter;
 
 public class DateConverterTest {
 

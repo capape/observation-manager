@@ -1,10 +1,12 @@
 package de.lehmannet.om.util;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.JulianFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -128,6 +130,47 @@ public class DateManagerImpl implements DateManager {
         }
 
         return zonedDateTimeToStringWithSeconds(date.toZonedDateTime());
+    }
+
+    public double toJulianDate(ZonedDateTime date) {
+
+        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l);
+        long dayOfJulianDate = JulianFields.JULIAN_DAY.getFrom(datePickerDateInGMAT);
+
+        double hourPart = (double) datePickerDateInGMAT.getHour();
+        double minutePartInHour = (double) datePickerDateInGMAT.getMinute() / 60.0d;
+        double secondsPartInHour = (double) datePickerDateInGMAT.getSecond() / 3600.0d;
+        double decimalPartOfDay = (minutePartInHour + hourPart + secondsPartInHour) / 24.0d;
+
+        double julianDate = dayOfJulianDate + decimalPartOfDay;
+        return julianDate;
+    }
+
+    public ZonedDateTime fromJulianDate(double date, ZoneId zone) {
+
+        int days = (int) date;
+        double decimalPartOfDay = date - days;
+
+        double hoursDecimal = 24 * decimalPartOfDay;
+        int hours = (int) hoursDecimal;
+
+        double decimalPartOfHour = hoursDecimal - hours;
+        double minutesDecimal = 60 * decimalPartOfHour;
+        int minutes = (int) minutesDecimal;
+
+        double decimalPartOfMinutes = minutesDecimal - minutes;
+        double secondsDecimal = 60 * decimalPartOfMinutes;
+        int seconds = (int) secondsDecimal;
+        int nanoSeconds = (int) ((secondsDecimal - seconds) * 1_000_000_000);
+
+        ZonedDateTime zeroTime = Instant.ofEpochMilli(0l).atZone(ZoneId.of("UTC"));
+        long diffDays = days - JulianFields.JULIAN_DAY.getFrom(zeroTime);
+
+        ZonedDateTime julianDate = zeroTime.withHour(hours).withSecond(seconds).withNano(nanoSeconds).plusDays(diffDays)
+                .plusHours(12l);
+
+        return julianDate.withZoneSameInstant(zone);
+
     }
 
 }
