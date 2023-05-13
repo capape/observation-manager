@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="ISO-8859-2"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
 
 
@@ -28,7 +28,7 @@
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
 
-		
+
 
 		<!-- Date of Observation -->
 		<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
@@ -45,7 +45,7 @@
 				</td>
 			</tr>
 		</table>
-		
+
 		<!-- Coobservers -->
 		<xsl:if test="count(coObserver)>0">
 			<p>Dodatkowi obserwatorzy:
@@ -67,7 +67,7 @@
 
 		<xsl:if test="count(weather)>0 or count(equipment)>0 or count(comments)>0">
 			<table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-			
+
 				<!-- Weather -->
 				<xsl:if test="count(weather)>0">
 					<tr>
@@ -103,7 +103,7 @@
 		</xsl:if>
 		<xsl:call-template name="linkTop"/>
 	</xsl:template>
-	
+
 
 
 	<xsl:template match="target">
@@ -126,10 +126,10 @@
 						<xsl:when test="name='URANUS'">Uran</xsl:when>
 						<xsl:when test="name='NEPTUNE'">Neptun</xsl:when>
 						<xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-					</xsl:choose>				
-				</xsl:when>		
-				<xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>	
-			</xsl:choose>			
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
+			</xsl:choose>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
 
@@ -144,7 +144,7 @@
 			<xsl:when test="@type='oal:deepSkyDS'">Gwiazda podwójna</xsl:when>
 			<xsl:when test="@type='oal:deepSkyDN'">Ciemna mgławica</xsl:when>
 			<xsl:when test="@type='oal:deepSkyAS'">Asteryzm</xsl:when>
-			<xsl:when test="@type='oal:deepSkySC'">Chmura gwiazdowa</xsl:when>			
+			<xsl:when test="@type='oal:deepSkySC'">Chmura gwiazdowa</xsl:when>
 			<xsl:when test="@type='oal:deepSkyMS'">Wielokrotny system gwiazdowy</xsl:when>
 			<xsl:when test="@type='oal:deepSkyCG'">Gromada galaktyk</xsl:when>
 			<xsl:when test="@type='oal:variableStarTargetType'">Gwiazda zmienna</xsl:when>
@@ -218,7 +218,7 @@
 						</td>
 					</tr>
 				</xsl:if>
-				
+
 
 				<xsl:if test="boolean(visMag)">
 					<tr>
@@ -260,13 +260,13 @@
 				<tr>
 					<td>Zródło:</td>
 					<td>
-						<xsl:value-of select="key('observerKey', observer)/surname"/>, 
+						<xsl:value-of select="key('observerKey', observer)/surname"/>,
 						<xsl:text/>
 						<xsl:value-of select="key('observerKey', observer)/name"/>
 					</td>
 				</tr>
 			</xsl:if>
-			
+
 
 			<xsl:if test="boolean(datasource)">
 				<tr>
@@ -278,11 +278,11 @@
 			</xsl:if>
 		</table>
 	</xsl:template>
-	
+
 
 
 	<xsl:template name="formatHHMM">
-		<xsl:param name="node"/>                
+		<xsl:param name="node"/>
 
 		<xsl:param name="hrs"><xsl:value-of select='floor($node div 15)'/></xsl:param>
 		<xsl:param name="hrs_rest"><xsl:value-of select='$node - ($hrs * 15)'/></xsl:param>
@@ -295,7 +295,7 @@
 
 	<xsl:template name="formatDDMM">
 		<xsl:param name="node"/>
-		<xsl:if test='$node &lt; 0'> 
+		<xsl:if test='$node &lt; 0'>
 			<xsl:call-template name="formatDDMM_lower">
 				<xsl:with-param name="node" select="$node"/>
 			</xsl:call-template>
@@ -304,31 +304,31 @@
 			<xsl:call-template name="formatDDMM_higher">
 				<xsl:with-param name="node" select="$node"/>
 			</xsl:call-template>
-		</xsl:if> 
-	</xsl:template>      
+		</xsl:if>
+	</xsl:template>
 
 
 	<xsl:template name="formatDDMM_lower">
 		<xsl:param name="node"/>
 		<xsl:param name="abs_degrees"><xsl:value-of select='- $node'/></xsl:param>
-		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>				
+		<xsl:param name="degs"><xsl:value-of select='floor($abs_degrees)'/></xsl:param>
 		<xsl:param name="degs_rest"><xsl:value-of select='$abs_degrees -  $degs'/></xsl:param>
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 		<result>-<xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
-	</xsl:template>     
+	</xsl:template>
 
 
 	<xsl:template name="formatDDMM_higher">
 		<xsl:param name="node"/>
-		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>				
+		<xsl:param name="degs"><xsl:value-of select='floor($node)'/></xsl:param>
 		<xsl:param name="degs_rest"><xsl:value-of select='$node -  $degs'/></xsl:param>
 		<xsl:param name="minutes"><xsl:value-of select='floor(60 * ($degs_rest))'/></xsl:param>
 		<xsl:param name="minutes_rest"><xsl:value-of select='$degs_rest - ($minutes div 60)'/></xsl:param>
 		<xsl:param name="sec"><xsl:value-of select='round($minutes_rest * 3600)'/></xsl:param>
 		<result><xsl:value-of select="$degs"/><xsl:text>&#176; </xsl:text><xsl:if test="$minutes &lt; 10">0</xsl:if><xsl:value-of select="$minutes"/><xsl:text>&apos; </xsl:text><xsl:if test="$sec &lt; 10">0</xsl:if><xsl:value-of select="$sec"/><xsl:text>&quot;</xsl:text></result>
-	</xsl:template>   
+	</xsl:template>
 
 
 	<xsl:template match="observer">
@@ -496,7 +496,7 @@
 
 				<b>Okular: </b>
 
-			</xsl:if>			
+			</xsl:if>
 			<xsl:value-of select="model"/>
 			<xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
 		</p>
@@ -515,7 +515,7 @@
 
 					<xsl:value-of select="focalLength"/>
 
-					<xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> mm									
+					<xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> mm
 
 				</td>
 			</tr>
@@ -584,11 +584,11 @@
 
 		<xsl:call-template name="linkTop"/>
 
-	</xsl:template>	
+	</xsl:template>
 
-	
 
-	
+
+
 
 	<xsl:template match="imager">
 
@@ -610,7 +610,7 @@
 
 				<b>Kamera: </b>
 
-			</xsl:if>			
+			</xsl:if>
 
 			<xsl:value-of select="model"/>
 
@@ -656,7 +656,7 @@
 
 		<xsl:call-template name="linkTop"/>
 
-	</xsl:template>		
+	</xsl:template>
 
 
 
@@ -686,9 +686,9 @@
 							<xsl:when test="type='H-alpha'">H-Alpha</xsl:when>
 							<xsl:when test="type='color'">Kolorowy</xsl:when>
 							<xsl:when test="type='neutral'">Neutralny</xsl:when>
-							<xsl:when test="type='corrective'">Korygujący</xsl:when>																						
+							<xsl:when test="type='corrective'">Korygujący</xsl:when>
 							<xsl:otherwise>(Nieznany typ)</xsl:otherwise>
-						</xsl:choose>					
+						</xsl:choose>
 					</td>
 				</tr>
 				<xsl:if test="count(color)>0">
@@ -705,17 +705,17 @@
 							<xsl:when test="color='yellow'">Żółty</xsl:when>
 							<xsl:when test="color='yellow-green'">Żółto-zielony</xsl:when>
 							<xsl:when test="color='light green'">Jasnozielony</xsl:when>
-							<xsl:when test="color='green'">Zielony</xsl:when>								
+							<xsl:when test="color='green'">Zielony</xsl:when>
 							<xsl:when test="color='medium blue'">Średnioniebieski</xsl:when>
 							<xsl:when test="color='pale blue'">Bladoniebieski</xsl:when>
 							<xsl:when test="color='blue'">Niebieski</xsl:when>
-							<xsl:when test="color='deep blue'">Ciemnoniebieski</xsl:when>									
-							<xsl:when test="color='violet'">Fioletowy</xsl:when>																					
+							<xsl:when test="color='deep blue'">Ciemnoniebieski</xsl:when>
+							<xsl:when test="color='violet'">Fioletowy</xsl:when>
 							<xsl:otherwise>(Nieznany kolor)</xsl:otherwise>
-						</xsl:choose>										
+						</xsl:choose>
 						</td>
 					</tr>
-				</xsl:if>					
+				</xsl:if>
 				<xsl:if test="count(wratten)>0">
 					<tr>
 						<td>Wartość Wratten:</td>
@@ -731,7 +731,7 @@
 							<xsl:value-of select="schott"/>
 						</td>
 					</tr>
-				</xsl:if>				
+				</xsl:if>
 			</xsl:if>
 		</table>
 		<xsl:call-template name="linkTop"/>
@@ -746,10 +746,10 @@
 					<br/>
 				</li>
 			</xsl:if>
-            
+
 			<xsl:if test="contains(./@type,'findingsDeepSkyType') or contains(./@type,'findingsDeepSkyOCType') or contains(./@type,'findingsDeepSkyDSType')">
 				<!-- Print scale of german Deep Sky List -->
-				<li>Rating wizualny: 
+				<li>Rating wizualny:
             				<xsl:choose>
 						<xsl:when test="contains(./@type,'findingsDeepSkyOCType')">
 							<!-- open starcluster -->
@@ -808,37 +808,37 @@
 					</li>
 				</xsl:if>
 
-				
+
 
 				<xsl:if test="count(smallDiameter)>0 and count(largeDiameter)>0">
 					<li>Widoczny rozmiar: <xsl:call-template name="angle">
 							<xsl:with-param name="angle" select="smallDiameter"/>
-						</xsl:call-template>   
+						</xsl:call-template>
                   &#215;<xsl:call-template name="angle">
 							<xsl:with-param name="angle" select="largeDiameter"/>
 						</xsl:call-template>
 					</li>
 				</xsl:if>
 			</xsl:if>
-			
+
 			<xsl:if test="contains(./@type,'findingsVariableStarType')">
 				<xsl:if test="string-length(visMag)>0">
 				    <br/>
-					<li>					    
-						<xsl:if test="./visMag/@fainterThan='true'">Słabsza niż </xsl:if>					
-						Wielkość gwiazdowa: <xsl:value-of select="visMag"/>							
+					<li>
+						<xsl:if test="./visMag/@fainterThan='true'">Słabsza niż </xsl:if>
+						Wielkość gwiazdowa: <xsl:value-of select="visMag"/>
 						<xsl:if test="./visMag/@uncertain='true'"> (niepewna)</xsl:if>
 						<br/>
 					</li>
-				</xsl:if>				
+				</xsl:if>
 				<xsl:if test="string-length(chartID)>0">
 					<li>
 						Mapa: <xsl:value-of select="chartID"/>
 						<xsl:if test="./chartID/@nonAAVSOchart='true'"> (Mapa spoza AAVSO)</xsl:if>
 						<br/>
 					</li>
-				</xsl:if>				
-				<xsl:if test="count(comparisonStar) > 0"><li>Gwiazdy porównania:<br/>					
+				</xsl:if>
+				<xsl:if test="count(comparisonStar) > 0"><li>Gwiazdy porównania:<br/>
 					<ul>
 						<xsl:for-each select="comparisonStar">
 							<li>
@@ -847,8 +847,8 @@
 						</xsl:for-each>
 					</ul>
 					</li>
-				</xsl:if>									
-			</xsl:if>			
+				</xsl:if>
+			</xsl:if>
 		</ul>
 	</xsl:template>
 
@@ -860,7 +860,7 @@
         <p><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
 	    <br/><xsl:value-of select="$imgFile"/>
 	    </p>
-	    
+
 
     </xsl:template>
 
@@ -925,7 +925,7 @@
 						<xsl:sort select="model"/>
 						<xsl:apply-templates select="."/>
 					</xsl:for-each>
-			
+
 
 					<xsl:for-each select="//lenses/lens">
 
@@ -959,7 +959,7 @@
 
 						<xsl:apply-templates select="."/>
 
-					</xsl:for-each>										
+					</xsl:for-each>
 
 					<script type="text/javascript">
 						<xsl:text disable-output-escaping="yes">
@@ -978,7 +978,7 @@
 
 	<xsl:template match="observation">
 		<xsl:apply-templates select="key('targetKey', target)"/>
-		
+
 		<table border="0" cellspacing="3" cellpadding="3" style="font-size:14;font-family:Verdana,Arial">
 			<tr>
 				<td valign="top">
@@ -1100,7 +1100,7 @@
 
 								</td>
 							</tr>
-						</xsl:if>				
+						</xsl:if>
 
 						<xsl:if test="count(filter) = 1">
 							<tr>
@@ -1121,10 +1121,10 @@
 										<xsl:when test="key('filterKey', filter)/type='H-alpha'">H-Alpha</xsl:when>
 										<xsl:when test="key('filterKey', filter)/type='color'">Kolorowy</xsl:when>
 										<xsl:when test="key('filterKey', filter)/type='neutral'">Neutralny</xsl:when>
-										<xsl:when test="key('filterKey', filter)/type='corrective'">Korygujacy</xsl:when>																						
+										<xsl:when test="key('filterKey', filter)/type='corrective'">Korygujacy</xsl:when>
 										<xsl:otherwise>(Nieznany typ)</xsl:otherwise>
-									</xsl:choose>	
-									
+									</xsl:choose>
+
 									<!--<xsl:value-of select="key('filterKey', filter)/type"/>										-->
 								</td>
 							</tr>
@@ -1220,10 +1220,10 @@
 		<hr/>
 	</xsl:template>
 	<xsl:template name="linkTop">
-	
+
 	<xsl:text disable-output-escaping="yes">&lt;a href="#obslist"&gt; &gt;&gt; Obserwacje &lt;&lt;&lt;/a&gt;</xsl:text>
 		<hr/>
 	</xsl:template>
-	
+
 
 </xsl:stylesheet>
