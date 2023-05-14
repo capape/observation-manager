@@ -2153,7 +2153,7 @@
 
 
                     <xsl:apply-templates select="//observation">
-                        <xsl:sort select="begin" date-type="number" order="ascending"/>
+                        <xsl:sort select="begin" data-type="number" order="ascending"/>
                     </xsl:apply-templates>
 
 
