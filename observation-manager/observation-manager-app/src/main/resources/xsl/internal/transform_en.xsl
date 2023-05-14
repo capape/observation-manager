@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
     
     <!-- resolve references  -->
@@ -14,7 +14,7 @@
     
     <xsl:key name="imagerKey" match="imagers/imager" use="@id"/>
     
-    <xsl:key name="filterKey" match="filters/filter" use="@id"/>    
+    <xsl:key name="filterKey" match="filters/filter" use="@id"/>
     
     
     
@@ -22,78 +22,63 @@
         <html>
             <head>
                 <title>Observation logs - internal XSL</title>
+                <style type="text/css">
+                    <![CDATA[
+                    body {
+                        font-family: 'Arial'
+                    }
+                ]]>
+                </style>
             </head>
             <body>
                 <h1>Observation logs - internal XSL</h1>
                 <div class="sessions">
-                    
+                    <h2>Sessions</h2>
                     <xsl:for-each select="//sessions/session">
                         <xsl:sort select="begin"/>
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
-                    <!-- 
-                         
-                         
-                         <xsl:for-each select="//observers/observer">
-                         <xsl:sort select="name"/>
-                         <xsl:sort select="surname"/>
-                         <xsl:apply-templates select="."/>
-                         </xsl:for-each>
-                         
-                         
-                         <xsl:for-each select="//sites/site">
-                         <xsl:sort select="name"/>
-                         <xsl:apply-templates select="."/>
-                         </xsl:for-each>
-                         
-                         
-                         <xsl:for-each select="//scopes/scope">
-                         <xsl:sort select="model"/>
-                         <xsl:apply-templates select="."/>
-                         </xsl:for-each>
-                         
-                         
-                         <xsl:for-each select="//eyepieces/eyepiece">
-                         <xsl:sort select="focalLength"/>
-                         <xsl:sort select="model"/>
-                         <xsl:apply-templates select="."/>
-                         </xsl:for-each>
-                         
-                         
-                         <xsl:for-each select="//lenses/lens">
-                         
-                         <xsl:sort select="factor"/>
-                         
-                         <xsl:sort select="model"/>
-                         
-                         <xsl:apply-templates select="."/>
-                         
-                         </xsl:for-each>
-                         
-                         
-                         
-                         <xsl:for-each select="//filters/filter">
-                         
-                         <xsl:sort select="model"/>
-                         
-                         <xsl:sort select="type"/>
-                         
-                         <xsl:apply-templates select="."/>
-                         
-                         </xsl:for-each>
-                         
-                         
-                         
-                         <xsl:for-each select="//imagers/imager">
-                         
-                         <xsl:sort select="model"/>
-                         
-                         <xsl:sort select="type"/>
-                         
-                         <xsl:apply-templates select="."/>
-                         
-                         </xsl:for-each>
-                    -->
+                    
+                    <xsl:for-each select="//observers/observer">
+                        <xsl:sort select="name"/>
+                        <xsl:sort select="surname"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//sites/site">
+                        <xsl:sort select="name"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//scopes/scope">
+                        <xsl:sort select="model"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//eyepieces/eyepiece">
+                        <xsl:sort select="focalLength"/>
+                        <xsl:sort select="model"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//lenses/lens">
+                        <xsl:sort select="factor"/>
+                        <xsl:sort select="model"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//filters/filter">
+                        <xsl:sort select="model"/>
+                        <xsl:sort select="type"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
+                    <xsl:for-each select="//imagers/imager">
+                        <xsl:sort select="model"/>
+                        <xsl:sort select="type"/>
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    
                     <script type="text/javascript">
                         <xsl:text disable-output-escaping="yes">
                   &#60;!--
@@ -113,21 +98,21 @@
             <xsl:text disable-output-escaping="yes">&lt;a name="session</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <label>Session:</label><span class="date">
+            <span>Session:</span><span class="date">
                 <xsl:value-of select="begin"/>
                 <xsl:value-of select="session"/>
                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
         </div>
         
         
-        <!-- Date of Observation -->
+        
         <div class="dateSession">
             <div>
-                <label>Begin:</label>
+                <span>Begin:</span>
                 <span><xsl:value-of select="begin"/></span>
             </div>
             <div>
-                <label>End:</label>
+                <span>End:</span>
                 <span><xsl:value-of select="end"/></span>
             </div>
         </div>
@@ -158,7 +143,7 @@
                     <!-- Weather -->
                     <xsl:if test="count(weather)>0">
                         <li>
-                            <label>Weather:</label>
+                            <span>Weather:</span>
                             <span><xsl:value-of select="weather"/></span>
                         </li>
                     </xsl:if>
@@ -167,7 +152,7 @@
                     <!-- Equipment -->
                     <xsl:if test="count(equipment)>0">
                         <li>
-                            <label>Equipment:</label>
+                            <span>Equipment:</span>
                             <span><xsl:value-of select="equipment"/></span>
                         </li>
                     </xsl:if>
@@ -176,131 +161,109 @@
                     <!-- Comments -->
                     <xsl:if test="count(comments)>0">
                         <li>
-                            <label valign="top">Comments:</label>
+                            <span valign="top">Comments:</span>
                             <span valign="top"><xsl:value-of select="comments"/></span>
                         </li>
                     </xsl:if>
                 </ul>
             </div>
         </xsl:if>
-        
+        <h3>Observations</h3>
         <div class="observations">
-            <xsl:apply-templates select="//observation[session=$currentSession]"/>            
+            <xsl:apply-templates select="//observation[session=$currentSession]"/>
         </div>
-        <xsl:call-template name="linkTop"/>
     </xsl:template>
     
     <xsl:template match="observation">
-        <xsl:apply-templates select="key('targetKey', target)"/>
-        <ul class="observation">
-            <!--   <xsl:if test="count(session) = 1">
-                 <li>
-                 <span>Session</span>
-                 <span>
-                 <xsl:text disable-output-escaping="yes">&lt;a href="#session</xsl:text>
-                 <xsl:value-of select="session"/>
-                 <xsl:text disable-output-escaping="yes">"&gt;</xsl:text><xsl:value-of select="substring-before(begin, 'T')"/> um <xsl:value-of select="substring-after(begin, 'T')"/><xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-                 </span>
-                 </li>
-                 </xsl:if> -->
-            <li>
-                <ul class="date">
-                    
-                    <li>
-                        <xsl:choose>
-                            <xsl:when test="count(end) = 1">Begin</xsl:when>
-                            <xsl:otherwise>Time</xsl:otherwise>
-                        </xsl:choose>
-                    </li>
-                    <li>
-                        <xsl:value-of select="substring-before(begin, 'T')"/> um <xsl:value-of select="substring-after(begin, 'T')"/>
-                    </li>
-                    <xsl:if test="count(end) = 1">
-                        <li>
-                            <p>End</p>
-                            <o>
-                                <xsl:value-of select="substring-before(end, 'T')"/> um <xsl:value-of select="substring-after(end, 'T')"/>
-                            </o>
-                        </li>
-                    </xsl:if>
-                </ul>
-            </li>
-            <li>                
-                <ul class="observer">
-                    <li>Observer</li>
-                    <li>
-                        <xsl:text disable-output-escaping="yes">&lt;a href="#observer</xsl:text>
-                        <xsl:value-of select="observer"/>
+        <div class="observation">
+            <xsl:apply-templates select="key('targetKey', target)"/>
+            
+            <div class="date">
+                <div>
+                    <span>Begin:</span>
+                    <span><xsl:value-of select="begin"/></span>
+                </div>
+                <div>
+                    <span>End:</span>
+                    <span><xsl:value-of select="end"/></span>
+                </div>
+            </div>
+            
+            
+            <div class="observer">
+                <span>Observer:</span>
+                <span>
+                    <xsl:text disable-output-escaping="yes">&lt;a href="#observer</xsl:text>
+                    <xsl:value-of select="observer"/>
+                    <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+                    <xsl:value-of select="key('observerKey', observer)/name"/><xsl:text/><xsl:value-of select="key('observerKey', observer)/surname"/>
+                    <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+                </span>
+            </div>
+            
+            
+            <xsl:if test="count(site) = 1">
+                <div class="site">
+                    <span>Site</span>
+                    <span>
+                        <xsl:text disable-output-escaping="yes">&lt;a href="#site</xsl:text>
+                        <xsl:value-of select="site"/>
                         <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                        <xsl:value-of select="key('observerKey', observer)/name"/>
-                        <xsl:text/>
-                        <xsl:text> </xsl:text>
-                        <xsl:value-of select="key('observerKey', observer)/surname"/>
+                        <xsl:value-of select="key('siteKey', site)/name"/>
                         <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-                    </li>
-                </ul>                
-            </li>
-            <li class="site">                
-                <xsl:if test="count(site) = 1">
-                    <div>
-                        <span>Site</span>
-                        <span>
-                            <xsl:text disable-output-escaping="yes">&lt;a href="#site</xsl:text>
-                            <xsl:value-of select="site"/>
-                            <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                            <xsl:value-of select="key('siteKey', site)/name"/>
-                            <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-                        </span>
-                    </div>
-                </xsl:if>
-            </li>
-            <li class="otherData">
-                <ul>
-                    <xsl:if test="count(faintestStar) = 1">
-                        <li>Faintest Star:<xsl:value-of select="faintestStar"/> mag</li>
-                    </xsl:if>
-                    <xsl:if test="count(seeing) = 1">
-                        <li>Seeing: <xsl:value-of select="seeing"/>
-                            <xsl:choose>
-                                <xsl:when test="seeing = 1"> (very good)</xsl:when>
-                                <xsl:when test="seeing = 2"> (good)</xsl:when>
-                                <xsl:when test="seeing = 3"> (fair)</xsl:when>
-                                <xsl:when test="seeing = 4"> (bad)</xsl:when>
-                                <xsl:when test="seeing = 5"> (very bad)</xsl:when>
-                            </xsl:choose>
-                        </li>
-                    </xsl:if>
-                    <xsl:if test="count(imager) = 1">
-                        <li>
-                            Camera: 
-                            <xsl:text disable-output-escaping="yes">&lt;a href="#imager</xsl:text>                    
-                            <xsl:value-of select="imager"/>                    
-                            <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>                    
-                            <xsl:value-of select="key('imagerKey', imager)/model"/>                    
-                            <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-                        </li>
-                    </xsl:if>            
-                    <li>
-                        <span>Visual impression</span>
-                        <p>
-                            <xsl:for-each select="result">
-                                <xsl:apply-templates select="."/>
-                                <xsl:if test="position()!=last()">
-                                    
-                                </xsl:if>
-                            </xsl:for-each>
-                        </p>
-                    </li>            
-                    <li>
-                        <xsl:for-each select="image"><xsl:apply-templates select="."/></xsl:for-each>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+                    </span>
+                </div>
+            </xsl:if>
+            
+            <xsl:if test="count(faintestStar) = 1">
+                <div><span>Faintest Star:</span><span><xsl:value-of select="faintestStar"/> mag</span></div>
+            </xsl:if>
+            <xsl:if test="count(seeing) = 1">
+                <div><span>Seeing:</span><span><xsl:value-of select="seeing"/>
+                        <xsl:choose>
+                            <xsl:when test="seeing = 1"> (very good)</xsl:when>
+                            <xsl:when test="seeing = 2"> (good)</xsl:when>
+                            <xsl:when test="seeing = 3"> (fair)</xsl:when>
+                            <xsl:when test="seeing = 4"> (bad)</xsl:when>
+                            <xsl:when test="seeing = 5"> (very bad)</xsl:when>
+                        </xsl:choose>
+                    </span>
+                </div>
+            </xsl:if>
+            <xsl:if test="count(imager) = 1">
+                <div>
+                    <span>
+                        Camera:
+                    </span>
+                    <span>
+                        <xsl:text disable-output-escaping="yes">&lt;a href="#imager</xsl:text>
+                        <xsl:value-of select="imager"/>
+                        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+                        <xsl:value-of select="key('imagerKey', imager)/model"/>
+                        <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+                    </span>
+                </div>
+            </xsl:if>
+            <div>
+                <span>Visual impression</span>
+                <div>
+                    <xsl:for-each select="result">
+                        <xsl:apply-templates select="."/>
+                        <xsl:if test="position()!=last()">
+                            
+                        </xsl:if>
+                    </xsl:for-each>
+                </div>
+            </div>
+            <div>
+                <xsl:for-each select="image"><xsl:apply-templates select="."/></xsl:for-each>
+            </div>
+            
+        </div>
     </xsl:template>
     
-    <xsl:template name="linkTop">        
-        <xsl:text disable-output-escaping="yes">&lt;a href="#obslist"&gt; &gt;&gt; Observations &lt;&lt;&lt;/a&gt;</xsl:text>        
+    <xsl:template name="linkTop">
+        <xsl:text disable-output-escaping="yes">&lt;a href="#obslist"&gt; &gt;&gt; Top &lt;&lt;&lt;/a&gt;</xsl:text>
     </xsl:template>
     
     
@@ -316,19 +279,12 @@
         </xsl:choose>
     </xsl:template>
     
-    
-    
-    
-    
-    
-    
-    
     <xsl:template match="target">
-        <p>
+        <div class="target">
             <xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <b>Object: </b>
+            <h4>Object</h4>
             <xsl:choose>
                 <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
                     <xsl:choose>
@@ -348,7 +304,7 @@
                 <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
             </xsl:choose>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
+        </div>
         
         
         <xsl:choose>
@@ -379,91 +335,88 @@
             
         </xsl:if>
         
-        <p/>
-        
-        
         <xsl:if test="count(alias)>0">
-            
-            <div style="font-size:10">Alias: <xsl:for-each select="alias">
-                    
-                    <xsl:value-of select="."/>
-                    <xsl:if test="position() != last()">, </xsl:if>
+            <div class="targetAlias"><span>Alias: </span><xsl:for-each select="alias">
+                    <span>
+                        <xsl:value-of select="."/>
+                        <xsl:if test="position() != last()">, </xsl:if>
+                    </span>
                 </xsl:for-each>
             </div>
-            <br/>
         </xsl:if>
         
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
+        <div class="position">
             <xsl:if test="boolean(position/ra)">
-                <tr>
-                    <td>RA:</td>
-                    <td>
+                <div>
+                    <span>RA:</span>
+                    <span>
                         <xsl:call-template name="formatHHMM">
                             <xsl:with-param name="node" select="position/ra"/>
                         </xsl:call-template>
-                    </td>
-                </tr>
+                    </span>
+                </div>
             </xsl:if>
             
             
             <xsl:if test="boolean(position/dec)">
-                <tr>
-                    <td>Dec:</td>
-                    <td>
+                <div>
+                    <span>Dec:</span>
+                    <span>
                         <xsl:call-template name="formatDDMM">
                             <xsl:with-param name="node" select="position/dec"/>
                         </xsl:call-template>
-                    </td>
-                </tr>
+                    </span>
+                </div>
             </xsl:if>
-            
+        </div>
+        <div class="optionaldata">
             
             <!-- Output from attributes of Subclasses -->
             <xsl:if test="contains(@type,'oal:deepSky')">
                 <!-- Deep Sky -->
                 <xsl:if test="boolean(smallDiameter) and boolean(largeDiameter)">
-                    <tr>
-                        <td>Size:</td>
-                        <td>
+                    <div class="deepksy">
+                        <span>Size:</span>
+                        <span>
                             <xsl:call-template name="angle">
                                 <xsl:with-param name="angle" select="smallDiameter"/>
                             </xsl:call-template> &#215;
                             <xsl:call-template name="angle">
                                 <xsl:with-param name="angle" select="largeDiameter"/>
                             </xsl:call-template>
-                        </td>
-                    </tr>
+                        </span>
+                    </div>
                 </xsl:if>
                 
                 
                 <xsl:if test="boolean(visMag)">
-                    <tr>
-                        <td>m(vis):</td>
-                        <td>
-                            <xsl:value-of select="visMag"/> mag</td>
-                    </tr>
+                    <div class="magnitude">
+                        <span>m(vis):</span>
+                        <span>
+                            <xsl:value-of select="visMag"/> mag</span>
+                    </div>
                 </xsl:if>
                 
                 
                 <xsl:if test="boolean(surfBr)">
-                    <tr>
-                        <td>SB:</td>
-                        <td>
-                            <xsl:value-of select="surfBr"/> mags/sq.arcmin</td>
-                    </tr>
+                    <div class="brightness">
+                        <span>SB:</span>
+                        <span>
+                            <xsl:value-of select="surfBr"/> mags/sq.arcmin</span>
+                    </div>
                 </xsl:if>
                 
                 
                 <!-- TODO -->
                 <xsl:for-each select="surfBr/following-sibling::*">
-                    <tr>
-                        <td>
-                            <xsl:value-of select="local-name()"/>:</td>
-                        <td>
+                    <div class="brigthness">
+                        <span>
+                            <xsl:value-of select="local-name()"/>:</span>
+                        <span>
                             <xsl:value-of select="."/>
-                        </td>
-                    </tr>
+                        </span>
+                    </div>
                 </xsl:for-each>
             </xsl:if>
             
@@ -474,26 +427,26 @@
             
             
             <xsl:if test="boolean(observer)">
-                <tr>
-                    <td>Origin:</td>
-                    <td>
+                <div>
+                    <span>Origin:</span>
+                    <span>
                         <xsl:value-of select="key('observerKey', observer)/surname"/>,
                         <xsl:text/>
                         <xsl:value-of select="key('observerKey', observer)/name"/>
-                    </td>
-                </tr>
+                    </span>
+                </div>
             </xsl:if>
             
             
             <xsl:if test="boolean(datasource)">
-                <tr>
-                    <td>Origin:</td>
-                    <td>
+                <div>
+                    <span>Origin:</span>
+                    <span>
                         <xsl:value-of select="datasource"/>
-                    </td>
-                </tr>
+                    </span>
+                </div>
             </xsl:if>
-        </table>
+        </div>
     </xsl:template>
     
     
@@ -549,7 +502,7 @@
     
     
     <xsl:template match="observer">
-        <p>
+        <div class="observer">
             <xsl:text disable-output-escaping="yes">&lt;a name="observer</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
@@ -558,7 +511,7 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="surname"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
+        </div>
         <xsl:if test="count(contact) > 0">Contacts:<br/>
             <ul>
                 <xsl:for-each select="contact">
@@ -568,192 +521,190 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-        <xsl:call-template name="linkTop"/>
     </xsl:template>
     
     
     <xsl:template match="site">
-        <p>
+        <div>
             <xsl:text disable-output-escaping="yes">&lt;a name="site</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <b>Site: </b>
             <xsl:value-of select="name"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
+        </div>
         
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            <tr>
-                <td>Longitude:</td>
-                <td>
+        <div class="site">
+            <div>
+                <span>Longitude:</span>
+                <span>
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="longitude"/>
                     </xsl:call-template>
-                </td>
-            </tr>
+                </span>
+            </div>
             
             
-            <tr>
-                <td>Latitude:</td>
-                <td>
+            <div>
+                <span>Latitude:</span>
+                <span>
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="latitude"/>
                     </xsl:call-template>
-                </td>
-            </tr>
+                </span>
+            </div>
             
             
-            <tr>
-                <td>Timezone:</td>
-                <td>UT<xsl:if test="timezone >= 0">+</xsl:if>
-                    <xsl:value-of select="timezone"/> min</td>
-            </tr>
-        </table>
-        <xsl:call-template name="linkTop"/>
+            <div>
+                <span>Timezone:</span>
+                <span>UT<xsl:if test="timezone >= 0">+</xsl:if>
+                    <xsl:value-of select="timezone"/> min</span>
+            </div>
+        </div>
+        
     </xsl:template>
     
     
     <xsl:template match="scope">
-        <p>
+        <div>
             <xsl:text disable-output-escaping="yes">&lt;a name="scope</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <b>Optics: </b>
             <xsl:value-of select="model"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
+        </div>
         
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            <xsl:if test="count(type)>0">
-                <tr>
-                    <td>Type:</td>
-                    <td>
-                        <xsl:value-of select="type"/>
-                    </td>
-                </tr>
-            </xsl:if>
+        
+        <xsl:if test="count(type)>0">
+            <div>
+                <span>Type:</span>
+                <span>
+                    <xsl:value-of select="type"/>
+                </span>
+            </div>
+        </xsl:if>
+        
+        
+        <xsl:if test="count(vendor)>0">
+            <div>
+                <span>Vendor:</span>
+                <span>
+                    <xsl:value-of select="vendor"/>
+                </span>
+            </div>
+        </xsl:if>
+        
+        
+        <div>
+            <span>Aperture:</span>
+            <span>
+                <xsl:value-of select="aperture"/> mm</span>
+        </div>
+        
+        
+        <xsl:if test="count(focalLength)>0">
+            <div>
+                <span>Focal length:</span>
+                <span>
+                    <xsl:value-of select="focalLength"/> mm</span>
+            </div>
+        </xsl:if>
+        
+        
+        <xsl:if test="count(magnification)>0">
+            <div>
+                <span>Magnification:</span>
+                <span>
+                    <xsl:value-of select="magnification"/> &#215;</span>
+            </div>
             
             
-            <xsl:if test="count(vendor)>0">
-                <tr>
-                    <td>Vendor:</td>
-                    <td>
-                        <xsl:value-of select="vendor"/>
-                    </td>
-                </tr>
-            </xsl:if>
-            
-            
-            <tr>
-                <td>Aperture:</td>
-                <td>
-                    <xsl:value-of select="aperture"/> mm</td>
-            </tr>
-            
-            
-            <xsl:if test="count(focalLength)>0">
-                <tr>
-                    <td>Focal length:</td>
-                    <td>
-                        <xsl:value-of select="focalLength"/> mm</td>
-                </tr>
-            </xsl:if>
-            
-            
-            <xsl:if test="count(magnification)>0">
-                <tr>
-                    <td>Magnification:</td>
-                    <td>
-                        <xsl:value-of select="magnification"/> &#215;</td>
-                </tr>
-                
-                
-            </xsl:if>
-            
-            
-            <xsl:if test="count(trueField)>0">
-                <tr>
-                    <td>True field of view:</td>
-                    <td>
-                        <xsl:call-template name="angle">
-                            <xsl:with-param name="angle" select="trueField"/>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-            </xsl:if>
-            
-            
-            <xsl:if test="count(lightGrasp)>0">
-                <tr>
-                    <td>Light grasp:</td>
-                    <td>
-                        <xsl:value-of select="lightGrasp"/>
-                    </td>
-                </tr>
-            </xsl:if>
-        </table>
-        <xsl:call-template name="linkTop"/>
+        </xsl:if>
+        
+        
+        <xsl:if test="count(trueField)>0">
+            <div>
+                <span>True field of view:</span>
+                <span>
+                    <xsl:call-template name="angle">
+                        <xsl:with-param name="angle" select="trueField"/>
+                    </xsl:call-template>
+                </span>
+            </div>
+        </xsl:if>
+        
+        
+        <xsl:if test="count(lightGrasp)>0">
+            <div>
+                <span>Light grasp:</span>
+                <span>
+                    <xsl:value-of select="lightGrasp"/>
+                </span>
+            </div>
+        </xsl:if>
+        
     </xsl:template>
     
     
     <xsl:template match="eyepiece">
-        <p>
+        <div class="eyepiece">
             <xsl:text disable-output-escaping="yes">&lt;a name="eyepiece</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <xsl:if test="count(maxFocalLength)>0">
                 
-                <b>Zoom eyepiece: </b>
+                <span>Zoom eyepiece: </span>
                 
             </xsl:if>
             
             <xsl:if test="count(maxFocalLength)=0">
                 
-                <b>Eyepiece: </b>
+                <span>Eyepiece: </span>
                 
             </xsl:if>
             <xsl:value-of select="model"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            <xsl:if test="count(vendor)>0">
-                <tr>
-                    <td>Vendor:</td>
-                    <td>
-                        <xsl:value-of select="vendor"/>
-                    </td>
-                </tr>
-            </xsl:if>
-            <tr>
-                <td>Focal length:</td>
-                <td>
-                    
-                    <xsl:value-of select="focalLength"/>
-                    
-                    <xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> mm
-                    
-                </td>
-            </tr>
-            <xsl:if test="count(apparentFOV)>0">
-                <tr>
-                    <td>Apparent field of view:</td>
-                    <td>
-                        <xsl:call-template name="angle">
-                            <xsl:with-param name="angle" select="apparentFOV"/>
-                        </xsl:call-template>
-                    </td>
-                </tr>
-            </xsl:if>
-        </table>
-        <xsl:call-template name="linkTop"/>
+        </div>
+        
+        <xsl:if test="count(vendor)>0">
+            <div>
+                <span>Vendor:</span>
+                <span>
+                    <xsl:value-of select="vendor"/>
+                </span>
+            </div>
+        </xsl:if>
+        <div>
+            <span>Focal length:</span>
+            <span>
+                
+                <xsl:value-of select="focalLength"/>
+                
+                <xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> mm
+                
+            </span>
+        </div>
+        <xsl:if test="count(apparentFOV)>0">
+            <div>
+                <span>Apparent field of view:</span>
+                <span>
+                    <xsl:call-template name="angle">
+                        <xsl:with-param name="angle" select="apparentFOV"/>
+                    </xsl:call-template>
+                </span>
+            </div>
+        </xsl:if>
+        
+        
     </xsl:template>
     
     
     <xsl:template match="lens">
         
-        <p>
+        <div class="lens">
             
             <xsl:text disable-output-escaping="yes">&lt;a name="lens</xsl:text>
             
@@ -761,197 +712,137 @@
             
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             
-            <b>Lens: </b>
+            <span>Lens: </span>
             
             <xsl:value-of select="model"/>
             
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
             
-        </p>
+        </div>
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            
-            <xsl:if test="count(vendor)>0">
-                
-                <tr>
-                    
-                    <td>Vendor:</td>
-                    
-                    <td>
-                        
-                        <xsl:value-of select="vendor"/>
-                        
-                    </td>
-                    
-                </tr>
-                
-            </xsl:if>
-            
-            <tr>
-                
-                <td>Focal length factor:</td>
-                
-                <td>
-                    
-                    <xsl:value-of select="factor"/> mm</td>
-                
-            </tr>
-            
-        </table>
         
-        <xsl:call-template name="linkTop"/>
+        <xsl:if test="count(vendor)>0">
+            
+            <div>
+                <span>Vendor:</span>
+                <span><xsl:value-of select="vendor"/></span>
+            </div>
+            
+        </xsl:if>
         
+        <div>
+            <span>Focal length factor:</span>
+            <span><xsl:value-of select="factor"/> mm</span>
+        </div>
     </xsl:template>
-    
-    
-    
-    
-    
     <xsl:template match="imager">
         
-        <p>
-            
+        <div class="imager">
             <xsl:text disable-output-escaping="yes">&lt;a name="imager</xsl:text>
-            
             <xsl:value-of select="@id"/>
-            
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             
             <xsl:if test="count(pixelsX)>0">
-                
-                <b>CCD Camera: </b>
-                
+                <span>CCD Camera: </span>
             </xsl:if>
             
             <xsl:if test="count(pixelsX)=0">
-                
-                <b>Camera: </b>
-                
+                <span>Camera: </span>
             </xsl:if>
             
             <xsl:value-of select="model"/>
-            
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-            
-        </p>
+        </div>
+        <xsl:if test="count(vendor)>0">
+            <div>
+                <span>Vendor:</span>
+                <span><xsl:value-of select="vendor"/></span>
+            </div>
+        </xsl:if>
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            
-            <xsl:if test="count(vendor)>0">
-                
-                <tr>
-                    
-                    <td>Vendor:</td>
-                    
-                    <td>
-                        
-                        <xsl:value-of select="vendor"/>
-                        
-                    </td>
-                    
-                </tr>
-                
-            </xsl:if>
-            
-            <xsl:if test="count(pixelsX)>0">
-                
-                <tr>
-                    
-                    <td>Pixel:</td>
-                    
-                    <td>
-                        
-                        <xsl:value-of select="pixelsX"/>x<xsl:value-of select="pixelsY"/>
-                        
-                    </td>
-                    
-                </tr>
-                
-            </xsl:if>
-            
-        </table>
-        
-        <xsl:call-template name="linkTop"/>
-        
+        <xsl:if test="count(pixelsX)>0">
+            <div>name=""
+                <span>Pixel:</span>
+                <span><xsl:value-of select="pixelsX"/>x<xsl:value-of select="pixelsY"/></span>
+            </div>
+        </xsl:if>
     </xsl:template>
     
-    
-    
     <xsl:template match="filter">
-        <p>
+        <div>
             <xsl:text disable-output-escaping="yes">&lt;a name="filter</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <b>Filter: </b>
             <xsl:value-of select="model"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-        </p>
+        </div>
         
         
-        <table border="0" cellspacing="0" cellpadding="2" style="font-size:12;font-family:Verdana, Arial">
-            <xsl:if test="count(type)>0">
-                <tr>
-                    <td>Typ:</td>
-                    <td>
+        
+        <xsl:if test="count(type)>0">
+            <div>
+                <span>Typ:</span>
+                <span>
+                    <xsl:choose>
+                        <xsl:when test="type='other'">Other</xsl:when>
+                        <xsl:when test="type='broad band'">Broadband</xsl:when>
+                        <xsl:when test="type='narrow band'">Narrowband</xsl:when>
+                        <xsl:when test="type='O-III'">OIII</xsl:when>
+                        <xsl:when test="type='Solar'">Solar</xsl:when>
+                        <xsl:when test="type='H-beta'">H-Beta</xsl:when>
+                        <xsl:when test="type='H-alpha'">H-Alpha</xsl:when>
+                        <xsl:when test="type='color'">Color</xsl:when>
+                        <xsl:when test="type='neutral'">Neutral</xsl:when>
+                        <xsl:when test="type='corrective'">Corrective</xsl:when>
+                        <xsl:otherwise>(unknown type)</xsl:otherwise>
+                    </xsl:choose>
+                </span>
+            </div>
+            <xsl:if test="count(color)>0">
+                <div>
+                    <span>Farbe:</span>
+                    <span>
                         <xsl:choose>
-                            <xsl:when test="type='other'">Other</xsl:when>
-                            <xsl:when test="type='broad band'">Broadband</xsl:when>
-                            <xsl:when test="type='narrow band'">Narrowband</xsl:when>
-                            <xsl:when test="type='O-III'">OIII</xsl:when>
-                            <xsl:when test="type='Solar'">Solar</xsl:when>
-                            <xsl:when test="type='H-beta'">H-Beta</xsl:when>
-                            <xsl:when test="type='H-alpha'">H-Alpha</xsl:when>
-                            <xsl:when test="type='color'">Color</xsl:when>
-                            <xsl:when test="type='neutral'">Neutral</xsl:when>
-                            <xsl:when test="type='corrective'">Corrective</xsl:when>
-                            <xsl:otherwise>(unknown type)</xsl:otherwise>
+                            <xsl:when test="color='light red'">Light red</xsl:when>
+                            <xsl:when test="color='red'">Red</xsl:when>
+                            <xsl:when test="color='deep red'">Dark red</xsl:when>
+                            <xsl:when test="color='orange'">Orange</xsl:when>
+                            <xsl:when test="color='light yellow'">Light yellow</xsl:when>
+                            <xsl:when test="color='deep yellow'">Dark yellow</xsl:when>
+                            <xsl:when test="color='yellow'">Yellow</xsl:when>
+                            <xsl:when test="color='yellow-green'">Yellow/Green</xsl:when>
+                            <xsl:when test="color='light green'">Light green</xsl:when>
+                            <xsl:when test="color='green'">Green</xsl:when>
+                            <xsl:when test="color='medium blue'">Medium blue</xsl:when>
+                            <xsl:when test="color='pale blue'">Pale blue</xsl:when>
+                            <xsl:when test="color='blue'">Blue</xsl:when>
+                            <xsl:when test="color='deep blue'">Dark blue</xsl:when>
+                            <xsl:when test="color='violet'">Violet</xsl:when>
+                            <xsl:otherwise>(unknown color)</xsl:otherwise>
                         </xsl:choose>
-                    </td>
-                </tr>
-                <xsl:if test="count(color)>0">
-                    <tr>
-                        <td>Farbe:</td>
-                        <td>
-                            <xsl:choose>
-                                <xsl:when test="color='light red'">Light red</xsl:when>
-                                <xsl:when test="color='red'">Red</xsl:when>
-                                <xsl:when test="color='deep red'">Dark red</xsl:when>
-                                <xsl:when test="color='orange'">Orange</xsl:when>
-                                <xsl:when test="color='light yellow'">Light yellow</xsl:when>
-                                <xsl:when test="color='deep yellow'">Dark yellow</xsl:when>
-                                <xsl:when test="color='yellow'">Yellow</xsl:when>
-                                <xsl:when test="color='yellow-green'">Yellow/Green</xsl:when>
-                                <xsl:when test="color='light green'">Light green</xsl:when>
-                                <xsl:when test="color='green'">Green</xsl:when>
-                                <xsl:when test="color='medium blue'">Medium blue</xsl:when>
-                                <xsl:when test="color='pale blue'">Pale blue</xsl:when>
-                                <xsl:when test="color='blue'">Blue</xsl:when>
-                                <xsl:when test="color='deep blue'">Dark blue</xsl:when>
-                                <xsl:when test="color='violet'">Violet</xsl:when>
-                                <xsl:otherwise>(unknown color)</xsl:otherwise>
-                            </xsl:choose>
-                        </td>
-                    </tr>
-                </xsl:if>
-                <xsl:if test="count(wratten)>0">
-                    <tr>
-                        <td>Wratten value:</td>
-                        <td>
-                            <xsl:value-of select="wratten"/>
-                        </td>
-                    </tr>
-                </xsl:if>
-                <xsl:if test="count(schott)>0">
-                    <tr>
-                        <td>Schott value:</td>
-                        <td>
-                            <xsl:value-of select="schott"/>
-                        </td>
-                    </tr>
-                </xsl:if>
+                    </span>
+                </div>
             </xsl:if>
-        </table>
-        <xsl:call-template name="linkTop"/>
+            <xsl:if test="count(wratten)>0">
+                <div>
+                    <span>Wratten value:</span>
+                    <span>
+                        <xsl:value-of select="wratten"/>
+                    </span>
+                </div>
+            </xsl:if>
+            <xsl:if test="count(schott)>0">
+                <div>
+                    <span>Schott value:</span>
+                    <span>
+                        <xsl:value-of select="schott"/>
+                    </span>
+                </div>
+            </xsl:if>
+        </xsl:if>
+        
+        
     </xsl:template>
     
     
@@ -1074,18 +965,10 @@
     <xsl:template match="image">
         <xsl:param name="imgFile" select="."/>
         <xsl:param name="imgTag" select="concat('img src=&quot;', $imgFile, '&quot;')"/>
-        <p><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
-            <br/><xsl:value-of select="$imgFile"/>
-        </p>
-        
-        
+        <span><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
+            <xsl:value-of select="$imgFile"/>
+        </span>
     </xsl:template>
-    
-    
-    
-    
     <xsl:output method="html"/>
-    
-    
 </xsl:stylesheet>
 
