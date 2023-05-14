@@ -48,7 +48,7 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         this.cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
 
         this.setTitle(this.textManager.getString("dialog.preferences.title"));
-        this.setSize(PreferencesDialog.serialVersionUID, 750, 350);
+        this.setSize(PreferencesDialog.serialVersionUID, 1400, 350);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
 
