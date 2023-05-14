@@ -83,36 +83,21 @@ public class BehaviourPanel extends PreferencesPanel {
         }
         this.setConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG, this.defaultContentLanguage.getSelectedISOLanguage());
 
-        // ------------------
-
-        // Set default observer
         if (this.defaultObserver.getSelectedSchemaElement() != null) {
             this.setConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER,
                     String.valueOf(this.defaultObserver.getSelectedSchemaElement().getDisplayName()));
         }
 
-        // ------------------
-
-        // Set default catalog
         if (this.catalogBox.getSelectedItem() != null) {
             this.setConfig(ConfigKey.CONFIG_DEFAULT_CATALOG, String.valueOf(this.catalogBox.getSelectedItem()));
         }
 
-        // ------------------
-
-        // Set retrieve end date from session
         this.setConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION,
                 String.valueOf(this.retrieveEndDateFromSession.isSelected()));
 
-        // ------------------
-
-        // Set retrieve end date from session
         this.setConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS,
                 String.valueOf(this.useCoObserverInStatistics.isSelected()));
 
-        // ------------------
-
-        // Set retrieve end date from session
         this.setConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N,
                 String.valueOf(!this.useLatinConstellationNames.isSelected()));
 
