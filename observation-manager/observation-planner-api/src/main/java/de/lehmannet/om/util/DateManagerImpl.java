@@ -192,7 +192,7 @@ public class DateManagerImpl implements DateManager {
         Number number = instance.parse(jdString);
         double jd = number.doubleValue();
         return jd;
-    }   
+    }
 
     @Override
     public String formatAsAstronomicalJulianDate(ZonedDateTime date) {

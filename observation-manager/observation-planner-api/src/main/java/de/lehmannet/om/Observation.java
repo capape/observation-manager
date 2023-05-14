@@ -593,8 +593,6 @@ public class Observation extends SchemaElement implements IObservation {
 
     }
 
-     
-
     // ------------
     // IObservation ------------------------------------------------------
     // ------------

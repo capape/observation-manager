@@ -57,7 +57,6 @@ public class DateManagerImplTest {
 
     }
 
-
     @Test
     public void conmutativeTest() throws ParseException {
 
@@ -66,8 +65,7 @@ public class DateManagerImplTest {
         double julianDate = manager.toAstronomicalJulianDate(now);
         ZonedDateTime result = manager.fromAstronomicalJulianDate(julianDate, ZoneId.systemDefault());
 
-        assertEquals(now,result);
-
+        assertEquals(now, result);
 
         String dateAsString = manager.formatAsAstronomicalJulianDate(now);
         double dateFromString = manager.parseAstronomicalJulianDate(dateAsString);
