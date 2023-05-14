@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /panel/FilterPanel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -483,56 +483,56 @@ class BoxItem {
         BoxItem dummy = new BoxItem("");
 
         switch (s) {
-        case IFilter.FILTER_TYPE_BROADBAND:
-            return dummy.bundle.getString("filter.type.broadBand");
-        case IFilter.FILTER_TYPE_CORRECTIVE:
-            return dummy.bundle.getString("filter.type.corrective");
-        case IFilter.FILTER_TYPE_HALPHA:
-            return dummy.bundle.getString("filter.type.Halpha");
-        case IFilter.FILTER_TYPE_HBETA:
-            return dummy.bundle.getString("filter.type.Hbeta");
-        case IFilter.FILTER_TYPE_NARROWBAND:
-            return dummy.bundle.getString("filter.type.narrowBand");
-        case IFilter.FILTER_TYPE_NEUTRAL:
-            return dummy.bundle.getString("filter.type.neutral");
-        case IFilter.FILTER_TYPE_OIII:
-            return dummy.bundle.getString("filter.type.OIII");
-        case IFilter.FILTER_TYPE_SOLAR:
-            return dummy.bundle.getString("filter.type.solar");
-        case IFilter.FILTER_TYPE_OTHER:
-            return dummy.bundle.getString("filter.type.other");
-        case IFilter.FILTER_TYPE_COLOR:
-            return dummy.bundle.getString("filter.type.color");
-        case IFilter.FILTER_COLOR_BLUE:
-            return dummy.bundle.getString("filter.color.blue");
-        case IFilter.FILTER_COLOR_DEEPBLUE:
-            return dummy.bundle.getString("filter.color.deepBlue");
-        case IFilter.FILTER_COLOR_DEEPRED:
-            return dummy.bundle.getString("filter.color.deepRed");
-        case IFilter.FILTER_COLOR_DEEPYELLOW:
-            return dummy.bundle.getString("filter.color.deepYellow");
-        case IFilter.FILTER_COLOR_GREEN:
-            return dummy.bundle.getString("filter.color.green");
-        case IFilter.FILTER_COLOR_LIGHTGREEN:
-            return dummy.bundle.getString("filter.color.lightGreen");
-        case IFilter.FILTER_COLOR_LIGHTRED:
-            return dummy.bundle.getString("filter.color.lightRed");
-        case IFilter.FILTER_COLOR_LIGHTYELLOW:
-            return dummy.bundle.getString("filter.color.lightYellow");
-        case IFilter.FILTER_COLOR_MEDIUMBLUE:
-            return dummy.bundle.getString("filter.color.mediumBlue");
-        case IFilter.FILTER_COLOR_ORANGE:
-            return dummy.bundle.getString("filter.color.orange");
-        case IFilter.FILTER_COLOR_PALEBLUE:
-            return dummy.bundle.getString("filter.color.paleBlue");
-        case IFilter.FILTER_COLOR_RED:
-            return dummy.bundle.getString("filter.color.red");
-        case IFilter.FILTER_COLOR_VIOLET:
-            return dummy.bundle.getString("filter.color.violet");
-        case IFilter.FILTER_COLOR_YELLOW:
-            return dummy.bundle.getString("filter.color.yellow");
-        case IFilter.FILTER_COLOR_YELLOWGREEN:
-            return dummy.bundle.getString("filter.color.yellow-green");
+            case IFilter.FILTER_TYPE_BROADBAND:
+                return dummy.bundle.getString("filter.type.broadBand");
+            case IFilter.FILTER_TYPE_CORRECTIVE:
+                return dummy.bundle.getString("filter.type.corrective");
+            case IFilter.FILTER_TYPE_HALPHA:
+                return dummy.bundle.getString("filter.type.Halpha");
+            case IFilter.FILTER_TYPE_HBETA:
+                return dummy.bundle.getString("filter.type.Hbeta");
+            case IFilter.FILTER_TYPE_NARROWBAND:
+                return dummy.bundle.getString("filter.type.narrowBand");
+            case IFilter.FILTER_TYPE_NEUTRAL:
+                return dummy.bundle.getString("filter.type.neutral");
+            case IFilter.FILTER_TYPE_OIII:
+                return dummy.bundle.getString("filter.type.OIII");
+            case IFilter.FILTER_TYPE_SOLAR:
+                return dummy.bundle.getString("filter.type.solar");
+            case IFilter.FILTER_TYPE_OTHER:
+                return dummy.bundle.getString("filter.type.other");
+            case IFilter.FILTER_TYPE_COLOR:
+                return dummy.bundle.getString("filter.type.color");
+            case IFilter.FILTER_COLOR_BLUE:
+                return dummy.bundle.getString("filter.color.blue");
+            case IFilter.FILTER_COLOR_DEEPBLUE:
+                return dummy.bundle.getString("filter.color.deepBlue");
+            case IFilter.FILTER_COLOR_DEEPRED:
+                return dummy.bundle.getString("filter.color.deepRed");
+            case IFilter.FILTER_COLOR_DEEPYELLOW:
+                return dummy.bundle.getString("filter.color.deepYellow");
+            case IFilter.FILTER_COLOR_GREEN:
+                return dummy.bundle.getString("filter.color.green");
+            case IFilter.FILTER_COLOR_LIGHTGREEN:
+                return dummy.bundle.getString("filter.color.lightGreen");
+            case IFilter.FILTER_COLOR_LIGHTRED:
+                return dummy.bundle.getString("filter.color.lightRed");
+            case IFilter.FILTER_COLOR_LIGHTYELLOW:
+                return dummy.bundle.getString("filter.color.lightYellow");
+            case IFilter.FILTER_COLOR_MEDIUMBLUE:
+                return dummy.bundle.getString("filter.color.mediumBlue");
+            case IFilter.FILTER_COLOR_ORANGE:
+                return dummy.bundle.getString("filter.color.orange");
+            case IFilter.FILTER_COLOR_PALEBLUE:
+                return dummy.bundle.getString("filter.color.paleBlue");
+            case IFilter.FILTER_COLOR_RED:
+                return dummy.bundle.getString("filter.color.red");
+            case IFilter.FILTER_COLOR_VIOLET:
+                return dummy.bundle.getString("filter.color.violet");
+            case IFilter.FILTER_COLOR_YELLOW:
+                return dummy.bundle.getString("filter.color.yellow");
+            case IFilter.FILTER_COLOR_YELLOWGREEN:
+                return dummy.bundle.getString("filter.color.yellow-green");
         }
 
         return "Filter string not found";

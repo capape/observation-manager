@@ -266,13 +266,13 @@ public final class ObservationManagerMenuFile {
 
         // Save before exit...
         switch (this.saveBeforeExit(changed)) {
-        case -1:
-            // 0 = Save was ok...continue
-            // 1 = No save wanted...continue
-        case 2: {
-            return false; // Save failed (message was provided). Stop here.
-        } // Cancel was pressed
-          // 3 = No save required...continue
+            case -1:
+                // 0 = Save was ok...continue
+                // 1 = No save wanted...continue
+            case 2: {
+                return false; // Save failed (message was provided). Stop here.
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         // Write into log that we start now
@@ -623,17 +623,17 @@ public final class ObservationManagerMenuFile {
 
         // Save before exit...
         switch (this.saveBeforeExit(changed)) {
-        case -1:
-            // 1 = No save wanted...continue
-        case 2: {
-            return; // Save failed (message was provided)
-        }
-        case 0: {
-            // 0 = Save was ok...continue, but create message before
-            this.createInfo(textManager.getString("ok.save"));
-            break;
-        } // Cancel was pressed
-          // 3 = No save required...continue
+            case -1:
+                // 1 = No save wanted...continue
+            case 2: {
+                return; // Save failed (message was provided)
+            }
+            case 0: {
+                // 0 = Save was ok...continue, but create message before
+                this.createInfo(textManager.getString("ok.save"));
+                break;
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         // Create dialog
@@ -741,17 +741,17 @@ public final class ObservationManagerMenuFile {
 
         // Save before exit...
         switch (this.saveBeforeExit(changed)) {
-        case -1:
-            // 1 = No save wanted...continue
-        case 2: {
-            return; // Save failed (message was provided)
-        }
-        case 0: {
-            // 0 = Save was ok...continue, but create message before
-            this.createInfo(textManager.getString("ok.save"));
-            break;
-        } // Cancel was pressed
-          // 3 = No save required...continue
+            case -1:
+                // 1 = No save wanted...continue
+            case 2: {
+                return; // Save failed (message was provided)
+            }
+            case 0: {
+                // 0 = Save was ok...continue, but create message before
+                this.createInfo(textManager.getString("ok.save"));
+                break;
+            } // Cancel was pressed
+              // 3 = No save required...continue
         }
 
         JFileChooser chooser = new JFileChooser();

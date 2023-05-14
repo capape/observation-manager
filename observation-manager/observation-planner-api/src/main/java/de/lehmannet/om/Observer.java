@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Observer.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -34,7 +34,6 @@ import de.lehmannet.om.util.SchemaException;
  * may be stored here.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class Observer extends SchemaElement implements IObserver {
@@ -84,7 +83,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param observer
      *            The XML Schema Node that represents this Observer object
-     *
      * @throws IllegalArgumentException
      *             if the given parameter is <code>null</code>
      * @throws SchemaException
@@ -121,7 +119,6 @@ public class Observer extends SchemaElement implements IObserver {
      *            The observers name
      * @param surname
      *            The observers surname
-     *
      * @throws IllegalArgumentException
      *             if one of the given parameters is <code>null</code>
      */
@@ -150,7 +147,6 @@ public class Observer extends SchemaElement implements IObserver {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      */
     @Override
     public String getDisplayName() {
@@ -168,7 +164,6 @@ public class Observer extends SchemaElement implements IObserver {
      * Returns the name, surname and contact informations of this observer.
      *
      * @return This observers name, surname and contact informations
-     *
      * @see java.lang.Object
      */
     @Override
@@ -225,7 +220,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param element
      *            The parent element for this Observer
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -336,13 +330,10 @@ public class Observer extends SchemaElement implements IObserver {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with the Observer as linked child element, and the elements
      *         ownerDocument with the additional Observer element Might return <code>null</code> if element was
      *         <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -391,10 +382,8 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param element
      *            The element under which the the observer link is created
-     *
      * @return Returns the Element given as parameter with a additional observer link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -473,7 +462,6 @@ public class Observer extends SchemaElement implements IObserver {
      * Might return <code>NULL</code> if observer has no DSL code
      *
      * @return the DeepSkyList (DSL) Code of the observer, or <code>NULL</code> if DSL was never set
-     *
      * @deprecated Use getUsernameForAccount(String accountName) instead
      */
     @Deprecated
@@ -502,7 +490,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param DSLCode
      *            the DeepSkyList (DSL) Code of the observer
-     *
      * @deprecated Use addAccount(String accountName, String username) instead
      */
     @Deprecated
@@ -519,7 +506,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param name
      *            the new name of the observer
-     *
      * @throws IllegalArgumentException
      *             if the given name is <code>null</code>
      */
@@ -540,7 +526,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param surname
      *            the new surname of the observer
-     *
      * @throws IllegalArgumentException
      *             if the given surname is <code>null</code>
      */
@@ -564,7 +549,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @return a Map with additional account information of the observer, or <code>null</code> if no informations are
      *         given.
-     *
      * @since 2.0
      */
     @Override
@@ -582,10 +566,8 @@ public class Observer extends SchemaElement implements IObserver {
      *            the new account name (name of service, organisation, website, ...)
      * @param username
      *            the username/ID/User#/... to the new account
-     *
      * @return <b>true</b> if the new accout information could be added successfully. <b>false</b> if the new accout
      *         information could not be added.
-     *
      * @since 2.0
      */
     @Override
@@ -607,10 +589,8 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param accountName
      *            the account name (name of service, organisation, website, ...) to be removed
-     *
      * @return <b>true</b> if the accout information could be removed successfully. <b>false</b> if the accout
      *         information could not be removed.
-     *
      * @since 2.0
      */
     @Override
@@ -629,7 +609,6 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param newAccounts
      *            new list of account informations
-     *
      * @since 2.0
      */
     @Override
@@ -649,10 +628,8 @@ public class Observer extends SchemaElement implements IObserver {
      *
      * @param accountName
      *            Name of service, organisation, website, ...
-     *
      * @return The username/ID/User#/... of this observer beloging to the passed accountName, or <code>NULL</code> if
      *         the accountName wasn't set for this observer.
-     *
      * @since 2.0
      */
     @Override
@@ -691,7 +668,6 @@ public class Observer extends SchemaElement implements IObserver {
      * brightness) given in magnitudes per square arcsecond
      *
      * @return the fst Offset of the Observer or <code>Float.NaN</code> if the value was never set.
-     *
      * @since 2.0
      */
     @Override

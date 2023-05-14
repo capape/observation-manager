@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/TableView.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -783,8 +783,8 @@ public class TableView extends JPanel {
         /*
          * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return; }
          */// Comment this out 02.04.08: Need to update table (setSelection) and ItemView
-           // as selected element can have
-           // different parent elements in tree
+            // as selected element can have
+            // different parent elements in tree
 
         // Do this later in UI Thread to avoid exception:
         // java.lang.ArrayIndexOutOfBoundsException: 0 >= 0

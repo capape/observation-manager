@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * extension/deepSky/DeepSkyTarget.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -18,7 +18,6 @@ import de.lehmannet.om.util.SchemaException;
  * system.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.3
  */
 public class DeepSkyTargetNA extends DeepSkyTarget {
@@ -37,7 +36,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -104,7 +102,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
      *
      * @param element
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     @Override

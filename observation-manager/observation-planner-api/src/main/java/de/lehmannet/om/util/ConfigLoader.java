@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/ConfigLoader.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -23,7 +23,6 @@ import de.lehmannet.om.SchemaOalTypeInfo;
  * are found, it can provide easy access to the config information.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class ConfigLoader {
@@ -59,10 +58,8 @@ public class ConfigLoader {
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
-     *
      * @return The corresponding target java classname for the given type, or <code>null</code> if the type could not be
      *         resolved.
-     *
      * @throws ConfigException
      *             if problems occured during load of config
      */
@@ -128,10 +125,8 @@ public class ConfigLoader {
      * @param ptype
      *            The xsi:type value which can be found at additional schema elements (can be a finding xsi:type or an
      *            target xsi_type)
-     *
      * @return The corresponding finding java classname for the given type, or <code>null</code> if the type could not
      *         be resolved.
-     *
      * @throws ConfigException
      *             if problems occured during load of config
      */

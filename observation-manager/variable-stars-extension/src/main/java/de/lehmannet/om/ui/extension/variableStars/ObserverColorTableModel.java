@@ -51,12 +51,12 @@ public class ObserverColorTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         switch (columnIndex) {
-        case 0: {
-            return this.observers[rowIndex].getDisplayName();
-        }
-        case 1: {
-            return this.colors[rowIndex];
-        }
+            case 0: {
+                return this.observers[rowIndex].getDisplayName();
+            }
+            case 1: {
+                return this.colors[rowIndex];
+            }
         }
 
         return "";
@@ -86,14 +86,14 @@ public class ObserverColorTableModel extends AbstractTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = String.class;
-            break;
-        }
-        case 1: {
-            c = Color.class;
-            break;
-        }
+            case 0: {
+                c = String.class;
+                break;
+            }
+            case 1: {
+                c = Color.class;
+                break;
+            }
         }
 
         return c;
@@ -106,14 +106,14 @@ public class ObserverColorTableModel extends AbstractTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("popup.observerColor.column0");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("popup.observerColor.column1");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("popup.observerColor.column0");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("popup.observerColor.column1");
+                break;
+            }
         }
 
         return name;

@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
-//import javax.swing.JComponent;
+// import javax.swing.JComponent;
 
 public class TextManagerImpl implements TextManager {
 

@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/TargetTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -76,60 +76,60 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         ITarget target = (ITarget) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = new StringBuilder(target.getDisplayName());
-            break;
-        }
-        case 1: {
-            String[] alias = target.getAliasNames();
-            if (alias != null) {
-                for (int x = 0; x < alias.length; x++) {
-                    value.append(alias[x]);
-                    if (x < alias.length - 1) {
-                        value.append("; ");
+            case 0: {
+                value = new StringBuilder(target.getDisplayName());
+                break;
+            }
+            case 1: {
+                String[] alias = target.getAliasNames();
+                if (alias != null) {
+                    for (int x = 0; x < alias.length; x++) {
+                        value.append(alias[x]);
+                        if (x < alias.length - 1) {
+                            value.append("; ");
+                        }
                     }
                 }
+                break;
             }
-            break;
-        }
-        case 2: {
-            if (target.getPosition() != null) {
-                value = new StringBuilder("" + target.getPosition().getRa());
-            }
-            break;
-        }
-        case 3: {
-            if (target.getPosition() != null) {
-                value = new StringBuilder("" + target.getPosition().getDec());
-            }
-            break;
-        }
-        case 4: {
-            value = new StringBuilder("");
-            // TODO:
-            // this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType()));
-            break;
-        }
-        case 5: {
-            if (target.getConstellation() != null) {
-                boolean i18N = Boolean
-                        .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
-                if (i18N) {
-                    value = new StringBuilder(target.getConstellation().getDisplayName());
-                } else {
-                    value = new StringBuilder(target.getConstellation().getName());
+            case 2: {
+                if (target.getPosition() != null) {
+                    value = new StringBuilder("" + target.getPosition().getRa());
                 }
+                break;
             }
-            break;
-        }
-        case 6: {
-            if (target.getDatasource() != null) {
-                value = new StringBuilder(target.getDatasource());
-            } else {
-                value = new StringBuilder(target.getObserver().getDisplayName());
+            case 3: {
+                if (target.getPosition() != null) {
+                    value = new StringBuilder("" + target.getPosition().getDec());
+                }
+                break;
             }
-            break;
-        }
+            case 4: {
+                value = new StringBuilder("");
+                // TODO:
+                // this.om.getExtensionLoader().getSchemaUILoader().getDisplayNameForType(target.getXSIType()));
+                break;
+            }
+            case 5: {
+                if (target.getConstellation() != null) {
+                    boolean i18N = Boolean
+                            .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+                    if (i18N) {
+                        value = new StringBuilder(target.getConstellation().getDisplayName());
+                    } else {
+                        value = new StringBuilder(target.getConstellation().getName());
+                    }
+                }
+                break;
+            }
+            case 6: {
+                if (target.getDatasource() != null) {
+                    value = new StringBuilder(target.getDatasource());
+                } else {
+                    value = new StringBuilder(target.getObserver().getDisplayName());
+                }
+                break;
+            }
         }
 
         return value.toString();
@@ -142,34 +142,34 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.name");
-            break;
-        }
-        case 1: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.aliasnames");
-            break;
-        }
-        case 2: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.ra");
-            break;
-        }
-        case 3: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.dec");
-            break;
-        }
-        case 4: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.type");
-            break;
-        }
-        case 5: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.constellation");
-            break;
-        }
-        case 6: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.target.source");
-            break;
-        }
+            case 0: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.name");
+                break;
+            }
+            case 1: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.aliasnames");
+                break;
+            }
+            case 2: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.ra");
+                break;
+            }
+            case 3: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.dec");
+                break;
+            }
+            case 4: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.type");
+                break;
+            }
+            case 5: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.constellation");
+                break;
+            }
+            case 6: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.target.source");
+                break;
+            }
         }
 
         return name;

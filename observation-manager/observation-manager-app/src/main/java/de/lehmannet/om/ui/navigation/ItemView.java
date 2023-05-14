@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/ItemView.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -127,62 +127,62 @@ public class ItemView extends JPanel implements ChangeListener {
             // Yes: Load the corresponding component
             byte tabID = ((TabIDComponent) tabIndexComponent).getTabID();
             switch (tabID) {
-            case 1: {
-                IFinding f = (IFinding) ItemView.this.currentObseration.getResults().get(0);
-                ISession se = ItemView.this.currentObseration.getSession();
-                ITarget t = ItemView.this.currentObseration.getTarget();
-                ItemView.this.loadFindingPanel(f, se, t, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 2: {
-                ITarget t = ItemView.this.currentObseration.getTarget();
-                ItemView.this.loadTargetPanel(t, ItemView.this.currentObseration,
-                        ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 3: {
-                ISite s = ItemView.this.currentObseration.getSite();
-                ItemView.this.loadSitePanel(s, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 4: {
-                ISession s = ItemView.this.currentObseration.getSession();
-                ItemView.this.loadSessionPanel(s, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 5: {
-                IScope s = ItemView.this.currentObseration.getScope();
-                ItemView.this.loadScopePanel(s, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 6: {
-                IObserver o = ItemView.this.currentObseration.getObserver();
-                ItemView.this.loadObserverPanel(o, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 7: {
-                IEyepiece eye = ItemView.this.currentObseration.getEyepiece();
-                ItemView.this.loadEyepiecePanel(eye, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 8: {
-                IFilter f = ItemView.this.currentObseration.getFilter();
-                ItemView.this.loadFilterPanel(f, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 9: {
-                IImager i = ItemView.this.currentObseration.getImager();
-                ItemView.this.loadImagerPanel(i, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            case 10: {
-                ILens l = ItemView.this.currentObseration.getLens();
-                ItemView.this.loadLensPanel(l, ItemView.this.tabbedPane.getSelectedIndex());
-                return;
-            }
-            default: {
-                ItemView.this.tabbedPane.setSelectedIndex(0);
-            }
+                case 1: {
+                    IFinding f = (IFinding) ItemView.this.currentObseration.getResults().get(0);
+                    ISession se = ItemView.this.currentObseration.getSession();
+                    ITarget t = ItemView.this.currentObseration.getTarget();
+                    ItemView.this.loadFindingPanel(f, se, t, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 2: {
+                    ITarget t = ItemView.this.currentObseration.getTarget();
+                    ItemView.this.loadTargetPanel(t, ItemView.this.currentObseration,
+                            ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 3: {
+                    ISite s = ItemView.this.currentObseration.getSite();
+                    ItemView.this.loadSitePanel(s, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 4: {
+                    ISession s = ItemView.this.currentObseration.getSession();
+                    ItemView.this.loadSessionPanel(s, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 5: {
+                    IScope s = ItemView.this.currentObseration.getScope();
+                    ItemView.this.loadScopePanel(s, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 6: {
+                    IObserver o = ItemView.this.currentObseration.getObserver();
+                    ItemView.this.loadObserverPanel(o, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 7: {
+                    IEyepiece eye = ItemView.this.currentObseration.getEyepiece();
+                    ItemView.this.loadEyepiecePanel(eye, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 8: {
+                    IFilter f = ItemView.this.currentObseration.getFilter();
+                    ItemView.this.loadFilterPanel(f, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 9: {
+                    IImager i = ItemView.this.currentObseration.getImager();
+                    ItemView.this.loadImagerPanel(i, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                case 10: {
+                    ILens l = ItemView.this.currentObseration.getLens();
+                    ItemView.this.loadLensPanel(l, ItemView.this.tabbedPane.getSelectedIndex());
+                    return;
+                }
+                default: {
+                    ItemView.this.tabbedPane.setSelectedIndex(0);
+                }
             }
         });
 

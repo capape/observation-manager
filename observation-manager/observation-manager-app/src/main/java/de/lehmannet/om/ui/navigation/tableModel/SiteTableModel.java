@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/SiteTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -58,27 +58,27 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = Site.class;
-            break;
-        }
-        case 1:
-        case 2: {
-            c = Angle.class;
-            break;
-        }
-        case 3: {
-            c = Float.class;
-            break;
-        }
-        case 4: {
-            c = String.class;
-            break;
-        }
-        case 5: {
-            c = Integer.class;
-            break;
-        }
+            case 0: {
+                c = Site.class;
+                break;
+            }
+            case 1:
+            case 2: {
+                c = Angle.class;
+                break;
+            }
+            case 3: {
+                c = Float.class;
+                break;
+            }
+            case 4: {
+                c = String.class;
+                break;
+            }
+            case 5: {
+                c = Integer.class;
+                break;
+            }
         }
 
         return c;
@@ -97,30 +97,30 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         ISite site = (ISite) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = site;
-            break;
-        }
-        case 1: {
-            value = site.getLatitude();
-            break;
-        }
-        case 2: {
-            value = site.getLongitude();
-            break;
-        }
-        case 3: {
-            value = site.getElevation();
-            break;
-        }
-        case 4: {
-            value = site.getIAUCode();
-            break;
-        }
-        case 5: {
-            value = site.getTimezone();
-            break;
-        }
+            case 0: {
+                value = site;
+                break;
+            }
+            case 1: {
+                value = site.getLatitude();
+                break;
+            }
+            case 2: {
+                value = site.getLongitude();
+                break;
+            }
+            case 3: {
+                value = site.getElevation();
+                break;
+            }
+            case 4: {
+                value = site.getIAUCode();
+                break;
+            }
+            case 5: {
+                value = site.getTimezone();
+                break;
+            }
         }
 
         return value;
@@ -133,30 +133,30 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.name");
-            break;
-        }
-        case 1: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.latitude");
-            break;
-        }
-        case 2: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.longitude");
-            break;
-        }
-        case 3: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.elevation");
-            break;
-        }
-        case 4: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.iauNo");
-            break;
-        }
-        case 5: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.site.timezone");
-            break;
-        }
+            case 0: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.name");
+                break;
+            }
+            case 1: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.latitude");
+                break;
+            }
+            case 2: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.longitude");
+                break;
+            }
+            case 3: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.elevation");
+                break;
+            }
+            case 4: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.iauNo");
+                break;
+            }
+            case 5: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.site.timezone");
+                break;
+            }
         }
 
         return name;

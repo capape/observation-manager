@@ -15,7 +15,6 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for variable stars.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 2.0
  */
 public class TargetVariableStar extends TargetStar {
@@ -66,7 +65,6 @@ public class TargetVariableStar extends TargetStar {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -154,7 +152,6 @@ public class TargetVariableStar extends TargetStar {
      * Returns the field values of this TargetVariableStar.
      *
      * @return This TargetVariableStar field values
-     *
      * @see java.lang.Object
      */
     @Override
@@ -192,7 +189,6 @@ public class TargetVariableStar extends TargetStar {
      *
      * @param parent
      *            The parent element for this TargetVariableStar
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -279,7 +275,6 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Sets the maximal apparent magnitude of this variable star.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
-     *
      */
     public void setMaxMagnitudeApparent(float maxApparentMag) {
 
@@ -305,7 +300,6 @@ public class TargetVariableStar extends TargetStar {
 
     /**
      * Sets the type of this variable star.<br>
-     *
      */
     public void setType(String type) {
 
@@ -333,7 +327,6 @@ public class TargetVariableStar extends TargetStar {
     /**
      * Sets the period of this variable star in days.<br>
      * For unsetting this value, please pass <code>Float.NaN</code> as parameter.
-     *
      */
     public void setPeriod(float period) {
 

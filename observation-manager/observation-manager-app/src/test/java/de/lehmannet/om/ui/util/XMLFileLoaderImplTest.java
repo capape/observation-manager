@@ -124,7 +124,6 @@ public class XMLFileLoaderImplTest {
      * TODO:
      *
      * @Test public void addSchemaElementImager() {
-     *
      *       emptyNewFile.addSchemaElement(element); IImager[] observers = emptyNewFile.getImagers(); assertEquals("Only
      *       one eyepiece", 1, observers.length); assertEquals("Eyepiece added", "Orion", observers[0].getModel());
      *       fail("IImager"); }

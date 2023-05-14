@@ -15,16 +15,16 @@ public class TargetDialogFactory {
             ITarget target, boolean editable) {
         switch (xsiType) {
 
-        case GenericTarget.XML_XSI_TYPE_VALUE:
-            return new GenericTargetDialog(parent, extensionContext.getConfiguration(),
-                    extensionContext.getUserInterfaceHelper(), extensionContext.getModel(), target);
+            case GenericTarget.XML_XSI_TYPE_VALUE:
+                return new GenericTargetDialog(parent, extensionContext.getConfiguration(),
+                        extensionContext.getUserInterfaceHelper(), extensionContext.getModel(), target);
 
-        case TargetStar.XML_XSI_TYPE_VALUE:
-            return new TargetStarDialog(parent, extensionContext.getUserInterfaceHelper(), extensionContext.getModel(),
-                    target);
+            case TargetStar.XML_XSI_TYPE_VALUE:
+                return new TargetStarDialog(parent, extensionContext.getUserInterfaceHelper(),
+                        extensionContext.getModel(), target);
 
-        default:
-            throw new IllegalArgumentException("Invalid xsi:type");
+            default:
+                throw new IllegalArgumentException("Invalid xsi:type");
 
         }
 

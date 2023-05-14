@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * extension/deepSky/DeepSkyFinding.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -49,7 +49,6 @@ import de.lehmannet.om.util.SchemaException;
  * </table>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class DeepSkyFinding extends Finding {
@@ -209,7 +208,6 @@ public class DeepSkyFinding extends Finding {
      *            The description of the finding
      * @param rating
      *            The rating of the finding
-     *
      * @throws IllegalArgumentException
      *             if description was <code>null</code> or rating had a illegal value.
      */
@@ -232,7 +230,6 @@ public class DeepSkyFinding extends Finding {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      * @see java.lang.Object.toString();
      */
     @Override
@@ -251,7 +248,6 @@ public class DeepSkyFinding extends Finding {
      * Returns the field values of this DeepSkyFinding.
      *
      * @return This DeepSkyValue field values
-     *
      * @see java.lang.Object
      */
     @Override
@@ -370,10 +366,8 @@ public class DeepSkyFinding extends Finding {
      *
      * @param parent
      *            The parent element for this DeepSkyFinding
-     *
      * @return Returns the Element given as parameter with this DeepSkyFinding as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -400,7 +394,6 @@ public class DeepSkyFinding extends Finding {
      *
      * @return The large visible diameter of the object as Angle.<br>
      *         Might return <code>null</code> if large diameter was never set.
-     *
      * @see de.lehmannet.om.Angle
      */
     public Angle getLargeDiameter() {
@@ -414,7 +407,6 @@ public class DeepSkyFinding extends Finding {
      * A observed object is mottled when it can be seen with at least some structures.
      *
      * @return <code>true</code> if the observed object could be seen with structures
-     *
      * @throws IllegalStateException
      *             if mottled was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -445,7 +437,6 @@ public class DeepSkyFinding extends Finding {
      * Returns <code>true</code> if the observed object could be seen resolved during observation.<br>
      *
      * @return <code>true</code> if the observed object could be seen resolved
-     *
      * @throws IllegalStateException
      *             if resolved was not set by the user so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -464,7 +455,6 @@ public class DeepSkyFinding extends Finding {
      *
      * @return The small visible diameter of the object as Angle Might return <code>null</code> if large diameter was
      *         never set.
-     *
      * @see de.lehmannet.om.Angle
      */
     public Angle getSmallDiameter() {
@@ -477,7 +467,6 @@ public class DeepSkyFinding extends Finding {
      * Returns <code>true</code> if the observed object appeard stellar during observation.
      *
      * @return <code>true</code> if the observed object appeard stellar
-     *
      * @throws IllegalStateException
      *             if stellar was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -495,7 +484,6 @@ public class DeepSkyFinding extends Finding {
      * Returns <code>true</code> if the observed object appeard extended during observation.
      *
      * @return <code>true</code> if the observed object appeard extended
-     *
      * @throws IllegalStateException
      *             if extended was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -515,7 +503,6 @@ public class DeepSkyFinding extends Finding {
      *
      * @param largeDiameter
      *            The large diameters (positiv) angle
-     *
      * @see de.lehmannet.om.Angle
      */
     public void setLargeDiameter(Angle largeDiameter) {
@@ -583,7 +570,6 @@ public class DeepSkyFinding extends Finding {
      * @param rating
      *            The rating value to set for this DeepSkyFinding. A valid rating value is an integer between 1 and 7 or
      *            99 for unknown
-     *
      * @throws IllegalArgumentException
      *             if rating > 7 or < 1 and also not 99
      */
@@ -640,7 +626,6 @@ public class DeepSkyFinding extends Finding {
      *
      * @param smallDiameter
      *            The small diameters (positiv) angle
-     *
      * @see de.lehmannet.om.Angle
      */
     public void setSmallDiameter(Angle smallDiameter) {

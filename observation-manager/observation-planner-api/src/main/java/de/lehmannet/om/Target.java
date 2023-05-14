@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Target.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -30,7 +30,6 @@ import de.lehmannet.om.util.SchemaException;
  * subclasses that have to implement the ITarget interface.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public abstract class Target extends SchemaElement implements ITarget {
@@ -84,7 +83,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -118,7 +116,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The name of the astronomical object
      * @param datasource
      *            The datasource which is the origin of the astronomical object
-     *
      * @throws IllegalArgumentException
      *             if name or datasource was <code>null</code>
      */
@@ -145,7 +142,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The name of the astronomical object
      * @param observer
      *            The observer which is the originator of the astronomical object
-     *
      * @throws IllegalArgumentException
      *             if name or observer was <code>null</code>
      */
@@ -176,7 +172,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      * @see java.lang.Object.toString();
      */
     @Override
@@ -200,11 +195,9 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param obj
      *            The Object to compare this Target with.
-     *
      * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal, the datasource
      *         or observer is equal and its name is equal to this Target name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
-     *
      * @see java.lang.Object
      */
     @Override
@@ -288,7 +281,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param parent
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -315,12 +307,9 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional target link, and the target element under the
      *         target container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -377,10 +366,8 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The element under which the the target link is created
      * @param xmlElementName
      *            The name of the element that contains the link
-     *
      * @return Returns the Element given as parameter with a additional target link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -395,7 +382,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param newAliasName
      *            A new alias name
-     *
      * @return Returns <code>true</code> if the alias name could be added. If <code>false</code> is returned the new
      *         alias was <code>null</code> or an empty String.
      */
@@ -473,7 +459,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param aliasName
      *            The alias name that should be removed
-     *
      * @return Returns <code>true</code> if the alias name could be removed from the target. If <code>false</code> is
      *         returned the given alias name could not be found in the targets alias name list or the parameter was
      *         <code>null<code> or contained a empty string.
@@ -562,7 +547,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      * If a name is already set to the target, the old name will be overwritten with new new name.
      *
      * @return The name of the target
-     *
      * @throws IllegalArgumentException
      *             if name was <code>null</code>
      */
@@ -709,10 +693,8 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param parent
      *            The target container element
-     *
      * @return Returns the new created target element (which is a child of the passed container element) Might return
      *         <code>null</code> if parent was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     protected Element createXmlTargetElement(Element parent) {
@@ -832,7 +814,6 @@ public abstract class Target extends SchemaElement implements ITarget {
      *
      * @param aliasNames
      *            Comma seperated list with alternative names of the astronomical object
-     *
      * @return Returns <code>true</code> if all alias names of the list could be added. If <code>false</code> is
      *         returned the new alias was <code>null</code>.
      */

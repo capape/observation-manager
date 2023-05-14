@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /dialog/ExtensionInfoDialog.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -143,14 +143,14 @@ class ExtensionTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         switch (columnIndex) {
-        case 0:
-            return ((IExtension) this.extensions.get(rowIndex)).getName();
+            case 0:
+                return ((IExtension) this.extensions.get(rowIndex)).getName();
 
-        case 1: {
-            return "" + ((IExtension) this.extensions.get(rowIndex)).getVersion();
-        }
-        default:
-            return "";
+            case 1: {
+                return "" + ((IExtension) this.extensions.get(rowIndex)).getVersion();
+            }
+            default:
+                return "";
         }
 
     }
@@ -161,16 +161,16 @@ class ExtensionTableModel extends AbstractTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("extensionInfo.column.extensionName");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("extensionInfo.column.version");
-            break;
-        }
-        default:
-            name = "";
+            case 0: {
+                name = this.bundle.getString("extensionInfo.column.extensionName");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("extensionInfo.column.version");
+                break;
+            }
+            default:
+                name = "";
         }
 
         return name;

@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/RelativPath.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -21,7 +21,6 @@ public class RelativPath {
      *            base path
      * @param f
      *            file to generate path for
-     *
      * @return path from home to f as a string
      */
     public static String getRelativePath(File home, File f) {
@@ -43,7 +42,6 @@ public class RelativPath {
      *
      * @param f
      *            input file
-     *
      * @return a List collection with the individual elements of the path in reverse order
      */
     private static List<String> getPathList(File f) {

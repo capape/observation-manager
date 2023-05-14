@@ -23,23 +23,23 @@ public class TargetDialogFactory {
             IObservation observation, boolean editable) {
 
         switch (xsiType) {
-        case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
-            return new SolarSystemTargetCometDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
-                    target);
-        case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
-            return new SolarSystemTargetMinorPlanetDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
-                    target);
-        case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
-            return new SolarSystemTargetMoonDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
-                    observation, target);
-        case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
-            return new SolarSystemTargetSunDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
-                    observation, target);
-        case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
-            return new SolarSystemTargetPlanetDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
-                    target, observation);
-        default:
-            throw new IllegalArgumentException("Invalid xsiType");
+            case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
+                return new SolarSystemTargetCometDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target);
+            case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
+                return new SolarSystemTargetMinorPlanetDialog(parent, context.getUserInterfaceHelper(),
+                        context.getModel(), target);
+            case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
+                return new SolarSystemTargetMoonDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        observation, target);
+            case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
+                return new SolarSystemTargetSunDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        observation, target);
+            case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
+                return new SolarSystemTargetPlanetDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target, observation);
+            default:
+                throw new IllegalArgumentException("Invalid xsiType");
 
         }
     }

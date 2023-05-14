@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Filter.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -24,7 +24,6 @@ import de.lehmannet.om.util.SchemaException;
  * The model name and the type are mandatory fields which have to be set.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.5
  */
 public class Filter extends SchemaElement implements IFilter {
@@ -64,7 +63,6 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param filter
      *            The XML Schema element that represents this filter
-     *
      * @throws IllegalArgumentException
      *             if parameter is <code>null</code>,
      * @throws SchemaException
@@ -101,7 +99,6 @@ public class Filter extends SchemaElement implements IFilter {
      *            The filter model name
      * @param type
      *            The type of the filter (use IFilter constants)
-     *
      * @throws IllegalArgumentException
      *             if model is empty <code>null</code> or type is empty, <code>null</code> or does not represent a type
      *             value from IFilter.
@@ -127,7 +124,6 @@ public class Filter extends SchemaElement implements IFilter {
      * </code>
      *
      * @return A string representing the filter
-     *
      * @see java.lang.Object
      */
     @Override
@@ -196,7 +192,6 @@ public class Filter extends SchemaElement implements IFilter {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      */
 
     @Override
@@ -251,7 +246,6 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param element
      *            The parent element for this Filter
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -353,12 +347,9 @@ public class Filter extends SchemaElement implements IFilter {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional filter link, and the filter element under the
      *         filter container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -407,10 +398,8 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param element
      *            The element under which the the filter link is created
-     *
      * @return Returns the Element given as parameter with a additional filter link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -441,11 +430,9 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param color
      *            The new color of the filter.
-     *
      * @throws IllegalArgumentException
      *             if filter type is not IFilter.FILTER_TYPE_COLOR, or the given color is empty <code>null</code> or
      *             does not contain a valid value.
-     *
      * @see IFilter
      */
     @Override
@@ -492,7 +479,6 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param model
      *            The new model name to be set.
-     *
      * @throws IllegalArgumentException
      *             if modelname was <code>null</code>
      */
@@ -558,10 +544,8 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @param type
      *            The new filter type to be set.
-     *
      * @throws IllegalArgumentException
      *             if type was empty, <code>null</code> or does not contain a valid value (see IFilter constants).
-     *
      * @see IFilter
      */
     @Override
@@ -605,7 +589,6 @@ public class Filter extends SchemaElement implements IFilter {
 
     /**
      * Sets the wratten value for the filter.<br>
-     *
      */
     @Override
     public void setWratten(String wratten) {

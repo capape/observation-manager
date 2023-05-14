@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Imager.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -22,7 +22,6 @@ import de.lehmannet.om.util.SchemaException;
  * If you need an instance use one of the subclasses.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.3
  */
 public abstract class Imager extends SchemaElement implements IImager {
@@ -56,7 +55,6 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param imager
      *            The XML Schema element that represents this imager
-     *
      * @throws IllegalArgumentException
      *             if parameter is <code>null</code>,
      * @throws SchemaException
@@ -84,7 +82,6 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param model
      *            The imager model name
-     *
      * @throws IllegalArgumentException
      *             if model is <code>null</code>
      */
@@ -105,7 +102,6 @@ public abstract class Imager extends SchemaElement implements IImager {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      * @see java.lang.Object.toString();
      */
     @Override
@@ -183,7 +179,6 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param parent
      *            The parent element for this IImager
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -210,12 +205,9 @@ public abstract class Imager extends SchemaElement implements IImager {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional imager link, and the imager element under the
      *         imager container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -264,10 +256,8 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param element
      *            The element under which the the imager link is created
-     *
      * @return Returns the Element given as parameter with a additional imager link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -326,7 +316,6 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param modelname
      *            The new model name to be set.
-     *
      * @throws IllegalArgumentException
      *             if new modelname is <code>null</code> or empty string
      */
@@ -403,10 +392,8 @@ public abstract class Imager extends SchemaElement implements IImager {
      *
      * @param parent
      *            The target container element
-     *
      * @return Returns the new created target element (which is a child of the passed container element) Might return
      *         <code>null</code> if parent was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     protected Element createXmlImagerElement(Element parent) {

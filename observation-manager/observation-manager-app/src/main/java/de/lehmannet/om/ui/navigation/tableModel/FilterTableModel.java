@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/FilterTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -63,38 +63,38 @@ public class FilterTableModel extends AbstractSchemaTableModel {
         IFilter filter = (IFilter) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = filter.getModel();
-            break;
-        }
-        case 1: {
-            value = FilterPanel.getI18Ntype(filter.getType());
-            break;
-        }
-        case 2: {
-            if (filter.getColor() == null) {
-                return "";
-            } else {
-                value = "" + FilterPanel.getI18Ntype(filter.getColor());
+            case 0: {
+                value = filter.getModel();
+                break;
             }
-            break;
-        }
-        case 3: {
-            if (filter.getWratten() == null) {
-                return "";
-            } else {
-                value = "" + filter.getWratten();
+            case 1: {
+                value = FilterPanel.getI18Ntype(filter.getType());
+                break;
             }
-            break;
-        }
-        case 4: {
-            if (filter.getSchott() == null) {
-                return "";
-            } else {
-                value = "" + filter.getSchott();
+            case 2: {
+                if (filter.getColor() == null) {
+                    return "";
+                } else {
+                    value = "" + FilterPanel.getI18Ntype(filter.getColor());
+                }
+                break;
             }
-            break;
-        }
+            case 3: {
+                if (filter.getWratten() == null) {
+                    return "";
+                } else {
+                    value = "" + filter.getWratten();
+                }
+                break;
+            }
+            case 4: {
+                if (filter.getSchott() == null) {
+                    return "";
+                } else {
+                    value = "" + filter.getSchott();
+                }
+                break;
+            }
         }
 
         return value;
@@ -107,26 +107,26 @@ public class FilterTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("table.header.filter.model");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("table.header.filter.type");
-            break;
-        }
-        case 2: {
-            name = this.bundle.getString("table.header.filter.colorType");
-            break;
-        }
-        case 3: {
-            name = this.bundle.getString("table.header.filter.wratten");
-            break;
-        }
-        case 4: {
-            name = this.bundle.getString("table.header.filter.schott");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("table.header.filter.model");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("table.header.filter.type");
+                break;
+            }
+            case 2: {
+                name = this.bundle.getString("table.header.filter.colorType");
+                break;
+            }
+            case 3: {
+                name = this.bundle.getString("table.header.filter.wratten");
+                break;
+            }
+            case 4: {
+                name = this.bundle.getString("table.header.filter.schott");
+                break;
+            }
         }
 
         return name;

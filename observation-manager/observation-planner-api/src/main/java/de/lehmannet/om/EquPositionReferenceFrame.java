@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /EquPositionReferenceFrame.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -18,7 +18,6 @@ import org.w3c.dom.Element;
  * their position values are valid.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 class EquPositionReferenceFrame {
@@ -71,7 +70,6 @@ class EquPositionReferenceFrame {
      *            constants.
      * @param equinox
      *            A equinox date. Should be formed like e.g. <code>J2000.0</code>
-     *
      * @throws IllegalArgumentException
      *             if origin or equinox is <code>null</code> or origin does not have a valid value.
      */
@@ -103,7 +101,6 @@ class EquPositionReferenceFrame {
      * </code>
      *
      * @return A string representing the position reference frame
-     *
      * @see java.lang.Object
      */
     @Override
@@ -121,10 +118,8 @@ class EquPositionReferenceFrame {
      *
      * @param obj
      *            The Object to compare this EquPositionReferenceFrame with.
-     *
      * @return <code>true</code> if the given Object is an instance of EquPositionReferenceFrame and its equinox date
      *         and origin are equal with this PositionReferenceFrames values.<br>
-     *
      * @see java.lang.Object
      */
     @Override
@@ -162,10 +157,8 @@ class EquPositionReferenceFrame {
      *
      * @param parent
      *            The parent element for this EquPositionReferenceFrame
-     *
      * @return Returns the Element given as parameter with this EquPositionReferenceFrame as child Element.<br>
      *         Might return <code>null</code> if parent was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     public Element addToXmlElement(Element parent) {
@@ -220,7 +213,6 @@ class EquPositionReferenceFrame {
      *
      * @param equinox
      *            The equinox date to set
-     *
      * @throws IllegalArgumentException
      *             if equinox was <code>null</code>
      */
@@ -240,7 +232,6 @@ class EquPositionReferenceFrame {
      *
      * @param origin
      *            The new origin of this position reference frame
-     *
      * @throws IllegalArgumentException
      *             if origin was <code>null</code> or did not have valid value.
      */

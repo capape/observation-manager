@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/IIDGenerator.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -11,9 +11,7 @@ package de.lehmannet.om.util;
  * The IIDGenerator provides simple method access for generating a unique IDs, which are used to identify and link
  * several schema elements.
  *
- *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public interface IIDGenerator {

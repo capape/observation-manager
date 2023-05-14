@@ -13,11 +13,11 @@ public class TargetPanelFactory {
 
         switch (xsiType) {
 
-        case TargetVariableStar.XML_XSI_TYPE_VALUE:
-            return new VariableStarTargetPanel(extensionContext.getConfiguration(), extensionContext.getModel(), target,
-                    editable);
-        default:
-            throw new IllegalArgumentException("Invalid xsi:type");
+            case TargetVariableStar.XML_XSI_TYPE_VALUE:
+                return new VariableStarTargetPanel(extensionContext.getConfiguration(), extensionContext.getModel(),
+                        target, editable);
+            default:
+                throw new IllegalArgumentException("Invalid xsi:type");
 
         }
     }

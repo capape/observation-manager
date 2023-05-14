@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * extension/deepSky/DeepSkyTargetSC.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -20,7 +20,6 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for star clouds.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.7
  */
 public class DeepSkyTargetSC extends DeepSkyTarget {
@@ -58,7 +57,6 @@ public class DeepSkyTargetSC extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -120,7 +118,6 @@ public class DeepSkyTargetSC extends DeepSkyTarget {
      *
      * @param parent
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     @Override

@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/ImagerTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -55,22 +55,22 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
         IImager imager = (IImager) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = imager.getVendor();
-            break;
-        }
-        case 1: {
-            value = imager.getModel();
-            break;
-        }
-        case 2: {
-            if ((imager.getRemarks() != null) && (imager.getRemarks().length() > 15)) {
-                value = imager.getRemarks().substring(0, 15);
-            } else {
-                value = imager.getRemarks();
+            case 0: {
+                value = imager.getVendor();
+                break;
             }
-            break;
-        }
+            case 1: {
+                value = imager.getModel();
+                break;
+            }
+            case 2: {
+                if ((imager.getRemarks() != null) && (imager.getRemarks().length() > 15)) {
+                    value = imager.getRemarks().substring(0, 15);
+                } else {
+                    value = imager.getRemarks();
+                }
+                break;
+            }
         }
 
         return value;
@@ -83,18 +83,18 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.imager.vendor");
-            break;
-        }
-        case 1: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.imager.model");
-            break;
-        }
-        case 2: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.imager.remarks");
-            break;
-        }
+            case 0: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.imager.vendor");
+                break;
+            }
+            case 1: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.imager.model");
+                break;
+            }
+            case 2: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.imager.remarks");
+                break;
+            }
         }
 
         return name;

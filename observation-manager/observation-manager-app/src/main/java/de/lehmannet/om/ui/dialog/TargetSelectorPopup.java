@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /dialog/TargetSelectorPopup.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -27,7 +27,7 @@ import de.lehmannet.om.ui.comparator.TargetComparator;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
-//NO LONGER NEEDED - REPLACED BY SCHEMAELEMENTSELECTORPOPUP
+// NO LONGER NEEDED - REPLACED BY SCHEMAELEMENTSELECTORPOPUP
 class TargetSelectorPopup extends JDialog implements ActionListener {
 
     /**
@@ -185,14 +185,14 @@ class TargetSelectionModel extends AbstractTableModel {
         }
 
         switch (columnIndex) {
-        case 0: {
-            return keyTarget.getDisplayName(); // Returns a String
-        }
-        case 1: {
-            return this.targetMap.get(keyTarget); // Returns a Boolean
-        }
-        default:
-            return "";
+            case 0: {
+                return keyTarget.getDisplayName(); // Returns a String
+            }
+            case 1: {
+                return this.targetMap.get(keyTarget); // Returns a Boolean
+            }
+            default:
+                return "";
         }
 
     }
@@ -212,12 +212,12 @@ class TargetSelectionModel extends AbstractTableModel {
     public Class<?> getColumnClass(int c) {
 
         switch (c) {
-        case 0: {
-            return String.class;
-        }
-        case 1: {
-            return Boolean.class;
-        }
+            case 0: {
+                return String.class;
+            }
+            case 1: {
+                return Boolean.class;
+            }
         }
 
         return String.class;

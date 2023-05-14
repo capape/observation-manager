@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Constellation.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -16,14 +16,15 @@ import java.util.ResourceBundle;
  * is in latin.
  *
  * @author doergn@users.sourceforge.net capapecd cagil
- *
  * @since 2.0
  */
 public enum Constellation {
 
     // Each constellation is created once in a static manner
     // @formatter:off
-    ANDROMEDA("And", "Andromeda"), ANTLIA("Ant", "Antlia"), APUS("Aps", "Apus"), AQUARIUS("Aqr", "Aquarius"),
+    ANDROMEDA("And", "Andromeda"),
+    ANTLIA("Ant", "Antlia"),
+    APUS("Aps", "Apus"), AQUARIUS("Aqr", "Aquarius"),
     AQUILA("Aql", "Aquila"), ARA("Ara", "Ara"), ARIES("Ari", "Aries"), AURIGA("Aur", "Auriga"), BOOTES("Boo", "Bootes"),
     CAELUM("Cae", "Caelum"), CAMELOPARDALIS("Cam", "Camelopardalis"), CANCER("Cnc", "Cancer"),
     CANES_VENATICI("CVn", "Canes Venatici"), CANIS_MAIOR("CMa", "Canis Maior"), CANIS_MINOR("CMi", "Canis Minor"),

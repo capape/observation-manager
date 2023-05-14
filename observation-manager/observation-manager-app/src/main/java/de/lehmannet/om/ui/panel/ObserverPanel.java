@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /panel/ObserverPanel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -473,21 +473,21 @@ class AccountTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         switch (columnIndex) {
-        case 0: {
-            String value = this.accounts[rowIndex];
-            if (("".equals(value)) || (value == null)) {
-                this.box.setEditable(true);
-                return AccountListRenderer.EMPTY_LIST_ENTRY;
+            case 0: {
+                String value = this.accounts[rowIndex];
+                if (("".equals(value)) || (value == null)) {
+                    this.box.setEditable(true);
+                    return AccountListRenderer.EMPTY_LIST_ENTRY;
+                }
+                return value;
             }
-            return value;
-        }
-        case 1: {
-            String value = this.userNames[rowIndex];
-            if ("".equals(value)) {
-                return "";
+            case 1: {
+                String value = this.userNames[rowIndex];
+                if ("".equals(value)) {
+                    return "";
+                }
+                return value;
             }
-            return value;
-        }
         }
 
         return "";
@@ -516,14 +516,14 @@ class AccountTableModel extends AbstractTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractPanel.bundle.getString("table.header.observerAccount.account");
-            break;
-        }
-        case 1: {
-            name = AbstractPanel.bundle.getString("table.header.observerAccount.username");
-            break;
-        }
+            case 0: {
+                name = AbstractPanel.bundle.getString("table.header.observerAccount.account");
+                break;
+            }
+            case 1: {
+                name = AbstractPanel.bundle.getString("table.header.observerAccount.username");
+                break;
+            }
         }
 
         return name;

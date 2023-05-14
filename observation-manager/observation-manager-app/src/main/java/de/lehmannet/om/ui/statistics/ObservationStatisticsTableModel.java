@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /statistics/ObservationStatisticsTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -82,14 +82,14 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = ITarget.class;
-            break;
-        }
-        case 1: {
-            c = IObservation.class;
-            break;
-        }
+            case 0: {
+                c = ITarget.class;
+                break;
+            }
+            case 1: {
+                c = IObservation.class;
+                break;
+            }
         }
 
         return c;
@@ -108,26 +108,26 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         TargetObservation to = (TargetObservation) this.rowIndexMapping.get(rowIndex);
 
         switch (columnIndex) {
-        case 0: {
-            value = this.catalogTargets.getTargetObservations()[to.targetIndex].getTarget();
+            case 0: {
+                value = this.catalogTargets.getTargetObservations()[to.targetIndex].getTarget();
 
-            // If row above has the same target then this one, return null
-            if (rowIndex > 0) {
-                TargetObservation toAbove = (TargetObservation) this.rowIndexMapping.get(rowIndex - 1);
-                if ((toAbove != null) && (to.targetIndex == toAbove.targetIndex)) {
-                    value = null;
+                // If row above has the same target then this one, return null
+                if (rowIndex > 0) {
+                    TargetObservation toAbove = (TargetObservation) this.rowIndexMapping.get(rowIndex - 1);
+                    if ((toAbove != null) && (to.targetIndex == toAbove.targetIndex)) {
+                        value = null;
+                    }
                 }
-            }
 
-            break;
-        }
-        case 1: {
-            List<IObservation> l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
-            if (l != null) {
-                value = l.get(to.observtionIndex);
+                break;
             }
-            break;
-        }
+            case 1: {
+                List<IObservation> l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
+                if (l != null) {
+                    value = l.get(to.observtionIndex);
+                }
+                break;
+            }
         }
 
         return value;
@@ -140,14 +140,14 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("table.header.catalogStatistics.target");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("table.header.catalogStatistics.observation");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("table.header.catalogStatistics.target");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("table.header.catalogStatistics.observation");
+                break;
+            }
         }
 
         return name;
@@ -158,12 +158,12 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
     public int getColumnSize(int columnIndex) {
 
         switch (columnIndex) {
-        case 0: {
-            return 95;
-        }
-        case 1: {
-            return 275;
-        }
+            case 0: {
+                return 95;
+            }
+            case 1: {
+                return 275;
+            }
         }
 
         return super.getColumnSize(columnIndex);
