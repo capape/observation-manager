@@ -32,10 +32,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.compiler.version>13</maven.compiler.version>
+        <maven.compiler.release>17</maven.compiler.release>
 
 
         <!-- dependency versions -->
@@ -52,13 +49,15 @@
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
         <maven-formatter-plugin.version>2.22.0</maven-formatter-plugin.version>
-        <maven-jacoco-plugin.version>0.8.9</maven-jacoco-plugin.version>
+        <maven-jacoco-plugin.version>0.8.10</maven-jacoco-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-pmd-plugin.version>3.20.0</maven-pmd-plugin.version>
         <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+        <mave-resources-plugin.version>3.3.1</mave-resources-plugin.version>
         <maven-scm-plugin.version>2.0.0</maven-scm-plugin.version>
         <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
         <maven-spotbugs-plugin.version>4.0.0</maven-spotbugs-plugin.version>
+        <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
         <maven-versions-plugin.version>2.15.0</maven-versions-plugin.version>
 
         <!-- jacoco config -->
@@ -116,6 +115,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <includes>
                             <include>**/*Test.java</include>
@@ -267,7 +267,7 @@
                             <configuration>
                                 <rules>
                                     <requireMavenVersion>
-                                        <version>3.6.3</version>
+                                        <version>&gt;=3.6.3</version>
                                     </requireMavenVersion>
                                 </rules>
                             </configuration>
@@ -304,7 +304,28 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven-assembly-plugin.version}</version>
                 </plugin>
-            </plugins>
+            
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${mave-resources-plugin.version}</version>
+                </plugin>
+
+                 <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${maven-versions-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>display-property-updates</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>display-property-updates</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            </plugins>            
         </pluginManagement>
         <!-- To use the plugin goals in your POM or parent POM -->
         <plugins>

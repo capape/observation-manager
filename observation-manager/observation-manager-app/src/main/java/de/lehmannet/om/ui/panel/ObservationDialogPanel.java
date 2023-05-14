@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -782,19 +781,18 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void readEndDate() {
         DatePicker dp = null;
-        TimeZone timeZone = TimeZone.getDefault();
 
         if (this.endDate != null) {
             dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate, timeZone,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate,
                     this.observationManager.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
             dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate, timeZone,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate,
                     this.observationManager.getDateManager());
         } else {
             dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), timeZone,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"),
                     this.observationManager.getDateManager());
         }
         this.endDate = dp.getDate();
@@ -804,15 +802,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void readBeginDate() {
         DatePicker dp = null;
-        TimeZone timeZone = TimeZone.getDefault();
 
         if (this.beginDate != null) {
             dp = new DatePicker(this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
-                    timeZone, this.observationManager.getDateManager());
+                    this.observationManager.getDateManager());
         } else {
             dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), timeZone,
+                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"),
                     this.observationManager.getDateManager());
         }
         this.beginDate = dp.getDate();
