@@ -42,48 +42,48 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         // Load comparator
         Comparator<? extends ISchemaElement> comparator = null;
         switch (schemaElementType) {
-        case IMAGER: {
-            comparator = new ImagerComparator();
-            break;
-        }
-        case EYEPIECE: {
-            comparator = new EyepieceComparator();
-            break;
-        }
-        case FILTER: {
-            comparator = new FilterComparator();
-            break;
-        }
-        case LENS: {
-            comparator = new LensComparator();
-            break;
-        }
-        case OBSERVATION: {
-            comparator = new ObservationComparator();
-            break;
-        }
-        case OBSERVER: {
-            comparator = new ObserverComparator();
-            break;
-        }
-        case SCOPE: {
-            comparator = new ScopeComparator();
-            break;
-        }
-        case SESSION: {
-            comparator = new SessionComparator();
-            break;
-        }
-        case SITE: {
-            comparator = new SiteComparator();
-            break;
-        }
-        case TARGET: {
-            comparator = new TargetComparator();
-            break;
-        }
-        default:
-            break;
+            case IMAGER: {
+                comparator = new ImagerComparator();
+                break;
+            }
+            case EYEPIECE: {
+                comparator = new EyepieceComparator();
+                break;
+            }
+            case FILTER: {
+                comparator = new FilterComparator();
+                break;
+            }
+            case LENS: {
+                comparator = new LensComparator();
+                break;
+            }
+            case OBSERVATION: {
+                comparator = new ObservationComparator();
+                break;
+            }
+            case OBSERVER: {
+                comparator = new ObserverComparator();
+                break;
+            }
+            case SCOPE: {
+                comparator = new ScopeComparator();
+                break;
+            }
+            case SESSION: {
+                comparator = new SessionComparator();
+                break;
+            }
+            case SITE: {
+                comparator = new SiteComparator();
+                break;
+            }
+            case TARGET: {
+                comparator = new TargetComparator();
+                break;
+            }
+            default:
+                break;
         }
 
         // Initialize TreeMap
@@ -160,12 +160,12 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         switch (columnIndex) {
-        case 0: {
-            return this.elementMap.get(keySchemaElement); // Returns a Boolean
-        }
-        case 1: {
-            return keySchemaElement.getDisplayName(); // Returns a String
-        }
+            case 0: {
+                return this.elementMap.get(keySchemaElement); // Returns a Boolean
+            }
+            case 1: {
+                return keySchemaElement.getDisplayName(); // Returns a String
+            }
         }
 
         return "";
@@ -192,12 +192,12 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     public Class getColumnClass(int c) {
 
         switch (c) {
-        case 0: {
-            return Boolean.class;
-        }
-        case 1: {
-            return String.class;
-        }
+            case 0: {
+                return Boolean.class;
+            }
+            case 1: {
+                return String.class;
+            }
         }
 
         return String.class;
@@ -252,14 +252,14 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("popup.schemaSelector.selection");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("popup.schemaSelector.schemaElement");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("popup.schemaSelector.selection");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("popup.schemaSelector.schemaElement");
+                break;
+            }
         }
 
         return name;

@@ -24,7 +24,6 @@ public interface XMLFileLoader {
     void clear();
 
     /**
-     *
      * @return true if no xml file is loaded
      */
     boolean isEmpty();
@@ -34,7 +33,6 @@ public interface XMLFileLoader {
      *
      * @param path
      *            Path to save xml data
-     *
      * @return true if file is saved, false in other case
      */
     boolean save(String path);
@@ -46,13 +44,11 @@ public interface XMLFileLoader {
      *            oldPath to save xml data
      * @param path
      *            new path to save xml data
-     *
      * @return true if file is saved, false in other case
      */
     boolean saveAs(String oldPath, String newPath);
 
     /**
-     *
      * @return internal xml document or null if not exists
      */
     Document getDocument();

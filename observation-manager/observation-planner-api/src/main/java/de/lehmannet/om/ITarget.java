@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /ITarget.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
  * E.g. the Messier catalogue object M51 is also known as "Whirlpool Galaxy".
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
@@ -105,7 +104,6 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      *
      * @param parent
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -131,12 +129,9 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional target link, and the target element under the
      *         target container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName, boolean addElementToContainer);
@@ -155,10 +150,8 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      *            The element under which the the target link is created
      * @param xmlElementName
      *            The name of the element that contains the link
-     *
      * @return Returns the Element given as parameter with a additional target link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element, String xmlElementName);
@@ -172,7 +165,6 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      *
      * @param newAliasName
      *            A alias name of the astronomical object
-     *
      * @return Returns <code>true</code> if the alias name could be added to the target.
      */
     boolean addAliasName(String newAliasName);
@@ -193,7 +185,6 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      *
      * @param aliasName
      *            The alias name that should be removed
-     *
      * @return Returns <code>true</code> if the alias name could be removed from the target. If <code>false</code> is
      *         returned the given alias name could not be found in the targets alias name list.
      */

@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/SessionTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -61,22 +61,22 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0:
-        case 1: {
-            c = OffsetDateTime.class;
-            break;
-        }
-        case 2: {
-            c = Site.class;
-            break;
-        }
-        case 3:
-        case 6:
-        case 5:
-        case 4: {
-            c = String.class;
-            break;
-        }
+            case 0:
+            case 1: {
+                c = OffsetDateTime.class;
+                break;
+            }
+            case 2: {
+                c = Site.class;
+                break;
+            }
+            case 3:
+            case 6:
+            case 5:
+            case 4: {
+                c = String.class;
+                break;
+            }
         }
 
         return c;
@@ -92,39 +92,39 @@ public class SessionTableModel extends AbstractSchemaTableModel {
 
         ISession session = (ISession) this.elements[rowIndex];
         switch (columnIndex) {
-        case 0:
-            return session.getBegin();
-        case 1:
-            return session.getEnd();
-        case 2:
-            return session.getSite();
-        case 3:
-            return StringUtils.trimToEmpty(session.getWeather());
-        case 4:
-            Iterator<IObserver> i = session.getCoObservers().iterator();
-            final StringBuilder value;
-            if (!session.getCoObservers().isEmpty()) {
-                value = new StringBuilder(); // Otherwise the coObservers are prefixed with NULL
-            } else {
-                value = new StringBuilder("");
-            }
-            while (i.hasNext()) {
-                value.append(i.next().getDisplayName());
-                if (i.hasNext()) {
-                    value.append("; ");
+            case 0:
+                return session.getBegin();
+            case 1:
+                return session.getEnd();
+            case 2:
+                return session.getSite();
+            case 3:
+                return StringUtils.trimToEmpty(session.getWeather());
+            case 4:
+                Iterator<IObserver> i = session.getCoObservers().iterator();
+                final StringBuilder value;
+                if (!session.getCoObservers().isEmpty()) {
+                    value = new StringBuilder(); // Otherwise the coObservers are prefixed with NULL
+                } else {
+                    value = new StringBuilder("");
                 }
-            }
-            return value.toString();
-        case 5:
-            return StringUtils.trimToEmpty(session.getEquipment());
-        case 6:
-            if ((session.getComments() != null) && (session.getComments().length() > 15)) {
-                return session.getComments().substring(0, 15);
-            } else {
-                return StringUtils.trimToEmpty(session.getComments());
-            }
-        default:
-            return StringUtils.EMPTY;
+                while (i.hasNext()) {
+                    value.append(i.next().getDisplayName());
+                    if (i.hasNext()) {
+                        value.append("; ");
+                    }
+                }
+                return value.toString();
+            case 5:
+                return StringUtils.trimToEmpty(session.getEquipment());
+            case 6:
+                if ((session.getComments() != null) && (session.getComments().length() > 15)) {
+                    return session.getComments().substring(0, 15);
+                } else {
+                    return StringUtils.trimToEmpty(session.getComments());
+                }
+            default:
+                return StringUtils.EMPTY;
         }
 
     }
@@ -135,34 +135,34 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.begin");
-            break;
-        }
-        case 1: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.end");
-            break;
-        }
-        case 2: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.site");
-            break;
-        }
-        case 3: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.weather");
-            break;
-        }
-        case 4: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.coobserver");
-            break;
-        }
-        case 5: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.equipment");
-            break;
-        }
-        case 6: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.session.comments");
-            break;
-        }
+            case 0: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.begin");
+                break;
+            }
+            case 1: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.end");
+                break;
+            }
+            case 2: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.site");
+                break;
+            }
+            case 3: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.weather");
+                break;
+            }
+            case 4: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.coobserver");
+                break;
+            }
+            case 5: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.equipment");
+                break;
+            }
+            case 6: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.session.comments");
+                break;
+            }
         }
 
         return name;

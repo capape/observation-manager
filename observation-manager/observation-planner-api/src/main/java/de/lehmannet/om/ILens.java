@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /ILens.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,7 +15,6 @@ import org.w3c.dom.Element;
  * set.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.7
  */
 public interface ILens extends ISchemaElement, IEquipment {
@@ -31,7 +30,6 @@ public interface ILens extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: model element name
-     *
      * Example:<br>
      * &lt;lens&gt; <br>
      * <i>More stuff goes here</i> &lt;model&gt;<code>Model name goes here</code>&lt;/model&gt; <i>More stuff goes
@@ -41,7 +39,6 @@ public interface ILens extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: vendor element name
-     *
      * Example:<br>
      * &lt;lens&gt; <br>
      * <i>More stuff goes here</i> &lt;vendor&gt;<code>Vendor name goes here</code>&lt;/vendor&gt; <i>More stuff goes
@@ -51,7 +48,6 @@ public interface ILens extends ISchemaElement, IEquipment {
 
     /**
      * Constant for XML representation: factor element name
-     *
      * Example:<br>
      * &lt;lens&gt; <br>
      * <i>More stuff goes here</i> &lt;factor&gt;<code>lens focal length factor goes here</code>&lt;/factor&gt; <i>More
@@ -69,7 +65,6 @@ public interface ILens extends ISchemaElement, IEquipment {
      *
      * @param parent
      *            The parent element for this Lens
-     *
      * @see org.w3c.dom.Element
      */
     void addToXmlElement(Element element);
@@ -95,12 +90,9 @@ public interface ILens extends ISchemaElement, IEquipment {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional lens link, and the lens element under the lens
      *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     Element addAsLinkToXmlElement(Element element, boolean addElementToContainer);
@@ -117,10 +109,8 @@ public interface ILens extends ISchemaElement, IEquipment {
      *
      * @param element
      *            The element under which the the lens link is created
-     *
      * @return Returns the Element given as parameter with a additional lens link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     Element addAsLinkToXmlElement(Element element);

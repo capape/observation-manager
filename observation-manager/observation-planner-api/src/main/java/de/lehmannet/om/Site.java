@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Site.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -22,7 +22,6 @@ import de.lehmannet.om.util.SchemaException;
  * mandatory fields, such as e.g. elevation and timezone.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class Site extends SchemaElement implements ISite {
@@ -59,7 +58,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param site
      *            The XML Schema Node that represents this Site object
-     *
      * @throws IllegalArgumentException
      *             if the parameter is <code>null</code>
      * @throws SchemaException
@@ -119,7 +117,6 @@ public class Site extends SchemaElement implements ISite {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      * @see java.lang.Object.toString();
      */
 
@@ -139,7 +136,6 @@ public class Site extends SchemaElement implements ISite {
      * Returns the field values of this Site.
      *
      * @return This DeepSkyTarget field values
-     *
      * @see java.lang.Object
      */
 
@@ -202,7 +198,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param parent
      *            The parent element for this Site
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -289,12 +284,9 @@ public class Site extends SchemaElement implements ISite {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional site link, and the site element under the site
      *         container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -343,10 +335,8 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param element
      *            The element under which the the site link is created
-     *
      * @return Returns the Element given as parameter with a additional site link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -415,7 +405,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param latitude
      *            The new latitude for this site
-     *
      * @throws IllegalArgumentException
      *             if latitude is <code>null</code>
      */
@@ -436,7 +425,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param longitude
      *            The new longitude for this site
-     *
      * @throws IllegalArgumentException
      *             if longitude is <code>null</code>
      */
@@ -457,7 +445,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param name
      *            The new name for this site
-     *
      * @throws IllegalArgumentException
      *             if name is <code>null</code>
      */
@@ -479,7 +466,6 @@ public class Site extends SchemaElement implements ISite {
      *
      * @param timezone
      *            The new timezone for this site in minutes
-     *
      * @throws IllegalArgumentException
      *             if new timezone is greater than 720 (12*60) or lower than -720 (12*60)
      */

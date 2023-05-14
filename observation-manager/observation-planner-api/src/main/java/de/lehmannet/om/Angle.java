@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Angle.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -20,7 +20,6 @@ import de.lehmannet.om.util.SchemaException;
  * the unit of the angle. All possible units for angles can be accessed by this objects constants.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class Angle {
@@ -74,7 +73,6 @@ public class Angle {
      *
      * @param angleNode
      *            The origin XML DOM angle Element
-     *
      * @throws SchemaException
      *             if given angleNode was <code>null</code>
      */
@@ -152,7 +150,6 @@ public class Angle {
      * 42.0 DEGREE
      *
      * @return The angle value followed by its unit
-     *
      * @see java.lang.Object
      */
     @Override
@@ -169,9 +166,7 @@ public class Angle {
      *
      * @param obj
      *            The Object to compare this Angle with.
-     *
      * @return <code>true</code> if both Objects are instances from class Angle and their values in degrees is equal.
-     *
      * @see java.lang.Object
      */
     @Override
@@ -216,10 +211,8 @@ public class Angle {
      *
      * @param element
      *            The XML DOM Element this Angle belongs to
-     *
      * @return Returns the element given as parameter with this Angles value as element value and this Angles unit as
      *         attribute
-     *
      * @see org.w3c.dom.Element
      */
     public Element setToXmlElement(Element element) {
@@ -390,7 +383,6 @@ public class Angle {
      *
      * @param unit
      *            A String which represents an angle unit
-     *
      * @return true if the given string is a valid Angle unit
      */
     public static boolean isValidUnit(String unit) {

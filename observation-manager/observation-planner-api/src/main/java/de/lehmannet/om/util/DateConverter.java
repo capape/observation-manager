@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/DateConverter.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,23 +15,14 @@ import java.util.TimeZone;
 import javax.xml.bind.DatatypeConverter;
 
 /**
- *
  * The DateConverter is a helper class that provides methods for
- *
  * handling the all kind of date formats.<br>
- *
  * E.g. the ISO8601 date format (A short summary about the ISO8601 date
- *
  * format can be accessed at the
- *
  * <a href="http://www.w3.org/TR/NOTE-datetime">W3C</a>.), or the Julian
- *
  * date.<br>
  *
- *
- *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class DateConverter {
@@ -40,10 +31,7 @@ public class DateConverter {
     // Public methods ----------------------------------------------------
     // --------------
     /**
-     *
      * Converts a gregorian date into a julian date.
-     *
-     *
      *
      * @return A julian date with seconds accuracy
      */
@@ -99,10 +87,7 @@ public class DateConverter {
     // Public methods ----------------------------------------------------
     // --------------
     /**
-     *
      * Converts a gregorian date into a julian date.
-     *
-     *
      *
      * @return A julian date with seconds accuracy
      */
@@ -118,14 +103,10 @@ public class DateConverter {
     }
 
     /**
-     *
      * Converts a julian date into a gregorian date.<br>
-     *
-     *
      *
      * @param julianDate
      *            The julian date
-     *
      * @return A gregorian date with seconds accuracy (Timezone = GMT)
      */
     public static Calendar toGregorianDate(double julianDate) {
@@ -133,19 +114,13 @@ public class DateConverter {
     }
 
     /**
-     *
      * Converts a julian date into a gregorian date.<br>
-     *
-     *
      *
      * @param pjulianDate
      *            The julian date
-     *
      * @param pzone
      *            The timzone for the returned gregorian date (if <code>NULL</code> is
-     *
      *            passed GMT will be taken)
-     *
      * @return A gregorian date
      */
     public static Calendar toGregorianDate(double pjulianDate, TimeZone pzone) {
@@ -199,18 +174,12 @@ public class DateConverter {
     }
 
     /**
-     *
      * Converts a Date object into a String object that represents a
-     *
      * ISO8601 conform string.
-     *
-     *
      *
      * @param calendar
      *            A java.util.Date object that has to be converted
-     *
      * @return A ISO8601 conform String, or <code>null</code> if the
-     *
      *         given date was <code>null</code>
      */
     public static String toISO8601(Calendar calendar) {
@@ -233,20 +202,13 @@ public class DateConverter {
     }
 
     /**
-     *
      * Converts a String object that contains a ISO8601 conform value to an
-     *
      * java.util.Calendar object.
-     *
-     *
      *
      * @param iso8601
      *            A String with a ISO8601 conform value
-     *
      * @return The parameters date as java.util.Calendar, or <code>null</code>
-     *
      *         if the given string was <code>null</code> or empty.
-     *
      * @throws NumberFormatException
      *             if given ISO8601 is malformed.
      */

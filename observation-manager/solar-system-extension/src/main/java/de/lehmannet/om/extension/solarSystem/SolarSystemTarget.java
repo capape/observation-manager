@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * extension/solarSystem/SolarSystemTarget.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -30,7 +30,6 @@ import de.lehmannet.om.util.SchemaException;
  * This class exists more due to extension reasons as this class does not add new functions to de.lehmannet.om.Target
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.3
  */
 public abstract class SolarSystemTarget extends Target {
@@ -72,7 +71,6 @@ public abstract class SolarSystemTarget extends Target {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -188,7 +186,6 @@ public abstract class SolarSystemTarget extends Target {
      * Returns the field values of this SolarSystemTarget.
      *
      * @return This SolarSystemTarget field values
-     *
      * @see java.lang.Object
      */
     @Override
@@ -224,11 +221,9 @@ public abstract class SolarSystemTarget extends Target {
      *
      * @param obj
      *            The Object to compare this Target with.
-     *
      * @return <code>true</code> if the given Object is an instance of ITarget, both XSI types are equal and its name is
      *         equal to this Target name.<br>
      *         (Name comparism is <b>not</b> casesensitive)
-     *
      * @see java.lang.Object
      */
     // Behaves different then DeepSkyTarget and Target...we do not check in
@@ -280,7 +275,6 @@ public abstract class SolarSystemTarget extends Target {
      *
      * @param parent
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -310,7 +304,6 @@ public abstract class SolarSystemTarget extends Target {
      *            The element under which the the target link is created
      * @param xsiType
      *            The XSI:Type identification of the child class
-     *
      * @see org.w3c.dom.Element
      */
     void createXmlSolarSystemTargetElement(Element element, String xsiType) {
@@ -365,36 +358,36 @@ public abstract class SolarSystemTarget extends Target {
                 Locale.getDefault());
 
         switch (this.getName()) {
-        case SolarSystemTarget.KEY_SUN:
-            this.i18nName = bundle.getString("catalog.sun");
-            break;
-        case SolarSystemTarget.KEY_MERCURY:
-            this.i18nName = bundle.getString("catalog.mercury");
-            break;
-        case SolarSystemTarget.KEY_VENUS:
-            this.i18nName = bundle.getString("catalog.venus");
-            break;
-        case SolarSystemTarget.KEY_MOON:
-            this.i18nName = bundle.getString("catalog.moon");
-            break;
-        case SolarSystemTarget.KEY_MARS:
-            this.i18nName = bundle.getString("catalog.mars");
-            break;
-        case SolarSystemTarget.KEY_JUPITER:
-            this.i18nName = bundle.getString("catalog.jupiter");
-            break;
-        case SolarSystemTarget.KEY_SATURN:
-            this.i18nName = bundle.getString("catalog.saturn");
-            break;
-        case SolarSystemTarget.KEY_URANUS:
-            this.i18nName = bundle.getString("catalog.uranus");
-            break;
-        case SolarSystemTarget.KEY_NEPTUNE:
-            this.i18nName = bundle.getString("catalog.neptune");
-            break;
-        default:
-            this.i18nName = this.getName();
-            break;
+            case SolarSystemTarget.KEY_SUN:
+                this.i18nName = bundle.getString("catalog.sun");
+                break;
+            case SolarSystemTarget.KEY_MERCURY:
+                this.i18nName = bundle.getString("catalog.mercury");
+                break;
+            case SolarSystemTarget.KEY_VENUS:
+                this.i18nName = bundle.getString("catalog.venus");
+                break;
+            case SolarSystemTarget.KEY_MOON:
+                this.i18nName = bundle.getString("catalog.moon");
+                break;
+            case SolarSystemTarget.KEY_MARS:
+                this.i18nName = bundle.getString("catalog.mars");
+                break;
+            case SolarSystemTarget.KEY_JUPITER:
+                this.i18nName = bundle.getString("catalog.jupiter");
+                break;
+            case SolarSystemTarget.KEY_SATURN:
+                this.i18nName = bundle.getString("catalog.saturn");
+                break;
+            case SolarSystemTarget.KEY_URANUS:
+                this.i18nName = bundle.getString("catalog.uranus");
+                break;
+            case SolarSystemTarget.KEY_NEPTUNE:
+                this.i18nName = bundle.getString("catalog.neptune");
+                break;
+            default:
+                this.i18nName = this.getName();
+                break;
         }
 
     }

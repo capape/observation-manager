@@ -26,7 +26,6 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for multiple stars. (Star systems with at least three components)<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 2.0
  */
 public class DeepSkyTargetMS extends Target implements ITargetContaining {
@@ -65,7 +64,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -141,7 +139,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      *
      * @param parent
      *            The parent element for this DeepSkyTargetMS
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -265,11 +262,9 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      *
      * @see de.lehmannet.om.extension.deepSky.DeepSkyTargetDS
      * @see de.lehmannet.om.TargetStar
-     *
      * @param newComponents
      *            A list with at least 3 entries of type de.lehmannet.om.TargetStar or java.lang.String that represent
      *            the components of this multiple star system
-     *
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean setComponents(List<String> newComponents) {
@@ -311,10 +306,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * The given list will be added to the current list of component stars.
      *
      * @see de.lehmannet.om.TargetStar
-     *
      * @param additionalComponents
      *            A list of new components stars
-     *
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponents(List<String> additionalComponents) {
@@ -352,10 +345,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * setComponents(List) first, to initially add (at least three) component stars.
      *
      * @see addComponents(List)
-     *
      * @param additionalStar
      *            A new component star
-     *
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponent(TargetStar additionalStar) {
@@ -378,10 +369,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * setComponents(List) first, to initially add (at least three) component stars.
      *
      * @see addComponents(List)
-     *
      * @param additionalStar
      *            A new component star (as unique ID string)
-     *
      * @return <code>true</code> only if operation succeeded.
      */
     public boolean addComponent(String additionalStar) {

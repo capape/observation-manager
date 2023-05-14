@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /dialog/UpdateInfoDialog
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -322,18 +322,18 @@ class UpdateTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         switch (columnIndex) {
-        case 0: {
-            return this.checkBoxes[rowIndex];
-        }
-        case 1: {
-            return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getName();
-        }
-        case 2: {
-            return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getOldVersion();
-        }
-        case 3: {
-            return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getNewVersion();
-        }
+            case 0: {
+                return this.checkBoxes[rowIndex];
+            }
+            case 1: {
+                return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getName();
+            }
+            case 2: {
+                return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getOldVersion();
+            }
+            case 3: {
+                return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getNewVersion();
+            }
         }
 
         return "";
@@ -368,22 +368,22 @@ class UpdateTableModel extends AbstractTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("updateInfo.column.download");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("updateInfo.column.name");
-            break;
-        }
-        case 2: {
-            name = this.bundle.getString("updateInfo.column.oldVersion");
-            break;
-        }
-        case 3: {
-            name = this.bundle.getString("updateInfo.column.newVersion");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("updateInfo.column.download");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("updateInfo.column.name");
+                break;
+            }
+            case 2: {
+                name = this.bundle.getString("updateInfo.column.oldVersion");
+                break;
+            }
+            case 3: {
+                name = this.bundle.getString("updateInfo.column.newVersion");
+                break;
+            }
         }
 
         return name;

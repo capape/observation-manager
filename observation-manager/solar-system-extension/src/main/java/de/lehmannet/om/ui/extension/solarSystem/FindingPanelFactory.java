@@ -17,18 +17,18 @@ public class FindingPanelFactory {
             ISession session, boolean editable) {
 
         switch (xsiType) {
-        case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
-        case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
-        case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
-        case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
-        case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
-        default:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case SolarSystemTargetComet.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case SolarSystemTargetMinorPlanet.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case SolarSystemTargetMoon.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case SolarSystemTargetSun.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case SolarSystemTargetPlanet.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            default:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
         }
     }
 

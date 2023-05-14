@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/DatePicker.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -159,8 +159,10 @@ public class DatePicker extends JDialog {
                 DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
 
                 // @formatter:off
-                DatePicker.this.date = DatePicker.this.date.withDayOfMonth(DatePicker.this.day)
-                        .withMonth(DatePicker.this.month).withYear(DatePicker.this.year);
+                DatePicker.this.date = DatePicker.this.date
+                    .withDayOfMonth(DatePicker.this.day)
+                    .withMonth(DatePicker.this.month)
+                    .withYear(DatePicker.this.year);
                 // @formatter:on
 
                 DatePicker.this.dispose();
@@ -342,10 +344,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
 
                 try {
                     double jd = this.dateManager.parseAstronomicalJulianDate(jdString);
-
-                    // @formatter:off
                     this.zonedDateTime = this.dateManager.fromAstronomicalJulianDate(jd, ZoneId.systemDefault());
-                    // @formatter:on
 
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),

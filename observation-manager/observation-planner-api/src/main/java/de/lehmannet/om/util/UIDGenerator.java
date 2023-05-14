@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/UIDGenerator.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -14,7 +14,6 @@ import java.rmi.server.UID;
  * unique IDs.
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class UIDGenerator implements IIDGenerator {

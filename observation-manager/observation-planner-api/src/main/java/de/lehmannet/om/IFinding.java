@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /IFinding.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -14,7 +14,6 @@ package de.lehmannet.om;
  * DeepSky, Planets...).
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
@@ -69,9 +68,7 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      *
      * @param parent
      *            The parent element for the IFinding implementation
-     *
      * @return Returns the Element given as parameter with the IFinding implementation as child Element.
-     *
      * @see org.w3c.dom.Element
      */
     org.w3c.dom.Element addToXmlElement(org.w3c.dom.Element parent);
@@ -100,7 +97,6 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      *
      * @return Returns a ISO language code that represents the finding describtion language or <code>null</code> if no
      *         language was set at all.
-     *
      * @since 1.5
      */
     String getLanguage();
@@ -111,7 +107,6 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      *
      * @param language
      *            ISO language string
-     *
      * @since 1.5
      */
     void setLanguage(String language);
@@ -121,7 +116,6 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      * document that an object was not seen this flag can be used for checks.
      *
      * @return Returns <code>true</code> if the target was seen with this finding
-     *
      * @since 1.6
      */
     boolean wasSeen();
@@ -132,7 +126,6 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      * @param seen
      *            <code>true</code> if the target was seen by the observer or <code>false</code> if the target was not
      *            seen
-     *
      * @since 1.6
      */
     void setSeen(boolean seen);

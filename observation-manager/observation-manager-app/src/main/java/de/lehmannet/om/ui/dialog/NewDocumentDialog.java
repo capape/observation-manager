@@ -164,38 +164,38 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         switch (schemaElementCode) {
-        case IMAGER: {
-            return this.imagers;
-        }
-        case EYEPIECE: {
-            return this.eyepieces;
-        }
-        case FILTER: {
-            return this.filters;
-        }
-        case LENS: {
-            return this.lenses;
-        }
-        case OBSERVATION: {
-            return this.observations;
-        }
-        case OBSERVER: {
-            return this.observers;
-        }
-        case SCOPE: {
-            return this.scopes;
-        }
-        case SESSION: {
-            return this.sessions;
-        }
-        case SITE: {
-            return this.sites;
-        }
-        case TARGET: {
-            return this.targets;
-        }
-        default:
-            return null;
+            case IMAGER: {
+                return this.imagers;
+            }
+            case EYEPIECE: {
+                return this.eyepieces;
+            }
+            case FILTER: {
+                return this.filters;
+            }
+            case LENS: {
+                return this.lenses;
+            }
+            case OBSERVATION: {
+                return this.observations;
+            }
+            case OBSERVER: {
+                return this.observers;
+            }
+            case SCOPE: {
+                return this.scopes;
+            }
+            case SESSION: {
+                return this.sessions;
+            }
+            case SITE: {
+                return this.sites;
+            }
+            case TARGET: {
+                return this.targets;
+            }
+            default:
+                return null;
         }
 
     }

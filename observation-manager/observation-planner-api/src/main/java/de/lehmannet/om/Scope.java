@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /Scope.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -27,7 +27,6 @@ import de.lehmannet.om.util.SchemaException;
  * (magnification should be set if the optical instrument does not allow to change eyepieces).<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public class Scope extends SchemaElement implements IScope {
@@ -108,7 +107,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param scope
      *            The XML Schema Node that represents this Scope Object
-     *
      * @throws IllegalArgumentException
      *             if the parameter is <NULL>
      * @throws SchemaException
@@ -151,7 +149,6 @@ public class Scope extends SchemaElement implements IScope {
      *            The aperture of the scope
      * @param focalLength
      *            The focal length of the scope
-     *
      * @throws IllegalArgumentException
      *             if one of the parameters has an illegal value (see setModel(String), setAperture(float) and
      *             setFocalLength(float) for allowed values
@@ -175,7 +172,6 @@ public class Scope extends SchemaElement implements IScope {
      *            The magnification of the scope
      * @param model
      *            The model name of the scope
-     *
      * @throws IllegalArgumentException
      *             if one of the parameters has an illegal value (see setModel(String), setAperture(float) and
      *             setMagnification(float) for allowed values
@@ -201,7 +197,6 @@ public class Scope extends SchemaElement implements IScope {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      * @see java.lang.Object.toString();
      */
     @Override
@@ -247,7 +242,6 @@ public class Scope extends SchemaElement implements IScope {
      * Returns the field values of this Scope.
      *
      * @return This Scopes field values
-     *
      * @see java.lang.Object
      */
     @Override
@@ -372,7 +366,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param parent
      *            The parent element for this Scope
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -533,12 +526,9 @@ public class Scope extends SchemaElement implements IScope {
      * @param addElementToContainer
      *            if <code>true</code> it's ensured that the linked element exists in the corresponding container
      *            element. Please note, passing <code>true</code> slowes down XML serialization.
-     *
      * @return Returns the Element given as parameter with a additional scope link, and the scope element under the
      *         scope container of the ownerDocument Might return <code>null</code> if element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
-     *
      * @since 2.0
      */
     @Override
@@ -587,10 +577,8 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param element
      *            The element under which the the scope link is created
-     *
      * @return Returns the Element given as parameter with a additional scope link Might return <code>null</code> if
      *         element was <code>null</code>.
-     *
      * @see org.w3c.dom.Element
      */
     @Override
@@ -658,7 +646,6 @@ public class Scope extends SchemaElement implements IScope {
      * Returns the scopes picture vertical orientation.
      *
      * @return <b>true</b> if the scopes picture is errected
-     *
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -677,7 +664,6 @@ public class Scope extends SchemaElement implements IScope {
      * Returns the scopes picture horizontal orientation.
      *
      * @return <b>true</b> if the scopes picture is truesided
-     *
      * @throws IllegalStateException
      *             if orientation was not set by the user, so the class cannot return <b>true</b> or <b>false</b>
      */
@@ -730,7 +716,6 @@ public class Scope extends SchemaElement implements IScope {
      * R: Refractor<br>
      * M: Maksutov<br>
      * <br>
-     *
      * This method might return <code>null</code> if the type was never set.
      *
      * @return Returns the scope type, or <code>null</code> if the type was never set.
@@ -740,24 +725,24 @@ public class Scope extends SchemaElement implements IScope {
 
         if (type != null) {
             switch (type) {
-            case "A":
-                return "Naked eye";
-            case "B":
-                return "Binoculars";
-            case "N":
-                return "Newton";
-            case "R":
-                return "Refractor";
-            case "C":
-                return "Cassegrain";
-            case "S":
-                return "Schmidt-Cassegrain";
-            case "K":
-                return "Kutter";
-            case "M":
-                return "Maksutov";
-            default:
-                return type;
+                case "A":
+                    return "Naked eye";
+                case "B":
+                    return "Binoculars";
+                case "N":
+                    return "Newton";
+                case "R":
+                    return "Refractor";
+                case "C":
+                    return "Cassegrain";
+                case "S":
+                    return "Schmidt-Cassegrain";
+                case "K":
+                    return "Kutter";
+                case "M":
+                    return "Maksutov";
+                default:
+                    return type;
 
             }
         }
@@ -786,7 +771,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param aperture
      *            The new aperture of the scope
-     *
      * @throws IllegalArgumentException
      *             if the given aperture is smaller or equal 0.0 or if the aperture is Float.NaN
      */
@@ -814,7 +798,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param focalLength
      *            The new focal length of the scope
-     *
      * @throws IllegalArgumentException
      *             if the given focal length is smaller or equal 0.0 or if the new focal length is Float.NaN while
      *             magnification is also Float.NaN. Or magnification is already set.
@@ -878,7 +861,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param magnification
      *            The new magnification value of the scope
-     *
      * @throws IllegalArgumentException
      *             if the given focal length is Float.NaN while focal length is not set. Or focal length is already set.
      */
@@ -919,7 +901,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param tfov
      *            The true field of view of the scope
-     *
      * @throws IllegalArgumentException
      *             if focal length is set.
      */
@@ -941,7 +922,6 @@ public class Scope extends SchemaElement implements IScope {
      *
      * @param model
      *            The new model name of the scope
-     *
      * @throws IllegalArgumentException
      *             if the given model name is <code>null</code>
      */

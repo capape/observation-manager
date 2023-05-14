@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /extension/SchemaUILoader.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -412,41 +412,41 @@ public class SchemaUILoader {
     private Class<?> getExampleClass(SchemaElementConstants schemaElementConstant) {
 
         switch (schemaElementConstant) {
-        case EYEPIECE: {
-            return IEyepiece.class;
-        }
-        case FILTER: {
-            return IFilter.class;
-        }
-        case FINDING: {
-            return IFinding.class;
-        }
-        case IMAGER: {
-            return IImager.class;
-        }
-        case LENS: {
-            return ILens.class;
-        }
-        case OBSERVATION: {
-            return IObservation.class;
-        }
-        case OBSERVER: {
-            return IObserver.class;
-        }
-        case SCOPE: {
-            return IScope.class;
-        }
-        case SESSION: {
-            return ISession.class;
-        }
-        case SITE: {
-            return ISite.class;
-        }
-        case TARGET: {
-            return ITarget.class;
-        }
-        default:
-            break;
+            case EYEPIECE: {
+                return IEyepiece.class;
+            }
+            case FILTER: {
+                return IFilter.class;
+            }
+            case FINDING: {
+                return IFinding.class;
+            }
+            case IMAGER: {
+                return IImager.class;
+            }
+            case LENS: {
+                return ILens.class;
+            }
+            case OBSERVATION: {
+                return IObservation.class;
+            }
+            case OBSERVER: {
+                return IObserver.class;
+            }
+            case SCOPE: {
+                return IScope.class;
+            }
+            case SESSION: {
+                return ISession.class;
+            }
+            case SITE: {
+                return ISite.class;
+            }
+            case TARGET: {
+                return ITarget.class;
+            }
+            default:
+                break;
         }
 
         return null;

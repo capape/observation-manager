@@ -31,58 +31,58 @@ public class FindingPanelFactory {
             ISession session, boolean editable) {
         switch (xsiType) {
 
-        case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetNA.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetNA.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetDS.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingDSPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetDS.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingDSPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetGC.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetGC.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetGN.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetGN.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetGX.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetGX.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetOC.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
-                    editable);
+            case DeepSkyTargetOC.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
+                        editable);
 
-        case DeepSkyTargetPN.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetPN.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetQS.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetQS.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetAS.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetAS.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetSC.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetSC.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetMS.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetMS.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyTargetCG.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyTargetCG.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyFinding.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyFinding.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
-        case DeepSkyFindingOC.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
-                    editable);
+            case DeepSkyFindingOC.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
+                        editable);
 
-        case DeepSkyFindingDS.XML_XSI_TYPE_VALUE:
-            return new DeepSkyFindingDSPanel(context.getConfiguration(), finding, session, editable);
+            case DeepSkyFindingDS.XML_XSI_TYPE_VALUE:
+                return new DeepSkyFindingDSPanel(context.getConfiguration(), finding, session, editable);
 
-        default:
-            return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
+            default:
+                return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
         }
 
     }

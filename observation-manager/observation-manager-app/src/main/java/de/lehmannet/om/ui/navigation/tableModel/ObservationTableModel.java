@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/ObservationTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -66,34 +66,34 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.date");
-            break;
-        }
-        case 1: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.target");
-            break;
-        }
-        case 2: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.constellation");
-            break;
-        }
-        case 3: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.targetType");
-            break;
-        }
-        case 4: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.site");
-            break;
-        }
-        case 5: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.scope");
-            break;
-        }
-        case 6: {
-            name = AbstractSchemaTableModel.bundle.getString("table.header.observation.observer");
-            break;
-        }
+            case 0: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.date");
+                break;
+            }
+            case 1: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.target");
+                break;
+            }
+            case 2: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.constellation");
+                break;
+            }
+            case 3: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.targetType");
+                break;
+            }
+            case 4: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.site");
+                break;
+            }
+            case 5: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.scope");
+                break;
+            }
+            case 6: {
+                name = AbstractSchemaTableModel.bundle.getString("table.header.observation.observer");
+                break;
+            }
         }
 
         return name;
@@ -106,31 +106,31 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0: {
-            c = OffsetDateTime.class;
-            break;
-        }
-        case 1: {
-            c = Target.class;
-            break;
-        }
-        case 2:
-        case 3: {
-            c = String.class;
-            break;
-        }
-        case 4: {
-            c = Site.class;
-            break;
-        }
-        case 5: {
-            c = Scope.class;
-            break;
-        }
-        case 6: {
-            c = Observer.class;
-            break;
-        }
+            case 0: {
+                c = OffsetDateTime.class;
+                break;
+            }
+            case 1: {
+                c = Target.class;
+                break;
+            }
+            case 2:
+            case 3: {
+                c = String.class;
+                break;
+            }
+            case 4: {
+                c = Site.class;
+                break;
+            }
+            case 5: {
+                c = Scope.class;
+                break;
+            }
+            case 6: {
+                c = Observer.class;
+                break;
+            }
         }
 
         return c;
@@ -149,44 +149,44 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         IObservation observation = (IObservation) this.elements[rowIndex];
         switch (columnIndex) {
-        case 0: {
-            value = observation.getBegin();
-            break;
-        }
-        case 1: {
-            value = observation.getTarget();
-            break;
-        }
-        case 2: {
-            value = "";
-            if (observation.getTarget().getConstellation() != null) {
-                boolean i18N = Boolean.parseBoolean(
-                        this.om.getConfiguration().getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
-                if (i18N) {
-                    value = observation.getTarget().getConstellation().getDisplayName();
-                } else {
-                    value = observation.getTarget().getConstellation().getName();
-                }
+            case 0: {
+                value = observation.getBegin();
+                break;
             }
-            break;
-        }
-        case 3: {
-            value = this.om.getExtensionLoader().getSchemaUILoader()
-                    .getDisplayNameForType(observation.getTarget().getXSIType());
-            break;
-        }
-        case 4: {
-            value = observation.getSite();
-            break;
-        }
-        case 5: {
-            value = observation.getScope();
-            break;
-        }
-        case 6: {
-            value = observation.getObserver();
-            break;
-        }
+            case 1: {
+                value = observation.getTarget();
+                break;
+            }
+            case 2: {
+                value = "";
+                if (observation.getTarget().getConstellation() != null) {
+                    boolean i18N = Boolean.parseBoolean(
+                            this.om.getConfiguration().getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+                    if (i18N) {
+                        value = observation.getTarget().getConstellation().getDisplayName();
+                    } else {
+                        value = observation.getTarget().getConstellation().getName();
+                    }
+                }
+                break;
+            }
+            case 3: {
+                value = this.om.getExtensionLoader().getSchemaUILoader()
+                        .getDisplayNameForType(observation.getTarget().getXSIType());
+                break;
+            }
+            case 4: {
+                value = observation.getSite();
+                break;
+            }
+            case 5: {
+                value = observation.getScope();
+                break;
+            }
+            case 6: {
+                value = observation.getObserver();
+                break;
+            }
         }
 
         return value;

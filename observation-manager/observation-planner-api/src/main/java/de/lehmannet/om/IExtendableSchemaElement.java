@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /IExtendableSchemaElement.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -13,7 +13,6 @@ package de.lehmannet.om;
  * These interfaces extend IExtendableSchemaElement, as it provides access to e.g. XML XSI Type information.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 1.0
  */
 public interface IExtendableSchemaElement {

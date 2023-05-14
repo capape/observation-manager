@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /util/Ephemerides.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -15,8 +15,8 @@ import de.lehmannet.om.EquPosition;
 
 // See http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
 // http://www.stjarnhimlen.se/comp/ppcomp.html
-// and http://www.ngc0815.de/ephemeriden.html  (german)
-// and http://members.aon.at/puschnig/Ephemeriden/Index.html  (german)
+// and http://www.ngc0815.de/ephemeriden.html (german)
+// and http://members.aon.at/puschnig/Ephemeriden/Index.html (german)
 public class Ephemerides {
 
     public static final int SUN = 0;
@@ -469,26 +469,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 0.0;
-        case Ephemerides.MERCURY:
-            return 48.3313 + 3.24587E-5 * d;
-        case Ephemerides.VENUS:
-            return 76.6799 + 2.46590E-5 * d;
-        case Ephemerides.MOON:
-            return 125.1228 - 0.0529538083 * d;
-        case Ephemerides.MARS:
-            return 49.5574 + 2.11081E-5 * d;
-        case Ephemerides.JUPITER:
-            return 100.4542 + 2.76854E-5 * d;
-        case Ephemerides.SATURN:
-            return 113.6634 + 2.38980E-5 * d;
-        case Ephemerides.URANUS:
-            return 74.0005 + 1.3978E-5 * d;
-        case Ephemerides.NEPTUNE:
-            return 131.7806 + 3.0173E-5 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 0.0;
+            case Ephemerides.MERCURY:
+                return 48.3313 + 3.24587E-5 * d;
+            case Ephemerides.VENUS:
+                return 76.6799 + 2.46590E-5 * d;
+            case Ephemerides.MOON:
+                return 125.1228 - 0.0529538083 * d;
+            case Ephemerides.MARS:
+                return 49.5574 + 2.11081E-5 * d;
+            case Ephemerides.JUPITER:
+                return 100.4542 + 2.76854E-5 * d;
+            case Ephemerides.SATURN:
+                return 113.6634 + 2.38980E-5 * d;
+            case Ephemerides.URANUS:
+                return 74.0005 + 1.3978E-5 * d;
+            case Ephemerides.NEPTUNE:
+                return 131.7806 + 3.0173E-5 * d;
+            default:
+                return Double.NaN;
         }
 
     }
@@ -498,26 +498,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 0.0;
-        case Ephemerides.MERCURY:
-            return 7.0047 + 5.00E-8 * d;
-        case Ephemerides.VENUS:
-            return 3.3946 + 2.75E-8 * d;
-        case Ephemerides.MOON:
-            return 5.1454;
-        case Ephemerides.MARS:
-            return 1.8497 - 1.78E-8 * d;
-        case Ephemerides.JUPITER:
-            return 1.3030 - 1.557E-7 * d;
-        case Ephemerides.SATURN:
-            return 2.4886 - 1.081E-7 * d;
-        case Ephemerides.URANUS:
-            return 0.7733 + 1.9E-8 * d;
-        case Ephemerides.NEPTUNE:
-            return 11.7700 - 2.55E-7 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 0.0;
+            case Ephemerides.MERCURY:
+                return 7.0047 + 5.00E-8 * d;
+            case Ephemerides.VENUS:
+                return 3.3946 + 2.75E-8 * d;
+            case Ephemerides.MOON:
+                return 5.1454;
+            case Ephemerides.MARS:
+                return 1.8497 - 1.78E-8 * d;
+            case Ephemerides.JUPITER:
+                return 1.3030 - 1.557E-7 * d;
+            case Ephemerides.SATURN:
+                return 2.4886 - 1.081E-7 * d;
+            case Ephemerides.URANUS:
+                return 0.7733 + 1.9E-8 * d;
+            case Ephemerides.NEPTUNE:
+                return 11.7700 - 2.55E-7 * d;
+            default:
+                return Double.NaN;
         }
 
     }
@@ -527,26 +527,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 282.9404 + 4.70935E-5 * d;
-        case Ephemerides.MERCURY:
-            return 29.1241 + 1.01444E-5 * d;
-        case Ephemerides.VENUS:
-            return 54.8910 + 1.38374E-5 * d;
-        case Ephemerides.MOON:
-            return 318.0634 + 0.1643573223 * d;
-        case Ephemerides.MARS:
-            return 286.5016 + 2.92961E-5 * d;
-        case Ephemerides.JUPITER:
-            return 273.8777 + 1.64505E-5 * d;
-        case Ephemerides.SATURN:
-            return 339.3939 + 2.97661E-5 * d;
-        case Ephemerides.URANUS:
-            return 96.6612 + 3.0565E-5 * d;
-        case Ephemerides.NEPTUNE:
-            return 272.8461 - 6.027E-6 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 282.9404 + 4.70935E-5 * d;
+            case Ephemerides.MERCURY:
+                return 29.1241 + 1.01444E-5 * d;
+            case Ephemerides.VENUS:
+                return 54.8910 + 1.38374E-5 * d;
+            case Ephemerides.MOON:
+                return 318.0634 + 0.1643573223 * d;
+            case Ephemerides.MARS:
+                return 286.5016 + 2.92961E-5 * d;
+            case Ephemerides.JUPITER:
+                return 273.8777 + 1.64505E-5 * d;
+            case Ephemerides.SATURN:
+                return 339.3939 + 2.97661E-5 * d;
+            case Ephemerides.URANUS:
+                return 96.6612 + 3.0565E-5 * d;
+            case Ephemerides.NEPTUNE:
+                return 272.8461 - 6.027E-6 * d;
+            default:
+                return Double.NaN;
         }
 
     }
@@ -556,26 +556,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 1.000000;
-        case Ephemerides.MERCURY:
-            return 0.387098;
-        case Ephemerides.VENUS:
-            return 0.723330;
-        case Ephemerides.MOON:
-            return 60.2666; // EARTH RADI!!!
-        case Ephemerides.MARS:
-            return 1.523688;
-        case Ephemerides.JUPITER:
-            return 5.20256;
-        case Ephemerides.SATURN:
-            return 9.55475;
-        case Ephemerides.URANUS:
-            return 19.18171 - 1.55E-8 * d;
-        case Ephemerides.NEPTUNE:
-            return 30.05826 + 3.313E-8 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 1.000000;
+            case Ephemerides.MERCURY:
+                return 0.387098;
+            case Ephemerides.VENUS:
+                return 0.723330;
+            case Ephemerides.MOON:
+                return 60.2666; // EARTH RADI!!!
+            case Ephemerides.MARS:
+                return 1.523688;
+            case Ephemerides.JUPITER:
+                return 5.20256;
+            case Ephemerides.SATURN:
+                return 9.55475;
+            case Ephemerides.URANUS:
+                return 19.18171 - 1.55E-8 * d;
+            case Ephemerides.NEPTUNE:
+                return 30.05826 + 3.313E-8 * d;
+            default:
+                return Double.NaN;
         }
 
     }
@@ -585,26 +585,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 0.016709 - 1.151E-9 * d;
-        case Ephemerides.MERCURY:
-            return 0.205635 + 5.59E-10 * d;
-        case Ephemerides.VENUS:
-            return 0.006773 - 1.302E-9 * d;
-        case Ephemerides.MOON:
-            return 0.054900;
-        case Ephemerides.MARS:
-            return 0.093405 + 2.516E-9 * d;
-        case Ephemerides.JUPITER:
-            return 0.048498 + 4.469E-9 * d;
-        case Ephemerides.SATURN:
-            return 0.055546 - 9.499E-9 * d;
-        case Ephemerides.URANUS:
-            return 0.047318 + 7.45E-9 * d;
-        case Ephemerides.NEPTUNE:
-            return 0.008606 + 2.15E-9 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 0.016709 - 1.151E-9 * d;
+            case Ephemerides.MERCURY:
+                return 0.205635 + 5.59E-10 * d;
+            case Ephemerides.VENUS:
+                return 0.006773 - 1.302E-9 * d;
+            case Ephemerides.MOON:
+                return 0.054900;
+            case Ephemerides.MARS:
+                return 0.093405 + 2.516E-9 * d;
+            case Ephemerides.JUPITER:
+                return 0.048498 + 4.469E-9 * d;
+            case Ephemerides.SATURN:
+                return 0.055546 - 9.499E-9 * d;
+            case Ephemerides.URANUS:
+                return 0.047318 + 7.45E-9 * d;
+            case Ephemerides.NEPTUNE:
+                return 0.008606 + 2.15E-9 * d;
+            default:
+                return Double.NaN;
         }
 
     }
@@ -614,26 +614,26 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         switch (planet) {
-        case Ephemerides.SUN:
-            return 356.0470 + 0.9856002585 * d;
-        case Ephemerides.MERCURY:
-            return 168.6562 + 4.0923344368 * d;
-        case Ephemerides.VENUS:
-            return 48.0052 + 1.6021302244 * d;
-        case Ephemerides.MOON:
-            return 115.3654 + 13.0649929509 * d;
-        case Ephemerides.MARS:
-            return 18.6021 + 0.5240207766 * d;
-        case Ephemerides.JUPITER:
-            return 19.8950 + 0.0830853001 * d;
-        case Ephemerides.SATURN:
-            return 316.9670 + 0.0334442282 * d;
-        case Ephemerides.URANUS:
-            return 142.5905 + 0.011725806 * d;
-        case Ephemerides.NEPTUNE:
-            return 260.2471 + 0.005995147 * d;
-        default:
-            return Double.NaN;
+            case Ephemerides.SUN:
+                return 356.0470 + 0.9856002585 * d;
+            case Ephemerides.MERCURY:
+                return 168.6562 + 4.0923344368 * d;
+            case Ephemerides.VENUS:
+                return 48.0052 + 1.6021302244 * d;
+            case Ephemerides.MOON:
+                return 115.3654 + 13.0649929509 * d;
+            case Ephemerides.MARS:
+                return 18.6021 + 0.5240207766 * d;
+            case Ephemerides.JUPITER:
+                return 19.8950 + 0.0830853001 * d;
+            case Ephemerides.SATURN:
+                return 316.9670 + 0.0334442282 * d;
+            case Ephemerides.URANUS:
+                return 142.5905 + 0.011725806 * d;
+            case Ephemerides.NEPTUNE:
+                return 260.2471 + 0.005995147 * d;
+            default:
+                return Double.NaN;
         }
 
     }

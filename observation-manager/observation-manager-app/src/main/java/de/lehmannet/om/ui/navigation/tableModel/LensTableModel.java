@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/tableModel/LensTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -61,15 +61,15 @@ public class LensTableModel extends AbstractSchemaTableModel {
         Class<?> c = null;
 
         switch (columnIndex) {
-        case 0:
-        case 1: {
-            c = String.class;
-            break;
-        }
-        case 2: {
-            c = Float.class;
-            break;
-        }
+            case 0:
+            case 1: {
+                c = String.class;
+                break;
+            }
+            case 2: {
+                c = Float.class;
+                break;
+            }
         }
 
         return c;
@@ -88,21 +88,21 @@ public class LensTableModel extends AbstractSchemaTableModel {
         ILens lens = (ILens) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = lens.getVendor();
-            if (value == null) {
-                value = "";
+            case 0: {
+                value = lens.getVendor();
+                if (value == null) {
+                    value = "";
+                }
+                break;
             }
-            break;
-        }
-        case 1: {
-            value = lens.getModel();
-            break;
-        }
-        case 2: {
-            value = lens.getFactor();
-            break;
-        }
+            case 1: {
+                value = lens.getModel();
+                break;
+            }
+            case 2: {
+                value = lens.getFactor();
+                break;
+            }
         }
 
         return value;
@@ -115,18 +115,18 @@ public class LensTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = this.bundle.getString("table.header.lens.vendor");
-            break;
-        }
-        case 1: {
-            name = this.bundle.getString("table.header.lens.model");
-            break;
-        }
-        case 2: {
-            name = this.bundle.getString("table.header.lens.factor");
-            break;
-        }
+            case 0: {
+                name = this.bundle.getString("table.header.lens.vendor");
+                break;
+            }
+            case 1: {
+                name = this.bundle.getString("table.header.lens.model");
+                break;
+            }
+            case 2: {
+                name = this.bundle.getString("table.header.lens.factor");
+                break;
+            }
         }
 
         return name;

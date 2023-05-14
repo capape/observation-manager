@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /extension/deepSky/catalog/DeepSkyTableModel.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -75,40 +75,40 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         ITarget target = (ITarget) this.elements[rowIndex];
 
         switch (columnIndex) {
-        case 0: {
-            value = target.getName();
-            break;
-        }
-        case 1: {
-            String[] aliasNames = target.getAliasNames();
-            if ((aliasNames == null) || aliasNames.length == 0) {
-                value = "";
+            case 0: {
+                value = target.getName();
                 break;
             }
-            StringBuilder alias = new StringBuilder();
-            for (int i = 0; i < aliasNames.length; i++) {
-                alias.append(aliasNames[i]);
-                if (i < aliasNames.length - 1) {
-                    alias.append(", ");
+            case 1: {
+                String[] aliasNames = target.getAliasNames();
+                if ((aliasNames == null) || aliasNames.length == 0) {
+                    value = "";
+                    break;
                 }
+                StringBuilder alias = new StringBuilder();
+                for (int i = 0; i < aliasNames.length; i++) {
+                    alias.append(aliasNames[i]);
+                    if (i < aliasNames.length - 1) {
+                        alias.append(", ");
+                    }
+                }
+                value = alias.toString();
+                break;
             }
-            value = alias.toString();
-            break;
-        }
-        case 2: {
-            EquPosition pos = target.getPosition();
-            if (pos != null) {
-                value = pos.getRa();
+            case 2: {
+                EquPosition pos = target.getPosition();
+                if (pos != null) {
+                    value = pos.getRa();
+                }
+                break;
             }
-            break;
-        }
-        case 3: {
-            EquPosition pos = target.getPosition();
-            if (pos != null) {
-                value = pos.getDec();
+            case 3: {
+                EquPosition pos = target.getPosition();
+                if (pos != null) {
+                    value = pos.getDec();
+                }
+                break;
             }
-            break;
-        }
         }
 
         return value;
@@ -121,22 +121,22 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         switch (column) {
-        case 0: {
-            name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.name");
-            break;
-        }
-        case 1: {
-            name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.aliasNames");
-            break;
-        }
-        case 2: {
-            name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.ra");
-            break;
-        }
-        case 3: {
-            name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.dec");
-            break;
-        }
+            case 0: {
+                name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.name");
+                break;
+            }
+            case 1: {
+                name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.aliasNames");
+                break;
+            }
+            case 2: {
+                name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.ra");
+                break;
+            }
+            case 3: {
+                name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.dec");
+                break;
+            }
         }
 
         return name;
@@ -147,17 +147,17 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
     public int getColumnSize(int columnIndex) {
 
         switch (columnIndex) {
-        case 0:
-            return 95;
+            case 0:
+                return 95;
 
-        case 1:
-            return 300;
+            case 1:
+                return 300;
 
-        case 2:
-        case 3:
-            return 100;
-        default:
-            return super.getColumnSize(columnIndex);
+            case 2:
+            case 3:
+                return 100;
+            default:
+                return super.getColumnSize(columnIndex);
         }
 
     }

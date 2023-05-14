@@ -14,14 +14,14 @@ public class FindingPanelFactory {
             ISession session, boolean editable) {
         switch (xsiType) {
 
-        case GenericTarget.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
-        case GenericFinding.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
-        case TargetStar.XML_XSI_TYPE_VALUE:
-            return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
-        default:
-            throw new IllegalArgumentException("Invalid xsi:type");
+            case GenericTarget.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
+            case GenericFinding.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
+            case TargetStar.XML_XSI_TYPE_VALUE:
+                return new GenericFindingPanel(extensionContext.getConfiguration(), finding, session, editable);
+            default:
+                throw new IllegalArgumentException("Invalid xsi:type");
 
         }
 

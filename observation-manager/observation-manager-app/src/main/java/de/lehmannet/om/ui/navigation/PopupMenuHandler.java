@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /navigation/PopupMenuHandler.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -294,74 +294,74 @@ class PopupMenuHandler implements ActionListener {
                 }
             } else if (source.equals(this.create)) {
                 switch (this.createType) {
-                case EYEPIECE: {
-                    EyepieceDialog dialog = new EyepieceDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getEyepiece());
-                    break;
-                }
-                case SCOPE: {
-                    ScopeDialog dialog = new ScopeDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getScope());
-                    break;
-                }
-                case OBSERVATION: {
-                    ObservationDialog dialog = null;
-                    while (dialog == null || dialog.isCreateAdditionalObservation()) {
-                        dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
-                                this.cache);
-                        this.observationManager.update(dialog.getObservation());
+                    case EYEPIECE: {
+                        EyepieceDialog dialog = new EyepieceDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getEyepiece());
+                        break;
                     }
-                    break;
-                }
-                case IMAGER: {
-                    ExtenableSchemaElementSelector is = new ExtenableSchemaElementSelector(this.observationManager,
-                            this.observationManager.getExtensionLoader().getSchemaUILoader(),
-                            SchemaElementConstants.IMAGER);
-                    if (is.getResult()) {
-                        // Get Imager Dialog
-                        IImagerDialog imagerDialog = (IImagerDialog) is.getDialog();
-                        this.observationManager.update(imagerDialog.getImager());
+                    case SCOPE: {
+                        ScopeDialog dialog = new ScopeDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getScope());
+                        break;
                     }
-                    break;
-                }
-                case SITE: {
-                    SiteDialog dialog = new SiteDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getSite());
-                    break;
-                }
-                case SESSION: {
-                    SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null, this.cache);
-                    this.observationManager.update(dialog.getSession());
-                    break;
-                }
-                case OBSERVER: {
-                    ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getObserver());
-                    break;
-                }
-                case FILTER: {
-                    FilterDialog dialog = new FilterDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getFilter());
-                    break;
-                }
-                case TARGET: {
-                    ExtenableSchemaElementSelector ts = new ExtenableSchemaElementSelector(this.observationManager,
-                            this.observationManager.getExtensionLoader().getSchemaUILoader(),
-                            SchemaElementConstants.TARGET);
-                    if (ts.getResult()) {
-                        // Get TargetContainer
-                        ITargetDialog targetDialog = (ITargetDialog) ts.getDialog();
-                        this.observationManager.update(targetDialog.getTarget());
+                    case OBSERVATION: {
+                        ObservationDialog dialog = null;
+                        while (dialog == null || dialog.isCreateAdditionalObservation()) {
+                            dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
+                                    this.cache);
+                            this.observationManager.update(dialog.getObservation());
+                        }
+                        break;
                     }
-                    break;
-                }
-                case LENS: {
-                    LensDialog dialog = new LensDialog(this.observationManager, null);
-                    this.observationManager.update(dialog.getLens());
-                    break;
-                }
-                default:
-                    break;
+                    case IMAGER: {
+                        ExtenableSchemaElementSelector is = new ExtenableSchemaElementSelector(this.observationManager,
+                                this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                                SchemaElementConstants.IMAGER);
+                        if (is.getResult()) {
+                            // Get Imager Dialog
+                            IImagerDialog imagerDialog = (IImagerDialog) is.getDialog();
+                            this.observationManager.update(imagerDialog.getImager());
+                        }
+                        break;
+                    }
+                    case SITE: {
+                        SiteDialog dialog = new SiteDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getSite());
+                        break;
+                    }
+                    case SESSION: {
+                        SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null, this.cache);
+                        this.observationManager.update(dialog.getSession());
+                        break;
+                    }
+                    case OBSERVER: {
+                        ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getObserver());
+                        break;
+                    }
+                    case FILTER: {
+                        FilterDialog dialog = new FilterDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getFilter());
+                        break;
+                    }
+                    case TARGET: {
+                        ExtenableSchemaElementSelector ts = new ExtenableSchemaElementSelector(this.observationManager,
+                                this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                                SchemaElementConstants.TARGET);
+                        if (ts.getResult()) {
+                            // Get TargetContainer
+                            ITargetDialog targetDialog = (ITargetDialog) ts.getDialog();
+                            this.observationManager.update(targetDialog.getTarget());
+                        }
+                        break;
+                    }
+                    case LENS: {
+                        LensDialog dialog = new LensDialog(this.observationManager, null);
+                        this.observationManager.update(dialog.getLens());
+                        break;
+                    }
+                    default:
+                        break;
                 }
             } else if (source.equals(this.delete)) {
                 this.observationManager.deleteSchemaElement(element);

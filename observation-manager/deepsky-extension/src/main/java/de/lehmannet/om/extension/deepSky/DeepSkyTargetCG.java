@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * extension/deepSky/DeepSkyTargetCG.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -21,7 +21,6 @@ import de.lehmannet.om.util.SchemaException;
  * Its specialised for clusters of galaxies.<br>
  *
  * @author doergn@users.sourceforge.net
- *
  * @since 2.0
  */
 public class DeepSkyTargetCG extends DeepSkyTarget {
@@ -59,7 +58,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
      *            element is set
      * @param targetElement
      *            The origin XML DOM <target> Element
-     *
      * @throws SchemaException
      *             if given targetElement was <code>null</code>
      */
@@ -121,7 +119,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
      *
      * @param parent
      *            The parent element for this Target
-     *
      * @see org.w3c.dom.Element
      */
     @Override

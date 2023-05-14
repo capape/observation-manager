@@ -1,6 +1,6 @@
-/* ====================================================================
+/*
+ * ====================================================================
  * /dialog/SchemaElementSelectorPopup.java
- *
  * (c) by Dirk Lehmann
  * ====================================================================
  */
@@ -53,51 +53,51 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
         ISchemaElement[] elements = null;
         switch (schemaElement) {
-        case IMAGER: {
-            elements = model.getImagers();
-            break;
-        }
-        case EYEPIECE: {
-            elements = model.getEyepieces();
-            break;
-        }
-        case FILTER: {
-            elements = model.getFilters();
-            break;
-        }
-        case LENS: {
-            elements = model.getLenses();
-            break;
-        }
-        case OBSERVATION: {
-            elements = model.getObservations();
-            break;
-        }
-        case OBSERVER: {
-            elements = model.getObservers();
-            break;
-        }
-        case SCOPE: {
-            elements = model.getScopes();
-            break;
-        }
-        case SESSION: {
-            elements = model.getSessions();
-            break;
-        }
-        case SITE: {
-            elements = model.getSites();
-            break;
-        }
-        case TARGET: {
-            elements = model.getTargets();
-            break;
-        }
-        default: {
-            throw new IllegalArgumentException(
-                    "Passed schemaElement ID was wrong. Use SchemaElementConstants for retriving ID."); // SchemaElementID
-                                                                                                        // was wrong
-        }
+            case IMAGER: {
+                elements = model.getImagers();
+                break;
+            }
+            case EYEPIECE: {
+                elements = model.getEyepieces();
+                break;
+            }
+            case FILTER: {
+                elements = model.getFilters();
+                break;
+            }
+            case LENS: {
+                elements = model.getLenses();
+                break;
+            }
+            case OBSERVATION: {
+                elements = model.getObservations();
+                break;
+            }
+            case OBSERVER: {
+                elements = model.getObservers();
+                break;
+            }
+            case SCOPE: {
+                elements = model.getScopes();
+                break;
+            }
+            case SESSION: {
+                elements = model.getSessions();
+                break;
+            }
+            case SITE: {
+                elements = model.getSites();
+                break;
+            }
+            case TARGET: {
+                elements = model.getTargets();
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException(
+                        "Passed schemaElement ID was wrong. Use SchemaElementConstants for retriving ID."); // SchemaElementID
+                                                                                                            // was wrong
+            }
         }
 
         if (elements == null) {
