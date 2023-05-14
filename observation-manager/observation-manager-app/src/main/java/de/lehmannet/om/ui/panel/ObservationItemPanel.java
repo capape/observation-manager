@@ -121,7 +121,7 @@ public class ObservationItemPanel extends AbstractPanel {
         ZonedDateTime begin = observation.getBegin().toZonedDateTime();
         this.begin.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
-        String toolTipDate = String.format("JD: %s \nUTC: %s", DateConverter.toJulianDate(begin),
+        String toolTipDate = String.format("JD: %s \nUTC: %s", this.om.getDateManager().formatAsAstronomicalJulianDate(begin),
                 observation.getBegin());
         this.begin.setToolTipText(toolTipDate);
 

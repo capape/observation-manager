@@ -14,18 +14,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-//import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -37,7 +31,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.DateManager;
 
 public class DatePicker extends JDialog {
@@ -50,63 +43,38 @@ public class DatePicker extends JDialog {
 
     private JLabel monthYearLabel = null;
 
-    private TimeZone timeZone;
     private ZonedDateTime date;
 
-    private int day = ZonedDateTime.now().getDayOfMonth();
-    private int month = ZonedDateTime.now().getMonthValue();
-    private int year = ZonedDateTime.now().getYear();
+    private int day; 
+    private int month;
+    private int year;
 
     public DatePicker(JFrame parent, String title, DateManager dateManager) {
 
         super(parent, true);
-
-        TimeZone timeZone = TimeZone.getDefault();
-        ZoneOffset offset = ZoneId.of(timeZone.getID()).getRules().getOffset(LocalDateTime.now());
-        ZonedDateTime newDate = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, offset);
+       
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
         this.dateManager = dateManager;
-        createDatePicker(title, newDate, timeZone);
+        createDatePicker(title, now);
 
     }
-
-    public DatePicker(JFrame parent, String title, TimeZone timeZone, DateManager dateManager) {
-
-        super(parent, true);
-        this.dateManager = dateManager;
-
-        ZoneOffset offset = ZoneId.of(timeZone.getID()).getRules().getOffset(LocalDateTime.now());
-        ZonedDateTime newDate = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, offset);
-
-        createDatePicker(title, newDate, timeZone);
-
-    }
-
+   
     public DatePicker(JFrame parent, String title, ZonedDateTime date, DateManager dateManager) {
 
         super(parent, true);
         this.dateManager = dateManager;
 
-        TimeZone newTimeZone = TimeZone.getTimeZone(date.getOffset().getId());
-        createDatePicker(title, date, newTimeZone);
-
+        createDatePicker(title, date);
     }
 
-    public DatePicker(JFrame parent, String title, ZonedDateTime date, TimeZone timeZone, DateManager dateManager) {
+    private void createDatePicker(String title, ZonedDateTime date) {
 
-        super(parent, true);
-        this.dateManager = dateManager;
-
-        createDatePicker(title, date, timeZone);
-    }
-
-    private void createDatePicker(String title, ZonedDateTime date, TimeZone timeZone) {
-
-        this.timeZone = timeZone;
         this.date = date;
         this.day = date.getDayOfMonth();
         this.month = date.getMonthValue();
         this.year = date.getYear();
         this.initDialog();
+
         this.setDates();
 
         this.setTitle(title);
@@ -171,7 +139,7 @@ public class DatePicker extends JDialog {
         JButton nextYearButton = createNextYearButton(gridbag, constraints);
         footerPanel.add(nextYearButton);
 
-        JButton julianDateButton = createJulianDateButton(gridbag, constraints);
+        JButton julianDateButton = createJulianDateButton(gridbag, constraints, this.dateManager);
         footerPanel.add(julianDateButton);
 
         this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
@@ -208,12 +176,13 @@ public class DatePicker extends JDialog {
         return label;
     }
 
-    private JButton createJulianDateButton(GridBagLayout gridbag, GridBagConstraints constraints) {
+    private JButton createJulianDateButton(GridBagLayout gridbag, GridBagConstraints constraints,
+            DateManager dateManager) {
         JButton julianDateButton = new JButton(this.bundle.getString("datePicker.button.julianDate"));
         julianDateButton.addActionListener(ae -> {
 
-            JulianDateDialog jdd = new JulianDateDialog(DatePicker.this, DatePicker.this.timeZone);
-            DatePicker.this.date = jdd.getCalendar();
+            JulianDateDialog jdd = new JulianDateDialog(DatePicker.this, dateManager);
+            DatePicker.this.date = jdd.getZonedDateTime();
             if (DatePicker.this.date != null) {
                 DatePicker.this.dispose();
             }
@@ -326,20 +295,19 @@ class JulianDateDialog extends JDialog implements ActionListener {
     private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
-    private ZonedDateTime calendar;
-    private TimeZone timeZone;
-
+    private ZonedDateTime zonedDateTime;
     private JButton cancel;
     private JButton ok;
     private JTextField jdString;
     private DatePicker datePicker;
+    private DateManager dateManager;
 
-    public JulianDateDialog(DatePicker dp, TimeZone tz) {
+    public JulianDateDialog(DatePicker dp, DateManager dateManager) {
 
         super(dp, true);
-        datePicker = dp;
 
-        this.timeZone = tz;
+        this.datePicker = dp;
+        this.dateManager = dateManager;
 
         this.setTitle(this.bundle.getString("julianDateDialog.title"));
         this.setSize(350, 90);
@@ -350,12 +318,11 @@ class JulianDateDialog extends JDialog implements ActionListener {
 
         this.setVisible(true);
 
-        this.datePicker = dp;
     }
 
-    public ZonedDateTime getCalendar() {
+    public ZonedDateTime getZonedDateTime() {
 
-        return this.calendar;
+        return this.zonedDateTime;
 
     }
 
@@ -374,10 +341,12 @@ class JulianDateDialog extends JDialog implements ActionListener {
                 String jdString = this.jdString.getText();
 
                 try {
-                    Number number = NumberFormat.getInstance().parse(jdString);
-                    double jd = number.doubleValue();
-                    Calendar cal = DateConverter.toGregorianDate(jd, this.timeZone);
-                    this.calendar = cal.getTime().toInstant().atZone(ZoneId.of(this.timeZone.getID()));
+                    double jd = this.dateManager.parseAstronomicalJulianDate(jdString);
+
+                    // @formatter:off
+                    this.zonedDateTime = this.dateManager.fromAstronomicalJulianDate(jd, ZoneId.systemDefault());
+                    // @formatter:on
+
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
                             this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
@@ -393,6 +362,8 @@ class JulianDateDialog extends JDialog implements ActionListener {
         }
 
     }
+
+    
 
     private void initDialog() {
 
@@ -410,7 +381,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.jdString = new JTextField();
 
-        String julianDate = NumberFormat.getInstance().format(DateConverter.toJulianDate(datePicker.getDate()));
+        String julianDate = this.dateManager.formatAsAstronomicalJulianDate(datePicker.getDate());
 
         this.jdString.setText(julianDate);
         jdString.setEditable(true);

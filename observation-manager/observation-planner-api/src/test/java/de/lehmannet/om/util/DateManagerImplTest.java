@@ -2,6 +2,7 @@ package de.lehmannet.om.util;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
@@ -34,7 +35,7 @@ public class DateManagerImplTest {
         Calendar cal = DateConverter.toGregorianDate(2455206.4688);
         String dateConverterResult = manager.calendarToStringWithSeconds(cal);
 
-        ZonedDateTime result = manager.fromJulianDate(2455206.4688, ZoneId.of("Turkey"));
+        ZonedDateTime result = manager.fromAstronomicalJulianDate(2455206.4688, ZoneId.of("Turkey"));
         assertEquals(2010, result.getYear());
         assertEquals(1, result.getMonthValue());
         assertEquals(10, result.getDayOfMonth());
@@ -49,10 +50,27 @@ public class DateManagerImplTest {
 
         ZonedDateTime time = ZonedDateTime.of(2010, 1, 10, 1, 15, 4, 0, ZoneId.of("Turkey"));
         double dateConverterResult = DateConverter.toJulianDate(time);
-        double dateManagerResult = manager.toJulianDate(time);
+        double dateManagerResult = manager.toAstronomicalJulianDate(time);
 
         assertEquals(dateConverterResult, dateManagerResult, 0.0);
         assertEquals(2455206.4688, dateManagerResult, 0.001);
 
+    }
+
+
+    @Test
+    public void conmutativeTest() throws ParseException {
+
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+        double julianDate = manager.toAstronomicalJulianDate(now);
+        ZonedDateTime result = manager.fromAstronomicalJulianDate(julianDate, ZoneId.systemDefault());
+
+        assertEquals(now,result);
+
+
+        String dateAsString = manager.formatAsAstronomicalJulianDate(now);
+        double dateFromString = manager.parseAstronomicalJulianDate(dateAsString);
+        assertEquals(julianDate, dateFromString, 0.00001);
     }
 }

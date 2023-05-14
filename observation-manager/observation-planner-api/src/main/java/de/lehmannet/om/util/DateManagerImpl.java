@@ -1,5 +1,7 @@
 package de.lehmannet.om.util;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -132,9 +134,10 @@ public class DateManagerImpl implements DateManager {
         return zonedDateTimeToStringWithSeconds(date.toZonedDateTime());
     }
 
-    public double toJulianDate(ZonedDateTime date) {
+    @Override
+    public double toAstronomicalJulianDate(ZonedDateTime date) {
 
-        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l);
+        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l).withNano(0);
         long dayOfJulianDate = JulianFields.JULIAN_DAY.getFrom(datePickerDateInGMAT);
 
         double hourPart = (double) datePickerDateInGMAT.getHour();
@@ -146,7 +149,15 @@ public class DateManagerImpl implements DateManager {
         return julianDate;
     }
 
-    public ZonedDateTime fromJulianDate(double date, ZoneId zone) {
+    @Override
+    public double getAstronomicalJulianDateDay(ZonedDateTime date) {
+
+        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l);
+        return (double) JulianFields.JULIAN_DAY.getFrom(datePickerDateInGMAT);
+    }
+
+    @Override
+    public ZonedDateTime fromAstronomicalJulianDate(double date, ZoneId zone) {
 
         int days = (int) date;
         double decimalPartOfDay = date - days;
@@ -160,17 +171,35 @@ public class DateManagerImpl implements DateManager {
 
         double decimalPartOfMinutes = minutesDecimal - minutes;
         double secondsDecimal = 60 * decimalPartOfMinutes;
-        int seconds = (int) secondsDecimal;
-        int nanoSeconds = (int) ((secondsDecimal - seconds) * 1_000_000_000);
+        int seconds = Math.round((float) secondsDecimal);
+        int nanoSeconds = 0;
 
         ZonedDateTime zeroTime = Instant.ofEpochMilli(0l).atZone(ZoneId.of("UTC"));
         long diffDays = days - JulianFields.JULIAN_DAY.getFrom(zeroTime);
 
-        ZonedDateTime julianDate = zeroTime.withHour(hours).withSecond(seconds).withNano(nanoSeconds).plusDays(diffDays)
-                .plusHours(12l);
+        ZonedDateTime julianDate = zeroTime.withHour(hours).withMinute(minutes).withSecond(seconds)
+                .withNano(nanoSeconds).plusDays(diffDays).plusHours(12l);
 
         return julianDate.withZoneSameInstant(zone);
 
+    }
+
+    @Override
+    public double parseAstronomicalJulianDate(String jdString) throws ParseException {
+        NumberFormat instance = NumberFormat.getInstance();
+        instance.setMinimumFractionDigits(6);
+        instance.setGroupingUsed(false);
+        Number number = instance.parse(jdString);
+        double jd = number.doubleValue();
+        return jd;
+    }   
+
+    @Override
+    public String formatAsAstronomicalJulianDate(ZonedDateTime date) {
+        NumberFormat instance = NumberFormat.getInstance();
+        instance.setMinimumFractionDigits(6);
+        instance.setGroupingUsed(false);
+        return instance.format(toAstronomicalJulianDate(date));
     }
 
 }

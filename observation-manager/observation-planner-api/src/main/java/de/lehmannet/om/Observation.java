@@ -1,7 +1,5 @@
-/* ====================================================================
- * /Observation.java
- *
- * (c) by Dirk Lehmann
+/*
+ * ==================================================================== /Observation.java (c) by Dirk Lehmann
  * ====================================================================
  */
 
@@ -470,7 +468,6 @@ public class Observation extends SchemaElement implements IObservation {
      * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
-     *
      */
     @Override
     public String getDisplayName() {
@@ -595,30 +592,14 @@ public class Observation extends SchemaElement implements IObservation {
     }
 
     /*
-     * public boolean equals(Object obj) {
-     *
-     * if( obj == null || !(obj instanceof IObservation) ) { return false; }
-     *
-     * IObservation observation = (IObservation)obj;
-     *
-     * if( !observation.getBegin().equals(begin) ) { return false; }
-     *
-     * if( !observation.getTarget().equals(target) ) { return false; }
-     *
-     * if( !observation.getObserver().equals(observer) ) { return false; }
-     *
-     * // Sort result list from given object List objectResults = sortResultList(observation.getResults());
-     *
-     * // dublicate this RootElement results, that the original // result list stays unchanged, while we sort and
-     * compare the results List resultList = new LinkedList(results); // Sort internal result list resultList =
-     * sortResultList(resultList);
-     *
-     * // Calls AbstractList.equals(Object) as both list should be sorted if( !resultList.equals(objectResults) ) {
-     * return false; }
-     *
-     * return true;
-     *
-     * }
+     * public boolean equals(Object obj) { if( obj == null || !(obj instanceof IObservation) ) { return false; }
+     * IObservation observation = (IObservation)obj; if( !observation.getBegin().equals(begin) ) { return false; } if(
+     * !observation.getTarget().equals(target) ) { return false; } if( !observation.getObserver().equals(observer) ) {
+     * return false; } // Sort result list from given object List objectResults =
+     * sortResultList(observation.getResults()); // dublicate this RootElement results, that the original // result list
+     * stays unchanged, while we sort and compare the results List resultList = new LinkedList(results); // Sort
+     * internal result list resultList = sortResultList(resultList); // Calls AbstractList.equals(Object) as both list
+     * should be sorted if( !resultList.equals(objectResults) ) { return false; } return true; }
      */
 
     // ------------
