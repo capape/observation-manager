@@ -21,23 +21,69 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Observation logs - internal XSL</title>
+                <title>Observation logs</title>
                 <style type="text/css">
-                    <![CDATA[
-                    body {
-                        font-family: 'Arial'
-                    }
-                ]]>
+<![CDATA[
+
+
+                                        
+body {
+    font-family: 'Arial';
+    font-size: 12px;
+}
+
+h1 {
+    align-content: center;
+}
+.sessions {
+    border-top-style: solid;
+    margin-left: 20px;    
+}
+
+.sessions ul li{
+    font-size: 10px;
+    
+}
+
+.session {
+    background-color: lightgray;
+}
+
+.session div {
+    margin-left: 10px;
+}
+
+
+.session span.date {
+    font-weight: bold;
+}
+
+
+.observation {
+       background-color: white;
+    margin-left: 60px;    
+}
+
+.position {
+    font-family: Courier;   
+    color: black;
+}
+
+
+   
+
+                
+]]>
                 </style>
             </head>
             <body>
-                <h1>Observation</h1>
+                <h1>Observations</h1>
                 
                 
                 
                 <div class="sessions">
                     <a name="sessions"/>
-                    <h2>Sessions</h2>
+                    <h2>Sessions list</h2>
                     <ul>
                         <xsl:for-each select="//sessions/session">
                             <xsl:sort select="begin"/>
@@ -116,29 +162,28 @@
             <xsl:text disable-output-escaping="yes">&lt;a name="session</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <span>Session:</span><span class="date">
+            <span class="date">
                 <xsl:value-of select="begin"/>
                 <xsl:value-of select="session"/>
                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
-        </div>
         
         
         
-        <div class="dateSession">
+        
+        <div class="date">
             <div>
-                <span>Begin:</span>
+                <span class="datelabel">Begin:</span>
                 <span><xsl:value-of select="begin"/></span>
             </div>
             <div>
-                <span>End:</span>
+                <span class="datelabel">End:</span>
                 <span><xsl:value-of select="end"/></span>
             </div>
         </div>
         
         <!-- Coobservers -->
         <xsl:if test="count(coObserver)>0">
-            <div class="observers">
-                <span>Observers:</span>
+            <div class="observers">                
                 <ul>
                     <xsl:for-each select="coObserver">
                         <xsl:sort select="key('observerKey', .)/name"/>
@@ -209,6 +254,7 @@
             </xsl:for-each>
            
         </div>
+        </div>
     </xsl:template>
     
     <xsl:template match="observation">        
@@ -220,11 +266,11 @@
             
             <div class="date">
                 <div>
-                    <span>Begin:</span>
+                    <span class="datelabel">Begin:</span>
                     <span><xsl:value-of select="begin"/></span>
                 </div>
                 <div>
-                    <span>End:</span>
+                    <span class="datelabel">End:</span>
                     <span><xsl:value-of select="end"/></span>
                 </div>
             </div>
@@ -324,7 +370,7 @@
             <xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <h4>Object</h4>
+            <h4>
             <xsl:choose>
                 <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
                     <xsl:choose>
@@ -344,6 +390,7 @@
                 <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
             </xsl:choose>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+            </h4>
         </div>
         
         
