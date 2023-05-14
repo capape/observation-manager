@@ -591,16 +591,7 @@ public class Observation extends SchemaElement implements IObservation {
 
     }
 
-    /*
-     * public boolean equals(Object obj) { if( obj == null || !(obj instanceof IObservation) ) { return false; }
-     * IObservation observation = (IObservation)obj; if( !observation.getBegin().equals(begin) ) { return false; } if(
-     * !observation.getTarget().equals(target) ) { return false; } if( !observation.getObserver().equals(observer) ) {
-     * return false; } // Sort result list from given object List objectResults =
-     * sortResultList(observation.getResults()); // dublicate this RootElement results, that the original // result list
-     * stays unchanged, while we sort and compare the results List resultList = new LinkedList(results); // Sort
-     * internal result list resultList = sortResultList(resultList); // Calls AbstractList.equals(Object) as both list
-     * should be sorted if( !resultList.equals(objectResults) ) { return false; } return true; }
-     */
+     
 
     // ------------
     // IObservation ------------------------------------------------------
