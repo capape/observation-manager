@@ -31,9 +31,27 @@
                 </style>
             </head>
             <body>
-                <h1>Observation logs - internal XSL</h1>
+                <h1>Observation</h1>
+                
+                
+                
                 <div class="sessions">
+                    <a name="sessions"/>
                     <h2>Sessions</h2>
+                    <ul>
+                        <xsl:for-each select="//sessions/session">
+                            <xsl:sort select="begin"/>
+                            <li>
+                                <div>                    
+                                    <xsl:text disable-output-escaping="yes">&lt;a href="#session</xsl:text>
+                                    <xsl:value-of select="@id"/>
+                                    <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+                                    <span><xsl:value-of select="begin"/> - <xsl:value-of select="end"/></span>                            
+                                    <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+                                </div>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
                     <xsl:for-each select="//sessions/session">
                         <xsl:sort select="begin"/>
                         <xsl:apply-templates select="."/>
@@ -169,12 +187,34 @@
             </div>
         </xsl:if>
         <h3>Observations</h3>
+        <ul>
+            <xsl:for-each select="//observation[session=$currentSession]">   
+            <xsl:sort select="begin" data-type="text"/>             
+                <li>
+                    <div>                    
+                        <xsl:variable name="currentTarget" select="key('targetKey', target)"/>
+                        <xsl:text disable-output-escaping="yes">&lt;a href="#observation</xsl:text>
+                        <xsl:value-of select="@id"/>
+                        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+                        <span><xsl:value-of select="begin"/> - <xsl:value-of select="$currentTarget/name"/></span>                            
+                        <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+                    </div>
+                </li>
+            </xsl:for-each>
+        </ul>
         <div class="observations">
-            <xsl:apply-templates select="//observation[session=$currentSession]"/>
+            <xsl:for-each select="//observation[session=$currentSession]">   
+                <xsl:sort select="begin" data-type="text"/>    
+                <xsl:apply-templates select="."/>
+            </xsl:for-each>
+           
         </div>
     </xsl:template>
     
-    <xsl:template match="observation">
+    <xsl:template match="observation">        
+        <xsl:text disable-output-escaping="yes">&lt;a name="observation</xsl:text>
+        <xsl:value-of select="@id"/>
+        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>            
         <div class="observation">
             <xsl:apply-templates select="key('targetKey', target)"/>
             
