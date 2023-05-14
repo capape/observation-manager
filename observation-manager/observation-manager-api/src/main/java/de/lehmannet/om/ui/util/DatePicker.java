@@ -45,20 +45,20 @@ public class DatePicker extends JDialog {
 
     private ZonedDateTime date;
 
-    private int day; 
+    private int day;
     private int month;
     private int year;
 
     public DatePicker(JFrame parent, String title, DateManager dateManager) {
 
         super(parent, true);
-       
+
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
         this.dateManager = dateManager;
         createDatePicker(title, now);
 
     }
-   
+
     public DatePicker(JFrame parent, String title, ZonedDateTime date, DateManager dateManager) {
 
         super(parent, true);
@@ -362,8 +362,6 @@ class JulianDateDialog extends JDialog implements ActionListener {
         }
 
     }
-
-    
 
     private void initDialog() {
 

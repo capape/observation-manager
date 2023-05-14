@@ -100,7 +100,6 @@ public interface DateManager {
     double getAstronomicalJulianDateDay(ZonedDateTime date);
 
     double parseAstronomicalJulianDate(String jdString) throws ParseException;
-    ZonedDateTime parseJulianDateToZonedDateTime(String jdString);
 
     String formatAsAstronomicalJulianDate(ZonedDateTime date);
 
