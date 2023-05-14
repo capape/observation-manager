@@ -344,7 +344,7 @@ class JulianDateDialog extends JDialog implements ActionListener {
 
                 try {
                     double jd = this.dateManager.parseAstronomicalJulianDate(jdString);
-                    this.zonedDateTime = this.dateManager.fromAstronomicalJulianDate(jd, ZoneId.systemDefault());                   
+                    this.zonedDateTime = this.dateManager.fromAstronomicalJulianDate(jd, ZoneId.systemDefault());
 
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),

@@ -184,8 +184,7 @@ public enum Constellation {
     @Override
     public String toString() {
 
-        return String.format("%s (%s)", this.getName(),
- this.getAbbreviation());
+        return String.format("%s (%s)", this.getName(), this.getAbbreviation());
 
     }
 
