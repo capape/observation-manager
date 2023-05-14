@@ -333,6 +333,9 @@
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <version>${maven-formatter-plugin.version}</version>
+                <configuration>
+                    <configFile>${maven.multiModuleProjectDirectory}/build-tools/src/main/resources/build-tools/formatter-config.xml</configFile>
+                </configuration>                
                 <executions>
                     <execution>
                         <goals>
