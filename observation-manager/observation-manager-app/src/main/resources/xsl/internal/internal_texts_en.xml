@@ -1,0 +1,171 @@
+<texts>
+    <text ident="document.title">Observations</text>
+    <text ident="h1.observations">Observations</text>
+    <text ident="summary.sessions">Sessions</text>
+    <text ident="summary.observations">Observations</text>
+
+    <text ident="session.sessions.list">Sesions List</text>
+    <text ident="targets.targetlist">Targets</text>
+    <text ident="planet.SUN">Sun</text>
+    <text ident="planet.MERCURY">Mercury</text>
+    <text ident="planet.VENUS">Venus</text>
+    <text ident="planet.EARTH">Earth</text>
+    <text ident="planet.MOON">Moon</text>
+    <text ident="planet.MARS">Mars</text>
+    <text ident="planet.JUPITER">Jupiter</text>
+    <text ident="planet.SATURN">URANUS</text>
+    <text ident="planet.URANUS">Uranus</text>
+    <text ident="planet.NEPTUNE">Neptune</text>
+
+    <text ident="oal:deepSkyGX">Galaxy</text>
+    <text ident="oal:deepSkyGC">Globular Cluster</text>
+    <text ident="oal:deepSkyGN">Galactic Nebula</text>
+    <text ident="oal:deepSkyOC">Open Cluster</text>
+    <text ident="oal:deepSkyPN">Planetary Nebula</text>
+    <text ident="oal:deepSkyQS">Quasar</text>
+    <text ident="oal:deepSkyDS">Double Star</text>
+    <text ident="oal:deepSkyDN">Dark Nebula</text>
+    <text ident="oal:deepSkyAS">Asterism</text>
+    <text ident="oal:deepSkySC">Star cloud</text>
+    <text ident="oal:deepSkyMS">Multiple star system</text>
+    <text ident="oal:deepSkyCG">Cluster of galaxies</text>
+    <text ident="oal:variableStarTargetType">Variable star</text>
+    <text ident="oal:SunTargetType">Sun</text>
+    <text ident="oal:MoonTargetType">Moon</text>
+    <text ident="oal:PlanetTargetType">Planet</text>
+    <text ident="oal:MinorPlanetTargetType">Minor Planet</text>
+    <text ident="oal:CometTargetType">Comet</text>
+    <text ident="oal:UndefinedTargetType">(other Object) </text>
+
+    <text ident="session.date.begin">Begin:</text>
+    <text ident="session.date.end">End:</text>
+    <text ident="session.observations">Observations</text>
+
+
+    <text ident="observation.date.begin">Begin:</text>
+    <text ident="observation.date.end">End:</text>
+    <text ident="observation.observer">Observer:</text>
+    <text ident="observation.site">Site:</text>
+    <text ident="observation.faintest.star">Faintest Star:</text>
+    <text ident="observation.seeing">Seeing:</text>
+    <text ident="observation.seeing.very.good">(very good)</text>
+    <text ident="observation.seeing.good">(good)</text>
+    <text ident="observation.seeing.fair">(far)</text>
+    <text ident="observation.seeing.bad">(bad)</text>
+    <text ident="observation.seeing.very.bad">(very bad)</text>
+    <text ident="observation.camera">Camera:</text>
+    <text ident="observation.visual.impresion">Visual impression:</text>
+
+    <text ident="target.alias">Alias:</text>
+    <text ident="position.ra">RA:</text>
+    <text ident="position.dec">Dec:</text>
+
+    <text ident="target.ds.size">Size:</text>
+    <text ident="target.ds.magnitude">m(vis):</text>
+    <text ident="target.ds.magnitude.mag">mag</text>
+    <text ident="target.ds.brightness">SB:</text>
+    <text ident="target.ds.brightness.surfbr">mags/sq.arcmin</text>
+    <text ident="target.ds.origin.observer">Origin:</text>
+    <text ident="target.ds.origin.source">Origin:</text>
+
+    <text ident="observer.contact">Contacts:</text>
+
+    <text ident="site.site">Site:</text>
+    <text ident="site.longitude">Longitude:</text>
+    <text ident="site.latitude">Latitude:</text>
+    <text ident="site.timezone">Timezone:</text>
+    <text ident="site.ut">UT</text>
+
+    <text ident="result.visual.rating">Visual Rating</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Very conspicuous, nice cluster;
+        Eye-catcher</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Conspicuous cluster</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Clearly visible cluster</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Starcluster not very conspicuous</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Very unobtrusive cluster; can easily be
+        overlooked while searching</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Dubiously sighted; star density not higher
+        as in surrounding field</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Almost no stars at the given position</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Doublestar could be resolved</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">Doublestar appears as "8"</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">Doublestar couldn't be resolved</text>
+
+    <text ident="result.visual.rating.generic.type.1">Simple conspicuous object in the eyepiece</text>
+    <text ident="result.visual.rating.generic.type.2">Good viewable with direct vision</text>
+    <text ident="result.visual.rating.generic.type.3">Viewable with direct vision</text>
+    <text ident="result.visual.rating.generic.type.4">Viewable only with averted vision</text>
+    <text ident="result.visual.rating.generic.type.5">Object can hardly be seen with averted vision</text>
+    <text ident="result.visual.rating.generic.type.6">Object dubiously sighted</text>
+    <text ident="result.visual.rating.generic.type.7">Object not sighted</text>
+
+    <text ident="result.visual.deep.sky.stellar">Apperas stellar</text>
+    <text ident="result.visual.deep.sky.resolved">Appears resolved</text>
+    <text ident="result.visual.deep.sky.motteld">Appears mottled</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Apparent size:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Magnitude:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Fainter than</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(Uncertain)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Chart:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(non-AAVSO Chart)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Comparison stars:</text>
+
+    <text ident="img.alt.text">-IMG- not redendered</text>
+
+    <text ident="scope.optics">Optics: </text>
+    <text ident="scope.type">Type: </text>
+    <text ident="scope.vendor">Vendor: </text>
+    <text ident="scope.aperture">Aperture:</text>
+    <text ident="scope.focal.length">Focal length:</text>
+    <text ident="scope.focal.length.unit">mm</text>
+    <text ident="scope.magnification">Magnification:</text>
+    <text ident="scope.true.field.view">True field of view:</text>
+    <text ident="scope.light.grasp">Light grasp:</text>
+    <text ident="lens.eyepiece.zoom">Zoom eyepiece:</text>
+    <text ident="lens.eyepiece">Eyepiece: </text>
+    <text ident="lens.eyepiece.focal.length">Focal length:</text>
+    <text ident="lens.eyepiece.focal.length.unit">mm</text>
+    <text ident="lens.eyepiece.magnification">Magnification:</text>
+    <text ident="lens.eyepiece.true.field.view">True field of view:</text>
+    <text ident="lens.lens">Lens: </text>
+    <text ident="lens.focal.length.factor">Focal length factor:</text>
+    <text ident="lens.focal.length.unit">mm</text>
+    <text ident="imager.camera.ccd">CCD Camera:</text>
+    <text ident="imager.camera">Camera:</text>
+    <text ident="imager.vendor">Vendor:</text>
+    <text ident="imager.pixel">Pixel:</text>
+
+    <text ident="filter.filter">Filter:</text>
+    <text ident="filter.filter">Type:</text>
+    <text ident="filter.other">Other</text>
+    <text ident="filter.broadband">Broadband</text>
+    <text ident="filter.narrowband">Narrowband</text>
+    <text ident="filter.OIII">OIII</text>
+    <text ident="filter.solar">Solar</text>
+    <text ident="filter.h-beta">H-Beta</text>
+    <text ident="filter.h-alpha">H-Alpha</text>
+    <text ident="filter.color">Color</text>
+    <text ident="filter.neutral">Neutral</text>
+    <text ident="filter.corrective">Corrective</text>
+    <text ident="filter.unknown">(unkown type)</text>
+    <text ident="filter.farbe">Farbe: </text>
+
+    <text ident="filter.farbe.lightred">Light red</text>
+    <text ident="filter.farbe.red">Red</text>
+    <text ident="filter.farbe.deepred">Dark red</text>
+    <text ident="filter.farbe.orange">Orange</text>
+    <text ident="filter.farbe.lightyellow">Light yellow</text>
+    <text ident="filter.farbe.deepyellow">Dark yellow</text>
+    <text ident="filter.farbe.yellow">Yellow</text>
+    <text ident="filter.farbe.yellow-green">Yellow/Green</text>
+    <text ident="filter.farbe.lightgreen">Light green</text>
+    <text ident="filter.farbe.green">Green</text>
+    <text ident="filter.farbe.mediumblue">Medium blue</text>
+    <text ident="filter.farbe.paleblue">Pale blue</text>
+    <text ident="filter.farbe.blue">Blue</text>
+    <text ident="filter.farbe.deepblue">Dark blue</text>
+    <text ident="filter.farbe.violet">Violet</text>
+    <text ident="filter.farbe.unknown">(unknown color)</text>
+</texts>
