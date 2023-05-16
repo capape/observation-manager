@@ -73,6 +73,16 @@ h1 {
 }
 
 
+div.date div {
+    display: inline;
+}
+
+.observation .datelabel {
+    font-weight: bold;
+    display: inline; 
+}
+
+
    
 
                 
@@ -325,8 +335,10 @@ h1 {
         <xsl:text disable-output-escaping="yes">&lt;a name="observation</xsl:text>
         <xsl:value-of select="@id"/>
         <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>            
-        <div class="observation">
-            <xsl:apply-templates select="key('targetKey', target)"/>
+        <div class="observation">          
+            <xsl:variable name="idTarget" select="target"/>
+            <xsl:variable name="currentTarget" select="//targets/target[@id=$idTarget]"/>            
+            <xsl:apply-templates select="$currentTarget"/>
             
             <div class="date">
                 <div>
