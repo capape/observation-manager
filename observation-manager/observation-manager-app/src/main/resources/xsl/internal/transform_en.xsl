@@ -247,13 +247,15 @@ h1 {
             <xsl:if test="count(coObserver)>0">
                 <div class="observers">                
                     <ul>
-                        <xsl:for-each select="coObserver">
-                            <xsl:sort select="key('observerKey', .)/name"/>
+                        <xsl:for-each select="coObserver">                           
+                            
                             <li>
+                                <xsl:variable name="idObserver" select="."/>                                                                
+                                <xsl:variable name="currentObserver" select="//observers/observer[@id=$idObserver]"/>                                
                                 <xsl:text disable-output-escaping="yes">&lt;a href="#observer</xsl:text>
-                                <xsl:value-of select="."/>
-                                <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                                <xsl:value-of select="key('observerKey', .)/name"/><xsl:text> </xsl:text><xsl:value-of select="key('observerKey', .)/surname"/>
+                                <xsl:value-of select="$idObserver"/>                                
+                                <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>                                
+                                <xsl:value-of select="$currentObserver/name"/><xsl:text> </xsl:text> <xsl:value-of select="$currentObserver/surname"/>
                                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                             </li>
                         </xsl:for-each>
