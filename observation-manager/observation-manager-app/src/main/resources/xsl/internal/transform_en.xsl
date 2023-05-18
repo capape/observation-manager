@@ -131,7 +131,7 @@ div.date div {
                     
                     <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="count(//sessions/session)"/></span></div>
                     <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="count(//observation)"/></span></div>                      
-                    <a href="targetlist">List of targets</a>
+                    <a href="#targetlist">List of targets</a>
                     <div class="observers">
                         <xsl:for-each select="//observers/observer">                        
                             <xsl:sort select="surname"/>
@@ -215,7 +215,10 @@ div.date div {
                                 <li>
                                     <xsl:choose>                
                                         <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
-                                            <xsl:choose>
+                                            <xsl:variable name="objectName"  select="name"/>
+                                            <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
+                                            <!-- 
+                                                <xsl:choose>
                                                 <xsl:when test="name='SUN'">Sun</xsl:when>
                                                 <xsl:when test="name='MERCURY'">Mercury</xsl:when>
                                                 <xsl:when test="name='VENUS'">Venus</xsl:when>
@@ -228,7 +231,8 @@ div.date div {
                                                 <xsl:when test="name='NEPTUNE'">Neptune</xsl:when>
                                                 <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
                                             </xsl:choose>
-                                        </xsl:when>
+                                            -->
+                                        </xsl:when>                                        
                                         <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
                                     </xsl:choose>                        
                                     
@@ -480,7 +484,10 @@ div.date div {
                 <h4>
                     <xsl:choose>
                         <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
-                            <xsl:choose>
+                                <xsl:variable name="objectName"  select="name"/>
+                                <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
+                                <!--
+                                 <xsl:choose>
                                 <xsl:when test="name='SUN'">Sun</xsl:when>
                                 <xsl:when test="name='MERCURY'">Mercury</xsl:when>
                                 <xsl:when test="name='VENUS'">Venus</xsl:when>
@@ -492,7 +499,9 @@ div.date div {
                                 <xsl:when test="name='URANUS'">Uranus</xsl:when>
                                 <xsl:when test="name='NEPTUNE'">Neptune</xsl:when>
                                 <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-                            </xsl:choose>
+                                </xsl:choose>
+                                -->
+                            
                         </xsl:when>
                         <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
                     </xsl:choose>

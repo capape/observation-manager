@@ -4,7 +4,7 @@
     <text ident="summary.sessions">Sessions</text>
     <text ident="summary.observations">Observations</text>
 
-    <text ident="session.sessions.list">Sesions List</text>
+                                            <text ident="session.sessions.list">Sesions List</text>
     <text ident="sites.list">Sites</text>
     <text ident="scopes.list">Scopes</text>
     <text ident="eyepieces.list">Eyepieces</text>
@@ -12,16 +12,16 @@
     <text ident="filters.list">Filters</text>
     <text ident="imagers.list">imagers</text>
     <text ident="targets.targetlist">Targets</text>
-    <text ident="planet.SUN">Sun</text>
-    <text ident="planet.MERCURY">Mercury</text>
-    <text ident="planet.VENUS">Venus</text>
-    <text ident="planet.EARTH">Earth</text>
-    <text ident="planet.MOON">Moon</text>
-    <text ident="planet.MARS">Mars</text>
-    <text ident="planet.JUPITER">Jupiter</text>
-    <text ident="planet.SATURN">URANUS</text>
-    <text ident="planet.URANUS">Uranus</text>
-    <text ident="planet.NEPTUNE">Neptune</text>
+    <text ident="SUN">Sun</text>
+    <text ident="MERCURY">Mercury</text>
+    <text ident="VENUS">Venus</text>
+    <text ident="EARTH">Earth</text>
+    <text ident="MOON">Moon</text>
+    <text ident="MARS">Mars</text>
+    <text ident="JUPITER">Jupiter</text>
+    <text ident="SATURN">Saturn</text>
+    <text ident="URANUS">Uranus</text>
+    <text ident="NEPTUNE">Neptune</text>
 
     <text ident="oal:deepSkyGX">Galaxy</text>
     <text ident="oal:deepSkyGC">Globular Cluster</text>
