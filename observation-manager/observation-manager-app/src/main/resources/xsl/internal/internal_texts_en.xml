@@ -4,7 +4,8 @@
     <text ident="summary.sessions">Sessions</text>
     <text ident="summary.observations">Observations</text>
 
-                                            <text ident="session.sessions.list">Sesions List</text>
+    <text ident="targets.list">Targets</text>
+    <text ident="session.sessions.list">Sessions</text>
     <text ident="sites.list">Sites</text>
     <text ident="scopes.list">Scopes</text>
     <text ident="eyepieces.list">Eyepieces</text>
@@ -23,25 +24,27 @@
     <text ident="URANUS">Uranus</text>
     <text ident="NEPTUNE">Neptune</text>
 
-    <text ident="oal:deepSkyGX">Galaxy</text>
+    <text ident="oal:CometTargetType">Comet</text>
+    <text ident="oal:deepSkyAS">Asterism</text>
+    <text ident="oal:deepSkyCG">Cluster of galaxies</text>
+    <text ident="oal:deepSkyDN">Dark Nebula</text>
+    <text ident="oal:deepSkyDS">Double Star</text>
     <text ident="oal:deepSkyGC">Globular Cluster</text>
     <text ident="oal:deepSkyGN">Galactic Nebula</text>
+    <text ident="oal:deepSkyGX">Galaxy</text>
+    <text ident="oal:deepSkyMS">Multiple star system</text>
     <text ident="oal:deepSkyOC">Open Cluster</text>
+    <text ident="oal:deepSkyNA">Uncategorized object</text>
     <text ident="oal:deepSkyPN">Planetary Nebula</text>
     <text ident="oal:deepSkyQS">Quasar</text>
-    <text ident="oal:deepSkyDS">Double Star</text>
-    <text ident="oal:deepSkyDN">Dark Nebula</text>
-    <text ident="oal:deepSkyAS">Asterism</text>
     <text ident="oal:deepSkySC">Star cloud</text>
-    <text ident="oal:deepSkyMS">Multiple star system</text>
-    <text ident="oal:deepSkyCG">Cluster of galaxies</text>
-    <text ident="oal:variableStarTargetType">Variable star</text>
-    <text ident="oal:SunTargetType">Sun</text>
+    <text ident="oal:MinorPlanetTargetType">Minor Planet</text>
     <text ident="oal:MoonTargetType">Moon</text>
     <text ident="oal:PlanetTargetType">Planet</text>
-    <text ident="oal:MinorPlanetTargetType">Minor Planet</text>
-    <text ident="oal:CometTargetType">Comet</text>
+    <text ident="oal:SunTargetType">Sun</text>
     <text ident="oal:UndefinedTargetType">(other Object) </text>
+    <text ident="oal:variableStarTargetType">Variable star</text>
+    <text ident="type.unknown">(unkown Type) </text>
 
     <text ident="session.date.begin">Begin:</text>
     <text ident="session.date.end">End:</text>

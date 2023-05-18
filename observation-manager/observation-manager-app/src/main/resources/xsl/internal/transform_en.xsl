@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"                
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
     
     
@@ -13,24 +13,19 @@
     <xsl:key name="siteKey" match="sites/site" use="@id"/>
     <xsl:key name="scopeKey" match="scopes/scope" use="@id"/>
     <xsl:key name="eyepieceKey" match="eyepieces/eyepiece" use="@id"/>
-    <xsl:key name="lensKey" match="lenses/lens" use="@id"/>
-    
+    <xsl:key name="lensKey" match="lenses/lens" use="@id"/>    
     <xsl:key name="imagerKey" match="imagers/imager" use="@id"/>    
-    
     <xsl:key name="filterKey" match="filters/filter" use="@id"/>
-    
-    
     
     <xsl:template match="/">
         <html>
-            <head>     
+            <head>
                 <title><xsl:call-template name="language-text"><xsl:with-param name="text">document.title</xsl:with-param></xsl:call-template></title>
                 <style type="text/css">
                     <![CDATA[
 
                     
 
-                                       
 body {
     font-family: 'Arial';
     font-size: 12px;
@@ -41,20 +36,29 @@ h1 {
 }
 .sessions {
     border-top-style: solid;
-    margin-left: 20px;    
+    margin-left: 20px;
 }
 
 .sessions ul li{
     font-size: 10px;
-    
+
+}
+
+.sessions ul li span {
+
+ display: inline-grid;
+ min-width: 200px;
 }
 
 .session {
+    margin-top: 20px;
     background-color: lightgray;
+    border-bottom: solid 2px black;
 }
 
 .session div {
     margin-left: 10px;
+    
 }
 
 
@@ -65,12 +69,12 @@ h1 {
 
 .observation {
     background-color: white;
-    margin-left: 60px;    
-    margin-right: 60px; 
+    margin-left: 60px;
+    margin-right: 60px;
 }
 
 .position {
-    font-family: Courier;   
+    font-family: Courier;
     color: black;
 }
 
@@ -80,17 +84,17 @@ div.position div span {
 }
 div.target {
     display:inline-block;
-    width:30%;    
+    width:30%;
     vertical-align: top;
     text-aling: left;
 }
 div.infoTarget {
     display:inline-block;
-    width:60%;    
+    width:60%;
     vertical-align: top;
     text-aling: leftA
 }
-div.observation div.date {  
+div.observation div.date {
     padding: 5px;
     text-align: left;
     margin-top: 20px;
@@ -99,28 +103,28 @@ div.observation div.date {
 }
 div.date div {
     display: inline;
-    
+
 }
 
 .observation .datelabel {
     font-weight: bold;
-    display: inline; 
+    display: inline;
 }
 .optionaldata {
     margin-top: 5px;
-    
+
 }
 
 .optionaldata div span {
-    
+
     min-width: 100px;
     display: inline-grid;
-        
-    
+
+
 }
-
-
                 
+
+
 ]]>
                 </style>
             </head>
@@ -129,11 +133,11 @@ div.date div {
                 
                 <div class="summary">
                     
-                    <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="count(//sessions/session)"/></span></div>
-                    <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="count(//observation)"/></span></div>                      
-                    <a href="#targetlist">List of targets</a>
+                    <div><a href="#sessions"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//sessions/session)"/>)</span></a></div>
+                    <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//observation)"/>)</span></div>
+                    <a href="#targetlist"><xsl:call-template name="language-text"><xsl:with-param name="text">targets.list</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//targets/target)"/>)</a>
                     <div class="observers">
-                        <xsl:for-each select="//observers/observer">                        
+                        <xsl:for-each select="//observers/observer">
                             <xsl:sort select="surname"/>
                             <xsl:sort select="name"/>
                             <xsl:apply-templates select="."/>
@@ -150,11 +154,11 @@ div.date div {
                         <xsl:for-each select="//sessions/session">
                             <xsl:sort select="begin"/>
                             <li>
-                                <div>                    
+                                <div>
                                     <xsl:text disable-output-escaping="yes">&lt;a href="#session</xsl:text>
                                     <xsl:value-of select="@id"/>
                                     <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                                    <span><xsl:value-of select="begin"/> - <xsl:value-of select="end"/></span>                            
+                                    <span><xsl:value-of select="begin"/> - <xsl:value-of select="end"/></span>
                                     <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                                 </div>
                             </li>
@@ -163,20 +167,23 @@ div.date div {
                     <xsl:for-each select="//sessions/session">
                         <xsl:sort select="begin"/>
                         <xsl:apply-templates select="."/>
-                    </xsl:for-each>                    
+                    </xsl:for-each>
                     
+                    <a name="sites"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">sites.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//sites/site">
                         <xsl:sort select="name"/>
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     
+                    <a name="scopes"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">scopes.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//scopes/scope">
                         <xsl:sort select="model"/>
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     
+                    <a name="eyepieces"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">eyepieces.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//eyepieces/eyepiece">
                         <xsl:sort select="focalLength"/>
@@ -184,13 +191,15 @@ div.date div {
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     
+                    <a name="lenses"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">lenses.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//lenses/lens">
                         <xsl:sort select="factor"/>
                         <xsl:sort select="model"/>
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
-                    
+
+                    <a name="filters"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">filters.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//filters/filter">
                         <xsl:sort select="model"/>
@@ -198,6 +207,7 @@ div.date div {
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     
+                    <a name="imagers"/>                    
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">imagers.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//imagers/imager">
                         <xsl:sort select="model"/>
@@ -205,63 +215,23 @@ div.date div {
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     
-                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>
                     <a name="targetlist"/>
+                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>                
                     <div class="targetlist">
                         <ul>
                             <xsl:for-each select="//targets/target">
-                                <xsl:sort select="constellation"/> 
-                                <xsl:sort select="name"/>                           
+                                <xsl:sort select="constellation"/>
+                                <xsl:sort select="name"/>
                                 <li>
-                                    <xsl:choose>                
+                                    <xsl:choose>
                                         <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
                                             <xsl:variable name="objectName"  select="name"/>
                                             <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
-                                            <!-- 
-                                                <xsl:choose>
-                                                <xsl:when test="name='SUN'">Sun</xsl:when>
-                                                <xsl:when test="name='MERCURY'">Mercury</xsl:when>
-                                                <xsl:when test="name='VENUS'">Venus</xsl:when>
-                                                <xsl:when test="name='EARTH'">Earth</xsl:when>
-                                                <xsl:when test="name='MOON'">Moon</xsl:when>
-                                                <xsl:when test="name='MARS'">Mars</xsl:when>
-                                                <xsl:when test="name='JUPITER'">Jupiter</xsl:when>
-                                                <xsl:when test="name='SATURN'">Saturn</xsl:when>
-                                                <xsl:when test="name='URANUS'">Uranus</xsl:when>
-                                                <xsl:when test="name='NEPTUNE'">Neptune</xsl:when>
-                                                <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-                                            </xsl:choose>
-                                            -->
-                                        </xsl:when>                                        
+                                        </xsl:when>
                                         <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-                                    </xsl:choose>                        
+                                    </xsl:choose>
                                     
                                     
-                                    <!--
-                                         <xsl:choose>
-                                         <xsl:when test="@type='oal:deepSkyGX'">Galaxy</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyGC'">Globular Cluster</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyGN'">Galactic Nebula</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyOC'">Open Cluster</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyPN'">Planetary Nebula</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyQS'">Quasar</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyDS'">Double Star</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyDN'">Dark Nebula</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyAS'">Asterism</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkySC'">Star cloud</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyMS'">Multiple star system</xsl:when>
-                                         <xsl:when test="@type='oal:deepSkyCG'">Cluster of galaxies</xsl:when>
-                                         <xsl:when test="@type='oal:variableStarTargetType'">Variable star</xsl:when>
-                                         <xsl:when test="@type='oal:SunTargetType'">Sun</xsl:when>
-                                         <xsl:when test="@type='oal:MoonTargetType'">Moon</xsl:when>
-                                         <xsl:when test="@type='oal:PlanetTargetType'">Planet</xsl:when>
-                                         <xsl:when test="@type='oal:MinorPlanetTargetType'">Minor Planet</xsl:when>
-                                         <xsl:when test="@type='oal:CometTargetType'">Comet</xsl:when>
-                                         <xsl:when test="@type='oal:UndefinedTargetType'">(other Object)</xsl:when>
-                                         <xsl:otherwise>(unknown Type)</xsl:otherwise>
-                                         </xsl:choose>
-                                         
-                                    -->
                                     <xsl:if test="count(constellation)>0"> ( <xsl:value-of select="constellation"/> )</xsl:if>
                                 </li>
                             </xsl:for-each>
@@ -282,7 +252,7 @@ div.date div {
             <span class="date">
                 <xsl:value-of select="begin"/>
                 <xsl:value-of select="session"/>
-                <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>          
+                <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
             
             
             
@@ -299,16 +269,16 @@ div.date div {
             
             <!-- Coobservers -->
             <xsl:if test="count(coObserver)>0">
-                <div class="observers">                
+                <div class="observers">
                     <ul>
-                        <xsl:for-each select="coObserver">                           
+                        <xsl:for-each select="coObserver">
                             
                             <li>
-                                <xsl:variable name="idObserver" select="."/>                                                                
-                                <xsl:variable name="currentObserver" select="//observers/observer[@id=$idObserver]"/>                                
+                                <xsl:variable name="idObserver" select="."/>
+                                <xsl:variable name="currentObserver" select="//observers/observer[@id=$idObserver]"/>
                                 <xsl:text disable-output-escaping="yes">&lt;a href="#observer</xsl:text>
-                                <xsl:value-of select="$idObserver"/>                                
-                                <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>                                
+                                <xsl:value-of select="$idObserver"/>
+                                <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
                                 <xsl:value-of select="$currentObserver/name"/><xsl:text> </xsl:text> <xsl:value-of select="$currentObserver/surname"/>
                                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                             </li>
@@ -351,23 +321,25 @@ div.date div {
             </xsl:if>
             <h3><xsl:call-template name="language-text"><xsl:with-param name="text">session.observations</xsl:with-param></xsl:call-template></h3>
             <ul>
-                <xsl:for-each select="//observation[session=$currentSession]">   
-                    <xsl:sort select="begin" data-type="text"/>             
+                <xsl:for-each select="//observation[session=$currentSession]">
+                    <xsl:sort select="begin" data-type="text"/>
                     <li>
-                        <div>                    
-                            <xsl:variable name="currentTarget" select="key('targetKey', target)"/>
+                        <div>
+                            <xsl:variable name="idTarget" select="target"/>
+                            <xsl:variable name="currentTarget" select="//targets/target[@id=$idTarget]"/>            
                             <xsl:text disable-output-escaping="yes">&lt;a href="#observation</xsl:text>
                             <xsl:value-of select="@id"/>
                             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                            <span><xsl:value-of select="begin"/><xsl:text> </xsl:text><xsl:value-of select="$currentTarget/name"/></span>                            
+                            <span><xsl:text><xsl:value-of select="$currentTarget/name"/></xsl:text></span>
+                            <span><xsl:text><xsl:value-of select="begin"/></xsl:text></span>
                             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                         </div>
                     </li>
                 </xsl:for-each>
             </ul>
             <div class="observations">
-                <xsl:for-each select="//observation[session=$currentSession]">   
-                    <xsl:sort select="begin" data-type="text"/>    
+                <xsl:for-each select="//observation[session=$currentSession]">
+                    <xsl:sort select="begin" data-type="text"/>
                     <xsl:apply-templates select="."/>
                 </xsl:for-each>
                 
@@ -375,12 +347,16 @@ div.date div {
         </div>
     </xsl:template>
     
-    <xsl:template match="observation">        
+    <xsl:template match="observation">
         <xsl:text disable-output-escaping="yes">&lt;a name="observation</xsl:text>
         <xsl:value-of select="@id"/>
-        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>            
-        <div class="observation">          
+        <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
+        <div class="observation">
+            <xsl:variable name="idTarget" select="target"/>
+            <xsl:variable name="currentTarget" select="//targets/target[@id=$idTarget]"/>
+            
             <div class="date">
+                
                 <div>
                     <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.date.begin</xsl:with-param></xsl:call-template></span>
                     <span><xsl:value-of select="begin"/></span>
@@ -390,14 +366,12 @@ div.date div {
                     <span><xsl:value-of select="end"/></span>
                 </div>
             </div>
-            <xsl:variable name="idTarget" select="target"/>
-            <xsl:variable name="currentTarget" select="//targets/target[@id=$idTarget]"/>            
             <xsl:apply-templates select="$currentTarget"/>
-           
+            
             <xsl:if test="count(site) = 1">
                 <div class="site">
                     <xsl:variable name="idSite" select="site"/>
-                    <xsl:variable name="currentSite" select="//sites/site[@id=$idSite]"/>   
+                    <xsl:variable name="currentSite" select="//sites/site[@id=$idSite]"/>
                     <span><xsl:call-template name="language-text"><xsl:with-param name="text">observation.site</xsl:with-param></xsl:call-template></span>
                     <span>
                         <xsl:text disable-output-escaping="yes">&lt;a href="#site</xsl:text>
@@ -431,7 +405,7 @@ div.date div {
                     </span>
                     <span>
                         <xsl:variable name="idImager" select="imager"/>
-                        <xsl:variable name="currentImager" select="//imagers/imager[@id=$idImager]"/>  
+                        <xsl:variable name="currentImager" select="//imagers/imager[@id=$idImager]"/>
                         <xsl:text disable-output-escaping="yes">&lt;a href="#imager</xsl:text>
                         <xsl:value-of select="$idImager"/>
                         <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
@@ -484,23 +458,8 @@ div.date div {
                 <h4>
                     <xsl:choose>
                         <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
-                                <xsl:variable name="objectName"  select="name"/>
-                                <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
-                                <!--
-                                 <xsl:choose>
-                                <xsl:when test="name='SUN'">Sun</xsl:when>
-                                <xsl:when test="name='MERCURY'">Mercury</xsl:when>
-                                <xsl:when test="name='VENUS'">Venus</xsl:when>
-                                <xsl:when test="name='EARTH'">Earth</xsl:when>
-                                <xsl:when test="name='MOON'">Moon</xsl:when>
-                                <xsl:when test="name='MARS'">Mars</xsl:when>
-                                <xsl:when test="name='JUPITER'">Jupiter</xsl:when>
-                                <xsl:when test="name='SATURN'">Saturn</xsl:when>
-                                <xsl:when test="name='URANUS'">Uranus</xsl:when>
-                                <xsl:when test="name='NEPTUNE'">Neptune</xsl:when>
-                                <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-                                </xsl:choose>
-                                -->
+                            <xsl:variable name="objectName"  select="name"/>
+                            <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
                             
                         </xsl:when>
                         <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
@@ -511,27 +470,13 @@ div.date div {
                 
                 <span class="objectype">
                     <xsl:choose>
-                        <xsl:when test="@type='oal:deepSkyGX'">Galaxy</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyGC'">Globular Cluster</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyGN'">Galactic Nebula</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyOC'">Open Cluster</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyPN'">Planetary Nebula</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyQS'">Quasar</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyDS'">Double Star</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyDN'">Dark Nebula</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyAS'">Asterism</xsl:when>
-                        <xsl:when test="@type='oal:deepSkySC'">Star cloud</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyMS'">Multiple star system</xsl:when>
-                        <xsl:when test="@type='oal:deepSkyCG'">Cluster of galaxies</xsl:when>
-                        <xsl:when test="@type='oal:variableStarTargetType'">Variable star</xsl:when>
-                        <xsl:when test="@type='oal:SunTargetType'">Sun</xsl:when>
-                        <xsl:when test="@type='oal:MoonTargetType'">Moon</xsl:when>
-                        <xsl:when test="@type='oal:PlanetTargetType'">Planet</xsl:when>
-                        <xsl:when test="@type='oal:MinorPlanetTargetType'">Minor Planet</xsl:when>
-                        <xsl:when test="@type='oal:CometTargetType'">Comet</xsl:when>
-                        <xsl:when test="@type='oal:UndefinedTargetType'">(other Object)</xsl:when>
-                        <xsl:otherwise>(unknown Type)</xsl:otherwise>
-                    </xsl:choose>
+                        <xsl:when test="@type">
+                            <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="@type"/></xsl:with-param></xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="language-text"><xsl:with-param name="text">type.unkown</xsl:with-param></xsl:call-template>
+                        </xsl:otherwise>
+                    </xsl:choose>                    
                     <xsl:if test="count(constellation)>0"> in <xsl:value-of select="constellation"/></xsl:if>
                 </span>
             </div>
@@ -709,13 +654,13 @@ div.date div {
         <div class="observer">
             <xsl:text disable-output-escaping="yes">&lt;a name="observer</xsl:text>
             <xsl:value-of select="@id"/>
-            <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>            
+            <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <xsl:value-of select="name"/>
             <xsl:text> </xsl:text>
             <xsl:value-of select="surname"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
         </div>
-        <!-- 
+        <!--
              <xsl:if test="count(contact) > 0"> <xsl:call-template name="language-text"><xsl:with-param name="text">observer.contact</xsl:with-param></xsl:call-template><br/>
              <ul>
              <xsl:for-each select="contact">
@@ -888,7 +833,7 @@ div.date div {
                 
                 <xsl:value-of select="focalLength"/>
                 
-                <xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> <xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.focal.length.unit</xsl:with-param></xsl:call-template> 
+                <xsl:if test="count(maxFocalLength)>0">-<xsl:value-of select="maxFocalLength"/></xsl:if> <xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.focal.length.unit</xsl:with-param></xsl:call-template>
                 
             </span>
         </div>
@@ -1053,8 +998,8 @@ div.date div {
     
     <xsl:template match="result">
         <div>
-            <xsl:if test="string-length(description)>0">                
-                <xsl:value-of select="description"/>              
+            <xsl:if test="string-length(description)>0">
+                <xsl:value-of select="description"/>
             </xsl:if>
         </div>
         
@@ -1063,7 +1008,7 @@ div.date div {
             <div>
                 <!-- Print scale of german Deep Sky List -->
                 <span><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.rating</xsl:with-param></xsl:call-template></span>
-                <span> 
+                <span>
                     <xsl:choose>
                         <xsl:when test="contains(./@type,'findingsDeepSkyOCType')">
                             <!-- open starcluster -->
@@ -1104,9 +1049,9 @@ div.date div {
                     </xsl:choose>
                 </span>
             </div>
-            <div> 
+            <div>
                 
-                <ul>     
+                <ul>
                     <xsl:if test="./@stellar='true'">
                         <li><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.stellar</xsl:with-param></xsl:call-template>
                         </li>
@@ -1152,7 +1097,7 @@ div.date div {
                 <xsl:if test="string-length(chartID)>0">
                     <p>
                         <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.aavso.chart</xsl:with-param></xsl:call-template> <xsl:value-of select="chartID"/>
-                        <xsl:if test="./chartID/@nonAAVSOchart='true'"> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.aavso.no.chart</xsl:with-param></xsl:call-template></xsl:if>                       
+                        <xsl:if test="./chartID/@nonAAVSOchart='true'"> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.aavso.no.chart</xsl:with-param></xsl:call-template></xsl:if>
                     </p>
                 </xsl:if>
                 <xsl:if test="count(comparisonStar) > 0">
@@ -1172,8 +1117,8 @@ div.date div {
     
     <xsl:template match="image">
         <xsl:param name="imgFile" select="."/>
-        <div class="image">  
-            <xsl:param name="imgTag" select="concat('img alt=&quot;-IMG-&quot; src=&quot;', $imgFile, '&quot;')"/>                 
+        <div class="image">
+            <xsl:param name="imgTag" select="concat('img alt=&quot;-IMG-&quot; src=&quot;', $imgFile, '&quot;')"/>
             <span><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text></span>
         </div>
         
@@ -1189,10 +1134,10 @@ div.date div {
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$text"/>
-            </xsl:otherwise>    
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <!--    
+    <!--
          <xsl:function name="om:text" as="xs:string" >
          <xsl:param name="input"  as="xs:string"/>
          <xsl:choose>
@@ -1203,11 +1148,11 @@ div.date div {
          </xsl:when>
          <xsl:otherwise>
          <xsl:value-of select="$input"/>
-         </xsl:otherwise>    
+         </xsl:otherwise>
          </xsl:choose>
          </xsl:function>
          
-    --> 
+    -->
     <xsl:output method="html"/>
 </xsl:stylesheet>
 
