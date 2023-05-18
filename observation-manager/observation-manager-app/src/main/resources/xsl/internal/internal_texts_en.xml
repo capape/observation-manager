@@ -11,7 +11,7 @@
     <text ident="eyepieces.list">Eyepieces</text>
     <text ident="lenses.list">Lenses</text>
     <text ident="filters.list">Filters</text>
-    <text ident="imagers.list">imagers</text>
+    <text ident="imagers.list">Imagers</text>
     <text ident="targets.targetlist">Targets</text>
     <text ident="SUN">Sun</text>
     <text ident="MERCURY">Mercury</text>
@@ -50,6 +50,9 @@
     <text ident="session.date.begin">Begin:</text>
     <text ident="session.date.end">End:</text>
     <text ident="session.observations">Observations</text>
+    <text ident="session.weather">Weather:</text>
+    <text ident="session.equipment">Equipment:</text>
+    <text ident="session.equipment">Comments:</text>
 
 
     <text ident="observation.date.begin">Begin:</text>
@@ -124,58 +127,60 @@
 
     <text ident="img.alt.text">-IMG- not redendered</text>
 
+    <text ident="scope.aperture">Aperture:</text>
+    <text ident="scope.focal.length.unit">mm</text>
+    <text ident="scope.focal.length">Focal length:</text>
+    <text ident="scope.light.grasp">Light grasp:</text>
+    <text ident="scope.magnification">Magnification:</text>
     <text ident="scope.optics">Optics: </text>
+    <text ident="scope.true.field.view">True field of view:</text>
     <text ident="scope.type">Type: </text>
     <text ident="scope.vendor">Vendor: </text>
-    <text ident="scope.aperture">Aperture:</text>
-    <text ident="scope.focal.length">Focal length:</text>
-    <text ident="scope.focal.length.unit">mm</text>
-    <text ident="scope.magnification">Magnification:</text>
-    <text ident="scope.true.field.view">True field of view:</text>
-    <text ident="scope.light.grasp">Light grasp:</text>
-    <text ident="lens.eyepiece.zoom">Zoom eyepiece:</text>
-    <text ident="lens.eyepiece">Eyepiece: </text>
-    <text ident="lens.eyepiece.focal.length">Focal length:</text>
     <text ident="lens.eyepiece.focal.length.unit">mm</text>
+    <text ident="lens.eyepiece.focal.length">Focal length:</text>
     <text ident="lens.eyepiece.magnification">Magnification:</text>
     <text ident="lens.eyepiece.true.field.view">True field of view:</text>
-    <text ident="lens.lens">Lens: </text>
+    <text ident="lens.eyepiece.zoom">Zoom eyepiece:</text>
+    <text ident="lens.eyepiece">Eyepiece: </text>
     <text ident="lens.focal.length.factor">Focal length factor:</text>
     <text ident="lens.focal.length.unit">mm</text>
+    <text ident="lens.lens">Lens: </text>
+    <text ident="lens.vendor">Vendor:</text>
     <text ident="imager.camera.ccd">CCD Camera:</text>
     <text ident="imager.camera">Camera:</text>
     <text ident="imager.vendor">Vendor:</text>
     <text ident="imager.pixel">Pixel:</text>
 
     <text ident="filter.filter">Filter:</text>
-    <text ident="filter.filter">Type:</text>
-    <text ident="filter.other">Other</text>
-    <text ident="filter.broadband">Broadband</text>
-    <text ident="filter.narrowband">Narrowband</text>
-    <text ident="filter.OIII">OIII</text>
-    <text ident="filter.solar">Solar</text>
-    <text ident="filter.h-beta">H-Beta</text>
-    <text ident="filter.h-alpha">H-Alpha</text>
-    <text ident="filter.color">Color</text>
-    <text ident="filter.neutral">Neutral</text>
-    <text ident="filter.corrective">Corrective</text>
-    <text ident="filter.unknown">(unkown type)</text>
-    <text ident="filter.farbe">Farbe: </text>
+    <text ident="filter.type">Type:</text>
+  
+    <text ident="filter.type.broadband">Broadband</text>    
+    <text ident="filter.type.color">Color</text>
+    <text ident="filter.type.corrective">Corrective</text>
+    <text ident="filter.type.h-alpha">H-Alpha</text>
+    <text ident="filter.type.h-beta">H-Beta</text>
+    <text ident="filter.type.narrowband">Narrowband</text>
+    <text ident="filter.type.neutral">Neutral</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Other</text>
+    <text ident="filter.type.solar">Solar</text>
+    <text ident="filter.type.unknown">(unkown type)</text>
 
-    <text ident="filter.farbe.lightred">Light red</text>
-    <text ident="filter.farbe.red">Red</text>
-    <text ident="filter.farbe.deepred">Dark red</text>
-    <text ident="filter.farbe.orange">Orange</text>
-    <text ident="filter.farbe.lightyellow">Light yellow</text>
-    <text ident="filter.farbe.deepyellow">Dark yellow</text>
-    <text ident="filter.farbe.yellow">Yellow</text>
-    <text ident="filter.farbe.yellow-green">Yellow/Green</text>
-    <text ident="filter.farbe.lightgreen">Light green</text>
-    <text ident="filter.farbe.green">Green</text>
-    <text ident="filter.farbe.mediumblue">Medium blue</text>
-    <text ident="filter.farbe.paleblue">Pale blue</text>
     <text ident="filter.farbe.blue">Blue</text>
     <text ident="filter.farbe.deepblue">Dark blue</text>
-    <text ident="filter.farbe.violet">Violet</text>
+    <text ident="filter.farbe.deepred">Dark red</text>
+    <text ident="filter.farbe.deepyellow">Dark yellow</text>
+    <text ident="filter.farbe.green">Green</text>
+    <text ident="filter.farbe.lightgreen">Light green</text>
+    <text ident="filter.farbe.lightred">Light red</text>
+    <text ident="filter.farbe.lightyellow">Light yellow</text>
+    <text ident="filter.farbe.mediumblue">Medium blue</text>
+    <text ident="filter.farbe.orange">Orange</text>
+    <text ident="filter.farbe.paleblue">Pale blue</text>
+    <text ident="filter.farbe.red">Red</text>
     <text ident="filter.farbe.unknown">(unknown color)</text>
+    <text ident="filter.farbe.violet">Violet</text>
+    <text ident="filter.farbe.yellow-green">Yellow/Green</text>
+    <text ident="filter.farbe.yellow">Yellow</text>
+    <text ident="filter.farbe">Farbe: </text>
 </texts>

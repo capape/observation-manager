@@ -268,26 +268,7 @@ div.date div {
                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
             
             
-            <!--
-            <div class="date">
-                <div>
-                    <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">session.date.begin</xsl:with-param></xsl:call-template></span>
-                    <span>
-                    <xsl:call-template name="formatDate">
-                        <xsl:with-param name="dateTime" select="begin" />
-                    </xsl:call-template>  
-                    </span>
-                </div>
-                <div>
-                    <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">session.date.end</xsl:with-param></xsl:call-template></span>
-                    <span>
-                     <xsl:call-template name="formatDate">
-                        <xsl:with-param name="dateTime" select="end" />
-                    </xsl:call-template>  
-                    </span>
-                </div>
-            </div>
-            -->
+            
             <!-- Coobservers -->
             <xsl:if test="count(coObserver)>0">
                 <div class="observers">
@@ -315,7 +296,7 @@ div.date div {
                         <!-- Weather -->
                         <xsl:if test="count(weather)>0">
                             <li>
-                                <span>Weather:</span>
+                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">session.weather</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="weather"/></span>
                             </li>
                         </xsl:if>
@@ -324,7 +305,7 @@ div.date div {
                         <!-- Equipment -->
                         <xsl:if test="count(equipment)>0">
                             <li>
-                                <span>Equipment:</span>
+                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">session.equipment</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="equipment"/></span>
                             </li>
                         </xsl:if>
@@ -333,7 +314,7 @@ div.date div {
                         <!-- Comments -->
                         <xsl:if test="count(comments)>0">
                             <li>
-                                <span valign="top">Comments:</span>
+                                <span valign="top"><xsl:call-template name="language-text"><xsl:with-param name="text">session.comments</xsl:with-param></xsl:call-template></span>
                                 <span valign="top"><xsl:value-of select="comments"/></span>
                             </li>
                         </xsl:if>
@@ -611,9 +592,12 @@ div.date div {
                         <div>
                             <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.origin.observer</xsl:with-param></xsl:call-template></span>
                             <span>
-                                <xsl:value-of select="key('observerKey', observer)/surname"/>,
+                                <xsl:variable name="idObserver" select="observer"/>
+                                <xsl:variable name="currentObserver" select="//observers/observer[@id=$idObserver]"/>
+                                
+                                <xsl:value-of select="$currentObserver/surname"/>,
                                 <xsl:text/>
-                                <xsl:value-of select="key('observerKey', observer)/name"/>
+                                <xsl:value-of select="$currentObserver/name"/>
                             </span>
                         </div>
                     </xsl:if>
@@ -969,17 +953,17 @@ div.date div {
                 <span><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:choose>
-                        <xsl:when test="type='other'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.other</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='broad band'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.broadband</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='narrow band'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.narrowband</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='O-III'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.OIII</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='Solar'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.solar</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='H-beta'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.h-beta</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='H-alpha'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.h-alpha</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='color'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.color</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='neutral'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.neutral</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:when test="type='corrective'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.corrective</xsl:with-param></xsl:call-template></xsl:when>
-                        <xsl:otherwise><xsl:call-template name="language-text"><xsl:with-param name="text">filter.unknown</xsl:with-param></xsl:call-template></xsl:otherwise>
+                        <xsl:when test="type='other'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.other</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='broad band'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.broadband</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='narrow band'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.narrowband</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='O-III'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.OIII</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='Solar'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.solar</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='H-beta'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.h-beta</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='H-alpha'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.type.h-alpha</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='color'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.color</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='neutral'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.neutral</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:when test="type='corrective'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.corrective</xsl:with-param></xsl:call-template></xsl:when>
+                        <xsl:otherwise><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.unknown</xsl:with-param></xsl:call-template></xsl:otherwise>
                     </xsl:choose>
                 </span>
             </div>
