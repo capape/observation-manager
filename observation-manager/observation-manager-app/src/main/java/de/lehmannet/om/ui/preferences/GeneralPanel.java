@@ -82,10 +82,10 @@ public class GeneralPanel extends PreferencesPanel {
         GridBagConstraints constraints = new GridBagConstraints();
         this.setLayout(gridbag);
 
-        addLoadXmlAtStartupPreference(gridbag, constraints);        
+        addLoadXmlAtStartupPreference(gridbag, constraints);
         addCheckForUpdatesPreference(gridbag, constraints);
         addUILanguagePreference(gridbag, constraints);
-        addXslTemplatePreference(gridbag, constraints);        
+        addXslTemplatePreference(gridbag, constraints);
         addResetWindowsSizePreference(gridbag, constraints);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 100, 40);
@@ -212,7 +212,7 @@ public class GeneralPanel extends PreferencesPanel {
         // Get all directories and add them to the JComboBox
         String[] directories = path.list((dir, name) -> {
             File file = new File(dir.getAbsolutePath() + File.separator + name);
-            return file.isDirectory(); 
+            return file.isDirectory();
         });
         if (directories == null) {
             this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE));

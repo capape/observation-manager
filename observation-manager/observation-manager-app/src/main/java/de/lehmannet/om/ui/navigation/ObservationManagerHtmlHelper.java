@@ -127,16 +127,11 @@ public class ObservationManagerHtmlHelper {
 
                 StreamSource xslSource;
                 // Get XSL Template
-                if (xsl == null) { // Cannot load XSL file. Error message was
-                                   // already given
-
-                    /*
-                     * returnValue = Worker.RETURN_TYPE_ERROR; message = textManager.getString("error.transformation");
-                     * return;
-                     */
+                // Cannot load XSL file. Error message was already given
+                if (xsl == null) {
 
                     URL resource = ObservationManagerHtmlHelper.class.getClassLoader()
-                            .getResource("xsl/oal2html/transform_en.xsl");
+                            .getResource("xsl/internal/transform_en.xsl");
                     xslSource = new StreamSource(resource.toExternalForm());
 
                 } else {
@@ -191,11 +186,7 @@ public class ObservationManagerHtmlHelper {
 
         // XML File needs to be saved, as otherwise we don't get the path
         String[] files = this.model.getAllOpenedFiles();
-        if ((files == null) || (files.length == 0)) { // There is data
-                                                      // (otherwise we
-                                                      // wouldn't have come
-                                                      // here), but data's
-                                                      // not saved
+        if ((files == null) || (files.length == 0)) {
             this.uiHelper.showError(textManager.getString("error.noXMLFileOpen"));
             return;
         }
