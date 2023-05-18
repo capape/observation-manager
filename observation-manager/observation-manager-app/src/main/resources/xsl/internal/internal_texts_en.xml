@@ -183,4 +183,7 @@
     <text ident="filter.farbe.yellow-green">Yellow/Green</text>
     <text ident="filter.farbe.yellow">Yellow</text>
     <text ident="filter.farbe">Farbe: </text>
+
+    <text ident="filter.wratten">Wratten value: </text>
+    <text ident="filter.schott">Schott value: </text>
 </texts>

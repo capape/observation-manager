@@ -129,6 +129,12 @@ div.date div {
   display: inline-block;
 }
 
+.observers {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+
 ]]>
                 </style>
             </head>
@@ -296,33 +302,32 @@ div.date div {
             
             <xsl:if test="count(weather)>0 or count(equipment)>0 or count(comments)>0">
                 <div class="sessionInfo">
-                    <ul>
+                    
                         <!-- Weather -->
                         <xsl:if test="count(weather)>0">
-                            <li>
+                            <div>
                                 <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.weather</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="weather"/></span>
-                            </li>
+                            </div>
                         </xsl:if>
                         
                         
                         <!-- Equipment -->
                         <xsl:if test="count(equipment)>0">
-                            <li>
+                            <div>
                                 <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.equipment</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="equipment"/></span>
-                            </li>
+                            </div>
                         </xsl:if>
                         
                         
                         <!-- Comments -->
                         <xsl:if test="count(comments)>0">
-                            <li>
+                            <div>
                                 <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.comments</xsl:with-param></xsl:call-template></span>
-                                <span ><xsl:value-of select="comments"/></span>
-                            </li>
-                        </xsl:if>
-                    </ul>
+                                <div class="text"><xsl:value-of select="comments"/></div>
+                            </div>
+                        </xsl:if>                 
                 </div>
             </xsl:if>
             <h3><xsl:call-template name="language-text"><xsl:with-param name="text">session.observations</xsl:with-param></xsl:call-template></h3>
@@ -577,7 +582,7 @@ div.date div {
                         <!-- TODO -->
                         <xsl:for-each select="surfBr/following-sibling::*">
                             <div class="brigthness">
-                                <span>
+                                <span class="label">
                                     <xsl:value-of select="local-name()"/>:</span>
                                 <span>
                                     <xsl:value-of select="."/>
@@ -998,7 +1003,7 @@ div.date div {
             </xsl:if>
             <xsl:if test="count(wratten)>0">
                 <div>
-                    <span class="label">Wratten value:</span>
+                    <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.wratten</xsl:with-param></xsl:call-template></span>
                     <span>
                         <xsl:value-of select="wratten"/>
                     </span>
@@ -1006,7 +1011,7 @@ div.date div {
             </xsl:if>
             <xsl:if test="count(schott)>0">
                 <div>
-                    <span class="label">Schott value:</span>
+                    <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.schott</xsl:with-param></xsl:call-template></span>
                     <span>
                         <xsl:value-of select="schott"/>
                     </span>
@@ -1073,36 +1078,38 @@ div.date div {
             </div>
             <div>
                 
-                <ul>
+                
                     <xsl:if test="./@stellar='true'">
-                        <li><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.stellar</xsl:with-param></xsl:call-template>
-                        </li>
+                        <div><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.stellar</xsl:with-param></xsl:call-template>
+                        </div>
                     </xsl:if>
                     
                     
                     <xsl:if test="./@resolved='true'">
-                        <li><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.resolved</xsl:with-param></xsl:call-template>
-                        </li>
+                        <div><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.resolved</xsl:with-param></xsl:call-template>
+                        </div>
                     </xsl:if>
                     
                     
                     <xsl:if test="./@mottled='true'">
-                        <li> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.mottled</xsl:with-param></xsl:call-template>
-                        </li>
+                        <div> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.mottled</xsl:with-param></xsl:call-template>
+                        </div>
                     </xsl:if>
                     
                     
                     
                     <xsl:if test="count(smallDiameter)>0 and count(largeDiameter)>0">
-                        <li><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.apparent.size</xsl:with-param></xsl:call-template> <xsl:call-template name="angle">
+                    <div>
+                        <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.apparent.size</xsl:with-param></xsl:call-template> <xsl:call-template name="angle">
                                 <xsl:with-param name="angle" select="smallDiameter"/>
                             </xsl:call-template>
                             &#215;<xsl:call-template name="angle">
                                 <xsl:with-param name="angle" select="largeDiameter"/>
                             </xsl:call-template>
-                        </li>
+                        </span>
+                    </div>
                     </xsl:if>
-                </ul>
+               
             </div>
         </xsl:if>
         
