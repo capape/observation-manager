@@ -1,10 +1,10 @@
 <texts>
     <text ident="document.title">Observations</text>
     <text ident="h1.observations">Observations</text>
-    <text ident="summary.sessions">Sessions</text>
-    <text ident="summary.observations">Observations</text>
+    <text ident="summary.sessions">Sessions:</text>
+    <text ident="summary.observations">Observations:</text>
 
-    <text ident="targets.list">Targets</text>
+    <text ident="targets.list">Targets:</text>
     <text ident="session.sessions.list">Sessions</text>
     <text ident="sites.list">Sites</text>
     <text ident="scopes.list">Scopes</text>
@@ -115,7 +115,7 @@
 
     <text ident="result.visual.deep.sky.stellar">Apperas stellar</text>
     <text ident="result.visual.deep.sky.resolved">Appears resolved</text>
-    <text ident="result.visual.deep.sky.motteld">Appears mottled</text>
+    <text ident="result.visual.deep.sky.mottled">Appears mottled</text>
 
     <text ident="result.visual.deep.sky.apparent.size">Apparent size:</text>
     <text ident="result.visual.deep.sky.variable.visual.magnitude">Magnitude:</text>

@@ -123,7 +123,11 @@ div.date div {
 
 }
                 
-
+.label {  
+  font-weight: bold;
+  min-width: 150px;
+  display: inline-block;
+}
 
 ]]>
                 </style>
@@ -133,9 +137,9 @@ div.date div {
                 
                 <div class="summary">
                     
-                    <div><a href="#sessions"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//sessions/session)"/>)</span></a></div>
-                    <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//observation)"/>)</span></div>
-                    <a href="#targetlist"><xsl:call-template name="language-text"><xsl:with-param name="text">targets.list</xsl:with-param></xsl:call-template> (<xsl:value-of select="count(//targets/target)"/>)</a>
+                    <div><a href="#sessions"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template> </span></a><xsl:value-of select="count(//sessions/session)"/></div>                    
+                    <div><a href="#targetlist"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">targets.list</xsl:with-param></xsl:call-template></span></a> <xsl:value-of select="count(//targets/target)"/></div>
+                    <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template></span> <xsl:value-of select="count(//observation)"/></div>
                     <div class="observers">
                         <xsl:for-each select="//observers/observer">
                             <xsl:sort select="surname"/>
@@ -296,7 +300,7 @@ div.date div {
                         <!-- Weather -->
                         <xsl:if test="count(weather)>0">
                             <li>
-                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">session.weather</xsl:with-param></xsl:call-template></span>
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.weather</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="weather"/></span>
                             </li>
                         </xsl:if>
@@ -305,7 +309,7 @@ div.date div {
                         <!-- Equipment -->
                         <xsl:if test="count(equipment)>0">
                             <li>
-                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">session.equipment</xsl:with-param></xsl:call-template></span>
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.equipment</xsl:with-param></xsl:call-template></span>
                                 <span><xsl:value-of select="equipment"/></span>
                             </li>
                         </xsl:if>
@@ -314,8 +318,8 @@ div.date div {
                         <!-- Comments -->
                         <xsl:if test="count(comments)>0">
                             <li>
-                                <span valign="top"><xsl:call-template name="language-text"><xsl:with-param name="text">session.comments</xsl:with-param></xsl:call-template></span>
-                                <span valign="top"><xsl:value-of select="comments"/></span>
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">session.comments</xsl:with-param></xsl:call-template></span>
+                                <span ><xsl:value-of select="comments"/></span>
                             </li>
                         </xsl:if>
                     </ul>
@@ -387,7 +391,7 @@ div.date div {
                 <div class="site">
                     <xsl:variable name="idSite" select="site"/>
                     <xsl:variable name="currentSite" select="//sites/site[@id=$idSite]"/>
-                    <span><xsl:call-template name="language-text"><xsl:with-param name="text">observation.site</xsl:with-param></xsl:call-template></span>
+                    <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.site</xsl:with-param></xsl:call-template></span>
                     <span>
                         <xsl:text disable-output-escaping="yes">&lt;a href="#site</xsl:text>
                         <xsl:value-of select="$idSite"/>
@@ -399,10 +403,10 @@ div.date div {
             </xsl:if>
             
             <xsl:if test="count(faintestStar) = 1">
-                <div><span><xsl:call-template name="language-text"><xsl:with-param name="text">observation.faintest.star</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="faintestStar"/> mag</span></div>
+                <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.faintest.star</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="faintestStar"/> mag</span></div>
             </xsl:if>
             <xsl:if test="count(seeing) = 1">
-                <div><span> <xsl:call-template name="language-text"><xsl:with-param name="text">observation.seeing</xsl:with-param></xsl:call-template>S</span><span><xsl:value-of select="seeing"/>
+                <div><span class="label"> <xsl:call-template name="language-text"><xsl:with-param name="text">observation.seeing</xsl:with-param></xsl:call-template></span><span><xsl:value-of select="seeing"/>
                         <xsl:choose>
                             <xsl:when test="seeing = 1"> <xsl:call-template name="language-text"><xsl:with-param name="text">observation.seeing.very.good</xsl:with-param></xsl:call-template></xsl:when>
                             <xsl:when test="seeing = 2"> <xsl:call-template name="language-text"><xsl:with-param name="text">observation.seeing.good</xsl:with-param></xsl:call-template></xsl:when>
@@ -415,7 +419,7 @@ div.date div {
             </xsl:if>
             <xsl:if test="count(imager) = 1">
                 <div>
-                    <span>
+                    <span class="label">
                         <xsl:call-template name="language-text"><xsl:with-param name="text">observation.camera</xsl:with-param></xsl:call-template>
                     </span>
                     <span>
@@ -430,7 +434,7 @@ div.date div {
                 </div>
             </xsl:if>
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">observation.visual.impresion</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.visual.impresion</xsl:with-param></xsl:call-template></span>
                 <div>
                     <xsl:for-each select="result">
                         <xsl:apply-templates select="."/>
@@ -498,7 +502,7 @@ div.date div {
             <div class="infoTarget">
                 <xsl:if test="count(alias)>0">
                     <div class="targetAlias">
-                        <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.alias</xsl:with-param></xsl:call-template> </span>
+                        <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">target.alias</xsl:with-param></xsl:call-template> </span>
                         <ul>
                             <xsl:for-each select="alias">
                                 <li><xsl:value-of select="."/></li>
@@ -511,7 +515,7 @@ div.date div {
                 <div class="position">
                     <xsl:if test="boolean(position/ra)">
                         <div>
-                            <span><xsl:call-template name="language-text"><xsl:with-param name="text">position.ra</xsl:with-param></xsl:call-template></span>
+                            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">position.ra</xsl:with-param></xsl:call-template></span>
                             <span>
                                 <xsl:call-template name="formatHHMM">
                                     <xsl:with-param name="node" select="position/ra"/>
@@ -523,7 +527,7 @@ div.date div {
                     
                     <xsl:if test="boolean(position/dec)">
                         <div>
-                            <span><xsl:call-template name="language-text"><xsl:with-param name="text">position.dec</xsl:with-param></xsl:call-template></span>
+                            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">position.dec</xsl:with-param></xsl:call-template></span>
                             <span>
                                 <xsl:call-template name="formatDDMM">
                                     <xsl:with-param name="node" select="position/dec"/>
@@ -539,7 +543,7 @@ div.date div {
                         <!-- Deep Sky -->
                         <xsl:if test="boolean(smallDiameter) and boolean(largeDiameter)">
                             <div class="deepksy">
-                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.size</xsl:with-param></xsl:call-template></span>
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.size</xsl:with-param></xsl:call-template></span>
                                 <span>
                                     <xsl:call-template name="angle">
                                         <xsl:with-param name="angle" select="smallDiameter"/>
@@ -553,8 +557,8 @@ div.date div {
                         
                         
                         <xsl:if test="boolean(visMag)">
-                            <div class="magnitude">
-                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.magnitude</xsl:with-param></xsl:call-template></span>
+                            <div class="magnitude ">
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.magnitude</xsl:with-param></xsl:call-template></span>
                                 <span>
                                     <xsl:value-of select="visMag"/> <xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.magnitude.mag</xsl:with-param></xsl:call-template></span>
                             </div>
@@ -563,7 +567,7 @@ div.date div {
                         
                         <xsl:if test="boolean(surfBr)">
                             <div class="brightness">
-                                <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.brightness</xsl:with-param></xsl:call-template></span>
+                                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.brightness</xsl:with-param></xsl:call-template></span>
                                 <span>
                                     <xsl:value-of select="surfBr"/> <xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.brightness.surfbr</xsl:with-param></xsl:call-template></span>
                             </div>
@@ -590,7 +594,7 @@ div.date div {
                     
                     <xsl:if test="boolean(observer)">
                         <div>
-                            <span><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.origin.observer</xsl:with-param></xsl:call-template></span>
+                            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.origin.observer</xsl:with-param></xsl:call-template></span>
                             <span>
                                 <xsl:variable name="idObserver" select="observer"/>
                                 <xsl:variable name="currentObserver" select="//observers/observer[@id=$idObserver]"/>
@@ -605,7 +609,7 @@ div.date div {
                     
                     <xsl:if test="boolean(datasource)">
                         <div>
-                            <span> <xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.origin.source</xsl:with-param></xsl:call-template></span>
+                            <span class="label"> <xsl:call-template name="language-text"><xsl:with-param name="text">target.ds.origin.source</xsl:with-param></xsl:call-template></span>
                             <span>
                                 <xsl:value-of select="datasource"/>
                             </span>
@@ -697,7 +701,7 @@ div.date div {
             <xsl:text disable-output-escaping="yes">&lt;a name="site</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <b><xsl:call-template name="language-text"><xsl:with-param name="text">site.site</xsl:with-param></xsl:call-template></b>
+            <span  class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">site.site</xsl:with-param></xsl:call-template></span>
             <xsl:value-of select="name"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
         </div>
@@ -705,8 +709,8 @@ div.date div {
         
         <div class="site">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">site.longitude</xsl:with-param></xsl:call-template></span>
-                <span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">site.longitude</xsl:with-param></xsl:call-template></span>
+                <span class="label">
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="longitude"/>
                     </xsl:call-template>
@@ -715,7 +719,7 @@ div.date div {
             
             
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">site.latitude</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">site.latitude</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="latitude"/>
@@ -725,7 +729,7 @@ div.date div {
             
             
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">site.timezone</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">site.timezone</xsl:with-param></xsl:call-template></span>
                 <span><xsl:call-template name="language-text"><xsl:with-param name="text">site.ut</xsl:with-param></xsl:call-template><xsl:if test="timezone >= 0">+</xsl:if>
                     <xsl:value-of select="timezone"/> min</span>
             </div>
@@ -739,7 +743,7 @@ div.date div {
             <xsl:text disable-output-escaping="yes">&lt;a name="scope</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <b><xsl:call-template name="language-text"><xsl:with-param name="text">scope.optics</xsl:with-param></xsl:call-template> </b>
+            <span  class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.optics</xsl:with-param></xsl:call-template> </span>
             <xsl:value-of select="model"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
         </div>
@@ -748,7 +752,7 @@ div.date div {
         
         <xsl:if test="count(type)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.type</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.type</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:value-of select="type"/>
                 </span>
@@ -758,7 +762,7 @@ div.date div {
         
         <xsl:if test="count(vendor)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.vendor</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.vendor</xsl:with-param></xsl:call-template> </span>
                 <span>
                     <xsl:value-of select="vendor"/>
                 </span>
@@ -767,7 +771,7 @@ div.date div {
         
         
         <div>
-            <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.aperture</xsl:with-param></xsl:call-template> </span>
+            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.aperture</xsl:with-param></xsl:call-template> </span>
             <span>
                 <xsl:value-of select="aperture"/> mm</span>
         </div>
@@ -775,7 +779,7 @@ div.date div {
         
         <xsl:if test="count(focalLength)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.focal.length</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.focal.length</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:value-of select="focalLength"/> <xsl:call-template name="language-text"><xsl:with-param name="text">scope.focal.length.unit</xsl:with-param></xsl:call-template> </span>
             </div>
@@ -784,7 +788,7 @@ div.date div {
         
         <xsl:if test="count(magnification)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.magnification</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.magnification</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:value-of select="magnification"/> &#215;</span>
             </div>
@@ -795,7 +799,7 @@ div.date div {
         
         <xsl:if test="count(trueField)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.true.field.view</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.true.field.view</xsl:with-param></xsl:call-template> </span>
                 <span>
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="trueField"/>
@@ -807,7 +811,7 @@ div.date div {
         
         <xsl:if test="count(lightGrasp)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">scope.light.grasp</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">scope.light.grasp</xsl:with-param></xsl:call-template> </span>
                 <span>
                     <xsl:value-of select="lightGrasp"/>
                 </span>
@@ -824,13 +828,13 @@ div.date div {
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <xsl:if test="count(maxFocalLength)>0">
                 
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.zoom</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.zoom</xsl:with-param></xsl:call-template> </span>
                 
             </xsl:if>
             
             <xsl:if test="count(maxFocalLength)=0">
                 
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece</xsl:with-param></xsl:call-template>  </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece</xsl:with-param></xsl:call-template>  </span>
                 
             </xsl:if>
             <xsl:value-of select="model"/>
@@ -839,14 +843,14 @@ div.date div {
         
         <xsl:if test="count(vendor)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepice.vendor</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepice.vendor</xsl:with-param></xsl:call-template> </span>
                 <span>
                     <xsl:value-of select="vendor"/>
                 </span>
             </div>
         </xsl:if>
         <div>
-            <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepice.focal.length</xsl:with-param></xsl:call-template> </span>
+            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepice.focal.length</xsl:with-param></xsl:call-template> </span>
             <span>
                 
                 <xsl:value-of select="focalLength"/>
@@ -857,7 +861,7 @@ div.date div {
         </div>
         <xsl:if test="count(apparentFOV)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.true.field.view</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.eyepiece.true.field.view</xsl:with-param></xsl:call-template> </span>
                 <span>
                     <xsl:call-template name="angle">
                         <xsl:with-param name="angle" select="apparentFOV"/>
@@ -880,7 +884,7 @@ div.date div {
             
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             
-            <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.lens</xsl:with-param></xsl:call-template>  </span>
+            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.lens</xsl:with-param></xsl:call-template>  </span>
             
             <xsl:value-of select="model"/>
             
@@ -892,14 +896,14 @@ div.date div {
         <xsl:if test="count(vendor)>0">
             
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.vendor</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.vendor</xsl:with-param></xsl:call-template> </span>
                 <span><xsl:value-of select="vendor"/></span>
             </div>
             
         </xsl:if>
         
         <div>
-            <span><xsl:call-template name="language-text"><xsl:with-param name="text">lens.focal.length.factor</xsl:with-param></xsl:call-template> </span>
+            <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">lens.focal.length.factor</xsl:with-param></xsl:call-template> </span>
             <span><xsl:value-of select="factor"/> <xsl:call-template name="language-text"><xsl:with-param name="text">lens.focal.length.unit</xsl:with-param></xsl:call-template></span>
         </div>
     </xsl:template>
@@ -911,11 +915,11 @@ div.date div {
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             
             <xsl:if test="count(pixelsX)>0">
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">imager.camera.ccd</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">imager.camera.ccd</xsl:with-param></xsl:call-template></span>
             </xsl:if>
             
             <xsl:if test="count(pixelsX)=0">
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">imager.camera</xsl:with-param></xsl:call-template> </span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">imager.camera</xsl:with-param></xsl:call-template> </span>
             </xsl:if>
             
             <xsl:value-of select="model"/>
@@ -923,14 +927,14 @@ div.date div {
         </div>
         <xsl:if test="count(vendor)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">imager.vendor</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">imager.vendor</xsl:with-param></xsl:call-template></span>
                 <span><xsl:value-of select="vendor"/></span>
             </div>
         </xsl:if>
         
         <xsl:if test="count(pixelsX)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">imager.pixel</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">imager.pixel</xsl:with-param></xsl:call-template></span>
                 <span><xsl:value-of select="pixelsX"/>x<xsl:value-of select="pixelsY"/></span>
             </div>
         </xsl:if>
@@ -941,7 +945,7 @@ div.date div {
             <xsl:text disable-output-escaping="yes">&lt;a name="filter</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-            <b> <xsl:call-template name="language-text"><xsl:with-param name="text">filter.filter</xsl:with-param></xsl:call-template></b>
+            <span  class="label"> <xsl:call-template name="language-text"><xsl:with-param name="text">filter.filter</xsl:with-param></xsl:call-template></span>
             <xsl:value-of select="model"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
         </div>
@@ -950,7 +954,7 @@ div.date div {
         
         <xsl:if test="count(type)>0">
             <div>
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:choose>
                         <xsl:when test="type='other'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.type.other</xsl:with-param></xsl:call-template></xsl:when>
@@ -969,7 +973,7 @@ div.date div {
             </div>
             <xsl:if test="count(color)>0">
                 <div>
-                    <span><xsl:call-template name="language-text"><xsl:with-param name="text">filter.farbe</xsl:with-param></xsl:call-template></span>
+                    <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.farbe</xsl:with-param></xsl:call-template></span>
                     <span>
                         <xsl:choose>
                             <xsl:when test="color='light red'"><xsl:call-template name="language-text"><xsl:with-param name="text">filter.farbe.lightred</xsl:with-param></xsl:call-template></xsl:when>
@@ -994,7 +998,7 @@ div.date div {
             </xsl:if>
             <xsl:if test="count(wratten)>0">
                 <div>
-                    <span>Wratten value:</span>
+                    <span class="label">Wratten value:</span>
                     <span>
                         <xsl:value-of select="wratten"/>
                     </span>
@@ -1002,7 +1006,7 @@ div.date div {
             </xsl:if>
             <xsl:if test="count(schott)>0">
                 <div>
-                    <span>Schott value:</span>
+                    <span class="label">Schott value:</span>
                     <span>
                         <xsl:value-of select="schott"/>
                     </span>
@@ -1025,7 +1029,7 @@ div.date div {
         <xsl:if test="contains(./@type,'findingsDeepSkyType') or contains(./@type,'findingsDeepSkyOCType') or contains(./@type,'findingsDeepSkyDSType')">
             <div>
                 <!-- Print scale of german Deep Sky List -->
-                <span><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.rating</xsl:with-param></xsl:call-template></span>
+                <span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.rating</xsl:with-param></xsl:call-template></span>
                 <span>
                     <xsl:choose>
                         <xsl:when test="contains(./@type,'findingsDeepSkyOCType')">
@@ -1105,18 +1109,18 @@ div.date div {
         <xsl:if test="contains(./@type,'findingsVariableStarType')">
             <div>
                 <xsl:if test="string-length(visMag)>0">
-                    <p>
+                    <div>
                         <xsl:if test="./visMag/@fainterThan='true'"><xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.visual.magnitude.fainter.than</xsl:with-param></xsl:call-template></xsl:if>
                         <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.visual.magnitude</xsl:with-param></xsl:call-template> <xsl:value-of select="visMag"/>
                         <xsl:if test="./visMag/@uncertain='true'"> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain</xsl:with-param></xsl:call-template></xsl:if>
                         
-                    </p>
+                    </div>
                 </xsl:if>
                 <xsl:if test="string-length(chartID)>0">
-                    <p>
+                    <div>
                         <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.aavso.chart</xsl:with-param></xsl:call-template> <xsl:value-of select="chartID"/>
                         <xsl:if test="./chartID/@nonAAVSOchart='true'"> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.aavso.no.chart</xsl:with-param></xsl:call-template></xsl:if>
-                    </p>
+                    </div>
                 </xsl:if>
                 <xsl:if test="count(comparisonStar) > 0">
                     <div> <xsl:call-template name="language-text"><xsl:with-param name="text">result.visual.deep.sky.variable.comparison.stars</xsl:with-param></xsl:call-template><br/>
