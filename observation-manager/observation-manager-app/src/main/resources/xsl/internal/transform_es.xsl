@@ -4,7 +4,8 @@
                 xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
    
     
-    <xsl:param name="LANGUAGE_TEXTS_CURRENT" select="document('./internal_texts_en.xml')/texts"/>
+    <xsl:param name="LANGUAGE_TEXTS_CURRENT" select="document('./internal_texts_es.xml')/texts"/>
     <xsl:include href="transform_to_include.xsl"/>
     
 </xsl:stylesheet>
+

@@ -130,8 +130,14 @@ public class ObservationManagerHtmlHelper {
                 // Cannot load XSL file. Error message was already given
                 if (xsl == null) {
 
-                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader()
-                            .getResource("xsl/internal/transform_en.xsl");
+                    String lang = Locale.getDefault().getLanguage();
+                    String resourceName = "xsl/internal/transform_" + lang + ".xsl";
+
+                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
+                    if (resource == null) {
+                        resource = ObservationManagerHtmlHelper.class.getClassLoader()
+                                .getResource("xsl/internal/transform_en.xsl");
+                    }
                     xslSource = new StreamSource(resource.toExternalForm());
 
                 } else {
