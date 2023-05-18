@@ -5,6 +5,12 @@
     <text ident="summary.observations">Observations</text>
 
     <text ident="session.sessions.list">Sesions List</text>
+    <text ident="sites.list">Sites</text>
+    <text ident="scopes.list">Scopes</text>
+    <text ident="eyepieces.list">Eyepieces</text>
+    <text ident="lenses.list">Lenses</text>
+    <text ident="filters.list">Filters</text>
+    <text ident="imagers.list">imagers</text>
     <text ident="targets.targetlist">Targets</text>
     <text ident="planet.SUN">Sun</text>
     <text ident="planet.MERCURY">Mercury</text>
