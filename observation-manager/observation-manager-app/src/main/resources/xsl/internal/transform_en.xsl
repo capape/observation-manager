@@ -158,7 +158,14 @@ div.date div {
                                     <xsl:text disable-output-escaping="yes">&lt;a href="#session</xsl:text>
                                     <xsl:value-of select="@id"/>
                                     <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                                    <span><xsl:value-of select="begin"/> - <xsl:value-of select="end"/></span>
+                                    <span>
+                                     <xsl:call-template name="formatDate">
+                                        <xsl:with-param name="dateTime" select="begin" />
+                                    </xsl:call-template>  - 
+                                     <xsl:call-template name="formatDate">
+                                        <xsl:with-param name="dateTime" select="end" />
+                                    </xsl:call-template>
+                                    </span>
                                     <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                                 </div>
                             </li>
@@ -198,7 +205,7 @@ div.date div {
                         <xsl:sort select="model"/>
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
-
+                    
                     <a name="filters"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">filters.list</xsl:with-param></xsl:call-template></h2>
                     <xsl:for-each select="//filters/filter">
@@ -250,23 +257,37 @@ div.date div {
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
             <span class="date">
-                <xsl:value-of select="begin"/>
+                <xsl:call-template name="formatDate">
+                    <xsl:with-param name="dateTime" select="begin" />
+                </xsl:call-template>
+                -
+                <xsl:call-template name="formatDate">
+                        <xsl:with-param name="dateTime" select="end" />
+                </xsl:call-template>                  
                 <xsl:value-of select="session"/>
                 <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
             
             
-            
+            <!--
             <div class="date">
                 <div>
                     <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">session.date.begin</xsl:with-param></xsl:call-template></span>
-                    <span><xsl:value-of select="begin"/></span>
+                    <span>
+                    <xsl:call-template name="formatDate">
+                        <xsl:with-param name="dateTime" select="begin" />
+                    </xsl:call-template>  
+                    </span>
                 </div>
                 <div>
                     <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">session.date.end</xsl:with-param></xsl:call-template></span>
-                    <span><xsl:value-of select="end"/></span>
+                    <span>
+                     <xsl:call-template name="formatDate">
+                        <xsl:with-param name="dateTime" select="end" />
+                    </xsl:call-template>  
+                    </span>
                 </div>
             </div>
-            
+            -->
             <!-- Coobservers -->
             <xsl:if test="count(coObserver)>0">
                 <div class="observers">
@@ -331,7 +352,12 @@ div.date div {
                             <xsl:value-of select="@id"/>
                             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
                             <span><xsl:text><xsl:value-of select="$currentTarget/name"/></xsl:text></span>
-                            <span><xsl:text><xsl:value-of select="begin"/></xsl:text></span>
+                            <span>
+                            <xsl:text>
+                                <xsl:call-template name="formatDate">
+                                        <xsl:with-param name="dateTime" select="begin" />
+                                </xsl:call-template>
+                            </xsl:text></span>
                             <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                         </div>
                     </li>
@@ -359,11 +385,19 @@ div.date div {
                 
                 <div>
                     <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.date.begin</xsl:with-param></xsl:call-template></span>
-                    <span><xsl:value-of select="begin"/></span>
+                    <span> 
+                        <xsl:call-template name="formatDate">
+                            <xsl:with-param name="dateTime" select="begin" />
+                        </xsl:call-template>
+                    </span>
                 </div>
                 <div>
                     <span class="datelabel"><xsl:call-template name="language-text"><xsl:with-param name="text">observation.date.end</xsl:with-param></xsl:call-template></span>
-                    <span><xsl:value-of select="end"/></span>
+                    <span> 
+                        <xsl:call-template name="formatDate">
+                            <xsl:with-param name="dateTime" select="end" />
+                        </xsl:call-template>
+                    </span>
                 </div>
             </div>
             <xsl:apply-templates select="$currentTarget"/>
@@ -1136,23 +1170,21 @@ div.date div {
                 <xsl:value-of select="$text"/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
-    <!--
-         <xsl:function name="om:text" as="xs:string" >
-         <xsl:param name="input"  as="xs:string"/>
-         <xsl:choose>
-         <xsl:when
-         test="$LANGUAGE_TEXTS_CURRENT/text[@ident = $input]">
-         <xsl:value-of
-         select="$LANGUAGE_TEXTS_CURRENT/text[@ident = $input]"/>
-         </xsl:when>
-         <xsl:otherwise>
-         <xsl:value-of select="$input"/>
-         </xsl:otherwise>
-         </xsl:choose>
-         </xsl:function>
-         
-    -->
+    </xsl:template>    
     <xsl:output method="html"/>
+    
+    
+    <xsl:template name="formatDate">
+        <xsl:param name="dateTime" />
+        <xsl:variable name="date" select="substring-before($dateTime, 'T')" />
+        <xsl:variable name="year" select="substring-before($date, '-')" />
+        <xsl:variable name="month" select="substring-before(substring-after($date, '-'), '-')" />
+        <xsl:variable name="day" select="substring-after(substring-after($date, '-'), '-')" />
+        <xsl:variable name="timez" select="substring-after($dateTime, 'T')" />
+        <xsl:variable name="time" select="substring-before($timez, 'Z')" />
+        <xsl:value-of select="concat($year, '-', $month, '-', $day, ' ',$time, ' UTC')" />
+    </xsl:template>
+    
+    
 </xsl:stylesheet>
 

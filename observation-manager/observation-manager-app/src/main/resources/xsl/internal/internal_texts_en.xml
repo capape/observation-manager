@@ -42,9 +42,10 @@
     <text ident="oal:MoonTargetType">Moon</text>
     <text ident="oal:PlanetTargetType">Planet</text>
     <text ident="oal:SunTargetType">Sun</text>
-    <text ident="oal:UndefinedTargetType">(other Object) </text>
+    <text ident="oal:UndefinedTargetType">(other Object)</text>
     <text ident="oal:variableStarTargetType">Variable star</text>
     <text ident="type.unknown">(unkown Type) </text>
+    <text ident="oal:observationTargetType">(other Object)</text>
 
     <text ident="session.date.begin">Begin:</text>
     <text ident="session.date.end">End:</text>
