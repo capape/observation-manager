@@ -29,7 +29,6 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
-import de.lehmannet.om.util.ConfigLoader;
 
 public class GeneralPanel extends PreferencesPanel {
 
@@ -68,21 +67,9 @@ public class GeneralPanel extends PreferencesPanel {
 
         // Load last opened XML file on startup
         this.setConfig(ConfigKey.CONFIG_OPENONSTARTUP, String.valueOf(this.loadLastFile.isSelected()));
-
-        // ------------------
-
-        // Load last opened XML file on startup
         this.setConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP, String.valueOf(this.checkForUpdates.isSelected()));
-
-        // ------------------
-
-        // Set UI Language
         this.setConfig(ConfigKey.CONFIG_UILANGUAGE, String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
         this.om.reloadLanguage();
-
-        // ------------------
-
-        // Set default catalog
         if (this.xslTemplate.getSelectedItem() != null) {
             this.setConfig(ConfigKey.CONFIG_XSL_TEMPLATE, String.valueOf(this.xslTemplate.getSelectedItem()));
         }
@@ -95,84 +82,21 @@ public class GeneralPanel extends PreferencesPanel {
         GridBagConstraints constraints = new GridBagConstraints();
         this.setLayout(gridbag);
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 15);
-        constraints.anchor = GridBagConstraints.WEST;
-        OMLabel loadLastXMLLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.loadLastXML"), true);
-        loadLastXMLLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
-        gridbag.setConstraints(loadLastXMLLabel, constraints);
-        this.add(loadLastXMLLabel);
+        addLoadXmlAtStartupPreference(gridbag, constraints);
+        addCheckForUpdatesPreference(gridbag, constraints);
+        addUILanguagePreference(gridbag, constraints);
+        addXslTemplatePreference(gridbag, constraints);
+        addResetWindowsSizePreference(gridbag, constraints);
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.WEST;
-        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
-        this.loadLastFile = new JCheckBox();
-        this.loadLastFile
-                .setSelected(Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_OPENONSTARTUP).orElse("false")));
-        this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
-        gridbag.setConstraints(this.loadLastFile, constraints);
-        this.add(this.loadLastFile);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 100, 40);
+        constraints.fill = GridBagConstraints.BOTH;
+        JLabel Lfill = new JLabel("");
+        gridbag.setConstraints(Lfill, constraints);
+        this.add(Lfill);
 
-        // ------------------
+    }
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 15);
-        constraints.anchor = GridBagConstraints.WEST;
-        OMLabel checkForUpdates = new OMLabel(
-                this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
-        checkForUpdates
-                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
-        gridbag.setConstraints(checkForUpdates, constraints);
-        this.add(checkForUpdates);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.WEST;
-        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
-        this.checkForUpdates = new JCheckBox();
-        this.checkForUpdates.setSelected(
-                Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
-        this.checkForUpdates
-                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
-        gridbag.setConstraints(this.checkForUpdates, constraints);
-        this.add(this.checkForUpdates);
-
-        // ------------------
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 15);
-        constraints.anchor = GridBagConstraints.WEST;
-        OMLabel uiLanguageLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.uiLanguage"), true);
-        uiLanguageLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
-        gridbag.setConstraints(uiLanguageLabel, constraints);
-        this.add(uiLanguageLabel);
-
-        ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 40, 15);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.WEST;
-        List<String> acceptedLanguages = this.getInstalledLanguages();
-        this.uiLanguage = new LanguageBox(acceptedLanguages, Locale.getDefault().getLanguage(), false);
-        this.uiLanguage.setEnabled(true);
-        this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
-        gridbag.setConstraints(this.uiLanguage, constraints);
-        this.add(this.uiLanguage);
-
-        // ------------------
-
-        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 10, 15);
-        constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LxslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
-        LxslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
-        gridbag.setConstraints(LxslTemplate, constraints);
-        this.add(LxslTemplate);
-
-        ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 40, 15);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.WEST;
-        this.createXslTemplateBox();
-        this.xslTemplate.setEnabled(true);
-        this.xslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
-        gridbag.setConstraints(this.xslTemplate, constraints);
-        this.add(this.xslTemplate);
-
-        // ------------------
-
+    private void addResetWindowsSizePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel LresetWindowsSizes = new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"),
@@ -196,15 +120,84 @@ public class GeneralPanel extends PreferencesPanel {
         resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(resetWindowSizes, constraints);
         this.add(resetWindowSizes);
+    }
 
-        // ------------------
+    private void addXslTemplatePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 10, 15);
+        constraints.anchor = GridBagConstraints.WEST;
+        OMLabel LxslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
+        LxslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
+        gridbag.setConstraints(LxslTemplate, constraints);
+        this.add(LxslTemplate);
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 100, 40);
-        constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 40, 15);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.WEST;
+        this.createXslTemplateBox();
+        this.xslTemplate.setEnabled(true);
+        this.xslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
+        gridbag.setConstraints(this.xslTemplate, constraints);
+        this.add(this.xslTemplate);
+    }
 
+    private void addUILanguagePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 10, 15);
+        constraints.anchor = GridBagConstraints.WEST;
+        OMLabel uiLanguageLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.uiLanguage"), true);
+        uiLanguageLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
+        gridbag.setConstraints(uiLanguageLabel, constraints);
+        this.add(uiLanguageLabel);
+
+        ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 40, 15);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.WEST;
+        List<String> acceptedLanguages = this.getInstalledLanguages();
+        this.uiLanguage = new LanguageBox(acceptedLanguages, Locale.getDefault().getLanguage(), false);
+        this.uiLanguage.setEnabled(true);
+        this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
+        gridbag.setConstraints(this.uiLanguage, constraints);
+        this.add(this.uiLanguage);
+    }
+
+    private void addCheckForUpdatesPreference(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 15);
+        constraints.anchor = GridBagConstraints.WEST;
+        OMLabel checkForUpdates = new OMLabel(
+                this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
+        checkForUpdates
+                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        gridbag.setConstraints(checkForUpdates, constraints);
+        this.add(checkForUpdates);
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.WEST;
+        ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
+        this.checkForUpdates = new JCheckBox();
+        this.checkForUpdates.setSelected(
+                Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
+        this.checkForUpdates
+                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        gridbag.setConstraints(this.checkForUpdates, constraints);
+        this.add(this.checkForUpdates);
+    }
+
+    private void addLoadXmlAtStartupPreference(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 10, 15);
+        constraints.anchor = GridBagConstraints.WEST;
+        OMLabel loadLastXMLLabel = new OMLabel(this.bundle.getString("dialog.preferences.label.loadLastXML"), true);
+        loadLastXMLLabel.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
+        gridbag.setConstraints(loadLastXMLLabel, constraints);
+        this.add(loadLastXMLLabel);
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.WEST;
+        ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
+        this.loadLastFile = new JCheckBox();
+        this.loadLastFile
+                .setSelected(Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_OPENONSTARTUP).orElse("false")));
+        this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
+        gridbag.setConstraints(this.loadLastFile, constraints);
+        this.add(this.loadLastFile);
     }
 
     private void createXslTemplateBox() {
@@ -218,10 +211,8 @@ public class GeneralPanel extends PreferencesPanel {
 
         // Get all directories and add them to the JComboBox
         String[] directories = path.list((dir, name) -> {
-
             File file = new File(dir.getAbsolutePath() + File.separator + name);
-            return file.isDirectory() && !"CVS".equals(file.getName()); // For developers ;-)
-
+            return file.isDirectory();
         });
         if (directories == null) {
             this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE));

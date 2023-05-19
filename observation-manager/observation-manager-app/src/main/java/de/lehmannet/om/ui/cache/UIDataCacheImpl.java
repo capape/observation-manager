@@ -145,7 +145,11 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public Integer getInteger(String key) {
-        return (Integer) this.cache.get(key);
+        try {
+            return (Integer) this.cache.get(key);
+        } catch (ClassCastException e) {
+            return 0;
+        }
     }
 
     @Override
@@ -159,7 +163,12 @@ public class UIDataCacheImpl implements UIDataCache {
 
     @Override
     public Float getFloat(String key) {
-        return (Float) this.cache.get(key);
+        try {
+            return (Float) this.cache.get(key);
+        } catch (ClassCastException e) {
+            return Float.NaN;
+        }
+
     }
 
     @Override

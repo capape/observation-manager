@@ -970,7 +970,7 @@
             <p>Observation list</p>
           </div>
           <xsl:apply-templates select="//observation">
-            <xsl:sort select="begin" date-type="number" order="ascending"/>
+            <xsl:sort select="begin" data-type="number" order="ascending"/>
           </xsl:apply-templates>
           <div align="center" style="font-size:20;color:#0000C0;background-color:lightsteelblue;">
             <p>Site(s)</p>
