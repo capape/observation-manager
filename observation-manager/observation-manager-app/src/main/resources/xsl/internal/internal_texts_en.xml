@@ -80,6 +80,7 @@
     <text ident="target.ds.brightness.surfbr">mags/sq.arcmin</text>
     <text ident="target.ds.origin.observer">Origin:</text>
     <text ident="target.ds.origin.source">Origin:</text>
+    <text ident="target.constellation">Constellation:</text>
 
     <text ident="observer.contact">Contacts:</text>
 
