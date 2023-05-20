@@ -1,7 +1,5 @@
-\u00bfSab\u00eda que puede usar sus propios archivos XSL de transformaci\u00f3n HTML en Observation Manager? 
-Simplemente cree una carpeta nueva dentro de las carpetas de instalaci\u00f3n XSL. 
-Ponga su archivo XSL en la nueva carpeta y ll\u00e1melo transform.xsl. Ahora puede 
-seleccionar su archivo XSL en el men\u00fa de "Preferencias" de Observation Manager 
-(usaremos el nombre de su nueva carpeta en el men\u00fa de selecci\u00f3n). \u00a1Y ya lo tiene! 
-Cada vez que Observation Manager exporte a HTML usar\u00e1 su propio archivo XSL.
+Sabia que pot utilitzar els seus propis fitxers XSL de transformació HTML en l'Observation Manager?
+Simplement creeu una nova carpeta dins de les carpetes d'instal·lació XSL.
+Poseu el vostre fitxer XSL a la nova carpeta i doneu-li el nom de "transform.xsl". Ara podeu seleccionar el vostre fitxer XSL al menú de "Preferències" de l'Observation Manager (utilitzarem el nom de la vostra nova carpeta al menú de selecció). I ja està!
+Cada vegada que l'Observation Manager exporti a HTML, utilitzarà el vostre propi fitxer XSL.
 

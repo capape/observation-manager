@@ -1,5 +1,2 @@
-\u00bfSab\u00eda que Observation Manager no enreda en su sistema de archivos? 
-Observation Manager no guarda entradas en el registro. Todos los archivos 
-se encuentran el directorio principal de la aplicaci\u00f3n. S\u00f3lo un peque\u00f1o 
-fichero (~1kb) de configuraci\u00f3n llamado "config" se guarda en el ra\u00edz del 
-usuario bajo el directorio ".observationManager" 
+Sabia que l'Observation Manager no altera el sistema de fitxers?
+L'Observation Manager no guarda cap registre d'entrades. Tots els fitxers es troben al directori principal de l'aplicació. Només es guarda un petit fitxer (~1kb) de configuració anomenat "config" a la carpeta principal de l'usuari, sota el directori ".observationManager".
