@@ -1,0 +1,188 @@
+<texts>
+    <text ident="document.title">Наблюдения</text>
+    <text ident="h1.observations">Наблюдения</text>
+    <text ident="summary.sessions">Сессии:</text>
+    <text ident="summary.observations">Наблюдения:</text>
+
+    <text ident="targets.list">Цели:</text>
+    <text ident="session.sessions.list">Сессии</text>
+    <text ident="sites.list">Места</text>
+    <text ident="scopes.list">Телескопы</text>
+    <text ident="eyepieces.list">Окуляры</text>
+    <text ident="lenses.list">Линзы</text>
+    <text ident="filters.list">Фильтры</text>
+    <text ident="imagers.list">Камеры</text>
+    <text ident="targets.targetlist">Цели</text>
+    <text ident="SUN">Солнце</text>
+    <text ident="MERCURY">Меркурий</text>
+    <text ident="VENUS">Венера</text>
+    <text ident="EARTH">Земля</text>
+    <text ident="MOON">Луна</text>
+    <text ident="MARS">Марс</text>
+    <text ident="JUPITER">Юпитер</text>
+    <text ident="SATURN">Сатурн</text>
+    <text ident="URANUS">Уран</text>
+    <text ident="NEPTUNE">Нептун</text>
+
+    <text ident="oal:CometTargetType">Комета</text>
+    <text ident="oal:deepSkyAS">Астеризм</text>
+    <text ident="oal:deepSkyCG">Скопление галактик</text>
+    <text ident="oal:deepSkyDN">Темное облако</text>
+    <text ident="oal:deepSkyDS">Двойная звезда</text>
+    <text ident="oal:deepSkyGC">Шаровое скопление</text>
+    <text ident="oal:deepSkyGN">Галактическое облако</text>
+    <text ident="oal:deepSkyGX">Галактика</text>
+    <text ident="oal:deepSkyMS">Множественная звездная система</text>
+    <text ident="oal:deepSkyOC">Открытое скопление</text>
+    <text ident="oal:deepSkyNA">Неклассифицируемый объект</text>
+    <text ident="oal:deepSkyPN">Планетарная туманность</text>
+    <text ident="oal:deepSkyQS">Квазар</text>
+    <text ident="oal:deepSkySC">Звездное облако</text>
+    <text ident="oal:MinorPlanetTargetType">Малая планета</text>
+    <text ident="oal:MoonTargetType">Луна</text>
+    <text ident="oal:PlanetTargetType">Планета</text>
+    <text ident="oal:SunTargetType">Солнце</text>
+    <text ident="oal:UndefinedTargetType">(другой объект)</text>
+    <text ident="oal:variableStarTargetType">Переменная звезда</text>
+    <text ident="type.unknown">(неизвестный тип)</text>
+    <text ident="oal:observationTargetType">(другой объект)</text>
+
+    <text ident="session.date.begin">Начало:</text>
+    <text ident="session.date.end">Конец:</text>
+    <text ident="session.observations">Наблюдения</text>
+    <text ident="session.weather">Погода:</text>
+    <text ident="session.equipment">Оборудование:</text>
+    <text ident="session.comments">Комментарии:</text>
+
+
+    <text ident="observation.date.begin">Начало:</text>
+    <text ident="observation.date.end">Конец:</text>
+    <text ident="observation.observer">Наблюдатель:</text>
+    <text ident="observation.site">Место:</text>
+    <text ident="observation.faintest.star">Самая тусклая звезда:</text>
+    <text ident="observation.seeing">Прозрачность:</text>
+    <text ident="observation.seeing.very.good">(очень хорошая)</text>
+    <text ident="observation.seeing.good">(хорошая)</text>
+    <text ident="observation.seeing.fair">(средняя)</text>
+    <text ident="observation.seeing.bad">(плохая)</text>
+    <text ident="observation.seeing.very.bad">(очень плохая)</text>
+    <text ident="observation.camera">Камера:</text>
+    <text ident="observation.visual.impresion">Визуальное впечатление:</text>
+
+    <text ident="target.alias">Псевдоним:</text>
+    <text ident="position.ra">Прямое восхождение:</text>
+    <text ident="position.dec">Склонение:</text>
+
+    <text ident="target.ds.size">Размер:</text>
+    <text ident="target.ds.magnitude">m(vis):</text>
+    <text ident="target.ds.magnitude.mag">маг</text>
+    <text ident="target.ds.brightness">Яркость поверхности:</text>
+    <text ident="target.ds.brightness.surfbr">маг/кв. угл. мин.</text>
+    <text ident="target.ds.origin.observer">Происхождение:</text>
+    <text ident="target.ds.origin.source">Происхождение:</text>
+    <text ident="target.constellation">Созвездие:</text>
+
+    <text ident="observer.contact">Контакты:</text>
+
+    <text ident="site.site">Место:</text>
+    <text ident="site.longitude">Долгота:</text>
+    <text ident="site.latitude">Широта:</text>
+    <text ident="site.timezone">Часовой пояс:</text>
+    <text ident="site.ut">Всемирное время</text>
+
+    <text ident="result.visual.rating">Визуальная оценка</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Очень заметное, хорошее скопление; привлекает внимание</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Заметное скопление</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Ясно видимое скопление</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Скопление не очень заметное</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Очень неприметное скопление; можно легко пропустить при поиске</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Сомнительное наблюдение; плотность звезд не выше, чем в окружающем поле</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Почти нет звезд в данной позиции</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Двойная звезда может быть разрешена</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">Двойная звезда выглядит как "8"</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">Двойная звезда не может быть разрешена</text>
+
+    <text ident="result.visual.rating.generic.type.1">Простой заметный объект в окуляре</text>
+    <text ident="result.visual.rating.generic.type.2">Хорошо видим с прямым взглядом</text>
+    <text ident="result.visual.rating.generic.type.3">Видим с прямым взглядом</text>
+    <text ident="result.visual.rating.generic.type.4">Видим только с косым взглядом</text>
+    <text ident="result.visual.rating.generic.type.5">Объект едва заметен с косым взглядом</text>
+    <text ident="result.visual.rating.generic.type.6">Объект сомнительно замечен</text>
+    <text ident="result.visual.rating.generic.type.7">Объект не замечен</text>
+
+    <text ident="result.visual.deep.sky.stellar">Выглядит звездообразным</text>
+    <text ident="result.visual.deep.sky.resolved">Разрешенное изображение</text>
+    <text ident="result.visual.deep.sky.mottled">Выглядит пятнистым</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Видимый размер:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Величина:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Тусклее, чем</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(неопределенно)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Карта:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(не-AAVSO карта)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Опорные звезды:</text>
+
+    <text ident="img.alt.text">-IMG- не отображается</text>
+
+    <text ident="scope.aperture">Апертура:</text>
+    <text ident="scope.focal.length.unit">мм</text>
+    <text ident="scope.focal.length">Фокусное расстояние:</text>
+    <text ident="scope.light.grasp">Светосила:</text>
+    <text ident="scope.magnification">Увеличение:</text>
+    <text ident="scope.optics">Оптика: </text>
+    <text ident="scope.true.field.view">Поле зрения:</text>
+    <text ident="scope.type">Тип: </text>
+    <text ident="scope.vendor">Производитель: </text>
+    <text ident="lens.eyepiece.focal.length.unit">мм</text>
+    <text ident="lens.eyepiece.focal.length">Фокусное расстояние:</text>
+    <text ident="lens.eyepiece.magnification">Увеличение:</text>
+    <text ident="lens.eyepiece.true.field.view">Поле зрения:</text>
+    <text ident="lens.eyepiece.zoom">Зум-окуляр:</text>
+    <text ident="lens.eyepiece">Окуляр: </text>
+    <text ident="lens.focal.length.factor">Коэффициент фокусного расстояния:</text>
+    <text ident="lens.focal.length.unit">мм</text>
+    <text ident="lens.lens">Объектив: </text>
+    <text ident="lens.vendor">Производитель:</text>
+    <text ident="imager.camera.ccd">Цифровая камера:</text>
+    <text ident="imager.camera">Камера:</text>
+    <text ident="imager.vendor">Производитель:</text>
+    <text ident="imager.pixel">Пиксель:</text>
+
+    <text ident="filter.filter">Фильтр:</text>
+    <text ident="filter.type">Тип:</text>
+
+    <text ident="filter.type.broadband">Широкополосный</text>
+    <text ident="filter.type.color">Цветной</text>
+    <text ident="filter.type.corrective">Корректирующий</text>
+    <text ident="filter.type.h-alpha">H-Альфа</text>
+    <text ident="filter.type.h-beta">H-Бета</text>
+    <text ident="filter.type.narrowband">Узкополосный</text>
+    <text ident="filter.type.neutral">Нейтральный</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Другой</text>
+    <text ident="filter.type.solar">Солнечный</text>
+    <text ident="filter.type.unknown">(неизвестный тип)</text>
+
+    <text ident="filter.farbe.blue">Синий</text>
+    <text ident="filter.farbe.deepblue">Темно-синий</text>
+    <text ident="filter.farbe.deepred">Темно-красный</text>
+    <text ident="filter.farbe.deepyellow">Темно-желтый</text>
+    <text ident="filter.farbe.green">Зеленый</text>
+    <text ident="filter.farbe.lightgreen">Светло-зеленый</text>
+    <text ident="filter.farbe.lightred">Светло-красный</text>
+    <text ident="filter.farbe.lightyellow">Светло-желтый</text>
+    <text ident="filter.farbe.mediumblue">Средне-синий</text>
+    <text ident="filter.farbe.orange">Оранжевый</text>
+    <text ident="filter.farbe.paleblue">Бледно-синий</text>
+    <text ident="filter.farbe.red">Красный</text>
+    <text ident="filter.farbe.unknown">(неизвестный цвет)</text>
+    <text ident="filter.farbe.violet">Фиолетовый</text>
+    <text ident="filter.farbe.yellow-green">Желто-зеленый</text>
+    <text ident="filter.farbe.yellow">Желтый</text>
+    <text ident="filter.farbe">Цвет: </text>
+
+    <text ident="filter.wratten">Значение Wratten: </text>
+    <text ident="filter.schott">Значение Schott: </text>
+</texts>
+    

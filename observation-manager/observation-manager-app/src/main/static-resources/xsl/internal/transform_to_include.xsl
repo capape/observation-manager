@@ -22,8 +22,6 @@
                 <style type="text/css">
                     <![CDATA[
 
-
-
 body {
     font-family: 'Arial';
     font-size: 12px;
@@ -33,20 +31,21 @@ body {
 h1 {
     align-content: center;
 }
+
 .sessions {
     border-top-style: solid;
     margin-left: 20px;
 }
 
-.sessions ul li{
+.sessions ul li {
     font-size: 10px;
 
 }
 
 .sessions ul li span {
 
- display: inline-grid;
- min-width: 200px;
+    display: inline-grid;
+    min-width: 200px;
 }
 
 .session {
@@ -69,11 +68,11 @@ h1 {
 
 .observation {
 
-  background-color: white;
-  padding: 40px;
-  border: 1px solid;
-  width: 90%;
-  margin: 5px;
+    background-color: white;
+    padding: 40px;
+    border: 1px solid;
+    width: 90%;
+    margin: 5px;
 }
 
 .position {
@@ -85,18 +84,21 @@ div.position div span {
     display: inline-grid;
     min-width: 50px;
 }
+
 div.target {
-    display:inline-block;
-    width:30%;
+    display: inline-block;
+    width: 30%;
     vertical-align: top;
-    text-aling: left;
+    text-align: left;
 }
+
 div.infoTarget {
-    display:inline-block;
-    width:60%;
+    display: inline-block;
+    width: 60%;
     vertical-align: top;
-    text-aling: leftA
+    text-align: leftM
 }
+
 div.observation div.date {
     padding: 5px;
     text-align: left;
@@ -104,6 +106,7 @@ div.observation div.date {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
+
 div.date div {
     display: inline;
 
@@ -113,6 +116,7 @@ div.date div {
     font-weight: bold;
     display: inline;
 }
+
 .optionaldata {
     margin-top: 5px;
 
@@ -127,14 +131,14 @@ div.date div {
 }
 
 .label {
-  font-weight: bold;
-  min-width: 150px;
-  display: inline-block;
+    font-weight: bold;
+    min-width: 150px;
+    display: inline-block;
 }
 
 .observers {
-    margin-top:10px;
-    margin-bottom:10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .data {
@@ -144,20 +148,24 @@ div.date div {
 }
 
 
-.dataheader{
-    width:30%;
-    display:inline-block;
+.dataheader {
+    width: 30%;
+    display: inline-block;
     vertical-align: top;
 }
-.datacontent{
-    width:60%;
-    display:inline-block;
+
+.datacontent {
+    width: 60%;
+    display: inline-block;
     vertical-align: top;
 }
 
 
 ]]>
                 </style>
+                <link rel="stylesheet" type="text/css" >
+                    <xsl:attribute name="href">internal-custom.css</xsl:attribute>
+                </link>
             </head>
             <body>
                 <h1><xsl:call-template name="language-text"><xsl:with-param name="text">h1.observations</xsl:with-param></xsl:call-template></h1>

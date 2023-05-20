@@ -1,0 +1,6 @@
+ Manifest-Version: 1.0
+ Main-Class: de.lehmannet.om.ObservationManagerApp
+ Application-Name: Observation Manager
+ SplashScreen-Image: images/splash_transparent.png
+ 
+ 

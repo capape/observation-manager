@@ -15,25 +15,41 @@
         </fileSet>
 
         <fileSet>
-            <directory>../observation-manager-app/src/main/resources/catalog</directory>
+            <directory>../observation-manager-app/src/main/static-resources/catalog</directory>
             <outputDirectory>catalog</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../observation-manager-app/src/main/resources/xsl</directory>
+            <directory>../observation-manager-app/src/main/static-resources/xsl</directory>
             <outputDirectory>xsl</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../observation-manager-app/src/main/resources/help</directory>
+            <directory>../observation-manager-app/src/main/static-resources/help</directory>
             <outputDirectory>help</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../observation-manager-app/src/main/static-resources/images</directory>
+            <outputDirectory>images</outputDirectory>
+            <includes>
+                <include>splash.png</include>
+                <include>splash_transparent.png</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>../observation-planner-api/src/main/resources/schema</directory>
+            <outputDirectory>classpath/schema</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>           
         </fileSet>
 
         <fileSet>
@@ -41,15 +57,8 @@
             <outputDirectory>schema</outputDirectory>
             <includes>
                 <include>**/*</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../observation-planner-api/src/main/resources/schema</directory>
-            <outputDirectory>classpath/schema</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </fileSet>
+            </includes>           
+        </fileSet>          
 
         <fileSet>
             <directory>../observation-manager/src/main/resources</directory>
@@ -58,15 +67,7 @@
                 <include>log4j2.xml</include>
             </includes>
         </fileSet>
-        <!-- 
-    <fileSet>
-      <directory>../observation-planner-api/src/main/resources</directory>
-      <outputDirectory>classpath</outputDirectory>
-      <includes>
-          <include>**/*</include>
-      </includes>		
-    </fileSet>
-  -->
+       
         <fileSet>
             <directory>../</directory>
             <outputDirectory></outputDirectory>
