@@ -8,7 +8,12 @@ import java.awt.SplashScreen;
 import java.io.IOException;
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SplashScreenWithText {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SplashScreenWithText.class);
 
     private SplashScreen splash;
     private Graphics2D splashGraphics;
@@ -40,6 +45,7 @@ public class SplashScreenWithText {
         }
 
         splash = SplashScreen.getSplashScreen();
+        LOGGER.info("Loading splash {}", this.image);
         if (image != null) {
             try {
                 splash.setImageURL(image);
