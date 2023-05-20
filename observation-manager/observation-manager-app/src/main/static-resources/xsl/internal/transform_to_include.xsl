@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
     
@@ -269,16 +269,7 @@ div.date div {
                                 <xsl:sort select="constellation"/>
                                 <xsl:sort select="name"/>
                                 <li>
-                                    <xsl:choose>
-                                        <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
-                                            <xsl:variable name="objectName"  select="name"/>
-                                            <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
-                                        </xsl:when>
-                                        <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
-                                    </xsl:choose>
-                                    
-                                    
-                                    <xsl:if test="count(constellation)>0"> ( <xsl:value-of select="constellation"/> )</xsl:if>
+                                    <xsl:apply-templates select="." mode="targetListBottom"/>                                     
                                 </li>
                             </xsl:for-each>
                         </ul>
@@ -304,7 +295,8 @@ div.date div {
                     <xsl:with-param name="dateTime" select="end" />
                 </xsl:call-template>
                 <xsl:value-of select="session"/>
-                <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></span>
+                <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
+            </span>
             
             
             
@@ -419,7 +411,7 @@ div.date div {
                     </span>
                 </div>
             </div>
-            <xsl:apply-templates select="$currentTarget"/>
+            <xsl:apply-templates select="$currentTarget" mode="observation"/>
             
             <xsl:if test="count(site) = 1">
                 <div class="site">
@@ -502,7 +494,7 @@ div.date div {
         </xsl:choose>
     </xsl:template>
     
-    <xsl:template match="target">
+    <xsl:template match="target" mode="observation">
         <div>
             <div class="target">
                 <xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
@@ -515,7 +507,7 @@ div.date div {
                             <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
                             
                         </xsl:when>
-                        <xsl:otherwise><xsl:value-of select="name"/></xsl:otherwise>
+                        <xsl:otherwise><xsl:value-of select="name"/> <xsl:apply-templates select="." mode="linkToDigitalSurvey"/></xsl:otherwise>                        
                     </xsl:choose>
                     <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
                 </h4>
@@ -1231,5 +1223,35 @@ div.date div {
         <xsl:value-of select="concat($year, '-', $month, '-', $day, ' ',$time, ' UTC')" />
     </xsl:template>
     
+
+    <xsl:template match="target" mode="targetListBottom">
+        <xsl:choose>
+            <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+                <xsl:variable name="objectName"  select="name"/>
+                    <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                    <xsl:value-of select="name"/>
+                    <xsl:apply-templates select="." mode="linkToDigitalSurvey"/>
+            </xsl:otherwise>
+        </xsl:choose>                                    
+                                    
+        <xsl:if test="count(constellation)>0"> ( <xsl:value-of select="constellation"/> )</xsl:if>       
+                          
+    </xsl:template>
+
+    <xsl:template match="target" mode="linkToDigitalSurvey">
+        <xsl:text disable-output-escaping="yes">&lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc1&amp;r=</xsl:text>
+        <xsl:value-of select="position/ra"/>
+        <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
+        <xsl:value-of select="position/dec"/>
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>   
+        <xsl:text disable-output-escaping="yes">(GSC1)&lt;/a&gt; - &lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc2&amp;r=</xsl:text>
+        <xsl:value-of select="position/ra"/>
+        <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
+        <xsl:value-of select="position/dec"/>
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>                    
+        <xsl:text disable-output-escaping="yes"> (GSC2)&lt;/a&gt;</xsl:text>
+    </xsl:template>
     
 </xsl:stylesheet>
