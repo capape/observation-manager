@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
@@ -15,6 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -33,6 +38,7 @@ import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class ObservationManagerHtmlHelper {
 
+    private final String TEMPLATE_FILENAME = "transform";
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerHtmlHelper.class);
     private final UserInterfaceHelper uiHelper;
     private final TextManager textManager;
@@ -70,7 +76,8 @@ public class ObservationManagerHtmlHelper {
 
                 DOMSource source = new DOMSource(doc);
 
-                StreamSource xslSource = getXslStreamSource(xslFile);
+                File xsl = (xslFile == null) ? ObservationManagerHtmlHelper.this.getXSLFile() : xslFile;
+                StreamSource xslSource = getXslStreamSource(xsl);
 
                 StreamResult result = null;
                 FileOutputStream outputStream = null;
@@ -101,6 +108,7 @@ public class ObservationManagerHtmlHelper {
                     }
 
                     template.newTransformer().transform(source, result);
+                    copyCssFile(htmlFile.getParent(), xsl);
                 } catch (TransformerException tce) {
                     LOGGER.error("Cannot transform XML file.", tce);
                     returnValue = Worker.RETURN_TYPE_ERROR;
@@ -121,29 +129,39 @@ public class ObservationManagerHtmlHelper {
 
             }
 
-            private StreamSource getXslStreamSource(final File xslFile) {
-
-                File xsl = (xslFile == null) ? ObservationManagerHtmlHelper.this.getXSLFile() : xslFile;
+            private StreamSource getXslStreamSource(final File xsl) {
 
                 StreamSource xslSource;
                 // Get XSL Template
                 // Cannot load XSL file. Error message was already given
                 if (xsl == null) {
 
-                    String lang = Locale.getDefault().getLanguage();
-                    String resourceName = "xsl/internal/transform_" + lang + ".xsl";
-
-                    URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
-                    if (resource == null) {
-                        resource = ObservationManagerHtmlHelper.class.getClassLoader()
-                                .getResource("xsl/internal/transform_en.xsl");
-                    }
+                    URL resource = getInternalXslURL();
                     xslSource = new StreamSource(resource.toExternalForm());
 
                 } else {
                     xslSource = new StreamSource(xsl);
                 }
                 return xslSource;
+            }
+
+            private URL getInternalXslURL() {
+                String lang = Locale.getDefault().getLanguage();
+                String resourceName = "xsl/internal/transform_" + lang + ".xsl";
+
+                URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
+                if (resource == null) {
+                    resource = ObservationManagerHtmlHelper.class.getClassLoader()
+                            .getResource("xsl/internal/transform_en.xsl");
+                }
+                return resource;
+            }
+
+            private URL getInternalXslFolderURL() {
+
+                String resourceName = "xsl/internal/";
+                URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
+                return resource;
             }
 
             @Override
@@ -170,10 +188,70 @@ public class ObservationManagerHtmlHelper {
             if (calculation.getReturnMessage() != null) {
                 uiHelper.showInfo(calculation.getReturnMessage());
             }
+
             return true;
         } else {
             uiHelper.showWarning(calculation.getReturnMessage());
             return false;
+        }
+
+    }
+
+    private String getCustomCssName(boolean usingInternal) {
+
+        if (usingInternal) {
+            return "internal-custom.css";
+        }
+
+        String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
+        if (StringUtils.isBlank(selectedTemplate)) {
+            selectedTemplate = "oal2html";
+        }
+
+        return selectedTemplate + "-custom.css";
+    }
+
+    private void copyCssFile(String htmlFolder, final File xslFile) {
+
+        Optional<Path> originalPath = this.getCssSource(xslFile);
+
+        boolean usingInternal = xslFile == null;
+
+        Path destination = Path.of(htmlFolder, getCustomCssName(usingInternal));
+
+        originalPath.ifPresent(path -> {
+
+            if (path.toFile().exists()) {
+
+                try {
+                    Files.copy(path, destination, StandardCopyOption.REPLACE_EXISTING);
+
+                } catch (IOException e) {
+                    LOGGER.error("Problem copying css {}   ->    {}", path, destination, e);
+                }
+            }
+        });
+
+    }
+
+    private Optional<Path> getCssSource(File xslFile) {
+
+        boolean usingInternal = xslFile == null;
+        String cssFileName = getCustomCssName(usingInternal);
+
+        if (xslFile == null) {
+
+            URL resource = ObservationManagerHtmlHelper.class.getClassLoader()
+                    .getResource("xsl/internal/" + cssFileName);
+
+            if (resource == null) {
+                return Optional.empty();
+            }
+
+            return Optional.of(Path.of(resource.getPath()));
+
+        } else {
+            return Optional.of(Path.of(xslFile.getParent(), cssFileName));
         }
 
     }
@@ -198,6 +276,7 @@ public class ObservationManagerHtmlHelper {
         }
 
         this.transformXML2HTML(doc, htmlFile, null);
+
         this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + htmlFile);
 
     }
@@ -290,8 +369,45 @@ public class ObservationManagerHtmlHelper {
 
     private File getXSLFile() {
 
-        final String TEMPLATE_FILENAME = "transform";
+        String pathXslTemplateFolder = this.getTemplateFolderPath();
 
+        File path = new File(pathXslTemplateFolder);
+        if (!path.exists()) {
+            this.uiHelper.showWarning(
+                    textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n" + path.getAbsolutePath());
+            return null;
+        }
+
+        String pathXsl = getPathXslFileWithLocale();
+        File xslFile = new File(pathXsl);
+
+        if (!xslFile.exists()) { // Ok, maybe theres a general version which is
+                                 // not translated
+            String pathXslFileWithoutLocale = this.getPathXslFileWithoutLocale();
+            xslFile = new File(pathXslFileWithoutLocale);
+            if (!xslFile.exists()) {
+                this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
+                        + pathXslFileWithoutLocale + "\n" + pathXsl);
+                return null;
+            }
+        }
+
+        return xslFile;
+
+    }
+
+    private String getPathXslFileWithoutLocale() {
+        String pathXsl = this.getTemplateFolderPath() + File.separator + TEMPLATE_FILENAME + ".xsl";
+        return pathXsl;
+    }
+
+    private String getPathXslFileWithLocale() {
+        String pathXsl = this.getTemplateFolderPath() + File.separator + TEMPLATE_FILENAME + "_"
+                + Locale.getDefault().getLanguage() + ".xsl";
+        return pathXsl;
+    }
+
+    private String getTemplateFolderPath() {
         String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
                                        // (Usefull for migrations)
@@ -299,30 +415,8 @@ public class ObservationManagerHtmlHelper {
             selectedTemplate = "oal2html";
         }
 
-        File path = new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator);
-        if (!path.exists()) {
-            this.uiHelper.showWarning(
-                    textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n" + path.getAbsolutePath());
-            return null;
-        }
-
-        // Try to load language dependend file first
-        File xslFile = new File(path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + "_"
-                + Locale.getDefault().getLanguage() + ".xsl");
-        if (!xslFile.exists()) { // Ok, maybe theres a general version which is
-                                 // not translated
-            xslFile = new File(path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + ".xsl");
-            if (!xslFile.exists()) {
-                this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
-                        + path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + ".xsl\n"
-                        + path.getAbsolutePath() + File.separator + TEMPLATE_FILENAME + "_"
-                        + Locale.getDefault().getLanguage() + ".xsl");
-                return null;
-            }
-        }
-
-        return xslFile;
-
+        String pathXslTemplateFolder = this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator;
+        return pathXslTemplateFolder;
     }
 
     public void createXMLForSchemaElement(ISchemaElement schemaElement) {
