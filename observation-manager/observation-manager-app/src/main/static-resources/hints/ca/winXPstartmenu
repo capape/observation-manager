@@ -1,0 +1,5 @@
+Pots afegir Observation Manager al menú d'inici de Windows XP:
+Fes clic dret a obs.bat -> Crea accés directe
+Fes clic dret a l'Accés directe -> Propietats -> Canvia icona -> Selecciona "om_logo.ico"
+Fes clic dret a l'Accés directe -> Canvia el nom -> Canvia "obs.bat" a "Observation Manager"
+Arrossega l'accés directe primer al menú d'inici i després al menú de programes.

@@ -1,0 +1,2 @@
+Sabia que l'Observation Manager no altera el sistema de fitxers?
+L'Observation Manager no guarda cap registre d'entrades. Tots els fitxers es troben al directori principal de l'aplicació. Només es guarda un petit fitxer (~1kb) de configuració anomenat "config" a la carpeta principal de l'usuari, sota el directori ".observationManager".

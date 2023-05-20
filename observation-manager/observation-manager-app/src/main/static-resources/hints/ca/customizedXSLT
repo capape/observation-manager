@@ -1,0 +1,5 @@
+Sabia que pot utilitzar els seus propis fitxers XSL de transformació HTML en l'Observation Manager?
+Simplement creeu una nova carpeta dins de les carpetes d'instal·lació XSL.
+Poseu el vostre fitxer XSL a la nova carpeta i doneu-li el nom de "transform.xsl". Ara podeu seleccionar el vostre fitxer XSL al menú de "Preferències" de l'Observation Manager (utilitzarem el nom de la vostra nova carpeta al menú de selecció). I ja està!
+Cada vegada que l'Observation Manager exporti a HTML, utilitzarà el vostre propi fitxer XSL.
+
