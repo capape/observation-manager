@@ -91,17 +91,13 @@
     <text ident="site.ut">UT</text>
 
     <text ident="result.visual.rating">Valoración visual</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.1">Muy llamativo, bonito cúmulo; atrae la
-        atención</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Muy llamativo, bonito cúmulo; atrae la atención</text>
     <text ident="result.visual.rating.deep.sky.oc.type.2">Cúmulo conspicuo</text>
     <text ident="result.visual.rating.deep.sky.oc.type.3">Cúmulo claramente visible</text>
     <text ident="result.visual.rating.deep.sky.oc.type.4">Cúmulo estelar no muy llamativo</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.5">Cúmulo muy discreto; puede pasar
-        desapercibido fácilmente durante la búsqueda</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.6">Avistado con dudas; densidad de estrellas
-        no mayor que en el campo circundante</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.7">Casi no hay estrellas en la posición
-        indicada</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Cúmulo muy discreto; puede pasar desapercibido fácilmente durante la búsqueda</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Avistado con dudas; densidad de estrellas no mayor que en el campo circundante</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Casi no hay estrellas en la posición indicada</text>
 
     <text ident="result.visual.rating.deep.sky.ds.type.1">Se pudo resolver la estrella doble</text>
     <text ident="result.visual.rating.deep.sky.ds.type.2">La estrella doble parece un "8"</text>
@@ -111,8 +107,7 @@
     <text ident="result.visual.rating.generic.type.2">Bueno para ver con visión directa</text>
     <text ident="result.visual.rating.generic.type.3">Visible con visión directa</text>
     <text ident="result.visual.rating.generic.type.4">Visible solo con visión periférica</text>
-    <text ident="result.visual.rating.generic.type.5">El objeto apenas se puede ver con visión
-        periférica</text>
+    <text ident="result.visual.rating.generic.type.5">El objeto apenas se puede ver con visión periférica</text>
     <text ident="result.visual.rating.generic.type.6">Avistado con dudas</text>
     <text ident="result.visual.rating.generic.type.7">No se avistó el objeto</text>
 

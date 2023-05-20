@@ -91,15 +91,12 @@
     <text ident="site.ut">UT</text>
 
     <text ident="result.visual.rating">Visual Rating</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.1">Very conspicuous, nice cluster;
-        Eye-catcher</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Very conspicuous, nice cluster; Eye-catcher</text>
     <text ident="result.visual.rating.deep.sky.oc.type.2">Conspicuous cluster</text>
     <text ident="result.visual.rating.deep.sky.oc.type.3">Clearly visible cluster</text>
     <text ident="result.visual.rating.deep.sky.oc.type.4">Starcluster not very conspicuous</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.5">Very unobtrusive cluster; can easily be
-        overlooked while searching</text>
-    <text ident="result.visual.rating.deep.sky.oc.type.6">Dubiously sighted; star density not higher
-        as in surrounding field</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Very unobtrusive cluster; can easily be overlooked while searching</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Dubiously sighted; star density not higher as in surrounding field</text>
     <text ident="result.visual.rating.deep.sky.oc.type.7">Almost no stars at the given position</text>
 
     <text ident="result.visual.rating.deep.sky.ds.type.1">Doublestar could be resolved</text>
