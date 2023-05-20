@@ -40,7 +40,16 @@
             <outputDirectory>images</outputDirectory>
             <includes>
                 <include>splash.png</include>
+                <include>splash_transparent.png</include>
             </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>../observation-planner-api/src/main/resources/schema</directory>
+            <outputDirectory>classpath/schema</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>           
         </fileSet>
 
         <fileSet>
@@ -48,11 +57,8 @@
             <outputDirectory>schema</outputDirectory>
             <includes>
                 <include>**/*</include>
-            </includes>
-            <excludes>
-                <exclude>internal/*</exclude>
-            </excludes>
-        </fileSet>       
+            </includes>           
+        </fileSet>          
 
         <fileSet>
             <directory>../observation-manager/src/main/resources</directory>
