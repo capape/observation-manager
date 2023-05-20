@@ -1,7 +1,7 @@
 <texts>
-    <text ident="document.title"> Observaciones </text>
-    <text ident="h1.observations"> Observations </text>
-    <text ident="summary.sessions"> Sessions: </text>
+    <text ident="document.title">Observaciones</text>
+    <text ident="h1.observations">Partes de observación</text>
+    <text ident="summary.sessions">Sesiones</text>
     <text ident="summary.observations">Observaciones:</text>
 
     <text ident="targets.list">Objetivos:</text>
