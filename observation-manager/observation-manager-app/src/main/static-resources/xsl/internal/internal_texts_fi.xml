@@ -1,0 +1,187 @@
+<texts>
+    <text ident="document.title">Havainnot</text>
+    <text ident="h1.observations">Havainnot</text>
+    <text ident="summary.sessions">Istunnot:</text>
+    <text ident="summary.observations">Havainnot:</text>
+
+    <text ident="targets.list">Kohteet:</text>
+    <text ident="session.sessions.list">Istunnot</text>
+    <text ident="sites.list">Sijainnit</text>
+    <text ident="scopes.list">Kaukoputket</text>
+    <text ident="eyepieces.list">Okulaarit</text>
+    <text ident="lenses.list">Linssit</text>
+    <text ident="filters.list">Suotimet</text>
+    <text ident="imagers.list">Kamerat</text>
+    <text ident="targets.targetlist">Kohteet</text>
+    <text ident="SUN">Aurinko</text>
+    <text ident="MERCURY">Merkurius</text>
+    <text ident="VENUS">Venus</text>
+    <text ident="EARTH">Maa</text>
+    <text ident="MOON">Kuu</text>
+    <text ident="MARS">Mars</text>
+    <text ident="JUPITER">Jupiter</text>
+    <text ident="SATURN">Saturnus</text>
+    <text ident="URANUS">Uranus</text>
+    <text ident="NEPTUNE">Neptunus</text>
+    
+    <text ident="oal:CometTargetType">Komeetta</text>
+    <text ident="oal:deepSkyAS">Asterismi</text>
+    <text ident="oal:deepSkyCG">Galaksiryhmä</text>
+    <text ident="oal:deepSkyDN">Pimeä sumu</text>
+    <text ident="oal:deepSkyDS">Kaksoistähti</text>
+    <text ident="oal:deepSkyGC">Pallokasvain</text>
+    <text ident="oal:deepSkyGN">Galaksisumu</text>
+    <text ident="oal:deepSkyGX">Galaksi</text>
+    <text ident="oal:deepSkyMS">Usean tähden järjestelmä</text>
+    <text ident="oal:deepSkyOC">Avoin tähtijoukko</text>
+    <text ident="oal:deepSkyNA">Määrittelemätön kohde</text>
+    <text ident="oal:deepSkyPN">Planeettasumu</text>
+    <text ident="oal:deepSkyQS">Kvasaari</text>
+    <text ident="oal:deepSkySC">Tähtisumu</text>
+    <text ident="oal:MinorPlanetTargetType">Pienplaneetta</text>
+    <text ident="oal:MoonTargetType">Kuu</text>
+    <text ident="oal:PlanetTargetType">Planeetta</text>
+    <text ident="oal:SunTargetType">Aurinko</text>
+    <text ident="oal:UndefinedTargetType">(muu kohde)</text>
+    <text ident="oal:variableStarTargetType">Vaihtuva tähti</text>
+    <text ident="type.unknown">(tuntematon tyyppi) </text>
+    <text ident="oal:observationTargetType">(muu kohde)</text>
+
+    <text ident="session.date.begin">Alkamisaika:</text>
+    <text ident="session.date.end">Päättymisaika:</text>
+    <text ident="session.observations">Havainnot:</text>
+    <text ident="session.weather">Sää:</text>
+    <text ident="session.equipment">Varusteet:</text>
+    <text ident="session.comments">Kommentit:</text>
+
+
+    <text ident="observation.date.begin">Aloitusaika:</text>
+    <text ident="observation.date.end">Lopetusaika:</text>
+    <text ident="observation.observer">Havainnoija:</text>
+    <text ident="observation.site">Sijainti:</text>
+    <text ident="observation.faintest.star">Heikoin tähti:</text>
+    <text ident="observation.seeing">Seeing:</text>
+    <text ident="observation.seeing.very.good">(erittäin hyvä)</text>
+    <text ident="observation.seeing.good">(hyvä)</text>
+    <text ident="observation.seeing.fair">(kohtalainen)</text>
+    <text ident="observation.seeing.bad">(huono)</text>
+    <text ident="observation.seeing.very.bad">(erittäin huono)</text>
+    <text ident="observation.camera">Kamera:</text>
+    <text ident="observation.visual.impresion">Visuaalinen vaikutelma:</text>
+
+    <text ident="target.alias">Alias:</text>
+    <text ident="position.ra">RA:</text>
+    <text ident="position.dec">Dek:</text>
+
+    <text ident="target.ds.size">Koko:</text>
+    <text ident="target.ds.magnitude">m(vis):</text>
+    <text ident="target.ds.magnitude.mag">mag</text>
+    <text ident="target.ds.brightness">SB:</text>
+    <text ident="target.ds.brightness.surfbr">mag/kaarimin²</text>
+    <text ident="target.ds.origin.observer">Lähde:</text>
+    <text ident="target.ds.origin.source">Lähde:</text>
+    <text ident="target.constellation">Tähdistö:</text>
+
+    <text ident="observer.contact">Yhteystiedot:</text>
+
+    <text ident="site.site">Sijainti:</text>
+    <text ident="site.longitude">Pituusaste:</text>
+    <text ident="site.latitude">Leveysaste:</text>
+    <text ident="site.timezone">Aikavyöhyke:</text>
+    <text ident="site.ut">UT</text>
+
+    <text ident="result.visual.rating">Visuaalinen arvio</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Hyvin huomiota herättävä ja kaunis tähtijoukko, joka kiinnittää huomion</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Selvästi havaittavissa oleva tähtijoukko</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Selkeästi näkyvä tähtijoukko</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Ei kovin huomiota herättävä tähtijoukko</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Erittäin huomaamaton tähtijoukko, joka voi helposti jäädä huomaamatta etsinnän aikana</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Epävarmasti havaittu; tähtitiheys ei suurempi kuin ympäröivällä alueella</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Lähes ei lainkaan tähtiä ilmoitetussa sijainnissa</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Kaksoistähti voitiin erottaa</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">Kaksoistähti näyttää "8":lta</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">Kaksoistähtiä ei voitu erottaa</text>
+
+    <text ident="result.visual.rating.generic.type.1">Yksinkertainen ja huomiota herättävä kohde okulaarissa</text>
+    <text ident="result.visual.rating.generic.type.2">Hyvä nähtävä suoralla näkemisellä</text>
+    <text ident="result.visual.rating.generic.type.3">Nähtävissä suoralla näkemisellä</text>
+    <text ident="result.visual.rating.generic.type.4">Nähtävissä vain epäsuoralla näkemisellä</text>
+    <text ident="result.visual.rating.generic.type.5">Kohde näkyy hädin tuskin epäsuoralla näkemisellä</text>
+    <text ident="result.visual.rating.generic.type.6">Havaittu epävarmasti</text>
+    <text ident="result.visual.rating.generic.type.7">Kohdetta ei havaittu</text>
+
+    <text ident="result.visual.deep.sky.stellar">Vaikuttaa tähtimäiseltä</text>
+    <text ident="result.visual.deep.sky.resolved">Vaikuttaa ratkaistulta</text>
+    <text ident="result.visual.deep.sky.mottled">Vaikuttaa täplikkäältä</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Näennäinen koko:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Magnitude:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Heikompi kuin</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(Epävarma)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Kartta:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(Ei AAVSO:n karttaa)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Vertailutähdet:</text>
+
+    <text ident="img.alt.text">-IMG- ei renderöity</text>
+
+    <text ident="scope.aperture">Aukon halkaisija:</text>
+    <text ident="scope.focal.length.unit">mm</text>
+    <text ident="scope.focal.length">Polttoväli:</text>
+    <text ident="scope.light.grasp">Valonkeräävyys:</text>
+    <text ident="scope.magnification">Suurennos:</text>
+    <text ident="scope.optics">Optiikka: </text>
+    <text ident="scope.true.field.view">Todellinen kenttänäkymä:</text>
+    <text ident="scope.type">Tyyppi: </text>
+    <text ident="scope.vendor">Valmistaja: </text>
+    <text ident="lens.eyepiece.focal.length.unit">mm</text>
+    <text ident="lens.eyepiece.focal.length">Polttoväli:</text>
+    <text ident="lens.eyepiece.magnification">Suurennos:</text>
+    <text ident="lens.eyepiece.true.field.view">Todellinen kenttänäkymä:</text>
+    <text ident="lens.eyepiece.zoom">Silmäokulaari zoom:</text>
+    <text ident="lens.eyepiece">Silmäokulaari: </text>
+    <text ident="lens.focal.length.factor">Polttovälin kerroin:</text>
+    <text ident="lens.focal.length.unit">mm</text>
+    <text ident="lens.lens">Linssi: </text>
+    <text ident="lens.vendor">Valmistaja:</text>
+    <text ident="imager.camera.ccd">Kamera CCD:</text>
+    <text ident="imager.camera">Kamera:</text>
+    <text ident="imager.vendor">Valmistaja:</text>
+    <text ident="imager.pixel">Pikseli:</text>
+
+    <text ident="filter.filter">Suodatin:</text>
+    <text ident="filter.type">Tyyppi:</text>
+
+    <text ident="filter.type.broadband">Laaja kaista</text>
+    <text ident="filter.type.color">Väri</text>
+    <text ident="filter.type.corrective">Korjaava</text>
+    <text ident="filter.type.h-alpha">H-alfa</text>
+    <text ident="filter.type.h-beta">H-beta</text>
+    <text ident="filter.type.narrowband">Kapea kaista</text>
+    <text ident="filter.type.neutral">Neutraali</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Muu</text>
+    <text ident="filter.type.solar">Aurinko</text>
+    <text ident="filter.type.unknown">(Tuntematon tyyppi)</text>
+
+    <text ident="filter.farbe.blue">Sininen</text>
+    <text ident="filter.farbe.deepblue">Syvänsininen</text>
+    <text ident="filter.farbe.deepred">Syvänpunainen</text>
+    <text ident="filter.farbe.deepyellow">Syvänkeltainen</text>
+    <text ident="filter.farbe.green">Vihreä</text>
+    <text ident="filter.farbe.lightgreen">Vaaleanvihreä</text>
+    <text ident="filter.farbe.lightred">Vaaleanpunainen</text>
+    <text ident="filter.farbe.lightyellow">Vaaleankeltainen</text>
+    <text ident="filter.farbe.mediumblue">Keskimusta</text>
+    <text ident="filter.farbe.orange">Oranssi</text>
+    <text ident="filter.farbe.paleblue">Vaalea sininen</text>
+    <text ident="filter.farbe.red">Punainen</text>
+    <text ident="filter.farbe.unknown">(Tuntematon väri)</text>
+    <text ident="filter.farbe.violet">Violetti</text>
+    <text ident="filter.farbe.yellow-green">Keltainen/vihreä</text>
+    <text ident="filter.farbe.yellow">Keltainen</text>
+    <text ident="filter.farbe">Väri: </text>
+    
+    <text ident="filter.wratten">Wratten-arvo: </text>
+    <text ident="filter.schott">Schott-arvo: </text>
+    </texts>

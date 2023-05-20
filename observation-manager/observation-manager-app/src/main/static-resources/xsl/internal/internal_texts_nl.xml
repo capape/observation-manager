@@ -1,0 +1,187 @@
+<texts>
+    <text ident="document.title">Waarnemingen</text>
+    <text ident="h1.observations">Waarnemingen</text>
+    <text ident="summary.sessions">Sessies:</text>
+    <text ident="summary.observations">Waarnemingen:</text>
+
+    <text ident="targets.list">Doelen:</text>
+    <text ident="session.sessions.list">Sessies</text>
+    <text ident="sites.list">Locaties</text>
+    <text ident="scopes.list">Telescopen</text>
+    <text ident="eyepieces.list">Oculairs</text>
+    <text ident="lenses.list">Lenzen</text>
+    <text ident="filters.list">Filters</text>
+    <text ident="imagers.list">Beeldvormers</text>
+    <text ident="targets.targetlist">Doelen</text>
+    <text ident="SUN">Zon</text>
+    <text ident="MERCURY">Mercurius</text>
+    <text ident="VENUS">Venus</text>
+    <text ident="EARTH">Aarde</text>
+    <text ident="MOON">Maan</text>
+    <text ident="MARS">Mars</text>
+    <text ident="JUPITER">Jupiter</text>
+    <text ident="SATURN">Saturnus</text>
+    <text ident="URANUS">Uranus</text>
+    <text ident="NEPTUNE">Neptunus</text>
+
+    <text ident="oal:CometTargetType">Komeet</text>
+    <text ident="oal:deepSkyAS">Asterisme</text>
+    <text ident="oal:deepSkyCG">Cluster van sterrenstelsels</text>
+    <text ident="oal:deepSkyDN">Donkere nevel</text>
+    <text ident="oal:deepSkyDS">Dubbelster</text>
+    <text ident="oal:deepSkyGC">Bolvormige sterrenhoop</text>
+    <text ident="oal:deepSkyGN">Melkwegnevel</text>
+    <text ident="oal:deepSkyGX">Sterrenstelsel</text>
+    <text ident="oal:deepSkyMS">Meervoudig stersysteem</text>
+    <text ident="oal:deepSkyOC">Open sterrenhoop</text>
+    <text ident="oal:deepSkyNA">Ongecategoriseerd object</text>
+    <text ident="oal:deepSkyPN">Planetaire nevel</text>
+    <text ident="oal:deepSkyQS">Quasar</text>
+    <text ident="oal:deepSkySC">Sterrenwolk</text>
+    <text ident="oal:MinorPlanetTargetType">Kleine planeet</text>
+    <text ident="oal:MoonTargetType">Maan</text>
+    <text ident="oal:PlanetTargetType">Planeet</text>
+    <text ident="oal:SunTargetType">Zon</text>
+    <text ident="oal:UndefinedTargetType">(ander object)</text>
+    <text ident="oal:variableStarTargetType">Variabele ster</text>
+    <text ident="type.unknown">(onbekend type)</text>   
+    <text ident="oal:variableStarTargetType">Variabele ster</text>
+    
+    <text ident="session.date.begin">Begin:</text>
+    <text ident="session.date.end">Einde:</text>
+    <text ident="session.observations">Observaties</text>
+    <text ident="session.weather">Weer:</text>
+    <text ident="session.equipment">Apparatuur:</text>
+    <text ident="session.comments">Opmerkingen:</text>
+
+
+    <text ident="observation.date.begin">Begin:</text>
+    <text ident="observation.date.end">Einde:</text>
+    <text ident="observation.observer">Waarnemer:</text>
+    <text ident="observation.site">Locatie:</text>
+    <text ident="observation.faintest.star">Zwakste ster:</text>
+    <text ident="observation.seeing">Seeing:</text>
+    <text ident="observation.seeing.very.good">(zeer goed)</text>
+    <text ident="observation.seeing.good">(goed)</text>
+    <text ident="observation.seeing.fair">(matig)</text>
+    <text ident="observation.seeing.bad">(slecht)</text>
+    <text ident="observation.seeing.very.bad">(zeer slecht)</text>
+    <text ident="observation.camera">Camera:</text>
+    <text ident="observation.visual.impresion">Visuele indruk:</text>
+
+    <text ident="target.alias">Alias:</text>
+    <text ident="position.ra">RA:</text>
+    <text ident="position.dec">Dec:</text>
+
+    <text ident="target.ds.size">Grootte:</text>
+    <text ident="target.ds.magnitude">m(vis):</text>
+    <text ident="target.ds.magnitude.mag">mag</text>
+    <text ident="target.ds.brightness">SB:</text>
+    <text ident="target.ds.brightness.surfbr">mags/vierkante boogminuut</text>
+    <text ident="target.ds.origin.observer">Herkomst:</text>
+    <text ident="target.ds.origin.source">Herkomst:</text>
+    <text ident="target.constellation">Sterrenbeeld:</text>
+
+    <text ident="observer.contact">Contacten:</text>
+
+    <text ident="site.site">Locatie:</text>
+    <text ident="site.longitude">Lengtegraad:</text>
+    <text ident="site.latitude">Breedtegraad:</text>
+    <text ident="site.timezone">Tijdzone:</text>
+    <text ident="site.ut">UT</text>
+
+    <text ident="result.visual.rating">Visuele beoordeling</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Zeer opvallende, mooie cluster; blikvanger</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Opvallende cluster</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Duidelijk zichtbare cluster</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Sterrencluster niet erg opvallend</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Zeer onopvallende cluster; kan gemakkelijk over het hoofd worden gezien tijdens het zoeken</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Twijfelachtig waargenomen; sterrendichtheid niet hoger dan in het omringende veld</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Bijna geen sterren op de gegeven positie</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Dubbelster kon worden opgelost</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">Dubbelster lijkt op "8"</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">Dubbelster kon niet worden opgelost</text>
+
+    <text ident="result.visual.rating.generic.type.1">Eenvoudig opvallend object in het oculair</text>
+    <text ident="result.visual.rating.generic.type.2">Goed zichtbaar met direct zicht</text>
+    <text ident="result.visual.rating.generic.type.3">Zichtbaar met direct zicht</text>
+    <text ident="result.visual.rating.generic.type.4">Alleen zichtbaar met zijdelings zicht</text>
+    <text ident="result.visual.rating.generic.type.5">Object is nauwelijks zichtbaar met zijdelings zicht</text>
+    <text ident="result.visual.rating.generic.type.6">Object twijfelachtig waargenomen</text>
+    <text ident="result.visual.rating.generic.type.7">Object niet waargenomen</text>
+
+    <text ident="result.visual.deep.sky.stellar">Verschijnt stellair</text>
+    <text ident="result.visual.deep.sky.resolved">Verschijnt opgelost</text>
+    <text ident="result.visual.deep.sky.mottled">Verschijnt gevlekt</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Schijnbare grootte:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Magnitude:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Zwakker dan</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(Onzeker)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Kaart:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(Geen AAVSO-kaart)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Vergelijkingssterren:</text>
+
+    <text ident="img.alt.text">-IMG- niet weergegeven</text>
+
+    <text ident="scope.aperture">Diafragma:</text>
+    <text ident="scope.focal.length.unit">mm</text>
+    <text ident="scope.focal.length">Brandpuntsafstand:</text>
+    <text ident="scope.light.grasp">Lichtopbrengst:</text>
+    <text ident="scope.magnification">Vergroting:</text>
+    <text ident="scope.optics">Optiek:</text>
+    <text ident="scope.true.field.view">Ware gezichtsveld:</text>
+    <text ident="scope.type">Type:</text>
+    <text ident="scope.vendor">Fabrikant:</text>
+    <text ident="lens.eyepiece.focal.length.unit">mm</text>
+    <text ident="lens.eyepiece.focal.length">Brandpuntsafstand:</text>
+    <text ident="lens.eyepiece.magnification">Vergroting:</text>
+    <text ident="lens.eyepiece.true.field.view">Ware gezichtsveld:</text>
+    <text ident="lens.eyepiece.zoom">Zoomoculair:</text>
+    <text ident="lens.eyepiece">Oculair:</text>
+    <text ident="lens.focal.length.factor">Brandpuntsafstandfactor:</text>
+    <text ident="lens.focal.length.unit">mm</text>
+    <text ident="lens.lens">Lens:</text>
+    <text ident="lens.vendor">Fabrikant:</text>
+    <text ident="imager.camera.ccd">CCD-camera:</text>
+    <text ident="imager.camera">Camera:</text>
+    <text ident="imager.vendor">Fabrikant:</text>
+    <text ident="imager.pixel">Pixel:</text>
+
+    <text ident="filter.filter">Filter:</text>
+    <text ident="filter.type">Type:</text>
+  
+    <text ident="filter.type.broadband">Breedband</text>    
+    <text ident="filter.type.color">Kleur</text>
+    <text ident="filter.type.corrective">Correctief</text>
+    <text ident="filter.type.h-alpha">H-Alpha</text>
+    <text ident="filter.type.h-beta">H-Bèta</text>
+    <text ident="filter.type.narrowband">Smalband</text>
+    <text ident="filter.type.neutral">Neutraal</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Anders</text>
+    <text ident="filter.type.solar">Zonne-</text>
+    <text ident="filter.type.unknown">(onbekend type)</text>
+
+    <text ident="filter.farbe.blue">Blauw</text>
+    <text ident="filter.farbe.deepblue">Donkerblauw</text>
+    <text ident="filter.farbe.deepred">Donkerrood</text>
+    <text ident="filter.farbe.deepyellow">Donkergeel</text>
+    <text ident="filter.farbe.green">Groen</text>
+    <text ident="filter.farbe.lightgreen">Lichtgroen</text>
+    <text ident="filter.farbe.lightred">Lichtrood</text>
+    <text ident="filter.farbe.lightyellow">Lichtgeel</text>
+    <text ident="filter.farbe.mediumblue">Middelblauw</text>
+    <text ident="filter.farbe.orange">Oranje</text>
+    <text ident="filter.farbe.paleblue">Lichtblauw</text>
+    <text ident="filter.farbe.red">Rood</text>
+    <text ident="filter.farbe.unknown">(onbekende kleur)</text>
+    <text ident="filter.farbe.violet">Paars</text>
+    <text ident="filter.farbe.yellow-green">Geelgroen</text>
+    <text ident="filter.farbe.yellow">Geel</text>
+    <text ident="filter.farbe">Kleur:</text>
+
+    <text ident="filter.wratten">Wrattenwaarde:</text>
+    <text ident="filter.schott">Schott-waarde:</text>
+</texts>

@@ -52,7 +52,7 @@
     <text ident="session.observations">Observations</text>
     <text ident="session.weather">Weather:</text>
     <text ident="session.equipment">Equipment:</text>
-    <text ident="session.equipment">Comments:</text>
+    <text ident="session.comments">Comments:</text>
 
 
     <text ident="observation.date.begin">Begin:</text>

@@ -1,0 +1,187 @@
+<texts>
+    <text ident="document.title">Спостереження</text>
+    <text ident="h1.observations">Спостереження</text>
+    <text ident="summary.sessions">Сесії:</text>
+    <text ident="summary.observations">Спостереження:</text>
+
+    <text ident="targets.list">Цілі:</text>
+    <text ident="session.sessions.list">Сесії</text>
+    <text ident="sites.list">Місця</text>
+    <text ident="scopes.list">Телескопи</text>
+    <text ident="eyepieces.list">Окуляри</text>
+    <text ident="lenses.list">Лінзи</text>
+    <text ident="filters.list">Фільтри</text>
+    <text ident="imagers.list">Камери</text>
+    <text ident="targets.targetlist">Цілі</text>
+    <text ident="SUN">Сонце</text>
+    <text ident="MERCURY">Меркурій</text>
+    <text ident="VENUS">Венера</text>
+    <text ident="EARTH">Земля</text>
+    <text ident="MOON">Місяць</text>
+    <text ident="MARS">Марс</text>
+    <text ident="JUPITER">Юпітер</text>
+    <text ident="SATURN">Сатурн</text>
+    <text ident="URANUS">Уран</text>
+    <text ident="NEPTUNE">Нептун</text>
+
+    <text ident="oal:CometTargetType">Комета</text>
+    <text ident="oal:deepSkyAS">Астеризм</text>
+    <text ident="oal:deepSkyCG">Кластер галактик</text>
+    <text ident="oal:deepSkyDN">Темна туманність</text>
+    <text ident="oal:deepSkyDS">Подвійна зірка</text>
+    <text ident="oal:deepSkyGC">Кулястий кластер</text>
+    <text ident="oal:deepSkyGN">Галактична туманність</text>
+    <text ident="oal:deepSkyGX">Галактика</text>
+    <text ident="oal:deepSkyMS">Множинна зіркова система</text>
+    <text ident="oal:deepSkyOC">Відкритий кластер</text>
+    <text ident="oal:deepSkyNA">Некатегоризований об'єкт</text>
+    <text ident="oal:deepSkyPN">Планетарна туманність</text>
+    <text ident="oal:deepSkyQS">Квазар</text>
+    <text ident="oal:deepSkySC">Зірковий хмара</text>
+    <text ident="oal:MinorPlanetTargetType">Малий планета</text>
+    <text ident="oal:MoonTargetType">Місяць</text>
+    <text ident="oal:PlanetTargetType">Планета</text>
+    <text ident="oal:SunTargetType">Сонце</text>
+    <text ident="oal:UndefinedTargetType">(інший об'єкт)</text>
+    <text ident="oal:variableStarTargetType">Змінна зірка</text>
+    <text ident="type.unknown">(невідомий тип)</text>
+    <text ident="oal:observationTargetType">(інший об'єкт)</text>
+
+    <text ident="session.date.begin">Початок:</text>
+    <text ident="session.date.end">Кінець:</text>
+    <text ident="session.observations">Спостереження</text>
+    <text ident="session.weather">Погода:</text>
+    <text ident="session.equipment">Обладнання:</text>
+    <text ident="session.comments">Коментарі:</text>
+
+
+    <text ident="observation.date.begin">Початок:</text>
+    <text ident="observation.date.end">Кінець:</text>
+    <text ident="observation.observer">Спостерігач:</text>
+    <text ident="observation.site">Місце:</text>
+    <text ident="observation.faintest.star">Найслабша зірка:</text>
+    <text ident="observation.seeing">Прозорість:</text>
+    <text ident="observation.seeing.very.good">(дуже добра)</text>
+    <text ident="observation.seeing.good">(добра)</text>
+    <text ident="observation.seeing.fair">(середня)</text>
+    <text ident="observation.seeing.bad">(погана)</text>
+    <text ident="observation.seeing.very.bad">(дуже погана)</text>
+    <text ident="observation.camera">Камера:</text>
+    <text ident="observation.visual.impresion">Візуальне враження:</text>
+
+    <text ident="target.alias">Псевдонім:</text>
+    <text ident="position.ra">Пр. в.:</text>
+    <text ident="position.dec">Дек.:</text>
+
+    <text ident="target.ds.size">Розмір:</text>
+    <text ident="target.ds.magnitude">m(віз):</text>
+    <text ident="target.ds.magnitude.mag">mag</text>
+    <text ident="target.ds.brightness">СО:</text>
+    <text ident="target.ds.brightness.surfbr">mag/кв.вугл.хв</text>
+    <text ident="target.ds.origin.observer">Походження:</text>
+    <text ident="target.ds.origin.source">Походження:</text>
+    <text ident="target.constellation">Сузір'я:</text>
+
+    <text ident="observer.contact">Контакти:</text>
+
+    <text ident="site.site">Місце:</text>
+    <text ident="site.longitude">Довгота:</text>
+    <text ident="site.latitude">Широта:</text>
+    <text ident="site.timezone">Часовий пояс:</text>
+    <text ident="site.ut">УТ</text>
+
+    <text ident="result.visual.rating">Візуальна оцінка</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Дуже помітний, чудовий кластер; Привабливий об'єкт</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Помітний кластер</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Чітко видимий кластер</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Зоряний кластер не дуже помітний</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Дуже непомітний кластер; може легко пропустити під час пошуку</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Сумнівно спостережений; щільність зірок не вища, ніж в оточуючому полі</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Майже немає зірок на заданій позиції</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Подвійна зірка розрізняється</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">Подвійна зірка зображається як "8"</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">Подвійну зірку розрішити не вдалося</text>
+
+    <text ident="result.visual.rating.generic.type.1">Простий помітний об'єкт в окулярі</text>
+    <text ident="result.visual.rating.generic.type.2">Добре видно з прямим поглядом</text>
+    <text ident="result.visual.rating.generic.type.3">Видно з прямим поглядом</text>
+    <text ident="result.visual.rating.generic.type.4">Видно лише з допомогою відхиленого погляду</text>
+    <text ident="result.visual.rating.generic.type.5">Об'єкт майже неможливо побачити з відхиленою глядячи</text>
+    <text ident="result.visual.rating.generic.type.6">Об'єкт сумнівно спостережений</text>
+    <text ident="result.visual.rating.generic.type.7">Об'єкт не спостережений</text>
+
+    <text ident="result.visual.deep.sky.stellar">Здається зіркою</text>
+    <text ident="result.visual.deep.sky.resolved">Здається розрішеним</text>
+    <text ident="result.visual.deep.sky.mottled">Здається в'язким</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Видимий розмір:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Величина:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Слабша, ніж</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(невизначено)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Графік:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(графік не з ААВСО)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Зіставні зорі:</text>
+
+    <text ident="img.alt.text">-IMG- не відображено</text>
+
+    <text ident="scope.aperture">Діаметр об'єктиву:</text>
+    <text ident="scope.focal.length.unit">мм</text>
+    <text ident="scope.focal.length">Фокусна відстань:</text>
+    <text ident="scope.light.grasp">Світлозбірність:</text>
+    <text ident="scope.magnification">Збільшення:</text>
+    <text ident="scope.optics">Оптика: </text>
+    <text ident="scope.true.field.view">Справжнє поле зору:</text>
+    <text ident="scope.type">Тип: </text>
+    <text ident="scope.vendor">Виробник: </text>
+    <text ident="lens.eyepiece.focal.length.unit">мм</text>
+    <text ident="lens.eyepiece.focal.length">Фокусна відстань:</text>
+    <text ident="lens.eyepiece.magnification">Збільшення:</text>
+    <text ident="lens.eyepiece.true.field.view">Справжнє поле зору:</text>
+    <text ident="lens.eyepiece.zoom">Зум-окуляр:</text>
+    <text ident="lens.eyepiece">Окуляр: </text>
+    <text ident="lens.focal.length.factor">Фактор фокусної відстані:</text>
+    <text ident="lens.focal.length.unit">мм</text>
+    <text ident="lens.lens">Об'єктив: </text>
+    <text ident="lens.vendor">Виробник:</text>
+    <text ident="imager.camera.ccd">Камера з ККД:</text>
+    <text ident="imager.camera">Камера:</text>
+    <text ident="imager.vendor">Виробник:</text>
+    <text ident="imager.pixel">Піксель:</text>
+
+    <text ident="filter.filter">Фільтр:</text>
+    <text ident="filter.type">Тип:</text>
+  
+    <text ident="filter.type.broadband">Широкосмуговий</text>    
+    <text ident="filter.type.color">Кольоровий</text>
+    <text ident="filter.type.corrective">Корекційний</text>
+    <text ident="filter.type.h-alpha">H-альфа</text>
+    <text ident="filter.type.h-beta">H-бета</text>
+    <text ident="filter.type.narrowband">Вузькосмуговий</text>
+    <text ident="filter.type.neutral">Нейтральний</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Інший</text>
+    <text ident="filter.type.solar">Сонячний</text>
+    <text ident="filter.type.unknown">(невідомий тип)</text>
+
+    <text ident="filter.farbe.blue">Синій</text>
+    <text ident="filter.farbe.deepblue">Темно-синій</text>
+    <text ident="filter.farbe.deepred">Темно-червоний</text>
+    <text ident="filter.farbe.deepyellow">Темно-жовтий</text>
+    <text ident="filter.farbe.green">Зелений</text>
+    <text ident="filter.farbe.lightgreen">Світло-зелений</text>
+    <text ident="filter.farbe.lightred">Світло-червоний</text>
+    <text ident="filter.farbe.lightyellow">Світло-жовтий</text>
+    <text ident="filter.farbe.mediumblue">Середній синій</text>
+    <text ident="filter.farbe.orange">Помаранчевий</text>
+    <text ident="filter.farbe.paleblue">Блідо-синій</text>
+    <text ident="filter.farbe.red">Червоний</text>
+    <text ident="filter.farbe.unknown">(невідомий колір)</text>
+    <text ident="filter.farbe.violet">Фіолетовий</text>
+    <text ident="filter.farbe.yellow-green">Жовто-зелений</text>
+    <text ident="filter.farbe.yellow">Жовтий</text>
+    <text ident="filter.farbe">Колір: </text>
+
+    <text ident="filter.wratten">Значення Wratten: </text>
+    <text ident="filter.schott">Значення Schott: </text>
+</texts>
