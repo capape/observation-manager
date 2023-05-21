@@ -55,7 +55,7 @@
     <text ident="session.equipment">Comentarios:</text>
 
 
-    <text ident="observation.date.begin">Inici:</text>
+    <text ident="observation.date.begin">Inicio:</text>
     <text ident="observation.date.end">Fin:</text>
     <text ident="observation.observer">Observador:</text>
     <text ident="observation.site">Localización:</text>
