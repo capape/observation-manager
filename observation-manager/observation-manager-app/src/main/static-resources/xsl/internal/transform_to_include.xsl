@@ -1183,9 +1183,9 @@ div.date div {
     </xsl:template>
     
     <xsl:template match="image">
-        <xsl:param name="imgFile" select="."/>
+        <xsl:param name="imgFile" select="."/>        
         <div class="image">
-            <xsl:param name="imgTag" select="concat('img alt=&quot;-IMG-&quot; src=&quot;', $imgFile, '&quot;')"/>
+        <xsl:param name="imgTag" select="concat('img alt=&quot; - IMG: ', $imgFile,' - &quot; src=&quot;', $imgFile, '&quot;')"/>
             <span><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text></span>
         </div>
         
@@ -1274,12 +1274,12 @@ div.date div {
         <xsl:value-of select="position/ra"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
         <xsl:value-of select="position/dec"/>
-        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>   
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS1','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>   
         <xsl:text disable-output-escaping="yes">(GSC1)&lt;/a&gt; - &lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc2&amp;r=</xsl:text>
         <xsl:value-of select="position/ra"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
         <xsl:value-of select="position/dec"/>
-        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>                    
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS2','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>                    
         <xsl:text disable-output-escaping="yes"> (GSC2)&lt;/a&gt;</xsl:text>
     </xsl:template>
 
