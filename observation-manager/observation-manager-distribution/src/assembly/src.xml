@@ -43,6 +43,13 @@
                 <include>splash_transparent.png</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>../observation-manager-app/src/main/static-resources/icon</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>**/*</include>                
+            </includes>
+        </fileSet>
 
         <fileSet>
             <directory>../observation-planner-api/src/main/resources/schema</directory>
@@ -69,11 +76,13 @@
         </fileSet>
        
         <fileSet>
-            <directory>../</directory>
+            <directory>../observation-manager-app/src/main/static-resources/miscellaneous</directory>
             <outputDirectory></outputDirectory>
             <includes>
-                <include>LICENSE</include>
+                <include>LICENSE-2.0.txt</include>
                 <include>README.md</include>
+                <include>CREDITS</include>
+                <include>NOTICE</include>
             </includes>
         </fileSet>
         <fileSet>
