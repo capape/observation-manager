@@ -191,11 +191,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 this.imageResolver, this.textManager, uiHelper, this);
 
         // Set icon
-        this.imageResolver.getImageURL("om_logo.png").ifPresent(
-            iconPath -> this.setIconImage(new ImageIcon(iconPath).getImage())
-        );
-        
-        
+        this.imageResolver.getImageURL("om_logo.png")
+                .ifPresent(iconPath -> this.setIconImage(new ImageIcon(iconPath).getImage()));
 
         // Init menu and disable it during startup
         this.initMenuBar();
