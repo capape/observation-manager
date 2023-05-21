@@ -1,0 +1,64 @@
+   This product includes software developed by
+   The Apache Software Foundation (http://www.apache.org/).
+   
+   ------------------------------
+   
+   OSI
+   This software is OSI Certified Open Source Software.
+   OSI Certified is a certification mark of the Open Source Initiative.
+   
+   ------------------------------   
+   
+   Revised New General Catalogue and Index Catalogue
+   The revised New General Catalogue and Index Catalogue is copyrighted by Dr. Wolfgang Steinicke
+   Please visit his website at: http://www.klima-luft.de/steinicke/ 
+
+   ------------------------------   
+   
+   FITS
+   FITS data support implemented with FITS library written by Edward Pier, NASA Goddard Space Flight Center
+   http://swift.gsfc.nasa.gov/docs/swift/sdc/software/java/
+
+   ------------------------------
+
+   The General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4) is 
+   created and maintained by the Sternberg Astronomical Institute, Moscow, Russia 
+   http://www.sai.msu.su/groups/cluster/gcvs/gcvs/
+   
+   ------------------------------
+   
+   Russian translation by Igor Dulevich
+   
+   ------------------------------
+
+   Ukrainian translatio by Igor Dulevich and Oleg Maly
+
+   ------------------------------
+   
+   Dutch translation by Koen Dierckens and Wim De Meester
+   
+   ------------------------------
+
+   French translation by Denis Bailly and Jean-Charles Schmidt
+
+   ------------------------------
+   
+   Finnish translation by Kaj Mustikkam�ki
+   
+   ------------------------------
+   
+   Italian translation by Luigi Pirozzi
+   
+   ------------------------------
+   
+   Spanish translation by Gonzalo Cao Cabeza de Vaca
+   
+   ------------------------------
+   
+   Brazilian portuguese translation by Adriano Carvalho
+   
+   ------------------------------
+   
+   Polish translation by Andrzej Armiński
+   
+   ------------------------------
