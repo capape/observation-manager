@@ -10,12 +10,10 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class UpdateChecker implements Runnable {
@@ -25,14 +23,15 @@ public class UpdateChecker implements Runnable {
     public static URL UPDATE_URL = null;
     static {
         try {
-            UPDATE_URL = new URL("http://observation.sourceforge.net/update");
+            UPDATE_URL = new URL(
+                    "https://raw.githubusercontent.com/capape/observation-manager/master/observation-manager/observation-manager-app/src/main/resources/version.properties");
         } catch (MalformedURLException url) {
             LOGGER.error("Malformed update check URL: {} ", UPDATE_URL);
         }
     }
 
-    private static final String UPDATEFILE_LATESTVERSION = "latestVersion";
-    private static final String UPDATEFILE_DOWNLOADURL = "downloadURL";
+    private static final String UPDATEFILE_LATESTVERSION = "latest.version";
+    private static final String UPDATEFILE_DOWNLOADURL = "download.url";
 
     private ObservationManager om = null;
     private List<UpdateEntry> result = new ArrayList<>();
@@ -56,27 +55,10 @@ public class UpdateChecker implements Runnable {
     @Override
     public void run() {
 
-        // Check extensions
-        List<IExtension> extensions = this.om.getExtensionLoader().getExtensions();
-        ListIterator<IExtension> iterator = extensions.listIterator();
-        IExtension currentExtension = null;
-        URL currentExtensionURL = null;
-        UpdateEntry currentResult = null;
         try {
-            while (iterator.hasNext()) {
-                currentExtension = iterator.next();
-                currentExtensionURL = currentExtension.getUpdateInformationURL();
-                if (currentExtensionURL != null) {
-                    currentResult = this.checkForUpdates(currentExtension.getName(),
-                            String.valueOf(currentExtension.getVersion()), currentExtensionURL);
-                    if (currentResult != null) { // New version found
-                        result.add(currentResult);
-                    }
-                }
-            }
 
             // Check OM itself
-            currentResult = this.checkForUpdates("Observation Manager", om.getVersion(), UPDATE_URL);
+            UpdateEntry currentResult = this.checkForUpdates("Observation Manager", om.getVersion(), UPDATE_URL);
             if (currentResult != null) { // New version found
                 result.add(currentResult);
             }
