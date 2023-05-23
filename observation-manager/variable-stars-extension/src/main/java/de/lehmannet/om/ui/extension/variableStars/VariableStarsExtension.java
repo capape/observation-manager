@@ -45,6 +45,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.extension.variableStars.export.AAVSOVisualSerializer;
@@ -53,7 +54,6 @@ import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.extension.AbstractExtension;
-import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
@@ -452,6 +452,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                     } catch (IllegalArgumentException iae) { // No variable star observation found
                         return;
                     }
+
                     if (popup.getAllSelectedObservations() != null) {
                         if (popup.getAllSelectedObservations().length > 0) {
                             observations = popup.getAllSelectedObservations();

@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.JButton;
@@ -88,6 +90,15 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         this.tableModel = new ExtendedSchemaTableModel(elements, SchemaElementConstants.TARGET,
                 TargetVariableStar.XML_XSI_TYPE_VALUE, false, null);
 
+        checkVariableStarObservationExist();
+
+        this.initDialog();
+
+        this.setVisible(true);
+
+    }
+
+    private void checkVariableStarObservationExist() {
         // Check if there're variable star observations at all. If not, show popup and
         // return...
         Object o = this.tableModel.getValueAt(0, 0);
@@ -95,11 +106,6 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
             this.uiHelper.showInfo(this.uiBundle.getString("popup.selectVariableStar.info.noVariableStarObservations"));
             throw new IllegalArgumentException("No Variable Star Observation found.");
         }
-
-        this.initDialog();
-
-        this.setVisible(true);
-
     }
 
     @Override
@@ -121,16 +127,10 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         if (o instanceof Boolean) {
             if ((Boolean) o) { // If checkbox marked
 
-                IObservation[] observations = this.getAllSelectedObservations();
-
-                if ((observations == null) || (observations.length == 0)) {
+                SortedSet<IObservation> set = this.getObservationsSorted(this.beginDate, this.endDate);
+                if (set.isEmpty()) {
                     return;
                 }
-
-                // Get observations in a sorted way (newest observation at the beginning)
-                ObservationComparator comparator = new ObservationComparator(true);
-                TreeSet<IObservation> set = new TreeSet<>(comparator);
-                set.addAll(Arrays.asList(observations));
 
                 this.beginDate = ((IObservation) set.first()).getBegin().toZonedDateTime();
                 this.endDate = ((IObservation) set.last()).getBegin().toZonedDateTime();
@@ -139,6 +139,19 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                 this.endField.setText(this.formatDate(this.endDate));
             }
         }
+
+    }
+
+    private SortedSet<IObservation> getObservationsSorted(ZonedDateTime start, ZonedDateTime end) {
+        IObservation[] observations = this.getAllSelectedObservations(this.beginDate, this.endDate);
+        if ((observations == null) || (observations.length == 0)) {
+            return Collections.<IObservation> emptySortedSet();
+        }
+
+        ObservationComparator comparator = new ObservationComparator(true);
+        TreeSet<IObservation> set = new TreeSet<>(comparator);
+        set.addAll(Arrays.asList(observations));
+        return set;
 
     }
 
@@ -165,27 +178,24 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                             this.dateManager);
                 }
 
-                // Make sure selected date is in observation period
-                IObservation[] observations = this.getAllSelectedObservations();
-                if ((observations != null) && (observations.length > 0)) {
+                // Set selected date
+                this.beginDate = dp.getDate();
+                this.beginField.setText(dp.getDateString());
+
+                SortedSet<IObservation> set = this.getObservationsSorted(this.beginDate, this.endDate);
+                if (!set.isEmpty()) {
                     // Get observations in a sorted way
-                    ObservationComparator comparator = new ObservationComparator(true);
-                    TreeSet<IObservation> set = new TreeSet<>(comparator);
-                    set.addAll(Arrays.asList(observations));
 
-                    ZonedDateTime first = ((IObservation) set.first()).getBegin().toZonedDateTime();
-                    ZonedDateTime last = ((IObservation) set.last()).getBegin().toZonedDateTime();
+                    ZonedDateTime first = set.first().getBegin().toZonedDateTime();
+                    ZonedDateTime last = set.last().getBegin().toZonedDateTime();
 
-                    if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
+                    if (!isDateInRangeDate(this.beginDate, first, last)) {
                         this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.begin.datePicker.outOfScope"));
                         return;
                     }
                 }
 
-                // Set selected date
-                this.beginDate = dp.getDate();
-                this.beginField.setText(dp.getDateString());
             } else if (sourceButton.equals(this.endPicker)) {
                 DatePicker dp = null;
                 if (this.endDate != null) {
@@ -201,33 +211,36 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                             this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.dateManager);
                 }
 
+                // Set selected date
+                this.endDate = dp.getDate();
+                this.endField.setText(dp.getDateString());
+
                 // Make sure selected date is in observation period
-                IObservation[] observations = this.getAllSelectedObservations();
-                if ((observations != null) && (observations.length > 0)) {
-                    // Get observations in a sorted way
-                    ObservationComparator comparator = new ObservationComparator();
-                    TreeSet<IObservation> set = new TreeSet<>(comparator);
-                    set.addAll(Arrays.asList(observations));
+                SortedSet<IObservation> set = this.getObservationsSorted(this.beginDate, this.endDate);
+                if (!set.isEmpty()) {
 
-                    ZonedDateTime first = ((IObservation) set.first()).getBegin().toZonedDateTime();
-                    ZonedDateTime last = ((IObservation) set.last()).getBegin().toZonedDateTime();
+                    ZonedDateTime first = set.first().getBegin().toZonedDateTime();
+                    ZonedDateTime last = set.last().getBegin().toZonedDateTime();
 
-                    if ((dp.getDate().isBefore(first)) || (dp.getDate().isAfter(last))) {
+                    if (!isDateInRangeDate(dp.getDate(), first, last)) {
                         this.uiHelper.showWarning(
                                 this.uiBundle.getString("popup.selectVariableStar.end.datePicker.outOfScope"));
                         return;
                     }
                 }
 
-                // Set selected date
-                this.endDate = dp.getDate();
-                this.endField.setText(dp.getDateString());
             }
         }
 
     }
 
     public IObservation[] getAllSelectedObservations() {
+
+        return this.getAllSelectedObservations(this.beginDate, this.endDate);
+
+    }
+
+    private IObservation[] getAllSelectedObservations(ZonedDateTime start, ZonedDateTime end) {
 
         if (this.tableModel == null) {
             return null;
@@ -237,22 +250,40 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         if ((selectedStars == null) || (selectedStars.isEmpty())) {
             return new IObservation[] {};
         }
+
         ITarget selectedStar = (ITarget) selectedStars.get(0);
         IObservation[] observations = this.model.getObservations(selectedStar);
 
         // Filter by start/end date
         List<IObservation> result = new ArrayList<>();
         for (IObservation observation : observations) {
-            if ((observation.getBegin().toZonedDateTime().isBefore(this.beginDate))
-                    || (observation.getBegin().toZonedDateTime().isAfter(this.endDate))) {
-                // Observation not in selected time period
-            } else {
+            if (isObservationInRangeDate(observation, start, end)) {
                 result.add(observation);
             }
         }
 
         return (IObservation[]) result.toArray(new IObservation[] {});
 
+    }
+
+    private boolean isObservationInRangeDate(IObservation observation, ZonedDateTime start, ZonedDateTime end) {
+
+        ZonedDateTime observationStarTime = observation.getBegin().toZonedDateTime();
+        ZonedDateTime observationEndTime = observation.getBegin().toZonedDateTime();
+        boolean isInRangeDate = !((start != null && observationStarTime.isBefore(start))
+                || (end != null && observationEndTime.isAfter(end)));
+        if (isInRangeDate) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDateInRangeDate(ZonedDateTime date, ZonedDateTime start, ZonedDateTime end) {
+        boolean isInRangeDate = !(date.isBefore(start) || date.isAfter(end));
+        if (isInRangeDate) {
+            return true;
+        }
+        return false;
     }
 
     private void initDialog() {
