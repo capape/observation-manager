@@ -88,7 +88,7 @@ public class UpdateChecker implements Runnable {
                 URL downloadURL = null;
                 // Try to get online Version
                 String newVersion = oldVersion;
-                    
+
                 do {
                     currentLine = in.readLine();
 
@@ -98,7 +98,7 @@ public class UpdateChecker implements Runnable {
                     }
 
                     if (currentLine.startsWith(UpdateChecker.UPDATEFILE_LATESTVERSION)) {
-                      
+
                         newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
 
                     }
