@@ -7,12 +7,14 @@
 
 package de.lehmannet.om;
 
-import de.lehmannet.om.util.IIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.util.IIDGenerator;
+
 /**
- * The SchemaElement represents the root class for all schema element classes. It provides a simple implemantation of
+ * The SchemaElement represents the root class for all schema element classes.
+ * It provides a simple implemantation of
  * the ISchemaInterface, so that any subclass inherits a unique ID.
  *
  * @author doergn@users.sourceforge.net
@@ -26,7 +28,7 @@ public abstract class SchemaElement implements ISchemaElement {
     // ---------------
 
     // UID Generator
-    private static IIDGenerator IDGenerator;
+    protected static IIDGenerator IDGenerator;
 
     // -------------
     // Static blocks -----------------------------------------------------
@@ -65,7 +67,8 @@ public abstract class SchemaElement implements ISchemaElement {
 
     /**
      * Constructs a new instance of a Schema Element.<br>
-     * Any instance of a Schema Element has a unique ID which identifies the element, and which allows to link serveral
+     * Any instance of a Schema Element has a unique ID which identifies the
+     * element, and which allows to link serveral
      * elements.
      */
     public SchemaElement() {
@@ -76,11 +79,13 @@ public abstract class SchemaElement implements ISchemaElement {
 
     /**
      * Constructs a new instance of a Schema Element with a given ID.<br>
-     * Any instance of a Schema Element has a unique ID which identifies the element, and which allows to link serveral
+     * Any instance of a Schema Element has a unique ID which identifies the
+     * element, and which allows to link serveral
      * elements.<br>
      *
      * @throws IllegalArgumentException
-     *             if ID is <code>null</code> or contains empty string.
+     *                                  if ID is <code>null</code> or contains empty
+     *                                  string.
      */
     SchemaElement(String id) throws IllegalArgumentException {
 
@@ -133,11 +138,12 @@ public abstract class SchemaElement implements ISchemaElement {
 
     /**
      * Sets a unique ID of this schema element.<br>
-     * The ID is used to link this element with other XML elements in the schema.<br>
+     * The ID is used to link this element with other XML elements in the
+     * schema.<br>
      * Call this method only, if your know what you're doing.
      *
      * @param newID
-     *            The new unique ID for this object.
+     *              The new unique ID for this object.
      */
     void setID(String newID) {
 
@@ -147,9 +153,11 @@ public abstract class SchemaElement implements ISchemaElement {
 
     /**
      * Returns a display name for this element.<br>
-     * The method differs from the toString() method as toString() shows more technical information about the element.
+     * The method differs from the toString() method as toString() shows more
+     * technical information about the element.
      * Also the formating of toString() can spread over several lines.<br>
-     * This method returns a string (in one line) that can be used as displayname in e.g. a UI dropdown box.
+     * This method returns a string (in one line) that can be used as displayname in
+     * e.g. a UI dropdown box.
      *
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
