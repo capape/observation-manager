@@ -1,7 +1,6 @@
 package de.lehmannet.om.ui.extension.solarSystem;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +8,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -21,6 +21,7 @@ import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon;
@@ -31,7 +32,6 @@ import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
-import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.solarSystem.catalog.SolarSystemCatalog;
@@ -43,16 +43,6 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class SolarSystemExtension extends AbstractExtension {
 
     private static final String NAME = "Solar System";
-    private static final String VERSION = "0.9.1";
-    private static URL UPDATE_URL = null;
-    static {
-        try {
-            SolarSystemExtension.UPDATE_URL = new URL(
-                    "http://observation.sourceforge.net/extension/solarSystem/update");
-        } catch (MalformedURLException m_url) {
-            // Do nothing
-        }
-    }
 
     private ResourceBundle bundle;
     private IExtensionContext context;
@@ -132,16 +122,9 @@ public class SolarSystemExtension extends AbstractExtension {
     }
 
     @Override
-    public String getVersion() {
+    public Optional<URL> getUpdateInformationURL() {
 
-        return SolarSystemExtension.VERSION;
-
-    }
-
-    @Override
-    public URL getUpdateInformationURL() {
-
-        return SolarSystemExtension.UPDATE_URL;
+        return Optional.empty();
 
     }
 

@@ -16,7 +16,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -65,16 +65,6 @@ import de.lehmannet.om.util.SchemaElementConstants;
 public class VariableStarsExtension extends AbstractExtension implements ActionListener {
 
     private static final String NAME = "Variable Stars";
-    private static final String VERSION = "0.9.3";
-    private static URL UPDATE_URL = null;
-    static {
-        try {
-            VariableStarsExtension.UPDATE_URL = new URL(
-                    "http://observation.sourceforge.net/extension/variableStars/update");
-        } catch (MalformedURLException m_url) {
-            // Do nothing
-        }
-    }
 
     private ResourceBundle typeBundle;
     private ResourceBundle uiBundle;
@@ -145,16 +135,9 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public URL getUpdateInformationURL() {
+    public Optional<URL> getUpdateInformationURL() {
 
-        return VariableStarsExtension.UPDATE_URL;
-
-    }
-
-    @Override
-    public String getVersion() {
-
-        return VariableStarsExtension.VERSION;
+        return Optional.empty();
 
     }
 
@@ -368,7 +351,7 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                         .collect(Collectors.toList());
 
                 AAVSOVisualSerializer aavsoExport = new AAVSOVisualSerializer(
-                        "Observation Manager - VariableStars Extension" + VERSION, results);
+                        "Observation Manager - VariableStars Extension" + getVersion(), results);
 
                 // Create export file path
                 String[] files = this.context.getModel().getAllOpenedFiles();
