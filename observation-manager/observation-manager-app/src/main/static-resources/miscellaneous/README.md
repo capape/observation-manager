@@ -1,6 +1,6 @@
 # OBSERVATION MANAGER
 
-For by Antonio Capapé
+Fork by Antonio Capapé
 
     https://github.com/capape/observation-manager/
 
