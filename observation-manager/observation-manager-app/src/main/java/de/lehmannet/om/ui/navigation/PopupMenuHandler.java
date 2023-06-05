@@ -169,10 +169,12 @@ class PopupMenuHandler implements ActionListener {
             entries++;
         }
         if ((operation & PopupMenuHandler.CLONE_OBSERVATION) == PopupMenuHandler.CLONE_OBSERVATION) {
-            this.clon = new JMenuItem(bundle.getString("clone"));
-            this.clon.addActionListener(this);
-            popupMenu.add(this.clon);
-            entries++;
+            if (seType == SchemaElementConstants.OBSERVATION) {
+                this.clon = new JMenuItem(bundle.getString("clone"));
+                this.clon.addActionListener(this);
+                popupMenu.add(this.clon);
+                entries++;
+            }
         }
 
         if ((operation & PopupMenuHandler.DELETE) == PopupMenuHandler.DELETE) {
