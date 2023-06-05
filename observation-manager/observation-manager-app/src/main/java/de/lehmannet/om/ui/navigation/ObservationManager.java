@@ -567,21 +567,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private void setTitle() {
 
-        // final Class<? extends Toolkit> toolkit = Toolkit.getDefaultToolkit().getClass();
-        String title = String.format("Observation Manager - %s ", this.getVersion());
-        // if (toolkit.getName().equals("sun.awt.X11.XToolkit")) { // Sets title
-        // // correct in
-        // // Linux/Gnome3
-        // // desktop
-        // try {
-        // final Field awtAppClassName = toolkit.getDeclaredField("awtAppClassName");
-        // awtAppClassName.setAccessible(true);
-        // awtAppClassName.set(null, title);
-        // } catch (final Exception e) {
-        // // Cannot do much here
-        // }
-        // }
-
+        String title = String.format("Observation Manager: %s - OAL: %s", this.getVersion(), this.getOALVersion());
+        
         this.setTitle(title);
 
     }
@@ -952,5 +939,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     public String getVersion() {
         return this.versionTextManager.getString("observation.manager.version");
+    }
+
+    public String getOALVersion() {
+        return this.versionTextManager.getString("oal.version");
     }
 }
