@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
@@ -20,6 +19,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -45,7 +45,7 @@ import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
-import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.extension.AbstractExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
@@ -54,18 +54,9 @@ import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class SkyChartClient implements IExtension, ActionListener {
+public class SkyChartClient extends AbstractExtension implements ActionListener {
 
     private static final String NAME = "Starchart Remote Control";
-    private static final String VERSION = "0.9.2";
-    private static URL UPDATE_URL = null;
-    static {
-        try {
-            SkyChartClient.UPDATE_URL = new URL("http://observation.sourceforge.net/extension/skychart/update");
-        } catch (MalformedURLException m_url) {
-            // Do nothing
-        }
-    }
 
     private ResourceBundle bundle;
 
@@ -690,9 +681,9 @@ public class SkyChartClient implements IExtension, ActionListener {
     }
 
     @Override
-    public URL getUpdateInformationURL() {
+    public Optional<URL> getUpdateInformationURL() {
 
-        return SkyChartClient.UPDATE_URL;
+        return Optional.empty();
 
     }
 
@@ -700,13 +691,6 @@ public class SkyChartClient implements IExtension, ActionListener {
     public PreferencesPanel getPreferencesPanel() {
 
         return new SkyChartPreferences(this.context.getConfiguration());
-
-    }
-
-    @Override
-    public String getVersion() {
-
-        return SkyChartClient.VERSION;
 
     }
 

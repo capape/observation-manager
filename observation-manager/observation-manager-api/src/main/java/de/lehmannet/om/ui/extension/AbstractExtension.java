@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JMenu;
@@ -16,11 +17,14 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 public abstract class AbstractExtension implements IExtension {
 
     protected String OAL_EXTENSION_FILE = "noCorrectSetByExtension";
+
+    final private ResourceBundle versionBundle = LocaleToolsFactory.appInstance().getBundle("version", "en");
 
     // HashMap:
     // Key: SchemaElementConstant Value: HashMap of xsiTypes
@@ -31,9 +35,6 @@ public abstract class AbstractExtension implements IExtension {
 
     @Override
     public abstract String getName();
-
-    @Override
-    public abstract String getVersion();
 
     @Override
     public abstract JMenu getMenu();
@@ -52,6 +53,11 @@ public abstract class AbstractExtension implements IExtension {
 
     @Override
     public abstract ICatalog[] getCatalogs(File catalogDir);
+
+    @Override
+    public String getVersion() {
+        return versionBundle.getString("observation.manager.extensions.version");
+    }
 
     @Override
     public Set<String> getAllSupportedXSITypes() {

@@ -9,6 +9,7 @@ package de.lehmannet.om.ui.extension;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -59,10 +60,7 @@ public interface IExtension {
 
     PopupMenuExtension getPopupMenu();
 
-    /**
-     * @since IExtension 0.9
-     */
-    URL getUpdateInformationURL();
+    Optional<URL> getUpdateInformationURL();
 
     AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
             boolean editable);

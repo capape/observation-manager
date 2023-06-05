@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -34,10 +35,9 @@ import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
 
 // Build-In extension for ObservationManager
-public class GenericExtension implements IExtension {
+public class GenericExtension extends AbstractExtension {
 
     public static final String NAME = "Built-In extension";
-    private static final String VERSION = "0.9.0";
 
     private ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("genericTargetDisplayNames",
             Locale.getDefault());
@@ -96,13 +96,6 @@ public class GenericExtension implements IExtension {
     public String getName() {
 
         return GenericExtension.NAME;
-
-    }
-
-    @Override
-    public String getVersion() {
-
-        return GenericExtension.VERSION;
 
     }
 
@@ -251,9 +244,9 @@ public class GenericExtension implements IExtension {
     // No specific updates available. GenericExtension is part of ObservationManager
     // itself
     @Override
-    public URL getUpdateInformationURL() {
+    public Optional<URL> getUpdateInformationURL() {
 
-        return null;
+        return Optional.empty();
 
     }
 
