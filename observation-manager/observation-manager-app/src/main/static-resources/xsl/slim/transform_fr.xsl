@@ -1019,7 +1019,7 @@
 
                </xsl:text>
             </script>
-            <xsl:text disable-output-escaping="yes">&lt;br&gt;avec &lt;a href="http://observation.sourceforge.net/en/" target="_blank"&gt;Observation Manager&lt;/a&gt;</xsl:text>
+            <xsl:text disable-output-escaping="yes">&lt;br&gt;avec &lt;a href="https://github.com/capape/observation-manager" target="_blank"&gt;Observation Manager&lt;/a&gt;</xsl:text>
           </div>
         </div>
       </BODY>
