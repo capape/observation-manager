@@ -1,8 +1,7 @@
-Para facilitar sua vida no Observation Manager, v\ufffdrias
-teclas de atalho s\ufffdo definidas:
-Ctrl+S = Salvar arquivo
-Ctrl+O = Abrir arquivo
-Ctrl+P = Exportar HTML
-Ctrl+E = Editar observa\ufffd\ufffdo atual
-Ctrl+N = Cadastrar nova observa\ufffd\ufffdo
-F1     = Help / Voc\ufffd sabia?
+Para facilitar sua vida com o gerente de observa\u00e7\u00e3o, v\u00e1rias chaves importantes s\u00e3o definidas:
+Strg+s = salvar arquivo
+Strg+o = arquivo aberto
+Strg+p = exporta\u00e7\u00e3o html
+Strg+e = editar a observa\u00e7\u00e3o atual
+Strg+n = Crie nova observa\u00e7\u00e3o
+F1 = Ajuda / voc\u00ea sabia?

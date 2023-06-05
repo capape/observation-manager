@@ -1,10 +1,11 @@
-Voc\ufffd sabia que \ufffd poss\ufffdvel utilizar seus pr\ufffdprios arquivos
-XSL para gera\ufffd\ufffdo dos HTMLs no Observation Manager?
-Basta criar uma nova pasta embaixo da pasta de instala\ufffd\ufffdo dos 
-xsl.  Coloque os seus XSLs nessa nova pasta e renomeie seu
-arquivo XSL para: transform.xsl
-Agora selecione seu arquivo XSL no menu "Preferences" 
-(o nome da sua pasta rec\ufffdm criada ser\ufffd usada na caixa de 
-sele\ufffd\ufffdo).  Pronto !
-Todas as exporta\ufffd\ufffdes para HTML agora utilizar\ufffdo o seu pr\ufffdprio
-formato. 
+Voc\u00ea sabia que pode usar seus pr\u00f3prios arquivos XSL para HTML?
+ Transforma\u00e7\u00e3o no Observation Manager?
+ Basta criar uma nova pasta na pasta XSL de instala\u00e7\u00f5es.
+ Coloque seu arquivo XSL na nova pasta e altere seu nome
+ Xsl a arquivo: transform.xsl
+ Agora selecione seu arquivo XSL no menu do Observation Manager
+ Entrada de "Prefer\u00eancias" (o nome da sua pasta rec\u00e9m -criada
+ Ser\u00e1 usado na caixa de sele\u00e7\u00e3o).
+ J\u00e1 terminou!
+ Com cada novo administrador de observa\u00e7\u00e3o de exporta\u00e7\u00e3o HTML agora
+ Use seu pr\u00f3prio arquivo XSL.
