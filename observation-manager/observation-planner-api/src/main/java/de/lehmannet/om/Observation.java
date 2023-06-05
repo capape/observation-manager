@@ -37,7 +37,7 @@ import de.lehmannet.om.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public class Observation extends SchemaElement implements IObservation {
+public class Observation extends SchemaElement implements IObservation, Cloneable {
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -1472,6 +1472,17 @@ public class Observation extends SchemaElement implements IObservation {
 
         this.target = target;
 
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            Observation clone = (Observation) super.clone();
+            clone.setID(SchemaElement.IDGenerator.generateUID());
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            return new Observation(begin.atZoneSameInstant(ZoneId.systemDefault()), target, observer, results);
+        }
     }
 
 }
