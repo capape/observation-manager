@@ -56,7 +56,7 @@ class PopupMenuHandler implements ActionListener {
     public static final byte CREATE_NEW_OBSERVATION = 0x10;
     public static final byte EXTENSIONS = 0x20;
     public static final byte CREATE_XML = 0x40;
-    public static final byte CLONE_OBSERVATION= 0x50;
+    public static final byte CLONE_OBSERVATION = 0x50;
 
     private ObservationManager observationManager = null;
     private ISchemaElement element = null;
@@ -169,7 +169,7 @@ class PopupMenuHandler implements ActionListener {
             entries++;
         }
         if ((operation & PopupMenuHandler.CLONE_OBSERVATION) == PopupMenuHandler.CLONE_OBSERVATION) {
-            this.clon = new JMenuItem(bundle.getString("cloneq "));
+            this.clon = new JMenuItem(bundle.getString("clone"));
             this.clon.addActionListener(this);
             popupMenu.add(this.clon);
             entries++;
@@ -270,7 +270,7 @@ class PopupMenuHandler implements ActionListener {
                 editElement();
             } else if (source.equals(this.create)) {
                 createElement();
-            }  else if (source.equals(this.clon)) {
+            } else if (source.equals(this.clon)) {
                 cloneElement();
             } else if (source.equals(this.delete)) {
                 this.observationManager.deleteSchemaElement(element);
@@ -365,12 +365,11 @@ class PopupMenuHandler implements ActionListener {
     private void editElement() {
         if (element instanceof IObservation) {
             // Edit current/selected observation
-            ObservationDialog dialog = new ObservationDialog(this.observationManager, this.model,
-                    this.textManager, (IObservation) this.element, this.cache);
+            ObservationDialog dialog = new ObservationDialog(this.observationManager, this.model, this.textManager,
+                    (IObservation) this.element, this.cache);
             // Create new observation
             while (dialog == null || dialog.isCreateAdditionalObservation()) {
-                dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null,
-                        this.cache);
+                dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null, this.cache);
                 this.observationManager.update(dialog.getObservation());
             }
         } else if (element instanceof ITarget) {
@@ -383,16 +382,15 @@ class PopupMenuHandler implements ActionListener {
             EyepieceDialog dialog = new EyepieceDialog(this.observationManager, (IEyepiece) this.element);
         } else if (element instanceof IImager) {
             IImager imager = (IImager) element;
-            IImagerDialog dialog = (IImagerDialog) this.observationManager.getExtensionLoader()
-                    .getSchemaUILoader()
+            IImagerDialog dialog = (IImagerDialog) this.observationManager.getExtensionLoader().getSchemaUILoader()
                     .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
         } else if (element instanceof ISite) {
             SiteDialog dialog = new SiteDialog(this.observationManager, (ISite) this.element);
         } else if (element instanceof IFilter) {
             FilterDialog dialog = new FilterDialog(this.observationManager, (IFilter) this.element);
         } else if (element instanceof ISession) {
-            SessionDialog dialog = new SessionDialog(this.observationManager, this.model,
-                    (ISession) this.element, this.cache);
+            SessionDialog dialog = new SessionDialog(this.observationManager, this.model, (ISession) this.element,
+                    this.cache);
         } else if (element instanceof IObserver) {
             ObserverDialog dialog = new ObserverDialog(this.observationManager, (IObserver) this.element);
         } else if (element instanceof ILens) {
@@ -400,19 +398,18 @@ class PopupMenuHandler implements ActionListener {
         }
     }
 
-
     private void cloneElement() {
         if (element instanceof IObservation) {
             // Edit current/selected observation
             Observation currentObservation = (Observation) this.element;
             Observation observation = (Observation) currentObservation.clone();
-            
+
             this.model.add(observation);
 
-            ObservationDialog dialog = new ObservationDialog(this.observationManager, this.model,
-                    this.textManager, observation, this.cache);
+            ObservationDialog dialog = new ObservationDialog(this.observationManager, this.model, this.textManager,
+                    observation, this.cache);
             this.observationManager.update(dialog.getObservation());
-            
+
         }
     }
 

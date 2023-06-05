@@ -1472,7 +1472,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this.target = target;
 
-        
     }
 
     @Override
@@ -1482,8 +1481,8 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             clone.setID(SchemaElement.IDGenerator.generateUID());
             return clone;
         } catch (CloneNotSupportedException e) {
-            return new Observation(begin.atZoneSameInstant(ZoneId.systemDefault()), target, observer, results);            
+            return new Observation(begin.atZoneSameInstant(ZoneId.systemDefault()), target, observer, results);
         }
-}
+    }
 
 }

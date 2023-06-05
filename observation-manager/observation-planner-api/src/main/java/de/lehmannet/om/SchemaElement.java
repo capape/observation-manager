@@ -84,8 +84,8 @@ public abstract class SchemaElement implements ISchemaElement {
      * elements.<br>
      *
      * @throws IllegalArgumentException
-     *                                  if ID is <code>null</code> or contains empty
-     *                                  string.
+     *             if ID is <code>null</code> or contains empty
+     *             string.
      */
     SchemaElement(String id) throws IllegalArgumentException {
 
@@ -143,7 +143,7 @@ public abstract class SchemaElement implements ISchemaElement {
      * Call this method only, if your know what you're doing.
      *
      * @param newID
-     *              The new unique ID for this object.
+     *            The new unique ID for this object.
      */
     void setID(String newID) {
 
