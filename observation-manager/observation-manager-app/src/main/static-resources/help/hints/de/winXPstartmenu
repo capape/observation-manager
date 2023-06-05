@@ -1,7 +1,0 @@
-Sie k\u00f6nnen den Observation Manager auch in Ihrem Windows XP Startmenu erscheinen lassen: 
-Rechts-Klick auf obs.bat->Verkn\u00fcpfung erstellen 
-Rechts-Klick auf die Verkn\u00fcpfung->Eiegenschaften->Change Icon w\u00e4hlen sie die Datei "om_logo.ico" 
-im Observation Manager Installationsverzeichnis aus 
-Rechts-Klick auf die Verkn\u00fcpfung->Umbenennen \u00e4ndern Sie den Namen von "obs.bat" nach "Observation Manager" 
-Ziehen Sie die Verkn\u00fcpfung per Drag&Drop in das WinXP Startmenu. Dazu ziehen Sie bei gedr\u00fcckter 
-Maustaste die Verkn\u00fcpfung zuerst auf "Start" und dann weiter in das Startmenu. 
