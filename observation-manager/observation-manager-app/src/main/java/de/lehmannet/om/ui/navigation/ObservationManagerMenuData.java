@@ -182,7 +182,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewSite() {
 
-        SiteDialog dialog = new SiteDialog(this.observationManager, null);
+        SiteDialog dialog = new SiteDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getSite());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)

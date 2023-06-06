@@ -800,7 +800,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
                             .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
                 } else if (element instanceof ISite) {
-                    new SiteDialog(ObservationManager.this, (ISite) element);
+                    new SiteDialog(ObservationManager.this, ObservationManager.this.model, (ISite) element);
                 } else if (element instanceof IFilter) {
                     new FilterDialog(ObservationManager.this, (IFilter) element);
                 } else if (element instanceof ISession) {

@@ -324,7 +324,7 @@ class PopupMenuHandler implements ActionListener {
                 break;
             }
             case SITE: {
-                SiteDialog dialog = new SiteDialog(this.observationManager, null);
+                SiteDialog dialog = new SiteDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getSite());
                 break;
             }
@@ -387,7 +387,7 @@ class PopupMenuHandler implements ActionListener {
             IImagerDialog dialog = (IImagerDialog) this.observationManager.getExtensionLoader().getSchemaUILoader()
                     .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
         } else if (element instanceof ISite) {
-            SiteDialog dialog = new SiteDialog(this.observationManager, (ISite) this.element);
+            SiteDialog dialog = new SiteDialog(this.observationManager, this.model, (ISite) this.element);
         } else if (element instanceof IFilter) {
             FilterDialog dialog = new FilterDialog(this.observationManager, (IFilter) this.element);
         } else if (element instanceof ISession) {

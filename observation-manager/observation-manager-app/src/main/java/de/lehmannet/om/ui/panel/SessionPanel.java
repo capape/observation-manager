@@ -189,7 +189,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void setSite() {
-        SiteDialog dialog = new SiteDialog(this.observationManager, null);
+        SiteDialog dialog = new SiteDialog(this.observationManager, this.model, null);
         this.siteBox.addItem(dialog.getSite());
     }
 

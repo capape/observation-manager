@@ -711,7 +711,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 // or sites be created, so refill lists
                 this.fillLists(true);
             } else if (source.equals(this.newSite)) {
-                SiteDialog siteDialog = new SiteDialog(this.observationManager, null);
+                SiteDialog siteDialog = new SiteDialog(this.observationManager, this.model, null);
                 this.siteBox.addItem(siteDialog.getSite());
             } else if (source.equals(this.selectTarget)) {
                 CatalogDialog cDialog = new CatalogDialog(this.observationManager, this.model, this.textManager);
