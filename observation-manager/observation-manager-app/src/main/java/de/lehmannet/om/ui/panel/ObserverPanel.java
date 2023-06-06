@@ -18,7 +18,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListCellRenderer;
@@ -349,15 +355,15 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 4, 2, 50, 90);
         constraints.fill = GridBagConstraints.BOTH;
         String[] accountBoxItems = null;
-        JComboBox accountBox = null;
+        JComboBox<String> accountBox = null;
         if ((this.observer == null) || (this.observer.getAccounts() == null)) {
             accountBoxItems = this.getAccountBoxItems(new HashMap<>());
-            accountBox = new JComboBox(accountBoxItems);
+            accountBox = new JComboBox<String>(accountBoxItems);
             this.accounts = new JTable(new AccountTableModel(new HashMap<>(), this.isEditable(), accountBox));
         } else {
             Map<String, String> a = new HashMap<>(this.observer.getAccounts());
             accountBoxItems = this.getAccountBoxItems(a);
-            accountBox = new JComboBox(accountBoxItems);
+            accountBox = new JComboBox<String>(accountBoxItems);
             this.accounts = new JTable(new AccountTableModel(a, this.isEditable(), accountBox));
         }
         TableColumn col = this.accounts.getColumnModel().getColumn(0);
@@ -431,9 +437,9 @@ class AccountTableModel extends AbstractTableModel {
     private String[] userNames = new String[] {};
 
     private boolean tableEditable = false;
-    private JComboBox box = null;
+    private JComboBox<String> box = null;
 
-    public AccountTableModel(Map<String, String> map, boolean tableEditable, JComboBox box) {
+    public AccountTableModel(Map<String, String> map, boolean tableEditable, JComboBox<String> box) {
 
         // Make sure both lists indicies are always equal
         if (map.size() > this.accounts.length) {
