@@ -27,7 +27,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     private final IConfiguration configuration;
 
     public TargetTableModel(ITarget[] target, IConfiguration configuration) {
-        
+
         this.configuration = configuration;
         this.elements = target;
 
