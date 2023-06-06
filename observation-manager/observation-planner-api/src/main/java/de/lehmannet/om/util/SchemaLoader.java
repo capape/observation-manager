@@ -450,15 +450,15 @@ public class SchemaLoader {
     }
 
     private void logData() {
-        LOGGER.debug("Observations {} ", (Object []) this.observations);
-        LOGGER.debug("session {} ", (Object []) this.sessions);
-        LOGGER.debug("targets {} ", (Object []) this.targets);
-        LOGGER.debug("observers {} ", (Object []) this.observers);
-        LOGGER.debug("sites {} ", (Object []) this.sites);
-        LOGGER.debug("scopes {} ", (Object []) this.scopes);
-        LOGGER.debug("eyepieces {} ", (Object [])  this.eyepieces);
-        LOGGER.debug("filters {} ", (Object []) this.filters);
-        LOGGER.debug("lenses {} ", (Object []) this.lenses);
+        LOGGER.debug("Observations {} ", (Object[]) this.observations);
+        LOGGER.debug("session {} ", (Object[]) this.sessions);
+        LOGGER.debug("targets {} ", (Object[]) this.targets);
+        LOGGER.debug("observers {} ", (Object[]) this.observers);
+        LOGGER.debug("sites {} ", (Object[]) this.sites);
+        LOGGER.debug("scopes {} ", (Object[]) this.scopes);
+        LOGGER.debug("eyepieces {} ", (Object[]) this.eyepieces);
+        LOGGER.debug("filters {} ", (Object[]) this.filters);
+        LOGGER.debug("lenses {} ", (Object[]) this.lenses);
         LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
 
     }

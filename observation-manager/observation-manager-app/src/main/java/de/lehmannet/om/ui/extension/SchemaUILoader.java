@@ -30,6 +30,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
@@ -38,16 +39,17 @@ import de.lehmannet.om.util.SchemaElementConstants;
 
 public class SchemaUILoader {
 
-    private ObservationManager observationManager = null;
+    private final ObservationManager observationManager;
+    private final ObservationManagerModel model;
     private List<IExtension> extensions = null;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SchemaUILoader.class);
 
-    public SchemaUILoader(ObservationManager om, List<IExtension> extensions) {
+    public SchemaUILoader(ObservationManager om, List<IExtension> extensions, ObservationManagerModel model) {
 
         this.observationManager = om;
         this.extensions = extensions;
-
+        this.model = model;
     }
 
     private AbstractPanel getFindingPanel(String xsiType, IFinding finding, boolean editable) {
@@ -359,10 +361,9 @@ public class SchemaUILoader {
                         object = constructor.newInstance(this.observationManager, findingOrTarget, editable);
                         break;
                     } else if ((parameters.length == 3) && (parameters[0].isInstance(this.observationManager))
-                            && (parameters[1].isInstance(this.observationManager.getModel()))
+                            && (parameters[1].isInstance(this.model))
                             && (parameters[2].isAssignableFrom(exampleClass))) {
-                        object = constructor.newInstance(this.observationManager, this.observationManager.getModel(),
-                                findingOrTarget);
+                        object = constructor.newInstance(this.observationManager, this.model, findingOrTarget);
                         break;
                     } else if ((parameters.length == 4) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
@@ -372,11 +373,10 @@ public class SchemaUILoader {
                                 editable);
                         break;
                     } else if ((parameters.length == 4) && (parameters[0].isInstance(this.observationManager))
-                            && (parameters[1].isInstance(this.observationManager.getModel())
-                                    && (parameters[3].isInstance(Boolean.FALSE))
+                            && (parameters[1].isInstance(this.model) && (parameters[3].isInstance(Boolean.FALSE))
                                     && (parameters[2].isAssignableFrom(exampleClass)))) {
-                        object = constructor.newInstance(this.observationManager, this.observationManager.getModel(),
-                                findingOrTarget, editable);
+                        object = constructor.newInstance(this.observationManager, this.model, findingOrTarget,
+                                editable);
                         break;
                     } else if ((parameters.length == 5) && (parameters[0].isInstance(this.observationManager))
                             && (parameters[1].isAssignableFrom(exampleClass))
