@@ -62,3 +62,7 @@
    Polish translation by Andrzej Armiński
    
    ------------------------------
+    
+    Catalan translation by A. Capape and Jordi Poch
+   
+   ------------------------------

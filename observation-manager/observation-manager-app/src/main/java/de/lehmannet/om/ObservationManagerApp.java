@@ -45,6 +45,9 @@ public class ObservationManagerApp {
         final String version = versionTextManager.getString("observation.manager.version");
         LOGGER.info("App version: {}", version);
 
+        final String oalVersion = versionTextManager.getString("oal.version");
+        LOGGER.info("OAL version: {}", oalVersion);
+
         // Get install dir and parse arguments
         LOGGER.info("Reading command line arguments...");
         final ArgumentsParser argumentsParser = new ArgumentsParser.Builder(args).build();
@@ -66,7 +69,8 @@ public class ObservationManagerApp {
         splash.showSplash();
         splash.updateText("Loading...");
         splash.updateTextVersion(String.format("Version: %s", version));
-
+        splash.updateText(String.format("OAL Version...%s", oalVersion));
+        
         final String installDirName = argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
         final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
 
