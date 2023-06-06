@@ -10,7 +10,6 @@ package de.lehmannet.om.ui.dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
@@ -23,7 +22,7 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.ObservationDialogPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
-public class ObservationDialog extends AbstractDialog implements ActionListener {
+public class ObservationDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -4963447134614319943L;
 
