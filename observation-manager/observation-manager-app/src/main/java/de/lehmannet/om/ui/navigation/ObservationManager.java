@@ -389,7 +389,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         if (result.isEmpty()) { // Deletion successful
             this.update(element);
         } else { // Deletion failed due to dependencies
-            new TableElementsDialog(this, result);
+            new TableElementsDialog(this, this.model, result);
         }
 
     }
@@ -792,9 +792,9 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
                             .getTargetDialog(target.getXSIType(), target, null);
                 } else if (element instanceof IScope) {
-                    new ScopeDialog(ObservationManager.this, (IScope) element);
+                    new ScopeDialog(ObservationManager.this, ObservationManager.this.model, (IScope) element);
                 } else if (element instanceof IEyepiece) {
-                    new EyepieceDialog(ObservationManager.this, (IEyepiece) element);
+                    new EyepieceDialog(ObservationManager.this, ObservationManager.this.model, (IEyepiece) element);
                 } else if (element instanceof IImager) {
                     final IImager imager = (IImager) element;
                     ObservationManager.this.getExtensionLoader().getSchemaUILoader()
@@ -802,14 +802,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 } else if (element instanceof ISite) {
                     new SiteDialog(ObservationManager.this, ObservationManager.this.model, (ISite) element);
                 } else if (element instanceof IFilter) {
-                    new FilterDialog(ObservationManager.this, (IFilter) element);
+                    new FilterDialog(ObservationManager.this, ObservationManager.this.model, (IFilter) element);
                 } else if (element instanceof ISession) {
                     new SessionDialog(ObservationManager.this, ObservationManager.this.model, (ISession) element,
                             ObservationManager.this.uiCache);
                 } else if (element instanceof IObserver) {
-                    new ObserverDialog(ObservationManager.this, (IObserver) element);
+                    new ObserverDialog(ObservationManager.this, ObservationManager.this.model, (IObserver) element);
                 } else if (element instanceof ILens) {
-                    new LensDialog(ObservationManager.this, (ILens) element);
+                    new LensDialog(ObservationManager.this, ObservationManager.this.model, (ILens) element);
                 }
 
             }

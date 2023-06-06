@@ -690,19 +690,19 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         Object source = e.getSource();
         if (source instanceof JButton) {
             if (source.equals(this.newEyepiece)) {
-                EyepieceDialog eyepieceDialog = new EyepieceDialog(this.observationManager, null);
+                EyepieceDialog eyepieceDialog = new EyepieceDialog(this.observationManager, this.model, null);
                 this.eyepieceBox.addItem(eyepieceDialog.getEyepiece());
             } else if (source.equals(this.newObserver)) {
-                ObserverDialog observerDialog = new ObserverDialog(this.observationManager, null);
+                ObserverDialog observerDialog = new ObserverDialog(this.observationManager, this.model, null);
                 this.observerBox.addItem(observerDialog.getObserver());
             } else if (source.equals(this.newScope)) {
-                ScopeDialog scopeDialog = new ScopeDialog(this.observationManager, null);
+                ScopeDialog scopeDialog = new ScopeDialog(this.observationManager, this.model, null);
                 this.scopeBox.addItem(scopeDialog.getScope());
             } else if (source.equals(this.newFilter)) {
-                FilterDialog filterDialog = new FilterDialog(this.observationManager, null);
+                FilterDialog filterDialog = new FilterDialog(this.observationManager, this.model, null);
                 this.filterBox.addItem(filterDialog.getFilter());
             } else if (source.equals(this.newLens)) {
-                LensDialog lensDialog = new LensDialog(this.observationManager, null);
+                LensDialog lensDialog = new LensDialog(this.observationManager, this.model, null);
                 this.lensBox.addItem(lensDialog.getLens());
             } else if (source.equals(this.newSession)) {
                 SessionDialog sessionDialog = new SessionDialog(this.observationManager, this.model, null, this.cache);

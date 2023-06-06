@@ -31,6 +31,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
@@ -41,9 +42,9 @@ public class TableElementsDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -666228606403887834L;
 
-    public TableElementsDialog(ObservationManager om, List schemaElements) {
+    public TableElementsDialog(ObservationManager om, ObservationManagerModel model, List schemaElements) {
 
-        super(om, om.getModel(), om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
+        super(om, model, om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
 
         this.setTitle(AbstractDialog.bundle.getString("dialog.tableElements.title"));
         this.positive.setText(AbstractDialog.bundle.getString("dialog.button.ok"));

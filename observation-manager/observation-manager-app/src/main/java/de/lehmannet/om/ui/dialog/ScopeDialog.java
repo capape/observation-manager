@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.dialog;
 
 import de.lehmannet.om.IScope;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.ScopePanel;
 
@@ -15,9 +16,9 @@ public class ScopeDialog extends AbstractDialog {
 
     private static final long serialVersionUID = 8212243666553820686L;
 
-    public ScopeDialog(ObservationManager om, IScope editableScope) {
+    public ScopeDialog(ObservationManager om, ObservationManagerModel model, IScope editableScope) {
 
-        super(om, om.getModel(), om.getUiHelper(), new ScopePanel(editableScope, true));
+        super(om, model, om.getUiHelper(), new ScopePanel(editableScope, true));
 
         if (editableScope == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.scope.title"));

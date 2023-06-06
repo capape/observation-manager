@@ -211,7 +211,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void setObservers() {
-        ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
+        ObserverDialog dialog = new ObserverDialog(this.observationManager, this.model, null);
         if (dialog.getObserver() != null) { // Maybe no observer was created
             this.addCoObserverToTextfield(dialog.getObserver().getDisplayName());
             this.coObserversList.add(dialog.getObserver());

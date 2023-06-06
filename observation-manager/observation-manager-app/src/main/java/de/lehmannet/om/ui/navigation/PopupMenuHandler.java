@@ -294,12 +294,12 @@ class PopupMenuHandler implements ActionListener {
     private void createElement() {
         switch (this.createType) {
             case EYEPIECE: {
-                EyepieceDialog dialog = new EyepieceDialog(this.observationManager, null);
+                EyepieceDialog dialog = new EyepieceDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getEyepiece());
                 break;
             }
             case SCOPE: {
-                ScopeDialog dialog = new ScopeDialog(this.observationManager, null);
+                ScopeDialog dialog = new ScopeDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getScope());
                 break;
             }
@@ -334,12 +334,12 @@ class PopupMenuHandler implements ActionListener {
                 break;
             }
             case OBSERVER: {
-                ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
+                ObserverDialog dialog = new ObserverDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getObserver());
                 break;
             }
             case FILTER: {
-                FilterDialog dialog = new FilterDialog(this.observationManager, null);
+                FilterDialog dialog = new FilterDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getFilter());
                 break;
             }
@@ -355,7 +355,7 @@ class PopupMenuHandler implements ActionListener {
                 break;
             }
             case LENS: {
-                LensDialog dialog = new LensDialog(this.observationManager, null);
+                LensDialog dialog = new LensDialog(this.observationManager, this.model, null);
                 this.observationManager.update(dialog.getLens());
                 break;
             }
@@ -379,9 +379,9 @@ class PopupMenuHandler implements ActionListener {
             ITargetDialog dialog = this.observationManager.getExtensionLoader().getSchemaUILoader()
                     .getTargetDialog(target.getXSIType(), target, null);
         } else if (element instanceof IScope) {
-            ScopeDialog dialog = new ScopeDialog(this.observationManager, (IScope) this.element);
+            ScopeDialog dialog = new ScopeDialog(this.observationManager, this.model, (IScope) this.element);
         } else if (element instanceof IEyepiece) {
-            EyepieceDialog dialog = new EyepieceDialog(this.observationManager, (IEyepiece) this.element);
+            EyepieceDialog dialog = new EyepieceDialog(this.observationManager, this.model, (IEyepiece) this.element);
         } else if (element instanceof IImager) {
             IImager imager = (IImager) element;
             IImagerDialog dialog = (IImagerDialog) this.observationManager.getExtensionLoader().getSchemaUILoader()
@@ -389,14 +389,14 @@ class PopupMenuHandler implements ActionListener {
         } else if (element instanceof ISite) {
             SiteDialog dialog = new SiteDialog(this.observationManager, this.model, (ISite) this.element);
         } else if (element instanceof IFilter) {
-            FilterDialog dialog = new FilterDialog(this.observationManager, (IFilter) this.element);
+            FilterDialog dialog = new FilterDialog(this.observationManager, this.model, (IFilter) this.element);
         } else if (element instanceof ISession) {
             SessionDialog dialog = new SessionDialog(this.observationManager, this.model, (ISession) this.element,
                     this.cache);
         } else if (element instanceof IObserver) {
-            ObserverDialog dialog = new ObserverDialog(this.observationManager, (IObserver) this.element);
+            ObserverDialog dialog = new ObserverDialog(this.observationManager, this.model, (IObserver) this.element);
         } else if (element instanceof ILens) {
-            LensDialog dialog = new LensDialog(this.observationManager, (ILens) this.element);
+            LensDialog dialog = new LensDialog(this.observationManager, this.model, (ILens) this.element);
         }
     }
 
