@@ -186,7 +186,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 this.uiCache);
         this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager,
                 this.textManager, uiHelper, this.model, this.installDir, this);
-        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this);
+        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this.versionTextManager,
+                this);
         this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
                 this.imageResolver, this.textManager, uiHelper, this);
 
@@ -568,7 +569,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private void setTitle() {
 
         String title = String.format("Observation Manager: %s - OAL: %s", this.getVersion(), this.getOALVersion());
-        
+
         this.setTitle(title);
 
     }

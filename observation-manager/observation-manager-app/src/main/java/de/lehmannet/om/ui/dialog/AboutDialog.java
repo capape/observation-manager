@@ -10,31 +10,33 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class AboutDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 4875893088001020590L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final JButton close;
 
-    private final JButton close = new JButton(this.bundle.getString("about.button.close"));
+    private final TextManager textManager;
+    private final TextManager versionTextManager;
 
-    public AboutDialog(ObservationManager om) {
+    public AboutDialog(ObservationManager om, TextManager textManager, TextManager versionTextManager) {
 
         super(om);
 
-        this.setTitle(this.bundle.getString("about.button.title"));
+        this.textManager = textManager;
+        this.versionTextManager = versionTextManager;
+
+        this.close = new JButton(textManager.getString("about.button.close"));
+        this.setTitle(textManager.getString("about.button.title"));
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
 
@@ -74,7 +76,10 @@ public class AboutDialog extends OMDialog implements ActionListener {
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         text.setEditable(false);
-        text.setText(this.bundle.getString("about.dialog.text"));
+        String about = textManager.getString("about.dialog.text") + System.lineSeparator() + System.lineSeparator()
+                + String.format("Open Astronomy Log Version: %s", this.versionTextManager.getString("oal.version"));
+
+        text.setText(about);
         gridbag.setConstraints(text, constraints);
         this.getContentPane().add(text);
 

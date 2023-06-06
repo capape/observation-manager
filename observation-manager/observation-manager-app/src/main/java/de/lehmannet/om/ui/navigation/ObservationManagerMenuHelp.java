@@ -23,13 +23,16 @@ public final class ObservationManagerMenuHelp {
     private JMenu aboutMenu;
 
     private final TextManager textManager;
+    private final TextManager versionTextManager;
 
-    public ObservationManagerMenuHelp(IConfiguration configuration, TextManager textManager, ObservationManager om) {
+    public ObservationManagerMenuHelp(IConfiguration configuration, TextManager textManager,
+            TextManager versionTextManager, ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
         this.observationManager = om;
         this.textManager = textManager;
+        this.versionTextManager = versionTextManager;
 
         this.aboutMenu = this.createMenuAboutItems();
 
@@ -56,7 +59,8 @@ public final class ObservationManagerMenuHelp {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new AboutDialog(ObservationManagerMenuHelp.this.observationManager);
+            new AboutDialog(ObservationManagerMenuHelp.this.observationManager,
+                    ObservationManagerMenuHelp.this.textManager, ObservationManagerMenuHelp.this.versionTextManager);
         }
     }
 }
