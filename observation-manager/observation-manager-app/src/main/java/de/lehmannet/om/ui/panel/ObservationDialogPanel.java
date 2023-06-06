@@ -162,7 +162,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JTextField faintestStar = null;
     private SurfaceBrightnessContainer sqmValue = null;
     private JTextField magnification = null;
-    private JComboBox seeing = null;
+    private JComboBox<SeeingBoxEntry> seeing = null;
     private JTextField accessories = null;
 
     private final ImageResolver imageResolver;
@@ -1008,7 +1008,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
             setCursor(hourglassCursor);
 
-            List images = Arrays.asList(files);
+            List<File> images = Arrays.asList(files);
             this.imageContainer.addImages(images);
             this.repaint();
 
@@ -1493,7 +1493,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.selectionPanel.add(LSeeing);
         ConstraintsBuilder.buildConstraints(constraints, 10, 2, 0, 1, 6, 1);
-        this.seeing = new JComboBox();
+        this.seeing = new JComboBox<SeeingBoxEntry>();
         this.seeing.setEditable(false);
         this.fillSeeingBox();
         this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
