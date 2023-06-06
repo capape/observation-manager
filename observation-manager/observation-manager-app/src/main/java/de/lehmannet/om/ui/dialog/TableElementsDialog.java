@@ -42,7 +42,8 @@ public class TableElementsDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -666228606403887834L;
 
-    public TableElementsDialog(ObservationManager om, ObservationManagerModel model, List schemaElements) {
+    public TableElementsDialog(ObservationManager om, ObservationManagerModel model,
+            List<ISchemaElement> schemaElements) {
 
         super(om, model, om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
 
@@ -64,13 +65,13 @@ class TableElementsPanel extends AbstractPanel {
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
 
-    public TableElementsPanel(List schemaElements, ObservationManager om) {
+    public TableElementsPanel(List<ISchemaElement> schemaElements, ObservationManager om) {
 
         super(true);
 
         this.om = om;
 
-        ISchemaElement[] se = (ISchemaElement[]) schemaElements.toArray(new ISchemaElement[] {});
+        ISchemaElement[] se = schemaElements.toArray(new ISchemaElement[] {});
         this.model = new SimpleSchemaElementModel(se);
         this.table.setModel(this.model);
         ListSelectionModel lsm = this.table.getSelectionModel();
