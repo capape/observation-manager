@@ -12,7 +12,6 @@ import java.util.List;
 
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
-import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 
@@ -25,12 +24,10 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Target";
 
-    private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetTableModel(ITarget[] target, IConfiguration configuration, ObservationManagerModel model) {
-
-        this.model = model;
+    public TargetTableModel(ITarget[] target, IConfiguration configuration) {
+        
         this.configuration = configuration;
         this.elements = target;
 

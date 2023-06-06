@@ -192,7 +192,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         List<ITarget> targets = this.target.getComponentTargets(this.model.getTargets());
         if ((targets != null) && !(targets.isEmpty())) {
             this.tableModel = new TargetTableModel((ITarget[]) targets.toArray(new ITarget[] {}),
-                    this.model.getConfiguration(), this.model);
+                    this.model.getConfiguration());
             this.componentStars.setModel(this.tableModel);
         } else {
             this.createWarning(this.bundle.getString("panel.ms.warning.componentsNotFound"));
@@ -203,7 +203,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     private void createPanel() {
 
         // Prepare Table
-        this.tableModel = new TargetTableModel(new ITarget[] {}, this.model.getConfiguration(), this.model);
+        this.tableModel = new TargetTableModel(new ITarget[] {}, this.model.getConfiguration());
         this.componentStars = new JTable(this.tableModel);
         this.componentStars.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.componentStars.setDoubleBuffered(true);
