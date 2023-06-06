@@ -44,7 +44,7 @@
         <log4j2.version>2.20.0</log4j2.version>
 
         <!-- maven plugin versions -->
-        <maven-assembly-plugin.version>3.5.0</maven-assembly-plugin.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
         <maven-checkstyle-plugin.version>3.3.2</maven-checkstyle-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
