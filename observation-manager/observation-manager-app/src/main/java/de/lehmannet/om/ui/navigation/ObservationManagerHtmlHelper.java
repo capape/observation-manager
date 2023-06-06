@@ -44,7 +44,6 @@ public class ObservationManagerHtmlHelper {
     private final TextManager textManager;
     private final IConfiguration configuration;
     private final InstallDir installDir;
-    private final XMLFileLoader xmlCache;
     private final ObservationManagerModel model;
 
     public ObservationManagerHtmlHelper(UserInterfaceHelper uiHelper, TextManager textManager,
@@ -54,8 +53,7 @@ public class ObservationManagerHtmlHelper {
         this.configuration = configuration;
         this.installDir = installDir;
         this.model = model;
-        // TODO:
-        this.xmlCache = this.model.getXmlCache();
+
     }
 
     public boolean transformXML2HTML(final Document doc, final File htmlFile, final File xslFile) {
@@ -266,7 +264,7 @@ public class ObservationManagerHtmlHelper {
         }
 
         // Get DOM source
-        Document doc = this.xmlCache.getDocumentForSchemaElement(schemaElement);
+        Document doc = this.model.getDocumentForElement(schemaElement);
 
         // XML File needs to be saved, as otherwise we don't get the path
         String[] files = this.model.getAllOpenedFiles();
@@ -342,9 +340,7 @@ public class ObservationManagerHtmlHelper {
 
     public void createHTML(Document doc, File html, File xslFile) {
 
-        if (doc == null) {
-            doc = this.xmlCache.getDocument();
-        }
+        Document xmlDoc = this.model.getDocument(doc);
 
         String[] files = this.model.getAllOpenedFiles();
         if ((files == null) || (files.length == 0)) {
@@ -360,7 +356,7 @@ public class ObservationManagerHtmlHelper {
             html = new File(htmlName);
         }
 
-        boolean result = this.transformXML2HTML(doc, html, xslFile);
+        boolean result = this.transformXML2HTML(xmlDoc, html, xslFile);
         if (result) {
             this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + html);
         } // Otherwise error message have been provided

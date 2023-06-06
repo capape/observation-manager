@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+import org.w3c.dom.Document;
+
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -16,7 +18,6 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.XMLFileLoader;
 
 /**
  * Model for observation manager.
@@ -24,6 +25,10 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
  * @autor capapegil
  */
 public interface ObservationManagerModel {
+
+    Document getDocument(Document doc);
+
+    Document getDocumentForElement(ISchemaElement schemaElement);
 
     void setSelectedElement(ISchemaElement selected);
 
@@ -38,9 +43,6 @@ public interface ObservationManagerModel {
     String getTittle();
 
     Optional<String> getRootName();
-
-    @Deprecated
-    XMLFileLoader getXmlCache();
 
     IConfiguration getConfiguration();
 

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.w3c.dom.Document;
+
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -40,11 +42,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         this.installDir = installDir;
         this.configuration = configuration;
 
-    }
-
-    @Override
-    public XMLFileLoader getXmlCache() {
-        return this.xmlCache;
     }
 
     @Override
@@ -214,6 +211,20 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         } else {
             return new File(x);
         }
+    }
+
+    @Override
+    public Document getDocument(Document doc) {
+        if (doc == null) {
+            return this.xmlCache.getDocument();
+        }
+        return doc;
+
+    }
+
+    @Override
+    public Document getDocumentForElement(ISchemaElement schemaElement) {
+        return this.xmlCache.getDocumentForSchemaElement(schemaElement);
     }
 
     @Override

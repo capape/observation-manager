@@ -184,8 +184,7 @@ public class ExternalExtensionLoader {
 
         }
         this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
-                ClassLoader.getSystemClassLoader());
-        // Add classloader to XMLCache (-> API SchemaLoader) to make sure extension
+                ClassLoader.getSystemClassLoader());        
     }
 
     private IExtension scanJarFile(File jar, boolean update) {
