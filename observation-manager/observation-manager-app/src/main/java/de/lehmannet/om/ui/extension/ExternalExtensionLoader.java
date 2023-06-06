@@ -15,12 +15,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -28,7 +25,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -46,22 +42,6 @@ public class ExternalExtensionLoader {
      * Property to define extesions dir.
      */
     public static final String EXTENSIONS_DIR_PROPERTY = "extensions.dir";
-
-    // ---------
-    // Constants ---------------------------------------------------------
-    // ---------
-    // Extension of config files
-    private static final String MANIFEST_FILENAME = "META-INF/SCHEMATYPE";
-    // Config file XSI relation entry: XSI_Type target ending
-    private static final String CONFIG_FILE_TARGETENTRY_TYPE_ENDING = "XSI_Relation_Type";
-    // Config file XSI relation entry: XSI_Type target ending
-    private static final String CONFIG_FILE_TARGETENTRY_CLASSNAME_ENDING = "XSI_Relation_Class";
-    // Config file XSI relation entry: XSI_Type finding ending
-    private static final String CONFIG_FILE_FINDINGENTRY_TYPE_ENDING = "XSI_Relation_Finding_Type";
-    // Config file XSI relation entry: XSI_Type finding ending
-    private static final String CONFIG_FILE_FINDINGENTRY_CLASSNAME_ENDING = "XSI_Relation_Finding_Class";
-
-    private static final Object LOCK = new Object();
 
     // File name of extension config file
     private static final String EXTENSION_FILENAME = "META-INF/OM_EXTENSION";
@@ -407,6 +387,23 @@ public class ExternalExtensionLoader {
         }
 
     }
+    /*
+
+    // ---------
+    // Constants ---------------------------------------------------------
+    // ---------
+    // Extension of config files
+    private static final String MANIFEST_FILENAME = "META-INF/SCHEMATYPE";
+    // Config file XSI relation entry: XSI_Type target ending
+    private static final String CONFIG_FILE_TARGETENTRY_TYPE_ENDING = "XSI_Relation_Type";
+    // Config file XSI relation entry: XSI_Type target ending
+    private static final String CONFIG_FILE_TARGETENTRY_CLASSNAME_ENDING = "XSI_Relation_Class";
+    // Config file XSI relation entry: XSI_Type finding ending
+    private static final String CONFIG_FILE_FINDINGENTRY_TYPE_ENDING = "XSI_Relation_Finding_Type";
+    // Config file XSI relation entry: XSI_Type finding ending
+    private static final String CONFIG_FILE_FINDINGENTRY_CLASSNAME_ENDING = "XSI_Relation_Finding_Class";
+
+    private static final Object LOCK = new Object();
 
     private void readConfigForExtension() throws Exception {
         // Get JARs under extension path
@@ -509,4 +506,5 @@ public class ExternalExtensionLoader {
         }
 
     }
+    */
 }
