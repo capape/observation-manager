@@ -374,7 +374,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Fill type box
 
-        JComboBox t = (JComboBox) this.type;
+        JComboBox<BoxItem> t = (JComboBox) this.type;
 
         // Add empty value only on creation
         BoxItem typeEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
@@ -397,7 +397,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Fill colortype box
 
-        JComboBox c = (JComboBox) this.colorType;
+        JComboBox<BoxItem> c = (JComboBox) this.colorType;
 
         // Add empty value only on creation
         BoxItem colorEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
