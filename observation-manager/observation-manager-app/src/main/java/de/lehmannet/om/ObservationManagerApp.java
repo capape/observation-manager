@@ -70,7 +70,7 @@ public class ObservationManagerApp {
         splash.updateText("Loading...");
         splash.updateTextVersion(String.format("Version: %s", version));
         splash.updateText(String.format("OAL Version...%s", oalVersion));
-        
+
         final String installDirName = argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
         final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
 

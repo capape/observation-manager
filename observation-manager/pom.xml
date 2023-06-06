@@ -36,8 +36,8 @@
 
 
         <!-- dependency versions -->
-        <checkstyle.version>10.9.3</checkstyle.version>
-        <checkstyle-rules.version>6.6.0-29</checkstyle-rules.version>
+        <checkstyle.version>10.12.0</checkstyle.version>
+        <checkstyle-rules.version>6.6.0-30</checkstyle-rules.version>
 
         <disruptor.version>3.4.4</disruptor.version>
         <junit.version>4.13.2</junit.version>
@@ -48,13 +48,13 @@
         <maven-checkstyle-plugin.version>3.3.2</maven-checkstyle-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-        <maven-formatter-plugin.version>2.22.0</maven-formatter-plugin.version>
+        <maven-formatter-plugin.version>2.23.0</maven-formatter-plugin.version>
         <maven-jacoco-plugin.version>0.8.10</maven-jacoco-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <maven-pmd-plugin.version>3.20.0</maven-pmd-plugin.version>
-        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+        <maven-pmd-plugin.version>3.21.0</maven-pmd-plugin.version>
+        <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
         <mave-resources-plugin.version>3.3.1</mave-resources-plugin.version>
-        <maven-scm-plugin.version>2.0.0</maven-scm-plugin.version>
+        <maven-scm-plugin.version>2.0.1</maven-scm-plugin.version>
         <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
         <maven-spotbugs-plugin.version>4.0.0</maven-spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
