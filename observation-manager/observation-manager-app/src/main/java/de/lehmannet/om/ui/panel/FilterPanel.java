@@ -72,7 +72,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         if (source.equals(this.type)) {
             if (e.getStateChange() == ItemEvent.SELECTED) { // If type color gets selected enabled additional boxes and
                                                             // fields
-                BoxItem typeItem = (BoxItem) ((JComboBox) this.type).getSelectedItem();
+                BoxItem typeItem = (BoxItem) getEditableTypeComponent().getSelectedItem();
                 if ((typeItem != null) && (typeItem.getKey().equals(IFilter.FILTER_TYPE_COLOR))) {
                     this.colorType.setEnabled(true);
                     this.wratten.setEnabled(true);
@@ -82,7 +82,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
                     // Remove the empty item in color box
                     BoxItem emptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
-                    ((JComboBox) this.colorType).removeItem(emptyItem);
+                    getEditableColorTypeComponent().removeItem(emptyItem);
 
                     LcolorType.setFont(new Font("sansserif", Font.BOLD, 12));
 
@@ -96,9 +96,9 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Make sure there exists (only) one empty item...and select it
         BoxItem emptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
-        ((JComboBox) this.colorType).removeItem(emptyItem);
-        ((JComboBox) this.colorType).addItem(emptyItem);
-        ((JComboBox) this.colorType).setSelectedItem(emptyItem);
+        getEditableColorTypeComponent().removeItem(emptyItem);
+        getEditableColorTypeComponent().addItem(emptyItem);
+        getEditableColorTypeComponent().setSelectedItem(emptyItem);
 
         this.wratten.setEnabled(false);
         this.wratten.setText("");
@@ -200,7 +200,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         Object t = null;
         if (this.isEditable()) {
-            t = ((JComboBox) this.type).getSelectedItem();
+            t = getEditableTypeComponent().getSelectedItem();
             BoxItem bi = (BoxItem) t;
             if (Objects.requireNonNull(bi).isEmptyItem()) {
                 return null;
@@ -208,7 +208,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
                 return bi.getKey();
             }
         } else {
-            t = ((JTextField) this.type).getText();
+            t = getNoEditableTypeComponent().getText();
             return (String) t;
         }
 
@@ -218,7 +218,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         Object t = null;
         if (this.isEditable()) {
-            t = ((JComboBox) this.colorType).getSelectedItem();
+            t = getEditableColorTypeComponent().getSelectedItem();
             BoxItem bi = (BoxItem) t;
             if (Objects.requireNonNull(bi).isEmptyItem()) {
                 return null;
@@ -226,7 +226,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
                 return bi.getKey();
             }
         } else {
-            t = ((JTextField) this.colorType).getText();
+            t = getNoEditableColorTypeComponent().getText();
             return (String) t;
         }
 
@@ -245,24 +245,24 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.vendor.setEditable(this.isEditable());
 
         if (this.isEditable()) {
-            ((JComboBox) this.type).setSelectedItem(new BoxItem(this.filter.getType()));
-            this.type.setEnabled(this.isEditable());
+            getEditableTypeComponent().setSelectedItem(new BoxItem(this.filter.getType()));
+            getEditableTypeComponent().setEnabled(this.isEditable());
         } else {
-            ((JTextField) this.type).setText(BoxItem.getI18NString(this.filter.getType()));
-            ((JTextField) this.type).setEditable(this.isEditable());
+            getNoEditableTypeComponent().setText(BoxItem.getI18NString(this.filter.getType()));
+            getNoEditableTypeComponent().setEditable(this.isEditable());
         }
 
         if (this.filter.getColor() != null) {
             if (this.isEditable()) {
-                this.colorType.setEnabled(this.isEditable());
+                getEditableColorTypeComponent().setEnabled(this.isEditable());
             } else {
-                ((JTextField) this.colorType).setEditable(this.isEditable());
+                getNoEditableColorTypeComponent().setEditable(this.isEditable());
             }
 
             if (this.isEditable()) {
-                ((JComboBox) this.colorType).setSelectedItem(new BoxItem(this.filter.getColor()));
+                getEditableColorTypeComponent().setSelectedItem(new BoxItem(this.filter.getColor()));
             } else {
-                ((JTextField) this.colorType).setText(BoxItem.getI18NString(this.filter.getColor()));
+                getNoEditableColorTypeComponent().setText(BoxItem.getI18NString(this.filter.getColor()));
             }
 
             if ((this.filter.getWratten() != null) && !("".equals(this.filter.getWratten()))) {
@@ -277,6 +277,22 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         }
 
+    }
+
+    private JTextField getNoEditableTypeComponent() {
+        return (JTextField) this.type;
+    }
+
+    private JComboBox<BoxItem> getEditableTypeComponent() {
+        return (JComboBox<BoxItem>) this.type;
+    }
+
+    private JTextField getNoEditableColorTypeComponent() {
+        return (JTextField) this.colorType;
+    }
+
+    private JComboBox<BoxItem> getEditableColorTypeComponent() {
+        return (JComboBox<BoxItem>) this.colorType;
     }
 
     private void createPanel() {
@@ -314,8 +330,9 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.add(Ltype);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 45, 1);
         if (this.isEditable()) {
-            this.type = new JComboBox();
-            ((JComboBox) this.type).addItemListener(this);
+            JComboBox<String> comboType = new JComboBox<>();
+            comboType.addItemListener(this);
+            this.type = comboType;
         } else {
             this.type = new JTextField();
         }
@@ -330,11 +347,12 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.add(LcolorType);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 45, 1);
         if (this.isEditable()) {
-            this.colorType = new JComboBox();
+            this.colorType = new JComboBox<BoxItem>();
             this.colorType.setEnabled(false); // Will be activated if type Color gets selected
         } else {
-            this.colorType = new JTextField();
-            ((JTextField) this.colorType).setEditable(false);
+            JTextField colorTypeField = new JTextField();
+            colorTypeField.setEditable(false);
+            this.colorType = colorTypeField;
         }
         this.colorType.setToolTipText(AbstractPanel.bundle.getString("panel.filter.tooltip.colorType"));
         gridbag.setConstraints(this.colorType, constraints);
@@ -374,7 +392,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Fill type box
 
-        JComboBox<BoxItem> t = (JComboBox) this.type;
+        JComboBox<BoxItem> t = getEditableTypeComponent();
 
         // Add empty value only on creation
         BoxItem typeEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
@@ -397,7 +415,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         // Fill colortype box
 
-        JComboBox<BoxItem> c = (JComboBox) this.colorType;
+        JComboBox<BoxItem> c = getEditableColorTypeComponent();
 
         // Add empty value only on creation
         BoxItem colorEmptyItem = new BoxItem(BoxItem.EMPTY_ITEM);
