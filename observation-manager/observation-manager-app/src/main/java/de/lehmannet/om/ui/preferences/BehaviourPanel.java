@@ -18,7 +18,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
-import de.lehmannet.om.ui.box.ObserverBox;
+import de.lehmannet.om.ui.box.OMComboBox;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
@@ -32,7 +32,7 @@ public class BehaviourPanel extends PreferencesPanel {
 
     private LanguageBox defaultContentLanguage = null;
     private JCheckBox imagesPathRelative = null;
-    private ObserverBox defaultObserver = null;
+    private OMComboBox<IObserver> defaultObserver = null;
     private JComboBox<String> catalogBox = null;
     private JCheckBox retrieveEndDateFromSession = null;
     private JCheckBox useCoObserverInStatistics = null;
@@ -170,7 +170,7 @@ public class BehaviourPanel extends PreferencesPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 10, 10);
-        this.defaultObserver = new ObserverBox();
+        this.defaultObserver = new OMComboBox<>();
         this.defaultObserver.setEnabled(true);
         this.fillObserverBox();
         this.defaultObserver.setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultObserver"));

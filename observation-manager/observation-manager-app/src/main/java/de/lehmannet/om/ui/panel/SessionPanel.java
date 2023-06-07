@@ -44,7 +44,7 @@ import de.lehmannet.om.ISite;
 import de.lehmannet.om.Session;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
-import de.lehmannet.om.ui.box.SiteBox;
+import de.lehmannet.om.ui.box.OMComboBox;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.container.ImageContainer;
 import de.lehmannet.om.ui.container.TimeContainer;
@@ -86,7 +86,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private JButton selectCoObservers = null; // Brings up ObserverSelectorPopup (Creation, Edit)
     private JButton newCoObservers = null; // Brings up observer dialog for creating new observer
     private SchemaElementSelectorPopup coObsSelector = null; // The ObserverSelectorPopup (Creation, Edit)
-    private SiteBox siteBox = null; // Shows possible site selections (Creation, Edit)
+    private OMComboBox<ISite> siteBox = null; // Shows possible site selections (Creation, Edit)
     private JButton newSite = null; // Brings up site dialog for creating new site
     private LanguageBox language = null;
     private ImageContainer imageContainer = null;
@@ -974,7 +974,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private void createSiteDropDownBox() {
 
-        this.siteBox = new SiteBox();
+        this.siteBox = new OMComboBox<>();
 
         ISite[] sites = this.model.getSites();
         for (ISite site : sites) {

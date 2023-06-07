@@ -18,12 +18,13 @@ import java.util.TreeMap;
 
 import javax.swing.JComboBox;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
-public class LanguageBox extends JComboBox {
+public class LanguageBox extends JComboBox<String> {
 
     /**
      *
@@ -120,8 +121,7 @@ public class LanguageBox extends JComboBox {
 
     public void setLanguage(String isoKey) {
 
-        if ((isoKey == null) || ("".equals(isoKey.trim()))) {
-            // Don't change current value
+        if (StringUtils.isBlank(isoKey)) {
             return;
         }
 
