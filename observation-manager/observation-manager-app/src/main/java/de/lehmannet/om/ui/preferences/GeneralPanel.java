@@ -44,7 +44,7 @@ public class GeneralPanel extends PreferencesPanel {
     private JCheckBox loadLastFile = null;
     private JCheckBox checkForUpdates = null;
     private LanguageBox uiLanguage = null;
-    private JComboBox xslTemplate = null;
+    private JComboBox<String> xslTemplate = null;
 
     public GeneralPanel(IConfiguration config, ObservationManager om) {
 
@@ -202,7 +202,7 @@ public class GeneralPanel extends PreferencesPanel {
 
     private void createXslTemplateBox() {
 
-        this.xslTemplate = new JComboBox();
+        this.xslTemplate = new JComboBox<>();
 
         File path = new File(this.om.getInstallDir().getPathForFolder("xsl"));
         if (!path.exists()) { // Should never happen in a correct installation
