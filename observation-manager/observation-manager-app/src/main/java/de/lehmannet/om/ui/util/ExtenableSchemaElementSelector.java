@@ -35,7 +35,7 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     private JButton ok = null;
     private JButton cancel = null;
-    private JComboBox selector = null;
+    private JComboBox<String> selector = null;
 
     private IDialog selectedSchemaElementDialog = null;
 
@@ -134,7 +134,7 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 100, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.selector = new JComboBox();
+        this.selector = new JComboBox<>();
         gridbag.setConstraints(this.selector, constraints);
         this.fillSelector();
         this.getContentPane().add(this.selector);
