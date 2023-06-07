@@ -17,7 +17,6 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +71,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static final Directive EMPTY_DIRECTIVE = new Directive(-1, NOT_SORTED);
 
-    private static final Comparator<?> COMPARABLE_COMAPRATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
+    private static final Comparator<?> COMPARABLE_COMPARATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
     private static final Comparator<?> LEXICAL_COMPARATOR = (o1, o2) -> {
 
         String o1S = o1.toString();
@@ -105,7 +104,8 @@ public class TableSorter extends AbstractSchemaTableModel {
 
         return o1S.compareTo(o2S);
     };
-    private static final Comparator FLOAT_COMPARATOR = (o1, o2) -> {
+
+    private static final Comparator<Float> FLOAT_COMPARATOR = (o1, o2) -> {
         Float f1 = (Float) o1;
         Float f2 = (Float) o2;
         if (f1 < f2) {
@@ -116,7 +116,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
         return 0;
     };
-    private static final Comparator INT_COMPARATOR = (o1, o2) -> {
+    private static final Comparator<Integer> INT_COMPARATOR = (o1, o2) -> {
         Integer i1 = (Integer) o1;
         Integer i2 = (Integer) o2;
         if (i1 < i2) {
@@ -133,8 +133,8 @@ public class TableSorter extends AbstractSchemaTableModel {
     private JTableHeader tableHeader;
     private final MouseListener mouseListener;
     private final TableModelListener tableModelListener;
-    private final Map columnComparators = new HashMap<>();
-    private final List sortingColumns = new ArrayList<>();
+    private final Map<Class<?>, Comparator<?>> columnComparators = new HashMap<>();
+    private final List<Directive> sortingColumns = new ArrayList<>();
 
     private TableSorter() {
 
@@ -225,8 +225,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private Directive getDirective(int column) {
 
-        for (Object sortingColumn : sortingColumns) {
-            Directive directive = (Directive) sortingColumn;
+        for (Directive directive : sortingColumns) {
             if (directive.column == column) {
                 return directive;
             }
@@ -295,17 +294,16 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private Comparator getComparator(int column) {
 
-        Class columnType = tableModel.getColumnClass(column);
-        Comparator comparator = (Comparator) columnComparators.get(columnType);
+        Class<?> columnType = tableModel.getColumnClass(column);
+        Comparator comparator = columnComparators.get(columnType);
         if (comparator != null) {
             return comparator;
         }
         if (Comparable.class.isAssignableFrom(columnType)) {
-            return COMPARABLE_COMAPRATOR;
+            return COMPARABLE_COMPARATOR;
         }
 
         return LEXICAL_COMPARATOR;
-
     }
 
     private void initColumnComparator() {
@@ -409,7 +407,7 @@ public class TableSorter extends AbstractSchemaTableModel {
     }
 
     @Override
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
 
         return tableModel.getColumnClass(column);
 
@@ -440,7 +438,7 @@ public class TableSorter extends AbstractSchemaTableModel {
     // Helper classes ---------------------------------------------------------
     // --------------
 
-    private class Row implements Comparable {
+    private class Row implements Comparable<Row> {
 
         private int modelIndex = 0;
 
@@ -451,13 +449,12 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         @Override
-        public int compareTo(Object o) {
+        public int compareTo(Row o) {
 
             int row1 = modelIndex;
-            int row2 = ((Row) o).modelIndex;
+            int row2 = o.modelIndex;
 
-            for (Object sortingColumn : sortingColumns) {
-                Directive directive = (Directive) sortingColumn;
+            for (Directive directive : sortingColumns) {
                 int column = directive.column;
                 Object o1 = tableModel.getValueAt(row1, column);
                 Object o2 = tableModel.getValueAt(row2, column);
@@ -470,6 +467,7 @@ public class TableSorter extends AbstractSchemaTableModel {
                 } else if (o2 == null) {
                     comparison = 1;
                 } else {
+                    Class<?> classColumn = getColumnClass(column);
                     comparison = getComparator(column).compare(o1, o2);
                 }
                 if (comparison != 0) {
