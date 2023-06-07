@@ -33,7 +33,7 @@ public class BehaviourPanel extends PreferencesPanel {
     private LanguageBox defaultContentLanguage = null;
     private JCheckBox imagesPathRelative = null;
     private ObserverBox defaultObserver = null;
-    private JComboBox catalogBox = null;
+    private JComboBox<String> catalogBox = null;
     private JCheckBox retrieveEndDateFromSession = null;
     private JCheckBox useCoObserverInStatistics = null;
     private JCheckBox useLatinConstellationNames = null;
@@ -190,7 +190,7 @@ public class BehaviourPanel extends PreferencesPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 10, 10);
-        this.catalogBox = new JComboBox();
+        this.catalogBox = new JComboBox<>();
         this.catalogBox.setEnabled(true);
         this.fillCatalogBox();
         this.catalogBox.setToolTipText(this.textManager.getString("dialog.preferences.tooltip.defaultCatalog"));
