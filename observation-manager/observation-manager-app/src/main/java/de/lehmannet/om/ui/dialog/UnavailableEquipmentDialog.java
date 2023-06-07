@@ -409,7 +409,11 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
 
 }
 
-class CheckBoxEquipmentNode extends Vector {
+interface EquipmentNode {
+
+}
+
+class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNode {
 
     /**
      *
@@ -437,6 +441,7 @@ class CheckBoxEquipmentNode extends Vector {
 
         if (elements != null) {
             for (ISchemaElement element : elements) {
+
                 this.add(new EquipmentLeaf(this.dialog, this, element));
                 if (((IEquipment) element).isAvailable()) {
                     noAvailable++;
@@ -529,7 +534,7 @@ class CheckBoxEquipmentNode extends Vector {
 
 }
 
-class EquipmentLeaf extends JCheckBox implements ActionListener {
+class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
 
     /**
      *
