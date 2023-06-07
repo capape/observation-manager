@@ -726,7 +726,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
     private void addShortcuts() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
         // New Observation
         this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)

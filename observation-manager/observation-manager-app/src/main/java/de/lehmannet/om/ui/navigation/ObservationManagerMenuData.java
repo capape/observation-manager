@@ -62,7 +62,7 @@ public final class ObservationManagerMenuData {
 
     private JMenu createMenuDataItems() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         // ----- Data Menu
         final JMenu dataMenu = new JMenu(this.textManager.getString("menu.data"));
         dataMenu.setMnemonic('d');
