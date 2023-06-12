@@ -62,7 +62,7 @@ public final class ObservationManagerMenuData {
 
     private JMenu createMenuDataItems() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         // ----- Data Menu
         final JMenu dataMenu = new JMenu(this.textManager.getString("menu.data"));
         dataMenu.setMnemonic('d');
@@ -137,7 +137,7 @@ public final class ObservationManagerMenuData {
         JMenuItem equipmentAvailability = new JMenuItem(this.textManager.getString("menu.equipmentAvailability"),
                 new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null), ""));
         equipmentAvailability.setMnemonic('a');
-        equipmentAvailability.addActionListener(new CreatEquipmentListener());
+        equipmentAvailability.addActionListener(new CreateEquipmentListener());
         dataMenu.add(equipmentAvailability);
 
         return dataMenu;
@@ -160,7 +160,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewObserver() {
 
-        ObserverDialog dialog = new ObserverDialog(this.observationManager, null);
+        ObserverDialog dialog = new ObserverDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getObserver());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -182,7 +182,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewSite() {
 
-        SiteDialog dialog = new SiteDialog(this.observationManager, null);
+        SiteDialog dialog = new SiteDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getSite());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -193,7 +193,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewScope() {
 
-        ScopeDialog dialog = new ScopeDialog(this.observationManager, null);
+        ScopeDialog dialog = new ScopeDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getScope());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -204,7 +204,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewEyepiece() {
 
-        EyepieceDialog dialog = new EyepieceDialog(this.observationManager, null);
+        EyepieceDialog dialog = new EyepieceDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getEyepiece());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -232,7 +232,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewFilter() {
 
-        FilterDialog dialog = new FilterDialog(this.observationManager, null);
+        FilterDialog dialog = new FilterDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getFilter());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -260,7 +260,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewLens() {
 
-        LensDialog dialog = new LensDialog(this.observationManager, null);
+        LensDialog dialog = new LensDialog(this.observationManager, this.model, null);
         this.model.add(dialog.getLens());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)
@@ -366,7 +366,7 @@ public final class ObservationManagerMenuData {
 
     }
 
-    class CreatEquipmentListener implements ActionListener {
+    class CreateEquipmentListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -30,7 +30,7 @@ public class ObservationManagerFileLoader {
 
         if ((files == null) || (files.length == 0)) {
             LOGGER.debug("No files to load");
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         return Arrays.stream(files).map(x -> Pair.of(x, this.loadFile(x))).collect(Collectors.toList());

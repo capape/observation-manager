@@ -43,9 +43,4 @@ public class TextManagerImpl implements TextManager {
 
     }
 
-    @Override
-    public ResourceBundle getBundle() {
-        return this.bundle;
-    }
-
 }

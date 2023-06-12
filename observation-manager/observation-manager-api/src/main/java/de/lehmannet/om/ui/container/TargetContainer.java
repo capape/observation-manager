@@ -33,7 +33,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.ConstellationBox;
-import de.lehmannet.om.ui.box.ObserverBox;
+import de.lehmannet.om.ui.box.OMComboBox;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;
@@ -60,7 +60,7 @@ public class TargetContainer extends Container implements MouseListener {
     private final JTextField targetConstellation = new JTextField();
     private ConstellationBox constellationBox = null;
     private JTextField targetDatasource = null;
-    private ObserverBox sourceObserverBox = null;
+    private OMComboBox<IObserver> sourceObserverBox = null;
     private JTextArea notes = null;
 
     private final ObservationManagerModel model;
@@ -166,7 +166,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     public IObserver getObserver() {
 
-        return (IObserver) this.sourceObserverBox.getSelectedSchemaElement();
+        return this.sourceObserverBox.getSelectedSchemaElement();
 
     }
 
@@ -542,7 +542,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     private void createObserverDropDownBox() {
 
-        this.sourceObserverBox = new ObserverBox();
+        this.sourceObserverBox = new OMComboBox<IObserver>();
         this.sourceObserverBox.setToolTipText(this.bundle.getString("target.dropdown.selectObserver"));
 
         IObserver[] observer = this.model.getObservers();

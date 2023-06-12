@@ -12,7 +12,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -352,7 +357,7 @@ public class AngleContainer extends Container {
     // Private inner classes --------------------------------------------------
     // ---------------------
 
-    private static class AngleUnitBox extends JComboBox {
+    private static class AngleUnitBox extends JComboBox<String> {
 
         /**
          *
@@ -363,8 +368,8 @@ public class AngleContainer extends Container {
         // ---------
         // JComboBox ----------------------------------------------------------
         // ---------
-
-        void addItem(String angleUnit) {
+        @Override
+        public void addItem(String angleUnit) {
 
             // Item already exists
             if (this.list.contains(angleUnit)) {

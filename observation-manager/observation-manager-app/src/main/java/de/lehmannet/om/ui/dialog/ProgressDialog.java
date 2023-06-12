@@ -77,8 +77,9 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         // and stop threads
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 
-            this.watchdog.stop();
-            this.calculation.stop();
+            this.watchdog.interrupt();
+            this.calculation.interrupt();
+            ;
 
             this.close();
 

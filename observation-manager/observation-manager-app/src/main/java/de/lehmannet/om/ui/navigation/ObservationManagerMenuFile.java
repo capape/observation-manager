@@ -94,7 +94,7 @@ public final class ObservationManagerMenuFile {
 
     private JMenu createMenuFileItems() {
 
-        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
         // ----- File Menu
         final JMenu fileMenu = new JMenu(textManager.getString("menu.file"));
         fileMenu.setMnemonic('f');

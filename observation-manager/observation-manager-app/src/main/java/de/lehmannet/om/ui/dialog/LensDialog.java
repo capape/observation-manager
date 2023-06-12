@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.dialog;
 
 import de.lehmannet.om.ILens;
+import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.LensPanel;
 
@@ -15,9 +16,9 @@ public class LensDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -8876607801825367237L;
 
-    public LensDialog(ObservationManager om, ILens editableLens) {
+    public LensDialog(ObservationManager om, ObservationManagerModel model, ILens editableLens) {
 
-        super(om, om.getModel(), om.getUiHelper(), new LensPanel(editableLens, true));
+        super(om, model, om.getUiHelper(), new LensPanel(editableLens, true));
 
         if (editableLens == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.lens.title"));

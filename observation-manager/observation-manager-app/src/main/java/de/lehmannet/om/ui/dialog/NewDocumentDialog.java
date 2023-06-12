@@ -866,7 +866,11 @@ class CheckBoxNodeEditor extends DefaultTreeCellEditor {
 
 }
 
-class CheckBoxNode extends Vector {
+interface SchemaNode {
+
+}
+
+class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
 
     /**
      *
@@ -911,7 +915,7 @@ class CheckBoxNode extends Vector {
     public void setSelected(boolean newValue) {
 
         selected = newValue;
-        Iterator iterator = this.iterator();
+        Iterator<SchemaNode> iterator = this.iterator();
         while (iterator.hasNext()) {
             ((SchemaElementLeaf) iterator.next()).setSelected(newValue);
         }
@@ -979,7 +983,7 @@ class CheckBoxNode extends Vector {
 
 }
 
-class SchemaElementLeaf extends JCheckBox implements ActionListener {
+class SchemaElementLeaf extends JCheckBox implements SchemaNode, ActionListener {
 
     private ISchemaElement se = null;
     private NewDocumentDialog dialog = null;

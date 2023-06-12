@@ -12,7 +12,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -49,7 +53,7 @@ public class SurfaceBrightnessContainer extends Container {
     private final Map<String, String> units = new HashMap<>();
 
     private JLabel Lunit = new JLabel();
-    private final JComboBox unitBox = new JComboBox();
+    private final JComboBox<String> unitBox = new JComboBox<>();
     private final JTextField valueField = new JTextField();
 
     public SurfaceBrightnessContainer(SurfaceBrightness sb, boolean editable, String[] sbUnits) {

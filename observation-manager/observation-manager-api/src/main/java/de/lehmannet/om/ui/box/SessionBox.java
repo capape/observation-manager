@@ -7,11 +7,10 @@
 
 package de.lehmannet.om.ui.box;
 
-import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.util.DateManager;
 
-public class SessionBox extends AbstractBox {
+public class SessionBox extends OMComboBox<ISession> {
 
     /**
      *
@@ -27,25 +26,7 @@ public class SessionBox extends AbstractBox {
     }
 
     @Override
-    public void addItem(ISchemaElement element) {
-
-        if (element == null) {
-            return;
-        }
-
-        ISession session = (ISession) element;
-        String key = this.getKey(session);
-
-        super.addItem(key, session);
-
-    }
-
-    @Override
-    protected String getKey(ISchemaElement element) {
-
-        // The displayname of Session does not show time, so we build own string...
-
-        ISession session = (ISession) element;
+    protected String getKey(ISession session) {
 
         return dateManager.offsetDateTimeToStringWithHour(session.getBegin()) + " - "
                 + dateManager.offsetDateTimeToStringWithHour(session.getEnd());

@@ -60,16 +60,8 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.Observation;
 import de.lehmannet.om.SurfaceBrightness;
 import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.box.AbstractBox;
-import de.lehmannet.om.ui.box.EyepieceBox;
-import de.lehmannet.om.ui.box.FilterBox;
-import de.lehmannet.om.ui.box.ImagerBox;
-import de.lehmannet.om.ui.box.LensBox;
-import de.lehmannet.om.ui.box.ObserverBox;
-import de.lehmannet.om.ui.box.ScopeBox;
+import de.lehmannet.om.ui.box.OMComboBox;
 import de.lehmannet.om.ui.box.SessionBox;
-import de.lehmannet.om.ui.box.SiteBox;
-import de.lehmannet.om.ui.box.TargetBox;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.container.ImageContainer;
 import de.lehmannet.om.ui.container.SurfaceBrightnessContainer;
@@ -124,25 +116,25 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JPanel selectionPanel = null;
     private AbstractPanel findingsPanel = null;
 
-    private final ObserverBox observerBox = new ObserverBox();
+    private final OMComboBox<IObserver> observerBox = new OMComboBox<>();
     private JButton newObserver = null;
-    private final TargetBox targetBox = new TargetBox();
+    private final OMComboBox<ITarget> targetBox = new OMComboBox<>();
     private JButton newTarget = null;
     private JButton selectTarget = null;
     private final SessionBox sessionBox;
     private JButton newSession = null;
-    private final ScopeBox scopeBox = new ScopeBox();
+    private final OMComboBox<IScope> scopeBox = new OMComboBox<>();
     private JButton newScope = null;
-    private final EyepieceBox eyepieceBox = new EyepieceBox();
+    private final OMComboBox<IEyepiece> eyepieceBox = new OMComboBox<>();
     private final JSlider eyepieceFLSlider = new JSlider(JSlider.HORIZONTAL);
     private JButton newEyepiece = null;
-    private final LensBox lensBox = new LensBox();
+    private final OMComboBox<ILens> lensBox = new OMComboBox<>();
     private JButton newLens = null;
-    private final FilterBox filterBox = new FilterBox();
+    private final OMComboBox<IFilter> filterBox = new OMComboBox<>();
     private JButton newFilter = null;
-    private final SiteBox siteBox = new SiteBox();
+    private final OMComboBox<ISite> siteBox = new OMComboBox<>();
     private JButton newSite = null;
-    private final ImagerBox imagerBox = new ImagerBox();
+    private final OMComboBox<IImager> imagerBox = new OMComboBox<>();
     private JButton newImager = null;
     private ImageContainer imageContainer = null;
     private JButton newImage = null;
@@ -162,7 +154,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private JTextField faintestStar = null;
     private SurfaceBrightnessContainer sqmValue = null;
     private JTextField magnification = null;
-    private JComboBox seeing = null;
+    private JComboBox<SeeingBoxEntry> seeing = null;
     private JTextField accessories = null;
 
     private final ImageResolver imageResolver;
@@ -214,9 +206,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             } else if (se instanceof IObserver) {
                 this.observerBox.setSelectedItem(se);
             } else if (se instanceof ITarget) {
-                this.targetBox.addItem(se);
+                ITarget target = (ITarget) se;
+                this.targetBox.addItem(target);
                 // Set Finding Tab in Observation Dialog
-                this.setFindingPanel((ITarget) se);
+                this.setFindingPanel(target);
             } else if (se instanceof IScope) {
                 this.scopeBox.setSelectedItem(se);
             } else if (se instanceof IEyepiece) {
@@ -334,9 +327,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.putObserver(ObservationDialogPanel.CACHEKEY_OBSERVER, observer); // Fill cache
 
         // Try to get and set timezone
-        ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
+        ISite site = this.siteBox.getSelectedSchemaElement();
         if (site == null) {
-            ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+            ISession session = this.sessionBox.getSelectedSchemaElement();
             if (session != null) {
                 site = session.getSite();
             }
@@ -371,7 +364,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_SESSION); // Reset cache
         try {
             // Check whether observer is not listed as coObserver
-            ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+            ISession session = this.sessionBox.getSelectedSchemaElement();
             if ((session != null) && (session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())
                     && (session.getCoObservers().contains(observer))) {
                 JOptionPane pane = new JOptionPane(
@@ -396,21 +389,21 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         this.cache.remove(ObservationDialogPanel.CACHEKEY_SCOPE); // Reset cache
-        this.observation.setScope((IScope) this.scopeBox.getSelectedSchemaElement());
+        this.observation.setScope(this.scopeBox.getSelectedSchemaElement());
         this.cache.putScope(ObservationDialogPanel.CACHEKEY_SCOPE, this.observation.getScope());
 
-        this.observation.setEyepiece((IEyepiece) this.eyepieceBox.getSelectedSchemaElement());
+        this.observation.setEyepiece(this.eyepieceBox.getSelectedSchemaElement());
 
-        this.observation.setFilter((IFilter) this.filterBox.getSelectedSchemaElement());
+        this.observation.setFilter(this.filterBox.getSelectedSchemaElement());
 
         // this.observation.setSite((ISite)this.siteBox.getSelectedSchemaElement());
         this.cache.remove(ObservationDialogPanel.CACHEKEY_SITE); // Reset cache
         this.observation.setSite(site);
         this.cache.putSite(ObservationDialogPanel.CACHEKEY_SITE, site);
 
-        this.observation.setImager((IImager) this.imagerBox.getSelectedSchemaElement());
+        this.observation.setImager(this.imagerBox.getSelectedSchemaElement());
 
-        this.observation.setLens((ILens) this.lensBox.getSelectedSchemaElement());
+        this.observation.setLens(this.lensBox.getSelectedSchemaElement());
 
         this.cache.remove(ObservationDialogPanel.CACHEKEY_FAINTESTSTAR); // Reset cache
         String fs = this.faintestStar.getText();
@@ -511,9 +504,9 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         // Try to get and set timezone
-        ISite site = (ISite) this.siteBox.getSelectedSchemaElement();
+        ISite site = this.siteBox.getSelectedSchemaElement();
         if (site == null) {
-            ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+            ISession session = this.sessionBox.getSelectedSchemaElement();
             if (session != null) {
                 site = session.getSite();
             }
@@ -553,7 +546,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             se = this.sessionBox.getSelectedSchemaElement();
             if (se != null) {
                 // Check whether observer is not listed as coObserver
-                ISession session = (ISession) this.sessionBox.getSelectedSchemaElement();
+                ISession session = this.sessionBox.getSelectedSchemaElement();
                 if ((session != null) && (session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())
                         && (session.getCoObservers().contains(observer))) {
                     JOptionPane pane = new JOptionPane(
@@ -690,19 +683,19 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         Object source = e.getSource();
         if (source instanceof JButton) {
             if (source.equals(this.newEyepiece)) {
-                EyepieceDialog eyepieceDialog = new EyepieceDialog(this.observationManager, null);
+                EyepieceDialog eyepieceDialog = new EyepieceDialog(this.observationManager, this.model, null);
                 this.eyepieceBox.addItem(eyepieceDialog.getEyepiece());
             } else if (source.equals(this.newObserver)) {
-                ObserverDialog observerDialog = new ObserverDialog(this.observationManager, null);
+                ObserverDialog observerDialog = new ObserverDialog(this.observationManager, this.model, null);
                 this.observerBox.addItem(observerDialog.getObserver());
             } else if (source.equals(this.newScope)) {
-                ScopeDialog scopeDialog = new ScopeDialog(this.observationManager, null);
+                ScopeDialog scopeDialog = new ScopeDialog(this.observationManager, this.model, null);
                 this.scopeBox.addItem(scopeDialog.getScope());
             } else if (source.equals(this.newFilter)) {
-                FilterDialog filterDialog = new FilterDialog(this.observationManager, null);
+                FilterDialog filterDialog = new FilterDialog(this.observationManager, this.model, null);
                 this.filterBox.addItem(filterDialog.getFilter());
             } else if (source.equals(this.newLens)) {
-                LensDialog lensDialog = new LensDialog(this.observationManager, null);
+                LensDialog lensDialog = new LensDialog(this.observationManager, this.model, null);
                 this.lensBox.addItem(lensDialog.getLens());
             } else if (source.equals(this.newSession)) {
                 SessionDialog sessionDialog = new SessionDialog(this.observationManager, this.model, null, this.cache);
@@ -711,7 +704,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 // or sites be created, so refill lists
                 this.fillLists(true);
             } else if (source.equals(this.newSite)) {
-                SiteDialog siteDialog = new SiteDialog(this.observationManager, null);
+                SiteDialog siteDialog = new SiteDialog(this.observationManager, this.model, null);
                 this.siteBox.addItem(siteDialog.getSite());
             } else if (source.equals(this.selectTarget)) {
                 CatalogDialog cDialog = new CatalogDialog(this.observationManager, this.model, this.textManager);
@@ -771,10 +764,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                         this.beginDate.getSecond());
                 this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             }
-        } else if (source instanceof AbstractBox) {
-            // As we've only added the ActionListener to ScopeBox and EyepieceBox
-            // we don't need to do further checks here
-            this.calculateMagnification(-1);
+        } else {
+            if (source.equals(this.newEyepiece) || source.equals(this.newScope))
+                // As we've only added the ActionListener to ScopeBox and EyepieceBox
+                // we don't need to do further checks here
+                this.calculateMagnification(-1);
         }
 
     }
@@ -841,8 +835,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         Object source = e.getSource();
         if (source.equals(this.targetBox)) {
             if (e.getStateChange() == ItemEvent.DESELECTED) {
-                TargetBox tb = (TargetBox) source;
-                ITarget target = (ITarget) tb.getSelectedSchemaElement();
+                OMComboBox<ITarget> tb = (OMComboBox<ITarget>) source;
+                ITarget target = tb.getSelectedSchemaElement();
                 if (target != null) {
                     String type = target.getXSIType();
                     AbstractPanel oldPanel = this.getFindingPanel();
@@ -857,7 +851,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
         } else if (source.equals(this.sessionBox)) {
             SessionBox sb = (SessionBox) source;
-            ISession session = (ISession) sb.getSelectedSchemaElement();
+            ISession session = sb.getSelectedSchemaElement();
             // Make sure that if session changes, the observations start and end date match
             if ((e.getStateChange() == ItemEvent.SELECTED)
             // && (this.observation == null) // (Autom. set date only in Creation mode. In
@@ -923,7 +917,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 }
             }
         } else if (source.equals(this.eyepieceBox)) {
-            IEyepiece eyepiece = (IEyepiece) this.eyepieceBox.getSelectedSchemaElement();
+            IEyepiece eyepiece = this.eyepieceBox.getSelectedSchemaElement();
 
             // Always restore original layout first
 
@@ -1008,7 +1002,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
             setCursor(hourglassCursor);
 
-            List images = Arrays.asList(files);
+            List<File> images = Arrays.asList(files);
             this.imageContainer.addImages(images);
             this.repaint();
 
@@ -1024,7 +1018,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private ITarget getTarget() {
 
-        ITarget target = (ITarget) this.targetBox.getSelectedSchemaElement();
+        ITarget target = this.targetBox.getSelectedSchemaElement();
         if (target == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noTarget"));
             return null;
@@ -1036,7 +1030,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private IObserver getObserver() {
 
-        IObserver observer = (IObserver) this.observerBox.getSelectedSchemaElement();
+        IObserver observer = this.observerBox.getSelectedSchemaElement();
         if (observer == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noObserver"));
             return null;
@@ -1493,7 +1487,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.selectionPanel.add(LSeeing);
         ConstraintsBuilder.buildConstraints(constraints, 10, 2, 0, 1, 6, 1);
-        this.seeing = new JComboBox();
+        this.seeing = new JComboBox<SeeingBoxEntry>();
         this.seeing.setEditable(false);
         this.fillSeeingBox();
         this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
@@ -1800,7 +1794,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         SchemaUILoader loader = this.observationManager.getExtensionLoader().getSchemaUILoader();
         ISession session = null;
         if (this.sessionBox.getSelectedSchemaElement() != null) {
-            session = (ISession) this.sessionBox.getSelectedSchemaElement();
+            session = this.sessionBox.getSelectedSchemaElement();
         }
         if (this.observation != null) {
             List<IFinding> findings = this.observation.getResults();
@@ -1837,7 +1831,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         df.setDecimalFormatSymbols(dfs);
 
         // First get scope and check it
-        IScope scope = (IScope) this.scopeBox.getSelectedSchemaElement();
+        IScope scope = this.scopeBox.getSelectedSchemaElement();
         if (scope == null) {
             this.magnification.setEditable(true);
             this.magnification.setText(null);
@@ -1862,7 +1856,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         // Get eyepiece focal length
         if (focalLength == -1) { // Get current eyepiece (shouldn't be a zoom eyepiece)
-            IEyepiece eyep = (IEyepiece) this.eyepieceBox.getSelectedSchemaElement();
+            IEyepiece eyep = this.eyepieceBox.getSelectedSchemaElement();
             if (eyep == null) { // Without eyepiece we cannot calculate anything
                 this.magnification.setEnabled(true);
                 this.magnification.setText(null);
@@ -1872,7 +1866,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         // Get lens
-        ILens lens = (ILens) this.lensBox.getSelectedSchemaElement();
+        ILens lens = this.lensBox.getSelectedSchemaElement();
 
         // Do calculations
         float m = OpticsUtil.getMagnification(scope, focalLength, lens);

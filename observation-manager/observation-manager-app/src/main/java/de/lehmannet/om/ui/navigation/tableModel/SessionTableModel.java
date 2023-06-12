@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;

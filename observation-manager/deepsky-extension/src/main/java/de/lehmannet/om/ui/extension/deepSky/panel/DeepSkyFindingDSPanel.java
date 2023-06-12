@@ -10,7 +10,6 @@ package de.lehmannet.om.ui.extension.deepSky.panel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -18,6 +17,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
@@ -34,7 +35,6 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
     private static final long serialVersionUID = 7078168276916621618L;
 
     private static final String XSI_TYPE = "oal:findingsDeepSkyDSType";
-    private static final String EMPTY_ITEM = "----";
 
     private JComponent colorMain = null; // Will be JComboBox or JTextField
     private JComponent colorCompanion = null; // Will be JComboBox or JTextField
@@ -195,12 +195,13 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         this.add(LcolorMain);
         ConstraintsBuilder.buildConstraints(constraints, 1, 7, 1, 1, 45, 22);
         if (this.isEditable()) {
-            this.colorMain = this.getColorBox();
-            ((JComboBox) this.colorMain).setEditable(this.isEditable());
-            // ((JComboBox)this.colorMain).addItemListener(this);
+            JComboBox<BoxItem> boxItemBox = this.getColorBox();
+            boxItemBox.setEditable(this.isEditable());
+            this.colorMain = boxItemBox;
         } else {
-            this.colorMain = new JTextField();
-            ((JTextField) this.colorMain).setEditable(this.isEditable());
+            JTextField textField = new JTextField();
+            textField.setEditable(this.isEditable());
+            this.colorMain = textField;
         }
         this.colorMain.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colormain"));
         gridbag.setConstraints(this.colorMain, constraints);
@@ -213,14 +214,17 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         gridbag.setConstraints(LcolorCompanion, constraints);
         this.add(LcolorCompanion);
         ConstraintsBuilder.buildConstraints(constraints, 3, 7, 1, 1, 45, 22);
+
         if (this.isEditable()) {
-            this.colorCompanion = this.getColorBox();
-            ((JComboBox) this.colorCompanion).setEditable(this.isEditable());
-            // ((JComboBox)this.colorCompanion).addItemListener(this);
+            JComboBox<BoxItem> boxItemBox = this.getColorBox();
+            boxItemBox.setEditable(this.isEditable());
+            this.colorCompanion = boxItemBox;
         } else {
-            this.colorCompanion = new JTextField();
-            ((JTextField) this.colorCompanion).setEditable(this.isEditable());
+            JTextField textField = new JTextField();
+            textField.setEditable(this.isEditable());
+            this.colorCompanion = textField;
         }
+
         this.colorCompanion.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colorcompanion"));
         gridbag.setConstraints(this.colorCompanion, constraints);
         this.add(this.colorCompanion);
@@ -260,26 +264,33 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         DeepSkyFindingDS findingDS = (DeepSkyFindingDS) this.finding;
 
         if (findingDS.getColorMain() != null) {
+
             if (this.isEditable()) {
-                ((JComboBox) this.colorMain).setSelectedItem(new BoxItem(findingDS.getColorMain().toLowerCase()));
-                ((JComboBox) this.colorMain).setEditable(this.isEditable());
+                JComboBox<BoxItem> boxItemBox = getJComboBoxForMainColor();
+                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorMain().toLowerCase()));
+                boxItemBox.setEditable(this.isEditable());
             } else {
-                ((JTextField) this.colorMain).setText(this.bundle
+                JTextField textField = (JTextField) this.colorMain;
+                textField.setText(this.bundle
                         .getString("panel.findingDS.dropdown.color." + findingDS.getColorMain().toLowerCase()));
-                ((JTextField) this.colorMain).setEditable(this.isEditable());
+                textField.setEditable(this.isEditable());
             }
+
         }
 
         if (findingDS.getColorCompanion() != null) {
+
             if (this.isEditable()) {
-                ((JComboBox) this.colorCompanion)
-                        .setSelectedItem(new BoxItem(findingDS.getColorCompanion().toLowerCase()));
-                ((JComboBox) this.colorCompanion).setEditable(this.isEditable());
+                JComboBox<BoxItem> boxItemBox = getJComboBoxForColorCompanion();
+                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorCompanion().toLowerCase()));
+                boxItemBox.setEditable(this.isEditable());
             } else {
-                ((JTextField) this.colorCompanion).setText(this.bundle
+                JTextField textField = (JTextField) this.colorCompanion;
+                textField.setText(this.bundle
                         .getString("panel.findingDS.dropdown.color." + findingDS.getColorCompanion().toLowerCase()));
-                ((JTextField) this.colorCompanion).setEditable(this.isEditable());
+                textField.setEditable(this.isEditable());
             }
+
         }
 
         try {
@@ -308,10 +319,10 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
     }
 
-    private JComboBox getColorBox() {
+    private JComboBox<BoxItem> getColorBox() {
 
-        JComboBox box = new JComboBox();
-        box.addItem(DeepSkyFindingDSPanel.EMPTY_ITEM);
+        JComboBox<BoxItem> box = new JComboBox<>();
+        box.addItem(BoxItem.EMPTY);
         box.addItem(new BoxItem(DeepSkyFindingDS.COLOR_WHITE));
         box.addItem(new BoxItem(DeepSkyFindingDS.COLOR_RED));
         box.addItem(new BoxItem(DeepSkyFindingDS.COLOR_ORANGE));
@@ -327,44 +338,47 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
         String cm = null;
         if (this.isEditable()) {
-            Object o = ((JComboBox) this.colorMain).getSelectedItem();
-            if (o instanceof String) { // EMPTY-Item
-                return null;
-            } else {
-                BoxItem bi = (BoxItem) o;
-                return Objects.requireNonNull(bi).getColor();
-            }
+            JComboBox<BoxItem> boxItemBox = getJComboBoxForMainColor();
+            BoxItem bi = (BoxItem) boxItemBox.getSelectedItem();
+            return bi.getValue();
         } else {
-            cm = ((JTextField) this.colorMain).getText();
-            if ("".equals(cm.trim())) {
+            JTextField textField = (JTextField) this.colorMain;
+            cm = textField.getText();
+            if (StringUtils.isBlank(cm)) {
                 return null;
             }
+            return cm;
         }
 
-        return cm;
+    }
 
+    private JComboBox<BoxItem> getJComboBoxForMainColor() {
+        return toJComboBox(this.colorMain);
+    }
+
+    private JComboBox<BoxItem> toJComboBox(JComponent component) {
+        return (JComboBox<BoxItem>) component;
+    }
+
+    private JComboBox<BoxItem> getJComboBoxForColorCompanion() {
+        return toJComboBox(this.colorCompanion);
     }
 
     private String getColorCompanion() {
 
         String cm = null;
         if (this.isEditable()) {
-            Object o = ((JComboBox) this.colorCompanion).getSelectedItem();
-            if (o instanceof String) { // EMPTY-Item
-                return null;
-            } else {
-                BoxItem bi = (BoxItem) o;
-                return Objects.requireNonNull(bi).getColor();
-            }
+            JComboBox<BoxItem> boxItemBox = getJComboBoxForColorCompanion();
+            BoxItem bi = (BoxItem) boxItemBox.getSelectedItem();
+            return bi.getValue();
         } else {
-            cm = ((JTextField) this.colorCompanion).getText();
-            if ("".equals(cm.trim())) {
+            JTextField textField = (JTextField) this.colorCompanion;
+            cm = textField.getText();
+            if (StringUtils.isBlank(cm)) {
                 return null;
             }
+            return cm;
         }
-
-        return cm;
-
     }
 
     // -------------------
@@ -377,7 +391,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
     protected JComboBox<String> getVisualRatingBox() {
 
         JComboBox<String> box = new JComboBox<>();
-        box.addItem("----");
+        box.addItem(BoxItem.EMPTY.toString());
         box.addItem(this.bundle.getString("panel.dsfinding.dropdown.rating.1"));
         box.addItem(this.bundle.getString("panel.dsfinding.dropdown.rating.2"));
         box.addItem(this.bundle.getString("panel.dsfinding.dropdown.rating.3"));
@@ -391,21 +405,28 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
 class BoxItem {
 
-    private String color = null;
+    private static final String EMPTY_VALUE = "----";
 
-    public BoxItem(String color) {
+    public static final BoxItem EMPTY = new BoxItem(EMPTY_VALUE);
+    private final String value;
 
-        this.color = color;
+    public BoxItem(String value) {
+
+        this.value = value;
 
     }
 
     @Override
     public String toString() {
 
+        if (EMPTY_VALUE.equals(value)) {
+            return value;
+        }
+
         ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
                 Locale.getDefault());
 
-        return bundle.getString("panel.findingDS.dropdown.color." + color.toLowerCase());
+        return bundle.getString("panel.findingDS.dropdown.color." + value.toLowerCase());
 
     }
 
@@ -413,16 +434,20 @@ class BoxItem {
     public boolean equals(Object o) {
 
         if (o instanceof BoxItem) {
-            return o.equals(color);
+            return o.equals(value);
         }
 
         return false;
 
     }
 
-    public String getColor() {
+    public String getValue() {
 
-        return this.color;
+        if (EMPTY_VALUE.equals(value)) {
+            return null;
+        }
+
+        return this.value;
 
     }
 

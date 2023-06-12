@@ -143,8 +143,6 @@ public class TableView extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    int x = e.getX();
-                    int y = e.getY();
 
                     // Convert coordinates
                     MouseEvent c = SwingUtilities.convertMouseEvent(TableView.this.table, e,
@@ -492,8 +490,7 @@ public class TableView extends JPanel {
              * if( this.sorter.getTableModel() instanceof TargetTableModel) { this.sorter.setTableModel(new
              * TargetTableModel(targets), false); } else {
              */
-            this.sorter.setTableModel(
-                    new TargetTableModel(targets, this.observationManager.getConfiguration(), this.model), true);
+            this.sorter.setTableModel(new TargetTableModel(targets, this.observationManager.getConfiguration()), true);
             // }
             this.abstractSchemaTableModel = this.sorter;
             this.sorter.setTableHeader(table.getTableHeader());
@@ -501,7 +498,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new TargetTableModel(null, this.observationManager.getConfiguration(), this.model));
+            this.table.setModel(new TargetTableModel(null, this.observationManager.getConfiguration()));
             this.observationManager.getItemView().clear();
         }
 
