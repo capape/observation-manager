@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <artifactId>observation-manager</artifactId>
     <groupId>de.lehmannet.om</groupId>
-    <version>1.6.0-RC12-SNAPSHOT</version>
+    <version>1.6.0-RC12</version>
 
     <scm>
         <connection>scm:git:git@github.com:capape/observation-manager.git</connection>
