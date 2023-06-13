@@ -115,6 +115,10 @@ public class Angle {
         return textNode.toString().trim();
     }
 
+    public static Angle of(Angle angle) {
+        return new Angle(angle.getValue(), angle.getUnit());
+    }
+
     /*
      * Creates a new Angle instace.
      *

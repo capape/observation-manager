@@ -405,7 +405,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     @Override
     public Angle getApparentFOV() {
 
-        return apparentFOV;
+        return Angle.of(apparentFOV);
 
     }
 
@@ -492,7 +492,7 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
             return;
         }
 
-        this.apparentFOV = apparentFOV;
+        this.apparentFOV = Angle.of(apparentFOV);
 
     }
 

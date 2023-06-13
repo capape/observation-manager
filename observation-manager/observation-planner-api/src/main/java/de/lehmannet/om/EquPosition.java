@@ -132,8 +132,8 @@ public class EquPosition extends SchemaElement {
             throw new IllegalArgumentException("ra value cannot be negative. ");
         }
 
-        this.ra = ra;
-        this.dec = dec;
+        this.ra = Angle.of(ra);
+        this.dec = Angle.of(dec);
 
     }
 
@@ -348,7 +348,7 @@ public class EquPosition extends SchemaElement {
      */
     public Angle getDecAngle() {
 
-        return dec;
+        return Angle.of(dec);
 
     }
 
@@ -407,7 +407,7 @@ public class EquPosition extends SchemaElement {
      */
     public Angle getRaAngle() {
 
-        return ra;
+        return Angle.of(ra);
 
     }
 
@@ -580,7 +580,7 @@ public class EquPosition extends SchemaElement {
             this.frame = new EquPositionReferenceFrame(EquPositionReferenceFrame.ORIGIN_GEOCENTRIC,
                     EquPositionReferenceFrame.EQUINOX_2000);
         } else {
-            this.frame = frame;
+            this.frame = EquPositionReferenceFrame.of(frame);
         }
 
     }
