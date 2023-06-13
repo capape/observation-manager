@@ -117,9 +117,6 @@ public class Angle implements Serializable {
     }
 
     public static Angle of(Angle angle) {
-        if (angle == null) {
-            return null;
-        }
         return new Angle(angle.getValue(), angle.getUnit());
     }
 
