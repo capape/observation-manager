@@ -41,8 +41,6 @@ import de.lehmannet.om.util.SchemaException;
  */
 public class Observation extends SchemaElement implements IObservation {
 
-    private static final long serialVersionUID = 1L;
-
     // ------------------
     // Instance Variables ------------------------------------------------
     // ------------------

@@ -715,4 +715,13 @@ public class Observer extends SchemaElement implements IObserver {
         return true;
     }
 
+    @Override
+    public final ICloneable getCopy() {
+        try {
+            return (Observer) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
 }

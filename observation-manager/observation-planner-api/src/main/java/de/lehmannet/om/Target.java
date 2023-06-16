@@ -582,6 +582,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      */
     @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
     public final IObserver getObserver() {
         if (this.observer == null) {
             return null;
@@ -589,6 +590,9 @@ public abstract class Target extends SchemaElement implements ITarget {
         return this.observer.copy();
 =======
     public IObserver getObserver() {
+=======
+    public final IObserver getObserver() {
+>>>>>>> 967207b (Planner-api spot-bugs)
         if (this.observer == null) {
             return null;
         }
@@ -850,11 +854,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     }
 
     @Override
-<<<<<<< HEAD
     public final ICloneable getCopy() {
-=======
-    public ICloneable getCopy() {
->>>>>>> 9201d08 (High and medium SpotBugs Warnings)
         try {
             return (Target) this.clone();
         } catch (CloneNotSupportedException e) {

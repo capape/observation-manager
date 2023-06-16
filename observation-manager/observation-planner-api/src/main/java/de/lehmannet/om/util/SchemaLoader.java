@@ -960,45 +960,7 @@ public class SchemaLoader {
             throw new SchemaException("No attribute specified: " + IImager.XML_XSI_TYPE);
         }
     }
-
-    // private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
-
-<<<<<<< HEAD
-    // char[] buffer = getSchemaVersionForXml(xmlFile);
-    // // Check if in the first 500 characters of the XML file a known SchemaFile name
-    // // is persent.
-    // // If so load the Schemafile for validation
-    // for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
-    // int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
-    // if (index != -1) {
-    // return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
-    // }
-    // }
-=======
-        char[] buffer = getSchemaVersionForXml(xmlFile);
-        // Check if in the first 500 characters of the XML file a known SchemaFile name
-        // is persent.
-        // If so load the Schemafile for validation
-        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
-            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
-            if (index != -1) {
-                return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
-            }
-        }
->>>>>>> 9201d08 (High and medium SpotBugs Warnings)
-
-    // throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
-
-    // }
-
-    // private File getSchemaFileForVersion(File schemaPath, String version) {
-    // return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
-    // }
-
-    private File getSchemaFileForVersion(File schemaPath, String version) {
-        return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
-    }
-
+    
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
         char[] buffer = new char[500];
 
@@ -1061,7 +1023,7 @@ public class SchemaLoader {
 
     static <T extends ICloneable> T[] copyOfArray(T[] source) {
 
-        return Arrays.asList(source).stream().map(a -> a.copy()).toList().toArray(source);
+        return Arrays.asList(source).stream().map(a -> (T) a.getCopy()).toList().toArray(source);
 
     }
 
