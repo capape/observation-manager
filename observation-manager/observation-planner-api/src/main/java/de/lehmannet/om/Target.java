@@ -10,7 +10,6 @@ package de.lehmannet.om;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -215,8 +214,7 @@ public abstract class Target extends SchemaElement implements ITarget {
                 && !("".equals(this.getDatasource()))) {
             String dataSource = target.getDatasource();
             if (dataSource != null) {
-                if (!this.getDatasource().toLowerCase(Locale.getDefault()).trim()
-                        .equals(dataSource.toLowerCase(Locale.getDefault()).trim())) {
+                if (!StringUtils.equalsIgnoreCase(this.getDatasource().trim(), dataSource.trim())) {
                     return false; // Datasources do not match
                 }
             } else {
@@ -238,7 +236,7 @@ public abstract class Target extends SchemaElement implements ITarget {
             return false;
         }
 
-        return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
+        return (StringUtils.equalsIgnoreCase(this.getName(), targetName))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }

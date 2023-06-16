@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Constellation enum represents all 88 IAU constellations. The constellation name (and abbreviation) used in this class
  * is in latin.
@@ -133,7 +135,7 @@ public enum Constellation {
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
         for (Constellation item : Constellation.values()) {
-            if (item.getName().equalsIgnoreCase(toSearch)) {
+            if (StringUtils.equalsIgnoreCase(toSearch, item.getName())) {
                 return item;
             }
         }
@@ -147,10 +149,10 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
+        final String toSearch = data.trim();
 
         for (Constellation item : Constellation.values()) {
-            if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
+            if (StringUtils.equalsIgnoreCase(toSearch, item.getAbbreviation())) {
                 return item;
             }
         }
@@ -164,10 +166,11 @@ public enum Constellation {
         if (data == null) {
             throw new IllegalArgumentException("Invalid constellation");
         }
-        final String toSearch = data.trim().toUpperCase(Locale.getDefault());
+        final String toSearch = data.trim();
 
         for (Constellation item : Constellation.values()) {
-            if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {
+            if (StringUtils.equalsIgnoreCase(toSearch, item.getAbbreviation())
+                    || StringUtils.equalsIgnoreCase(toSearch, item.getName())) {
                 return item;
             }
         }

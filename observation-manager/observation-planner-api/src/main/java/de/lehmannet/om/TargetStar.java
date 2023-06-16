@@ -1,7 +1,6 @@
 package de.lehmannet.om;
 
-import java.util.Locale;
-
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -401,8 +400,7 @@ public class TargetStar extends Target {
             return false;
         }
 
-        return this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault()))
-                && this.getXSIType().equals(other.getXSIType());
+        return StringUtils.equalsIgnoreCase(this.getName(), targetName) && this.getXSIType().equals(other.getXSIType());
 
     }
 

@@ -7,8 +7,7 @@
 
 package de.lehmannet.om;
 
-import java.util.Locale;
-
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -113,7 +112,7 @@ public class GenericTarget extends Target {
             return false;
         }
 
-        return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
+        return (StringUtils.equalsIgnoreCase(this.getName(), targetName))
                 && (this.getXSIType()).equals(target.getXSIType());
 
     }

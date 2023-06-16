@@ -557,17 +557,6 @@ public class EquPosition extends SchemaElement {
     }
 
     /**
-     * Returns the position reference frame of this equatorial position.
-     *
-     * @return The position reference frame of this equatorial position
-     */
-    private EquPositionReferenceFrame getFrame() {
-
-        return frame;
-
-    }
-
-    /**
      * Sets the position reference frame of this equatorial position.<br>
      * If <code>null</code> is passed the new position reference frame that is set is geocentric with equinox J2000.0
      *
