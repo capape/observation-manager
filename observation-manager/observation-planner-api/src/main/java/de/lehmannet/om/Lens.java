@@ -443,4 +443,15 @@ public class Lens extends SchemaElement implements ILens {
 
     }
 
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (Lens) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
+    }
+
 }

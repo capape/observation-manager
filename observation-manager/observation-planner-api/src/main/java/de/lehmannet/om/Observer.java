@@ -404,7 +404,7 @@ public class Observer extends SchemaElement implements IObserver {
     @Override
     public List<String> getContacts() {
 
-        return contacts;
+        return contacts.stream().toList();
 
     }
 
@@ -712,6 +712,15 @@ public class Observer extends SchemaElement implements IObserver {
         } else if (!surname.equals(other.surname))
             return false;
         return true;
+    }
+
+    @Override
+    public ICloneable getCopy() {
+        try {
+            return (Observer) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package de.lehmannet.om;
 
-public interface IEquipment {
+public interface IEquipment extends ICloneable {
 
     // Constant for XML representation: comment indicating that this element is no
     // longer available (e.g. has been sold, got broken, ...)

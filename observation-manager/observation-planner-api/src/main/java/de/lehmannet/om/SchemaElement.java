@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.util.IIDGenerator;
+import de.lehmannet.om.util.UIDGenerator;
 
 /**
  * The SchemaElement represents the root class for all schema element classes.
@@ -28,31 +29,7 @@ public abstract class SchemaElement implements ISchemaElement {
     // ---------------
 
     // UID Generator
-    protected static IIDGenerator IDGenerator;
-
-    // -------------
-    // Static blocks -----------------------------------------------------
-    // -------------
-
-    static {
-        // Determin VM Version once
-        String vmVersion = System.getProperty("java.version");
-
-        // Determin if we're running in VM 1.5 or higher.
-        boolean after14 = !vmVersion.startsWith("1.4");
-
-        if (after14) { // Use UUID
-            try {
-                IDGenerator = new de.lehmannet.om.util.UUIDGenerator();
-            } catch (Exception e) {
-                log.error("Cannot create UUID Generator. Try to get UIDGenerator...");
-                IDGenerator = new de.lehmannet.om.util.UIDGenerator();
-            }
-        } else { // Use UID
-            IDGenerator = new de.lehmannet.om.util.UIDGenerator();
-        }
-
-    }
+    protected final static IIDGenerator IDGenerator = new UIDGenerator();
 
     // ------------------
     // Instance Variables ------------------------------------------------

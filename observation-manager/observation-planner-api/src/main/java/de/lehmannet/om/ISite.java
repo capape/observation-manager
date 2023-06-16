@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public interface ISite extends ISchemaElement {
+public interface ISite extends ISchemaElement, ICloneable {
 
     // ---------
     // Constants ---------------------------------------------------------

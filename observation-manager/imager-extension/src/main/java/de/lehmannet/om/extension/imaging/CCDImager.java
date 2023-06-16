@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.Imager;
 import de.lehmannet.om.mapper.CCDImagerMapper;
@@ -359,6 +360,17 @@ public class CCDImager extends Imager {
         }
 
         this.binning = binning;
+
+    }
+
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (CCDImager) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
 
     }
 

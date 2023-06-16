@@ -567,4 +567,15 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
     }
 
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (Eyepiece) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
+    }
+
 }

@@ -572,7 +572,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     @Override
     public EquPosition getPosition() {
 
-        return position;
+        return position == null ? null : new EquPosition(position.getRa(), position.getDec());
 
     }
 
@@ -584,8 +584,10 @@ public abstract class Target extends SchemaElement implements ITarget {
      */
     @Override
     public IObserver getObserver() {
-
-        return this.observer;
+        if (this.observer == null) {
+            return null;
+        }
+        return (IObserver) this.observer.getCopy();
 
     }
 
@@ -613,7 +615,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     @Override
     public void setPosition(EquPosition position) {
 
-        this.position = position;
+        this.position = position == null ? null : new EquPosition(position.getRa(), position.getDec());
 
     }
 
@@ -644,7 +646,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         if (observer != null) {
             this.dataSource = null;
-            this.observer = observer;
+            this.observer = (IObserver) observer.getCopy();
         }
 
     }
@@ -834,6 +836,16 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         return true;
+
+    }
+
+    @Override
+    public ICloneable getCopy() {
+        try {
+            return (Target) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
 
     }
 

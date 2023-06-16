@@ -721,8 +721,10 @@ public class Session extends SchemaElement implements ISession {
      */
     @Override
     public ISite getSite() {
-
-        return this.site;
+        if (this.site == null) {
+            return null;
+        }
+        return (ISite) this.site.getCopy();
 
     }
 
@@ -784,7 +786,7 @@ public class Session extends SchemaElement implements ISession {
             return null;
         }
 
-        return this.images;
+        return this.images.stream().toList();
 
     }
 
@@ -881,7 +883,7 @@ public class Session extends SchemaElement implements ISession {
             throw new IllegalArgumentException("Site cannot be null. ");
         }
 
-        this.site = site;
+        this.site = (ISite) site.getCopy();
 
     }
 
@@ -955,7 +957,7 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public List<IObserver> getCoObservers() {
 
-        return this.coObservers;
+        return this.coObservers.stream().map(a -> (IObserver) a.getCopy()).toList();
 
     }
 
@@ -1067,8 +1069,18 @@ public class Session extends SchemaElement implements ISession {
             return;
         }
 
-        this.images = imagesList;
+        this.images.clear();
+        this.images.addAll(imagesList);
 
+    }
+
+    @Override
+    public ICloneable getCopy() {
+        try {
+            return (Session) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
 }

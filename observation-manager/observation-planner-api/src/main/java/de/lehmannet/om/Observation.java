@@ -228,8 +228,8 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
         this.begin = begin.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
-        this.target = target;
-        this.observer = observer;
+        this.target = (ITarget) target.getCopy();
+        this.observer = (IObserver) observer.getCopy();
         this.addResult(result);
 
     }
@@ -271,8 +271,8 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.begin = begin.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
-        this.target = target;
-        this.observer = observer;
+        this.target = (ITarget) target.getCopy();
+        this.observer = (IObserver) observer.getCopy();
 
         this.addResults(results);
 
@@ -797,8 +797,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public IEyepiece getEyepiece() {
-
-        return eyepiece;
+        if (this.eyepiece == null) {
+            return null;
+        }
+        return (IEyepiece) eyepiece.getCopy();
 
     }
 
@@ -810,8 +812,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public ILens getLens() {
-
-        return lens;
+        if (this.lens == null) {
+            return null;
+        }
+        return (ILens) lens.getCopy();
 
     }
 
@@ -824,8 +828,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public IFilter getFilter() {
-
-        return this.filter;
+        if (this.filter == null) {
+            return null;
+        }
+        return (IFilter) this.filter.getCopy();
 
     }
 
@@ -836,8 +842,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public IImager getImager() {
-
-        return this.imager;
+        if (this.imager == null) {
+            return null;
+        }
+        return (IImager) this.imager.getCopy();
 
     }
 
@@ -874,8 +882,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public SurfaceBrightness getSkyQuality() {
-
-        return sqmValue;
+        if (this.sqmValue == null) {
+            return null;
+        }
+        return new SurfaceBrightness(sqmValue.getValue(), sqmValue.getUnit());
 
     }
 
@@ -892,7 +902,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             return null;
         }
 
-        return this.images;
+        return List.copyOf(this.images);
 
     }
 
@@ -917,8 +927,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public IObserver getObserver() {
-
-        return observer;
+        if (this.observer == null) {
+            return null;
+        }
+        return (IObserver) observer.getCopy();
 
     }
 
@@ -977,7 +989,8 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
          * new IllegalArgumentException("Result list cannot be null or empty. "); }
          */
 
-        this.results = results;
+        this.results.clear();
+        this.results.addAll(results);
         return true;
 
     }
@@ -1031,7 +1044,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             return;
         }
 
-        this.images = imagesList;
+        this.images.addAll(imagesList);
 
     }
 
@@ -1043,8 +1056,11 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public void setImager(IImager imager) {
-
-        this.imager = imager;
+        if (imager == null) {
+            this.imager = null;
+        } else {
+            this.imager = (IImager) imager.getCopy();
+        }
 
     }
 
@@ -1141,7 +1157,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public List<IFinding> getResults() {
 
-        return this.results;
+        return List.copyOf(this.results);
 
     }
 
@@ -1153,8 +1169,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public IScope getScope() {
-
-        return scope;
+        if (this.scope == null) {
+            return null;
+        }
+        return (IScope) scope.getCopy();
 
     }
 
@@ -1167,8 +1185,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public ISession getSession() {
-
-        return session;
+        if (this.session == null) {
+            return null;
+        }
+        return (ISession) session.getCopy();
 
     }
 
@@ -1179,8 +1199,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public ISite getSite() {
-
-        return site;
+        if (this.site == null) {
+            return null;
+        }
+        return (ISite) site.getCopy();
 
     }
 
@@ -1191,8 +1213,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      */
     @Override
     public ITarget getTarget() {
-
-        return target;
+        if (this.target == null) {
+            return null;
+        }
+        return (ITarget) target.getCopy();
 
     }
 
@@ -1241,7 +1265,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setEyepiece(IEyepiece eyepiece) {
 
-        this.eyepiece = eyepiece;
+        this.eyepiece = eyepiece == null ? null : (IEyepiece) eyepiece.getCopy();
 
     }
 
@@ -1255,7 +1279,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setLens(ILens lens) {
 
-        this.lens = lens;
+        this.lens = lens == null ? null : (ILens) lens.getCopy();
 
     }
 
@@ -1270,7 +1294,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setFilter(IFilter filter) {
 
-        this.filter = filter;
+        this.filter = filter == null ? null : (IFilter) filter.getCopy();
 
     }
 
@@ -1321,7 +1345,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setSkyQuality(SurfaceBrightness sq) {
 
-        this.sqmValue = sq;
+        this.sqmValue = sq == null ? null : new SurfaceBrightness(sq.getValue(), sq.getUnit());
 
     }
 
@@ -1369,7 +1393,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             throw new IllegalArgumentException("Observer cannot be null. ");
         }
 
-        this.observer = observer;
+        this.observer = (IObserver) observer.getCopy();
 
     }
 
@@ -1383,7 +1407,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setScope(IScope scope) {
 
-        this.scope = scope;
+        this.scope = scope == null ? null : (IScope) scope.getCopy();
 
     }
 
@@ -1428,7 +1452,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
                     "Observation end date is after session end date " + this.getDisplayName());
         }
 
-        this.session = session;
+        this.session = (ISession) session.getCopy();
 
     }
 
@@ -1442,7 +1466,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setSite(ISite site) {
 
-        this.site = site;
+        this.site = site == null ? null : (ISite) site.getCopy();
 
     }
 
@@ -1470,7 +1494,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             throw new IllegalArgumentException("Target cannot be null. ");
         }
 
-        this.target = target;
+        this.target = (ITarget) target.getCopy();
 
     }
 

@@ -628,4 +628,15 @@ public class Filter extends SchemaElement implements IFilter {
 
     }
 
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (Filter) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
+    }
+
 }

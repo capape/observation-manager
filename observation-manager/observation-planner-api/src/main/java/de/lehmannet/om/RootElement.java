@@ -14,11 +14,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -164,61 +166,61 @@ public class RootElement {
 
     public Collection<IObservation> getObservations() {
 
-        return this.observationList;
+        return this.observationList.stream().toList();
 
     }
 
     public Collection<IEyepiece> getEyepieceList() {
 
-        return this.eyepieceList;
+        return this.eyepieceList.stream().toList();
 
     }
 
     public Collection<IImager> getImagerList() {
 
-        return this.imagerList;
+        return this.imagerList.stream().toList();
 
     }
 
     public Collection<IObserver> getObserverList() {
 
-        return this.observerList;
+        return this.observerList.stream().toList();
 
     }
 
     public Collection<IScope> getScopeList() {
 
-        return this.scopeList;
+        return this.scopeList.stream().toList();
 
     }
 
     public Collection<ISession> getSessionList() {
 
-        return this.sessionList;
+        return this.sessionList.stream().toList();
 
     }
 
     public Collection<ISite> getSiteList() {
 
-        return this.siteList;
+        return this.siteList.stream().toList();
 
     }
 
     public Collection<ITarget> getTargetList() {
 
-        return this.targetList;
+        return this.targetList.stream().toList();
 
     }
 
     public Collection<IFilter> getFilterList() {
 
-        return this.filterList;
+        return this.filterList.stream().toList();
 
     }
 
     public Collection<ILens> getLensList() {
 
-        return this.lensList;
+        return this.lensList.stream().toList();
 
     }
 
@@ -461,14 +463,13 @@ public class RootElement {
         if (xmlFile == null) {
             throw new SchemaException("File cannot be null. ");
         }
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
         DOMSource source = new DOMSource(this.getDocument());
 
         try {
-            FileWriter writer = new FileWriter(xmlFile);
+            FileWriter writer = new FileWriter(xmlFile, Charset.forName("UTF-8"));
             StreamResult result = new StreamResult(writer);
-            Transformer transformer = createTransformer(transformerFactory);
+            Transformer transformer = createTransformer();
             transformer.transform(source, result);
         } catch (TransformerConfigurationException e) {
             LOG.error("Cannot configure xml format", e);
@@ -487,13 +488,13 @@ public class RootElement {
         }
     }
 
-    private Transformer createTransformer(TransformerFactory transformerFactory)
-            throws TransformerConfigurationException, IOException {
+    private Transformer createTransformer() throws TransformerConfigurationException, IOException {
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
         Transformer transformer = transformerFactory
                 .newTransformer(new StreamSource(new StringReader(readPrettyPrintXslt())));
-        // Transformer transformer = transformerFactory.newTransformer();
-        // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        // transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         return transformer;
     }
 
@@ -504,7 +505,7 @@ public class RootElement {
 
     private static String readFromInputStream(InputStream inputStream) throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 resultStringBuilder.append(line).append("\n");

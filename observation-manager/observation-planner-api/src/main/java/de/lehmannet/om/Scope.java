@@ -638,7 +638,7 @@ public class Scope extends SchemaElement implements IScope {
     @Override
     public Angle getTrueFieldOfView() {
 
-        return this.trueFieldOfView;
+        return Angle.of(this.trueFieldOfView);
 
     }
 
@@ -912,7 +912,7 @@ public class Scope extends SchemaElement implements IScope {
                     "Focal length is set. True field of view can only be set, if magnification is set. ");
         }
 
-        this.trueFieldOfView = tfov;
+        this.trueFieldOfView = Angle.of(tfov);
 
     }
 
@@ -1000,6 +1000,17 @@ public class Scope extends SchemaElement implements IScope {
             this.orientation_Truesided = 1;
         } else {
             this.orientation_Truesided = 0;
+        }
+
+    }
+
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (Scope) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
         }
 
     }

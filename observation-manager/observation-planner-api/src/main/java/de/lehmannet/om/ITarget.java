@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
+public interface ITarget extends ISchemaElement, IExtendableSchemaElement, ICloneable {
 
     // ---------
     // Constants ---------------------------------------------------------

@@ -7,13 +7,13 @@
 
 package de.lehmannet.om;
 
+import java.util.Objects;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
-
-import java.util.Objects;
 
 /**
  * Surface Brightness represents the value and the unit of a celestial objects surface brightness

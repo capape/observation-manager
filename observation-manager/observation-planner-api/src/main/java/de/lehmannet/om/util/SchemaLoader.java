@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -278,6 +279,7 @@ public class SchemaLoader {
 
             isValid(schemaFilePath, xmlFile.getAbsolutePath());
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             dbf.setValidating(false);
             dbf.setNamespaceAware(true);
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -335,7 +337,7 @@ public class SchemaLoader {
         XmlErrorHandler xsdErrorHandler = new XmlErrorHandler();
         try {
             validator.setErrorHandler(xsdErrorHandler);
-            validator.validate(new StreamSource(new File(xmlPath)));
+            validator.validate(new StreamSource(FileSystems.getDefault().getPath(xmlPath).toFile()));
 
         } catch (SAXException e) {
 
@@ -345,7 +347,7 @@ public class SchemaLoader {
         return xsdErrorHandler.getExceptions().isEmpty();
     }
 
-    public class XmlErrorHandler implements ErrorHandler {
+    public static class XmlErrorHandler implements ErrorHandler {
 
         private List<SAXParseException> exceptions;
 
@@ -354,7 +356,7 @@ public class SchemaLoader {
         }
 
         public List<SAXParseException> getExceptions() {
-            return exceptions;
+            return exceptions.stream().toList();
         }
 
         @Override
@@ -962,12 +964,16 @@ public class SchemaLoader {
         for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
             int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
             if (index != -1) {
-                return new File(schemaPath.getAbsolutePath() + File.separatorChar + SchemaLoader.VERSIONS[i]);
+                return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
             }
         }
 
         throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
 
+    }
+
+    private File getSchemaFileForVersion(File schemaPath, String version) {
+        return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
     }
 
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {

@@ -88,7 +88,7 @@ class EquPositionReferenceFrame {
 
     }
 
-    public static  EquPositionReferenceFrame of (EquPositionReferenceFrame source) {
+    public static EquPositionReferenceFrame of(EquPositionReferenceFrame source) {
         return new EquPositionReferenceFrame(source.getOrigin(), source.getEquinox());
     }
 

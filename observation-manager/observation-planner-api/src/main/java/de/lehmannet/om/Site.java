@@ -355,7 +355,7 @@ public class Site extends SchemaElement implements ISite {
     @Override
     public Angle getLatitude() {
 
-        return latitude;
+        return Angle.of(latitude);
 
     }
 
@@ -368,7 +368,7 @@ public class Site extends SchemaElement implements ISite {
     @Override
     public Angle getLongitude() {
 
-        return longitude;
+        return Angle.of(longitude);
 
     }
 
@@ -415,7 +415,7 @@ public class Site extends SchemaElement implements ISite {
             throw new IllegalArgumentException("Latitude cannot be null. ");
         }
 
-        this.latitude = latitude;
+        this.latitude = Angle.of(latitude);
 
     }
 
@@ -435,7 +435,7 @@ public class Site extends SchemaElement implements ISite {
             throw new IllegalArgumentException("Longitude cannot be null. ");
         }
 
-        this.longitude = longitude;
+        this.longitude = Angle.of(longitude);
 
     }
 
@@ -538,6 +538,15 @@ public class Site extends SchemaElement implements ISite {
 
         return iauCode;
 
+    }
+
+    @Override
+    public ICloneable getCopy() {
+        try {
+            return (Site) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
 }
