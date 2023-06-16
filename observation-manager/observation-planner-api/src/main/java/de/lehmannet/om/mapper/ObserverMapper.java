@@ -1,5 +1,7 @@
 package de.lehmannet.om.mapper;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +66,8 @@ public class ObserverMapper {
                     return Float.parseFloat(fstOffset.toString());
                 }
             } else {
-                log.error("Problem while retrieving fst Offset from observer: {} ", getMandatoryID(observerElement));
+                log.error("Problem while retrieving fst Offset from observer: {} ",
+                        toLogMessage(getMandatoryID(observerElement)));
             }
         } else if (children.getLength() > 1) {
             throw new SchemaException("Observer can have only one fst Offset. ");
@@ -92,7 +95,7 @@ public class ObserverMapper {
             } else {
                 log.error(
                         "Problem while retrieving DSL code from observer: {}. As this element is deprecated, error will be ignored.",
-                        getMandatoryID(observerElement));
+                        toLogMessage(getMandatoryID(observerElement)));
             }
         } else if (children.getLength() > 1) {
             throw new SchemaException("Observer can have only one DSL Code. ");

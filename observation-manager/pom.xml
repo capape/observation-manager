@@ -241,7 +241,7 @@
                     <version>${maven-spotbugs-plugin.version}</version>
                     <configuration>
                         <effort>Max</effort>
-                        <threshold>Low</threshold>
+                        <threshold>High</threshold>
                         <failOnError>true</failOnError>                        
                         <plugins>
                             <plugin>
@@ -250,6 +250,7 @@
                                 <version>LATEST</version> <!-- Auto-update to the latest stable -->
                             </plugin>
                         </plugins>
+                         <excludeFilterFile>spotbugs-security-exclude.xml</excludeFilterFile>
                     </configuration>
 
                 </plugin>

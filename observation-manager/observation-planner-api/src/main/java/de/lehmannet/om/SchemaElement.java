@@ -84,7 +84,7 @@ public abstract class SchemaElement implements ISchemaElement {
      * @return Returns a String representing a unique ID of this schema element.
      */
     @Override
-    public String getID() {
+    public final String getID() {
 
         return ID;
 

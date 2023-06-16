@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.util;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,6 +52,7 @@ import org.xml.sax.SAXParseException;
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.Filter;
 import de.lehmannet.om.GenericTarget;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -198,62 +201,61 @@ public class SchemaLoader {
 
     public IObservation[] getObservations() {
 
-        return this.observations.clone();
+        return copyOfArray(this.observations);
 
     }
 
     public ISession[] getSessions() {
 
-        return this.sessions.clone();
+        return copyOfArray(this.sessions);
 
     }
 
     public ITarget[] getTargets() {
 
-        return this.targets.clone();
+        return copyOfArray(this.targets);
 
     }
 
     public IObserver[] getObservers() {
 
-        return this.observers.clone();
+        return copyOfArray(this.observers);
 
     }
 
     public ISite[] getSites() {
 
-        return this.sites.clone();
+        return copyOfArray(this.sites);
 
     }
 
     public IScope[] getScopes() {
 
-        return this.scopes.clone();
+        return copyOfArray(this.scopes);
 
     }
 
     public IEyepiece[] getEyepieces() {
 
-        return this.eyepieces.clone();
+        return copyOfArray(this.eyepieces);
 
     }
 
     public IFilter[] getFilters() {
 
-        return this.filters.clone();
+        return copyOfArray(this.filters);
 
     }
 
     public ILens[] getLenses() {
 
-        return this.lenses.clone();
+        return copyOfArray(this.lenses);
 
     }
 
     public IImager[] getImagers() {
 
-        return this.imagers.clone();
-
+        return copyOfArray(this.imagers);
     }
 
     /**
@@ -289,16 +291,19 @@ public class SchemaLoader {
             }
 
         } catch (IOException e) {
-            LOGGER.error("Error reading xml file: {}. {}", xmlFile, e.getLocalizedMessage(), e);
+            LOGGER.error("Error reading xml file: {}. {}", toLogMessage(xmlFile.getName()),
+                    toLogMessage(e.getLocalizedMessage()));
             throw new OALException("Error reading xml  xml file: " + xmlFile.getAbsolutePath(), e);
         } catch (SAXParseException e) {
-            LOGGER.error("Error parsing xml file: {}. {}", xmlFile, e.toString(), e);
+            LOGGER.error("Error parsing xml file: {}. {}", toLogMessage(xmlFile.getName()), toLogMessage(e.toString()));
             throw new OALException("Error parsing  xml file: " + xmlFile.getAbsolutePath(), e);
         } catch (SAXException e) {
-            LOGGER.error("Error in xml file: {}.{} ", xmlFile, e.getLocalizedMessage(), e);
+            LOGGER.error("Error in xml file: {}.{} ", toLogMessage(xmlFile.getName()),
+                    toLogMessage(e.getLocalizedMessage()));
             throw new OALException("Error in xml file: " + xmlFile.getAbsolutePath(), e);
         } catch (ParserConfigurationException e) {
-            LOGGER.error("Error in xml file: {}.{} ", xmlFile, e.getLocalizedMessage(), e);
+            LOGGER.error("Error in xml file: {}.{} ", toLogMessage(xmlFile.getName()),
+                    toLogMessage(e.getLocalizedMessage()));
             throw new OALException("ror in xmlxml file: " + xmlFile.getAbsolutePath(), e);
 
         }
@@ -343,7 +348,8 @@ public class SchemaLoader {
 
         }
 
-        xsdErrorHandler.getExceptions().forEach(e -> LOGGER.error("Error in xml file: {}. {}", xmlPath, e.toString()));
+        xsdErrorHandler.getExceptions().forEach(
+                e -> LOGGER.error("Error in xml file: {}. {}", toLogMessage(xmlPath), toLogMessage(e.toString())));
         return xsdErrorHandler.getExceptions().isEmpty();
     }
 
@@ -452,16 +458,16 @@ public class SchemaLoader {
     }
 
     private void logData() {
-        LOGGER.debug("Observations {} ", (Object[]) this.observations);
-        LOGGER.debug("session {} ", (Object[]) this.sessions);
-        LOGGER.debug("targets {} ", (Object[]) this.targets);
-        LOGGER.debug("observers {} ", (Object[]) this.observers);
-        LOGGER.debug("sites {} ", (Object[]) this.sites);
-        LOGGER.debug("scopes {} ", (Object[]) this.scopes);
-        LOGGER.debug("eyepieces {} ", (Object[]) this.eyepieces);
-        LOGGER.debug("filters {} ", (Object[]) this.filters);
-        LOGGER.debug("lenses {} ", (Object[]) this.lenses);
-        LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
+        LOGGER.debug("Observations {} ", toLogMessage((Object[]) this.observations));
+        LOGGER.debug("session {} ", toLogMessage((Object[]) this.sessions));
+        LOGGER.debug("targets {} ", toLogMessage((Object[]) this.targets));
+        LOGGER.debug("observers {} ", toLogMessage((Object[]) this.observers));
+        LOGGER.debug("sites {} ", toLogMessage((Object[]) this.sites));
+        LOGGER.debug("scopes {} ", toLogMessage((Object[]) this.scopes));
+        LOGGER.debug("eyepieces {} ", toLogMessage((Object[]) this.eyepieces));
+        LOGGER.debug("filters {} ", toLogMessage((Object[]) this.filters));
+        LOGGER.debug("lenses {} ", toLogMessage((Object[]) this.lenses));
+        // LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
 
     }
 
@@ -663,7 +669,8 @@ public class SchemaLoader {
 
     private static String getClassNameToLoad(String xsiType, SchemaElementConstants schemaElementType)
             throws SchemaException {
-        LOGGER.debug("Getting class for type: {} and schemaType {}", xsiType, schemaElementType.name());
+        LOGGER.debug("Getting class for type: {} and schemaType {}", toLogMessage(xsiType),
+                toLogMessage(schemaElementType.name()));
 
         try {
             if (SchemaElementConstants.FINDING == schemaElementType) {
@@ -673,7 +680,7 @@ public class SchemaLoader {
                 return ConfigLoader.getTargetClassnameFromType(xsiType);
             }
         } catch (ConfigException ce) {
-            LOGGER.error("Fail to load custom type {}.", ce.getLocalizedMessage());
+            LOGGER.error("Fail to load custom type {}.", toLogMessage(ce.getLocalizedMessage()));
             throw new SchemaException("Unable to get classname from xsi:type.\n" + ce.getMessage(), ce);
         }
     }
@@ -698,9 +705,8 @@ public class SchemaLoader {
                 obs.add(new Observation(observationList.item(i), this.targets, this.observers, this.sites, this.scopes,
                         this.sessions, this.eyepieces, this.filters, this.imagers, this.lenses));
             } catch (SchemaException | IllegalArgumentException se) {
-                LOGGER.error("\n\nContinue loading next observation...\n\n", se);
+                LOGGER.error(" \n\nContinue loading next observation...\n\n {} ", toLogMessage(se.toString()));
             }
-
         }
 
         return (IObservation[]) obs.toArray(new IObservation[] {});
@@ -732,7 +738,7 @@ public class SchemaLoader {
                 try {
                     object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);
                 } catch (SchemaException se) {
-                    LOGGER.error("\n\nContinue with next target element...\n\n", se);
+                    LOGGER.error("\n\nContinue with next target element...\n\n {} ", toLogMessage(se.toString()));
                     continue;
                 }
                 if (object != null) {
@@ -939,7 +945,7 @@ public class SchemaLoader {
                 try {
                     currentImager = SchemaLoader.getImagerFromXSIType(xsiType, currentNode);
                 } catch (SchemaException se) {
-                    LOGGER.error("\n\nContinue with next imager element...\n\n", se);
+                    LOGGER.error("\n\n Continue with next imager element...\n\n {}", toLogMessage(se.toString()));
                     return Optional.empty();
                 }
                 if (currentImager != null) {
@@ -955,26 +961,26 @@ public class SchemaLoader {
         }
     }
 
-    private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
+    // private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
 
-        char[] buffer = getSchemaVersionForXml(xmlFile);
-        // Check if in the first 500 characters of the XML file a known SchemaFile name
-        // is persent.
-        // If so load the Schemafile for validation
-        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
-            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
-            if (index != -1) {
-                return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
-            }
-        }
+    // char[] buffer = getSchemaVersionForXml(xmlFile);
+    // // Check if in the first 500 characters of the XML file a known SchemaFile name
+    // // is persent.
+    // // If so load the Schemafile for validation
+    // for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
+    // int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
+    // if (index != -1) {
+    // return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
+    // }
+    // }
 
-        throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
+    // throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
 
-    }
+    // }
 
-    private File getSchemaFileForVersion(File schemaPath, String version) {
-        return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
-    }
+    // private File getSchemaFileForVersion(File schemaPath, String version) {
+    // return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
+    // }
 
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
         char[] buffer = new char[500];
@@ -1033,6 +1039,12 @@ public class SchemaLoader {
         }
         // Set clean targets array
         this.targets = (ITarget[]) targetElements.toArray(new ITarget[] {});
+
+    }
+
+    static <T extends ICloneable> T[] copyOfArray(T[] source) {
+
+        return Arrays.asList(source).stream().map(a -> (T) a.getCopy()).toList().toArray(source);
 
     }
 

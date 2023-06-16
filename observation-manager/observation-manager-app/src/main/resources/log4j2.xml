@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration monitorInterval="30">
 
+
+%encode{ %.-500m }{CRLF}%n
     <Properties>
-        <Property name="custom-pattern-layout">%highlight{[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n}</Property>
-        <Property name="custom-file-pattern-layout">[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %m%n</Property>
+        <Property name="custom-pattern-layout">%highlight{[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %encode{ %.-500m}{CRLF}%n}</Property>
+        <Property name="custom-file-pattern-layout">[%d{yyyy.MM.dd HH:mm:ss.SSS}] %-5p [%t] %25c{1.}.%M  - %encode{ %.-500m}{CRLF}%n</Property>
     </Properties>
 
     <Appenders>

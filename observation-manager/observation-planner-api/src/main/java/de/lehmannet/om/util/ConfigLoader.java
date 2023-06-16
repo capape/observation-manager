@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.util;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,7 +69,7 @@ public class ConfigLoader {
 
         checkValidPtype(ptype);
 
-        LOGGER.debug("Searching class for type: {}", ptype);
+        LOGGER.debug("Searching class for type: {}", toLogMessage(ptype));
         synchronized (LOCK) {
             if (targets.isEmpty()) {
                 LOGGER.debug("NO targets configured. Loading config");
@@ -76,7 +78,7 @@ public class ConfigLoader {
         }
 
         String type = ConfigLoader.checkAncestorTypes(ptype);
-        LOGGER.debug("Real type to search: {}", type);
+        LOGGER.debug("Real type to search: {}", toLogMessage(type));
 
         if (!targets.containsKey(type)) { // Given type is finding type...try to get target type
             LOGGER.debug("Type  not in targets. Searching in findings");
@@ -94,7 +96,7 @@ public class ConfigLoader {
         String classname = targets.get(type);
         checkValidClassname(type, classname);
 
-        LOGGER.debug("Found {} for {}", classname, type);
+        LOGGER.debug("Found {} for {}", toLogMessage(classname), toLogMessage(type));
         return classname;
     }
 
@@ -155,7 +157,7 @@ public class ConfigLoader {
         final String classname = findings.get(type);
         checkValidClassname(type, classname);
 
-        LOGGER.debug("Found {} for {}", classname, type);
+        LOGGER.debug("Found {} for {}", toLogMessage(classname), toLogMessage(type));
         return classname;
     }
 

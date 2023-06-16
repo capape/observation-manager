@@ -201,7 +201,7 @@ public class TargetStar extends Target {
     }
 
     // --------------
-    // Public methods ----------------------------------------------------
+    // public final methods ----------------------------------------------------
     // --------------
 
     /**
@@ -210,7 +210,7 @@ public class TargetStar extends Target {
      *
      * @return The apparent magnitude of the star or Float.NaN if value was never set
      */
-    public float getMagnitudeApparent() {
+    public final float getMagnitudeApparent() {
 
         return this.magnitudeApparent;
 
@@ -219,7 +219,7 @@ public class TargetStar extends Target {
     /**
      * Sets the apparent magnitude of the star.<br>
      */
-    public void setMagnitudeApparent(float magnitudeApparent) {
+    public final void setMagnitudeApparent(float magnitudeApparent) {
 
         this.magnitudeApparent = magnitudeApparent;
 
@@ -232,7 +232,7 @@ public class TargetStar extends Target {
      *
      * @return The stellar classification of the star
      */
-    public String getStellarClassification() {
+    public final String getStellarClassification() {
 
         return this.stellarClassification;
 
@@ -241,7 +241,7 @@ public class TargetStar extends Target {
     /**
      * Sets the stellar classification of the star.<br>
      */
-    public void setStellarClassification(String pstellarClassification) {
+    public final void setStellarClassification(String pstellarClassification) {
 
         // Convert empty string to NULL
         String stellarClassification;

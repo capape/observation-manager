@@ -149,7 +149,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @return Returns a String with a one line display name
      */
     @Override
-    public String getDisplayName() {
+    public final String getDisplayName() {
 
         return this.getSurname() + ", " + this.getName();
 
@@ -167,7 +167,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @see java.lang.Object
      */
     @Override
-    public String toString() {
+    public final String toString() {
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("Observer: Name=");
@@ -223,7 +223,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @see org.w3c.dom.Element
      */
     @Override
-    public void addToXmlElement(Element element) {
+    public final void addToXmlElement(Element element) {
 
         if (element == null) {
             return;
@@ -337,7 +337,8 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public Element addAsLinkToXmlElement(Element element, String nameOfLinkElement, boolean addElementToContainer) {
+    public final Element addAsLinkToXmlElement(Element element, String nameOfLinkElement,
+            boolean addElementToContainer) {
 
         if (element == null) {
             return null;
@@ -387,7 +388,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addAsLinkToXmlElement(Element element, String nameOfLinkElement) {
+    public final Element addAsLinkToXmlElement(Element element, String nameOfLinkElement) {
 
         return this.addAsLinkToXmlElement(element, nameOfLinkElement, false);
 
@@ -402,7 +403,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @return a List with contact information of the observer, or <code>null</code> if not informations are given.
      */
     @Override
-    public List<String> getContacts() {
+    public final List<String> getContacts() {
 
         return contacts.stream().toList();
 
@@ -415,7 +416,7 @@ public class Observer extends SchemaElement implements IObserver {
      *            the additional contact information
      */
     @Override
-    public void addContact(String newContact) {
+    public final void addContact(String newContact) {
 
         if (newContact == null || "".equals(newContact)) {
             return;
@@ -434,7 +435,7 @@ public class Observer extends SchemaElement implements IObserver {
      *            new list of contact informations
      */
     @Override
-    public void setContacts(List<String> newContacts) {
+    public final void setContacts(List<String> newContacts) {
 
         if (newContacts == null) {
             return;
@@ -451,7 +452,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @return the name of the observer
      */
     @Override
-    public String getName() {
+    public final String getName() {
 
         return name;
 
@@ -466,7 +467,7 @@ public class Observer extends SchemaElement implements IObserver {
      */
     @Deprecated
     @Override
-    public String getDSLCode() {
+    public final String getDSLCode() {
 
         return this.getUsernameForAccount(Observer.ACCOUNT_DSL);
 
@@ -479,7 +480,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @return the surname of the observer
      */
     @Override
-    public String getSurname() {
+    public final String getSurname() {
 
         return surname;
 
@@ -494,7 +495,7 @@ public class Observer extends SchemaElement implements IObserver {
      */
     @Deprecated
     @Override
-    public void setDSLCode(String DSLCode) {
+    public final void setDSLCode(String DSLCode) {
 
         this.addAccount(Observer.ACCOUNT_DSL, DSLCode);
 
@@ -510,7 +511,7 @@ public class Observer extends SchemaElement implements IObserver {
      *             if the given name is <code>null</code>
      */
     @Override
-    public void setName(String name) throws IllegalArgumentException {
+    public final void setName(String name) throws IllegalArgumentException {
 
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null. ");
@@ -530,7 +531,7 @@ public class Observer extends SchemaElement implements IObserver {
      *             if the given surname is <code>null</code>
      */
     @Override
-    public void setSurname(String surname) {
+    public final void setSurname(String surname) {
 
         if (surname == null) {
             throw new IllegalArgumentException("Surname cannot be null. ");
@@ -552,7 +553,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public Map<String, String> getAccounts() {
+    public final Map<String, String> getAccounts() {
 
         return Collections.unmodifiableMap(this.accounts);
 
@@ -571,7 +572,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public boolean addAccount(String accountName, String username) {
+    public final boolean addAccount(String accountName, String username) {
 
         if ((accountName == null) || ("".equals(accountName.trim())) || (username == null)
                 || ("".equals(username.trim()))) {
@@ -594,7 +595,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public boolean removeAccount(String accountName) {
+    public final boolean removeAccount(String accountName) {
 
         this.accounts.remove(accountName);
         return true;
@@ -612,7 +613,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public void setAccounts(Map<String, String> newAccounts) {
+    public final void setAccounts(Map<String, String> newAccounts) {
 
         if (newAccounts == null) {
             this.accounts = new HashMap<>();
@@ -633,7 +634,7 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public String getUsernameForAccount(String accountName) {
+    public final String getUsernameForAccount(String accountName) {
 
         return (String) this.accounts.get(accountName);
 
@@ -647,7 +648,7 @@ public class Observer extends SchemaElement implements IObserver {
      *            the new faintest star offset of the observer
      */
     @Override
-    public void setFSTOffset(float fstOffset) {
+    public final void setFSTOffset(float fstOffset) {
 
         if (Float.isNaN(fstOffset)) {
             this.fstOffset = Float.NaN;
@@ -671,14 +672,14 @@ public class Observer extends SchemaElement implements IObserver {
      * @since 2.0
      */
     @Override
-    public float getFSTOffset() {
+    public final float getFSTOffset() {
 
         return this.fstOffset;
 
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((accounts == null) ? 0 : accounts.hashCode());
@@ -688,7 +689,7 @@ public class Observer extends SchemaElement implements IObserver {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (!super.equals(obj))
@@ -715,7 +716,7 @@ public class Observer extends SchemaElement implements IObserver {
     }
 
     @Override
-    public ICloneable getCopy() {
+    public final ICloneable getCopy() {
         try {
             return (Observer) this.clone();
         } catch (CloneNotSupportedException e) {

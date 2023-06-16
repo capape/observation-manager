@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -442,11 +444,11 @@ public class RootElement {
 
             writer.writeToURI(newSchema, xmlFile.toURI().toURL().toString());
         } catch (IOException ex) {
-            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
-                    ex);
+            LOG.error("saveConfiguration - Could not save the configuration to the file {} ",
+                    toLogMessage(xmlFile.getAbsolutePath()), toLogMessage(ex.toString()));
         } catch (ClassNotFoundException e) {
-            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
-                    e);
+            LOG.error("saveConfiguration - Could not save the configuration to the file {} ",
+                    toLogMessage(xmlFile.getAbsolutePath()), toLogMessage(e.toString()));
             throw new SchemaException(e.toString(), e);
         } catch (InstantiationException e) {
             throw new SchemaException(e.toString(), e);

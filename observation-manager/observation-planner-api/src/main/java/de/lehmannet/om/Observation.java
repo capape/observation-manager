@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -37,7 +39,7 @@ import de.lehmannet.om.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public class Observation extends SchemaElement implements IObservation, Cloneable {
+public class Observation extends SchemaElement implements IObservation {
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -1184,7 +1186,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      *         session.
      */
     @Override
-    public ISession getSession() {
+    public final ISession getSession() {
         if (this.session == null) {
             return null;
         }
@@ -1198,7 +1200,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      * @return The site of the observation, or <code>null</code> if the observation has no site
      */
     @Override
-    public ISite getSite() {
+    public final ISite getSite() {
         if (this.site == null) {
             return null;
         }
@@ -1212,7 +1214,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      * @return The target which was observed.
      */
     @Override
-    public ITarget getTarget() {
+    public final ITarget getTarget() {
         if (this.target == null) {
             return null;
         }
@@ -1366,9 +1368,12 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         if ((seeing < 1) || (seeing > 5)) {
 
-            String message = "Seeing must be 1,2,3,4 or 5, but was: " + seeing
-                    + "\nIf you wanna clear the entry, please pass -1 as parameter.";
-            LOGGER.error(message);
+            String message = String.format(
+                    "Seeing must be 1,2,3,4 or 5, but was: %d%n If you wanna clear the entry, please pass -1 as parameter.",
+                    seeing);
+            LOGGER.error(
+                    "Seeing must be 1,2,3,4 or 5, but was: {} . If you wanna clear the entry, please pass -1 as parameter.",
+                    seeing);
             throw new IllegalArgumentException(message);
         }
 
@@ -1439,15 +1444,17 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         // Check if start date of observation is equal or later then session start
         if (sessionStart.isAfter(this.begin)) {
-            LOGGER.error("Session start date is after observation start date  for:  {}", this.getDisplayName());
+            LOGGER.error("Session start date is after observation start date for: {}",
+                    toLogMessage(this.getDisplayName()));
             throw new IllegalArgumentException(
-                    "Session start date is after observation start date  for:  " + this.getDisplayName());
+                    "Session start date is after observation start date for: " + this.getDisplayName());
 
         }
 
         // Check if also end date is correct (if set)
         if (this.end != null && this.end.isAfter(sessionEnd)) {
-            LOGGER.error("Observation end date is after session end date  for:  {}", this.getDisplayName());
+            LOGGER.error("Observation end date is after session end date  for:  {}",
+                    toLogMessage(this.getDisplayName()));
             throw new IllegalArgumentException(
                     "Observation end date is after session end date " + this.getDisplayName());
         }
@@ -1506,6 +1513,15 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             return clone;
         } catch (CloneNotSupportedException e) {
             return new Observation(begin.atZoneSameInstant(ZoneId.systemDefault()), target, observer, results);
+        }
+    }
+
+    @Override
+    public ICloneable getCopy() {
+        try {
+            return (Observation) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
         }
     }
 

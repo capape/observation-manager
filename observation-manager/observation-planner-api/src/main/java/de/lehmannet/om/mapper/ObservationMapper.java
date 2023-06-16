@@ -1,5 +1,7 @@
 package de.lehmannet.om.mapper;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.File;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -498,7 +500,7 @@ public class ObservationMapper {
                     }
                 }
 
-                LOGGER.error("Cannot find links for target {}", targetID);
+                LOGGER.error("Cannot find links for target {}", toLogMessage(targetID));
 
                 throw new SchemaException("Observation  links to not existing target element!");
 

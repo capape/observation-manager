@@ -263,7 +263,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return Returns <b>true</b> if this Targets ID is equal to the given objects ID
      */
     @Override
-    public boolean equalsID(Object o) {
+    public final boolean equalsID(Object o) {
 
         if (o instanceof ITarget) {
             return this.getID().equals(((ITarget) o).getID());
@@ -311,7 +311,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @since 2.0
      */
     @Override
-    public Element addAsLinkToXmlElement(Element element, String pxmlElementName, boolean addElementToContainer) {
+    public final Element addAsLinkToXmlElement(Element element, String pxmlElementName, boolean addElementToContainer) {
 
         if (element == null) {
             return null;
@@ -369,7 +369,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @see org.w3c.dom.Element
      */
     @Override
-    public Element addAsLinkToXmlElement(Element element, String xmlElementName) {
+    public final Element addAsLinkToXmlElement(Element element, String xmlElementName) {
 
         return this.addAsLinkToXmlElement(element, xmlElementName, false);
 
@@ -384,7 +384,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         alias was <code>null</code> or an empty String.
      */
     @Override
-    public boolean addAliasName(String newAliasName) {
+    public final boolean addAliasName(String newAliasName) {
 
         if (newAliasName == null || "".equals(newAliasName)) {
             return false;
@@ -406,7 +406,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            An array with new alias name
      */
     @Override
-    public void setAliasNames(String... newAliasNames) {
+    public final void setAliasNames(String... newAliasNames) {
 
         if ((newAliasNames == null) || (newAliasNames.length == 0)) {
             this.aliasNames.clear();
@@ -431,7 +431,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return Returns a String array with all alias names. If no alias names were set <code>null</code> is returned.
      */
     @Override
-    public String[] getAliasNames() {
+    public final String[] getAliasNames() {
 
         if (aliasNames.isEmpty()) {
             return new String[0];
@@ -462,7 +462,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         <code>null<code> or contained a empty string.
      */
     @Override
-    public boolean removeAliasName(String aliasName) {
+    public final boolean removeAliasName(String aliasName) {
 
         if (aliasName == null || "".equals(aliasName)) {
             return false;
@@ -484,7 +484,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return Returns the name of the astronomical object
      */
     @Override
-    public String getName() {
+    public final String getName() {
 
         // Make name homogeneous
         // String n = this.name.trim();
@@ -501,7 +501,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return The celestial constellation
      */
     @Override
-    public Constellation getConstellation() {
+    public final Constellation getConstellation() {
 
         return this.constellation;
 
@@ -514,7 +514,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The celestial constellation of the target
      */
     @Override
-    public void setConstellation(String constellation) {
+    public final void setConstellation(String constellation) {
 
         if (StringUtils.isBlank(constellation)) {
             this.constellation = null;
@@ -532,7 +532,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The celestial constellation of the target
      */
     @Override
-    public void setConstellation(Constellation constellation) {
+    public final void setConstellation(Constellation constellation) {
 
         this.constellation = constellation;
 
@@ -568,7 +568,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         set.
      */
     @Override
-    public EquPosition getPosition() {
+    public final EquPosition getPosition() {
 
         return position == null ? null : new EquPosition(position.getRa(), position.getDec());
 
@@ -581,7 +581,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         set. (In this case a dataSource must exist)
      */
     @Override
-    public IObserver getObserver() {
+    public final IObserver getObserver() {
         if (this.observer == null) {
             return null;
         }
@@ -596,7 +596,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         set. (In this case a observer must exist)
      */
     @Override
-    public String getDatasource() {
+    public final String getDatasource() {
 
         return this.dataSource;
 
@@ -611,7 +611,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The position of the astronomical object in a popular coordination system
      */
     @Override
-    public void setPosition(EquPosition position) {
+    public final void setPosition(EquPosition position) {
 
         this.position = position == null ? null : new EquPosition(position.getRa(), position.getDec());
 
@@ -624,7 +624,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The datasource of the astronomical object
      */
     @Override
-    public void setDatasource(String datasource) {
+    public final void setDatasource(String datasource) {
 
         if (datasource != null) {
             this.observer = null;
@@ -640,7 +640,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            The observer who is the originator of this target
      */
     @Override
-    public void setObserver(IObserver observer) {
+    public final void setObserver(IObserver observer) {
 
         if (observer != null) {
             this.dataSource = null;
@@ -656,7 +656,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return Notes on the target or <code>null</code> if no notes were set
      */
     @Override
-    public String getNotes() {
+    public final String getNotes() {
 
         return this.notes;
 
@@ -670,7 +670,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      *            Additional notes
      */
     @Override
-    public void setNotes(String notes) {
+    public final void setNotes(String notes) {
 
         this.notes = notes;
 
@@ -806,7 +806,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     }
 
     // --------------
-    // @Override public methods ----------------------------------------------------
+    // @Override public final methods ----------------------------------------------------
     // --------------
 
     /**
@@ -817,7 +817,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * @return Returns <code>true</code> if all alias names of the list could be added. If <code>false</code> is
      *         returned the new alias was <code>null</code>.
      */
-    public boolean addAliasNames(String aliasNames) {
+    public final boolean addAliasNames(String aliasNames) {
 
         if (aliasNames == null) {
             return false;
@@ -838,7 +838,7 @@ public abstract class Target extends SchemaElement implements ITarget {
     }
 
     @Override
-    public ICloneable getCopy() {
+    public final ICloneable getCopy() {
         try {
             return (Target) this.clone();
         } catch (CloneNotSupportedException e) {
