@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,10 +28,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
@@ -469,7 +468,11 @@ public class RootElement {
         DOMSource source = new DOMSource(this.getDocument());
 
         try {
+<<<<<<< HEAD
             FileWriter writer = new FileWriter(xmlFile, StandardCharsets.UTF_8);
+=======
+            FileWriter writer = new FileWriter(xmlFile, Charset.forName("UTF-8"));
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
             StreamResult result = new StreamResult(writer);
             Transformer transformer = createTransformer();
             transformer.transform(source, result);

@@ -751,7 +751,11 @@ public class Session extends SchemaElement implements ISession {
         if (this.site == null) {
             return null;
         }
+<<<<<<< HEAD
         return this.site.copy();
+=======
+        return (ISite) this.site.getCopy();
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
     }
 
@@ -918,7 +922,11 @@ public class Session extends SchemaElement implements ISession {
             throw new IllegalArgumentException("Site cannot be null. ");
         }
 
+<<<<<<< HEAD
         this.site = site.copy();
+=======
+        this.site = (ISite) site.getCopy();
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
     }
 
@@ -998,7 +1006,11 @@ public class Session extends SchemaElement implements ISession {
     @Override
     public List<IObserver> getCoObservers() {
 
+<<<<<<< HEAD
         return this.coObservers.stream().map(ICloneable::copyOrNull).toList();
+=======
+        return this.coObservers.stream().map(a -> (IObserver) a.getCopy()).toList();
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
     }
 

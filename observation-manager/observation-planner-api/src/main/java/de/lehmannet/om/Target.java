@@ -581,11 +581,19 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         set. (In this case a dataSource must exist)
      */
     @Override
+<<<<<<< HEAD
     public final IObserver getObserver() {
         if (this.observer == null) {
             return null;
         }
         return this.observer.copy();
+=======
+    public IObserver getObserver() {
+        if (this.observer == null) {
+            return null;
+        }
+        return (IObserver) this.observer.getCopy();
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
     }
 
@@ -644,7 +652,11 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         if (observer != null) {
             this.dataSource = null;
+<<<<<<< HEAD
             this.observer = observer.copy();
+=======
+            this.observer = (IObserver) observer.getCopy();
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
         }
 
     }
@@ -838,7 +850,11 @@ public abstract class Target extends SchemaElement implements ITarget {
     }
 
     @Override
+<<<<<<< HEAD
     public final ICloneable getCopy() {
+=======
+    public ICloneable getCopy() {
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
         try {
             return (Target) this.clone();
         } catch (CloneNotSupportedException e) {

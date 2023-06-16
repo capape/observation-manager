@@ -1005,7 +1005,11 @@ public class Scope extends SchemaElement implements IScope {
     }
 
     @Override
+<<<<<<< HEAD
     public final ICloneable getCopy() {
+=======
+    public ICloneable getCopy() {
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
         try {
             return (Scope) this.clone();

@@ -7,7 +7,10 @@
 
 package de.lehmannet.om;
 
+<<<<<<< HEAD
 import java.io.Serializable;
+=======
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 import java.util.Objects;
 
 import org.w3c.dom.Element;

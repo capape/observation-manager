@@ -963,6 +963,7 @@ public class SchemaLoader {
 
     // private File getSchemaFile(File xmlFile, File schemaPath) throws OALException {
 
+<<<<<<< HEAD
     // char[] buffer = getSchemaVersionForXml(xmlFile);
     // // Check if in the first 500 characters of the XML file a known SchemaFile name
     // // is persent.
@@ -973,6 +974,18 @@ public class SchemaLoader {
     // return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
     // }
     // }
+=======
+        char[] buffer = getSchemaVersionForXml(xmlFile);
+        // Check if in the first 500 characters of the XML file a known SchemaFile name
+        // is persent.
+        // If so load the Schemafile for validation
+        for (int i = 0; i < SchemaLoader.VERSIONS.length; i++) {
+            int index = new String(buffer).indexOf(SchemaLoader.VERSIONS[i]);
+            if (index != -1) {
+                return getSchemaFileForVersion(schemaPath, SchemaLoader.VERSIONS[i]);
+            }
+        }
+>>>>>>> 9201d08 (High and medium SpotBugs Warnings)
 
     // throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
 
@@ -981,6 +994,10 @@ public class SchemaLoader {
     // private File getSchemaFileForVersion(File schemaPath, String version) {
     // return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
     // }
+
+    private File getSchemaFileForVersion(File schemaPath, String version) {
+        return FileSystems.getDefault().getPath(schemaPath.getAbsolutePath() + File.separatorChar + version).toFile();
+    }
 
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
         char[] buffer = new char[500];
