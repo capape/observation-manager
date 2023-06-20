@@ -7,8 +7,6 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import static de.lehmannet.om.util.Sanitizer.toLogMessage;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;

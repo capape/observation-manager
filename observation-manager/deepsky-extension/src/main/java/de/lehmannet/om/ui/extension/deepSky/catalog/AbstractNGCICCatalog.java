@@ -7,8 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
-import static de.lehmannet.om.util.Sanitizer.toLogMessage;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
