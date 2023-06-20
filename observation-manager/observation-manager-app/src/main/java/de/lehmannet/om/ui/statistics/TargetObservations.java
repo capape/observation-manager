@@ -11,7 +11,7 @@ import de.lehmannet.om.ITarget;
 public class TargetObservations {
 
     private ITarget target = null;
-    private List<TargetObservation> observations = null;
+    private List<IObservation> observations = null;
 
     public TargetObservations(ITarget target) {
 
@@ -37,7 +37,7 @@ public class TargetObservations {
 
     }
 
-    public boolean addObservation(TargetObservation observation) {
+    public boolean addObservation(IObservation observation) {
 
         boolean first = false;
         if (this.observations == null) {
