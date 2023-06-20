@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,8 @@ public class StarchartSocket extends Socket {
 
         super(ip, port);
 
-        this.out = new PrintWriter(super.getOutputStream(), true);
-        this.in = new BufferedReader(new InputStreamReader(super.getInputStream()));
+        this.out = new PrintWriter(super.getOutputStream(), true, Charset.forName("UTF-8"));
+        this.in = new BufferedReader(new InputStreamReader(super.getInputStream(), Charset.forName("UTF-8")));
 
         String response = this.in.readLine();
 
@@ -33,19 +34,19 @@ public class StarchartSocket extends Socket {
 
     }
 
-    public String send(String command) throws IOException {
+    public String send(String paramCommand) throws IOException {
 
         // Add CR+LF (Byte 10 and 13) to end of command as PrintWriter.println()
         // uses system
         // line separator which is 13+10 on windows and e.g. only 10 on Linux.
         // Skycharts expects 13+10 so we've to make sure the CR+LF comes as
         // expected to Skychart
-        byte[] b = command.getBytes();
+        byte[] b = paramCommand.getBytes("UTF-8");
         byte[] lfB = new byte[b.length + 2];
         System.arraycopy(b, 0, lfB, 0, b.length);
         lfB[lfB.length - 2] = 13;
         lfB[lfB.length - 1] = 10;
-        command = new String(lfB);
+        String command = new String(lfB, "UTF-8");
         StringBuilder byteString = new StringBuilder();
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Skychart command is: {}", command);
@@ -90,10 +91,14 @@ public class StarchartSocket extends Socket {
 
         try {
             if (out != null) {
+
                 this.out.close();
+                this.out = null;
             }
             if (in != null) {
-                this.in.close();
+                BufferedReader aux = this.in;               
+                this.in = null;
+                aux.close();
             }
         } catch (IllegalStateException ise) {
             // Readers and writers cannot be closed...can't do anything here
