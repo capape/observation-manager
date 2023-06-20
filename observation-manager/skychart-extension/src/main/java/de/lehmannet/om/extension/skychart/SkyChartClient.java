@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.extension.skychart;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,6 +17,7 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -472,14 +475,12 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
                         } catch (IOException ioe) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            LOGGER.error("Unable to start Skychart application ({}})", applicationPath, ioe);
-                        } catch (IllegalMonitorStateException isme) {
-                            // Ignore. This comes from the p.wait() call, when
-                            // skychart is already launched
-                            LOGGER.error("Ingnoring", isme);
+                            LOGGER.error("Unable to start Skychart application ({}). {}", toLogMessage(applicationPath),
+                                    toLogMessage(ioe.toString()));
                         } catch (Exception e) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            LOGGER.error("Failed to start Skychart application ({})", applicationPath, e);
+                            LOGGER.error("Failed to start Skychart application ({}) {}", toLogMessage(applicationPath),
+                                    toLogMessage(e.toString()));
                         }
                     }
 
@@ -625,7 +626,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
     private String createDateCommand(ZonedDateTime date) {
 
-        String dateString = date.toString();
+        String dateString = DateTimeFormatter.ISO_INSTANT.format(date);
 
         return "SETDATE " + dateString.substring(0, dateString.lastIndexOf("T") + 9);
 
