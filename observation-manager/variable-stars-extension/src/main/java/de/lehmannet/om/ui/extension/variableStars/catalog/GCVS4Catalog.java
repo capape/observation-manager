@@ -21,7 +21,6 @@ import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
-
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.FloatUtil;
@@ -443,7 +442,7 @@ public class GCVS4Catalog implements ICatalog {
                 raf.seek(pointerPos); // Goto position
                 raf.read(buffer, 0, len); // Read name or ID
 
-                String name = new String(buffer);
+                String name = new String(buffer, "UTF-8");
                 // name = name.toLowerCase();
                 name = this.removeWhiteSpaces(name);
 
@@ -524,7 +523,7 @@ public class GCVS4Catalog implements ICatalog {
                 raf.seek(pointerPos); // Goto position
                 raf.read(buffer, 0, len); // Read name or ID
 
-                String name = new String(buffer);
+                String name = new String(buffer, "UTF-8");
                 // name = name.toLowerCase();
                 name = this.removeWhiteSpaces(name);
 

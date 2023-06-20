@@ -76,9 +76,10 @@ public class ExternalExtensionLoader {
         IExtension tempResult = null;
         while (iterator.hasNext()) {
             tempResult = this.scanJarFile((File) iterator.next(), true);
-            result = tempResult == null ? result : tempResult; // At least one jar contained a extension description
-                                                               // file
-            loadExtensionTypes(tempResult);
+            result = tempResult == null ? null : tempResult; // At least one jar contained a extension description
+            if (result != null) {
+                loadExtensionTypes(result);
+            }
         }
 
         return result;

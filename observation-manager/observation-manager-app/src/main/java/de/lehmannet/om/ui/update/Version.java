@@ -55,7 +55,7 @@ public class Version implements Comparable<Version> {
                 if (this.patch.equals(o.patch)) {
                     return 0;
                 } else {
-                    this.patch.compareTo(o.patch);
+                    return this.patch.compareTo(o.patch);
                 }
             }
             return this.minor.compareTo(o.minor);

@@ -17,8 +17,8 @@ class NGCICCatalogTester {
 
     public static void main(String[] args) {
 
-        File ngcFile = new File(args[0]);
-        File icFile = new File(args[1]);
+        File ngcFile = new File(NGCICCatalogTester.class.getClassLoader().getResource(args[0]).getFile());
+        File icFile = new File(NGCICCatalogTester.class.getClassLoader().getResource(args[1]).getFile());
 
         System.out.println("---------- NGC Catalog ----------");
         long start = System.currentTimeMillis();

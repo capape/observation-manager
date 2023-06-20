@@ -98,9 +98,6 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
                     this.threadGroup.wait(300);
                 } catch (InterruptedException ie) {
                     LOGGER.error("Interrupted while waiting for ThreadGroup", ie);
-                } catch (IllegalMonitorStateException imse) {
-                    // Ignore this
-                    LOGGER.error("Ingnoring", imse);
                 }
             }
             this.dispose();

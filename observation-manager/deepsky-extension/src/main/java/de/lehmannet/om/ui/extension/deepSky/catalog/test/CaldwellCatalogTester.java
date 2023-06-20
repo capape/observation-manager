@@ -16,7 +16,7 @@ class CaldwellCatalogTester {
 
     public static void main(String[] args) {
 
-        File file = new File(args[0]);
+        File file = new File(CaldwellCatalogTester.class.getClassLoader().getResource(args[0]).getFile());
         CaldwellCatalog cc = new CaldwellCatalog(file);
         String[] all = cc.getCatalogIndex();
 

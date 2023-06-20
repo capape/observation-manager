@@ -124,7 +124,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
             case 1: {
                 List<IObservation> l = this.catalogTargets.getTargetObservations()[to.targetIndex].getObservations();
                 if (l != null) {
-                    value = l.get(to.observtionIndex);
+                    value = l.get(to.observationIndex);
                 }
                 break;
             }
@@ -187,12 +187,12 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 class TargetObservation {
 
     public int targetIndex = 0;
-    public int observtionIndex = 0;
+    public int observationIndex = 0;
 
     public TargetObservation(int targetIndex, int observationIndex) {
 
         this.targetIndex = targetIndex;
-        this.observtionIndex = observationIndex;
+        this.observationIndex = observationIndex;
 
     }
 

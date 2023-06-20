@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -116,7 +117,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
         Reader reader = null;
 
         try {
-            reader = new InputStreamReader(new FileInputStream(file));
+            reader = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
         } catch (FileNotFoundException fnfe) {
             LOG.error("File not found: {}", file);
             return false;

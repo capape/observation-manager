@@ -16,7 +16,7 @@ class HCNGCCatalogTester {
 
     public static void main(String[] args) {
 
-        File file = new File(args[0]);
+        File file = new File(HCNGCCatalogTester.class.getClassLoader().getResource(args[0]).getFile());
 
         long start = System.currentTimeMillis();
         HCNGCCatalog c = new HCNGCCatalog(file);

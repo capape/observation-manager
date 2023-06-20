@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -173,7 +174,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         String current = null;
         StringBuilder text = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber]));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber], Charset.forName("UTF-8")));) {
 
             current = br.readLine();
             while (current != null) {

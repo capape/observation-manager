@@ -8,8 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +22,7 @@ public class UpdateChecker implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateChecker.class);
 
-    public static URL UPDATE_URL = null;
-    static {
-        try {
-            UPDATE_URL = new URL(
-                    "https://raw.githubusercontent.com/capape/observation-manager/master/observation-manager/observation-manager-app/src/main/resources/version.properties");
-        } catch (MalformedURLException url) {
-            LOGGER.error("Malformed update check URL: {} ", UPDATE_URL);
-        }
-    }
+    private static final String STRING_UDATE_URL = "https://raw.githubusercontent.com/capape/observation-manager/master/observation-manager/observation-manager-app/src/main/resources/version.properties";
 
     private static final String UPDATEFILE_LATESTVERSION = "latest.version";
     private static final String UPDATEFILE_DOWNLOADURL = "download.url";
@@ -57,10 +51,16 @@ public class UpdateChecker implements Runnable {
 
         try {
 
-            // Check OM itself
-            UpdateEntry currentResult = this.checkForUpdates("Observation Manager", om.getVersion(), UPDATE_URL);
-            if (currentResult != null) { // New version found
-                result.add(currentResult);
+            Optional<URL> url = UpdateChecker.getUpdateUrl();
+            if (url.isEmpty()) {
+                this.result = null;
+            } else {
+
+                // Check OM itself
+                UpdateEntry currentResult = this.checkForUpdates("Observation Manager", om.getVersion(), url.get());
+                if (currentResult != null) { // New version found
+                    result.add(currentResult);
+                }
             }
 
         } catch (ConnectException ce) {
@@ -82,7 +82,8 @@ public class UpdateChecker implements Runnable {
 
                 throw new ConnectException("HTTP error while connecting to host for update");
             } else {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8")));
                 String currentLine = null;
 
                 URL downloadURL = null;
@@ -138,6 +139,15 @@ public class UpdateChecker implements Runnable {
             }
         }
 
+    }
+
+    private static Optional<URL> getUpdateUrl() {
+        try {
+            return Optional.of(new URL(STRING_UDATE_URL));
+        } catch (MalformedURLException url) {
+            LOGGER.error("Malformed update check URL: {} ", STRING_UDATE_URL);
+        }
+        return Optional.empty();
     }
 
 }

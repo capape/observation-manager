@@ -25,24 +25,10 @@ public class CatalogManagerImpl implements CatalogManager {
         this.loadProjectFiles();
     }
 
-    private Thread waitForCatalogLoaderThread;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(CatalogManagerImpl.class);
 
     @Override
     public ProjectCatalog[] getProjects() {
-
-        // Wait for ProjectLoader to finish
-        if (this.waitForCatalogLoaderThread.isAlive()) {
-            try {
-                this.waitForCatalogLoaderThread.join();
-            } catch (final InterruptedException ie) {
-                LOGGER.error(
-                        "Got interrupted while waiting for catalog loader...List of projects will be empty. Please try again.",
-                        ie);
-                return null;
-            }
-        }
 
         return this.projectLoader.getProjects();
 
@@ -50,47 +36,18 @@ public class CatalogManagerImpl implements CatalogManager {
 
     public void loadProjectFiles() {
 
-        // Create an own thread that waits for the catalog loader
-        // to finish. Only if all catalogs are loaded the project loader
-        // might start in the background
-
-        class WaitForCatalogLoader implements Runnable {
-
-            private CatalogManagerImpl catalogManager;
-
-            WaitForCatalogLoader(final CatalogManagerImpl catManager) {
-                this.catalogManager = catManager;
-            }
-
-            @Override
-            public void run() {
-
-                while (this.catalogManager.projectLoader == null) {
-                    try {
-                        if (!this.catalogManager.extensionLoader.getCatalogLoader().isLoading()) {
-
-                            LOGGER.debug("Catalog loading done. Start project loading in background...");
-                            // Initialite ProjectLoader and start loading projects
-                            this.catalogManager.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
-                                    this.catalogManager.extensionLoader.getCatalogLoader(),
-                                    CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
-                        } else {
-                            this.wait(300);
-                        }
-                    } catch (final InterruptedException ie) {
-                        LOGGER.error("Interrupted while waiting for Catalog Loader to finish", ie);
-                    } catch (final IllegalMonitorStateException imse) {
-                        // Ignore this
-                    }
+        while (this.projectLoader == null) {
+            try {
+                if (this.extensionLoader.getCatalogLoader().isLoading()) {
+                    this.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
+                            this.extensionLoader.getCatalogLoader(), CatalogManagerImpl.this.installDir,
+                            CatalogManagerImpl.this.uiHelper);
+                } else {
+                    this.wait(300);
                 }
-
+            } catch (final InterruptedException ie) {
+                LOGGER.error("Interrupted while waiting for Catalog Loader to finish", ie);
             }
-
         }
-
-        this.waitForCatalogLoaderThread = new Thread(new WaitForCatalogLoader(this),
-                "Waiting for Catalog Loader to finish");
-        waitForCatalogLoaderThread.start();
-
     }
 }

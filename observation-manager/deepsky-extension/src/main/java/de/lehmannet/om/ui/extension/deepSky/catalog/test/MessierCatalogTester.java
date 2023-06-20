@@ -16,7 +16,7 @@ class MessierCatalogTester {
 
     public static void main(String[] args) {
 
-        File file = new File(args[0]);
+        File file = new File(MessierCatalogTester.class.getClassLoader().getResource(args[0]).getFile());
         MessierCatalog mc = new MessierCatalog(file);
         String[] all = mc.getCatalogIndex();
 
