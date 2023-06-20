@@ -35,7 +35,7 @@ class CatalogTargets {
             if (this.areEqual(target.getTarget(), observedTarget)) {
                 // Add observation
                 // If this is the first add, increase counter.
-                if (target.addObservation((TargetObservation) observation)) {
+                if (target.addObservation(observation)) {
                     this.observations++;
                 }
             }
