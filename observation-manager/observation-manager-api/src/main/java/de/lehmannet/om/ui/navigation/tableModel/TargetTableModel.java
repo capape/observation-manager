@@ -127,6 +127,9 @@ public class TargetTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                return value.toString();
+            }
         }
 
         return value.toString();
@@ -136,7 +139,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -165,6 +168,10 @@ public class TargetTableModel extends AbstractSchemaTableModel {
             }
             case 6: {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.target.source");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

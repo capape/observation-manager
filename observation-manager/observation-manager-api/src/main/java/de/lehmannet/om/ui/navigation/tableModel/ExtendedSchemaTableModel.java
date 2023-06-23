@@ -1,6 +1,13 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -166,9 +173,10 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
             case 1: {
                 return keySchemaElement.getDisplayName(); // Returns a String
             }
+            default: {
+                return "";
+            }
         }
-
-        return "";
 
     }
 
@@ -198,10 +206,10 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
             case 1: {
                 return String.class;
             }
+            default: {
+                return String.class;
+            }
         }
-
-        return String.class;
-
     }
 
     private void setSelection(int row, boolean selection) {
@@ -249,7 +257,7 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -260,6 +268,9 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
                 name = this.bundle.getString("popup.schemaSelector.schemaElement");
                 break;
             }
+            default:
+                name = "";
+                break;
         }
 
         return name;
