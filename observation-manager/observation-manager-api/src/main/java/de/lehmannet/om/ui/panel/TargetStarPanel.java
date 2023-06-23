@@ -35,11 +35,11 @@ public class TargetStarPanel extends AbstractPanel {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof TargetStar)) {
+        if (target != null && !(target instanceof TargetStar)) {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.target = (TargetStar) target;
+        this.target = target == null ? null :  (TargetStar) target.getCopy();
         this.model = model;
         this.configuration = configuration;
 

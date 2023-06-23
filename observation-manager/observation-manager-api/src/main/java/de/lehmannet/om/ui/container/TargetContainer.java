@@ -71,7 +71,7 @@ public class TargetContainer extends Container implements MouseListener {
     public TargetContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
             boolean editable, boolean positionDisabled) {
 
-        this.target = target;
+        this.target = target == null ? null : (ITarget) target.getCopy();
         this.model = model;
         this.editable = editable;
         this.positionDisabled = positionDisabled;
@@ -189,7 +189,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     public void setTarget(ITarget target) {
 
-        this.target = target;
+        this.target = (ITarget) target.getCopy();
 
     }
 

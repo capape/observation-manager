@@ -48,16 +48,14 @@ public class FindingContainer extends Container implements MouseListener {
     private JTextArea description = null;
 
     private LanguageBox language = null;
-    private final IConfiguration configuration;
-
+   
     public FindingContainer(IConfiguration configuration, IFinding finding, ISession session, boolean editable) {
 
-        this.finding = finding;
-        this.session = session;
+        this.finding = (IFinding) finding.getCopy();
+        this.session = (ISession) session.getCopy();
         this.editable = editable;
-        this.configuration = configuration;
-
-        this.language = new LanguageBox(this.configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
+   
+        this.language = new LanguageBox(configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
 
         this.createContainer();
 
@@ -115,10 +113,10 @@ public class FindingContainer extends Container implements MouseListener {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 20, 1);
-        JLabel Ldescription = new JLabel(this.bundle.getString("finding.label.description"));
-        Ldescription.setToolTipText(this.bundle.getString("finding.tooltip.description"));
-        gridbag.setConstraints(Ldescription, constraints);
-        this.add(Ldescription);
+        JLabel lDescription = new JLabel(this.bundle.getString("finding.label.description"));
+        lDescription.setToolTipText(this.bundle.getString("finding.tooltip.description"));
+        gridbag.setConstraints(lDescription, constraints);
+        this.add(lDescription);
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 100, 97);
         this.description = new JTextArea(10, 40);
         this.description.setToolTipText(this.bundle.getString("finding.tooltip.description"));
@@ -142,11 +140,11 @@ public class FindingContainer extends Container implements MouseListener {
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 10, 1);
         constraints.anchor = GridBagConstraints.CENTER;
-        JLabel Llanguage = new JLabel(this.bundle.getString("panel.session.label.language"), SwingConstants.RIGHT);
-        Llanguage.setToolTipText(this.bundle.getString("panel.session.tooltip.language"));
-        gridbag.setConstraints(Llanguage, constraints);
-        Llanguage.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-        this.add(Llanguage);
+        JLabel lLanguage = new JLabel(this.bundle.getString("panel.session.label.language"), SwingConstants.RIGHT);
+        lLanguage.setToolTipText(this.bundle.getString("panel.session.tooltip.language"));
+        gridbag.setConstraints(lLanguage, constraints);
+        lLanguage.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
+        this.add(lLanguage);
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 2, 1, 70, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.language.setToolTipText(this.bundle.getString("panel.session.tooltip.language"));
@@ -154,8 +152,8 @@ public class FindingContainer extends Container implements MouseListener {
         if (this.finding != null) {
             this.language.setLanguage(this.finding.getLanguage());
         } else {
-            if ((this.session != null) // If session laguage is set, prefer the session language in finding
-                    && (this.session.getLanguage() != null)) {
+            // If session laguage is set, prefer the session language in finding
+            if (this.session != null  && this.session.getLanguage() != null) {
                 this.language.setLanguage(this.session.getLanguage());
             }
         }

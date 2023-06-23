@@ -59,4 +59,8 @@
         <Field type="javax.swing.JTextArea"/>
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
+        <Match>        
+        <Field type="java.awt.Image"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
 </FindBugsFilter>

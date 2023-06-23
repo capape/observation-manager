@@ -37,8 +37,8 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
         super(editable);
 
-        this.finding = finding;
-        this.session = s;
+        this.finding = finding == null ? null : (IFinding) finding.getCopy();
+        this.session = s == null ? null : (ISession) s.getCopy();
         this.configuration = configuration;
 
         this.createPanel();

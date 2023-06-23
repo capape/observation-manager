@@ -41,7 +41,7 @@ public class MoonDetailContainer extends JLabel {
 
     public MoonDetailContainer(IObservation obs) {
 
-        this.observation = obs;
+        this.observation = (IObservation) obs.getCopy();
 
         this.setImage();
 
@@ -49,7 +49,7 @@ public class MoonDetailContainer extends JLabel {
 
     public void setObservation(IObservation obs) {
 
-        this.observation = obs;
+        this.observation = (IObservation) obs.getCopy();
         this.setImage();
 
     }

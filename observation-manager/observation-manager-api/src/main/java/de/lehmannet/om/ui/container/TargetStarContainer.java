@@ -60,13 +60,14 @@ public class TargetStarContainer extends Container {
 
         this.editable = editable;
         this.model = model;
+        this.configuration = configuration;
 
-        if ((target != null) && !(target instanceof TargetStar)) {
+        if (target != null && !(target instanceof TargetStar)) {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.starTarget = (TargetStar) target;
-        this.configuration = configuration;
+        this.starTarget = target == null ? null : (TargetStar) target.getCopy();
+        
 
         this.createPanel();
 
@@ -196,7 +197,7 @@ public class TargetStarContainer extends Container {
 
     public void setTarget(TargetStar target) {
 
-        this.starTarget = target;
+        this.starTarget = (TargetStar) target.getCopy();
         this.targetContainer.setTarget(target);
 
     }

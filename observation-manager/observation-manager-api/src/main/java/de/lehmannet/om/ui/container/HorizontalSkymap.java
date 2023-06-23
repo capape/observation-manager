@@ -46,9 +46,9 @@ public class HorizontalSkymap extends JLabel {
 
     public HorizontalSkymap(EquPosition position, ZonedDateTime date, ISite site) {
 
-        this.position = position;
+        this.position = position == null ? null : new EquPosition(position.getRa(), position.getDec());
         this.calendar = date;
-        this.site = site;
+        this.site = site == null ? null : (ISite) site.getCopy();
 
         this.createImage();
 

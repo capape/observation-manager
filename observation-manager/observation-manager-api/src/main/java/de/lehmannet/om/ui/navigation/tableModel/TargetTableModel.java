@@ -30,7 +30,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     public TargetTableModel(ITarget[] target, IConfiguration configuration) {
 
         this.configuration = configuration;
-        this.elements = target;
+        this.elements = target == null ? null : Arrays.asList(target).stream().map(a -> (ISchemaElement) a).toList().toArray(new ISchemaElement[target.length]);
 
     }
 
@@ -51,7 +51,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     @Override
     public int getRowCount() {
 
-        if ((this.elements == null) || (this.elements.length == 0)) {
+        if (this.elements == null || this.elements.length == 0) {
             return 3;
         }
         return this.elements.length;
@@ -63,7 +63,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
         StringBuilder value = new StringBuilder();
 
-        if ((this.elements == null) || (this.elements.length == 0)) {
+        if (this.elements == null || this.elements.length == 0) {
             return value.toString();
         }
 
@@ -183,7 +183,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void addTarget(ITarget target) {
 
-        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
+        List<ISchemaElement> list = new ArrayList<>(Arrays.asList(this.elements));
         list.add(target);
         this.elements = (ITarget[]) list.toArray(new ITarget[] {});
 
@@ -191,7 +191,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void deleteTarget(ITarget target) {
 
-        List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
+        List<ISchemaElement> list = Arrays.asList(this.elements);
         list.remove(target);
         this.elements = (ITarget[]) list.toArray(new ITarget[] {});
 
@@ -199,7 +199,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void setTargets(ITarget[] targets) {
 
-        this.elements = targets;
+        this.elements = targets == null ? null : Arrays.asList(targets).stream().map(a -> (ISchemaElement) a).toList().toArray(new ISchemaElement[targets.length]);
 
     }
 
