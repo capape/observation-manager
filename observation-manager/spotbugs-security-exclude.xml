@@ -8,4 +8,9 @@
         <Method name="createTransformer" />
         <Bug pattern="MALICIOUS_XSLT" />
     </Match>
+    <Match>
+        <Class name="de.lehmannet.om.ui.dialog.AbstractDialog" />
+        <Field name="bundle"/>
+        <Bug pattern="MS_PKGPROTECT" />
+    </Match>
 </FindBugsFilter>
