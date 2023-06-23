@@ -129,16 +129,27 @@ public abstract class AbstractExtension implements IExtension {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+
+        if (!getClass().equals(obj.getClass())) {
             return false;
+        }
+
         AbstractExtension other = (AbstractExtension) obj;
 
         if (other.getName().equals(this.getName())) {
-            return other.getVersion() == this.getVersion();
+
+            if (this.getVersion() == null) {
+                return other.getVersion() == null;
+            }
+
+            return other.getVersion().equals(this.getVersion());
         }
 
         return false;

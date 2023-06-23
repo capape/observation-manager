@@ -241,7 +241,7 @@
                     <version>${maven-spotbugs-plugin.version}</version>
                     <configuration>
                         <effort>Max</effort>
-                        <threshold>High</threshold>
+                        <threshold>Medium</threshold>
                         <failOnError>true</failOnError>                        
                         <plugins>
                             <plugin>

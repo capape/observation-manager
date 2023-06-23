@@ -7,26 +7,19 @@
 
 package de.lehmannet.om.ui.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
+import java.util.Locale;
 
 import de.lehmannet.om.ISite;
 
-public class SiteComparator implements Comparator<ISite> {
+public class SiteComparator implements Comparator<ISite>, Serializable {
 
     @Override
     public int compare(ISite o1, ISite o2) {
 
-        if ((o1 instanceof ISite) && (o2 instanceof ISite)) {
-            ISite s1 = (ISite) o1;
-            ISite s2 = (ISite) o2;
-
-            String s1Name = s1.getName().toLowerCase().trim();
-
-            return s1Name.compareToIgnoreCase(s2.getName().trim());
-
-        }
-
-        return 0;
+        String s1Name = o1.getName().toLowerCase(Locale.getDefault()).trim();
+        return s1Name.compareToIgnoreCase(o2.getName().toLowerCase(Locale.getDefault()).trim());
 
     }
 
