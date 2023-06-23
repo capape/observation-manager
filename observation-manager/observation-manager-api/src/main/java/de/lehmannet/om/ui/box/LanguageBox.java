@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
@@ -125,17 +126,15 @@ public class LanguageBox extends JComboBox<String> {
             return;
         }
 
-        isoKey = isoKey.toLowerCase().trim();
-        if (this.map.containsValue(isoKey)) {
-            Iterator<String> i = this.map.keySet().iterator();
-            String current = null;
-            while (i.hasNext()) {
-                current = i.next();
-                if (isoKey.equals(this.map.get(current))) {
-                    this.setSelectedItem(current);
-                    return;
-                }
+        isoKey = isoKey.toLowerCase(Locale.getDefault()).trim();
+
+        Set<Entry<String, String>> entrySet = this.map.entrySet();
+        for (Entry<String, String> entry : entrySet) {
+            if (entry.getValue().equals(isoKey)) {
+                this.setSelectedItem(entry.getKey());
+                return;
             }
+
         }
 
         // Key not found

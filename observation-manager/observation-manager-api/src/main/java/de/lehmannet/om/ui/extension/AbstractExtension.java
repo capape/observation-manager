@@ -56,7 +56,11 @@ public abstract class AbstractExtension implements IExtension {
 
     @Override
     public String getVersion() {
-        return versionBundle.getString("observation.manager.extensions.version");
+        if (versionBundle.containsKey("observation.manager.extensions.version")) {
+            return versionBundle.getString("observation.manager.extensions.version");
+        }
+
+        return null;
     }
 
     @Override

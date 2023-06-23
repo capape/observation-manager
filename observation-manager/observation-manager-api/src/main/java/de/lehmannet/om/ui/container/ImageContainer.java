@@ -202,9 +202,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             if (e.getSource() instanceof MyImageLabel) {
                 MyImageLabel l = (MyImageLabel) e.getSource();
-                if (!(l.getPath().endsWith(".fits")
-                    || l.getPath().endsWith(".fit")
-                    || l.getPath().endsWith(".fts"))) {
+                if (!(l.getPath().endsWith(".fits") || l.getPath().endsWith(".fit") || l.getPath().endsWith(".fts"))) {
                     new ImageDialog(l.getImage(), this.om);
                 } else {
                     new FITSImageDialog(this.om, FileSystems.getDefault().getPath(l.getPath()).toFile());

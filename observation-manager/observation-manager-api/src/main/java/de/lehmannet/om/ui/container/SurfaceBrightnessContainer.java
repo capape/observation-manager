@@ -13,10 +13,11 @@ import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -231,13 +232,12 @@ public class SurfaceBrightnessContainer extends Container {
             return null;
         }
 
-        Iterator<String> iterator = this.units.keySet().iterator();
-        String currentKey = null;
-        while (iterator.hasNext()) {
-            currentKey = iterator.next();
-            if (this.units.get(currentKey).equals(label)) {
-                return currentKey;
+        Set<Entry<String, String>> entrySet = this.units.entrySet();
+        for (Entry<String, String> entry : entrySet) {
+            if (entry.getValue().equals(label)) {
+                return entry.getKey();
             }
+
         }
 
         return null;

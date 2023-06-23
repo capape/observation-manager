@@ -2,11 +2,12 @@ package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.table.AbstractTableModel;
@@ -238,15 +239,11 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     public List<ISchemaElement> getAllSelectedElements() {
 
         List<ISchemaElement> result = new ArrayList<>();
-
-        Iterator<ISchemaElement> keyIterator = this.elementMap.keySet().iterator();
-        ISchemaElement current = null;
-        Boolean currentValue = null;
-        while (keyIterator.hasNext()) {
-            current = keyIterator.next();
-            currentValue = (Boolean) this.elementMap.get(current);
-            if (currentValue) {
-                result.add(current);
+        
+        Set<Entry<ISchemaElement, Boolean>> entrySet = this.elementMap.entrySet();
+        for (Entry<ISchemaElement, Boolean> entry : entrySet) {
+            if (entry.getValue()) {
+                result.add(entry.getKey());
             }
         }
 
