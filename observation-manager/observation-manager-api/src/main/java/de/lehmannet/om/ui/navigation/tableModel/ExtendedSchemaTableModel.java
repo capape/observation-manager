@@ -239,7 +239,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
     public List<ISchemaElement> getAllSelectedElements() {
 
         List<ISchemaElement> result = new ArrayList<>();
-
         Set<Entry<ISchemaElement, Boolean>> entrySet = this.elementMap.entrySet();
         for (Entry<ISchemaElement, Boolean> entry : entrySet) {
             if (entry.getValue()) {
