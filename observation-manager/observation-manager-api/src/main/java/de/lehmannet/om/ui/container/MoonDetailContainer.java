@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
@@ -48,7 +49,7 @@ public class MoonDetailContainer extends JLabel {
 
     public MoonDetailContainer(IObservation obs) {
 
-        this.observation = (IObservation) obs.getCopy();
+        this.observation = ICloneable.copyOrNull(obs);
 
         this.setImage();
 
@@ -56,7 +57,7 @@ public class MoonDetailContainer extends JLabel {
 
     public void setObservation(IObservation obs) {
 
-        this.observation = (IObservation) obs.getCopy();
+        this.observation = ICloneable.copyOrNull(obs);
         this.setImage();
 
     }

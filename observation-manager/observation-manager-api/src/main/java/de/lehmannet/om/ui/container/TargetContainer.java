@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.container;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -71,7 +73,7 @@ public class TargetContainer extends Container implements MouseListener {
     public TargetContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
             boolean editable, boolean positionDisabled) {
 
-        this.target = target == null ? null : (ITarget) target.getCopy();
+        this.target = copyOrNull(target);
         this.model = model;
         this.editable = editable;
         this.positionDisabled = positionDisabled;
@@ -117,7 +119,7 @@ public class TargetContainer extends Container implements MouseListener {
 
         target.setNotes(this.notes.getText().trim());
 
-        return (ITarget) target.getCopy();
+        return target.copy();
 
     }
 
@@ -189,7 +191,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     public void setTarget(ITarget target) {
 
-        this.target = (ITarget) target.getCopy();
+        this.target = copyOrNull(target);
 
     }
 

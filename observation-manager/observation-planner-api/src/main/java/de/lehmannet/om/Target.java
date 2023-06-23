@@ -585,7 +585,7 @@ public abstract class Target extends SchemaElement implements ITarget {
         if (this.observer == null) {
             return null;
         }
-        return (IObserver) this.observer.getCopy();
+        return this.observer.copy();
 
     }
 
@@ -644,7 +644,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         if (observer != null) {
             this.dataSource = null;
-            this.observer = (IObserver) observer.getCopy();
+            this.observer = observer.copy();
         }
 
     }

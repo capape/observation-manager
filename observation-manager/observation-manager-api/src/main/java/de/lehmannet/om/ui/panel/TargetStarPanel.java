@@ -39,7 +39,7 @@ public class TargetStarPanel extends AbstractPanel {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.target = target == null ? null : (TargetStar) target.getCopy();
+        this.target = target == null ? null : (TargetStar) target.copy();
         this.model = model;
         this.configuration = configuration;
 
@@ -50,7 +50,7 @@ public class TargetStarPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return (ISchemaElement) this.target.getCopy();
+        return this.target.copy();
 
     }
 
@@ -68,7 +68,7 @@ public class TargetStarPanel extends AbstractPanel {
             this.target = (TargetStar) t;
         }
 
-        return (ISchemaElement) this.target.getCopy();
+        return this.target.copy();
 
     }
 

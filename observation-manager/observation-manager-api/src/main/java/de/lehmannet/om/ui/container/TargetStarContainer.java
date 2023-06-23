@@ -20,6 +20,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -66,7 +67,7 @@ public class TargetStarContainer extends Container {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.starTarget = target == null ? null : (TargetStar) target.getCopy();
+        this.starTarget = ICloneable.copyOrNull((TargetStar) target);
 
         this.createPanel();
 
@@ -104,13 +105,13 @@ public class TargetStarContainer extends Container {
             this.starTarget = (TargetStar) t;
         }
 
-        return (ISchemaElement) this.starTarget.getCopy();
+        return this.starTarget.copy();
 
     }
 
     public ISchemaElement getSchemaElement() {
 
-        return (ISchemaElement) this.starTarget.getCopy();
+        return ICloneable.copyOrNull(this.starTarget);
 
     }
 
@@ -148,7 +149,7 @@ public class TargetStarContainer extends Container {
             this.starTarget.setStellarClassification("");
         }
 
-        return (ITarget) this.starTarget.getCopy();
+        return this.starTarget.copy();
 
     }
 
@@ -196,7 +197,7 @@ public class TargetStarContainer extends Container {
 
     public void setTarget(TargetStar target) {
 
-        this.starTarget = (TargetStar) target.getCopy();
+        this.starTarget = ICloneable.copyOrNull(target);
         this.targetContainer.setTarget(target);
 
     }

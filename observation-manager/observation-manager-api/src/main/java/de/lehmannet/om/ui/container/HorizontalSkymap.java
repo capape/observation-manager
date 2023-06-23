@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.Ephemerides;
@@ -48,7 +49,7 @@ public class HorizontalSkymap extends JLabel {
 
         this.position = position == null ? null : new EquPosition(position.getRa(), position.getDec());
         this.calendar = date;
-        this.site = site == null ? null : (ISite) site.getCopy();
+        this.site = ICloneable.copyOrNull(site);
 
         this.createImage();
 

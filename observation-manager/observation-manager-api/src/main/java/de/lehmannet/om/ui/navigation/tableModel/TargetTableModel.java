@@ -216,7 +216,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     private static ITarget toTarget(ISchemaElement element) {
         var clonable = (ITarget) element;
-        return (ITarget) clonable.getCopy();
+        return clonable.copy();
     }
 
 }

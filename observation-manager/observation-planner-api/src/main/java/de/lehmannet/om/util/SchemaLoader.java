@@ -1044,7 +1044,7 @@ public class SchemaLoader {
 
     static <T extends ICloneable> T[] copyOfArray(T[] source) {
 
-        return Arrays.asList(source).stream().map(a -> (T) a.getCopy()).toList().toArray(source);
+        return Arrays.asList(source).stream().map(a -> a.copy()).toList().toArray(source);
 
     }
 
