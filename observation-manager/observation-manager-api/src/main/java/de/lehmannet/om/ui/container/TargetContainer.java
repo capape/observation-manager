@@ -27,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IObserver;
@@ -89,7 +91,7 @@ public class TargetContainer extends Container implements MouseListener {
     public ITarget updateTarget() {
 
         String name = this.getName();
-        if ((name == null) || ("".equals(name.trim()))) {
+        if (StringUtils.isBlank(name)) {
             this.createWarning(this.bundle.getString("target.warning.noName"));
             return null;
         }
@@ -108,22 +110,14 @@ public class TargetContainer extends Container implements MouseListener {
         target.setAliasNames(aliasNames);
 
         EquPosition pos = this.getPosition();
-        /*
-         * if( pos == null ) { this.createWarning(TargetContainer.bundle.getString( "target.warning.posMalformed"));
-         * return null; }
-         */
         target.setPosition(pos);
 
         Constellation constellation = this.getConstellation();
-        /*
-         * if( (constellation != null) && !("".equals(constellation)) ) {
-         */
         target.setConstellation(constellation);
-        // }
 
         target.setNotes(this.notes.getText().trim());
 
-        return target;
+        return (ITarget) target.getCopy();
 
     }
 
@@ -217,7 +211,7 @@ public class TargetContainer extends Container implements MouseListener {
         List<String> list = new ArrayList<>();
 
         String aliasNames = this.targetAliasNames.getText();
-        if ((aliasNames != null) && !("".equals(aliasNames))) {
+        if (!StringUtils.isBlank(aliasNames)) {
             StringTokenizer tokenizer = new StringTokenizer(aliasNames, ";");
             while (tokenizer.hasMoreTokens()) {
                 list.add(tokenizer.nextToken().trim());
@@ -327,10 +321,10 @@ public class TargetContainer extends Container implements MouseListener {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
-        OMLabel LtargetName = new OMLabel(this.bundle.getString("target.label.name"), true);
-        LtargetName.setToolTipText(this.bundle.getString("target.tooltip.name"));
-        gridbag.setConstraints(LtargetName, constraints);
-        this.add(LtargetName);
+        OMLabel lTargetName = new OMLabel(this.bundle.getString("target.label.name"), true);
+        lTargetName.setToolTipText(this.bundle.getString("target.tooltip.name"));
+        gridbag.setConstraints(lTargetName, constraints);
+        this.add(lTargetName);
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.targetName = new JTextField();
@@ -342,10 +336,10 @@ public class TargetContainer extends Container implements MouseListener {
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel LAliasName = new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT, false);
-        LAliasName.setToolTipText(this.bundle.getString("target.tooltip.aliasNames"));
-        gridbag.setConstraints(LAliasName, constraints);
-        this.add(LAliasName);
+        OMLabel lAliasName = new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT, false);
+        lAliasName.setToolTipText(this.bundle.getString("target.tooltip.aliasNames"));
+        gridbag.setConstraints(lAliasName, constraints);
+        this.add(lAliasName);
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
@@ -367,14 +361,13 @@ public class TargetContainer extends Container implements MouseListener {
         this.add(this.equPosition);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 4, 1);
-        OMLabel LConstallation = new OMLabel(this.bundle.getString("target.label.constellation"), false);
-        LConstallation.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
-        gridbag.setConstraints(LConstallation, constraints);
-        this.add(LConstallation);
+        OMLabel lConstallation = new OMLabel(this.bundle.getString("target.label.constellation"), false);
+        lConstallation.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
+        gridbag.setConstraints(lConstallation, constraints);
+        this.add(lConstallation);
 
         JLabel targetDatasourceLabel = null;
-        if ((this.target != null) // Show
-                && !(this.editable)) {
+        if (this.target != null && !this.editable) { // Show
             ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 45, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.targetConstellation.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
@@ -400,10 +393,10 @@ public class TargetContainer extends Container implements MouseListener {
             this.add(targetDatasource);
 
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 100, 1);
-            OMLabel Lnotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
-            Lnotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
-            gridbag.setConstraints(Lnotes, constraints);
-            this.add(Lnotes);
+            OMLabel lNotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
+            lNotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
+            gridbag.setConstraints(lNotes, constraints);
+            this.add(lNotes);
             ConstraintsBuilder.buildConstraints(constraints, 0, 6, 8, 2, 100, 45);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.notes = new JTextArea(10, 40);
@@ -429,58 +422,58 @@ public class TargetContainer extends Container implements MouseListener {
             EquPosition pos = this.target.getPosition();
             if (pos != null) { // Target might not have position (e.g. SolarSystem Targets)
 
-                JLabel LAtlas = new JLabel(this.bundle.getString("target.label.atlas"));
+                JLabel lAtlas = new JLabel(this.bundle.getString("target.label.atlas"));
                 ConstraintsBuilder.buildConstraints(constraints, 0, 8, 8, 1, 100, 1);
-                gridbag.setConstraints(LAtlas, constraints);
-                this.add(LAtlas);
+                gridbag.setConstraints(lAtlas, constraints);
+                this.add(lAtlas);
 
-                JLabel LUranometeria = new JLabel(this.bundle.getString("target.label.uranometeria"));
+                JLabel lUranometeria = new JLabel(this.bundle.getString("target.label.uranometeria"));
                 JTextField uranometeria = new JTextField("" + AtlasUtil.getUranometriaPage(pos), 4);
                 uranometeria.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 0, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LUranometeria, constraints);
-                this.add(LUranometeria);
+                gridbag.setConstraints(lUranometeria, constraints);
+                this.add(lUranometeria);
                 ConstraintsBuilder.buildConstraints(constraints, 1, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(uranometeria, constraints);
                 this.add(uranometeria);
 
-                JLabel LUranometeria2 = new JLabel(this.bundle.getString("target.label.uranometeria2"));
+                JLabel lUranometeria2 = new JLabel(this.bundle.getString("target.label.uranometeria2"));
                 JTextField uranometeria2 = new JTextField("" + AtlasUtil.getUranometria2000Page(pos), 4);
                 uranometeria2.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 2, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LUranometeria2, constraints);
-                this.add(LUranometeria2);
+                gridbag.setConstraints(lUranometeria2, constraints);
+                this.add(lUranometeria2);
                 ConstraintsBuilder.buildConstraints(constraints, 3, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(uranometeria2, constraints);
                 this.add(uranometeria2);
 
-                JLabel LMillenium = new JLabel(this.bundle.getString("target.label.milleniumStarAtlas"));
+                JLabel lMillenium = new JLabel(this.bundle.getString("target.label.milleniumStarAtlas"));
                 JTextField millenium = new JTextField("" + AtlasUtil.getMilleniumStarAtlasPage(pos), 4);
                 millenium.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 4, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LMillenium, constraints);
-                this.add(LMillenium);
+                gridbag.setConstraints(lMillenium, constraints);
+                this.add(lMillenium);
                 ConstraintsBuilder.buildConstraints(constraints, 5, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(millenium, constraints);
                 this.add(millenium);
 
-                JLabel LStarAtlas200 = new JLabel(this.bundle.getString("target.label.skyAtlas2000"));
+                JLabel lStarAtlas200 = new JLabel(this.bundle.getString("target.label.skyAtlas2000"));
                 JTextField startAtlas = new JTextField("" + AtlasUtil.getSkyAtlas2000Page(pos), 4);
                 startAtlas.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 6, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LStarAtlas200, constraints);
-                this.add(LStarAtlas200);
+                gridbag.setConstraints(lStarAtlas200, constraints);
+                this.add(lStarAtlas200);
                 ConstraintsBuilder.buildConstraints(constraints, 7, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(startAtlas, constraints);
@@ -515,10 +508,10 @@ public class TargetContainer extends Container implements MouseListener {
             this.add(sourceObserverBox);
 
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 100, 1);
-            OMLabel Lnotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
-            Lnotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
-            gridbag.setConstraints(Lnotes, constraints);
-            this.add(Lnotes);
+            OMLabel lNotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
+            lNotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
+            gridbag.setConstraints(lNotes, constraints);
+            this.add(lNotes);
             ConstraintsBuilder.buildConstraints(constraints, 0, 6, 8, 3, 100, 45);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.notes = new JTextArea(10, 40);
@@ -554,7 +547,7 @@ public class TargetContainer extends Container implements MouseListener {
             this.sourceObserverBox.addEmptyItem();
         }
 
-        if ((this.target != null) && (this.target.getObserver() != null)) {
+        if (this.target != null && this.target.getObserver() != null) {
             this.sourceObserverBox.setSelectedItem(this.target.getObserver());
         } else {
             this.sourceObserverBox.setSelectedItem(null);
