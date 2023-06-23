@@ -581,24 +581,11 @@ public abstract class Target extends SchemaElement implements ITarget {
      *         set. (In this case a dataSource must exist)
      */
     @Override
-<<<<<<< HEAD
-<<<<<<< HEAD
     public final IObserver getObserver() {
         if (this.observer == null) {
             return null;
         }
         return this.observer.copy();
-=======
-    public IObserver getObserver() {
-=======
-    public final IObserver getObserver() {
->>>>>>> 967207b (Planner-api spot-bugs)
-        if (this.observer == null) {
-            return null;
-        }
-        return (IObserver) this.observer.getCopy();
->>>>>>> 9201d08 (High and medium SpotBugs Warnings)
-
     }
 
     /**
@@ -656,11 +643,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         if (observer != null) {
             this.dataSource = null;
-<<<<<<< HEAD
             this.observer = observer.copy();
-=======
-            this.observer = (IObserver) observer.getCopy();
->>>>>>> 9201d08 (High and medium SpotBugs Warnings)
         }
 
     }
