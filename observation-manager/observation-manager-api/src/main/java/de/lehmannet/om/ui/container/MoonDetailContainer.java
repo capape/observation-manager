@@ -7,18 +7,11 @@
 
 package de.lehmannet.om.ui.container;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISite;
@@ -34,7 +27,7 @@ public class MoonDetailContainer extends JLabel {
      */
     private static final long serialVersionUID = -8924593147222865850L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+    private transient final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
     private static final String BELOW_HORIZON = "below.png";
@@ -42,7 +35,7 @@ public class MoonDetailContainer extends JLabel {
     private static final String NEW_MOON = "new.png";
     private static final String FULL_MOON = "full.png";
 
-    private IObservation observation = null;
+    private transient IObservation observation = null;
 
     private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images/moon");
 
@@ -91,23 +84,23 @@ public class MoonDetailContainer extends JLabel {
                 }
 
                 // Get phase percentage
-                if ((absPhase > 5) && (absPhase <= 15)) {
+                if (absPhase > ) && absPhase <= 15) {
                     path = path + "10.png";
-                } else if ((absPhase > 15) && (absPhase <= 25)) {
+                } else if (absPhase > 15&& absPhase <= 25) {
                     path = path + "20.png";
-                } else if ((absPhase > 25) && (absPhase <= 35)) {
+                } else if (absPhase > 25&& absPhase <= 35) {
                     path = path + "30.png";
-                } else if ((absPhase > 35) && (absPhase <= 45)) {
+                } else if (absPhase > 35&& absPhase <= 45) {
                     path = path + "40.png";
-                } else if ((absPhase > 45) && (absPhase <= 55)) {
+                } else if (absPhase > 45&& absPhase <= 55) {
                     path = path + "50.png";
-                } else if ((absPhase > 55) && (absPhase <= 65)) {
+                } else if (absPhase > 55&& absPhase <= 65) {
                     path = path + "60.png";
-                } else if ((absPhase > 65) && (absPhase <= 75)) {
+                } else if (absPhase > 65&& absPhase <= 75) {
                     path = path + "70.png";
-                } else if ((absPhase > 75) && (absPhase <= 85)) {
+                } else if (absPhase > 75&& absPhase <= 85) {
                     path = path + "80.png";
-                } else if ((absPhase > 85) && (absPhase <= 95)) {
+                } else if (absPhase > 85&& absPhase <= 95) {
                     path = path + "90.png";
                 }
 
