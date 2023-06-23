@@ -96,7 +96,7 @@ public class StarchartSocket extends Socket {
                 this.out = null;
             }
             if (in != null) {
-                BufferedReader aux = this.in;               
+                BufferedReader aux = this.in;
                 this.in = null;
                 aux.close();
             }
