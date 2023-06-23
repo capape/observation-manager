@@ -104,13 +104,13 @@ public class TargetStarContainer extends Container {
             this.starTarget = (TargetStar) t;
         }
 
-        return this.starTarget;
+        return (ISchemaElement) this.starTarget.getCopy();
 
     }
 
     public ISchemaElement getSchemaElement() {
 
-        return this.starTarget;
+        return (ISchemaElement) this.starTarget.getCopy();
 
     }
 
@@ -148,7 +148,7 @@ public class TargetStarContainer extends Container {
             this.starTarget.setStellarClassification("");
         }
 
-        return this.starTarget;
+        return (ITarget) this.starTarget.getCopy();
 
     }
 

@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.lehmannet.om.ISchemaElement;
@@ -204,8 +205,13 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public ITarget[] getAllTargets() {
 
-        return (ITarget[]) this.elements;
+        return  Arrays.asList(this.elements).stream().map(TargetTableModel::toTarget).toList().toArray(new ITarget[this.elements.length]);
 
+    }
+
+    private static ITarget toTarget(ISchemaElement element) {
+        var clonable = (ITarget) element;
+        return (ITarget) clonable.getCopy();
     }
 
 }

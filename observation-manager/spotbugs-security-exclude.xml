@@ -13,4 +13,20 @@
         <Field name="bundle"/>
         <Bug pattern="MS_PKGPROTECT" />
     </Match>
+
+    <Match>
+        <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
+        <Method name="getDefaultButton"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
+        <Method name="getDefaultButton"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
+        <Method name="getSearchResult"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
 </FindBugsFilter>

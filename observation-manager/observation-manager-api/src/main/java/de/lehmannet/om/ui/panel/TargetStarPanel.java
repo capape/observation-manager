@@ -17,7 +17,6 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetStarContainer;
-
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 
@@ -51,7 +50,7 @@ public class TargetStarPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return (ISchemaElement) this.target.getCopy();
 
     }
 
@@ -69,7 +68,7 @@ public class TargetStarPanel extends AbstractPanel {
             this.target = (TargetStar) t;
         }
 
-        return this.target;
+        return (ISchemaElement) this.target.getCopy();
 
     }
 

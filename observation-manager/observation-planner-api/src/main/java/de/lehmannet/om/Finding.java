@@ -295,4 +295,14 @@ public abstract class Finding extends SchemaElement implements IFinding {
 
     }
 
+    @Override
+    public ICloneable getCopy() {
+
+        try {
+            return (Finding) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
+    }
 }

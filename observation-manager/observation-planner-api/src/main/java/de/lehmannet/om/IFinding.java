@@ -16,7 +16,7 @@ package de.lehmannet.om;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
+public interface IFinding extends ISchemaElement, IExtendableSchemaElement, ICloneable {
 
     // ---------
     // Constants ---------------------------------------------------------

@@ -76,7 +76,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding.setLanguage(this.findingContainer.getLanguage());
         }
 
-        return this.finding;
+        return (ISchemaElement) this.finding.getCopy();
 
     }
 
@@ -89,14 +89,14 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
             gf.setLanguage(this.findingContainer.getLanguage());
         }
 
-        return gf;
+        return (ISchemaElement) gf.getCopy();
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.finding;
+        return (ISchemaElement) this.finding.getCopy();
 
     }
 
@@ -115,9 +115,9 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 45, 50);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 
