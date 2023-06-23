@@ -39,7 +39,7 @@ public class TargetStarPanel extends AbstractPanel {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.target = target == null ? null :  (TargetStar) target.getCopy();
+        this.target = target == null ? null : (TargetStar) target.getCopy();
         this.model = model;
         this.configuration = configuration;
 

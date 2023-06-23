@@ -48,13 +48,13 @@ public class FindingContainer extends Container implements MouseListener {
     private JTextArea description = null;
 
     private LanguageBox language = null;
-   
+
     public FindingContainer(IConfiguration configuration, IFinding finding, ISession session, boolean editable) {
 
         this.finding = (IFinding) finding.getCopy();
         this.session = (ISession) session.getCopy();
         this.editable = editable;
-   
+
         this.language = new LanguageBox(configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
 
         this.createContainer();
@@ -153,7 +153,7 @@ public class FindingContainer extends Container implements MouseListener {
             this.language.setLanguage(this.finding.getLanguage());
         } else {
             // If session laguage is set, prefer the session language in finding
-            if (this.session != null  && this.session.getLanguage() != null) {
+            if (this.session != null && this.session.getLanguage() != null) {
                 this.language.setLanguage(this.session.getLanguage());
             }
         }

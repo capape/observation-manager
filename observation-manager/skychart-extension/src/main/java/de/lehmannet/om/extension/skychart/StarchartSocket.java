@@ -1,5 +1,7 @@
 package de.lehmannet.om.extension.skychart;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,7 +32,7 @@ public class StarchartSocket extends Socket {
 
         String response = this.in.readLine();
 
-        LOGGER.debug("Socket creation response from Skychart: {}", response);
+        LOGGER.debug("Socket creation response from Skychart: {}", toLogMessage(response));
 
     }
 
@@ -70,7 +72,7 @@ public class StarchartSocket extends Socket {
         do {
             r = this.in.readLine();
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Skychart response: {}", r);
+                LOGGER.debug("Skychart response: {}", toLogMessage(r));
             }
             response.append(r);
             index++;

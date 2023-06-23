@@ -67,7 +67,6 @@ public class TargetStarContainer extends Container {
         }
 
         this.starTarget = target == null ? null : (TargetStar) target.getCopy();
-        
 
         this.createPanel();
 

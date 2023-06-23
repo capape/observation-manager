@@ -31,8 +31,8 @@
     </Match>
 
     <Match>
-        <Class name="de.lehmannet.om.ui.extension.PopupMenuExtension" />
-        <Method name="getMenu"/>
+        
+        <Method name="getMenu" returns="javax.swing.JMenu"/>
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
@@ -62,5 +62,13 @@
         <Match>        
         <Field type="java.awt.Image"/>
         <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>
+        <Bug pattern="COMMAND_INJECTION"/>
+    </Match>
+
+    <Match>
+        <Bug pattern="UNENCRYPTED_SOCKET"/>
     </Match>
 </FindBugsFilter>

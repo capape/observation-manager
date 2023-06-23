@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.extension.skychart;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -29,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -321,13 +324,14 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                     try {
                         ep = new EquPosition(ra, dec);
                     } catch (IllegalArgumentException iae) {
-                        LOGGER.debug("RA or DEC string is malformed: RA: {} \tDEC: {}", ra, dec);
+                        LOGGER.debug("RA or DEC string is malformed: RA: {} \tDEC: {}", toLogMessage(ra),
+                                toLogMessage(dec));
                         continue;
                     }
                     EquPosition targetEp = target.getPosition();
 
                     if (targetEp == null) {
-                        LOGGER.debug("Cannot find {} as target position is NULL", target.getName());
+                        LOGGER.debug("Cannot find {} as target position is NULL", toLogMessage(target.getName()));
                         continue;
                     }
 
@@ -390,8 +394,8 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         try {
             String response = socket.send(command);
 
-            if ((response != null) && ((response.startsWith(StarchartSocket.SERVER_RESPONSE_OK))
-                    || (response.endsWith(StarchartSocket.SERVER_RESPONSE_OK)))) {
+            if (response != null && (response.startsWith(StarchartSocket.SERVER_RESPONSE_OK)
+                    || response.endsWith(StarchartSocket.SERVER_RESPONSE_OK))) {
                 return Boolean.TRUE;
             } else {
                 return Boolean.FALSE;
@@ -399,8 +403,8 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
-            LOGGER.error("Unable to send data to Skychart application.", ioe);
-            return null; // Indicate something went wrong
+            LOGGER.error("Unable to send data to Skychart application. {}", toLogMessage(ioe.toString()));
+            return Boolean.FALSE;
         }
 
     }
@@ -414,7 +418,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
-            LOGGER.error("Unable to send data to Skychart application.", ioe);
+            LOGGER.error("Unable to send data to Skychart application. {}", toLogMessage(ioe.toString()));
             return null; // Indicate something went wrong
         }
 
@@ -424,15 +428,15 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         // Get IP
         String ip = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY);
-        if ((ip == null) || ("".equals(ip.trim()))) {
+        if (StringUtils.isBlank(ip)) {
             ip = SkyChartPreferences.SERVER_DEFAULT_IP;
         }
 
         // Get Port
-        String s_port = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
+        String sPort = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
         int port = SkyChartPreferences.SERVER_DEFAULT_PORT;
-        if ((s_port != null) && !("".equals(s_port.trim()))) {
-            port = Integer.parseInt(s_port);
+        if (!StringUtils.isBlank(sPort)) {
+            port = Integer.parseInt(sPort);
         }
 
         // Create Socket
@@ -527,7 +531,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     private String[] createEquPositionCommands(EquPosition position) {
 
         if (position == null) {
-            return null;
+            return new String[0];
         }
 
         String[] result = new String[3];

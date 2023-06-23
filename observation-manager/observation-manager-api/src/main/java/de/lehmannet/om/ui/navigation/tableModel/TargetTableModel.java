@@ -30,7 +30,9 @@ public class TargetTableModel extends AbstractSchemaTableModel {
     public TargetTableModel(ITarget[] target, IConfiguration configuration) {
 
         this.configuration = configuration;
-        this.elements = target == null ? null : Arrays.asList(target).stream().map(a -> (ISchemaElement) a).toList().toArray(new ISchemaElement[target.length]);
+        this.elements = target == null ? null
+                : Arrays.asList(target).stream().map(a -> (ISchemaElement) a).toList()
+                        .toArray(new ISchemaElement[target.length]);
 
     }
 
@@ -199,13 +201,16 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
     public void setTargets(ITarget[] targets) {
 
-        this.elements = targets == null ? null : Arrays.asList(targets).stream().map(a -> (ISchemaElement) a).toList().toArray(new ISchemaElement[targets.length]);
+        this.elements = targets == null ? null
+                : Arrays.asList(targets).stream().map(a -> (ISchemaElement) a).toList()
+                        .toArray(new ISchemaElement[targets.length]);
 
     }
 
     public ITarget[] getAllTargets() {
 
-        return  Arrays.asList(this.elements).stream().map(TargetTableModel::toTarget).toList().toArray(new ITarget[this.elements.length]);
+        return Arrays.asList(this.elements).stream().map(TargetTableModel::toTarget).toList()
+                .toArray(new ITarget[this.elements.length]);
 
     }
 
