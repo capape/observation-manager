@@ -35,4 +35,28 @@
         <Method name="getMenu"/>
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
+
+    <Match>        
+        <Field name="configuration"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field name="model"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field type="javax.swing.JFrame"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+     <Match>        
+        <Field type="javax.swing.JMenu"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    <Match>        
+        <Field type="javax.swing.JTextArea"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
 </FindBugsFilter>
