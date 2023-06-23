@@ -1,7 +1,5 @@
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.Dimension;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
@@ -66,7 +64,7 @@ public abstract class OMDialog extends JDialog {
         // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
 
         // Save current size
-        Dimension size = this.getSize();
+        // Dimension size = this.getSize();
 
         LOGGER.debug("Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(),
                 this.getHeight());
