@@ -31,7 +31,12 @@
     </Match>
 
     <Match>
+<<<<<<< HEAD
         <Field name="tree" />
+=======
+        
+        <Method name="getMenu" returns="javax.swing.JMenu"/>
+>>>>>>> ccb6653 (Remove spotbugs from skychart)
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
