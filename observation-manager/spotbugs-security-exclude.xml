@@ -29,4 +29,10 @@
         <Method name="getSearchResult"/>
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
+
+    <Match>
+        <Class name="de.lehmannet.om.ui.extension.PopupMenuExtension" />
+        <Method name="getMenu"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
 </FindBugsFilter>
