@@ -7,8 +7,6 @@
 
 package de.lehmannet.om.extension.skychart;
 
-import static de.lehmannet.om.util.Sanitizer.toLogMessage;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -475,12 +473,10 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
                         } catch (IOException ioe) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            LOGGER.error("Unable to start Skychart application ({}). {}", toLogMessage(applicationPath),
-                                    toLogMessage(ioe.toString()));
+                            LOGGER.error("Unable to start Skychart application ({})", applicationPath, ioe);
                         } catch (Exception e) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
-                            LOGGER.error("Failed to start Skychart application ({}) {}", toLogMessage(applicationPath),
-                                    toLogMessage(e.toString()));
+                            LOGGER.error("Failed to start Skychart application ({})", applicationPath, e.toString());
                         }
                     }
 
