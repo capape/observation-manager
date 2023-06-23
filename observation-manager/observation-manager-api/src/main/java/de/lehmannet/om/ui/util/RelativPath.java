@@ -9,6 +9,7 @@ package de.lehmannet.om.ui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class RelativPath {
     public static String getRelativePath(File home, File f) {
 
         if (home.isFile()) {
-            home = new File(home.getParent());
+            home = FileSystems.getDefault().getPath(home.getParent()).toFile();
         }
 
         List<String> homelist = RelativPath.getPathList(home);

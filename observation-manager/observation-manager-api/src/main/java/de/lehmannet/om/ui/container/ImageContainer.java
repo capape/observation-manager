@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +30,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Scrollable;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.FITSImageDialog;
@@ -158,7 +161,7 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
         // Find out whether images path should be returned relative or absolute
         boolean relativePath = Boolean.parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_IMAGESDIR_RELATIVE));
-        if ((homeDir == null) || ("".equals(homeDir.trim()))) {
+        if (StringUtils.isBlank(homeDir)) {
             relativePath = false;
         }
 
@@ -170,7 +173,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
             if (comp instanceof MyImageLabel) {
                 l = (MyImageLabel) comp;
                 if (relativePath) {
-                    result.add(RelativPath.getRelativePath(new File(homeDir), new File(l.getPath()))); // Store path
+                    result.add(RelativPath.getRelativePath(FileSystems.getDefault().getPath(homeDir).toFile(),
+                            FileSystems.getDefault().getPath(l.getPath()).toFile()));
                     // relative
                 } else {
                     result.add(l.getPath()); // Store path absolute
@@ -195,14 +199,15 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
+        if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             if (e.getSource() instanceof MyImageLabel) {
                 MyImageLabel l = (MyImageLabel) e.getSource();
-                if (!((l.getPath().endsWith(".fits")) || (l.getPath().endsWith(".fit"))
-                        || (l.getPath().endsWith(".fts")))) {
+                if (!(l.getPath().endsWith(".fits")
+                    || l.getPath().endsWith(".fit")
+                    || l.getPath().endsWith(".fts"))) {
                     new ImageDialog(l.getImage(), this.om);
                 } else {
-                    new FITSImageDialog(this.om, new File(l.getPath()));
+                    new FITSImageDialog(this.om, FileSystems.getDefault().getPath(l.getPath()).toFile());
                 }
             } else {
                 JLabel b = (JLabel) e.getSource();
