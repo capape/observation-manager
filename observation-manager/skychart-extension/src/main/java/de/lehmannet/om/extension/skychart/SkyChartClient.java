@@ -106,7 +106,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         if (e.getSource() instanceof JMenuItem) { // Should always be the case
             JMenuItem source = (JMenuItem) e.getSource();
-            if ((source.equals(this.mainMoveTo)) || (source.equals(this.popupMoveTo))) {
+            if (source.equals(this.mainMoveTo) || source.equals(this.popupMoveTo)) {
                 ISchemaElement se = this.context.getModel().getSelectedElement();
                 if (se instanceof IObservation) {
                     this.moveSkychart((IObservation) se);
@@ -306,7 +306,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                         return true; // Names match. We found our object
                     }
                     String[] aliasNames = target.getAliasNames();
-                    if ((aliasNames != null) && (aliasNames.length > 0)) {
+                    if (aliasNames != null && aliasNames.length > 0) {
                         for (String aliasName : aliasNames) {
                             if (objectName.equals(aliasName.toUpperCase())) {
                                 LOGGER.debug("Found {} by aliasname {}", target.getName(), aliasName);
