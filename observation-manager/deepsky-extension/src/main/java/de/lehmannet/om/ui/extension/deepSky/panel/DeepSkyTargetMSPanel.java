@@ -167,7 +167,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             return null;
         }
 
-        ITarget[] targets = this.tableModel.getAllTargets();
+        ITarget[] targets = this.tableModel.
+        getAllTargets();
         if ((targets == null) || (targets.length < 3)) {
             this.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
