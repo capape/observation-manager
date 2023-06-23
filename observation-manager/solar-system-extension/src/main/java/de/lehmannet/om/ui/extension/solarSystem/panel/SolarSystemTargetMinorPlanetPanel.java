@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -37,12 +39,12 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof SolarSystemTargetMinorPlanet)) {
+        if (target != null && !(target instanceof SolarSystemTargetMinorPlanet)) {
             throw new IllegalArgumentException(
                     "Passed ITarget must derive from de.lehmannet.om.extension.solarSystem.SolarSystemTargetMinorPlanet\n");
         }
 
-        this.target = (SolarSystemTargetMinorPlanet) target;
+        this.target = copyOrNull((SolarSystemTargetMinorPlanet) target);
         this.configuration = configuration;
         this.model = model;
         this.createPanel();
@@ -52,7 +54,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -72,7 +74,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
             this.target = (SolarSystemTargetMinorPlanet) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -97,7 +99,7 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
         // Set all other fields
         this.updateSchemaElement();
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -117,9 +119,9 @@ public class SolarSystemTargetMinorPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

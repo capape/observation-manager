@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -37,8 +39,8 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
 
         super(editable);
 
-        this.finding = finding == null ? null : (IFinding) finding.getCopy();
-        this.session = s == null ? null : (ISession) s.getCopy();
+        this.finding = copyOrNull(finding);
+        this.session = copyOrNull(s);
         this.configuration = configuration;
 
         this.createPanel();
@@ -76,7 +78,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding.setLanguage(this.findingContainer.getLanguage());
         }
 
-        return (ISchemaElement) this.finding.getCopy();
+        return this.finding.copy();
 
     }
 
@@ -89,14 +91,14 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
             gf.setLanguage(this.findingContainer.getLanguage());
         }
 
-        return (ISchemaElement) gf.getCopy();
+        return gf.copy();
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return (ISchemaElement) this.finding.getCopy();
+        return this.finding.copy();
 
     }
 

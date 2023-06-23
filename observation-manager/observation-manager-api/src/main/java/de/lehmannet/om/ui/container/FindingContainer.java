@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.container;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -51,8 +53,8 @@ public class FindingContainer extends Container implements MouseListener {
 
     public FindingContainer(IConfiguration configuration, IFinding finding, ISession session, boolean editable) {
 
-        this.finding = (IFinding) finding.getCopy();
-        this.session = (ISession) session.getCopy();
+        this.finding = copyOrNull(finding);
+        this.session = copyOrNull(session);
         this.editable = editable;
 
         this.language = new LanguageBox(configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);

@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -18,7 +20,6 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -57,7 +58,7 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -79,7 +80,7 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         this.updateUI();
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -104,7 +105,7 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
         // Set all other fields
         this.updateSchemaElement();
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -124,9 +125,9 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 
