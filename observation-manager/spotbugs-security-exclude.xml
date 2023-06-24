@@ -31,12 +31,7 @@
     </Match>
 
     <Match>
-<<<<<<< HEAD
         <Field name="tree" />
-=======
-        
-        <Method name="getMenu" returns="javax.swing.JMenu"/>
->>>>>>> ccb6653 (Remove spotbugs from skychart)
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
@@ -98,6 +93,10 @@
     <Match>
         <Field name="tableHeader" />
         <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+      <Match>      
+        <Method name="getTableCellEditorComponent" returns="java.awt.Component"/>
+        <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
     <!-- Need this inmutable -->
