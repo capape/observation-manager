@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.FileSystems;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,8 +140,9 @@ public class GCVS4Catalog implements ICatalog {
 
         this.configuration = configuration;
         // Get catalog File
-        this.catalogFile = new File(
-                catalogDir.getAbsolutePath() + File.separator + "variableStars" + File.separator + "gcvs4.dat");
+
+        var filePath = catalogDir.getAbsolutePath() + File.separator + "variableStars" + File.separator + "gcvs4.dat";
+        this.catalogFile = FileSystems.getDefault().getPath(filePath).toFile();
 
         // Check if file exists
         if (!this.catalogFile.exists()) {
@@ -440,7 +443,11 @@ public class GCVS4Catalog implements ICatalog {
                                                                            // bytes
                 pointerPos = pointerPos + off; // Move to position in line, where ID or name is placed
                 raf.seek(pointerPos); // Goto position
-                raf.read(buffer, 0, len); // Read name or ID
+                int bytes = raf.read(buffer, 0, len); // Read name or ID
+
+                if (bytes < len) {
+                    LOGGER.warn("Read smaller id");
+                }
 
                 String name = new String(buffer, "UTF-8");
                 // name = name.toLowerCase();
@@ -521,7 +528,11 @@ public class GCVS4Catalog implements ICatalog {
                 pointerPos = GCVS4Catalog.CATALOG_LINE_SIZE * middle; // Calculate read/write pointer position in bytes
                 pointerPos = pointerPos + off; // Move to position in line, where ID or name is placed
                 raf.seek(pointerPos); // Goto position
-                raf.read(buffer, 0, len); // Read name or ID
+                int bytes = raf.read(buffer, 0, len); // Read name or ID
+
+                if (bytes < len) {
+                    LOGGER.warn("Read short id");
+                }
 
                 String name = new String(buffer, "UTF-8");
                 // name = name.toLowerCase();
@@ -586,7 +597,7 @@ public class GCVS4Catalog implements ICatalog {
         RandomAccessFile raf = null;
         try {
             raf = new RandomAccessFile(this.catalogFile, "r");
-            raf.seek(GCVS4Catalog.CATALOG_LINE_SIZE * lineNumber); // Goto line
+            raf.seek((long) GCVS4Catalog.CATALOG_LINE_SIZE * (long) lineNumber); // Goto line
             String line = raf.readLine(); // Read line
 
             StringTokenizer tokenizer = new StringTokenizer(line, "|");
@@ -623,13 +634,13 @@ public class GCVS4Catalog implements ICatalog {
             minMag = minMag.replace('(', ' ');
             minMag = minMag.replace(')', ' ');
 
-            String v = tokenizer.nextToken();
-            String epoch = tokenizer.nextToken();
-            String year = tokenizer.nextToken();
+            tokenizer.nextToken(); // v
+            tokenizer.nextToken(); // epoch
+            tokenizer.nextToken(); // year
             String period = tokenizer.nextToken();
-            String Mm = tokenizer.nextToken();
+            tokenizer.nextToken(); // Mm
             String spectrum = tokenizer.nextToken();
-            String references = tokenizer.nextToken();
+            tokenizer.nextToken(); // references
             String otherDesignations = tokenizer.nextToken();
             otherDesignations = otherDesignations.replaceAll("N {11}", " "); // Star does not exist
             otherDesignations = otherDesignations.replace('=', ' ');
@@ -638,10 +649,10 @@ public class GCVS4Catalog implements ICatalog {
             // Star is listed as with different designation. Read new designation and parse
             // line again
             String additionalDesignation = null;
-            if ((equPosition == null) && !("".equals(otherDesignations)) && !(otherDesignations.startsWith("HIP")
-                    || (((byte) otherDesignations.charAt(0) >= 48) && ((byte) otherDesignations.charAt(0) < 58)) // Starts
-                                                                                                                 // with
-                                                                                                                 // number
+            if (equPosition == null && !"".equals(otherDesignations) && !(otherDesignations.startsWith("HIP")
+                    || ((byte) otherDesignations.charAt(0) >= 48 && (byte) otherDesignations.charAt(0) < 58) // Starts
+                                                                                                             // with
+                                                                                                             // number
             )) {
                 additionalDesignation = designation; // Save old designation
 
@@ -685,13 +696,13 @@ public class GCVS4Catalog implements ICatalog {
                 minMag = minMag.replace('(', ' ');
                 minMag = minMag.replace(')', ' ');
 
-                v = tokenizer.nextToken();
-                epoch = tokenizer.nextToken();
-                year = tokenizer.nextToken();
+                tokenizer.nextToken(); // v
+                tokenizer.nextToken(); // epoch
+                tokenizer.nextToken(); // year
                 period = tokenizer.nextToken();
-                Mm = tokenizer.nextToken();
+                tokenizer.nextToken(); // Mm
                 spectrum = tokenizer.nextToken();
-                references = tokenizer.nextToken();
+                tokenizer.nextToken(); // references
                 otherDesignations = tokenizer.nextToken();
                 otherDesignations = otherDesignations.replaceAll("N {11}", " "); // Star does not exist
                 otherDesignations = otherDesignations.replace('=', ' ');
@@ -700,14 +711,14 @@ public class GCVS4Catalog implements ICatalog {
 
             target = new TargetVariableStar(designation, GCVS4Catalog.CATALOG_NAME);
             target.setPosition(equPosition);
-            if (!"".equals(minMag.trim())) {
+            if (!StringUtils.isBlank(minMag)) {
                 target.setMagnitudeApparent(Float.parseFloat(minMag));
             }
-            if ((maxMag != null) && !("".equals(maxMag.trim()))) {
+            if (!StringUtils.isBlank(maxMag)) {
                 target.setMaxMagnitudeApparent(Float.parseFloat(maxMag));
             }
 
-            if ((period != null) && !("".equals(period.trim()))) {
+            if (!StringUtils.isBlank(period)) {
                 period = period.replace('(', ' ');
                 period = period.replace(')', ' ');
                 period = period.replace(':', ' ');
@@ -719,10 +730,10 @@ public class GCVS4Catalog implements ICatalog {
             target.setConstellation(constellation);
             target.setStellarClassification(spectrum);
             if (additionalDesignation != null) {
-                target.setAliasNames(new String[] { (GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations,
+                target.setAliasNames(new String[] { GCVS4Catalog.CATALOG_ABB + gcvsNumber, otherDesignations,
                         additionalDesignation });
             } else {
-                target.setAliasNames(new String[] { (GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations });
+                target.setAliasNames(new String[] { GCVS4Catalog.CATALOG_ABB + gcvsNumber, otherDesignations });
             }
 
         } catch (FileNotFoundException fnfe) {

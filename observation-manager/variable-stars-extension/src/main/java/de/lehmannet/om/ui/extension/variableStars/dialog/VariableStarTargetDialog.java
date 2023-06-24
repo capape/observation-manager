@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -24,7 +25,7 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
     private static final long serialVersionUID = -5379806312927835453L;
 
     public VariableStarTargetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            ITarget editableTarget) {
+            TargetVariableStar editableTarget) {
 
         super(om, model, uiHelper,
                 new VariableStarTargetPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));

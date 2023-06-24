@@ -1,11 +1,14 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
+import static de.lehmannet.om.ICloneable.copyToList;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
     private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private IObservation[] observations = null;
+    private List<IObservation> observations;
 
     private JTable table = null;
 
@@ -50,7 +53,7 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         super(om);
 
         this.configuration = configuration;
-        this.observations = observations;
+        this.observations = copyToList(observations);
 
         this.setTitle(this.bundle.getString("popup.observerColor.title"));
         this.setModal(true);
@@ -129,7 +132,7 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
 
     public Map<IObserver, Color> getColorMap() {
 
-        return this.result;
+        return Collections.unmodifiableMap(this.result);
 
     }
 

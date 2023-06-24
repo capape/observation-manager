@@ -1,10 +1,16 @@
 package de.lehmannet.om.extension.variableStars.export;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
@@ -12,10 +18,6 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.util.DateConverter;
-
-import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AAVSOVisualSerializer implements ISerializer {
 
@@ -116,7 +118,7 @@ public class AAVSOVisualSerializer implements ISerializer {
     public AAVSOVisualSerializer(String softwareName, List<IObservation> variableStarObservations) {
 
         this.softwareName = softwareName;
-        this.variableStarObservations = variableStarObservations;
+        this.variableStarObservations.addAll(variableStarObservations.stream().map(a -> copyOrNull(a)).toList());
 
     }
 

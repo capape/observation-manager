@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.variableStars.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -46,17 +48,12 @@ public class VariableStarTargetPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public VariableStarTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public VariableStarTargetPanel(IConfiguration configuration, ObservationManagerModel model,
+            TargetVariableStar target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof TargetVariableStar)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.variableStars.TargetVariableStar\n");
-        }
-
-        this.target = (TargetVariableStar) target;
+        this.target = copyOrNull(target);
         this.configuration = configuration;
         this.model = model;
 
@@ -71,7 +68,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -112,7 +109,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
             this.target.setPeriod(p);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -143,7 +140,7 @@ public class VariableStarTargetPanel extends AbstractPanel {
             this.target = (TargetVariableStar) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -205,10 +202,10 @@ public class VariableStarTargetPanel extends AbstractPanel {
         this.add(seperator1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 1, 1);
-        OMLabel LmaxAppMag = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.maxApparentMag"), false);
-        LmaxAppMag.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.maxApparentMag"));
-        gridbag.setConstraints(LmaxAppMag, constraints);
-        this.add(LmaxAppMag);
+        OMLabel lMaxAppMag = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.maxApparentMag"), false);
+        lMaxAppMag.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.maxApparentMag"));
+        gridbag.setConstraints(lMaxAppMag, constraints);
+        this.add(lMaxAppMag);
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 15, 1);
         this.maxApparentMag = new JTextField();
         this.maxApparentMag.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.maxApparentMag"));
@@ -218,15 +215,15 @@ public class VariableStarTargetPanel extends AbstractPanel {
         // Dummy for filling space
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 3, 1, 50, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel Ldummy = new JLabel("");
-        gridbag.setConstraints(Ldummy, constraints);
-        this.add(Ldummy);
+        JLabel lDummy = new JLabel("");
+        gridbag.setConstraints(lDummy, constraints);
+        this.add(lDummy);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 1, 1);
-        OMLabel Ltype = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.type"), false);
-        Ltype.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.type"));
-        gridbag.setConstraints(Ltype, constraints);
-        this.add(Ltype);
+        OMLabel lType = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.type"), false);
+        lType.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.type"));
+        gridbag.setConstraints(lType, constraints);
+        this.add(lType);
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 15, 1);
         this.type = new JTextField();
         this.type.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.type"));
@@ -234,27 +231,27 @@ public class VariableStarTargetPanel extends AbstractPanel {
         this.add(this.type);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 1, 1);
-        OMLabel Lperiod = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period"),
+        OMLabel lPeriod = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period"),
                 SwingConstants.RIGHT, false);
-        Lperiod.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
-        gridbag.setConstraints(Lperiod, constraints);
-        this.add(Lperiod);
+        lPeriod.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
+        gridbag.setConstraints(lPeriod, constraints);
+        this.add(lPeriod);
         ConstraintsBuilder.buildConstraints(constraints, 3, 3, 1, 1, 1, 1);
         this.period = new JTextField(5);
         this.period.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
         gridbag.setConstraints(this.period, constraints);
         this.add(this.period);
         ConstraintsBuilder.buildConstraints(constraints, 4, 3, 1, 1, 1, 1);
-        OMLabel Ldays = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period.days"), false);
-        Ldays.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
-        gridbag.setConstraints(Ldays, constraints);
-        this.add(Ldays);
+        OMLabel lDays = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period.days"), false);
+        lDays.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
+        gridbag.setConstraints(lDays, constraints);
+        this.add(lDays);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 5, 1, 5, 90);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

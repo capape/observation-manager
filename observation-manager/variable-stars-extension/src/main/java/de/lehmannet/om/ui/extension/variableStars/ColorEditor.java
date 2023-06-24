@@ -29,7 +29,7 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
     private final JColorChooser colorChooser;
     private final JDialog dialog;
 
-    private final String EDIT = "edit";
+    private final static String EDIT = "edit";
 
     public ColorEditor() {
 

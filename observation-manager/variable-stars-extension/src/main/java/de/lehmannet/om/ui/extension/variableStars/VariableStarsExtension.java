@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -365,17 +366,17 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 om.setCursor(hourglassCursor);
 
                 // @todo This works only with ONE file opened
-                File xmlFile = new File(files[0]);
+                File xmlFile = FileSystems.getDefault().getPath(files[0]).toFile();
                 String exportFileName = xmlFile.getName();
                 exportFileName = exportFileName.substring(0, exportFileName.indexOf('.'));
                 exportFileName = xmlFile.getParent() + File.separatorChar + exportFileName + "_aavso.txt";
-                File aavsoFile = new File(exportFileName);
+                File aavsoFile = FileSystems.getDefault().getPath(exportFileName).toFile();
                 int i = 2;
                 while (aavsoFile.exists()) { // Check if file exists...
                     exportFileName = exportFileName.substring(0, exportFileName.lastIndexOf("_aavso"));
                     exportFileName = exportFileName + "_aavso(" + i + ").txt";
                     i++;
-                    aavsoFile = new File(exportFileName);
+                    aavsoFile = FileSystems.getDefault().getPath(exportFileName).toFile();
                 }
 
                 // Do the actual export

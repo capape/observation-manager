@@ -3,6 +3,8 @@ package de.lehmannet.om.ui.extension.variableStars.catalog;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -27,7 +29,7 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
         // Set cached values
         if (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED))) {
             String cachedSearchTerm = this.configuration.getConfig(CONFIG_LAST_SEARCHTERM);
-            if ((cachedSearchTerm != null) && (!"".equals(cachedSearchTerm))) {
+            if (!StringUtils.isBlank(cachedSearchTerm)) {
                 this.searchText.setText(cachedSearchTerm);
             }
         }
@@ -41,7 +43,7 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
             this.configuration.setConfig(GCVS4SearchPanel.CONFIG_LAST_SEARCHTERM, searchString);
         }
 
-        if ((searchString == null) || ("".equals(searchString.trim()))) {
+        if (StringUtils.isBlank(searchString)) {
             return;
         }
 

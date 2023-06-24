@@ -42,6 +42,11 @@
     </Match>
 
     <Match>        
+        <Field name="catalog"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
         <Field name="model"/>
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
@@ -62,6 +67,10 @@
     <Match>      
         <Field type="java.awt.Image"/>
         <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+      <Match>      
+        <Method name="getTableCellEditorComponent" returns="java.awt.Component"/>
+        <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
     <!-- Need this inmutable -->

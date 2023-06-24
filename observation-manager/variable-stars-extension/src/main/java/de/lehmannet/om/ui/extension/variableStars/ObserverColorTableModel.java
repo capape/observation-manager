@@ -1,13 +1,16 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
 
 public class ObserverColorTableModel extends AbstractTableModel {
@@ -20,13 +23,13 @@ public class ObserverColorTableModel extends AbstractTableModel {
     private final ResourceBundle bundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private IObserver[] observers = null;
+    private List<IObserver> observers;
     private Color[] colors = null;
 
     public ObserverColorTableModel(IObserver[] observers, Color defaultColor) {
 
-        this.observers = observers;
-        this.colors = new Color[observers.length];
+        this.observers = ICloneable.copyToList(observers);
+        this.colors = new Color[this.observers.size()];
 
         // The first observer (default observer) gets automatically a Color assigned
         this.colors[0] = defaultColor;
@@ -43,7 +46,7 @@ public class ObserverColorTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
 
-        return this.observers.length;
+        return this.observers.size();
 
     }
 
@@ -52,14 +55,15 @@ public class ObserverColorTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0: {
-                return this.observers[rowIndex].getDisplayName();
+                return this.observers.get(rowIndex).getDisplayName();
             }
             case 1: {
                 return this.colors[rowIndex];
             }
+            default: {
+                return "";
+            }
         }
-
-        return "";
 
     }
 
@@ -68,7 +72,7 @@ public class ObserverColorTableModel extends AbstractTableModel {
 
         // Make sure both lists are always the same size
         if (col == 0) {
-            this.observers[row] = (IObserver) value;
+            this.observers.set(row, (IObserver) value);
         } else {
             this.colors[row] = (Color) value;
             if (Color.white.equals(this.colors[row])) { // White color is treated as no color selected
@@ -83,7 +87,7 @@ public class ObserverColorTableModel extends AbstractTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0: {
@@ -92,6 +96,10 @@ public class ObserverColorTableModel extends AbstractTableModel {
             }
             case 1: {
                 c = Color.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -103,7 +111,7 @@ public class ObserverColorTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -112,6 +120,10 @@ public class ObserverColorTableModel extends AbstractTableModel {
             }
             case 1: {
                 name = this.bundle.getString("popup.observerColor.column1");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }
@@ -131,18 +143,18 @@ public class ObserverColorTableModel extends AbstractTableModel {
 
         Map<IObserver, Color> map = new HashMap<>();
 
-        for (int i = 0; i < this.observers.length; i++) {
+        for (int i = 0; i < this.observers.size(); i++) {
             if (this.colors[i] != null) {
-                map.put(this.observers[i], this.colors[i]);
+                map.put(this.observers.get(i), this.colors[i]);
             }
         }
 
         // All observers were unselected
-        if (map.size() == 0) {
-            map = null;
+        if (map.isEmpty()) {
+            return null;
         }
 
-        return map;
+        return Collections.unmodifiableMap(map);
 
     }
 

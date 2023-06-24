@@ -57,14 +57,14 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private ZonedDateTime endDate = null;
     private JButton endPicker = null;
 
-    private final ResourceBundle uiBundle = ResourceBundle
+    private transient final ResourceBundle uiBundle = ResourceBundle
             .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
-    private ExtendedSchemaTableModel tableModel = null;
-    private final ObservationManagerModel model;
     private final JFrame parent;
-    private final UserInterfaceHelper uiHelper;
-    private final DateManager dateManager;
+    private ExtendedSchemaTableModel tableModel = null;
+    private transient final ObservationManagerModel model;
+    private transient final UserInterfaceHelper uiHelper;
+    private transient final DateManager dateManager;
 
     /**
      * @see SchemaElementConstants
