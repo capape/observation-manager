@@ -100,6 +100,12 @@
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
+    <!-- Need this inmutable -->
+    <Match>        
+        <Method name="getTableModel" returns="de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
     <Match>
         <Field name="configuration" />
         <Bug pattern="EI_EXPOSE_REP2" />
