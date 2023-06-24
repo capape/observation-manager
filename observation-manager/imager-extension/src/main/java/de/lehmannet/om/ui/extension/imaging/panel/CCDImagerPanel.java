@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.imaging.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.extension.imaging.CCDImager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
@@ -50,18 +51,11 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
     private JTextArea remarks = new JTextArea();
     private JTextField binning = new JTextField();
 
-    public CCDImagerPanel(IImager imager, Boolean editable) {
+    public CCDImagerPanel(CCDImager imager, Boolean editable) {
 
         super(editable);
 
-        if (imager != null) {
-            if (!(imager instanceof CCDImager)) {
-                throw new IllegalArgumentException(
-                        "Passed Imager must be of type: de.lehmannet.om.extension.imaging.CCDImager");
-            }
-
-            this.imager = (CCDImager) imager;
-        }
+        this.imager = copyOrNull(imager);
 
         this.createPanel();
 
@@ -127,14 +121,14 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
             return null;
         }
 
-        return this.imager;
+        return this.imager.copy();
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.imager;
+        return copyOrNull(this.imager);
 
     }
 
@@ -198,7 +192,7 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
             return null;
         }
 
-        return this.imager;
+        return this.imager.copy();
 
     }
 
