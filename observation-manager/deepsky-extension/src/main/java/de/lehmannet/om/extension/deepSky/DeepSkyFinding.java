@@ -398,7 +398,7 @@ public class DeepSkyFinding extends Finding {
      */
     public Angle getLargeDiameter() {
 
-        return largeDiameter;
+        return Angle.of(largeDiameter);
 
     }
 
@@ -459,7 +459,7 @@ public class DeepSkyFinding extends Finding {
      */
     public Angle getSmallDiameter() {
 
-        return smallDiameter;
+        return Angle.of(smallDiameter);
 
     }
 
@@ -513,7 +513,7 @@ public class DeepSkyFinding extends Finding {
             }
         }
 
-        this.largeDiameter = largeDiameter;
+        this.largeDiameter = Angle.of(largeDiameter);
 
     }
 
@@ -636,7 +636,7 @@ public class DeepSkyFinding extends Finding {
             }
         }
 
-        this.smallDiameter = smallDiameter;
+        this.smallDiameter = Angle.of(smallDiameter);
 
     }
 

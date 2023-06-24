@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -45,16 +47,11 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
     private final IConfiguration configuration;
 
     public DeepSkyTargetCGPanel(IConfiguration configuration, UserInterfaceHelper uiHelper,
-            ObservationManagerModel model, ITarget target, Boolean editable) throws IllegalArgumentException {
+            ObservationManagerModel model, DeepSkyTargetCG target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetCG)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetCG\n");
-        }
-
-        this.target = (DeepSkyTargetCG) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
         this.configuration = configuration;
@@ -70,7 +67,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -95,7 +92,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
             this.target.setMagnitudeOf10thBrightestMember(mag);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -125,7 +122,7 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
             this.target = (DeepSkyTargetCG) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -158,10 +155,10 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
         this.add(seperator1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 5, 1);
-        OMLabel Lmag = new OMLabel(this.bundle.getString("panel.cg.label.magnitude10th"), false);
-        Lmag.setToolTipText(this.bundle.getString("panel.cg.tooltip.magnitude10th"));
-        gridbag.setConstraints(Lmag, constraints);
-        this.add(Lmag);
+        OMLabel lMag = new OMLabel(this.bundle.getString("panel.cg.label.magnitude10th"), false);
+        lMag.setToolTipText(this.bundle.getString("panel.cg.tooltip.magnitude10th"));
+        gridbag.setConstraints(lMag, constraints);
+        this.add(lMag);
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 2, 1, 45, 1);
         this.magnitude10th = new JTextField();
         this.magnitude10th.setToolTipText(this.bundle.getString("panel.cg.tooltip.magnitude10th"));
@@ -171,9 +168,9 @@ public class DeepSkyTargetCGPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 4, 1, 45, 95);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

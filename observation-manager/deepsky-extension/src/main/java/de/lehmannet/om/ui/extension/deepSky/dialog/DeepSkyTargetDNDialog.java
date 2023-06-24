@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.deepSky.DeepSkyTargetDN;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -24,7 +25,7 @@ public class DeepSkyTargetDNDialog extends AbstractDialog implements ITargetDial
     private static final long serialVersionUID = -6833056944401369012L;
 
     public DeepSkyTargetDNDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            ITarget editableTarget) {
+            DeepSkyTargetDN editableTarget) {
 
         super(om, model, uiHelper,
                 new DeepSkyTargetDNPanel(model.getConfiguration(), uiHelper, model, editableTarget, Boolean.TRUE));

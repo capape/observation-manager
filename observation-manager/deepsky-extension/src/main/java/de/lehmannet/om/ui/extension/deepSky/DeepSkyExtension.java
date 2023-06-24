@@ -2,6 +2,7 @@ package de.lehmannet.om.ui.extension.deepSky;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,7 +67,7 @@ public class DeepSkyExtension extends AbstractExtension {
     private final Map<String, String> targetPanels = new HashMap<>();
     private final Map<String, String> targetDialogs = new HashMap<>();
 
-    private final String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
+    private static final String OAL_EXTENSION_FILE = "./openastronomylog21/extensions/ext_DeepSky.xsd";
 
     private ResourceBundle bundle;
 
@@ -210,19 +211,22 @@ public class DeepSkyExtension extends AbstractExtension {
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
 
-        IListableCatalog messier = new MessierCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/messier"));
-        IListableCatalog ngc = new NGCCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/NGC2009"));
-        IListableCatalog ic = new ICCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/IC2009"));
-        // @since 0.81: Replaced with NGC/IC2009 by Wolfgang Steinicke
-        // IListableCatalog hcngc = new HCNGCCatalog(new
-        // File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/HCNGC"));
-        IListableCatalog caldwell = new CaldwellCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/caldwell"));
+        IListableCatalog messier = new MessierCatalog(fileForCatalog(catalogDir, "messier"));
+        IListableCatalog ngc = new NGCCatalog(fileForCatalog(catalogDir, "NGC2009"));
+        IListableCatalog ic = new ICCatalog(fileForCatalog(catalogDir,  "IC2009"));
+        // IListableCatalog hcngc = new HCNGCCatalog(fileForCatalog(catalogDir, "HCNGC"));
+        IListableCatalog caldwell = new CaldwellCatalog(fileForCatalog(catalogDir,  "caldwell"));
 
         return new ICatalog[] { messier, ngc, ic, caldwell };
 
+    }
+
+    private File fileForCatalog(File catalogDir, String catalog) {
+        return FileSystems.getDefault().getPath(getPathCatalogFile(catalogDir, catalog)).toFile();
+    }
+
+    private String getPathCatalogFile(File catalogDir, String nameCatalog) {
+        return catalogDir.getAbsoluteFile() + File.separator + "deepSky" + File.separator+ nameCatalog;
     }
 
     @Override

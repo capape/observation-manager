@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -31,17 +33,12 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetQSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetQSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetQS target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetQS)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetQS\n");
-        }
-
-        this.target = (DeepSkyTargetQS) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
 
@@ -52,7 +49,7 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -70,7 +67,7 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
             this.target = (DeepSkyTargetQS) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -100,7 +97,7 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
             this.target = (DeepSkyTargetQS) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -120,9 +117,9 @@ public class DeepSkyTargetQSPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

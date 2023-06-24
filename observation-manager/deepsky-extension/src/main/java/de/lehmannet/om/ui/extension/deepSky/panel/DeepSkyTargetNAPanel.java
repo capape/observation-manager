@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -17,7 +19,6 @@ import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetNA;
 import de.lehmannet.om.model.ObservationManagerModel;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
@@ -32,17 +33,12 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetNAPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetNAPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetNA target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetNA)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetNA\n");
-        }
-
-        this.target = (DeepSkyTargetNA) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
 
@@ -53,7 +49,7 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -71,7 +67,7 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
             this.target = (DeepSkyTargetNA) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -101,7 +97,7 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
             this.target = (DeepSkyTargetNA) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 

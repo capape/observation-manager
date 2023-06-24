@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -43,17 +45,12 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetOCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetOCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetOC target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetOC)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetDN\n");
-        }
-
-        this.target = (DeepSkyTargetOC) target;
+        this.target = copyOrNull(target);
         this.model = model;
         this.uiHelper = uiHelper;
         this.createPanel();
@@ -67,7 +64,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -106,7 +103,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
             this.target.setClusterClassification(clusterClassification);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -136,7 +133,7 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
             this.target = (DeepSkyTargetOC) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -179,10 +176,10 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         this.add(seperator1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 5, 1);
-        OMLabel Lamount = new OMLabel(this.bundle.getString("panel.oc.label.amount"), false);
-        Lamount.setToolTipText(this.bundle.getString("panel.oc.tooltip.amount"));
-        gridbag.setConstraints(Lamount, constraints);
-        this.add(Lamount);
+        OMLabel lAmount = new OMLabel(this.bundle.getString("panel.oc.label.amount"), false);
+        lAmount.setToolTipText(this.bundle.getString("panel.oc.tooltip.amount"));
+        gridbag.setConstraints(lAmount, constraints);
+        this.add(lAmount);
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 45, 1);
         this.stars = new JTextField();
         this.stars.setToolTipText(this.bundle.getString("panel.oc.tooltip.amount"));
@@ -191,11 +188,11 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         this.add(this.stars);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        OMLabel Lbrightest = new OMLabel(this.bundle.getString("panel.oc.label.brightestStar"), SwingConstants.RIGHT,
+        OMLabel lBrightest = new OMLabel(this.bundle.getString("panel.oc.label.brightestStar"), SwingConstants.RIGHT,
                 false);
-        Lbrightest.setToolTipText(this.bundle.getString("panel.oc.tooltip.brightestStar"));
-        gridbag.setConstraints(Lbrightest, constraints);
-        this.add(Lbrightest);
+        lBrightest.setToolTipText(this.bundle.getString("panel.oc.tooltip.brightestStar"));
+        gridbag.setConstraints(lBrightest, constraints);
+        this.add(lBrightest);
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 45, 1);
         this.brightestStar = new JTextField();
         this.brightestStar.setToolTipText(this.bundle.getString("panel.oc.tooltip.brightestStar"));
@@ -204,10 +201,10 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
         this.add(this.brightestStar);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 5, 1);
-        OMLabel Lclass = new OMLabel(this.bundle.getString("panel.oc.label.classification"), false);
-        Lclass.setToolTipText(this.bundle.getString("panel.oc.tooltip.classification"));
-        gridbag.setConstraints(Lclass, constraints);
-        this.add(Lclass);
+        OMLabel lClass = new OMLabel(this.bundle.getString("panel.oc.label.classification"), false);
+        lClass.setToolTipText(this.bundle.getString("panel.oc.tooltip.classification"));
+        gridbag.setConstraints(lClass, constraints);
+        this.add(lClass);
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 45, 1);
         this.clusterClassification = new JTextField();
         this.clusterClassification.setToolTipText(this.bundle.getString("panel.oc.tooltip.classification"));
@@ -217,9 +214,9 @@ public class DeepSkyTargetOCPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 4, 1, 45, 93);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

@@ -244,7 +244,7 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
      */
     public Angle getSeparation() {
 
-        return this.separation;
+        return Angle.of(this.separation);
 
     }
 

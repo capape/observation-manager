@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -58,39 +60,21 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     private ISession session = null;
     private final IConfiguration configuration;
 
-    public DeepSkyFindingPanel(IConfiguration configuration, IFinding paramFinding, ISession s, Boolean editable)
+    public DeepSkyFindingPanel(IConfiguration configuration, DeepSkyFinding paramFinding, ISession s, Boolean editable)
             throws IllegalArgumentException {
 
         super(editable);
 
-        DeepSkyFinding result = this.assureIsDeepSkyFinding(paramFinding);
-        this.finding = result;
-        this.session = s;
+        this.finding = copyOrNull(paramFinding);
+        this.session = copyOrNull(s);
         this.configuration = configuration;
 
         this.createPanel();
 
         if (this.finding != null) {
-            this.finding = result;
             this.loadSchemaElement();
         }
 
-    }
-
-    private DeepSkyFinding assureIsDeepSkyFinding(IFinding paramFinding) {
-        if ((paramFinding != null) && !(paramFinding instanceof DeepSkyFinding)) {
-            // throw new IllegalArgumentException("Passed IFinding must derive from
-            // de.lehmannet.om.extension.deepSky.DeepSkyFinding\n");
-
-            // Create DeepSkyFinding from given IFinding (must be a IFinding instance due to
-            // parameter definition)
-            // Rating will be set to 99 (unknown)
-            DeepSkyFinding dsf = new DeepSkyFinding(paramFinding.getDescription(), 99);
-            dsf.setLanguage(paramFinding.getLanguage());
-
-            return dsf; // Update reference
-        }
-        return (DeepSkyFinding) paramFinding;
     }
 
     // ------
@@ -122,7 +106,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.finding;
+        return copyOrNull(this.finding);
 
     }
 
@@ -138,7 +122,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.createWarning(this.bundle.getString("panel.finding.warning.setRating"));
             return null;
         }
-        if (rating == (this.rating.getItemCount() - 1)) { // 99 = unknown rating
+        if (rating == this.rating.getItemCount() - 1) { // 99 = unknown rating
             rating = 99;
         }
         this.finding.setRating(rating);
@@ -220,7 +204,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding.setExtended(null);
         }
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 
@@ -246,7 +230,7 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding = (DeepSkyFinding) f;
         }
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 

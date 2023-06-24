@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -20,7 +22,6 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
@@ -41,33 +42,12 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
     private final TristateCheckbox equalBrightness = new TristateCheckbox();
     private final TristateCheckbox niceSurrounding = new TristateCheckbox();
 
-    public DeepSkyFindingDSPanel(IConfiguration configuration, IFinding paramFinding, ISession s, Boolean editable)
-            throws IllegalArgumentException {
+    public DeepSkyFindingDSPanel(IConfiguration configuration, DeepSkyFindingDS paramFinding, ISession s,
+            Boolean editable) throws IllegalArgumentException {
 
         super(configuration, paramFinding, s, editable);
 
-        if (paramFinding != null) {
-            if (!(paramFinding instanceof DeepSkyFindingDS)) {
-                // DeepSkyFindingPanel might already have converted the Finding into a
-                // DeepSkyFinding
-                paramFinding = super.finding;
-
-                try { // Might be old (< 1.5) DeepSkyFinding
-                    if (paramFinding != null) {
-                        this.finding = new DeepSkyFindingDS(paramFinding.getDescription(),
-                                ((DeepSkyFinding) paramFinding).getRating());
-                    } else { // Finding was something else. So recycle description and use 0 as default
-                             // rating
-                        this.finding = new DeepSkyFindingDS("", 0);
-                    }
-                } catch (ClassCastException cce) {
-                    throw new IllegalArgumentException(
-                            "Passed IFinding must derive from de.lehmannet.om.extension.deepSky.DeepSkyFindingDS\n");
-                }
-            } else {
-                this.finding = (DeepSkyFindingDS) paramFinding;
-            }
-        }
+        this.finding = copyOrNull(paramFinding);
 
         this.createDSPanel();
 
@@ -146,7 +126,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
         this.finding = findingDS;
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 
@@ -171,7 +151,7 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
             return null;
         }
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 
@@ -189,10 +169,10 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         // this.setLayout(gridbag); <-- already set by super class
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 7, 1, 1, 5, 22);
-        OMLabel LcolorMain = new OMLabel(this.bundle.getString("panel.findingDS.label.colormain"), false);
-        LcolorMain.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colormain"));
-        gridbag.setConstraints(LcolorMain, constraints);
-        this.add(LcolorMain);
+        OMLabel lColorMain = new OMLabel(this.bundle.getString("panel.findingDS.label.colormain"), false);
+        lColorMain.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colormain"));
+        gridbag.setConstraints(lColorMain, constraints);
+        this.add(lColorMain);
         ConstraintsBuilder.buildConstraints(constraints, 1, 7, 1, 1, 45, 22);
         if (this.isEditable()) {
             JComboBox<BoxItem> boxItemBox = this.getColorBox();
@@ -208,11 +188,11 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         this.add(this.colorMain);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 7, 1, 1, 5, 22);
-        OMLabel LcolorCompanion = new OMLabel(this.bundle.getString("panel.findingDS.label.colorcompanion"),
+        OMLabel lColorCompanion = new OMLabel(this.bundle.getString("panel.findingDS.label.colorcompanion"),
                 SwingConstants.RIGHT, false);
-        LcolorCompanion.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colorcompanion"));
-        gridbag.setConstraints(LcolorCompanion, constraints);
-        this.add(LcolorCompanion);
+        lColorCompanion.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.colorcompanion"));
+        gridbag.setConstraints(lColorCompanion, constraints);
+        this.add(lColorCompanion);
         ConstraintsBuilder.buildConstraints(constraints, 3, 7, 1, 1, 45, 22);
 
         if (this.isEditable()) {
@@ -230,20 +210,20 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
         this.add(this.colorCompanion);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 8, 1, 1, 5, 22);
-        OMLabel LequalBrightness = new OMLabel(this.bundle.getString("panel.findingDS.label.equalbrightness"), false);
-        LequalBrightness.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.equalbrightness"));
-        gridbag.setConstraints(LequalBrightness, constraints);
-        this.add(LequalBrightness);
+        OMLabel lEqualBrightness = new OMLabel(this.bundle.getString("panel.findingDS.label.equalbrightness"), false);
+        lEqualBrightness.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.equalbrightness"));
+        gridbag.setConstraints(lEqualBrightness, constraints);
+        this.add(lEqualBrightness);
         ConstraintsBuilder.buildConstraints(constraints, 1, 8, 3, 1, 45, 22);
         this.equalBrightness.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.equalbrightness"));
         gridbag.setConstraints(this.equalBrightness, constraints);
         this.add(this.equalBrightness);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 9, 1, 1, 5, 22);
-        OMLabel LniceSurrounding = new OMLabel(this.bundle.getString("panel.findingDS.label.nicesurrounding"), false);
-        LniceSurrounding.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.nicesurrounding"));
-        gridbag.setConstraints(LniceSurrounding, constraints);
-        this.add(LniceSurrounding);
+        OMLabel lNiceSurrounding = new OMLabel(this.bundle.getString("panel.findingDS.label.nicesurrounding"), false);
+        lNiceSurrounding.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.nicesurrounding"));
+        gridbag.setConstraints(lNiceSurrounding, constraints);
+        this.add(lNiceSurrounding);
         ConstraintsBuilder.buildConstraints(constraints, 1, 9, 3, 1, 45, 22);
         this.niceSurrounding.setToolTipText(this.bundle.getString("panel.findingDS.tooltip.nicesurrounding"));
         gridbag.setConstraints(this.niceSurrounding, constraints);
@@ -251,9 +231,9 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 10, 4, 1, 14, 87);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 
@@ -267,12 +247,12 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
             if (this.isEditable()) {
                 JComboBox<BoxItem> boxItemBox = getJComboBoxForMainColor();
-                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorMain().toLowerCase()));
+                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorMain().toLowerCase(Locale.getDefault())));
                 boxItemBox.setEditable(this.isEditable());
             } else {
                 JTextField textField = (JTextField) this.colorMain;
-                textField.setText(this.bundle
-                        .getString("panel.findingDS.dropdown.color." + findingDS.getColorMain().toLowerCase()));
+                textField.setText(this.bundle.getString(
+                        "panel.findingDS.dropdown.color." + findingDS.getColorMain().toLowerCase(Locale.getDefault())));
                 textField.setEditable(this.isEditable());
             }
 
@@ -282,12 +262,12 @@ public class DeepSkyFindingDSPanel extends DeepSkyFindingPanel {
 
             if (this.isEditable()) {
                 JComboBox<BoxItem> boxItemBox = getJComboBoxForColorCompanion();
-                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorCompanion().toLowerCase()));
+                boxItemBox.setSelectedItem(new BoxItem(findingDS.getColorCompanion().toLowerCase(Locale.getDefault())));
                 boxItemBox.setEditable(this.isEditable());
             } else {
                 JTextField textField = (JTextField) this.colorCompanion;
-                textField.setText(this.bundle
-                        .getString("panel.findingDS.dropdown.color." + findingDS.getColorCompanion().toLowerCase()));
+                textField.setText(this.bundle.getString("panel.findingDS.dropdown.color."
+                        + findingDS.getColorCompanion().toLowerCase(Locale.getDefault())));
                 textField.setEditable(this.isEditable());
             }
 
@@ -426,19 +406,38 @@ class BoxItem {
         ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
                 Locale.getDefault());
 
-        return bundle.getString("panel.findingDS.dropdown.color." + value.toLowerCase());
+        return bundle.getString("panel.findingDS.dropdown.color." + value.toLowerCase(Locale.getDefault()));
 
     }
 
     @Override
-    public boolean equals(Object o) {
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
 
-        if (o instanceof BoxItem) {
-            return o.equals(value);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-
-        return false;
-
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        BoxItem other = (BoxItem) obj;
+        if (value == null) {
+            if (other.value != null) {
+                return false;
+            }
+        } else if (!value.equals(other.value)) {
+            return false;
+        }
+        return true;
     }
 
     public String getValue() {

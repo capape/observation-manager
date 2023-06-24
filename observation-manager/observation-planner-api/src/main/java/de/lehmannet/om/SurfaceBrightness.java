@@ -271,4 +271,11 @@ public class SurfaceBrightness {
 
     }
 
+    public static final SurfaceBrightness of(SurfaceBrightness source) {
+        if (source == null) {
+            return null;
+        }
+        return new SurfaceBrightness(source.getValue(), source.getUnit());
+    }
+
 }

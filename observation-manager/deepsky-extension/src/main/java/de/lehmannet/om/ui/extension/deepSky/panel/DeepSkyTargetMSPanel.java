@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -63,17 +65,12 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetMSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetMSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetMS target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetMS)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetMS\n");
-        }
-
-        this.target = (DeepSkyTargetMS) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
 
@@ -126,7 +123,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -154,7 +151,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         List<String> components = Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
         this.target.setComponents(components);
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -183,7 +180,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             this.target = new DeepSkyTargetMS(name, datasource, components);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -256,21 +253,21 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
-        JLabel Lcomponents = new JLabel(this.bundle.getString("panel.ms.label.components"));
-        Lcomponents.setToolTipText(this.bundle.getString("panel.ms.tooltip.components"));
-        gridbag.setConstraints(Lcomponents, constraints);
-        this.add(Lcomponents);
+        JLabel lComponents = new JLabel(this.bundle.getString("panel.ms.label.components"));
+        lComponents.setToolTipText(this.bundle.getString("panel.ms.tooltip.components"));
+        gridbag.setConstraints(lComponents, constraints);
+        this.add(lComponents);
 
         int y = 3;
 
         if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 0, y++, 4, 1, 5, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            JLabel Lnote = new JLabel(this.bundle.getString("panel.ms.note.doubleStar"), SwingConstants.CENTER);
-            Lnote.setFont(new Font("Arial", Font.ITALIC, 10));
-            Lnote.setToolTipText(this.bundle.getString("panel.ms.note.doubleStar"));
-            gridbag.setConstraints(Lnote, constraints);
-            this.add(Lnote);
+            JLabel lNote = new JLabel(this.bundle.getString("panel.ms.note.doubleStar"), SwingConstants.CENTER);
+            lNote.setFont(new Font("Arial", Font.ITALIC, 10));
+            lNote.setToolTipText(this.bundle.getString("panel.ms.note.doubleStar"));
+            gridbag.setConstraints(lNote, constraints);
+            this.add(lNote);
         }
 
         ConstraintsBuilder.buildConstraints(constraints, 0, y++, 4, 1, 40, 81);

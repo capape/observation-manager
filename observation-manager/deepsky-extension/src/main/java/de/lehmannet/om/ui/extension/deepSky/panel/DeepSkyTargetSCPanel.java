@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -41,17 +43,12 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetSCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetSCPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetSC target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetSC)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetSC\n");
-        }
-
-        this.target = (DeepSkyTargetSC) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
 
@@ -66,7 +63,7 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -107,7 +104,7 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
             this.target.setPositionAngle(p);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -137,7 +134,7 @@ public class DeepSkyTargetSCPanel extends AbstractPanel {
             this.target = (DeepSkyTargetSC) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 

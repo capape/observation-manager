@@ -38,32 +38,43 @@ public class TargetPanelFactory {
         switch (xsiType) {
             case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
                 return new DeepSkyTargetDNPanel(context.getConfiguration(), context.getUserInterfaceHelper(),
-                        context.getModel(), target, editable);
+                        context.getModel(), target == null ? null : (DeepSkyTargetDN) target, editable);
             case DeepSkyTargetDS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetDSPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetDSPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetDS) target, editable);
             case DeepSkyTargetGC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGCPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetGCPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGC) target, editable);
             case DeepSkyTargetGN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGNPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetGNPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGN) target, editable);
             case DeepSkyTargetGX.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGXPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetGXPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGX) target, editable);
             case DeepSkyTargetOC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetOCPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetOCPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetOC) target, editable);
             case DeepSkyTargetPN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetPNPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetPNPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetPN) target, editable);
             case DeepSkyTargetQS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetQSPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetQSPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetQS) target, editable);
             case DeepSkyTargetNA.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetNAPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetNAPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetNA) target, editable);
             case DeepSkyTargetAS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetASPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetASPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetAS) target, editable);
             case DeepSkyTargetSC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetSCPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetSCPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetSC) target, editable);
             case DeepSkyTargetMS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetMSPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
+                return new DeepSkyTargetMSPanel(context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetMS) target, editable);
             case DeepSkyTargetCG.XML_XSI_TYPE_VALUE:
                 return new DeepSkyTargetCGPanel(context.getConfiguration(), context.getUserInterfaceHelper(),
-                        context.getModel(), target, editable);
+                        context.getModel(), target == null ? null : (DeepSkyTargetCG) target, editable);
             default:
                 throw new IllegalArgumentException("Invalid target panel");
         }

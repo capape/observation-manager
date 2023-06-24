@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -130,7 +132,7 @@ public class MessierCatalog implements IListableCatalog {
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
 
         } catch (FileNotFoundException fnfe) {
-            LOGGER.error("File not found: {}", file, fnfe);
+            LOGGER.error("File not found: {}. {}", toLogMessage(file.getName()), toLogMessage(fnfe.toString()));
             return false;
         }
 
@@ -173,7 +175,8 @@ public class MessierCatalog implements IListableCatalog {
                             double s = Double.parseDouble(separation);
                             ((DeepSkyTargetDS) target).setSeparation(new Angle(s, Angle.ARCSECOND));
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {} - Separation is: {} ", messierNumber, separation, nfe);
+                            LOGGER.error("Malformed entry: {} - Separation is: {} .{}", toLogMessage(messierNumber),
+                                    toLogMessage(separation), toLogMessage(nfe.toString()));
                         }
                     }
 
@@ -183,7 +186,8 @@ public class MessierCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetDS) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry:{}  - Position Angle is: {} ", messierNumber, positionAngle);
+                            LOGGER.error("Malformed entry:{}  - Position Angle is: {} ", toLogMessage(messierNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
 
@@ -193,8 +197,8 @@ public class MessierCatalog implements IListableCatalog {
                             double cs = Double.parseDouble(companionStar);
                             ((DeepSkyTargetDS) target).setCompanionMag(cs);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error(
-                                    "Malformed entry: " + messierNumber + " - Companion star mag is: " + companionStar);
+                            LOGGER.error("Malformed entry: {}- Companion star is: {}", toLogMessage(messierNumber),
+                                    toLogMessage(companionStar));
                         }
                     }
 
@@ -207,8 +211,8 @@ public class MessierCatalog implements IListableCatalog {
                             double bs = Double.parseDouble(brightestStar);
                             ((DeepSkyTargetGC) target).setMagnitude(bs);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error(
-                                    "Malformed entry: " + messierNumber + " - Brightest stars is: " + brightestStar);
+                            LOGGER.error("Malformed entry: {} - Brightest star is: ", toLogMessage(messierNumber),
+                                    toLogMessage(brightestStar));
                         }
                     }
 
@@ -230,7 +234,8 @@ public class MessierCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGN) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", messierNumber, positionAngle);
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(messierNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
                 } else if ("GX".equals(type)) {
@@ -247,7 +252,8 @@ public class MessierCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGX) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry:{}  - Position Angle is: {} ", messierNumber, positionAngle);
+                            LOGGER.error("Malformed entry:{}  - Position Angle is: {} ", toLogMessage(messierNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
                 } else if ("OC".equals(type)) {
@@ -259,7 +265,8 @@ public class MessierCatalog implements IListableCatalog {
                             double bs = Double.parseDouble(brightestStar);
                             ((DeepSkyTargetOC) target).setBrightestStar(bs);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {} - Brightest star is: ", messierNumber, brightestStar);
+                            LOGGER.error("Malformed entry: {} - Brightest star is: ", toLogMessage(messierNumber),
+                                    toLogMessage(brightestStar));
                         }
                     }
 
@@ -269,7 +276,8 @@ public class MessierCatalog implements IListableCatalog {
                             int a = Integer.parseInt(amount);
                             ((DeepSkyTargetOC) target).setAmountOfStars(a);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {} - Amount of stars is: ", messierNumber, amount);
+                            LOGGER.error("Malformed entry: {} - Amount of stars is: ", toLogMessage(messierNumber),
+                                    toLogMessage(amount));
                         }
                     }
 
@@ -286,7 +294,8 @@ public class MessierCatalog implements IListableCatalog {
                             double cs = Double.parseDouble(centralStar);
                             ((DeepSkyTargetPN) target).setCentralStarMagnitude(cs);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}- Central star is: ", messierNumber, centralStar);
+                            LOGGER.error("Malformed entry: {}- Central star is: {}", toLogMessage(messierNumber),
+                                    toLogMessage(centralStar));
                         }
                     }
                 } else if ("QS".equals(type)) {
@@ -329,7 +338,7 @@ public class MessierCatalog implements IListableCatalog {
             }
 
         } catch (IOException ioe) {
-            LOGGER.error("Error reading file {} ", file, ioe);
+            LOGGER.error("Error reading file {}- {}", toLogMessage(file.getName()), toLogMessage(ioe.toString()));
             return false;
         }
 

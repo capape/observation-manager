@@ -303,18 +303,18 @@ public abstract class DeepSkyTarget extends Target {
         Document ownerDoc = element.getOwnerDocument();
 
         // Get or create the container element
-        Element e_Targets = null;
+        Element eTargets = null;
         boolean created = false;
         NodeList nodeList = ownerDoc.getElementsByTagName(RootElement.XML_TARGET_CONTAINER);
         if (nodeList.getLength() == 0) { // we're the first element. Create container element
-            e_Targets = ownerDoc.createElement(RootElement.XML_TARGET_CONTAINER);
+            eTargets = ownerDoc.createElement(RootElement.XML_TARGET_CONTAINER);
             created = true;
         } else {
-            e_Targets = (Element) nodeList.item(0); // there should be only one container element
+            eTargets = (Element) nodeList.item(0); // there should be only one container element
         }
 
         // Check if this element doesn't exist so far
-        nodeList = e_Targets.getElementsByTagName(ITarget.XML_ELEMENT_TARGET);
+        nodeList = eTargets.getElementsByTagName(ITarget.XML_ELEMENT_TARGET);
         if (nodeList.getLength() > 0) {
             Node currentNode = null;
             NamedNodeMap attributes = null;
@@ -333,39 +333,39 @@ public abstract class DeepSkyTarget extends Target {
         }
 
         // Create the new target element
-        Element e_Target = this.createXmlTargetElement(e_Targets);
-        e_Targets.appendChild(e_Target);
+        Element eTarget = this.createXmlTargetElement(eTargets);
+        eTargets.appendChild(eTarget);
 
         // Set XSI:Type
-        e_Target.setAttribute(ITarget.XML_XSI_TYPE, xsiType);
+        eTarget.setAttribute(ITarget.XML_XSI_TYPE, xsiType);
 
         if (smallDiameter != null) {
-            Element e_SmallDiameter = ownerDoc.createElement(XML_ELEMENT_SMALLDIAMETER);
-            e_SmallDiameter = smallDiameter.setToXmlElement(e_SmallDiameter);
+            Element eSmallDiameter = ownerDoc.createElement(XML_ELEMENT_SMALLDIAMETER);
+            eSmallDiameter = smallDiameter.setToXmlElement(eSmallDiameter);
 
-            e_Target.appendChild(e_SmallDiameter);
+            eTarget.appendChild(eSmallDiameter);
         }
 
         if (largeDiameter != null) {
-            Element e_LargeDiameter = ownerDoc.createElement(XML_ELEMENT_LARGEDIAMETER);
-            e_LargeDiameter = largeDiameter.setToXmlElement(e_LargeDiameter);
+            Element eLargeDiameter = ownerDoc.createElement(XML_ELEMENT_LARGEDIAMETER);
+            eLargeDiameter = largeDiameter.setToXmlElement(eLargeDiameter);
 
-            e_Target.appendChild(e_LargeDiameter);
+            eTarget.appendChild(eLargeDiameter);
         }
 
         if (!Float.isNaN(visibleMagnitude)) {
-            Element e_VisMag = ownerDoc.createElement(XML_ELEMENT_VISIBLEMAGNITUDE);
-            Node n_VisMagText = ownerDoc.createTextNode(Float.toString(this.getVisibleMagnitude()));
-            e_VisMag.appendChild(n_VisMagText);
+            Element eVisMag = ownerDoc.createElement(XML_ELEMENT_VISIBLEMAGNITUDE);
+            Node nVisMagText = ownerDoc.createTextNode(Float.toString(this.getVisibleMagnitude()));
+            eVisMag.appendChild(nVisMagText);
 
-            e_Target.appendChild(e_VisMag);
+            eTarget.appendChild(eVisMag);
         }
 
         if (surfaceBrightness != null) {
-            Element e_SurfBr = ownerDoc.createElement(XML_ELEMENT_SURFACEBRIGHTNESS);
-            e_SurfBr = surfaceBrightness.setToXmlElement(e_SurfBr);
+            Element eSurfBr = ownerDoc.createElement(XML_ELEMENT_SURFACEBRIGHTNESS);
+            eSurfBr = surfaceBrightness.setToXmlElement(eSurfBr);
 
-            e_Target.appendChild(e_SurfBr);
+            eTarget.appendChild(eSurfBr);
         }
 
         // If container element was created, add container here so that XML sequence
@@ -374,10 +374,10 @@ public abstract class DeepSkyTarget extends Target {
         // be located before
         // observers and sites container
         if (created) {
-            ownerDoc.getDocumentElement().appendChild(e_Targets);
+            ownerDoc.getDocumentElement().appendChild(eTargets);
         }
 
-        return e_Target;
+        return eTarget;
 
     }
 
@@ -394,7 +394,7 @@ public abstract class DeepSkyTarget extends Target {
      */
     public Angle getLargeDiameter() {
 
-        return largeDiameter;
+        return Angle.of(largeDiameter);
 
     }
 
@@ -407,7 +407,7 @@ public abstract class DeepSkyTarget extends Target {
      */
     public Angle getSmallDiameter() {
 
-        return smallDiameter;
+        return Angle.of(smallDiameter);
 
     }
 
@@ -419,7 +419,7 @@ public abstract class DeepSkyTarget extends Target {
      */
     public SurfaceBrightness getSurfaceBrightness() {
 
-        return surfaceBrightness;
+        return SurfaceBrightness.of(surfaceBrightness);
 
     }
 
@@ -449,7 +449,7 @@ public abstract class DeepSkyTarget extends Target {
             }
         }
 
-        this.largeDiameter = largeDiameter;
+        this.largeDiameter = Angle.of(largeDiameter);
 
     }
 
@@ -467,7 +467,7 @@ public abstract class DeepSkyTarget extends Target {
             }
         }
 
-        this.smallDiameter = smallDiameter;
+        this.smallDiameter = Angle.of(smallDiameter);
 
     }
 
@@ -479,7 +479,7 @@ public abstract class DeepSkyTarget extends Target {
      */
     public void setSurfaceBrightness(SurfaceBrightness surfaceBrightness) {
 
-        this.surfaceBrightness = surfaceBrightness;
+        this.surfaceBrightness = SurfaceBrightness.of(surfaceBrightness);
 
     }
 

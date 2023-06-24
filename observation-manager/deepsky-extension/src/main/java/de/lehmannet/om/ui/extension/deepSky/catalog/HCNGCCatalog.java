@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -113,7 +115,7 @@ public class HCNGCCatalog implements IListableCatalog {
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
 
         } catch (FileNotFoundException fnfe) {
-            LOGGER.error("File not found: {}", file, fnfe);
+            LOGGER.error("File not found: {}. {}", toLogMessage(file.getName()), toLogMessage(fnfe.toString()));
             return false;
         }
 
@@ -201,7 +203,7 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetDS) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", hcngcNumber, positionAngle);
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber), toLogMessage(positionAngle));
                         }
                     }
 
@@ -213,7 +215,7 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetAS) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", hcngcNumber, positionAngle);
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber), toLogMessage(positionAngle));
                         }
                     }
 
@@ -236,7 +238,7 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGX) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", hcngcNumber, positionAngle);
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ",  toLogMessage(hcngcNumber), toLogMessage(positionAngle));
                         }
                     }
 
@@ -267,7 +269,7 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGN) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", hcngcNumber, positionAngle);
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ",  toLogMessage(hcngcNumber), toLogMessage(positionAngle));
                         }
                     }
 
@@ -370,7 +372,7 @@ public class HCNGCCatalog implements IListableCatalog {
 
             }
         } catch (IOException ioe) {
-            LOGGER.error("Error reading file {} ", file, ioe);
+            LOGGER.error("Error reading file {}. {} ", toLogMessage(file.getName()), toLogMessage(ioe.toString()));
             return false;
         }
 

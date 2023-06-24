@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -117,9 +119,9 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
         Reader reader = null;
 
         try {
-            reader = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+            reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         } catch (FileNotFoundException fnfe) {
-            LOG.error("File not found: {}", file);
+            LOG.error("File not found: {}", toLogMessage(file.getName()));
             return false;
         }
 
@@ -153,7 +155,8 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
             try {
                 line = bufferedReader.readLine();
             } catch (IOException ioe) {
-                LOGGER.error("Error reading first line from: {}. Catalog cannot be loaded.", file, ioe);
+                LOGGER.error("Error reading first line from: {}. Catalog cannot be loaded. {}",
+                        toLogMessage(file.getName()), toLogMessage(ioe.toString()));
                 return false;
             }
 

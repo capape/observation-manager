@@ -39,31 +39,44 @@ public class TargetDialogFactory {
 
         switch (xsiType) {
             case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetDNDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetDNDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetDN) target);
             case DeepSkyTargetDS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetDSDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetDSDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetDS) target);
             case DeepSkyTargetGC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGCDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetGCDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGC) target);
             case DeepSkyTargetGN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGNDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetGNDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGN) target);
             case DeepSkyTargetGX.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetGXDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetGXDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetGX) target);
             case DeepSkyTargetOC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetOCDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetOCDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetOC) target);
             case DeepSkyTargetPN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetPNDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetPNDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetPN) target);
             case DeepSkyTargetQS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetQSDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetQSDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetQS) target);
             case DeepSkyTargetNA.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetNADialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetNADialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetNA) target);
             case DeepSkyTargetAS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetASDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetASDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetAS) target);
             case DeepSkyTargetSC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetSCDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetSCDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetSC) target);
             case DeepSkyTargetMS.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetMSDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetMSDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetMS) target);
             case DeepSkyTargetCG.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetCGDialog(parent, context.getUserInterfaceHelper(), context.getModel(), target);
+                return new DeepSkyTargetCGDialog(parent, context.getUserInterfaceHelper(), context.getModel(),
+                        target == null ? null : (DeepSkyTargetCG) target);
             default:
                 throw new IllegalArgumentException("Invalid dialog type");
         }

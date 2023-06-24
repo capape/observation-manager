@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -20,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.extension.deepSky.DeepSkyFinding;
@@ -45,34 +46,15 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     private final String imagePath;
     private final InstallDir installDir;
 
-    public DeepSkyFindingOCPanel(IConfiguration configuration, InstallDir installDir, IFinding paramFinding, ISession s,
-            Boolean editable) throws IllegalArgumentException {
+    public DeepSkyFindingOCPanel(IConfiguration configuration, InstallDir installDir, DeepSkyFindingOC paramFinding,
+            ISession s, Boolean editable) throws IllegalArgumentException {
 
         super(configuration, paramFinding, s, editable);
 
         this.installDir = installDir;
-        if (paramFinding != null) {
-            if (!(paramFinding instanceof DeepSkyFindingOC)) {
-                // DeepSkyFindingPanel might already have converted the Finding into a
-                // DeepSkyFinding
-                paramFinding = this.finding;
 
-                try { // Might be old (< 1.5) DeepSkyFinding
-                    if (paramFinding != null) {
-                        this.finding = new DeepSkyFindingOC(paramFinding.getDescription(),
-                                ((DeepSkyFinding) paramFinding).getRating());
-                    } else { // Finding was something else. So recycle description and use 99 as default
-                             // rating
-                        this.finding = new DeepSkyFindingOC("", 99);
-                    }
-                } catch (ClassCastException cce) {
-                    throw new IllegalArgumentException(
-                            "Passed IFinding must derive from de.lehmannet.om.extension.deepSky.DeepSkyFindingOC\n");
-                }
-            } else {
-                this.finding = (DeepSkyFindingOC) paramFinding;
-            }
-        }
+        this.finding = copyOrNull(paramFinding);
+
         this.imagePath = this.installDir.getPathForFolder("images") + "deepSky" + File.separatorChar + "clusterTypes"
                 + File.separatorChar;
 
@@ -190,7 +172,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
         this.finding = finding;
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 
@@ -215,7 +197,7 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             return null;
         }
 
-        return this.finding;
+        return this.finding.copy();
 
     }
 

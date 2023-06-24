@@ -109,6 +109,8 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default:
+                break;
         }
 
         return value;
@@ -118,7 +120,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -135,6 +137,10 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             }
             case 3: {
                 name = DeepSkyTableModel.bundle.getString("catalog.table.columnHeader.dec");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

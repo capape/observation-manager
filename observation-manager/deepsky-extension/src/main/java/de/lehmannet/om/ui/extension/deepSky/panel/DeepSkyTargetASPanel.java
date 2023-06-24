@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
@@ -42,17 +44,12 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetASPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
+    public DeepSkyTargetASPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, DeepSkyTargetAS target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof DeepSkyTargetAS)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.deepSky.DeepSkyTargetAS\n");
-        }
-
-        this.target = (DeepSkyTargetAS) target;
+        this.target = copyOrNull(target);
         this.uiHelper = uiHelper;
         this.model = model;
 
@@ -67,7 +64,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -108,7 +105,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
             this.target.setPositionAngle(p);
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -138,7 +135,7 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
             this.target = (DeepSkyTargetAS) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -171,10 +168,10 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
         this.add(seperator1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 5, 1);
-        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.as.label.posAngle"), false);
-        LpositionAngle.setToolTipText(this.bundle.getString("panel.as.tooltip.posAngle"));
-        gridbag.setConstraints(LpositionAngle, constraints);
-        this.add(LpositionAngle);
+        OMLabel lPositionAngle = new OMLabel(this.bundle.getString("panel.as.label.posAngle"), false);
+        lPositionAngle.setToolTipText(this.bundle.getString("panel.as.tooltip.posAngle"));
+        gridbag.setConstraints(lPositionAngle, constraints);
+        this.add(lPositionAngle);
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 2, 1, 45, 1);
         this.positionAngle = new JTextField(3);
         this.positionAngle.setToolTipText(this.bundle.getString("panel.as.tooltip.posAngle"));
@@ -183,9 +180,9 @@ public class DeepSkyTargetASPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 4, 1, 45, 93);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 
