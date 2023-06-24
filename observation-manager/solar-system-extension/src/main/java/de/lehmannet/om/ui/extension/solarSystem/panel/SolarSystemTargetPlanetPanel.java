@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -41,18 +43,13 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
     private final ObservationManagerModel model;
 
-    public SolarSystemTargetPlanetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            IObservation o, Boolean editable) throws IllegalArgumentException {
+    public SolarSystemTargetPlanetPanel(IConfiguration configuration, ObservationManagerModel model,
+            SolarSystemTargetPlanet target, IObservation o, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof SolarSystemTargetPlanet)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet\n");
-        }
-
-        this.target = (SolarSystemTargetPlanet) target;
-        this.observation = o;
+        this.target = copyOrNull(target);
+        this.observation = copyOrNull(o);
         this.configuration = configuration;
         this.model = model;
         this.createPanel();
@@ -62,7 +59,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -82,7 +79,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
             this.target = (SolarSystemTargetPlanet) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -107,7 +104,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
         // Set all other fields
         this.updateSchemaElement();
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -122,7 +119,7 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
                 true);
-        if ((!this.isEditable()) && (this.observation != null)) {
+        if (!this.isEditable() && this.observation != null) {
             this.targetContainer
                     .setPosition(Ephemerides.getPosition(this.mapPlanetKeysForEphemerides(this.target.getName()),
                             this.observation.getBegin().toZonedDateTime()));
@@ -132,9 +129,9 @@ public class SolarSystemTargetPlanetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

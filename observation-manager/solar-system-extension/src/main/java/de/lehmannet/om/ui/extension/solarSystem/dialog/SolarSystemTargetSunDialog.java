@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -25,7 +26,7 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
     private static final long serialVersionUID = -8081855396371032209L;
 
     public SolarSystemTargetSunDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            IObservation o, ITarget editableTarget) {
+            IObservation o, SolarSystemTargetSun editableTarget) {
 
         super(om, model, uiHelper,
                 new SolarSystemTargetSunPanel(model.getConfiguration(), model, editableTarget, o, Boolean.TRUE));

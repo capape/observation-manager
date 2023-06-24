@@ -29,15 +29,6 @@ public class SolarSystemCatalog implements IListableCatalog {
 
     private static final String DATASOURCE_ORIGIN = "ObservationManager - SolarSystem Catalog 1.0";
 
-    // Key IDs for major solar system bodies
-    /*
-     * public static final String KEY_SUN = "SUN"; public static final String KEY_MERCURY = "MERCURY"; public static
-     * final String KEY_VENUS = "VENUS"; public static final String KEY_EARTH = "EARTH"; public static final String
-     * KEY_MOON = "MOON"; public static final String KEY_MARS = "MARS"; public static final String KEY_JUPITER =
-     * "JUPITER"; public static final String KEY_SATURN = "SATURN"; public static final String KEY_URANUS = "URANUS";
-     * public static final String KEY_NEPTUNE = "NEPTUNE";
-     */
-
     // Key = Name
     // Value = Target
     private final Map<String, ITarget> map = new LinkedHashMap<>();

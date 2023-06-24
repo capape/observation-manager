@@ -38,17 +38,12 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private ObservationManagerModel model;
 
-    public SolarSystemTargetCometPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public SolarSystemTargetCometPanel(IConfiguration configuration, ObservationManagerModel model,
+            SolarSystemTargetComet target, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof SolarSystemTargetComet)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet\n");
-        }
-
-        this.target = (SolarSystemTargetComet) target;
+        this.target = copyOrNull(target);
         this.configuration = configuration;
         this.model = model;
         this.createPanel();

@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -25,7 +26,7 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
     private static final long serialVersionUID = 11451630089774356L;
 
     public SolarSystemTargetMoonDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            IObservation o, ITarget target) {
+            IObservation o, SolarSystemTargetMoon target) {
 
         super(om, model, uiHelper,
                 new SolarSystemTargetMoonPanel(model.getConfiguration(), model, target, o, Boolean.TRUE));

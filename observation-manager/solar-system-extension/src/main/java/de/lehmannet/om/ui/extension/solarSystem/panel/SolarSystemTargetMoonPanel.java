@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -40,18 +42,13 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private ObservationManagerModel model;
 
-    public SolarSystemTargetMoonPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            IObservation o, Boolean editable) throws IllegalArgumentException {
+    public SolarSystemTargetMoonPanel(IConfiguration configuration, ObservationManagerModel model,
+            SolarSystemTargetMoon target, IObservation o, Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof SolarSystemTargetMoon)) {
-            throw new IllegalArgumentException(
-                    "Passed ITarget must derive from de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon\n");
-        }
-
-        this.target = (SolarSystemTargetMoon) target;
-        this.observation = o;
+        this.target = copyOrNull(target);
+        this.observation = copyOrNull(o);
         this.configuration = configuration;
         this.model = model;
 
@@ -62,7 +59,7 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return copyOrNull(this.target);
 
     }
 
@@ -82,7 +79,7 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
             this.target = (SolarSystemTargetMoon) t;
         }
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -107,7 +104,7 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
         // Set all other fields
         this.updateSchemaElement();
 
-        return this.target;
+        return this.target.copy();
 
     }
 
@@ -134,9 +131,9 @@ public class SolarSystemTargetMoonPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 4, 1, 45, 99);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 

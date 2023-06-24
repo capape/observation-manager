@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.solarSystem.SolarSystemTargetPlanet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -25,7 +26,7 @@ public class SolarSystemTargetPlanetDialog extends AbstractDialog implements ITa
     private static final long serialVersionUID = -1824120647459055098L;
 
     public SolarSystemTargetPlanetDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            ITarget target, IObservation observation) {
+            SolarSystemTargetPlanet target, IObservation observation) {
 
         super(om, model, uiHelper,
                 new SolarSystemTargetPlanetPanel(model.getConfiguration(), model, target, observation, Boolean.TRUE));

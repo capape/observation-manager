@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
@@ -24,7 +25,7 @@ public class SolarSystemTargetCometDialog extends AbstractDialog implements ITar
     private static final long serialVersionUID = -4143755484166642959L;
 
     public SolarSystemTargetCometDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            ITarget editableTarget) {
+            SolarSystemTargetComet editableTarget) {
 
         super(om, model, uiHelper,
                 new SolarSystemTargetCometPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
