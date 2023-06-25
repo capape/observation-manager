@@ -95,7 +95,11 @@ public class UpdateChecker implements Runnable {
                         currentLine = in.readLine();
 
                         // Check whether line contains any data
+<<<<<<< HEAD
                         if (StringUtils.isBlank(currentLine)) {
+=======
+                        if ((currentLine == null) || ("".equals(currentLine.trim()))) {
+>>>>>>> f5bc164 (Fixes memory leaks)
                             continue;
                         }
 

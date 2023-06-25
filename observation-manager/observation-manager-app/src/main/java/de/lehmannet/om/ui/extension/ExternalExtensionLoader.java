@@ -304,7 +304,6 @@ public class ExternalExtensionLoader {
 
             fos = new FileOutputStream(file);
             int sz = (int) ze.getSize();
-
             byte[] buf = new byte[N];
             int ln = 0;
             try {

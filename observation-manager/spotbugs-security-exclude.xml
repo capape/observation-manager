@@ -59,6 +59,7 @@
         <Field name="extLoader" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
+<<<<<<< HEAD
 
     <Match>
         <Field name="item" />
@@ -92,6 +93,16 @@
 
     <Match>
         <Field name="tableHeader" />
+=======
+    <Match>        
+        <Field type="javax.swing.JTextArea"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>  
+
+  
+    <Match>      
+        <Field type="java.awt.Image"/>
+>>>>>>> f5bc164 (Fixes memory leaks)
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
       <Match>      
@@ -115,6 +126,7 @@
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
+<<<<<<< HEAD
     <Match>
         <Field name="tableModel" />
         <Bug pattern="EI_EXPOSE_REP2" />
@@ -220,4 +232,30 @@
         <Bug pattern="URLCONNECTION_SSRF_FD"/>
     </Match>
 
+=======
+    <!-- Temporary to check change to inmutable -->
+    <Match>        
+        <Field type="de.lehmannet.om.ui.navigation.ObservationManager"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>  
+
+    <Match>        
+        <Field type="de.lehmannet.om.ui.cache.UIDataCache"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>  
+
+    <Match>        
+        <Field type="de.lehmannet.om.ui.extension.ExtensionLoader"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>  
+    <Match>        
+        <Method returns="de.lehmannet.om.ui.util.Configurationl"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>        
+        <Method returns="de.lehmannet.om.ui.util.IConfiguration"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+>>>>>>> f5bc164 (Fixes memory leaks)
 </FindBugsFilter>
