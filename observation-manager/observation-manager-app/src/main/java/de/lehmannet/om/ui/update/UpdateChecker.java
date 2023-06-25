@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,7 +83,7 @@ public class UpdateChecker implements Runnable {
                 throw new ConnectException("HTTP error while connecting to host for update");
             } else {
                 try (BufferedReader in = new BufferedReader(
-                        new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8")))) {
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
                     String currentLine = null;
 
                     URL downloadURL = null;

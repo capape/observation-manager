@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -469,7 +469,7 @@ public class RootElement {
         DOMSource source = new DOMSource(this.getDocument());
 
         try {
-            FileWriter writer = new FileWriter(xmlFile, Charset.forName("UTF-8"));
+            FileWriter writer = new FileWriter(xmlFile, StandardCharsets.UTF_8);
             StreamResult result = new StreamResult(writer);
             Transformer transformer = createTransformer();
             transformer.transform(source, result);

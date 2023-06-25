@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,8 @@ public class StarchartSocket extends Socket {
 
         super(ip, port);
 
-        this.out = new PrintWriter(super.getOutputStream(), true, Charset.forName("UTF-8"));
-        this.in = new BufferedReader(new InputStreamReader(super.getInputStream(), Charset.forName("UTF-8")));
+        this.out = new PrintWriter(super.getOutputStream(), true, StandardCharsets.UTF_8);
+        this.in = new BufferedReader(new InputStreamReader(super.getInputStream(), StandardCharsets.UTF_8));
 
         String response = this.in.readLine();
 

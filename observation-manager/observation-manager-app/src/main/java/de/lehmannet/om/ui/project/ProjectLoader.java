@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
@@ -292,7 +292,7 @@ class ProjectLoaderRunnable implements Runnable {
         ITarget target = null;
         String name = null;
         try (FileInputStream fis = new FileInputStream(projectFile);
-                InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+                InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
                 BufferedReader reader = new BufferedReader(isr);) {
 
             String line = null;

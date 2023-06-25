@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -71,7 +71,7 @@ public class LogDialog extends OMDialog implements ActionListener {
         if (this.logfile != null) {
             Reader reader = null;
             try {
-                reader = new InputStreamReader(new FileInputStream(this.logfile), Charset.forName("UTF-8"));
+                reader = new InputStreamReader(new FileInputStream(this.logfile), StandardCharsets.UTF_8);
                 this.bufferedReader = new BufferedReader(reader);
             } catch (FileNotFoundException fnfe) {
                 LOGGER.error("File not found: {} ", this.logfile, fnfe);
