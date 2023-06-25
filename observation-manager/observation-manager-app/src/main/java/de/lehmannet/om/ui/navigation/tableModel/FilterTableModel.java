@@ -10,7 +10,9 @@ package de.lehmannet.om.ui.navigation.tableModel;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IFilter;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.panel.FilterPanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
@@ -21,9 +23,9 @@ public class FilterTableModel extends AbstractSchemaTableModel {
     private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
-    public FilterTableModel(IFilter[] filter) {
+    public FilterTableModel(IFilter[] filters) {
 
-        this.elements = filter;
+        this.elements = ICloneable.copyToList(filters).toArray(new ISchemaElement[filters.length]);
 
     }
 

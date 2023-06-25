@@ -109,7 +109,7 @@ public class TableView extends JPanel {
 
         // this.observationManager = om;
 
-        this.abstractSchemaTableModel = new ObservationTableModel(null, this.observationManager);
+        this.abstractSchemaTableModel = new ObservationTableModel(new IObservation[0], this.observationManager);
         this.sorter = new TableSorter(null);
         this.table = new JTable(this.abstractSchemaTableModel);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -470,7 +470,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new ObserverTableModel(null));
+            this.table.setModel(new ObserverTableModel(new IObserver[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -526,7 +526,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new SiteTableModel(null));
+            this.table.setModel(new SiteTableModel(new ISite[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -554,7 +554,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new ScopeTableModel(null));
+            this.table.setModel(new ScopeTableModel(new IScope[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -582,7 +582,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new SessionTableModel(null));
+            this.table.setModel(new SessionTableModel(new ISession[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -610,7 +610,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new ImagerTableModel(null));
+            this.table.setModel(new ImagerTableModel(new IImager[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -638,7 +638,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new FilterTableModel(null));
+            this.table.setModel(new FilterTableModel(new IFilter[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -666,7 +666,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new EyepieceTableModel(null));
+            this.table.setModel(new EyepieceTableModel(new IEyepiece[0]));
             this.observationManager.getItemView().clear();
         }
 
@@ -694,7 +694,7 @@ public class TableView extends JPanel {
             this.updateTable(selected);
         } else {
             // Nothing to show...remove tableModel, and clear ItemView
-            this.table.setModel(new LensTableModel(null));
+            this.table.setModel(new LensTableModel(new ILens[0]));
             this.observationManager.getItemView().clear();
         }
 

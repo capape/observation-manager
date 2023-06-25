@@ -9,7 +9,9 @@ package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.util.Iterator;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
 
 public class ObserverTableModel extends AbstractSchemaTableModel {
 
@@ -19,9 +21,9 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
     private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Observer";
 
-    public ObserverTableModel(IObserver[] observer) {
+    public ObserverTableModel(IObserver[] observers) {
 
-        this.elements = observer;
+        this.elements = ICloneable.copyToList(observers).toArray(new ISchemaElement[observers.length]);
 
     }
 

@@ -10,7 +10,9 @@ package de.lehmannet.om.ui.navigation.tableModel;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ILens;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LensTableModel extends AbstractSchemaTableModel {
@@ -27,7 +29,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
 
     public LensTableModel(ILens[] lenses) {
 
-        this.elements = lenses;
+        this.elements = ICloneable.copyToList(lenses).toArray(new ISchemaElement[lenses.length]);
 
     }
 

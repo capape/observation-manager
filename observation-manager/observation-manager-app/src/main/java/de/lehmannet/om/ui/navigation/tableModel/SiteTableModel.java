@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import de.lehmannet.om.Angle;
+import de.lehmannet.om.ICloneable;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.Site;
 
@@ -24,7 +26,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
 
     public SiteTableModel(ISite[] sites) {
 
-        this.elements = sites;
+        this.elements = ICloneable.copyToList(sites).toArray(new ISchemaElement[sites.length]);
 
     }
 

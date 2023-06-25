@@ -90,7 +90,6 @@ public final class ObservationManager extends JFrame implements IObservationMana
     // Variables --------------------------------------------------------------
     // ---------
 
-
     private boolean changed = false; // Indicates if changed where made after load.
     private Boolean nightVisionOnStartup;
     private ItemView item;

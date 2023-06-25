@@ -63,7 +63,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Sorter";
 
-    private AbstractSchemaTableModel tableModel;
+    private transient AbstractSchemaTableModel tableModel;
 
     private static final int DESCENDING = -1;
     private static final int NOT_SORTED = 0;

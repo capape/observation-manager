@@ -9,7 +9,9 @@ package de.lehmannet.om.ui.navigation.tableModel;
 
 import java.time.OffsetDateTime;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.Scope;
 import de.lehmannet.om.Site;
@@ -31,7 +33,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     public ObservationTableModel(IObservation[] observations, ObservationManager om) {
 
         this.om = om;
-        this.elements = observations;
+        this.elements = ICloneable.copyToList(observations).toArray(new ISchemaElement[observations.length]);
 
     }
 

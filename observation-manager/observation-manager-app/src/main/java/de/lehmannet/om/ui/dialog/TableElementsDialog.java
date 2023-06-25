@@ -10,6 +10,7 @@ package de.lehmannet.om.ui.dialog;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -77,17 +78,16 @@ class TableElementsPanel extends AbstractPanel {
         ListSelectionModel lsm = this.table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
-            if (e.getValueIsAdjusting())
+            if (e.getValueIsAdjusting()) {
                 return;
+            }
 
             ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
-            if (lsm1.isSelectionEmpty()) {
-                // no rows are selected
-            } else {
+            if (!lsm1.isSelectionEmpty()) {
                 int selectedRow = lsm1.getMinSelectionIndex();
-                ISchemaElement se1 = TableElementsPanel.this.model.getSchemaElement(selectedRow);
+                ISchemaElement se1 = this.model.getSchemaElement(selectedRow);
                 if (se1 != null) {
-                    TableElementsPanel.this.om.update(se1);
+                    this.om.update(se1);
                 }
             }
         });
@@ -149,9 +149,9 @@ class TableElementsPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel Lelements = new JLabel(AbstractDialog.bundle.getString("dialog.tableElements.label.elements"));
-        gridbag.setConstraints(Lelements, constraints);
-        this.add(Lelements);
+        JLabel lElements = new JLabel(AbstractDialog.bundle.getString("dialog.tableElements.label.elements"));
+        gridbag.setConstraints(lElements, constraints);
+        this.add(lElements);
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 5, 45, 10);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(this.scrollTable, constraints);
@@ -160,9 +160,9 @@ class TableElementsPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 6, 1, 1, 50, 89);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel lFill = new JLabel("");
+        gridbag.setConstraints(lFill, constraints);
+        this.add(lFill);
 
     }
 
@@ -177,7 +177,8 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
     public SimpleSchemaElementModel(ISchemaElement[] elements) {
 
-        this.elements = elements;
+        this.elements = elements == null ? null
+                : Arrays.asList(elements).stream().toList().toArray(new ISchemaElement[elements.length]);
 
     }
 

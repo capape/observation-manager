@@ -12,7 +12,9 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.Site;
 
@@ -24,9 +26,9 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     private static final long serialVersionUID = 1L;
     private static final String MODEL_ID = "Session";
 
-    public SessionTableModel(ISession[] session) {
+    public SessionTableModel(ISession[] sessions) {
 
-        this.elements = session;
+        this.elements = ICloneable.copyToList(sessions).toArray(new ISchemaElement[sessions.length]);
 
     }
 

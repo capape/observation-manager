@@ -11,7 +11,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.Angle;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class EyepieceTableModel extends AbstractSchemaTableModel {
@@ -26,9 +28,9 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
     private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
             Locale.getDefault());
 
-    public EyepieceTableModel(IEyepiece[] eyepiece) {
+    public EyepieceTableModel(IEyepiece[] eyepieces) {
 
-        this.elements = eyepiece;
+        this.elements = ICloneable.copyToList(eyepieces).toArray(new ISchemaElement[eyepieces.length]);
 
     }
 

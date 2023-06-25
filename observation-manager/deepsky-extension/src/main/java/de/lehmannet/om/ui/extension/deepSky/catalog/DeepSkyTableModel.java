@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ICloneable;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
@@ -35,7 +37,7 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             targets[i] = catalog.getTarget(index[i]);
         }
 
-        this.elements = targets;
+        this.elements = ICloneable.copyToList(targets).toArray(new ISchemaElement[targets.length]);
 
     }
 

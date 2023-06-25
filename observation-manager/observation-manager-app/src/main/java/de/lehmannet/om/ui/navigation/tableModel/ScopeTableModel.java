@@ -8,6 +8,8 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
 import de.lehmannet.om.Angle;
+import de.lehmannet.om.ICloneable;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.IScope;
 
 public class ScopeTableModel extends AbstractSchemaTableModel {
@@ -20,7 +22,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
 
     public ScopeTableModel(IScope[] scopes) {
 
-        this.elements = scopes;
+        this.elements = ICloneable.copyToList(scopes).toArray(new ISchemaElement[scopes.length]);
 
     }
 

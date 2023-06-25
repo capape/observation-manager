@@ -7,7 +7,9 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IImager;
+import de.lehmannet.om.ISchemaElement;
 
 public class ImagerTableModel extends AbstractSchemaTableModel {
 
@@ -15,7 +17,7 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
 
     public ImagerTableModel(IImager[] imagers) {
 
-        this.elements = imagers;
+        this.elements = ICloneable.copyToList(imagers).toArray(new ISchemaElement[imagers.length]);
 
     }
 
