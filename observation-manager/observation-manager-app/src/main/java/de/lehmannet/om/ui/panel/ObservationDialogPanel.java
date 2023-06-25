@@ -2066,7 +2066,6 @@ class SeeingBoxEntry {
         
         return value == other.value;
     }
-    
 
     public int getValue() {
 
