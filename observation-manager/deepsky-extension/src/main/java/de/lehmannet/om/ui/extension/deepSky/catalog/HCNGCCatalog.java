@@ -203,7 +203,8 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetDS) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber), toLogMessage(positionAngle));
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
 
@@ -215,7 +216,8 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetAS) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber), toLogMessage(positionAngle));
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
 
@@ -238,7 +240,8 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGX) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ",  toLogMessage(hcngcNumber), toLogMessage(positionAngle));
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
 
@@ -269,7 +272,8 @@ public class HCNGCCatalog implements IListableCatalog {
                             int pa = Integer.parseInt(positionAngle);
                             ((DeepSkyTargetGN) target).setPositionAngle(pa);
                         } catch (NumberFormatException nfe) {
-                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ",  toLogMessage(hcngcNumber), toLogMessage(positionAngle));
+                            LOGGER.error("Malformed entry: {}  - Position Angle is: {} ", toLogMessage(hcngcNumber),
+                                    toLogMessage(positionAngle));
                         }
                     }
 

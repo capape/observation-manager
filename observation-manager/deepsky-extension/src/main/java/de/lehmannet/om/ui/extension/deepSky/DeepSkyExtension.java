@@ -213,9 +213,9 @@ public class DeepSkyExtension extends AbstractExtension {
 
         IListableCatalog messier = new MessierCatalog(fileForCatalog(catalogDir, "messier"));
         IListableCatalog ngc = new NGCCatalog(fileForCatalog(catalogDir, "NGC2009"));
-        IListableCatalog ic = new ICCatalog(fileForCatalog(catalogDir,  "IC2009"));
+        IListableCatalog ic = new ICCatalog(fileForCatalog(catalogDir, "IC2009"));
         // IListableCatalog hcngc = new HCNGCCatalog(fileForCatalog(catalogDir, "HCNGC"));
-        IListableCatalog caldwell = new CaldwellCatalog(fileForCatalog(catalogDir,  "caldwell"));
+        IListableCatalog caldwell = new CaldwellCatalog(fileForCatalog(catalogDir, "caldwell"));
 
         return new ICatalog[] { messier, ngc, ic, caldwell };
 
@@ -226,7 +226,7 @@ public class DeepSkyExtension extends AbstractExtension {
     }
 
     private String getPathCatalogFile(File catalogDir, String nameCatalog) {
-        return catalogDir.getAbsoluteFile() + File.separator + "deepSky" + File.separator+ nameCatalog;
+        return catalogDir.getAbsoluteFile() + File.separator + "deepSky" + File.separator + nameCatalog;
     }
 
     @Override
