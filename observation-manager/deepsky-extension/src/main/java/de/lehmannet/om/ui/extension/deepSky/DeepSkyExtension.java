@@ -226,11 +226,7 @@ public class DeepSkyExtension extends AbstractExtension {
     }
 
     private String getPathCatalogFile(File catalogDir, String nameCatalog) {
-<<<<<<< HEAD
         return catalogDir.getAbsoluteFile() + File.separator + "deepSky" + File.separator + nameCatalog;
-=======
-        return catalogDir.getAbsoluteFile() + File.separator + "deepSky" + File.separator+ nameCatalog;
->>>>>>> b554e92 (Spotbug fix for deepsky)
     }
 
     @Override
