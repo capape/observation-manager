@@ -81,7 +81,7 @@ public class TableSorter extends AbstractSchemaTableModel {
         // we'll sort reversed
         // Goal is we want targets with negative DEC to be sorted from -0.1deg to 90deg
         // ascending.
-        if ((o2S.startsWith("-")) && (o1S.startsWith("-"))) {
+        if (o2S.startsWith("-") && o1S.startsWith("-")) {
             // Try if this string is a integer EquPosition Dec value
             try {
                 Integer.parseInt("" + o1S.charAt(1));
@@ -128,13 +128,13 @@ public class TableSorter extends AbstractSchemaTableModel {
         return 0;
     };
 
-    private Row[] viewToModel;
-    private int[] modelToView;
+    private final Map<Class<?>, Comparator<?>> columnComparators = new HashMap<>();
     private JTableHeader tableHeader;
+    private Row[] viewToModel;
+    private transient final List<Directive> sortingColumns = new ArrayList<>();
     private transient final MouseListener mouseListener;
     private transient final TableModelListener tableModelListener;
-    private final Map<Class<?>, Comparator<?>> columnComparators = new HashMap<>();
-    private final List<Directive> sortingColumns = new ArrayList<>();
+    private transient int[] modelToView;
 
     private TableSorter() {
 
@@ -219,7 +219,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     public boolean isSorting() {
 
-        return sortingColumns.size() != 0;
+        return !sortingColumns.isEmpty();
 
     }
 
@@ -320,8 +320,8 @@ public class TableSorter extends AbstractSchemaTableModel {
         this.columnComparators.put(Imager.class, new ImagerComparator());
         this.columnComparators.put(Session.class, new SessionComparator());
         this.columnComparators.put(de.lehmannet.om.Filter.class, new FilterComparator());
-        this.columnComparators.put(java.lang.Integer.class, TableSorter.INT_COMPARATOR);
-        this.columnComparators.put(java.lang.Float.class, TableSorter.FLOAT_COMPARATOR);
+        this.columnComparators.put(Integer.class, TableSorter.INT_COMPARATOR);
+        this.columnComparators.put(Float.class, TableSorter.FLOAT_COMPARATOR);
         this.columnComparators.put(de.lehmannet.om.Angle.class, new AngleComparator());
 
     }
@@ -349,11 +349,11 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     public int modelIndex(int viewIndex) {
 
-        if ((viewIndex == -1) || (getViewToModel() == null) || (getViewToModel().length == 0)) {
+        if (viewIndex == -1 || getViewToModel() == null || getViewToModel().length == 0) {
             return -1;
         }
 
-        if ((getViewToModel().length > viewIndex) && (getViewToModel()[viewIndex] != null)) {
+        if (getViewToModel().length > viewIndex && getViewToModel()[viewIndex] != null) {
             return getViewToModel()[viewIndex].modelIndex;
         } else {
             return -1;
@@ -459,9 +459,10 @@ public class TableSorter extends AbstractSchemaTableModel {
                 Object o1 = tableModel.getValueAt(row1, column);
                 Object o2 = tableModel.getValueAt(row2, column);
 
-                int comparison = 0;
+                int comparison;
                 // Define null less than everything, except null.
                 if (o1 == null && o2 == null) {
+                    comparison = 0;
                 } else if (o1 == null) {
                     comparison = -1;
                 } else if (o2 == null) {
