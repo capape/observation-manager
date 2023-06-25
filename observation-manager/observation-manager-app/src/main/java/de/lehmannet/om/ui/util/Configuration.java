@@ -42,7 +42,7 @@ public class Configuration implements IConfiguration {
         this.configPath = path;
         this.version = appVersion;
         this.configFileHeader = String.format(
-                "ObservationManager configfile \n#Written by version: %s \n#If you edit this, make sure you know what you're doing...",
+                "ObservationManager configfile %n#Written by version: %s %n#If you edit this, make sure you know what you're doing...",
                 this.version);
 
         try {
