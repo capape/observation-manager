@@ -2044,6 +2044,30 @@ class SeeingBoxEntry {
         return value == other.value;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SeeingBoxEntry other = (SeeingBoxEntry) obj;
+        if (bundle == null) {
+            if (other.bundle != null) {
+                return false;
+            }
+        } else if (!bundle.equals(other.bundle)) {
+            return false;
+        }
+        
+        return value == other.value;
+    }
+    
+
     public int getValue() {
 
         return this.value;
