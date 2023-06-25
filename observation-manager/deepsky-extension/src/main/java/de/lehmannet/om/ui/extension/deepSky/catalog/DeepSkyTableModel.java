@@ -37,7 +37,8 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             targets[i] = catalog.getTarget(index[i]);
         }
 
-        this.elements = ICloneable.copyToList(targets).toArray(new ISchemaElement[targets.length]);
+        this.elements = ICloneable.copyToList(targets)
+                .toArray(new ISchemaElement[targets == null ? 0 : targets.length]);
 
     }
 
