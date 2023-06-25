@@ -7,6 +7,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,11 +96,7 @@ public class UpdateChecker implements Runnable {
                         currentLine = in.readLine();
 
                         // Check whether line contains any data
-<<<<<<< HEAD
                         if (StringUtils.isBlank(currentLine)) {
-=======
-                        if ((currentLine == null) || ("".equals(currentLine.trim()))) {
->>>>>>> f5bc164 (Fixes memory leaks)
                             continue;
                         }
 
