@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -204,14 +205,14 @@ public class GeneralPanel extends PreferencesPanel {
 
         this.xslTemplate = new JComboBox<>();
 
-        File path = new File(this.om.getInstallDir().getPathForFolder("xsl"));
+        File path = FileSystems.getDefault().getPath(this.om.getInstallDir().getPathForFolder("xsl")).toFile();
         if (!path.exists()) { // Should never happen in a correct installation
             return;
         }
 
         // Get all directories and add them to the JComboBox
         String[] directories = path.list((dir, name) -> {
-            File file = new File(dir.getAbsolutePath() + File.separator + name);
+            File file = FileSystems.getDefault().getPath(dir.getAbsolutePath() + File.separator + name).toFile();
             return file.isDirectory();
         });
         if (directories == null) {
@@ -246,7 +247,7 @@ public class GeneralPanel extends PreferencesPanel {
 
         File token = null;
         while (tokenizer.hasMoreTokens()) {
-            token = new File(tokenizer.nextToken());
+            token = FileSystems.getDefault().getPath(tokenizer.nextToken()).toFile();
 
             if ((token.isFile()) && ("observationManager.jar".equals(token.getName()))) {
                 result.addAll(Objects.requireNonNull(scanJarFile(token)));
@@ -257,7 +258,7 @@ public class GeneralPanel extends PreferencesPanel {
         // Get JARs under extension path
         // TODO: new external extension loader
         // String extPath = System.getProperty(ConfigLoader.EXTENSIONS_DIR_PROPERTY);
-        // File ext = new File(extPath);
+        // File ext = FileSystems.getDefault().getPath(extPath).toFile();
         // if (ext.exists()) {
         // File[] jars = ext.listFiles((dir, name) -> "observationManager.jar".equals(name));
 

@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +63,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     public static final XMLFileLoader newInstance(String pathFile) {
 
-        final File file = new File(pathFile);
+        final File file = FileSystems.getDefault().getPath(pathFile).toFile();
         if (!file.exists()) {
 
             LOGGER.error("Comast schema path not found:{}", pathFile);
@@ -102,7 +103,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Backup backup = Backup.create(newPath);
 
         try {
-            File xmlFile = new File(newPath);
+            File xmlFile = FileSystems.getDefault().getPath(newPath).toFile();
             Objects.requireNonNull(root).serializeAsXmlFormatted(xmlFile);
             // this.loadObservations(newPath); // Fill cache .... Not good! Strange
             // behaviour. After save, first try to do
@@ -153,7 +154,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     public String getXMLPathForSchemaElement(ISchemaElement schemaElement) {
 
-        return new File(this.getXMLFileForSchemaElement(schemaElement)).getParent();
+        return FileSystems.getDefault().getPath(this.getXMLFileForSchemaElement(schemaElement)).toFile().getParent();
 
     }
 
@@ -956,7 +957,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
     public boolean loadObservations(String xmlPath) {
 
         try {
-            loader.load(new File(xmlPath), this.schemaPath);
+            loader.load(FileSystems.getDefault().getPath(xmlPath).toFile(), this.schemaPath);
 
             IObservation[] obs = loader.getObservations();
             IEyepiece[] eye = loader.getEyepieces();

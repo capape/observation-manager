@@ -9,6 +9,7 @@ package de.lehmannet.om.ui.catalog;
 
 import java.awt.BorderLayout;
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -151,7 +152,8 @@ public class CatalogLoader {
 
     private void loadCatalogues() {
 
-        File catalogDir = new File(this.observationManager.getInstallDir().getPathForFolder(CatalogLoader.CATALOG_DIR));
+        File catalogDir = FileSystems.getDefault()
+                .getPath(this.observationManager.getInstallDir().getPathForFolder(CatalogLoader.CATALOG_DIR)).toFile();
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {

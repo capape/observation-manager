@@ -2,6 +2,7 @@ package de.lehmannet.om.ui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class JacksonXMLFileLoaderImpl implements XMLFileLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonXMLFileLoaderImpl.class);
 
     public static final XMLFileLoader newInstance(String pathFile) throws JsonProcessingException, IOException {
-        final File file = new File(pathFile);
+        final File file = FileSystems.getDefault().getPath(pathFile).toFile();
         if (!file.exists()) {
 
             LOGGER.error("Comast schema path not found:{}.", pathFile);

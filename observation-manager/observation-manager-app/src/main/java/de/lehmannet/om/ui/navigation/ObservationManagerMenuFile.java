@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -454,7 +455,7 @@ public final class ObservationManagerMenuFile {
 
         String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
+            File dir = FileSystems.getDefault().getPath(last).toFile();
             if (dir.exists()) {
                 chooser.setCurrentDirectory(dir);
             }
@@ -466,7 +467,7 @@ public final class ObservationManagerMenuFile {
             file = chooser.getSelectedFile();
         }
         if ((file != null) && (!file.getName().toLowerCase().endsWith(".xml"))) {
-            file = new File(file.getAbsolutePath() + ".xml");
+            file = FileSystems.getDefault().getPath(file.getAbsolutePath() + ".xml").toFile();
         }
 
         return file;
@@ -769,7 +770,7 @@ public final class ObservationManagerMenuFile {
         chooser.setFileFilter(xmlFileFilter);
         String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
+            File dir = FileSystems.getDefault().getPath(last).toFile();
             if (dir.exists()) {
                 chooser.setCurrentDirectory(dir);
             }
@@ -800,7 +801,7 @@ public final class ObservationManagerMenuFile {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
+            File dir = FileSystems.getDefault().getPath(last).toFile();
             if (dir.exists()) {
                 chooser.setCurrentDirectory(dir);
             }
@@ -943,7 +944,7 @@ public final class ObservationManagerMenuFile {
         chooser.setFileFilter(xmlFileFilter);
         String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
         if ((last != null) && !("".equals(last.trim()))) {
-            File dir = new File(last);
+            File dir = FileSystems.getDefault().getPath(last).toFile();
             if (dir.exists()) {
                 chooser.setCurrentDirectory(dir);
             }
@@ -976,7 +977,7 @@ public final class ObservationManagerMenuFile {
 
                 this.om = om;
                 this.importFile = importFile;
-                this.schemaFile = new File(installDir.getPathForFile("schema"));
+                this.schemaFile = FileSystems.getDefault().getPath(installDir.getPathForFile("schema")).toFile();
                 this.model = omModel;
 
             }

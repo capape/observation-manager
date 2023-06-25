@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -1011,7 +1012,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         chooser.setMultiSelectionEnabled(true);
         String pathname = this.cache.getString(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
         if (pathname != null) {
-            File last = new File(pathname);
+            File last = FileSystems.getDefault().getPath(pathname).toFile();
             if ((last != null) && (last.exists()) && (last.isDirectory())) {
                 chooser.setCurrentDirectory(last);
             }

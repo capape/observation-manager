@@ -14,6 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -434,10 +435,13 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Try to load language dependend file
-        File xslFile = new File(path.getAbsolutePath() + File.separator + XSLFILENAME + "_"
-                + Locale.getDefault().getLanguage() + ".xsl");
+        String filePath = path.getAbsolutePath() + File.separator + XSLFILENAME + "_"
+                + Locale.getDefault().getLanguage() + ".xsl";
+
+        File xslFile = FileSystems.getDefault().getPath(filePath).toFile();
         if (!xslFile.exists()) { // OK, maybe a language independent file can be found...
-            xslFile = new File(path.getAbsolutePath() + File.separator + XSLFILENAME + ".xsl");
+            xslFile = FileSystems.getDefault().getPath(path.getAbsolutePath() + File.separator + XSLFILENAME + ".xsl")
+                    .toFile();
             if (!xslFile.exists()) { // Nothing found, raise warning
                 this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.noFileFoundWithName")
                         + "\n" + path.getAbsolutePath() + File.separator + "targetsOnly" + ".xsl\n"

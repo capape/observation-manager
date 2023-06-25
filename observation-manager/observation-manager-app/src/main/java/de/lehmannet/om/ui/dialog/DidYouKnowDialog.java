@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -153,7 +154,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
         String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH)
                 + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
-        File textDir = new File(path);
+        File textDir = FileSystems.getDefault().getPath(path).toFile();
 
         LOGGER.info("Hints folder: {}", path);
 

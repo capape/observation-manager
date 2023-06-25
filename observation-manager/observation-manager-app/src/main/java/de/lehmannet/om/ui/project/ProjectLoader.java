@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -81,7 +82,8 @@ public class ProjectLoader {
 
     private void loadProjects() {
 
-        File path = new File(this.installDir.getPathForFolder(ProjectLoader.PROJECTS_DIR));
+        File path = FileSystems.getDefault().getPath(this.installDir.getPathForFolder(ProjectLoader.PROJECTS_DIR))
+                .toFile();
         if (!path.exists()) {
             return;
         }
@@ -89,7 +91,7 @@ public class ProjectLoader {
         // Get all project files
         String[] projects = path.list((dir, name) -> {
 
-            File file = new File(dir.getAbsolutePath() + File.separator + name);
+            File file = FileSystems.getDefault().getPath(dir.getAbsolutePath() + File.separator + name).toFile();
             return file.getName().endsWith(".omp") && !"CVS".equals(file.getName()); // For developers ;-)
 
         });
@@ -112,7 +114,7 @@ public class ProjectLoader {
         List<Thread> projectThreads = new ArrayList<>();
         File projectFile = null;
         for (String project : projects) {
-            projectFile = new File(path.getAbsolutePath() + File.separator + project);
+            projectFile = FileSystems.getDefault().getPath(path.getAbsolutePath() + File.separator + project).toFile();
             ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.catalogLoader, this.projectList,
                     userTargets, projectFile);
             Thread thread = new Thread(this.loadProjects, runnable, "Load project " + project);

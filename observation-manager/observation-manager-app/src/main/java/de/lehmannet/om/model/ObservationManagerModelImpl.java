@@ -1,6 +1,7 @@
 package de.lehmannet.om.model;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -191,7 +192,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     public Optional<String> getRootName() {
         String[] fileNames = this.xmlCache.getAllOpenedFiles();
         if ((fileNames != null) && (fileNames.length > 0)) {
-            String rootName = new File(fileNames[0]).getName();
+            String rootName = FileSystems.getDefault().getPath(fileNames[0]).toFile().getName();
             return Optional.of(rootName);
         }
         return Optional.empty();
@@ -207,9 +208,11 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     private File createPath(String x) {
         if (x.startsWith("." + File.separator)) {
-            return new File(this.xmlCache.getXMLPathForSchemaElement(this.getSelectedElement()) + File.separator + x);
+            return FileSystems.getDefault()
+                    .getPath(this.xmlCache.getXMLPathForSchemaElement(this.getSelectedElement()) + File.separator + x)
+                    .toFile();
         } else {
-            return new File(x);
+            return FileSystems.getDefault().getPath(x).toFile();
         }
     }
 
@@ -242,15 +245,15 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         String path = null;
 
         if ((this.xmlCache.getAllOpenedFiles() != null) && (this.xmlCache.getAllOpenedFiles().length > 0)) {
-            path = new File(this.xmlCache.getAllOpenedFiles()[0]).getParent();
+            path = FileSystems.getDefault().getPath(this.xmlCache.getAllOpenedFiles()[0]).toFile().getParent();
         } else {
             path = this.installDir.getInstallDir().getParent();
         }
         path = path + File.separator;
 
-        File file = new File(path + filename + "." + extension);
+        File file = FileSystems.getDefault().getPath(path + filename + "." + extension).toFile();
         for (int i = 2; file.exists(); i++) {
-            file = new File(path + filename + "(" + i + ")." + extension);
+            file = FileSystems.getDefault().getPath(path + filename + "(" + i + ")." + extension).toFile();
         }
 
         return file;

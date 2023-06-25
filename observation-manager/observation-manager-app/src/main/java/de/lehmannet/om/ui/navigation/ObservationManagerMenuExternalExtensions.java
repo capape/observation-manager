@@ -41,7 +41,7 @@ public class ObservationManagerMenuExternalExtensions {
     // chooser.setFileFilter(zipFileFilter);
     // String last = this.configuration.getConfig(ConfigKey.CONFIG_LASTDIR);
     // if ((last != null) && !("".equals(last.trim()))) {
-    // File dir = new File(last);
+    // File dir = FileSystems.getDefault().getPath(last).toFile();
     // if (dir.exists()) {
     // chooser.setCurrentDirectory(dir);
     // }
@@ -154,7 +154,7 @@ public class ObservationManagerMenuExternalExtensions {
     // if (currentFile != null) {
     // while (!currentFile.exists()) { // New file/folder, which
     // // doesn't exist so far
-    // currentFile = new File(currentFile.getParent()); // Check
+    // currentFile = FileSystems.getDefault().getPath(currentFile.getParent()).toFile(); // Check
     // // write
     // // permission
     // // on

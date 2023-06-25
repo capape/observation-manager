@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -66,7 +67,7 @@ public class Configuration implements IConfiguration {
         this.persistence = new Properties();
 
         path = this.getConfigPath(path) + File.separatorChar + CONFIG_FILE;
-        if (!new File(path).exists()) {
+        if (!FileSystems.getDefault().getPath(path).toFile().exists()) {
             // No configuration found...must be first time user -> Create empty config
             return;
         }
@@ -89,7 +90,7 @@ public class Configuration implements IConfiguration {
 
         String realPath = this.getConfigPath(path);
 
-        File configFolder = new File(realPath);
+        File configFolder = FileSystems.getDefault().getPath(realPath).toFile();
 
         if (configFolder.exists() || configFolder.mkdirs()) { // Create directories}
 
@@ -97,10 +98,10 @@ public class Configuration implements IConfiguration {
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(configFilePath);
-                try (var buffer =  new BufferedOutputStream(fos)) {
-                    this.persistence.store(buffer, this.configFileHeader);                
+                try (var buffer = new BufferedOutputStream(fos)) {
+                    this.persistence.store(buffer, this.configFileHeader);
                 }
-                
+
             } catch (IOException ioe) {
                 LOGGER.error("Cannot save configuration file {} ", configFilePath);
                 return false;
@@ -108,7 +109,7 @@ public class Configuration implements IConfiguration {
                 if (fos != null) {
                     try {
                         fos.close();
-                    } catch (IOException e) {                        
+                    } catch (IOException e) {
                         LOGGER.error("Error closing file {}", configFilePath);
                     }
                 }

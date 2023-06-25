@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -274,9 +275,9 @@ public class ExternalExtensionLoader {
             LOGGER.error("Unable to open input stream from zip file: {}  for entry: {}", zf, ze);
             return null;
         }
-        
 
-        File file = new File(this.context.getInstallDir().getPathForFile(ze.getName()));
+        File file = FileSystems.getDefault().getPath(this.context.getInstallDir().getPathForFile(ze.getName()))
+                .toFile();
 
         if (ze.isDirectory()) {
             boolean createDir = false;
@@ -297,7 +298,7 @@ public class ExternalExtensionLoader {
 
             fos = new FileOutputStream(file);
             int sz = (int) ze.getSize();
-            
+
             byte[] buf = new byte[N];
             int ln = 0;
             try {
@@ -317,6 +318,9 @@ public class ExternalExtensionLoader {
         } catch (FileNotFoundException fnfe) {
             LOGGER.error("Unable to create file: {}", file, fnfe);
             return null;
+        } catch (IOException ioe) {
+            LOGGER.error("Unable to write file: {} ", ze, ioe);
+            return null;
         } finally {
             if (fos != null) {
                 try {
@@ -334,7 +338,9 @@ public class ExternalExtensionLoader {
 
         // Get latest schema file
         final String[] versions = SchemaLoader.getVersions();
-        File schema = new File(this.context.getInstallDir().getPathForFolder("schema") + versions[versions.length - 1]);
+        File schema = FileSystems.getDefault()
+                .getPath(this.context.getInstallDir().getPathForFolder("schema") + versions[versions.length - 1])
+                .toFile();
 
         if (!schema.exists()) {
             LOGGER.error("Unable to find schema file: {}", schema);
@@ -346,9 +352,9 @@ public class ExternalExtensionLoader {
         dbf.setValidating(false);
         dbf.setNamespaceAware(false);
         Document doc = null;
-        try {
+        try (var fis = new FileInputStream(schema)) {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            doc = db.parse(new FileInputStream(schema));
+            doc = db.parse(fis);
         } catch (ParserConfigurationException pce) {
             LOGGER.error("Unable to parse file: {} ", schema, pce);
             return false;

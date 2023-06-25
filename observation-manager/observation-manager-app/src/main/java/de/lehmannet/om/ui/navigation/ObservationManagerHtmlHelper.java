@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -325,14 +326,14 @@ public class ObservationManagerHtmlHelper {
         htmlName = this.replaceSpecialChars(htmlName);
 
         String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + ".html";
-        File html = new File(fullFileName);
+        File html = FileSystems.getDefault().getPath(fullFileName).toFile();
         int i = 2;
         while (html.exists()) { // Check if file exists (e.g. Two session or
                                 // observations (at same (start) time) from
                                 // different users...
             fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i + ").html";
             i++;
-            html = new File(fullFileName);
+            html = FileSystems.getDefault().getPath(fullFileName).toFile();
         }
 
         this.createHTMLForSchemaElement(schemaElement, html);
@@ -350,11 +351,11 @@ public class ObservationManagerHtmlHelper {
         }
 
         if (html == null) {
-            File xmlFile = new File(files[0]);
+            File xmlFile = FileSystems.getDefault().getPath(files[0]).toFile();
             String htmlName = xmlFile.getName();
             htmlName = htmlName.substring(0, htmlName.indexOf('.'));
             htmlName = xmlFile.getParent() + File.separatorChar + htmlName + ".html";
-            html = new File(htmlName);
+            html = FileSystems.getDefault().getPath(htmlName).toFile();
         }
 
         boolean result = this.transformXML2HTML(xmlDoc, html, xslFile);
@@ -368,7 +369,7 @@ public class ObservationManagerHtmlHelper {
 
         String pathXslTemplateFolder = this.getTemplateFolderPath();
 
-        File path = new File(pathXslTemplateFolder);
+        File path = FileSystems.getDefault().getPath(pathXslTemplateFolder).toFile();
         if (!path.exists()) {
             this.uiHelper.showWarning(
                     textManager.getString("warning.xslTemplate.dirDoesNotExist") + "\n" + path.getAbsolutePath());
@@ -376,12 +377,12 @@ public class ObservationManagerHtmlHelper {
         }
 
         String pathXsl = getPathXslFileWithLocale();
-        File xslFile = new File(pathXsl);
+        File xslFile = FileSystems.getDefault().getPath(pathXsl).toFile();
 
         if (!xslFile.exists()) { // Ok, maybe theres a general version which is
                                  // not translated
             String pathXslFileWithoutLocale = this.getPathXslFileWithoutLocale();
-            xslFile = new File(pathXslFileWithoutLocale);
+            xslFile = FileSystems.getDefault().getPath(pathXslFileWithoutLocale).toFile();
             if (!xslFile.exists()) {
                 this.uiHelper.showWarning(textManager.getString("warning.xslTemplate.noFileFoundWithName") + "\n"
                         + pathXslFileWithoutLocale + "\n" + pathXsl);
@@ -423,14 +424,14 @@ public class ObservationManagerHtmlHelper {
         xmlName = this.replaceSpecialChars(xmlName);
 
         String fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + xmlName + ".xml";
-        File xml = new File(fullFileName);
+        File xml = FileSystems.getDefault().getPath(fullFileName).toFile();
         int i = 2;
         while (xml.exists()) { // Check if file exists (e.g. Two session or
                                // observations (at same (start) time) from
                                // different users...
             fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + xmlName + "(" + i + ").xml";
             i++;
-            xml = new File(fullFileName);
+            xml = FileSystems.getDefault().getPath(fullFileName).toFile();
         }
 
         this.createXMLForSchemaElement(schemaElement, xml.getAbsolutePath());
@@ -457,7 +458,7 @@ public class ObservationManagerHtmlHelper {
         // @todo
         // This whole method work only with one file opened!
 
-        File xmlFile = new File(this.model.getAllOpenedFiles()[0]);
+        File xmlFile = FileSystems.getDefault().getPath(this.model.getAllOpenedFiles()[0]).toFile();
 
         return xmlFile.getParent();
 
