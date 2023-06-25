@@ -2030,15 +2030,37 @@ class SeeingBoxEntry {
     }
 
     @Override
-    public boolean equals(Object o) {
-
-        if ((o instanceof SeeingBoxEntry)) {
-            return ((SeeingBoxEntry) o).getValue() == this.value;
-        }
-
-        return false;
-
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((bundle == null) ? 0 : bundle.hashCode());
+        result = prime * result + value;
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SeeingBoxEntry other = (SeeingBoxEntry) obj;
+        if (bundle == null) {
+            if (other.bundle != null) {
+                return false;
+            }
+        } else if (!bundle.equals(other.bundle)) {
+            return false;
+        }
+        
+        return value == other.value;
+    }
+    
 
     public int getValue() {
 
