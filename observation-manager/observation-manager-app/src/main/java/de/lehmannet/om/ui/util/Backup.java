@@ -1,9 +1,9 @@
 package de.lehmannet.om.ui.util;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 
@@ -28,11 +28,12 @@ public final class Backup {
 
     public static Backup create(String newPath) {
         // Saving same file make a copy first
-        Path originalPath = Paths.get(newPath);
+        
+        Path originalPath = FileSystems.getDefault().getPath(newPath);
 
         if (originalPath.toFile().exists()) {
             String backupPath = newPath + Instant.now().toEpochMilli() + ".backup";
-            Path copied = Paths.get(backupPath);
+            Path copied = FileSystems.getDefault().getPath(backupPath);
             try {
                 Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
                 return new Backup(backupPath, true);
@@ -48,7 +49,7 @@ public final class Backup {
     public void delete() {
 
         if (created) {
-            Path backupPath = Paths.get(path);
+            Path backupPath = FileSystems.getDefault().getPath(path);
             try {
                 Files.delete(backupPath);
             } catch (IOException e) {

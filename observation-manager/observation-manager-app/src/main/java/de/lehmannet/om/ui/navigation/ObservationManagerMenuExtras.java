@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.nio.file.FileSystems;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -57,8 +58,8 @@ public final class ObservationManagerMenuExtras {
         this.textManager = textManager;
         this.installDir = installDir;
         this.menu = this.createMenuExtraItems();
-        this.logFile = new File(
-                this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
+        var logAbsolutePath = this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log";
+        this.logFile = FileSystems.getDefault().getPath(logAbsolutePath).toFile();
 
     }
 

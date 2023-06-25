@@ -66,13 +66,14 @@ public class Configuration implements IConfiguration {
 
         this.persistence = new Properties();
 
-        path = this.getConfigPath(path) + File.separatorChar + CONFIG_FILE;
-        if (!FileSystems.getDefault().getPath(path).toFile().exists()) {
+        var absolutePath = this.getConfigPath(path) + File.separatorChar + CONFIG_FILE;
+        var file = FileSystems.getDefault().getPath(absolutePath).toFile();
+        if (!file.exists()) {
             // No configuration found...must be first time user -> Create empty config
             return;
         }
 
-        FileInputStream fis = new FileInputStream(path);
+        FileInputStream fis = new FileInputStream(file);
         try (BufferedInputStream bis = new BufferedInputStream(fis)) {
             this.persistence.load(bis);
         } catch (IOException ioe) {

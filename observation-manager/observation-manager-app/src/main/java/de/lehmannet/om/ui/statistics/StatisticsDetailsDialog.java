@@ -426,8 +426,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Check if XSL directory exists
-        final File path = new File(
-                this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        String templateAbsolutePath = this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly";
+        final File path = FileSystems.getDefault().getPath(templateAbsolutePath).toFile();
         if (!path.exists()) {
             this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                     + path.getAbsolutePath());
