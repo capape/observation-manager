@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -30,16 +32,12 @@ public class TargetStarPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetStarPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+    public TargetStarPanel(IConfiguration configuration, ObservationManagerModel model, TargetStar target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if (target != null && !(target instanceof TargetStar)) {
-            throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
-        }
-
-        this.target = target == null ? null : (TargetStar) target.copy();
+        this.target = copyOrNull(target);
         this.model = model;
         this.configuration = configuration;
 
@@ -50,7 +48,7 @@ public class TargetStarPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target.copy();
+        return copyOrNull(this.target);
 
     }
 

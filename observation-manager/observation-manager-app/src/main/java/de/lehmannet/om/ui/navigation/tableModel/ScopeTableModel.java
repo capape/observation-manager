@@ -22,7 +22,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
 
     public ScopeTableModel(IScope[] scopes) {
 
-        this.elements = ICloneable.copyToList(scopes).toArray(new ISchemaElement[scopes.length]);
+        this.elements = ICloneable.copyToList(scopes).toArray(new ISchemaElement[scopes == null ? 0 : scopes.length]);
 
     }
 

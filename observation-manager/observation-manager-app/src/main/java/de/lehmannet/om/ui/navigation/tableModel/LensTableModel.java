@@ -29,7 +29,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
 
     public LensTableModel(ILens[] lenses) {
 
-        this.elements = ICloneable.copyToList(lenses).toArray(new ISchemaElement[lenses.length]);
+        this.elements = ICloneable.copyToList(lenses).toArray(new ISchemaElement[lenses == null ? 0 : lenses.length]);
 
     }
 

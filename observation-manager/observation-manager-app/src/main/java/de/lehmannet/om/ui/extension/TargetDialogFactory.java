@@ -21,7 +21,7 @@ public class TargetDialogFactory {
 
             case TargetStar.XML_XSI_TYPE_VALUE:
                 return new TargetStarDialog(parent, extensionContext.getUserInterfaceHelper(),
-                        extensionContext.getModel(), target);
+                        extensionContext.getModel(), (TargetStar) target);
 
             default:
                 throw new IllegalArgumentException("Invalid xsi:type");

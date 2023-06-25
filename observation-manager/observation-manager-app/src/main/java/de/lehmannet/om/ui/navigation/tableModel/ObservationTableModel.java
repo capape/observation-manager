@@ -33,7 +33,8 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     public ObservationTableModel(IObservation[] observations, ObservationManager om) {
 
         this.om = om;
-        this.elements = ICloneable.copyToList(observations).toArray(new ISchemaElement[observations.length]);
+        this.elements = ICloneable.copyToList(observations)
+                .toArray(new ISchemaElement[observations == null ? 0 : observations.length]);
 
     }
 

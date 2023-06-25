@@ -28,7 +28,8 @@ public class SessionTableModel extends AbstractSchemaTableModel {
 
     public SessionTableModel(ISession[] sessions) {
 
-        this.elements = ICloneable.copyToList(sessions).toArray(new ISchemaElement[sessions.length]);
+        this.elements = ICloneable.copyToList(sessions)
+                .toArray(new ISchemaElement[sessions == null ? 0 : sessions.length]);
 
     }
 

@@ -23,7 +23,8 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
 
     public ObserverTableModel(IObserver[] observers) {
 
-        this.elements = ICloneable.copyToList(observers).toArray(new ISchemaElement[observers.length]);
+        this.elements = ICloneable.copyToList(observers)
+                .toArray(new ISchemaElement[observers == null ? 0 : observers.length]);
 
     }
 

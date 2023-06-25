@@ -30,7 +30,8 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
 
     public EyepieceTableModel(IEyepiece[] eyepieces) {
 
-        this.elements = ICloneable.copyToList(eyepieces).toArray(new ISchemaElement[eyepieces.length]);
+        this.elements = ICloneable.copyToList(eyepieces)
+                .toArray(new ISchemaElement[eyepieces == null ? 0 : eyepieces.length]);
 
     }
 

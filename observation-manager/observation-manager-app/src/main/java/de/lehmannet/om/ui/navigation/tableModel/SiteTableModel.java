@@ -26,7 +26,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
 
     public SiteTableModel(ISite[] sites) {
 
-        this.elements = ICloneable.copyToList(sites).toArray(new ISchemaElement[sites.length]);
+        this.elements = ICloneable.copyToList(sites).toArray(new ISchemaElement[sites == null ? 0 : sites.length]);
 
     }
 

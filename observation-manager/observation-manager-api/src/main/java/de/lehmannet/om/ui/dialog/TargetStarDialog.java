@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.JFrame;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.TargetStarPanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -23,7 +24,7 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
     private static final long serialVersionUID = -923728327119653756L;
 
     public TargetStarDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            ITarget editableTarget) {
+            TargetStar editableTarget) {
 
         super(om, model, uiHelper, new TargetStarPanel(model.getConfiguration(), model, editableTarget, Boolean.TRUE));
 

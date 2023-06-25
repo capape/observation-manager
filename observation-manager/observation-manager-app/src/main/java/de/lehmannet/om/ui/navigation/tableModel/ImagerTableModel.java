@@ -17,7 +17,8 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
 
     public ImagerTableModel(IImager[] imagers) {
 
-        this.elements = ICloneable.copyToList(imagers).toArray(new ISchemaElement[imagers.length]);
+        this.elements = ICloneable.copyToList(imagers)
+                .toArray(new ISchemaElement[imagers == null ? 0 : imagers.length]);
 
     }
 

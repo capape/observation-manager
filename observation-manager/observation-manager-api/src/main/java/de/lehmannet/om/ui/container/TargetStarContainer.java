@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.container;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -20,7 +22,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -67,7 +68,7 @@ public class TargetStarContainer extends Container {
             throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.TargetStar\n");
         }
 
-        this.starTarget = ICloneable.copyOrNull((TargetStar) target);
+        this.starTarget = copyOrNull((TargetStar) target);
 
         this.createPanel();
 
@@ -111,7 +112,7 @@ public class TargetStarContainer extends Container {
 
     public ISchemaElement getSchemaElement() {
 
-        return ICloneable.copyOrNull(this.starTarget);
+        return copyOrNull(this.starTarget);
 
     }
 
@@ -197,7 +198,7 @@ public class TargetStarContainer extends Container {
 
     public void setTarget(TargetStar target) {
 
-        this.starTarget = ICloneable.copyOrNull(target);
+        this.starTarget = copyOrNull(target);
         this.targetContainer.setTarget(target);
 
     }

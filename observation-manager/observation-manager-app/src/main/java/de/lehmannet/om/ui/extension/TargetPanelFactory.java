@@ -16,8 +16,8 @@ public class TargetPanelFactory {
                         editable);
 
             case TargetStar.XML_XSI_TYPE_VALUE:
-                return new TargetStarPanel(extensionContext.getConfiguration(), extensionContext.getModel(), target,
-                        editable);
+                return new TargetStarPanel(extensionContext.getConfiguration(), extensionContext.getModel(),
+                        target == null ? null : (TargetStar) target, editable);
             default:
                 throw new IllegalArgumentException("Invalid xsi:type");
 

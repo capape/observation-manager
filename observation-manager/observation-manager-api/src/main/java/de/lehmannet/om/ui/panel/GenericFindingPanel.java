@@ -98,7 +98,7 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.finding.copy();
+        return copyOrNull(this.finding);
 
     }
 

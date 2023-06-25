@@ -25,7 +25,8 @@ public class FilterTableModel extends AbstractSchemaTableModel {
 
     public FilterTableModel(IFilter[] filters) {
 
-        this.elements = ICloneable.copyToList(filters).toArray(new ISchemaElement[filters.length]);
+        this.elements = ICloneable.copyToList(filters)
+                .toArray(new ISchemaElement[filters == null ? 0 : filters.length]);
 
     }
 
