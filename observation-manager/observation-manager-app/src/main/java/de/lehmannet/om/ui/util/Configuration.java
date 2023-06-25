@@ -72,8 +72,7 @@ public class Configuration implements IConfiguration {
         }
 
         FileInputStream fis = new FileInputStream(path);
-        BufferedInputStream bis = new BufferedInputStream(fis);
-        try {
+        try (BufferedInputStream bis = new BufferedInputStream(fis)) {
             this.persistence.load(bis);
         } catch (IOException ioe) {
 
@@ -95,13 +94,24 @@ public class Configuration implements IConfiguration {
         if (configFolder.exists() || configFolder.mkdirs()) { // Create directories}
 
             String configFilePath = realPath + File.separatorChar + CONFIG_FILE;
+            FileOutputStream fos = null;
             try {
-                FileOutputStream fos = new FileOutputStream(configFilePath);
-                this.persistence.store(new BufferedOutputStream(fos), this.configFileHeader);
-                fos.close();
+                fos = new FileOutputStream(configFilePath);
+                try (var buffer =  new BufferedOutputStream(fos)) {
+                    this.persistence.store(buffer, this.configFileHeader);                
+                }
+                
             } catch (IOException ioe) {
                 LOGGER.error("Cannot save configuration file {} ", configFilePath);
                 return false;
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {                        
+                        LOGGER.error("Error closing file {}", configFilePath);
+                    }
+                }
             }
 
             return true;

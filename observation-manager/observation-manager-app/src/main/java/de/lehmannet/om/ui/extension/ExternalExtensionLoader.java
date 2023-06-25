@@ -42,6 +42,7 @@ public class ExternalExtensionLoader {
      * Property to define extesions dir.
      */
     public static final String EXTENSIONS_DIR_PROPERTY = "extensions.dir";
+    private static final int N = 1024;
 
     // File name of extension config file
     private static final String EXTENSION_FILENAME = "META-INF/OM_EXTENSION";
@@ -273,7 +274,7 @@ public class ExternalExtensionLoader {
             LOGGER.error("Unable to open input stream from zip file: {}  for entry: {}", zf, ze);
             return null;
         }
-        BufferedInputStream bis = new BufferedInputStream(istr);
+        
 
         File file = new File(this.context.getInstallDir().getPathForFile(ze.getName()));
 
@@ -292,11 +293,11 @@ public class ExternalExtensionLoader {
         }
 
         FileOutputStream fos = null;
-        try {
+        try (BufferedInputStream bis = new BufferedInputStream(istr)) {
 
             fos = new FileOutputStream(file);
             int sz = (int) ze.getSize();
-            final int N = 1024;
+            
             byte[] buf = new byte[N];
             int ln = 0;
             try {

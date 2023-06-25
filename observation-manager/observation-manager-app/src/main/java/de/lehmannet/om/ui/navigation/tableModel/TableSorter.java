@@ -130,7 +130,7 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private final Map<Class<?>, Comparator<?>> columnComparators = new HashMap<>();
     private JTableHeader tableHeader;
-    private Row[] viewToModel;
+    private transient Row[] viewToModel;
     private transient final List<Directive> sortingColumns = new ArrayList<>();
     private transient final MouseListener mouseListener;
     private transient final TableModelListener tableModelListener;

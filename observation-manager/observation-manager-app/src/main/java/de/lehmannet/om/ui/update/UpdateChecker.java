@@ -82,42 +82,43 @@ public class UpdateChecker implements Runnable {
 
                 throw new ConnectException("HTTP error while connecting to host for update");
             } else {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8")));
-                String currentLine = null;
+                try (BufferedReader in = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8")))) {
+                    String currentLine = null;
 
-                URL downloadURL = null;
-                // Try to get online Version
-                String newVersion = oldVersion;
+                    URL downloadURL = null;
+                    // Try to get online Version
+                    String newVersion = oldVersion;
 
-                do {
-                    currentLine = in.readLine();
+                    do {
+                        currentLine = in.readLine();
 
-                    // Check whether line contains any data
-                    if ((currentLine == null) || ("".equals(currentLine.trim()))) {
-                        continue;
-                    }
+                        // Check whether line contains any data
+                        if ((currentLine == null) || ("".equals(currentLine.trim()))) {
+                            continue;
+                        }
 
-                    if (currentLine.startsWith(UpdateChecker.UPDATEFILE_LATESTVERSION)) {
+                        if (currentLine.startsWith(UpdateChecker.UPDATEFILE_LATESTVERSION)) {
 
-                        newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
+                            newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
 
-                    }
+                        }
 
-                    // Try to get download URL
-                    if (currentLine.startsWith(UpdateChecker.UPDATEFILE_DOWNLOADURL)) {
-                        String d_downloadURL = currentLine.substring(currentLine.indexOf("=") + 1);
-                        downloadURL = new URL(d_downloadURL);
-                    }
+                        // Try to get download URL
+                        if (currentLine.startsWith(UpdateChecker.UPDATEFILE_DOWNLOADURL)) {
+                            String dDownloadURL = currentLine.substring(currentLine.indexOf("=") + 1);
+                            downloadURL = new URL(dDownloadURL);
+                        }
 
-                    // We have all required informations, so we can exit
-                    if ((downloadURL != null) && Version.isValidVersion(newVersion)) {
-                        return new UpdateEntry(name, oldVersion, newVersion, downloadURL);
-                    }
+                        // We have all required informations, so we can exit
+                        if ((downloadURL != null) && Version.isValidVersion(newVersion)) {
+                            return new UpdateEntry(name, oldVersion, newVersion, downloadURL);
+                        }
 
-                } while (currentLine != null);
+                    } while (currentLine != null);
 
-                return null;
+                    return null;
+                }
             }
 
         } catch (IOException ioe) {
