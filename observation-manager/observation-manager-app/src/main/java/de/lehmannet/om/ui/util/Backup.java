@@ -28,7 +28,6 @@ public final class Backup {
 
     public static Backup create(String newPath) {
         // Saving same file make a copy first
-
         Path originalPath = FileSystems.getDefault().getPath(newPath);
 
         if (originalPath.toFile().exists()) {
