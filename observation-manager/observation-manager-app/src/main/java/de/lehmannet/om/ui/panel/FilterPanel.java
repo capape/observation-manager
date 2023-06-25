@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import de.lehmannet.om.Filter;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -136,14 +137,14 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.filter.setSchott(this.schott.getText());
         this.filter.setVendor(this.vendor.getText());
 
-        return this.filter;
+        return ICloneable.copyOrNull(this.filter);
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.filter;
+        return ICloneable.copyOrNull(this.filter);
 
     }
 
@@ -180,7 +181,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.filter.setSchott(this.schott.getText());
         this.filter.setVendor(this.vendor.getText());
 
-        return this.filter;
+        return ICloneable.copyOrNull(this.filter);
 
     }
 

@@ -89,44 +89,34 @@ public final class ObservationManager extends JFrame implements IObservationMana
     // ---------
     // Variables --------------------------------------------------------------
     // ---------
+
+
+    private boolean changed = false; // Indicates if changed where made after load.
+    private Boolean nightVisionOnStartup;
+    private ItemView item;
+    private JMenuBar menuBar;
     private JSplitPane hSplitPane;
     private JSplitPane vSplitPane;
-
-    private JMenuBar menuBar;
-
     private TableView table;
-    private ItemView item;
-    private TreeView tree;
-
-    private boolean changed = false; // Indicates if changed where made after
-                                     // load.
-
-    private Boolean nightVisionOnStartup;
-    // private Thread splash;
-
-    private final InstallDir installDir;
-
-    private final IConfiguration configuration;
-    private final ObservationManagerModel model;
-
-    final ExtensionLoader extLoader;
-
-    private final ObservationManagerMenuFile menuFile;
-    private final ObservationManagerMenuData menuData;
-    private final ObservationManagerMenuExtras menuExtras;
-    private final ObservationManagerMenuHelp menuHelp;
-    private final ObservationManagerMenuExtensions menuExtensions;
-
-    private final ImageResolver imageResolver;
-    private transient final ThemeManager themeManager;
-    private final TextManager textManager;
-    private final TextManager versionTextManager;
-    private final DateManager dateManager;
-
-    private transient final ObservationManagerHtmlHelper htmlHelper;
-    private transient final UserInterfaceHelper uiHelper;
-    private final UIDataCache uiCache;
     private transient final CatalogManager catalogManager;
+    private transient final DateManager dateManager;
+    private transient final ExtensionLoader extLoader;
+    private transient final IConfiguration configuration;
+    private transient final ImageResolver imageResolver;
+    private transient final InstallDir installDir;
+    private transient final ObservationManagerHtmlHelper htmlHelper;
+    private transient final ObservationManagerMenuData menuData;
+    private transient final ObservationManagerMenuExtensions menuExtensions;
+    private transient final ObservationManagerMenuExtras menuExtras;
+    private transient final ObservationManagerMenuFile menuFile;
+    private transient final ObservationManagerMenuHelp menuHelp;
+    private transient final ObservationManagerModel model;
+    private transient final TextManager textManager;
+    private transient final TextManager versionTextManager;
+    private transient final ThemeManager themeManager;
+    private transient final UIDataCache uiCache;
+    private transient final UserInterfaceHelper uiHelper;
+    private TreeView tree;
 
     public final InstallDir getInstallDir() {
         return this.installDir;

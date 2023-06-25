@@ -63,4 +63,60 @@ public class Version implements Comparable<Version> {
         return this.major.compareTo(o.major);
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((major == null) ? 0 : major.hashCode());
+        result = prime * result + ((minor == null) ? 0 : minor.hashCode());
+        result = prime * result + ((patch == null) ? 0 : patch.hashCode());
+        result = prime * result + ((modifier == null) ? 0 : modifier.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Version other = (Version) obj;
+        if (major == null) {
+            if (other.major != null) {
+                return false;
+            }
+        } else if (!major.equals(other.major)) {
+            return false;
+        }
+        if (minor == null) {
+            if (other.minor != null) {
+                return false;
+            }
+        } else if (!minor.equals(other.minor)) {
+            return false;
+        }
+        if (patch == null) {
+            if (other.patch != null) {
+                return false;
+            }
+        } else if (!patch.equals(other.patch)) {
+            return false;
+        }
+        if (modifier == null) {
+            if (other.modifier != null) {
+                return false;
+            }
+        } else if (!modifier.equals(other.modifier)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+
 }

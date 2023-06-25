@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 
@@ -21,7 +22,7 @@ public class TargetObservations {
 
     public ITarget getTarget() {
 
-        return this.target;
+        return ICloneable.copyOrNull(this.target);
 
     }
 

@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import de.lehmannet.om.Angle;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.Site;
@@ -98,7 +99,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.site;
+        return ICloneable.copyOrNull(this.site);
 
     }
 
@@ -174,7 +175,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
             this.site.setIAUCode(iauCode);
         }
 
-        return this.site;
+        return ICloneable.copyOrNull(this.site);
 
     }
 
@@ -244,7 +245,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
             this.site.setIAUCode(iauCode);
         }
 
-        return this.site;
+        return ICloneable.copyOrNull(this.site);
 
     }
 

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.Lens;
@@ -48,7 +49,7 @@ public class LensPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.lens;
+        return ICloneable.copyOrNull(this.lens);
 
     }
 
@@ -79,7 +80,7 @@ public class LensPanel extends AbstractPanel {
         // Add optional fields
         this.lens.setVendor(this.vendor.getText());
 
-        return this.lens;
+        return ICloneable.copyOrNull(this.lens);
 
     }
 
@@ -110,7 +111,7 @@ public class LensPanel extends AbstractPanel {
             this.lens.setVendor(vendor);
         }
 
-        return this.lens;
+        return ICloneable.copyOrNull(this.lens);
 
     }
 

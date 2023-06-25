@@ -36,6 +36,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -266,7 +267,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.session;
+        return ICloneable.copyOrNull(this.session);
 
     }
 
@@ -383,7 +384,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.session.setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(session)));
 
-        return this.session;
+        return ICloneable.copyOrNull(this.session);
 
     }
 
@@ -478,7 +479,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.session.setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(session)));
 
-        return this.session;
+        return ICloneable.copyOrNull(this.session);
 
     }
 

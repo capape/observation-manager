@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -285,21 +286,21 @@ public class ObservationItemPanel extends AbstractPanel {
     @Override
     public ISchemaElement createSchemaElement() {
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 
     @Override
     public ISchemaElement updateSchemaElement() {
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 

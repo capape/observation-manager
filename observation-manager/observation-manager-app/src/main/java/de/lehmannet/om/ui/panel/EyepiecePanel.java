@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Eyepiece;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.container.AngleContainer;
@@ -93,7 +94,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.eyepiece;
+        return ICloneable.copyOrNull(this.eyepiece);
 
     }
 
@@ -155,7 +156,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         }
         this.eyepiece.setMaxFocalLength(maxFL);
 
-        return this.eyepiece;
+        return ICloneable.copyOrNull(this.eyepiece);
 
     }
 
@@ -219,7 +220,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         }
         this.eyepiece.setMaxFocalLength(maxFL);
 
-        return this.eyepiece;
+        return ICloneable.copyOrNull(this.eyepiece);
 
     }
 

@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
 import de.lehmannet.om.GenericTarget;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -65,14 +66,14 @@ public class GenericTargetPanel extends AbstractPanel {
         // Set all other fields
         this.updateSchemaElement();
 
-        return this.target;
+        return ICloneable.copyOrNull(this.target);
 
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.target;
+        return ICloneable.copyOrNull(this.target);
 
     }
 
@@ -90,7 +91,7 @@ public class GenericTargetPanel extends AbstractPanel {
             this.target = (GenericTarget) t;
         }
 
-        return this.target;
+        return ICloneable.copyOrNull(this.target);
 
     }
 

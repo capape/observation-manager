@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import de.lehmannet.om.Angle;
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.IScope;
 import de.lehmannet.om.Scope;
@@ -152,7 +153,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.scope;
+        return ICloneable.copyOrNull(this.scope);
 
     }
 
@@ -233,7 +234,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             this.scope.setOrientation(this.orientationErect.isSelected(), this.orientationTruesided.isSelected());
         }
 
-        return this.scope;
+        return ICloneable.copyOrNull(this.scope);
 
     }
 
@@ -308,7 +309,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
             this.scope.setOrientation(this.orientationErect.isSelected(), this.orientationTruesided.isSelected());
         }
 
-        return this.scope;
+        return ICloneable.copyOrNull(this.scope);
 
     }
 

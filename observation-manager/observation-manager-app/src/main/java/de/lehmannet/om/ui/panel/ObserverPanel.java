@@ -40,6 +40,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.Observer;
@@ -147,7 +148,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.observer;
+        return ICloneable.copyOrNull(this.observer);
 
     }
 
@@ -213,7 +214,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             }
         }
 
-        return this.observer;
+        return ICloneable.copyOrNull(this.observer);
 
     }
 
@@ -254,7 +255,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             }
         }
 
-        return this.observer;
+        return ICloneable.copyOrNull(this.observer);
 
     }
 

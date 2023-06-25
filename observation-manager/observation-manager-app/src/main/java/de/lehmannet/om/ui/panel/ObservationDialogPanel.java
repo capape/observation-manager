@@ -45,6 +45,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -276,7 +277,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 
@@ -462,7 +463,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation
                 .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 
@@ -669,7 +670,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation
                 .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 

@@ -43,6 +43,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
@@ -930,7 +931,7 @@ class DataSpot extends Ellipse2D.Float {
 
     public IObservation getObservation() {
 
-        return this.observation;
+        return ICloneable.copyOrNull(this.observation);
 
     }
 
