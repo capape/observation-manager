@@ -110,10 +110,10 @@ public class SplashScreenWithText {
         splash = SplashScreen.getSplashScreen();
         if (splash != null && splash.isVisible()) {
             splashGraphics = splash.createGraphics();
-        
+
             splashGraphics.setBackground(Color.WHITE);
             splashGraphics.clearRect(x, y - (height / 2), Double.valueOf(splash.getSize().getWidth()).intValue() - x,
-                height);
+                    height);
             splashGraphics.setColor(Color.BLACK);
             splashGraphics.setFont(font);
             waitForNextMessage();

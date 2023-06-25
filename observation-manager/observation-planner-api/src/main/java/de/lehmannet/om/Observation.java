@@ -41,6 +41,8 @@ import de.lehmannet.om.util.SchemaException;
  */
 public class Observation extends SchemaElement implements IObservation {
 
+    private static final long serialVersionUID = 1L;
+
     // ------------------
     // Instance Variables ------------------------------------------------
     // ------------------
@@ -99,7 +101,7 @@ public class Observation extends SchemaElement implements IObservation {
     // The results (IFinding) of the observation as List
     private List<IFinding> results = new LinkedList<>();
 
-    private final DateManager dateManager = new DateManagerImpl();
+    private transient final DateManager dateManager = new DateManagerImpl();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Observation.class);
 

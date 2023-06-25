@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.io.Serializable;
+
 /**
  * The ISchemaElement is the root interface for almost all astro XML schema elements. It contains only element
  * informations that are common for all (or almost all) elements.
@@ -14,7 +16,7 @@ package de.lehmannet.om;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public interface ISchemaElement {
+public interface ISchemaElement extends Serializable {
 
     // ---------
     // Constants ---------------------------------------------------------

@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +21,7 @@ import org.w3c.dom.Element;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-class EquPositionReferenceFrame {
+class EquPositionReferenceFrame implements Serializable {
 
     // ---------
     // Constants ---------------------------------------------------------

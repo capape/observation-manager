@@ -2057,10 +2057,9 @@ class SeeingBoxEntry {
         } else if (!bundle.equals(other.bundle)) {
             return false;
         }
-        
+
         return value == other.value;
     }
-    
 
     public int getValue() {
 

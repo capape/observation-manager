@@ -7,6 +7,7 @@
 
 package de.lehmannet.om;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import org.w3c.dom.Element;
@@ -21,7 +22,7 @@ import de.lehmannet.om.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
-public class SurfaceBrightness {
+public class SurfaceBrightness implements Serializable {
 
     // ---------
     // Constants ---------------------------------------------------------

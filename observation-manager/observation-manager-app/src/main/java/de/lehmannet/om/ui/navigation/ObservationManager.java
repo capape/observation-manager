@@ -77,11 +77,11 @@ import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
 
-public class ObservationManager extends JFrame implements IObservationManagerJFrame {
+public final class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
     private static final long serialVersionUID = -9092637724048070172L;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManager.class);
 
     // Working directory
     public static final String WORKING_DIR = ".observationManager";
@@ -118,14 +118,15 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private final ObservationManagerMenuExtensions menuExtensions;
 
     private final ImageResolver imageResolver;
-    private final ThemeManager themeManager;
+    private transient final ThemeManager themeManager;
     private final TextManager textManager;
     private final TextManager versionTextManager;
     private final DateManager dateManager;
 
-    private final ObservationManagerHtmlHelper htmlHelper;
-    private final UserInterfaceHelper uiHelper;
+    private transient final ObservationManagerHtmlHelper htmlHelper;
+    private transient final UserInterfaceHelper uiHelper;
     private final UIDataCache uiCache;
+    private transient final CatalogManager catalogManager;
 
     public final InstallDir getInstallDir() {
         return this.installDir;
@@ -142,8 +143,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public DateManager getDateManager() {
         return this.dateManager;
     }
-
-    private final CatalogManager catalogManager;
 
     private ObservationManager(Builder builder) {
 

@@ -7,6 +7,7 @@
 
 package de.lehmannet.om;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import org.w3c.dom.Element;
@@ -22,7 +23,7 @@ import de.lehmannet.om.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
-public class Angle {
+public class Angle implements Serializable {
 
     // ---------
     // Constants ---------------------------------------------------------
