@@ -495,9 +495,10 @@ class AccountTableModel extends AbstractTableModel {
                 }
                 return value;
             }
+            default: {
+                return "";
+            }
         }
-
-        return "";
 
     }
 
@@ -520,7 +521,7 @@ class AccountTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -529,6 +530,10 @@ class AccountTableModel extends AbstractTableModel {
             }
             case 1: {
                 name = AbstractPanel.bundle.getString("table.header.observerAccount.username");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

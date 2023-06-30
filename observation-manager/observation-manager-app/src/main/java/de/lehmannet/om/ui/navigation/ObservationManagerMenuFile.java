@@ -635,6 +635,9 @@ public final class ObservationManagerMenuFile {
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
+            default: {
+                break;
+            }
         }
 
         // Create dialog
@@ -753,6 +756,9 @@ public final class ObservationManagerMenuFile {
                 break;
             } // Cancel was pressed
               // 3 = No save required...continue
+            default: {
+                break;
+            }
         }
 
         JFileChooser chooser = new JFileChooser();

@@ -85,6 +85,10 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
             /*
              * case 3 : { value = observer.getgetDSLCode(); break; }
              */
+            default: {
+                value = new StringBuilder();
+                break;
+            }
         }
 
         return value.toString();
@@ -94,7 +98,7 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -112,6 +116,10 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
             /*
              * case 3 : { name = AbstractSchemaTableModel.bundle.getString("table.header.observer.dsl"); break; }
              */
+            default: {
+                name = "";
+                break;
+            }
         }
 
         return name;

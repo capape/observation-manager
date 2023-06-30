@@ -98,6 +98,10 @@ public class FilterTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                value = "";
+                break;
+            }
         }
 
         return value;
@@ -107,7 +111,7 @@ public class FilterTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -128,6 +132,10 @@ public class FilterTableModel extends AbstractSchemaTableModel {
             }
             case 4: {
                 name = this.bundle.getString("table.header.filter.schott");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

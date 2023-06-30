@@ -60,7 +60,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0:
@@ -70,6 +70,10 @@ public class LensTableModel extends AbstractSchemaTableModel {
             }
             case 2: {
                 c = Float.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -105,6 +109,10 @@ public class LensTableModel extends AbstractSchemaTableModel {
                 value = lens.getFactor();
                 break;
             }
+            default: {
+                value = null;
+                break;
+            }
         }
 
         return value;
@@ -114,7 +122,7 @@ public class LensTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -127,6 +135,10 @@ public class LensTableModel extends AbstractSchemaTableModel {
             }
             case 2: {
                 name = this.bundle.getString("table.header.lens.factor");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

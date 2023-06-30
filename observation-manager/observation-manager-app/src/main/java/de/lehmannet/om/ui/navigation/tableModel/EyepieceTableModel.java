@@ -62,7 +62,7 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0:
@@ -73,6 +73,10 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
             }
             case 3: {
                 c = Angle.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -116,6 +120,10 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                value = null;
+                break;
+            }
         }
 
         return value;
@@ -125,7 +133,7 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -142,6 +150,10 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
             }
             case 3: {
                 name = this.bundle.getString("table.header.eyepiece.apparentFoV");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

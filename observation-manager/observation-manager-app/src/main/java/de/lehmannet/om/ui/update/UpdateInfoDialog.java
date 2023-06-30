@@ -16,7 +16,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -334,9 +338,10 @@ class UpdateTableModel extends AbstractTableModel {
             case 3: {
                 return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getNewVersion();
             }
+            default: {
+                return "";
+            }
         }
-
-        return "";
 
     }
 
@@ -365,7 +370,7 @@ class UpdateTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -382,6 +387,10 @@ class UpdateTableModel extends AbstractTableModel {
             }
             case 3: {
                 name = this.bundle.getString("updateInfo.column.newVersion");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

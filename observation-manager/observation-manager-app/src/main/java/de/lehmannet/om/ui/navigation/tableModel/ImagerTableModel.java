@@ -74,6 +74,10 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                value = "";
+                break;
+            }
         }
 
         return value;
@@ -96,6 +100,10 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
             }
             case 2: {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.imager.remarks");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

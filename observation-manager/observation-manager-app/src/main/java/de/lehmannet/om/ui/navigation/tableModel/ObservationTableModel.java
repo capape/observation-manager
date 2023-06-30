@@ -65,7 +65,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -96,6 +96,10 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.observation.observer");
                 break;
             }
+            default: {
+                name = "";
+                break;
+            }
         }
 
         return name;
@@ -105,7 +109,7 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0: {
@@ -131,6 +135,10 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
             }
             case 6: {
                 c = Observer.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -187,6 +195,10 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
             }
             case 6: {
                 value = observation.getObserver();
+                break;
+            }
+            default: {
+                value = null;
                 break;
             }
         }

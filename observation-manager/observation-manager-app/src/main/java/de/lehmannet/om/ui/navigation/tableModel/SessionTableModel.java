@@ -60,7 +60,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0:
@@ -77,6 +77,10 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             case 5:
             case 4: {
                 c = String.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -134,7 +138,7 @@ public class SessionTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -163,6 +167,10 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             }
             case 6: {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.session.comments");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }

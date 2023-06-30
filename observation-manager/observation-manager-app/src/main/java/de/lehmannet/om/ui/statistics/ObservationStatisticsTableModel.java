@@ -79,7 +79,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0: {
@@ -88,6 +88,10 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
             }
             case 1: {
                 c = IObservation.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -128,6 +132,10 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                value = null;
+                break;
+            }
         }
 
         return value;
@@ -137,7 +145,7 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -146,6 +154,10 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
             }
             case 1: {
                 name = this.bundle.getString("table.header.catalogStatistics.observation");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }
@@ -164,9 +176,10 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
             case 1: {
                 return 275;
             }
+            default: {
+                return super.getColumnSize(columnIndex);
+            }
         }
-
-        return super.getColumnSize(columnIndex);
 
     }
 

@@ -7,9 +7,6 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ISchemaElement;
@@ -57,7 +54,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0: {
@@ -79,6 +76,10 @@ public class SiteTableModel extends AbstractSchemaTableModel {
             }
             case 5: {
                 c = Integer.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -123,6 +124,10 @@ public class SiteTableModel extends AbstractSchemaTableModel {
                 value = site.getTimezone();
                 break;
             }
+            default: {
+                value = null;
+                break;
+            }
         }
 
         return value;
@@ -132,7 +137,7 @@ public class SiteTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -159,21 +164,14 @@ public class SiteTableModel extends AbstractSchemaTableModel {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.site.timezone");
                 break;
             }
+            default: {
+                name = "";
+                break;
+            }
         }
 
         return name;
 
     }
 
-    private String getValue(double value) {
-
-        // Output format
-        DecimalFormat df = new DecimalFormat("0.00");
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-        dfs.setDecimalSeparator('.');
-        df.setDecimalFormatSymbols(dfs);
-
-        return df.format(value);
-
-    }
 }

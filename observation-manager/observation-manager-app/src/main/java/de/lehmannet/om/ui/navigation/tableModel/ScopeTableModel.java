@@ -53,7 +53,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 
-        Class<?> c = null;
+        Class<?> c;
 
         switch (columnIndex) {
             case 0:
@@ -71,6 +71,10 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
             }
             case 7: {
                 c = Angle.class;
+                break;
+            }
+            default: {
+                c = null;
                 break;
             }
         }
@@ -127,6 +131,11 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
+            default: {
+                value = null;
+                break;
+            }
+
         }
 
         return value;
@@ -136,7 +145,7 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
     @Override
     public String getColumnName(int column) {
 
-        String name = "";
+        String name;
 
         switch (column) {
             case 0: {
@@ -169,6 +178,10 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
             }
             case 7: {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.scope.trueFoV");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }
