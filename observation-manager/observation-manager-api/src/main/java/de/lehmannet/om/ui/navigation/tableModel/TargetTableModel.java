@@ -32,7 +32,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         this.configuration = configuration;
         this.elements = target == null ? null
                 : Arrays.asList(target).stream().map(a -> (ISchemaElement) a).toList()
-                        .toArray(new ISchemaElement[target == null ? 0 : target.length]);
+                        .toArray(new ISchemaElement[target.length]);
 
     }
 
@@ -203,7 +203,7 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
         this.elements = targets == null ? null
                 : Arrays.asList(targets).stream().map(a -> (ISchemaElement) a).toList()
-                        .toArray(new ISchemaElement[targets == null ? 0 : targets.length]);
+                        .toArray(new ISchemaElement[targets.length]);
 
     }
 
