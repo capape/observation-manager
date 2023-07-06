@@ -46,7 +46,7 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
 
         super(editable);
 
-        this.eyepiece = eyepiece;
+        this.eyepiece = ICloneable.copyOrNull(eyepiece);
 
         this.createPanel();
 

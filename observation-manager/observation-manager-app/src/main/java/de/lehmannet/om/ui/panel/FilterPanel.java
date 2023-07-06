@@ -48,7 +48,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
 
         super(editable);
 
-        this.filter = filter;
+        this.filter = ICloneable.copyOrNull(filter);
 
         this.createPanel();
 

@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.project;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
@@ -43,7 +44,8 @@ public class ProjectCatalog implements IListableCatalog {
     @Override
     public ITarget[] getTargets() {
 
-        return this.targets;
+        return this.targets == null ? null
+                : ICloneable.copyToList(this.targets).toArray(new ITarget[this.targets.length]);
 
     }
 

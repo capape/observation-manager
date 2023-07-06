@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 
+import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.GenericTargetPanel;
@@ -24,7 +25,7 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
     private static final long serialVersionUID = -8858493947135823299L;
 
     public GenericTargetDialog(JFrame om, IConfiguration configuration, UserInterfaceHelper uiHelper,
-            ObservationManagerModel model, ITarget editableTarget) {
+            ObservationManagerModel model, GenericTarget editableTarget) {
 
         super(om, model, uiHelper, new GenericTargetPanel(configuration, model, editableTarget, Boolean.TRUE));
 

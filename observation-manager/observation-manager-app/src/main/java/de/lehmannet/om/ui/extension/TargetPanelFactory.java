@@ -12,8 +12,8 @@ public class TargetPanelFactory {
             boolean editable) {
         switch (xsiType) {
             case GenericTarget.XML_XSI_TYPE_VALUE:
-                return new GenericTargetPanel(extensionContext.getConfiguration(), extensionContext.getModel(), target,
-                        editable);
+                return new GenericTargetPanel(extensionContext.getConfiguration(), extensionContext.getModel(),
+                        (GenericTarget) target, editable);
 
             case TargetStar.XML_XSI_TYPE_VALUE:
                 return new TargetStarPanel(extensionContext.getConfiguration(), extensionContext.getModel(),

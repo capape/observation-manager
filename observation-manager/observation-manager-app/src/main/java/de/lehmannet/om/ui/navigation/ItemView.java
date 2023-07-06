@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -207,7 +208,7 @@ public class ItemView extends JPanel implements ChangeListener {
         }
 
         // Keep in mind this observation
-        this.currentObseration = observation;
+        this.currentObseration = ICloneable.copyOrNull(observation);
         this.tabbedPane.removeAll();
 
         this.addObservationTab(observation);

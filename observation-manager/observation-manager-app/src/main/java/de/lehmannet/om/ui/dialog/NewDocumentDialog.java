@@ -1,5 +1,7 @@
 package de.lehmannet.om.ui.dialog;
 
+import static de.lehmannet.om.ICloneable.copyToList;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -160,42 +162,42 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         // Always return NULL if cancel was pressed or creation of blank document was
         // requested
         if ((this.getResult() == NewDocumentDialog.CANCEL) || (this.getResult() == NewDocumentDialog.OK_BLANK)) {
-            return null;
+            return new ISchemaElement[0];
         }
 
         switch (schemaElementCode) {
             case IMAGER: {
-                return this.imagers;
+                return copyToList(this.imagers).toArray(new ISchemaElement[0]);
             }
             case EYEPIECE: {
-                return this.eyepieces;
+                return copyToList(this.eyepieces).toArray(new ISchemaElement[0]);
             }
             case FILTER: {
-                return this.filters;
+                return copyToList(this.filters).toArray(new ISchemaElement[0]);
             }
             case LENS: {
-                return this.lenses;
+                return copyToList(this.lenses).toArray(new ISchemaElement[0]);
             }
             case OBSERVATION: {
-                return this.observations;
+                return copyToList(this.observations).toArray(new ISchemaElement[0]);
             }
             case OBSERVER: {
-                return this.observers;
+                return copyToList(this.observers).toArray(new ISchemaElement[0]);
             }
             case SCOPE: {
-                return this.scopes;
+                return copyToList(this.scopes).toArray(new ISchemaElement[0]);
             }
             case SESSION: {
-                return this.sessions;
+                return copyToList(this.sessions).toArray(new ISchemaElement[0]);
             }
             case SITE: {
-                return this.sites;
+                return copyToList(this.sites).toArray(new ISchemaElement[0]);
             }
             case TARGET: {
-                return this.targets;
+                return copyToList(this.targets).toArray(new ISchemaElement[0]);
             }
             default:
-                return null;
+                return new ISchemaElement[0];
         }
 
     }

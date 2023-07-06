@@ -25,16 +25,12 @@ public class GenericTargetPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public GenericTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
+    public GenericTargetPanel(IConfiguration configuration, ObservationManagerModel model, GenericTarget target,
             Boolean editable) throws IllegalArgumentException {
 
         super(editable);
 
-        if ((target != null) && !(target instanceof GenericTarget)) {
-            throw new IllegalArgumentException("Passed ITarget must derive from de.lehmannet.om.GenericTarget\n");
-        }
-
-        this.target = (GenericTarget) target;
+        this.target = ICloneable.copyOrNull(target);
         this.configuration = configuration;
         this.model = model;
 

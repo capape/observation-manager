@@ -1,5 +1,7 @@
 package de.lehmannet.om.ui.util;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,7 +13,7 @@ import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SplashScreenWithText {
+public final class SplashScreenWithText {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SplashScreenWithText.class);
 
@@ -19,13 +21,13 @@ public class SplashScreenWithText {
     private Graphics2D splashGraphics;
     private final Font font = new Font("Helvetica", Font.BOLD, 9);
 
-    private final int TEXT_POSITION_X = 250;
-    private final int TEXT_POSITION_Y = 200;
-    private final int TEXT_HEIGHT_BOX = 20;
+    private static final int TEXT_POSITION_X = 250;
+    private static final int TEXT_POSITION_Y = 200;
+    private static final int TEXT_HEIGHT_BOX = 20;
 
-    private final int VERSION_TEXT_POSITION_X = 250;
-    private final int VERSION_TEXT_POSITION_Y = 180;
-    private final int VERSION_TEXT_HEIGHT_BOX = 20;
+    private static final int VERSION_TEXT_POSITION_X = 250;
+    private static final int VERSION_TEXT_POSITION_Y = 180;
+    private static final int VERSION_TEXT_HEIGHT_BOX = 20;
 
     private final long millisecondsToWait;
     private final boolean nightMode;
@@ -45,16 +47,15 @@ public class SplashScreenWithText {
         }
 
         splash = SplashScreen.getSplashScreen();
-        LOGGER.info("Loading splash {}", this.image);
-        if (image != null) {
+
+        if (splash != null && image != null && splash.isVisible()) {
+
             try {
                 splash.setImageURL(image);
-            } catch (NullPointerException | IllegalStateException | IOException e) {
+            } catch (IOException e) {
+                LOGGER.warn("Loading splash {}", toLogMessage(e.toString()));
                 return;
             }
-        }
-
-        if (splash != null && splash.isVisible()) {
 
             splashGraphics = splash.createGraphics();
             splashGraphics.setColor(Color.BLACK);
@@ -66,6 +67,7 @@ public class SplashScreenWithText {
             splash.update();
 
             waitForNextMessage();
+
         }
     }
 
