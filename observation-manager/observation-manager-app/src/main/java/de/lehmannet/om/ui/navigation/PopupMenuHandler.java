@@ -376,27 +376,26 @@ class PopupMenuHandler implements ActionListener {
             }
         } else if (element instanceof ITarget) {
             ITarget target = (ITarget) element;
-            ITargetDialog dialog = this.observationManager.getExtensionLoader().getSchemaUILoader()
-                    .getTargetDialog(target.getXSIType(), target, null);
+            this.observationManager.getExtensionLoader().getSchemaUILoader().getTargetDialog(target.getXSIType(),
+                    target, null);
         } else if (element instanceof IScope) {
-            ScopeDialog dialog = new ScopeDialog(this.observationManager, this.model, (IScope) this.element);
+            new ScopeDialog(this.observationManager, this.model, (IScope) this.element);
         } else if (element instanceof IEyepiece) {
-            EyepieceDialog dialog = new EyepieceDialog(this.observationManager, this.model, (IEyepiece) this.element);
+            new EyepieceDialog(this.observationManager, this.model, (IEyepiece) this.element);
         } else if (element instanceof IImager) {
             IImager imager = (IImager) element;
-            IImagerDialog dialog = (IImagerDialog) this.observationManager.getExtensionLoader().getSchemaUILoader()
-                    .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
+            this.observationManager.getExtensionLoader().getSchemaUILoader().getSchemaElementDialog(imager.getXSIType(),
+                    SchemaElementConstants.IMAGER, imager, true);
         } else if (element instanceof ISite) {
-            SiteDialog dialog = new SiteDialog(this.observationManager, this.model, (ISite) this.element);
+            new SiteDialog(this.observationManager, this.model, (ISite) this.element);
         } else if (element instanceof IFilter) {
-            FilterDialog dialog = new FilterDialog(this.observationManager, this.model, (IFilter) this.element);
+            new FilterDialog(this.observationManager, this.model, (IFilter) this.element);
         } else if (element instanceof ISession) {
-            SessionDialog dialog = new SessionDialog(this.observationManager, this.model, (ISession) this.element,
-                    this.cache);
+            new SessionDialog(this.observationManager, this.model, (ISession) this.element, this.cache);
         } else if (element instanceof IObserver) {
-            ObserverDialog dialog = new ObserverDialog(this.observationManager, this.model, (IObserver) this.element);
+            new ObserverDialog(this.observationManager, this.model, (IObserver) this.element);
         } else if (element instanceof ILens) {
-            LensDialog dialog = new LensDialog(this.observationManager, this.model, (ILens) this.element);
+            new LensDialog(this.observationManager, this.model, (ILens) this.element);
         }
     }
 

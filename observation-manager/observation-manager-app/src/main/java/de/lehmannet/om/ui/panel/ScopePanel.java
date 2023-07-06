@@ -55,7 +55,7 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
 
         super(editable);
 
-        this.scope = scope;
+        this.scope = ICloneable.copyOrNull(scope);
 
         this.createPanel();
 

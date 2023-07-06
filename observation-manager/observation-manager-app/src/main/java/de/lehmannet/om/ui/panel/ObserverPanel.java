@@ -67,7 +67,7 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
 
         super(editable);
 
-        this.observer = observer;
+        this.observer = ICloneable.copyOrNull(observer);
 
         this.createPanel();
 

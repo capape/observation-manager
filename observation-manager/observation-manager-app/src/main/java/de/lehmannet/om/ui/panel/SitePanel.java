@@ -46,7 +46,7 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
         super(editable);
 
-        this.site = site;
+        this.site = ICloneable.copyOrNull(site);
 
         this.createPanel();
 

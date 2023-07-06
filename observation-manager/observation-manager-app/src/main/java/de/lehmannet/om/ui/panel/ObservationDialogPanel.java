@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -45,7 +47,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
-import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -178,7 +179,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observationManager = om;
         this.model = model;
         this.imageResolver = resolver;
-        this.observation = observation;
+        this.observation = copyOrNull(observation);
         this.textManager = textManager;
 
         // TODO IOC
@@ -277,7 +278,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return ICloneable.copyOrNull(this.observation);
+        return copyOrNull(this.observation);
 
     }
 
@@ -463,7 +464,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation
                 .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
-        return ICloneable.copyOrNull(this.observation);
+        return copyOrNull(this.observation);
 
     }
 
@@ -502,15 +503,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.beginDate == null) {
             this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.noStartTime"));
             return null;
-        }
-
-        // Try to get and set timezone
-        ISite site = this.siteBox.getSelectedSchemaElement();
-        if (site == null) {
-            ISession session = this.sessionBox.getSelectedSchemaElement();
-            if (session != null) {
-                site = session.getSite();
-            }
         }
 
         this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
@@ -670,7 +662,7 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.observation
                 .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
-        return ICloneable.copyOrNull(this.observation);
+        return copyOrNull(this.observation);
 
     }
 
@@ -838,26 +830,16 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             if (e.getStateChange() == ItemEvent.DESELECTED) {
                 OMComboBox<ITarget> tb = (OMComboBox<ITarget>) source;
                 ITarget target = tb.getSelectedSchemaElement();
-                if (target != null) {
-                    String type = target.getXSIType();
-                    AbstractPanel oldPanel = this.getFindingPanel();
-                    if (oldPanel != null) {
-                        String oldType = ((IFindingPanel) oldPanel).getXSIType();
-                        // @todo PopUp Warning?
-                    }
-                    this.setFindingPanel(target);
-                } else { // EMPTY_ITEM selected
-                    this.setFindingPanel(null);
-                }
+                this.setFindingPanel(target);
             }
         } else if (source.equals(this.sessionBox)) {
             SessionBox sb = (SessionBox) source;
             ISession session = sb.getSelectedSchemaElement();
             // Make sure that if session changes, the observations start and end date match
-            if ((e.getStateChange() == ItemEvent.SELECTED)
-            // && (this.observation == null) // (Autom. set date only in Creation mode. In
-            // edit mode this would set session dates as begin and end)
-            ) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // && (this.observation == null) // (Autom. set date only in Creation mode. In
+                // edit mode this would set session dates as begin and end)
+
                 if (session != null) {
 
                     // Check if session really changed from observation session!

@@ -10,6 +10,7 @@ package de.lehmannet.om.ui.extension;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +49,7 @@ public class SchemaUILoader {
     public SchemaUILoader(ObservationManager om, List<IExtension> extensions, ObservationManagerModel model) {
 
         this.observationManager = om;
-        this.extensions = extensions;
+        this.extensions = Collections.unmodifiableList(extensions);
         this.model = model;
     }
 

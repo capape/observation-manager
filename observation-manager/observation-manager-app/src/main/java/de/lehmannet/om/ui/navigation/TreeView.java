@@ -248,8 +248,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
             }
 
             this.observationManager.updateRight(element, parentElement);
-
-            SchemaElementMutableTreeNode lastSelected = (SchemaElementMutableTreeNode) node;
         }
 
     }

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import de.lehmannet.om.IEyepiece;
@@ -23,6 +25,7 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
+import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 
 public class ObservationManagerModelImpl implements ObservationManagerModel {
 
@@ -38,10 +41,14 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
 
     private ISchemaElement selected;
 
-    public ObservationManagerModelImpl(XMLFileLoader cache, InstallDir installDir, IConfiguration configuration) {
-        this.xmlCache = cache;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerModelImpl.class);
+
+    public ObservationManagerModelImpl(InstallDir installDir, IConfiguration configuration) {
         this.installDir = installDir;
         this.configuration = configuration;
+
+        LOGGER.info("Initializing xml loader...");
+        this.xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
 
     }
 

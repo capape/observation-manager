@@ -101,7 +101,7 @@ public class ObservationItemPanel extends AbstractPanel {
         this.om = om;
         this.model = model;
 
-        this.observation = observation;
+        this.observation = ICloneable.copyOrNull(observation);
 
         this.createPanel();
 

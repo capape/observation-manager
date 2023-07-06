@@ -22,8 +22,6 @@ import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.SplashScreenWithText;
-import de.lehmannet.om.ui.util.XMLFileLoader;
-import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.DateManagerImpl;
 
@@ -77,10 +75,6 @@ public class ObservationManagerApp {
         LOGGER.info("Install dir: {}", installDir.getPath());
         splash.updateText("Setting installation folder...");
 
-        LOGGER.info("Initializing xml loader...");
-        splash.updateText("Initializing xml loader...");
-        final XMLFileLoader xmlCache = XMLFileLoaderImpl.newInstance(installDir.getPathForFile("schema"));
-
         LOGGER.info("Initializing text manager...");
         splash.updateText("Initializing text manager...");
         final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
@@ -90,7 +84,7 @@ public class ObservationManagerApp {
         Locale.setDefault(aLocale);
 
         LOGGER.info("Creating model for app...");
-        final ObservationManagerModel model = new ObservationManagerModelImpl(xmlCache, installDir, configuration);
+        final ObservationManagerModel model = new ObservationManagerModelImpl(installDir, configuration);
 
         splash.updateText("Creating cache...");
         LOGGER.info("Creating cache app...");

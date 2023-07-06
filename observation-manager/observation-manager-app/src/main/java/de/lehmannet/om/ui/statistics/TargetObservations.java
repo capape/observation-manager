@@ -1,11 +1,12 @@
 package de.lehmannet.om.ui.statistics;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 
@@ -16,13 +17,13 @@ public class TargetObservations {
 
     public TargetObservations(ITarget target) {
 
-        this.target = target;
+        this.target = copyOrNull(target);
 
     }
 
     public ITarget getTarget() {
 
-        return ICloneable.copyOrNull(this.target);
+        return copyOrNull(this.target);
 
     }
 

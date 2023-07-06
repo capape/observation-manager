@@ -21,7 +21,7 @@ public class ProjectCatalog implements IListableCatalog {
 
     public ProjectCatalog(String name, ITarget[] targets) {
 
-        this.targets = targets;
+        this.targets = targets == null ? null : ICloneable.copyToList(targets).toArray(new ITarget[targets.length]);
         this.name = name;
         this.catalogIndex = this.createCatalogIndex();
 

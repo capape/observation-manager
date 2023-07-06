@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +57,7 @@ public class CatalogLoader {
 
         this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.observationManager = om;
-        this.extensions = extensions;
+        this.extensions = Collections.unmodifiableList(extensions);
 
         this.loadCatalogues();
 

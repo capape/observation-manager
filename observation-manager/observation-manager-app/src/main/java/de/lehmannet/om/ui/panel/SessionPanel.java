@@ -106,7 +106,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         super(editable);
 
         this.observationManager = manager;
-        this.session = session;
+        this.session = ICloneable.copyOrNull(session);
         this.model = model;
 
         this.cache = cache;

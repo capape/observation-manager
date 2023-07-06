@@ -480,6 +480,40 @@ public class TableSorter extends AbstractSchemaTableModel {
 
         }
 
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getEnclosingInstance().hashCode();
+            result = prime * result + modelIndex;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Row other = (Row) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance())) {
+                return false;
+            }
+            if (modelIndex != other.modelIndex) {
+                return false;
+            }
+            return true;
+        }
+
+        private TableSorter getEnclosingInstance() {
+            return TableSorter.this;
+        }
+
     }
 
     private class TableModelHandler implements TableModelListener {
