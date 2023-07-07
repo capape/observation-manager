@@ -199,4 +199,15 @@
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
+    
+    <Match>
+        <Class name="de.lehmannet.om.ui.update.UpdateChecker"/>
+        <Bug pattern="URLCONNECTION_SSRF_FD"/>
+    </Match>
+
+    <Match>
+        <Class name="de.lehmannet.om.ui.update.DownloadTask"/>
+        <Bug pattern="URLCONNECTION_SSRF_FD"/>
+    </Match>
+
 </FindBugsFilter>

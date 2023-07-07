@@ -12,6 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.Optional;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -469,7 +470,9 @@ public class ObservationManagerHtmlHelper {
         Templates template = null;
 
         try {
-            template = TransformerFactory.newInstance().newTemplates(xslSource);
+            var factory = TransformerFactory.newInstance();
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);            
+            template = factory.newTemplates(xslSource);
         } catch (TransformerConfigurationException tce) {
             LOGGER.error("--- Unable to get XSLTransformator: ", tce);
         }

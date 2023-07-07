@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +87,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                 this.dispose();
             } else if (source.equals(this.download)) {
                 List<UpdateEntry> downloadList = ((UpdateTableModel) this.infoTable.getModel()).getSelected();
-                if ((downloadList != null) && !(downloadList.isEmpty())) {
+                if (downloadList != null && !downloadList.isEmpty()) {
 
                     // ---------- Where to save the files?
                     JFileChooser chooser = new JFileChooser();
@@ -107,8 +108,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                             this.om.createWarning(this.bundle.getString("updateInfo.download.error"));
                         }
 
-                    } else {
-                    }
+                    } 
                 }
             }
         }
@@ -130,7 +130,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 
-            if ((column == 2) || (column == 3)) {
+            if (column == 2 || column == 3) {
                 cr.setHorizontalAlignment(SwingConstants.CENTER);
             }
 
@@ -220,8 +220,9 @@ class DownloadTask implements Worker {
                     String filename = path.substring(path.lastIndexOf('/') + 1); // Get filename
 
                     BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-                    FileOutputStream fos = new FileOutputStream(
-                            this.targetDir.getAbsolutePath() + File.separator + filename);
+
+                    File targetFile = FileSystems.getDefault().getPath(this.targetDir.getAbsolutePath() , filename).toFile();
+                    FileOutputStream fos = new FileOutputStream(targetFile);
                     byte[] buf = new byte[1024];
                     int len;
                     while ((len = bis.read(buf)) > 0) {

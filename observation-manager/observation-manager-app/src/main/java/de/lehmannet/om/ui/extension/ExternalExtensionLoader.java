@@ -356,6 +356,7 @@ public class ExternalExtensionLoader {
         Document doc = null;
         try (var fis = new FileInputStream(schema)) {
             DocumentBuilder db = dbf.newDocumentBuilder();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             doc = db.parse(fis);
         } catch (ParserConfigurationException pce) {
             LOGGER.error("Unable to parse file: {} ", schema, pce);

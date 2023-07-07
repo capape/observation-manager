@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
+import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -58,6 +59,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
     private JTextArea text = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(DidYouKnowDialog.class);
+    private final SecureRandom RANDOM = new SecureRandom();        
 
     public DidYouKnowDialog(ObservationManager om) {
 
@@ -161,20 +163,18 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         LOGGER.info("Hints folder: {}", path);
 
         File[] files = textDir.listFiles(); // Get all files in dir
-        if ((files == null) // No files found...
-                || (files.length == 0)) {
+        if (files == null || files.length == 0) {
             return "No hint files found ";
         }
 
-        int iNumber = 0;
-        do {
-            // Select random text
-            double dNumber = Math.random(); // Between 0.1 and 1.0
-            iNumber = (int) Math.round(dNumber * (files.length - 1)); // Expand random number to max length (number of
-                                                                      // files found -1 as array start with 0)
-        } while (!files[iNumber].isFile()); // Make sure we've found a file...this might be dangerous if there's no file
-                                            // at all!
+       
+        
+        int iNumber = RANDOM.nextInt(files.length);
 
+        while (!files[iNumber].isFile()) {
+            iNumber = RANDOM.nextInt(files.length);
+        }
+        
         String current = null;
         StringBuilder text = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber], StandardCharsets.UTF_8));) {

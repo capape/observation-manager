@@ -96,9 +96,10 @@ public class Configuration implements IConfiguration {
         if (configFolder.exists() || configFolder.mkdirs()) { // Create directories}
 
             String configFilePath = realPath + File.separatorChar + CONFIG_FILE;
+            File configFile = FileSystems.getDefault().getPath(configFilePath).toFile();
             FileOutputStream fos = null;
             try {
-                fos = new FileOutputStream(configFilePath);
+                fos = new FileOutputStream(configFile);
                 try (var buffer = new BufferedOutputStream(fos)) {
                     this.persistence.store(buffer, this.configFileHeader);
                 }

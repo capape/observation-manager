@@ -2,18 +2,16 @@ package de.lehmannet.om.ui.update;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +71,7 @@ public class UpdateChecker implements Runnable {
     private UpdateEntry checkForUpdates(String name, String oldVersion, URL checkURL) throws ConnectException {
 
         HttpURLConnection conn = null;
-        try {
+        try {            
             conn = (HttpURLConnection) checkURL.openConnection();
             conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -95,7 +93,7 @@ public class UpdateChecker implements Runnable {
                         currentLine = in.readLine();
 
                         // Check whether line contains any data
-                        if ((currentLine == null) || ("".equals(currentLine.trim()))) {
+                        if (StringUtils.isBlank(currentLine)) {
                             continue;
                         }
 
@@ -122,19 +120,20 @@ public class UpdateChecker implements Runnable {
                 }
             }
 
-        } catch (IOException ioe) {
-            if (ioe instanceof UnknownHostException) {
-                LOGGER.error("Host for update unknown: {} ", checkURL);
-                LOGGER.error(
-                        "** Network connection not available or PROXY settings may be needed. Change the following line in obs.sh/obs.bat file to set proxy:");
-                LOGGER.error("** start javaw -Djextensions.dirs=.....  to");
-                LOGGER.error(
-                        "** start javaw -Dhttp.proxyHost={YOURPROXY} -Dhttp.proxyPort={YOURPROXYPORT} -Dextensions.dirs=.....");
-            } else {
-                LOGGER.error("Error during update check for URL:  {}", checkURL, ioe);
-            }
+        } catch (UnknownHostException ioe) {
 
+            LOGGER.error("Host for update unknown: {} ", checkURL);
+            LOGGER.error(
+                    "** Network connection not available or PROXY settings may be needed. Change the following line in obs.sh/obs.bat file to set proxy:");
+            LOGGER.error("** start javaw -Djextensions.dirs=.....  to");
+            LOGGER.error(
+                    "** start javaw -Dhttp.proxyHost={YOURPROXY} -Dhttp.proxyPort={YOURPROXYPORT} -Dextensions.dirs=.....");
             throw new ConnectException("Unable to connect to host for update");
+
+        } catch (IOException ioe) {
+            LOGGER.error("Error during update check for URL:  {}", checkURL, ioe);
+            throw new ConnectException("Unable to connect to host for update");
+
         } finally {
             if (conn != null) {
                 conn.disconnect();
