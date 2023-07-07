@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.project;
 
+import java.util.Arrays;
+
 import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
@@ -30,7 +32,7 @@ public class ProjectCatalog implements IListableCatalog {
     @Override
     public String[] getCatalogIndex() {
 
-        return this.catalogIndex;
+        return this.catalogIndex == null ? null : Arrays.asList(this.catalogIndex).toArray(new String[0]);
 
     }
 

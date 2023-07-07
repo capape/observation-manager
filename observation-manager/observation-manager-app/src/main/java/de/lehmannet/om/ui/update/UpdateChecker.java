@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class UpdateChecker implements Runnable {
 
     public List<UpdateEntry> getResult() {
 
-        return this.result;
+        return Collections.unmodifiableList(this.result);
 
     }
 

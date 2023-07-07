@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -186,7 +188,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         } catch (FileNotFoundException fnfe) {
             LOGGER.error("Cannot find hint file: {}", files[iNumber]);
         } catch (IOException ioe) {
-            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber], current);
+            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber], toLogMessage(current));
         }
 
         return text.toString();

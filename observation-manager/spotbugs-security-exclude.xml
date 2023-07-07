@@ -10,135 +10,192 @@
     </Match>
     <Match>
         <Class name="de.lehmannet.om.ui.dialog.AbstractDialog" />
-        <Field name="bundle"/>
+        <Field name="bundle" />
         <Bug pattern="MS_PKGPROTECT" />
     </Match>
 
     <Match>
         <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
-        <Method name="getDefaultButton"/>
+        <Method name="getDefaultButton" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
     <Match>
         <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
-        <Method name="getDefaultButton"/>
+        <Method name="getDefaultButton" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
     <Match>
         <Class name="de.lehmannet.om.ui.panel.AbstractSearchPanel" />
-        <Method name="getSearchResult"/>
+        <Method name="getSearchResult" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
     <Match>
-        
-        <Method name="getMenu" returns="javax.swing.JMenu"/>
+        <Field name="tree" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
-    <Match>        
-        <Field name="configuration"/>
+    <Match>
+        <Field name="model" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="cachedMenus" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="cachedPopupMenus" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="htmlHelper" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="extLoader" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="item" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="table" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field type="javax.swing.JMenu" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field type="javax.swing.JMenu" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field type="javax.swing.JSplitPane" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field type="javax.swing.table.JTableHeader" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+    <Match>
+        <Field name="tableHeader" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-     <Match>        
-        <Field name="tableHeader"/>
+    <Match>
+        <Field name="configuration" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field name="tableModel"/>
+    <Match>
+        <Field name="tableHeader" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field name="htmlHelper"/>
+    <Match>
+        <Field name="tableModel" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field name="themeManager"/>
+    <Match>
+        <Field name="htmlHelper" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field name="task"/>
+    <Match>
+        <Field name="themeManager" />
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>
+        <Field name="task" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
 
-
-
-
-    <Match>        
-        <Field name="catalog"/>
+    <Match>
+        <Field name="catalog" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field name="model"/>
+    <Match>
+        <Field name="model" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-    <Match>        
-        <Field type="javax.swing.JFrame"/>
+    <Match>
+        <Field type="javax.swing.JFrame" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
-     <Match>        
-        <Field type="javax.swing.JMenu"/>
+    <Match>
+        <Field type="javax.swing.JMenu" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
-    <Match>        
-        <Field type="javax.swing.JTextArea"/>
+    <Match>
+        <Field type="javax.swing.JTextArea" />
         <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>  
+    </Match>
 
-  
-    <Match>      
-        <Field type="java.awt.Image"/>
+
+    <Match>
+        <Field type="java.awt.Image" />
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
-      <Match>      
-        <Method name="getTableCellEditorComponent" returns="java.awt.Component"/>
+    <Match>
+        <Method name="getTableCellEditorComponent" returns="java.awt.Component" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
     <!-- Need this inmutable -->
-    <Match>        
-        <Method name="getTableModel" returns="de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel"/>
+    <Match>
+        <Method name="getTableModel"
+            returns="de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 
     <Match>
-        <Bug pattern="COMMAND_INJECTION"/>
+        <Bug pattern="COMMAND_INJECTION" />
     </Match>
 
     <Match>
-        <Bug pattern="UNENCRYPTED_SOCKET"/>
+        <Bug pattern="UNENCRYPTED_SOCKET" />
     </Match>
 
     <!-- Temporary to check change to inmutable -->
-    <Match>        
-        <Field type="de.lehmannet.om.ui.navigation.ObservationManager"/>
+    <Match>
+        <Field type="de.lehmannet.om.ui.navigation.ObservationManager" />
         <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>  
+    </Match>
 
-    <Match>        
-        <Field type="de.lehmannet.om.ui.cache.UIDataCache"/>
+    <Match>
+        <Field type="de.lehmannet.om.ui.cache.UIDataCache" />
         <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>  
+    </Match>
 
-    <Match>        
-        <Field type="de.lehmannet.om.ui.extension.ExtensionLoader"/>
+    <Match>
+        <Field type="de.lehmannet.om.ui.extension.ExtensionLoader" />
         <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>  
-    <Match>        
-        <Method returns="de.lehmannet.om.ui.util.Configurationl"/>
+    </Match>
+    <Match>
+        <Method returns="de.lehmannet.om.ui.util.Configurationl" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
-    <Match>        
-        <Method returns="de.lehmannet.om.ui.util.IConfiguration"/>
+    <Match>
+        <Method returns="de.lehmannet.om.ui.util.IConfiguration" />
         <Bug pattern="EI_EXPOSE_REP" />
     </Match>
 

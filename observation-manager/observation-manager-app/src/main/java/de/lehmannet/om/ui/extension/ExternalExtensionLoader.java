@@ -1,5 +1,7 @@
 package de.lehmannet.om.ui.extension;
 
+import static de.lehmannet.om.util.Sanitizer.toLogMessage;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,14 +97,14 @@ public class ExternalExtensionLoader {
             this.logSupported(extension);
 
         } catch (Throwable e) {
-            LOGGER.error("Cannot load types for {}", extension.getName());
+            LOGGER.error("Cannot load types for {}", toLogMessage(extension.getName()));
         }
     }
 
     private void logSupported(IExtension extension) {
         if (LOGGER.isDebugEnabled()) {
             extension.getAllSupportedXSITypes()
-                    .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type));
+                    .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", toLogMessage(extension.getName()), toLogMessage(type)));
         }
     }
 
@@ -128,7 +130,7 @@ public class ExternalExtensionLoader {
 
     private List<URL> addJarToClassLoader(File jar) {
 
-        LOGGER.debug("Adding {} to class loader", jar.getName());
+        LOGGER.debug("Adding {} to class loader", toLogMessage(jar.getName()));
         List<File> files = new ArrayList<>(1);
         files.add(jar);
         return addJarsToClassLoader(files);
@@ -154,7 +156,7 @@ public class ExternalExtensionLoader {
                 urlArray.add(new URL("file:" + current.getAbsolutePath()));
             }
         } catch (MalformedURLException urle) {
-            LOGGER.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
+            LOGGER.error("Unable to add jar file to classloader: {} ", toLogMessage(current.getAbsolutePath()));
 
         }
         return urlArray;
@@ -201,7 +203,7 @@ public class ExternalExtensionLoader {
 
             return result;
         } catch (IOException zipEx) {
-            LOGGER.error("Error while accessing JAR file.\n", zipEx);
+            LOGGER.error("Error while accessing JAR file. {}", toLogMessage(zipEx.toString()));
             return null;
         }
 
@@ -220,7 +222,7 @@ public class ExternalExtensionLoader {
             try { // Default ClassLoader cannot find it...so try extensionClassLoader
                 currentClass = this.extensionClassLoader.loadClass(className);
             } catch (ClassNotFoundException cnfe2) {
-                LOGGER.error("Unable to find class:  {} : {}", className, cnfe2.getMessage(), cnfe2);
+                LOGGER.error("Unable to find class:  {} : {}. ", toLogMessage(className), toLogMessage(cnfe2.getMessage()));
                 return null;
             }
         }
@@ -239,17 +241,17 @@ public class ExternalExtensionLoader {
                     }
                 }
             } catch (InstantiationException ie) {
-                LOGGER.error("Unable to instantiate class: {}:{}, ", className, ie.getMessage(), ie);
+                LOGGER.error("Unable to instantiate class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(ie.getMessage()), toLogMessage(ie.toString()));
                 return null;
             } catch (InvocationTargetException ite) {
-                LOGGER.error("Unable to invocate class: {}:{}, ", className, ite.getMessage(), ite);
+                LOGGER.error("Unable to invocate class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(ite.getMessage()),  toLogMessage(ite.toString()));
                 return null;
             } catch (IllegalAccessException iae) {
-                LOGGER.error("Unable to access class: {}:{}, ", className, iae.getMessage(), iae);
+                LOGGER.error("Unable to access class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(iae.getMessage()),  toLogMessage(iae.toString()));
                 return null;
             }
         } else {
-            LOGGER.error("Unable to load class: {}. Maybe class has no default constructor. ", className);
+            LOGGER.error("Unable to load class: {}. Maybe class has no default constructor. ", toLogMessage(className));
             return null;
         }
 
