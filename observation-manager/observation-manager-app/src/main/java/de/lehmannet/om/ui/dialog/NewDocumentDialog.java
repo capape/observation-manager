@@ -25,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -76,7 +75,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private static final String AC_OK = "ok";
     private static final String AC_CANCEL = "cancel";
 
-    private ObservationManager om = null;
+    private final ObservationManager om;
     private JTree tree = null;
 
     private Boolean blank = null;
@@ -96,12 +95,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private final ObservationManagerModel model;
     private final TextManager textManager;
 
-    public NewDocumentDialog(JFrame om, ObservationManagerModel model, TextManager textManager,
+    public NewDocumentDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
             ImageResolver resolver) {
 
-        super((ObservationManager) om, true);
+        super(om, true);
 
-        this.om = (ObservationManager) om;
+        this.om = om;
         this.model = model;
         this.textManager = textManager;
 
@@ -265,6 +264,19 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         // Check dependencies
+        boolean solvedDependencyProblem = checkObservationsDependencies() || checkSessionDependencies()
+                || checkTargetDependencies();
+
+        if (solvedDependencyProblem) {
+            this.om.createInfo(this.textManager.getString("dialog.newDoc.info.solvedDependencyProblem"));
+        }
+
+        return true;
+
+    }
+
+    private boolean checkObservationsDependencies() {
+
         boolean solvedDependencyProblem = false;
 
         if ((this.observations != null) && (this.observations.length > 0)) { // Check dependencies of selected
@@ -458,8 +470,13 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                 }
             }
         }
+        return solvedDependencyProblem;
+    }
 
-        if ((this.sessions != null) && (this.sessions.length > 0)) { // Check dependencies of selected sessions
+    private boolean checkSessionDependencies() {
+
+        boolean solvedDependencyProblem = false;
+        if (this.sessions != null && this.sessions.length > 0) { // Check dependencies of selected sessions
             for (ISession session : this.sessions) {
                 // -- Site
                 ISite site = session.getSite();
@@ -511,8 +528,12 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                 }
             }
         }
+        return solvedDependencyProblem;
+    }
 
-        if ((this.targets != null) && (this.targets.length > 0)) { // Check dependencies of selected targets
+    private boolean checkTargetDependencies() {
+        boolean solvedDependencyProblem = false;
+        if (this.targets != null && this.targets.length > 0) { // Check dependencies of selected targets
             for (ITarget target : this.targets) {
                 // --- Observer
                 IObserver observer = target.getObserver();
@@ -528,22 +549,16 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                         if (!found) { // Element was not found, add it to array
                             this.observers = (IObserver[]) this.resizeArray(this.observers, this.observers.length + 1);
                             this.observers[this.observers.length - 1] = observer;
-                            solvedDependencyProblem = true;
+                            return true;
                         }
                     } else {
                         this.observers = new IObserver[] { observer };
-                        solvedDependencyProblem = true;
+                        return true;
                     }
                 }
             }
         }
-
-        if (solvedDependencyProblem) {
-            this.om.createInfo(this.textManager.getString("dialog.newDoc.info.solvedDependencyProblem"));
-        }
-
-        return true;
-
+        return solvedDependencyProblem;
     }
 
     private void initDialog() {

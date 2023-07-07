@@ -899,7 +899,12 @@ class CacheEntry {
     public void updateTarget(ITarget target) {
 
         // Check if component list has changed
-        List<ITarget> newComponents = ((ITargetContaining) target).getComponentTargets(this.getTargets());
+        List<ITarget> newComponents;
+        if (target instanceof ITargetContaining) {
+            newComponents = ((ITargetContaining) target).getComponentTargets(this.getTargets());
+        } else {
+            newComponents = Collections.emptyList();
+        }
         List<ISchemaElement> oldComponents = new ArrayList<>();
         for (SchemaElementCacheEntry<ITarget> elementCacheEntry : this.targetContaining) {
             if (elementCacheEntry.getSchemaElement().equals(target)) {
@@ -914,7 +919,9 @@ class CacheEntry {
                 elementCacheEntry.clearAllReferences();
                 // Add new referenced (to component targets)
                 List<ISchemaElement> data = new ArrayList<>();
-                data.addAll(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                if (target instanceof ITargetContaining) {
+                    data.addAll(((ITargetContaining) target).getComponentTargets(this.getTargets()));
+                }
                 elementCacheEntry.addReferencedElements(data);
 
                 break;
