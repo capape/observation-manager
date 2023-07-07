@@ -178,8 +178,7 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
     public SimpleSchemaElementModel(ISchemaElement[] elements) {
 
         this.elements = elements == null ? null
-                : Arrays.asList(elements).stream().toList()
-                        .toArray(new ISchemaElement[elements == null ? 0 : elements.length]);
+                : Arrays.asList(elements).stream().toList().toArray(new ISchemaElement[elements.length]);
 
     }
 

@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.i18n;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -22,11 +23,12 @@ public class TextManagerImpl implements TextManager {
     @Override
     public String getString(String key) {
 
-        final String value = this.bundle.getString(key);
-        if (value == null) {
+        try {
+            return this.bundle.getString(key);
+        } catch (MissingResourceException e) {
             return key;
         }
-        return this.bundle.getString(key);
+
     }
 
     @Override
