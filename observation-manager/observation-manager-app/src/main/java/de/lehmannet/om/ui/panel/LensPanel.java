@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.panel;
 
+import static de.lehmannet.om.ICloneable.copyOrNull;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -14,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import de.lehmannet.om.ICloneable;
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.Lens;
@@ -36,7 +37,7 @@ public class LensPanel extends AbstractPanel {
 
         super(editable);
 
-        this.lens = lens;
+        this.lens = copyOrNull(lens);
 
         this.createPanel();
 
@@ -49,7 +50,7 @@ public class LensPanel extends AbstractPanel {
     @Override
     public ISchemaElement getSchemaElement() {
 
-        return ICloneable.copyOrNull(this.lens);
+        return copyOrNull(this.lens);
 
     }
 
@@ -80,7 +81,7 @@ public class LensPanel extends AbstractPanel {
         // Add optional fields
         this.lens.setVendor(this.vendor.getText());
 
-        return ICloneable.copyOrNull(this.lens);
+        return copyOrNull(this.lens);
 
     }
 
@@ -111,7 +112,7 @@ public class LensPanel extends AbstractPanel {
             this.lens.setVendor(vendor);
         }
 
-        return ICloneable.copyOrNull(this.lens);
+        return copyOrNull(this.lens);
 
     }
 

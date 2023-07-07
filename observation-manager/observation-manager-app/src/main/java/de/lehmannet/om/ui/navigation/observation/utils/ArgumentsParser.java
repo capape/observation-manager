@@ -50,7 +50,10 @@ public class ArgumentsParser {
         private String[] args;
 
         public Builder(String[] args) {
-            this.args = args;
+            this.args = args == null ? null : new String[args.length];
+            if (args != null) {
+                System.arraycopy(args, 0, this.args, 0, args.length);
+            }
         }
 
         public ArgumentsParser build() {

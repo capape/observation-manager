@@ -41,6 +41,35 @@
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
+     <Match>        
+        <Field name="tableHeader"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field name="tableModel"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field name="htmlHelper"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field name="themeManager"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>        
+        <Field name="task"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+
+
+
+
     <Match>        
         <Field name="catalog"/>
         <Bug pattern="EI_EXPOSE_REP2" />
