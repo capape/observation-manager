@@ -147,6 +147,8 @@ public final class ObservationManager extends JFrame implements IObservationMana
         this.uiCache = builder.uiCache;
         this.dateManager = builder.dateManager;
 
+        this.setCurrentLocale(builder.locale);
+
         LOGGER.info("Observation Manager {} starting up...", this.getVersion());
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
         LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
@@ -236,6 +238,12 @@ public final class ObservationManager extends JFrame implements IObservationMana
 
     }
 
+    private void setCurrentLocale(String isoKey) {
+        this.textManager.useLanguage(isoKey);
+        final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
+        Locale.setDefault(aLocale);
+    }
+
     private void loadConfigFiles() {
         // Load XML File on startup (if desired)
         final ObservationManagerFileLoader fileLoader = new ObservationManagerFileLoader(configuration, model);
@@ -311,10 +319,7 @@ public final class ObservationManager extends JFrame implements IObservationMana
         // Load new bundle
         final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE,
                 Locale.getDefault().getLanguage());
-        this.textManager.useLanguage(isoKey);
-
-        final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
-        Locale.setDefault(aLocale);
+        setCurrentLocale(isoKey);
 
         // Reload title
         this.setTitle();

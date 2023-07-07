@@ -11,7 +11,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -236,14 +240,9 @@ class TargetSelectionModel extends AbstractTableModel {
 
         List<ITarget> result = new ArrayList<>();
 
-        Iterator<ITarget> keyIterator = this.targetMap.keySet().iterator();
-        ITarget current = null;
-        Boolean currentValue = null;
-        while (keyIterator.hasNext()) {
-            current = keyIterator.next();
-            currentValue = this.targetMap.get(current);
-            if (currentValue) {
-                result.add(current);
+        for (Entry<ITarget, Boolean> entry : this.targetMap.entrySet()) {
+            if (entry.getValue()) {
+                result.add(entry.getKey());
             }
         }
 

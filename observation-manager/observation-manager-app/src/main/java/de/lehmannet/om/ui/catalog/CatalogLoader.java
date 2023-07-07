@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import javax.swing.JProgressBar;
@@ -75,19 +76,15 @@ public class CatalogLoader {
 
         this.waitForCatalogLoaders();
 
-        Iterator<String> iterator = this.catalogMap.keySet().iterator();
-        ICatalog cat = null;
-        String currentKey = null;
         List<String> result = new ArrayList<>();
-        while (iterator.hasNext()) {
-            currentKey = iterator.next();
-            cat = this.catalogMap.get(currentKey);
-            if (cat instanceof IListableCatalog) {
-                result.add(currentKey);
+
+        for (Entry<String, ICatalog> entry : this.catalogMap.entrySet()) {
+            if (entry.getValue() instanceof IListableCatalog) {
+                result.add(entry.getKey());
             }
         }
 
-        return (String[]) result.toArray(new String[] {});
+        return result.toArray(new String[0]);
 
     }
 

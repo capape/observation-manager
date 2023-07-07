@@ -59,7 +59,7 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
         new WaitPopup(threadGrop, this.parent, title);
     }
 
-    class WaitPopup extends OMDialog {
+    static class WaitPopup extends OMDialog {
 
         private static final long serialVersionUID = -3950819080525084021L;
 

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.Worker;
 
-public class ProgressDialog extends OMDialog implements ComponentListener {
+public final class ProgressDialog extends OMDialog implements ComponentListener {
 
     private static final long serialVersionUID = -6190690843181392987L;
 

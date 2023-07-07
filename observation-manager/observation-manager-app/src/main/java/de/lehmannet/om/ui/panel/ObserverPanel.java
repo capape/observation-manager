@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListCellRenderer;
@@ -447,13 +448,11 @@ class AccountTableModel extends AbstractTableModel {
             this.accounts = new String[map.size()];
             this.userNames = new String[map.size()];
         }
-        Iterator<String> iterator = map.keySet().iterator();
-        String currentAccount = null;
         int i = 0;
-        while (iterator.hasNext()) {
-            currentAccount = iterator.next();
-            accounts[i] = currentAccount;
-            userNames[i++] = map.get(currentAccount);
+        for (Entry<String, String> entry : map.entrySet()) {
+            accounts[i] = entry.getKey();
+            userNames[i] = entry.getValue();
+            i++;
         }
 
         this.tableEditable = tableEditable;
