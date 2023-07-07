@@ -103,8 +103,8 @@ public class ExternalExtensionLoader {
 
     private void logSupported(IExtension extension) {
         if (LOGGER.isDebugEnabled()) {
-            extension.getAllSupportedXSITypes()
-                    .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", toLogMessage(extension.getName()), toLogMessage(type)));
+            extension.getAllSupportedXSITypes().forEach(type -> LOGGER.debug("Extension: {} supports type: {}",
+                    toLogMessage(extension.getName()), toLogMessage(type)));
         }
     }
 
@@ -222,7 +222,8 @@ public class ExternalExtensionLoader {
             try { // Default ClassLoader cannot find it...so try extensionClassLoader
                 currentClass = this.extensionClassLoader.loadClass(className);
             } catch (ClassNotFoundException cnfe2) {
-                LOGGER.error("Unable to find class:  {} : {}. ", toLogMessage(className), toLogMessage(cnfe2.getMessage()));
+                LOGGER.error("Unable to find class:  {} : {}. ", toLogMessage(className),
+                        toLogMessage(cnfe2.getMessage()));
                 return null;
             }
         }
@@ -241,13 +242,16 @@ public class ExternalExtensionLoader {
                     }
                 }
             } catch (InstantiationException ie) {
-                LOGGER.error("Unable to instantiate class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(ie.getMessage()), toLogMessage(ie.toString()));
+                LOGGER.error("Unable to instantiate class: {}:{}, {} ", toLogMessage(className),
+                        toLogMessage(ie.getMessage()), toLogMessage(ie.toString()));
                 return null;
             } catch (InvocationTargetException ite) {
-                LOGGER.error("Unable to invocate class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(ite.getMessage()),  toLogMessage(ite.toString()));
+                LOGGER.error("Unable to invocate class: {}:{}, {} ", toLogMessage(className),
+                        toLogMessage(ite.getMessage()), toLogMessage(ite.toString()));
                 return null;
             } catch (IllegalAccessException iae) {
-                LOGGER.error("Unable to access class: {}:{}, {} ",  toLogMessage(className),  toLogMessage(iae.getMessage()),  toLogMessage(iae.toString()));
+                LOGGER.error("Unable to access class: {}:{}, {} ", toLogMessage(className),
+                        toLogMessage(iae.getMessage()), toLogMessage(iae.toString()));
                 return null;
             }
         } else {

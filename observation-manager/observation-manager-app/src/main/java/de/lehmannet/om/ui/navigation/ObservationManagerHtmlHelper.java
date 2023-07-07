@@ -471,7 +471,7 @@ public class ObservationManagerHtmlHelper {
 
         try {
             var factory = TransformerFactory.newInstance();
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);            
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             template = factory.newTemplates(xslSource);
         } catch (TransformerConfigurationException tce) {
             LOGGER.error("--- Unable to get XSLTransformator: ", tce);

@@ -59,7 +59,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
     private JTextArea text = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(DidYouKnowDialog.class);
-    private final SecureRandom RANDOM = new SecureRandom();        
+    private final SecureRandom RANDOM = new SecureRandom();
 
     public DidYouKnowDialog(ObservationManager om) {
 
@@ -167,14 +167,12 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
             return "No hint files found ";
         }
 
-       
-        
         int iNumber = RANDOM.nextInt(files.length);
 
         while (!files[iNumber].isFile()) {
             iNumber = RANDOM.nextInt(files.length);
         }
-        
+
         String current = null;
         StringBuilder text = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber], StandardCharsets.UTF_8));) {
@@ -188,7 +186,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         } catch (FileNotFoundException fnfe) {
             LOGGER.error("Cannot find hint file: {}", files[iNumber]);
         } catch (IOException ioe) {
-            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber], toLogMessage(current));
+            LOGGER.error("Error while reading file: {} . Last read line was: {} ", files[iNumber],
+                    toLogMessage(current));
         }
 
         return text.toString();

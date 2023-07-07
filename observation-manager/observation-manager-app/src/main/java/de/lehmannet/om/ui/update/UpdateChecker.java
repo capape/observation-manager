@@ -2,10 +2,13 @@ package de.lehmannet.om.ui.update;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +74,7 @@ public class UpdateChecker implements Runnable {
     private UpdateEntry checkForUpdates(String name, String oldVersion, URL checkURL) throws ConnectException {
 
         HttpURLConnection conn = null;
-        try {            
+        try {
             conn = (HttpURLConnection) checkURL.openConnection();
             conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {

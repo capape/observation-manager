@@ -108,7 +108,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                             this.om.createWarning(this.bundle.getString("updateInfo.download.error"));
                         }
 
-                    } 
+                    }
                 }
             }
         }
@@ -221,7 +221,8 @@ class DownloadTask implements Worker {
 
                     BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
 
-                    File targetFile = FileSystems.getDefault().getPath(this.targetDir.getAbsolutePath() , filename).toFile();
+                    File targetFile = FileSystems.getDefault().getPath(this.targetDir.getAbsolutePath(), filename)
+                            .toFile();
                     FileOutputStream fos = new FileOutputStream(targetFile);
                     byte[] buf = new byte[1024];
                     int len;
