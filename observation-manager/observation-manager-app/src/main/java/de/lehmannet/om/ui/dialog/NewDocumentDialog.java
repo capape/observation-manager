@@ -158,10 +158,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     public ISchemaElement[] getSchemaElements(SchemaElementConstants schemaElementCode) {
 
-        // Always return NULL if cancel was pressed or creation of blank document was
-        // requested
-        if ((this.getResult() == NewDocumentDialog.CANCEL) || (this.getResult() == NewDocumentDialog.OK_BLANK)) {
-            return new ISchemaElement[0];
+        if (this.getResult() == NewDocumentDialog.CANCEL || this.getResult() == NewDocumentDialog.OK_BLANK) {
+            return getEmptySchemaElements(schemaElementCode);
         }
 
         switch (schemaElementCode) {
@@ -194,6 +192,47 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
             }
             case TARGET: {
                 return copyToList(this.targets).toArray(new ISchemaElement[0]);
+            }
+            default:
+                return new ISchemaElement[0];
+        }
+
+    }
+
+
+     private ISchemaElement[] getEmptySchemaElements(SchemaElementConstants schemaElementCode) {
+        
+
+        switch (schemaElementCode) {
+            case IMAGER: {
+                return new IImager[0];
+            }
+            case EYEPIECE: {
+                return new IEyepiece[0];
+            }
+            case FILTER: {
+                return new IFilter[0];
+            }
+            case LENS: {
+                return new ILens[0];
+            }
+            case OBSERVATION: {
+                return new IObservation[0];
+            }
+            case OBSERVER: {
+                return new IObserver[0];
+            }
+            case SCOPE: {
+                return new IScope[0];
+            }
+            case SESSION: {
+                return new ISession[0];
+            }
+            case SITE: {
+                return new ISite[0];
+            }
+            case TARGET: {
+                return new ITarget[0];
             }
             default:
                 return new ISchemaElement[0];
