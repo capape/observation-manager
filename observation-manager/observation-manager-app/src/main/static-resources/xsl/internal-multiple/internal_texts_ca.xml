@@ -1,0 +1,187 @@
+<texts>
+    <text ident="document.title">Observacions</text>
+    <text ident="h1.observations">Parts d'observació</text>
+    <text ident="summary.sessions">Sessions</text>
+    <text ident="summary.observations">Observacions:</text>
+
+    <text ident="targets.list">Objectius:</text>
+    <text ident="session.sessions.list">Sessions</text>
+    <text ident="sites.list">Llocs</text>
+    <text ident="scopes.list">Telescopis</text>
+    <text ident="eyepieces.list">Oculars</text>
+    <text ident="lenses.list">Lents</text>
+    <text ident="filters.list">Filtres</text>
+    <text ident="imagers.list">Càmeres</text>
+    <text ident="targets.targetlist">Objectius</text>
+    <text ident="SUN">Sol</text>
+    <text ident="MERCURY">Mercuri</text>
+    <text ident="VENUS">Venus</text>
+    <text ident="EARTH">Terra</text>
+    <text ident="MOON">Lluna</text>
+    <text ident="MARS">Marte</text>
+    <text ident="JUPITER">Júpiter</text>
+    <text ident="SATURN">Saturn</text>
+    <text ident="URANUS">Urà</text>
+    <text ident="NEPTUNE">Neptú</text>
+
+    <text ident="oal:CometTargetType">Cometa</text>
+    <text ident="oal:deepSkyAS">Asterisme</text>
+    <text ident="oal:deepSkyCG">Cúmul de galàxies</text>
+    <text ident="oal:deepSkyDN">Nebulosa fosca</text>
+    <text ident="oal:deepSkyDS">Estrella doble</text>
+    <text ident="oal:deepSkyGC">Cúmul globular</text>
+    <text ident="oal:deepSkyGN">Nebulosa galàctica</text>
+    <text ident="oal:deepSkyGX">Galàxia</text>
+    <text ident="oal:deepSkyMS">Sistema d'estrelles múltiples</text>
+    <text ident="oal:deepSkyOC">Cúmul obert</text>
+    <text ident="oal:deepSkyNA">Objecte sense categoria</text>
+    <text ident="oal:deepSkyPN">Nebulosa planetària</text>
+    <text ident="oal:deepSkyQS">Quàsar</text>
+    <text ident="oal:deepSkySC">Núvol estel·lar</text>
+    <text ident="oal:MinorPlanetTargetType">Planeta menor</text>
+    <text ident="oal:MoonTargetType">Lluna</text>
+    <text ident="oal:PlanetTargetType">Planeta</text>
+    <text ident="oal:SunTargetType">Sol</text>
+    <text ident="oal:UndefinedTargetType">(un altre objecte)</text>
+    <text ident="oal:variableStarTargetType">Estrella variable</text>
+    <text ident="type.unknown">(tipus desconegut)</text>
+    <text ident="oal:observationTargetType">(un altre objecte)</text>
+
+    <text ident="session.date.begin">Inici:</text>
+    <text ident="session.date.end">Fi:</text>
+    <text ident="session.observations">Observacions</text>
+    <text ident="session.weather">Meteorologia:</text>
+    <text ident="session.equipment">Equip:</text>
+    <text ident="session.equipment">Comentaris:</text>
+
+
+    <text ident="observation.date.begin">Inici:</text>
+    <text ident="observation.date.end">Fi:</text>
+    <text ident="observation.observer">Observador:</text>
+    <text ident="observation.site">Localització:</text>
+    <text ident="observation.faintest.star">Estrella més tènue:</text>
+    <text ident="observation.seeing">Seeing:</text>
+    <text ident="observation.seeing.very.good">(molt bo)</text>
+    <text ident="observation.seeing.good">(bo)</text>
+    <text ident="observation.seeing.fair">(regular)</text>
+    <text ident="observation.seeing.bad">(dolent)</text>
+    <text ident="observation.seeing.very.bad">(molt dolent)</text>
+    <text ident="observation.camera">Càmera:</text>
+    <text ident="observation.visual.impresion">Impressió visual:</text>
+
+    <text ident="target.alias">Àlies:</text>
+    <text ident="position.ra">RA:</text>
+    <text ident="position.dec">Dec:</text>
+
+    <text ident="target.ds.size">Mida:</text>
+    <text ident="target.ds.magnitude">m(vis):</text>
+    <text ident="target.ds.magnitude.mag">mag</text>
+    <text ident="target.ds.brightness">SB:</text>
+    <text ident="target.ds.brightness.surfbr">mags/sq.arcmin</text>
+    <text ident="target.ds.origin.observer">Origen:</text>
+    <text ident="target.ds.origin.source">Origen:</text>
+    <text ident="target.constellation">Constel·lació:</text>
+
+    <text ident="observer.contact">Contactes:</text>
+
+    <text ident="site.site">Localització:</text>
+    <text ident="site.longitude">Longitud:</text>
+    <text ident="site.latitude">Latitud:</text>
+    <text ident="site.timezone">Zona Horària:</text>
+    <text ident="site.ut">UT</text>
+
+    <text ident="result.visual.rating">Avaluació visual</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.1">Molt cridaner, bon cúmul; atreu l'atenció</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.2">Cúmul conspicu</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.3">Cúmul clarament visible</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.4">Cúmul estel·lar no molt cridaner</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.5">Cúmul molt discret; pot passar desapercebut fàcilment durant la cerca</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.6">Observat amb dubtes; densitat d'estrelles no més gran que en el camp circumdant</text>
+    <text ident="result.visual.rating.deep.sky.oc.type.7">Gairebé no hi ha estrelles en la posició indicada</text>
+
+    <text ident="result.visual.rating.deep.sky.ds.type.1">Es va poder resoldre l'estrella doble</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.2">L'estrella doble sembla un "8"</text>
+    <text ident="result.visual.rating.deep.sky.ds.type.3">No es va poder resoldre l'estrella doble</text>
+
+    <text ident="result.visual.rating.generic.type.1">Objecte senzill i cridaner en l'ocular</text>
+    <text ident="result.visual.rating.generic.type.2">Bona visibilitat amb visió directa</text>
+    <text ident="result.visual.rating.generic.type.3">Visible amb visió directa</text>
+    <text ident="result.visual.rating.generic.type.4">Visible només amb visió perifèrica</text>
+    <text ident="result.visual.rating.generic.type.5">L'objecte gairebé no es pot veure amb visió perifèrica</text>
+    <text ident="result.visual.rating.generic.type.6">Observat amb dubtes</text>
+    <text ident="result.visual.rating.generic.type.7">No s'ha pogut observar l'objecte</text>
+
+    <text ident="result.visual.deep.sky.stellar">Sembla ser estel·lar</text>
+    <text ident="result.visual.deep.sky.resolved">Sembla estar resolt</text>
+    <text ident="result.visual.deep.sky.mottled">Sembla estar tigrat</text>
+
+    <text ident="result.visual.deep.sky.apparent.size">Mida aparent:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude">Magnitud:</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.than">Més tènue que</text>
+    <text ident="result.visual.deep.sky.variable.visual.magnitude.fainter.uncertain">(Incert)</text>
+    <text ident="result.visual.deep.sky.variable.chart">Gràfic:</text>
+    <text ident="result.visual.deep.sky.variable.aavso.no.chart">(Gràfic no AAVSO)</text>
+    <text ident="result.visual.deep.sky.variable.comparison.stars">Estrelles de comparació:</text>
+
+    <text ident="img.alt.text">-IMG- no renderitzat</text>
+
+    <text ident="scope.aperture">Obertura:</text>
+    <text ident="scope.focal.length.unit">mm</text>
+    <text ident="scope.focal.length">Longitud focal:</text>
+    <text ident="scope.light.grasp">Captació de llum:</text>
+    <text ident="scope.magnification">Aument:</text>
+    <text ident="scope.optics">Òptica:</text>
+    <text ident="scope.true.field.view">Camp real de visió:</text>
+    <text ident="scope.type">Tipus:</text>
+    <text ident="scope.vendor">Venedor:</text>
+    <text ident="lens.eyepiece.focal.length.unit">mm</text>
+    <text ident="lens.eyepiece.focal.length">Longitud focal:</text>
+    <text ident="lens.eyepiece.magnification">Aument:</text>
+    <text ident="lens.eyepiece.true.field.view">Camp real de visió:</text>
+    <text ident="lens.eyepiece.zoom">Ocular zoom:</text>
+    <text ident="lens.eyepiece">Ocular:</text>
+    <text ident="lens.focal.length.factor">Factor de longitud focal:</text>
+    <text ident="lens.focal.length.unit">mm</text>
+    <text ident="lens.lens">Lent:</text>
+    <text ident="lens.vendor">Venedor:</text>
+    <text ident="imager.camera.ccd">Càmera CCD:</text>
+    <text ident="imager.camera">Càmera:</text>
+    <text ident="imager.vendor">Venedor:</text>
+    <text ident="imager.pixel">Píxel:</text>
+
+    <text ident="filter.filter">Filtre:</text>
+    <text ident="filter.type">Tipus:</text>
+
+    <text ident="filter.type.broadband">Amplada de banda</text>
+    <text ident="filter.type.color">Color</text>
+    <text ident="filter.type.corrective">Correctiu</text>
+    <text ident="filter.type.h-alpha">H-Alpha</text>
+    <text ident="filter.type.h-beta">H-Beta</text>
+    <text ident="filter.type.narrowband">Estreta banda</text>
+    <text ident="filter.type.neutral">Neutral</text>
+    <text ident="filter.type.OIII">OIII</text>
+    <text ident="filter.type.other">Altres</text>
+    <text ident="filter.type.solar">Solar</text>
+    <text ident="filter.type.unknown">(Tipus desconegut)</text>
+
+    <text ident="filter.farbe.blue">Blau</text>
+    <text ident="filter.farbe.deepblue">Blau fosc</text>
+    <text ident="filter.farbe.deepred">Vermell fosc</text>
+    <text ident="filter.farbe.deepyellow">Groc fosc</text>
+    <text ident="filter.farbe.green">Verd</text>
+    <text ident="filter.farbe.lightgreen">Verd clar</text>
+    <text ident="filter.farbe.lightred">Vermell clar</text>
+    <text ident="filter.farbe.lightyellow">Groc clar</text>
+    <text ident="filter.farbe.mediumblue">Blau mitjà</text>
+    <text ident="filter.farbe.orange">Taronja</text>
+    <text ident="filter.farbe.paleblue">Blau pàl·lid</text>
+    <text ident="filter.farbe.red">Vermell</text>
+    <text ident="filter.farbe.unknown">(Color desconegut)</text>
+    <text ident="filter.farbe.violet">Violeta</text>
+    <text ident="filter.farbe.yellow-green">Groc/Verd</text>
+    <text ident="filter.farbe.yellow">Groc</text>
+    <text ident="filter.farbe">Color:</text>
+
+    <text ident="filter.wratten">Valor Wratten:</text>
+    <text ident="filter.schott">Valor Schott:</text>
+</texts>
