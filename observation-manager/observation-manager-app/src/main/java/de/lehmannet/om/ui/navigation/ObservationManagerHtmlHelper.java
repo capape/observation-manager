@@ -82,6 +82,7 @@ public class ObservationManagerHtmlHelper {
                 try {
                     outputStream = new FileOutputStream(htmlFile);
                     result = new StreamResult(outputStream);
+                    result.setSystemId(htmlFile);
                 } catch (FileNotFoundException fnfe) {
                     LOGGER.error("Cannot transform XML file.\n", fnfe);
                     returnValue = Worker.RETURN_TYPE_ERROR;

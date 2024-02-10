@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" exclude-result-prefixes="external">
+                xmlns:external="http://ExternalFunction.xalan-c++.xml.apache.org" 
+                exclude-result-prefixes="external">
 
-
+    
     <!-- resolve references  -->
     <xsl:key name="sessionKey" match="sessions/session" use="@id"/>
     <xsl:key name="targetKey" match="targets/target" use="@id"/>
@@ -18,155 +19,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:call-template name="language-text"><xsl:with-param name="text">document.title</xsl:with-param></xsl:call-template></title>
-                <style type="text/css">
-                    <![CDATA[
-
-body {
-    font-family: 'Arial';
-    font-size: 12px;
-    vertical-align: top;
-}
-
-h1 {
-    align-content: center;
-}
-
-.sessions {
-    border-top-style: solid;
-    margin-left: 20px;
-}
-
-.sessions ul li {
-    font-size: 10px;
-
-}
-
-.sessions ul li span {
-
-    display: inline-grid;
-    min-width: 200px;
-}
-
-.session {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: lightgray;
-    border-bottom: solid 2px black;
-}
-
-.session div {
-    margin-left: 10px;
-
-}
-
-
-.session span.date {
-    font-weight: bold;
-}
-
-
-.observation {
-
-    background-color: white;
-    padding: 40px;
-    border: 1px solid;
-    width: 90%;
-    margin: 5px;
-}
-
-.position {
-    font-family: Courier;
-    color: black;
-}
-
-div.position div span {
-    display: inline-grid;
-    min-width: 50px;
-}
-
-div.target {
-    display: inline-block;
-    width: 30%;
-    vertical-align: top;
-    text-align: left;
-}
-
-div.infoTarget {
-    display: inline-block;
-    width: 60%;
-    vertical-align: top;
-    text-align: leftM
-}
-
-div.observation div.date {
-    padding: 5px;
-    text-align: left;
-    margin-top: 20px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-}
-
-div.date div {
-    display: inline;
-
-}
-
-.observation .datelabel {
-    font-weight: bold;
-    display: inline;
-}
-
-.optionaldata {
-    margin-top: 5px;
-
-}
-
-.optionaldata div span {
-
-    min-width: 100px;
-    display: inline-grid;
-
-
-}
-
-.label {
-    font-weight: bold;
-    min-width: 150px;
-    display: inline-block;
-}
-
-.observers {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.data {
-    border-bottom: 1px dashed black;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-}
-
-
-.dataheader {
-    width: 30%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.datacontent {
-    width: 60%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.sessions ul li span.targetToObservation {
-    min-width:0px;
-}
-
-
-]]>
-                </style>
+                <title><xsl:call-template name="language-text"><xsl:with-param name="text">document.title</xsl:with-param></xsl:call-template></title>               
                 <link rel="stylesheet" type="text/css" >
                     <xsl:attribute name="href">internal-custom.css</xsl:attribute>
                 </link>
@@ -176,12 +29,15 @@ div.date div {
                 <div class="summary">
                     <div><a href="#sessions"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.sessions</xsl:with-param></xsl:call-template> </span></a><xsl:value-of select="count(//sessions/session)"/></div>
                     <div><a href="#targetlist"><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">targets.list</xsl:with-param></xsl:call-template></span></a> <xsl:value-of select="count(//targets/target)"/></div>
+                    
                     <div><span class="label"><xsl:call-template name="language-text"><xsl:with-param name="text">summary.observations</xsl:with-param></xsl:call-template></span> <xsl:value-of select="count(//observation)"/></div>
                     <div class="observers">
                         <xsl:for-each select="//observers/observer">
                             <xsl:sort select="surname"/>
                             <xsl:sort select="name"/>
-                            <xsl:apply-templates select="."/>
+                            <xsl:if test="(name!='ZTF') and (name!='Catalog')">
+                                <xsl:apply-templates select="."/>
+                            </xsl:if>
                         </xsl:for-each>
                     </div>
                 </div>
@@ -193,11 +49,11 @@ div.date div {
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">session.sessions.list</xsl:with-param></xsl:call-template></h2>
                     <ul>
                         <xsl:for-each select="//sessions/session">
-                            <xsl:sort select="begin"/>
+                            <xsl:sort select="begin" order="descending"/>
                             <li>
                                 <div>
-                                    <xsl:text disable-output-escaping="yes">&lt;a href="#session</xsl:text>
-                                    <xsl:value-of select="@id"/>
+                                    <xsl:text disable-output-escaping="yes">&lt;a href="./sessions/</xsl:text>
+                                    <xsl:value-of select="@id"/>.html
                                     <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
                                     <span>
                                         <xsl:call-template name="formatDate">
@@ -214,8 +70,45 @@ div.date div {
                     </ul>
                     <xsl:for-each select="//sessions/session">
                         <xsl:sort select="begin"/>
+                        
+                        <xsl:variable name="currentSession" select="@id"/>
+                        <xsl:variable name="filename" select="concat('./sessions/', $currentSession,'.html')" />
+				        <xsl:result-document href="{$filename}" method="html"  omit-xml-declaration="yes">
+                        <html>
+                            <head>
+                                <link rel="stylesheet" type="text/css" ><xsl:attribute name="href">../internal-custom.css</xsl:attribute></link>
+                            </head>
+                        <body> 
+                        <div class="summary"></div>
+                        <div class="sessions">
+
                         <xsl:apply-templates select="."/>
+                        </div>
+                        </body></html>
+                        </xsl:result-document>
                     </xsl:for-each>
+
+                   <a name="targetlist"/>
+                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>
+                    <div class="targetlist">
+                    <table>
+                    <thead>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">target.constellation</xsl:with-param></xsl:call-template></th>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></th>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">session.sessions.list</xsl:with-param></xsl:call-template></th>
+                    <th></th>
+                    
+                    
+                    </thead>
+                        
+                            <xsl:for-each select="//targets/target">
+                                <xsl:sort select="constellation"/>
+                                <xsl:sort select="name"/>
+                                    <xsl:apply-templates select="." mode="targetListBottom"/>
+                            </xsl:for-each>
+                        
+                    </table>
+                    </div>
 
                     <a name="sites"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">sites.list</xsl:with-param></xsl:call-template></h2>
@@ -263,19 +156,7 @@ div.date div {
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
 
-                    <a name="targetlist"/>
-                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>
-                    <div class="targetlist">
-                        <ul>
-                            <xsl:for-each select="//targets/target">
-                                <xsl:sort select="constellation"/>
-                                <xsl:sort select="name"/>
-                                <li>
-                                    <xsl:apply-templates select="." mode="targetListBottom"/>
-                                </li>
-                            </xsl:for-each>
-                        </ul>
-                    </div>
+                    
                 </div>
             </body>
         </html>
@@ -501,17 +382,17 @@ div.date div {
                 <xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
                 <xsl:value-of select="@id"/>
                 <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
-                <h4>
+                
                     <xsl:choose>
                         <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
                             <xsl:variable name="objectName"  select="name"/>
-                            <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
+                            <xsl:call-template name="language-text"><xsl:with-param name="text"><h4><xsl:value-of select="$objectName"/></h4></xsl:with-param></xsl:call-template>
 
                         </xsl:when>
-                        <xsl:otherwise><xsl:value-of select="name"/> <xsl:apply-templates select="." mode="linkToDigitalSurvey"/></xsl:otherwise>
+                        <xsl:otherwise><h4><xsl:value-of select="name"/></h4> <xsl:apply-templates select="." mode="linkToDigitalSurvey"/></xsl:otherwise>
                     </xsl:choose>
                     <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text>
-                </h4>
+                
 
                 <div>
                     <span class="objectype">
@@ -712,8 +593,10 @@ div.date div {
 
 
     <xsl:template match="observer">
-        <div class="observer">
+        <div class="observer">            
             <xsl:variable name="idObserver" select="@id"/>
+            <xsl:variable name="nObservations" select="count(//sessions/session/coObserver[text()=$idObserver])"/>
+            <xsl:if test="$nObservations>1">
             <xsl:text disable-output-escaping="yes">&lt;a name="observer</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
@@ -721,7 +604,8 @@ div.date div {
             <xsl:text> </xsl:text>
             <xsl:value-of select="surname"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;  </xsl:text>
-            ( <xsl:value-of select="count(//sessions/session/coObserver[text()=$idObserver])"/> )
+            ( <xsl:value-of select="$nObservations"/> )
+            </xsl:if>
         </div>
     </xsl:template>
 
@@ -1180,12 +1064,20 @@ div.date div {
     </xsl:template>
 
     <xsl:template match="image">
-        <xsl:variable name="imgFile" select="."/>
-        <div class="image">
-        <xsl:variable name="imgTag" select="concat('img alt=&quot; - IMG: ', $imgFile,' - &quot; src=&quot;', $imgFile, '&quot;')"/>
-            <span><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text></span>
-        </div>
-
+        <xsl:variable name="imgFile" select="." />       
+        <xsl:choose>
+        <xsl:when test="matches($imgFile,'.*fit','i')">        
+            <xsl:variable name="imgLink" select="concat('a href=&quot;../', $imgFile, '&quot;')"/>
+            <div><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgLink"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
+                    Fits File
+                  <xsl:text disable-output-escaping="yes">&lt;/a&gt;</xsl:text></div>  
+        </xsl:when>
+        <xsl:otherwise>            
+            <xsl:variable name="imgTag" select="concat('img alt=&quot; - IMG: ', $imgFile,' - &quot; src=&quot;../', $imgFile, '&quot;')"/>
+            <span><xsl:text disable-output-escaping="yes">&lt;</xsl:text><xsl:value-of select="$imgTag"/><xsl:text disable-output-escaping="yes">&gt;</xsl:text></span>    
+        </xsl:otherwise>
+        </xsl:choose>
+        
     </xsl:template>
 
     <xsl:template name="language-text">
@@ -1227,31 +1119,49 @@ div.date div {
 
     <xsl:template match="target" mode="targetListBottom">
         <xsl:variable name="idTarget" select="@id"/>
+<tr>
+        <!-- <div class="target"> -->
+<td>
+        <span  style="min-width:100px;" >
+        <xsl:choose>
+            <xsl:when test="count(constellation)>0"><xsl:value-of select="constellation"/></xsl:when>
+            <xsl:otherwise>?</xsl:otherwise>
+        </xsl:choose>
+        </span>
+</td>
 
-        <div>
-        <div class="target">
         <xsl:choose>
             <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+            <td>
+                <span style="min-width:150px;">
                 <xsl:variable name="objectName"  select="name"/>
                 <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
                 ( <xsl:value-of select="count(//observation[target=$idTarget])"/> )
+                </span>
+            </td>
             </xsl:when>
 
             <xsl:otherwise>
+                    <td>
+                    <span  style="min-width:150px;">
                     <xsl:value-of select="name"/>
                     ( <xsl:value-of select="count(//observation[target=$idTarget])"/> )
-                    <xsl:apply-templates select="." mode="linkToDigitalSurvey"/>
+                    </span>
+                    </td>
             </xsl:otherwise>
         </xsl:choose>
 
-        <xsl:if test="count(constellation)>0"> ( <xsl:value-of select="constellation"/> )</xsl:if>
-        </div>
+        
+        <!-- /div -->
+        <td>
         <div class="infoTarget">
+        <ul>
              <xsl:for-each select="//observation[target=$idTarget]">
              <xsl:sort select="begin"/>
               <xsl:variable name="idObservation" select="@id"/>
+              <li>
               <span class="targetToObservation">
-              <xsl:text disable-output-escaping="yes"> &lt;a href="#observation</xsl:text>
+              <xsl:text disable-output-escaping="yes"> &lt;a href="sessions/</xsl:text><xsl:value-of select="session"/><xsl:text disable-output-escaping="yes">.html#observation</xsl:text>
               <xsl:value-of select="@id"/>
               <xsl:text disable-output-escaping="yes">" &gt;</xsl:text>
               [ <xsl:call-template name="formatDateAsDay">
@@ -1259,25 +1169,44 @@ div.date div {
                 </xsl:call-template> ]
               <xsl:text disable-output-escaping="yes">&lt;/a&gt; </xsl:text>
               </span>
-
+              </li>
              </xsl:for-each>
+        </ul>
         </div>
-        </div>
+        </td>
+
+         <xsl:choose>
+            <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+            <td>
+            </td>
+            </xsl:when>
+
+            <xsl:otherwise>
+            <td>
+                <span><xsl:apply-templates select="." mode="linkToDigitalSurvey"/></span>
+            </td>
+            </xsl:otherwise>
+        </xsl:choose>
+    </tr>
 
     </xsl:template>
 
     <xsl:template match="target" mode="linkToDigitalSurvey">
+       
         <xsl:text disable-output-escaping="yes">&lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc1&amp;r=</xsl:text>
         <xsl:value-of select="position/ra"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
         <xsl:value-of select="position/dec"/>
-        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS1','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>
-        <xsl:text disable-output-escaping="yes">(GSC1)&lt;/a&gt; - &lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc2&amp;r=</xsl:text>
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=17.0&amp;w=23.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS1','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50,titlebar=yes')'"&gt;</xsl:text>
+        <xsl:text disable-output-escaping="yes">(©2001 STScI Digitized Sky Survey GSC1)&lt;/a&gt; </xsl:text>
+        
+        <xsl:text disable-output-escaping="yes"> &lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc2&amp;r=</xsl:text>
         <xsl:value-of select="position/ra"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
         <xsl:value-of select="position/dec"/>
-        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=30.0&amp;w=30.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS2','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50')"&gt;</xsl:text>
-        <xsl:text disable-output-escaping="yes"> (GSC2)&lt;/a&gt;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=17.0&amp;w=23.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS2','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50,titlebar=yes')"&gt;</xsl:text>
+        <xsl:text disable-output-escaping="yes"> (©2008 STScI Digitized Sky Survey GSC2)&lt;/a&gt;</xsl:text>
+        
     </xsl:template>
 
     <xsl:output method="html"/>

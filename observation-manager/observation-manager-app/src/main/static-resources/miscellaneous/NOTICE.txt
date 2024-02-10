@@ -63,6 +63,6 @@
    
    ------------------------------
     
-    Catalan translation by A. Capape and Jordi Poch
+   Catalan translation by A. Capape and Jordi Poch
    
    ------------------------------
