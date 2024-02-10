@@ -93,9 +93,9 @@
                     <div class="targetlist">
                     <table>
                     <thead>
-                    <th>Constellation</th>
-                    <th>Target</th>
-                    <th>Sessions</th>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">target.constellation</xsl:with-param></xsl:call-template></th>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></th>
+                    <th><xsl:call-template name="language-text"><xsl:with-param name="text">session.sessions.list</xsl:with-param></xsl:call-template></th>
                     <th></th>
                     
                     
