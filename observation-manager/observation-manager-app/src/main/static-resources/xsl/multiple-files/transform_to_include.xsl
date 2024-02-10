@@ -35,7 +35,9 @@
                         <xsl:for-each select="//observers/observer">
                             <xsl:sort select="surname"/>
                             <xsl:sort select="name"/>
-                            <xsl:apply-templates select="."/>
+                            <xsl:if test="(name!='ZTF') and (name!='Catalog')">
+                                <xsl:apply-templates select="."/>
+                            </xsl:if>
                         </xsl:for-each>
                     </div>
                 </div>
@@ -86,7 +88,27 @@
                         </xsl:result-document>
                     </xsl:for-each>
 
-
+                   <a name="targetlist"/>
+                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>
+                    <div class="targetlist">
+                    <table>
+                    <thead>
+                    <th>Constellation</th>
+                    <th>Target</th>
+                    <th>Sessions</th>
+                    <th></th>
+                    
+                    
+                    </thead>
+                        
+                            <xsl:for-each select="//targets/target">
+                                <xsl:sort select="constellation"/>
+                                <xsl:sort select="name"/>
+                                    <xsl:apply-templates select="." mode="targetListBottom"/>
+                            </xsl:for-each>
+                        
+                    </table>
+                    </div>
 
                     <a name="sites"/>
                     <h2><xsl:call-template name="language-text"><xsl:with-param name="text">sites.list</xsl:with-param></xsl:call-template></h2>
@@ -134,19 +156,7 @@
                         <xsl:apply-templates select="."/>
                     </xsl:for-each>
 
-                    <a name="targetlist"/>
-                    <h2><xsl:call-template name="language-text"><xsl:with-param name="text">targets.targetlist</xsl:with-param></xsl:call-template></h2>
-                    <div class="targetlist">
-                        <ul>
-                            <xsl:for-each select="//targets/target">
-                                <xsl:sort select="constellation"/>
-                                <xsl:sort select="name"/>
-                                <li>
-                                    <xsl:apply-templates select="." mode="targetListBottom"/>
-                                </li>
-                            </xsl:for-each>
-                        </ul>
-                    </div>
+                    
                 </div>
             </body>
         </html>
@@ -583,8 +593,10 @@
 
 
     <xsl:template match="observer">
-        <div class="observer">
+        <div class="observer">            
             <xsl:variable name="idObserver" select="@id"/>
+            <xsl:variable name="nObservations" select="count(//sessions/session/coObserver[text()=$idObserver])"/>
+            <xsl:if test="$nObservations>1">
             <xsl:text disable-output-escaping="yes">&lt;a name="observer</xsl:text>
             <xsl:value-of select="@id"/>
             <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
@@ -592,7 +604,8 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="surname"/>
             <xsl:text disable-output-escaping="yes">&lt;/a&gt;  </xsl:text>
-            ( <xsl:value-of select="count(//sessions/session/coObserver[text()=$idObserver])"/> )
+            ( <xsl:value-of select="$nObservations"/> )
+            </xsl:if>
         </div>
     </xsl:template>
 
@@ -1106,38 +1119,47 @@
 
     <xsl:template match="target" mode="targetListBottom">
         <xsl:variable name="idTarget" select="@id"/>
-
-        <div class="target">
-        <span  style="min-width:100px;">
+<tr>
+        <!-- <div class="target"> -->
+<td>
+        <span  style="min-width:100px;" >
         <xsl:choose>
-            <xsl:when test="count(constellation)>0"> ( <xsl:value-of select="constellation"/>)</xsl:when>
+            <xsl:when test="count(constellation)>0"><xsl:value-of select="constellation"/></xsl:when>
             <xsl:otherwise>?</xsl:otherwise>
         </xsl:choose>
         </span>
+</td>
+
         <xsl:choose>
             <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+            <td>
                 <span style="min-width:150px;">
                 <xsl:variable name="objectName"  select="name"/>
                 <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectName"/></xsl:with-param></xsl:call-template>
                 ( <xsl:value-of select="count(//observation[target=$idTarget])"/> )
                 </span>
+            </td>
             </xsl:when>
 
             <xsl:otherwise>
+                    <td>
                     <span  style="min-width:150px;">
                     <xsl:value-of select="name"/>
                     ( <xsl:value-of select="count(//observation[target=$idTarget])"/> )
                     </span>
-                    <span><xsl:apply-templates select="." mode="linkToDigitalSurvey"/></span>
+                    </td>
             </xsl:otherwise>
         </xsl:choose>
 
         
-        </div>
+        <!-- /div -->
+        <td>
         <div class="infoTarget">
+        <ul>
              <xsl:for-each select="//observation[target=$idTarget]">
              <xsl:sort select="begin"/>
               <xsl:variable name="idObservation" select="@id"/>
+              <li>
               <span class="targetToObservation">
               <xsl:text disable-output-escaping="yes"> &lt;a href="sessions/</xsl:text><xsl:value-of select="session"/><xsl:text disable-output-escaping="yes">.html#observation</xsl:text>
               <xsl:value-of select="@id"/>
@@ -1147,10 +1169,25 @@
                 </xsl:call-template> ]
               <xsl:text disable-output-escaping="yes">&lt;/a&gt; </xsl:text>
               </span>
-
+              </li>
              </xsl:for-each>
+        </ul>
         </div>
-        
+        </td>
+
+         <xsl:choose>
+            <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+            <td>
+            </td>
+            </xsl:when>
+
+            <xsl:otherwise>
+            <td>
+                <span><xsl:apply-templates select="." mode="linkToDigitalSurvey"/></span>
+            </td>
+            </xsl:otherwise>
+        </xsl:choose>
+    </tr>
 
     </xsl:template>
 
