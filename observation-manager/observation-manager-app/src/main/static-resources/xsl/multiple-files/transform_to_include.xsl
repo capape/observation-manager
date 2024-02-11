@@ -943,7 +943,7 @@
 
 
     <xsl:template match="result">
-        <div>
+        <div class="preformatted">
             <xsl:if test="string-length(description)>0">
                 <xsl:value-of select="description"/>
             </xsl:if>
@@ -1125,7 +1125,7 @@
         <span  style="min-width:100px;" >
         <xsl:choose>
             <xsl:when test="count(constellation)>0"><xsl:value-of select="constellation"/></xsl:when>
-            <xsl:otherwise>?</xsl:otherwise>
+            <xsl:otherwise> <xsl:text disable-output-escaping="yes"> </xsl:text></xsl:otherwise>
         </xsl:choose>
         </span>
 </td>
@@ -1192,21 +1192,23 @@
     </xsl:template>
 
     <xsl:template match="target" mode="linkToDigitalSurvey">
-       
+        <xsl:variable name="posRa" select="position/ra" />
+        <xsl:variable name="posDec" select="position/dec" />
+        <xsl:if test="$posRa!=''" >
         <xsl:text disable-output-escaping="yes">&lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc1&amp;r=</xsl:text>
-        <xsl:value-of select="position/ra"/>
+        <xsl:value-of select="$posRa"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
-        <xsl:value-of select="position/dec"/>
+        <xsl:value-of select="$posDec"/>
         <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=17.0&amp;w=23.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1000px • HST mag 16 • ©2001 STScI Digitized Sky Survey" target="DSS1" onclick="window.open('','DSS1','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50,titlebar=yes')'"&gt;</xsl:text>
         <xsl:text disable-output-escaping="yes">(©2001 STScI Digitized Sky Survey GSC1)&lt;/a&gt; </xsl:text>
         
         <xsl:text disable-output-escaping="yes"> &lt;a href="http://archive.stsci.edu/cgi-bin/dss_search?v=phase2_gsc2&amp;r=</xsl:text>
-        <xsl:value-of select="position/ra"/>
+        <xsl:value-of select="$posRa"/>
         <xsl:text disable-output-escaping="yes">&amp;d=</xsl:text>
-        <xsl:value-of select="position/dec"/>
+        <xsl:value-of select="$posDec"/>
         <xsl:text disable-output-escaping="yes">&amp;e=J2000&amp;h=17.0&amp;w=23.0&amp;f=gif&amp;c=none&amp;fov=NONE&amp;v3=" title="GIF 1800px • HST mag 21 • ©2008 STScI Digitized Sky Survey" target="DSS2" onclick="window.open('','DSS2','width=550,height=550,menubars=no,toolbars=no,directories=no,resizable=yes,scrollbars=yes,left=50,top=50,titlebar=yes')"&gt;</xsl:text>
         <xsl:text disable-output-escaping="yes"> (©2008 STScI Digitized Sky Survey GSC2)&lt;/a&gt;</xsl:text>
-        
+        </xsl:if>
     </xsl:template>
 
     <xsl:output method="html"/>

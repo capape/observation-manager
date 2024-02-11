@@ -181,3 +181,8 @@ div.date div {
     page-break-inside: avoid;
     break-inside: avoid;
 }
+
+div.preformatted {
+    white-space: pre;
+    font-family: monospace;
+}
