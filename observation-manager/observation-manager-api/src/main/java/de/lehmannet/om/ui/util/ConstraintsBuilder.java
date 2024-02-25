@@ -27,4 +27,19 @@ public class ConstraintsBuilder {
 
     }
 
+    public static GridBagConstraints createConstraints(int gx, int gy, int gwith, int gheight, int wx, int wy) {
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gx;
+        gbc.gridy = gy;
+        gbc.gridwidth = gwith;
+        gbc.gridheight = gheight;
+        gbc.weightx = wx;
+        gbc.weighty = wy;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
+        gbc.insets = new Insets(1, 1, 1, 1);
+        return gbc;
+    }
+
 }
