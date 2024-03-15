@@ -2,6 +2,7 @@ package de.lehmannet.om.ui.navigation.observation.utils;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 public class TeeLog extends PrintStream {
 

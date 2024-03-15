@@ -7,6 +7,9 @@
 
 package de.lehmannet.om.ui.container;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.ZonedDateTime;

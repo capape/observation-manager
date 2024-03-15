@@ -199,9 +199,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
     }
 
-
-     private ISchemaElement[] getEmptySchemaElements(SchemaElementConstants schemaElementCode) {
-        
+    private ISchemaElement[] getEmptySchemaElements(SchemaElementConstants schemaElementCode) {
 
         switch (schemaElementCode) {
             case IMAGER: {

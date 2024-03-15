@@ -960,7 +960,7 @@ public class SchemaLoader {
             throw new SchemaException("No attribute specified: " + IImager.XML_XSI_TYPE);
         }
     }
-    
+
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
         char[] buffer = new char[500];
 

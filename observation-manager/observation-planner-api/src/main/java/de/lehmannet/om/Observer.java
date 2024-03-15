@@ -405,7 +405,7 @@ public class Observer extends SchemaElement implements IObserver {
     @Override
     public final List<String> getContacts() {
 
-        return contacts.stream().toList();        
+        return contacts.stream().toList();
 
     }
 
