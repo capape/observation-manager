@@ -37,7 +37,7 @@ public class VariableStarTargetDialog extends AbstractDialog implements ITargetD
             this.setTitle(bundle.getString("dialog.variableTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(VariableStarTargetDialog.serialVersionUID, 575, 375);
+        this.setSize(VariableStarTargetDialog.serialVersionUID, 575, 575);
 
         this.setVisible(true);
 
