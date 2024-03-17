@@ -575,16 +575,18 @@ public class TargetContainer extends Container implements MouseListener {
         GridBagConstraints constraints = ConstraintsBuilder.createConstraints(4, 5, 2, 1, 25, 2);
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
-        JRadioButton observer = new JRadioButton("Observer");
-        observer.setToolTipText("Observer");
+        var observerText = this.bundle.getString("observer");
+        JRadioButton observer = new JRadioButton(observerText);
+        observer.setToolTipText(observerText);
 
         observer.addActionListener(selectSourceObserverActionListener());
 
         observer.setSelected(isAssignedObserver());
         gridbag.setConstraints(observer, constraints);
 
-        JRadioButton otherSource = new JRadioButton("Other source");
-        otherSource.setToolTipText("Observer");
+        var datasourceText= this.bundle.getString("target.label.datasource");
+        JRadioButton otherSource = new JRadioButton(datasourceText);
+        otherSource.setToolTipText(datasourceText);
         otherSource.addActionListener(selectOtherSourceActionListener());
         otherSource.setSelected(!isAssignedObserver());
         constraints.gridy = 6;
