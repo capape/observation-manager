@@ -34,7 +34,7 @@ public class TargetStarDialog extends AbstractDialog implements ITargetDialog {
             this.setTitle(bundle.getString("dialog.targetStar.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(TargetStarDialog.serialVersionUID, 590, 313);
+        this.setSize(TargetStarDialog.serialVersionUID, 590, 575);
 
         this.setVisible(true);
 

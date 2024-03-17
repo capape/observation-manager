@@ -38,7 +38,7 @@ public class SolarSystemTargetMoonDialog extends AbstractDialog implements ITarg
             this.setTitle(bundle.getString("dialog.moon.titleEdit") + " " + target.getDisplayName());
         }
 
-        this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 260);
+        this.setSize(SolarSystemTargetMoonDialog.serialVersionUID, 550, 575);
 
         this.setVisible(true);
 

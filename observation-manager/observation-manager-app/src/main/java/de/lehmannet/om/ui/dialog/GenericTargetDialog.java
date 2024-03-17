@@ -35,7 +35,7 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
             this.setTitle(bundle.getString("dialog.genericTarget.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(GenericTargetDialog.serialVersionUID, 590, 260);
+        this.setSize(GenericTargetDialog.serialVersionUID, 590, 575);
 
         this.setVisible(true);
 

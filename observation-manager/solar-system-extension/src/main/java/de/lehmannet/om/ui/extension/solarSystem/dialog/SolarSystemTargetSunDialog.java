@@ -38,7 +38,7 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
             this.setTitle(bundle.getString("dialog.sun.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 260);
+        this.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 575);
 
         this.setVisible(true);
 
