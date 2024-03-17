@@ -522,15 +522,15 @@ public class TargetContainer extends Container implements MouseListener {
             }
             this.add(this.constellationBox);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasourceObserver"),
+            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"),
                     SwingConstants.RIGHT, true);
-            targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasourceObserver"));
+            targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 4, 1);
             gridbag.setConstraints(targetDatasourceLabel, constraints);
             this.add(targetDatasourceLabel);
 
             this.targetDatasource = new JTextField(); // make sure this is not NULL
-            this.targetDatasource.setToolTipText(this.bundle.getString("target.tooltip.datasourceObserver"));
+            this.targetDatasource.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             this.targetDatasource.setEditable(this.editable);
             ConstraintsBuilder.buildConstraints(constraints, 1, 5, 1, 1, 45, 1);
             this.sourceObserverBox = this.createObserverDropDownBox();
@@ -584,7 +584,7 @@ public class TargetContainer extends Container implements MouseListener {
         observer.setSelected(isAssignedObserver());
         gridbag.setConstraints(observer, constraints);
 
-        var datasourceText= this.bundle.getString("target.label.datasource");
+        var datasourceText= this.bundle.getString("target.label.datasource.other");
         JRadioButton otherSource = new JRadioButton(datasourceText);
         otherSource.setToolTipText(datasourceText);
         otherSource.addActionListener(selectOtherSourceActionListener());
