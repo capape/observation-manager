@@ -317,7 +317,7 @@ public class TargetContainer extends Container implements MouseListener {
             this.targetDatasource.setEnabled(true);
             this.sourceObserverBox.setEnabled(false);
 
-            if (isFromCatalog(this.target.getDatasource())) {
+            if (isFromCatalog(this.target)) {
                 this.targetDatasource.setEditable(false);
              //   this.targetDatasource.setEnabled(false);
             }
@@ -596,7 +596,7 @@ public class TargetContainer extends Container implements MouseListener {
         this.add(observer);
         this.add(otherSource);
 
-        if (isFromCatalog(this.target.getDatasource())) {            
+        if (isFromCatalog(this.target)) {            
             observer.setEnabled(false);
             otherSource.setEnabled(false);
             this.targetDatasource.setEditable(false);             
@@ -654,7 +654,7 @@ public class TargetContainer extends Container implements MouseListener {
             sourceObserverBox.setSelectedItem(null);
             this.targetDatasource.setEditable(true);
             this.targetDatasource.setEnabled(true);        
-            if (isFromCatalog(this.target.getDatasource())) {
+            if (isFromCatalog(this.target)) {
                 this.targetDatasource.setEditable(false);
                // this.targetDatasource.setEnabled(false);
             }
@@ -663,7 +663,11 @@ public class TargetContainer extends Container implements MouseListener {
         return sourceObserverBox;
     }
 
-    private boolean isFromCatalog(String datasource) {
+    private boolean isFromCatalog(ITarget target) {
+
+        if (target==null) {
+            return false;
+        }
 
         // TODO: handle this catalogs.
         var catalogs = List.of(
@@ -675,7 +679,7 @@ public class TargetContainer extends Container implements MouseListener {
                 "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",                
                 "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4");
 
-        return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(datasource));
+        return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(target.getDatasource()));
 
     }
 
