@@ -12,6 +12,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -20,12 +22,16 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
@@ -89,18 +95,30 @@ public class TargetContainer extends Container implements MouseListener {
     public ITarget updateTarget() {
 
         String name = this.getName();
-        if ((name == null) || ("".equals(name.trim()))) {
+        if (StringUtils.isBlank(name)) {
             this.createWarning(this.bundle.getString("target.warning.noName"));
             return null;
         }
         target.setName(name);
 
-        IObserver observer = this.getObserver();
-        if (observer != null) {
-            target.setObserver(observer);
+        if (this.targetDatasource.isEnabled()) {
+            if (StringUtils.isBlank(this.getDatasource())) {
+                this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
+                return null;
+            }
+            target.setDatasource(this.getDatasource());
+            target.setObserver(null);
+
         } else {
-            this.createWarning(this.bundle.getString("target.warning.noObserver"));
-            return null;
+            IObserver observer = this.getObserver();
+            if (observer != null) {
+                target.setObserver(observer);
+                target.setDatasource(null);
+
+            } else {
+                this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
+                return null;
+            }
         }
 
         // Optional parameters
@@ -108,18 +126,10 @@ public class TargetContainer extends Container implements MouseListener {
         target.setAliasNames(aliasNames);
 
         EquPosition pos = this.getPosition();
-        /*
-         * if( pos == null ) { this.createWarning(TargetContainer.bundle.getString( "target.warning.posMalformed"));
-         * return null; }
-         */
         target.setPosition(pos);
 
         Constellation constellation = this.getConstellation();
-        /*
-         * if( (constellation != null) && !("".equals(constellation)) ) {
-         */
         target.setConstellation(constellation);
-        // }
 
         target.setNotes(this.notes.getText().trim());
 
@@ -217,7 +227,7 @@ public class TargetContainer extends Container implements MouseListener {
         List<String> list = new ArrayList<>();
 
         String aliasNames = this.targetAliasNames.getText();
-        if ((aliasNames != null) && !("".equals(aliasNames))) {
+        if (aliasNames != null && !"".equals(aliasNames)) {
             StringTokenizer tokenizer = new StringTokenizer(aliasNames, ";");
             while (tokenizer.hasMoreTokens()) {
                 list.add(tokenizer.nextToken().trim());
@@ -233,13 +243,13 @@ public class TargetContainer extends Container implements MouseListener {
     public boolean checkOrigin(String datasource, IObserver observer) {
 
         // Both cannot be null
-        if (((datasource == null) || ("".equals(datasource))) && (observer == null)) {
+        if (StringUtils.isBlank(datasource) && observer == null) {
             this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
             return false;
         }
 
         // Both cannot be set
-        if (((datasource != null) && !("".equals(datasource))) && (observer != null)) {
+        if (StringUtils.isNotBlank(datasource) && observer != null) {
             this.createWarning(this.bundle.getString("target.warning.datasourceOrObserverBoth"));
             return false;
         }
@@ -301,14 +311,23 @@ public class TargetContainer extends Container implements MouseListener {
         }
 
         // Origin of target can be an observer, or an external datasource (catalogue)
-        if ((this.target.getDatasource() != null) && !("".equals(target.getDatasource()))) {
+        if (StringUtils.isNotBlank(this.target.getDatasource())) {
             this.targetDatasource.setText(this.target.getDatasource());
             this.targetDatasource.setEditable(this.editable);
+            this.targetDatasource.setEnabled(true);
+            this.sourceObserverBox.setEnabled(false);
+
+            if (isFromCatalog(this.target)) {
+                this.targetDatasource.setEditable(false);
+             //   this.targetDatasource.setEnabled(false);
+            }
+
         } else {
             if (!this.editable) {
                 IObserver observer = this.target.getObserver();
                 this.targetDatasource.setText(observer.getDisplayName());
                 this.targetDatasource.setEditable(this.editable);
+                this.targetDatasource.setEnabled(false);
             }
         }
 
@@ -327,10 +346,10 @@ public class TargetContainer extends Container implements MouseListener {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 5, 1);
-        OMLabel LtargetName = new OMLabel(this.bundle.getString("target.label.name"), true);
-        LtargetName.setToolTipText(this.bundle.getString("target.tooltip.name"));
-        gridbag.setConstraints(LtargetName, constraints);
-        this.add(LtargetName);
+        OMLabel labelTargetName = new OMLabel(this.bundle.getString("target.label.name"), true);
+        labelTargetName.setToolTipText(this.bundle.getString("target.tooltip.name"));
+        gridbag.setConstraints(labelTargetName, constraints);
+        this.add(labelTargetName);
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.targetName = new JTextField();
@@ -342,10 +361,11 @@ public class TargetContainer extends Container implements MouseListener {
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel LAliasName = new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT, false);
-        LAliasName.setToolTipText(this.bundle.getString("target.tooltip.aliasNames"));
-        gridbag.setConstraints(LAliasName, constraints);
-        this.add(LAliasName);
+        OMLabel labelAliasName = new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT,
+                false);
+        labelAliasName.setToolTipText(this.bundle.getString("target.tooltip.aliasNames"));
+        gridbag.setConstraints(labelAliasName, constraints);
+        this.add(labelAliasName);
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
@@ -367,10 +387,10 @@ public class TargetContainer extends Container implements MouseListener {
         this.add(this.equPosition);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 4, 1);
-        OMLabel LConstallation = new OMLabel(this.bundle.getString("target.label.constellation"), false);
-        LConstallation.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
-        gridbag.setConstraints(LConstallation, constraints);
-        this.add(LConstallation);
+        OMLabel labelConstallation = new OMLabel(this.bundle.getString("target.label.constellation"), false);
+        labelConstallation.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
+        gridbag.setConstraints(labelConstallation, constraints);
+        this.add(labelConstallation);
 
         JLabel targetDatasourceLabel = null;
         if ((this.target != null) // Show
@@ -393,17 +413,19 @@ public class TargetContainer extends Container implements MouseListener {
             this.targetDatasource.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             this.targetDatasource.setEditable(this.editable);
             this.add(targetDatasourceLabel);
-            this.createObserverDropDownBox(); // Make sure this is not NULL
+
+            this.sourceObserverBox = this.createObserverDropDownBox(); // Make sure this is not NULL
+
             ConstraintsBuilder.buildConstraints(constraints, 3, 4, 5, 1, 45, 1);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             gridbag.setConstraints(targetDatasource, constraints);
             this.add(targetDatasource);
 
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 100, 1);
-            OMLabel Lnotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
-            Lnotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
-            gridbag.setConstraints(Lnotes, constraints);
-            this.add(Lnotes);
+            OMLabel labelNotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
+            labelNotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
+            gridbag.setConstraints(labelNotes, constraints);
+            this.add(labelNotes);
             ConstraintsBuilder.buildConstraints(constraints, 0, 6, 8, 2, 100, 45);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.notes = new JTextArea(10, 40);
@@ -429,58 +451,58 @@ public class TargetContainer extends Container implements MouseListener {
             EquPosition pos = this.target.getPosition();
             if (pos != null) { // Target might not have position (e.g. SolarSystem Targets)
 
-                JLabel LAtlas = new JLabel(this.bundle.getString("target.label.atlas"));
+                JLabel labelAtlas = new JLabel(this.bundle.getString("target.label.atlas"));
                 ConstraintsBuilder.buildConstraints(constraints, 0, 8, 8, 1, 100, 1);
-                gridbag.setConstraints(LAtlas, constraints);
-                this.add(LAtlas);
+                gridbag.setConstraints(labelAtlas, constraints);
+                this.add(labelAtlas);
 
-                JLabel LUranometeria = new JLabel(this.bundle.getString("target.label.uranometeria"));
+                JLabel labelUranometeria = new JLabel(this.bundle.getString("target.label.uranometeria"));
                 JTextField uranometeria = new JTextField("" + AtlasUtil.getUranometriaPage(pos), 4);
                 uranometeria.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 0, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LUranometeria, constraints);
-                this.add(LUranometeria);
+                gridbag.setConstraints(labelUranometeria, constraints);
+                this.add(labelUranometeria);
                 ConstraintsBuilder.buildConstraints(constraints, 1, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(uranometeria, constraints);
                 this.add(uranometeria);
 
-                JLabel LUranometeria2 = new JLabel(this.bundle.getString("target.label.uranometeria2"));
+                JLabel labelUranometeria2 = new JLabel(this.bundle.getString("target.label.uranometeria2"));
                 JTextField uranometeria2 = new JTextField("" + AtlasUtil.getUranometria2000Page(pos), 4);
                 uranometeria2.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 2, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LUranometeria2, constraints);
-                this.add(LUranometeria2);
+                gridbag.setConstraints(labelUranometeria2, constraints);
+                this.add(labelUranometeria2);
                 ConstraintsBuilder.buildConstraints(constraints, 3, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(uranometeria2, constraints);
                 this.add(uranometeria2);
 
-                JLabel LMillenium = new JLabel(this.bundle.getString("target.label.milleniumStarAtlas"));
+                JLabel labelMillenium = new JLabel(this.bundle.getString("target.label.milleniumStarAtlas"));
                 JTextField millenium = new JTextField("" + AtlasUtil.getMilleniumStarAtlasPage(pos), 4);
                 millenium.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 4, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LMillenium, constraints);
-                this.add(LMillenium);
+                gridbag.setConstraints(labelMillenium, constraints);
+                this.add(labelMillenium);
                 ConstraintsBuilder.buildConstraints(constraints, 5, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(millenium, constraints);
                 this.add(millenium);
 
-                JLabel LStarAtlas200 = new JLabel(this.bundle.getString("target.label.skyAtlas2000"));
+                JLabel labelStarAtlas200 = new JLabel(this.bundle.getString("target.label.skyAtlas2000"));
                 JTextField startAtlas = new JTextField("" + AtlasUtil.getSkyAtlas2000Page(pos), 4);
                 startAtlas.setEditable(false);
                 ConstraintsBuilder.buildConstraints(constraints, 6, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.EAST;
-                gridbag.setConstraints(LStarAtlas200, constraints);
-                this.add(LStarAtlas200);
+                gridbag.setConstraints(labelStarAtlas200, constraints);
+                this.add(labelStarAtlas200);
                 ConstraintsBuilder.buildConstraints(constraints, 7, 9, 1, 1, 45, 1);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
                 gridbag.setConstraints(startAtlas, constraints);
@@ -500,26 +522,33 @@ public class TargetContainer extends Container implements MouseListener {
             }
             this.add(this.constellationBox);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasourceObserver"),
+            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"),
                     SwingConstants.RIGHT, true);
-            targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasourceObserver"));
-            ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 5, 1);
+            targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
+            ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 4, 1);
             gridbag.setConstraints(targetDatasourceLabel, constraints);
             this.add(targetDatasourceLabel);
+
             this.targetDatasource = new JTextField(); // make sure this is not NULL
-            this.targetDatasource.setToolTipText(this.bundle.getString("target.tooltip.datasourceObserver"));
+            this.targetDatasource.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             this.targetDatasource.setEditable(this.editable);
-            ConstraintsBuilder.buildConstraints(constraints, 3, 4, 1, 1, 45, 1);
-            this.createObserverDropDownBox();
+            ConstraintsBuilder.buildConstraints(constraints, 1, 5, 1, 1, 45, 1);
+            this.sourceObserverBox = this.createObserverDropDownBox();
             gridbag.setConstraints(sourceObserverBox, constraints);
             this.add(sourceObserverBox);
 
-            ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 100, 1);
-            OMLabel Lnotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
-            Lnotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
-            gridbag.setConstraints(Lnotes, constraints);
-            this.add(Lnotes);
-            ConstraintsBuilder.buildConstraints(constraints, 0, 6, 8, 3, 100, 45);
+            ConstraintsBuilder.buildConstraints(constraints, 1, 6, 1, 1, 45, 1);
+            gridbag.setConstraints(this.targetDatasource, constraints);
+            this.add(this.targetDatasource);
+
+            selectSourceType(gridbag);
+
+            ConstraintsBuilder.buildConstraints(constraints, 0, 7, 1, 1, 100, 1);
+            OMLabel labelNotes = new OMLabel(this.bundle.getString("target.label.notes"), false);
+            labelNotes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
+            gridbag.setConstraints(labelNotes, constraints);
+            this.add(labelNotes);
+            ConstraintsBuilder.buildConstraints(constraints, 0, 8, 8, 3, 100, 45);
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.notes = new JTextArea(10, 40);
             this.notes.setToolTipText(this.bundle.getString("target.tooltip.notes"));
@@ -540,24 +569,130 @@ public class TargetContainer extends Container implements MouseListener {
 
     }
 
-    private void createObserverDropDownBox() {
+    private void selectSourceType(GridBagLayout gridbag) {
 
-        this.sourceObserverBox = new OMComboBox<IObserver>();
-        this.sourceObserverBox.setToolTipText(this.bundle.getString("target.dropdown.selectObserver"));
+        ButtonGroup group = new ButtonGroup();
+        GridBagConstraints constraints = ConstraintsBuilder.createConstraints(4, 5, 2, 1, 25, 2);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
 
+        var observerText = this.bundle.getString("observer");
+        JRadioButton observer = new JRadioButton(observerText);
+        observer.setToolTipText(observerText);
+
+        observer.addActionListener(selectSourceObserverActionListener());
+
+        observer.setSelected(isAssignedObserver());
+        gridbag.setConstraints(observer, constraints);
+
+        var datasourceText= this.bundle.getString("target.label.datasource.other");
+        JRadioButton otherSource = new JRadioButton(datasourceText);
+        otherSource.setToolTipText(datasourceText);
+        otherSource.addActionListener(selectOtherSourceActionListener());
+        otherSource.setSelected(!isAssignedObserver());
+        constraints.gridy = 6;
+        gridbag.setConstraints(otherSource, constraints);
+
+        group.add(observer);
+        group.add(otherSource);
+
+        this.add(observer);
+        this.add(otherSource);
+
+        if (isFromCatalog(this.target)) {            
+            observer.setEnabled(false);
+            otherSource.setEnabled(false);
+            this.targetDatasource.setEditable(false);             
+         //   this.targetDatasource.setEnabled(false);       
+        }
+
+    }
+
+    private ActionListener selectOtherSourceActionListener() {
+
+        return new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TargetContainer.this.sourceObserverBox.setEnabled(false);
+                TargetContainer.this.targetDatasource.setEnabled(true);
+                TargetContainer.this.targetDatasource.setEditable(true);
+
+            }
+
+        };
+    }
+
+    private ActionListener selectSourceObserverActionListener() {
+
+        return new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TargetContainer.this.sourceObserverBox.setEnabled(true);
+                TargetContainer.this.targetDatasource.setEnabled(false);
+                TargetContainer.this.targetDatasource.setEditable(false);
+
+            }
+
+        };
+    }
+
+    private boolean isAssignedObserver() {
+        return this.target != null && this.target.getObserver() != null;
+    }
+
+    private OMComboBox<IObserver> createObserverDropDownBox() {
+
+        var sourceObserverBox = new OMComboBox<IObserver>();
+        sourceObserverBox.setToolTipText(this.bundle.getString("target.dropdown.selectObserver"));
+
+        fillComboWithObservers(sourceObserverBox);
+
+        if (isAssignedObserver()) {
+            sourceObserverBox.setSelectedItem(this.target.getObserver());
+            this.targetDatasource.setEditable(false);
+            this.targetDatasource.setEnabled(false);
+        } else {
+            sourceObserverBox.setSelectedItem(null);
+            this.targetDatasource.setEditable(true);
+            this.targetDatasource.setEnabled(true);        
+            if (isFromCatalog(this.target)) {
+                this.targetDatasource.setEditable(false);
+               // this.targetDatasource.setEnabled(false);
+            }
+        }
+
+        return sourceObserverBox;
+    }
+
+    private boolean isFromCatalog(ITarget target) {
+
+        if (target==null) {
+            return false;
+        }
+
+        // TODO: handle this catalogs.
+        var catalogs = List.of(
+                "ObservationManager - SolarSystem Catalog 1.0",
+                "Revised Index Catalogue", "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ",
+                "Caldwell","ObservationManager - Messier Catalog 1.0","ObservationManager - Caldwell Catalog 1.0",
+                "Revised New General Catalogue",
+                "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
+                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",                
+                "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4");
+
+        return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(target.getDatasource()));
+
+    }
+
+    private void fillComboWithObservers(OMComboBox<IObserver> sourceObserverBox) {
         IObserver[] observer = this.model.getObservers();
         if (observer != null) {
             for (IObserver iObserver : observer) {
-                this.sourceObserverBox.addItem(iObserver);
+                sourceObserverBox.addItem(iObserver);
             }
         } else {
-            this.sourceObserverBox.addEmptyItem();
-        }
-
-        if ((this.target != null) && (this.target.getObserver() != null)) {
-            this.sourceObserverBox.setSelectedItem(this.target.getObserver());
-        } else {
-            this.sourceObserverBox.setSelectedItem(null);
+            sourceObserverBox.addEmptyItem();
         }
     }
 

@@ -37,7 +37,7 @@ public class DeepSkyTargetDNDialog extends AbstractDialog implements ITargetDial
             this.setTitle(bundle.getString("dialog.dn.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(DeepSkyTargetDNDialog.serialVersionUID, 575, 360);
+        this.setSize(DeepSkyTargetDNDialog.serialVersionUID, 575, 575);
 
         this.setVisible(true);
 

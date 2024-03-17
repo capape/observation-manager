@@ -37,7 +37,7 @@ public class SolarSystemTargetCometDialog extends AbstractDialog implements ITar
             this.setTitle(bundle.getString("dialog.comet.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(SolarSystemTargetCometDialog.serialVersionUID, 550, 260);
+        this.setSize(SolarSystemTargetCometDialog.serialVersionUID, 550, 575);
 
         this.setVisible(true);
 

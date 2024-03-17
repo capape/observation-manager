@@ -36,7 +36,7 @@ public class DeepSkyTargetSCDialog extends AbstractDialog implements ITargetDial
             this.setTitle(bundle.getString("dialog.sc.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(DeepSkyTargetSCDialog.serialVersionUID, 620, 365);
+        this.setSize(DeepSkyTargetSCDialog.serialVersionUID, 620, 575);
 
         this.setVisible(true);
 

@@ -37,7 +37,7 @@ public class SolarSystemTargetMinorPlanetDialog extends AbstractDialog implement
             this.setTitle(bundle.getString("dialog.minor.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(SolarSystemTargetMinorPlanetDialog.serialVersionUID, 550, 260);
+        this.setSize(SolarSystemTargetMinorPlanetDialog.serialVersionUID, 550, 575);
 
         this.setVisible(true);
 

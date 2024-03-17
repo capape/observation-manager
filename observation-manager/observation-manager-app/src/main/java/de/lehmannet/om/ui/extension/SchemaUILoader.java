@@ -10,6 +10,7 @@ package de.lehmannet.om.ui.extension;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -176,6 +177,7 @@ public class SchemaUILoader {
                 }
             }
         }
+        Collections.sort(result);
 
         return (String[]) result.toArray(new String[] {});
 

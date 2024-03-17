@@ -36,7 +36,7 @@ public class DeepSkyTargetMSDialog extends AbstractDialog implements ITargetDial
             this.setTitle(bundle.getString("dialog.ms.titleEdit") + " " + editableTarget.getDisplayName());
         }
 
-        this.setSize(DeepSkyTargetMSDialog.serialVersionUID, 750, 407);
+        this.setSize(DeepSkyTargetMSDialog.serialVersionUID, 750, 575);
 
         this.setVisible(true);
 
