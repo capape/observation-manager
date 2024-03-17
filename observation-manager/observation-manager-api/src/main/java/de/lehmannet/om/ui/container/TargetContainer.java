@@ -319,7 +319,7 @@ public class TargetContainer extends Container implements MouseListener {
 
             if (isFromCatalog(this.target)) {
                 this.targetDatasource.setEditable(false);
-             //   this.targetDatasource.setEnabled(false);
+                // this.targetDatasource.setEnabled(false);
             }
 
         } else {
@@ -522,8 +522,8 @@ public class TargetContainer extends Container implements MouseListener {
             }
             this.add(this.constellationBox);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"),
-                    SwingConstants.RIGHT, true);
+            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT,
+                    true);
             targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 4, 1);
             gridbag.setConstraints(targetDatasourceLabel, constraints);
@@ -584,7 +584,7 @@ public class TargetContainer extends Container implements MouseListener {
         observer.setSelected(isAssignedObserver());
         gridbag.setConstraints(observer, constraints);
 
-        var datasourceText= this.bundle.getString("target.label.datasource.other");
+        var datasourceText = this.bundle.getString("target.label.datasource.other");
         JRadioButton otherSource = new JRadioButton(datasourceText);
         otherSource.setToolTipText(datasourceText);
         otherSource.addActionListener(selectOtherSourceActionListener());
@@ -598,11 +598,11 @@ public class TargetContainer extends Container implements MouseListener {
         this.add(observer);
         this.add(otherSource);
 
-        if (isFromCatalog(this.target)) {            
+        if (isFromCatalog(this.target)) {
             observer.setEnabled(false);
             otherSource.setEnabled(false);
-            this.targetDatasource.setEditable(false);             
-         //   this.targetDatasource.setEnabled(false);       
+            this.targetDatasource.setEditable(false);
+            // this.targetDatasource.setEnabled(false);
         }
 
     }
@@ -655,10 +655,10 @@ public class TargetContainer extends Container implements MouseListener {
         } else {
             sourceObserverBox.setSelectedItem(null);
             this.targetDatasource.setEditable(true);
-            this.targetDatasource.setEnabled(true);        
+            this.targetDatasource.setEnabled(true);
             if (isFromCatalog(this.target)) {
                 this.targetDatasource.setEditable(false);
-               // this.targetDatasource.setEnabled(false);
+                // this.targetDatasource.setEnabled(false);
             }
         }
 
@@ -667,18 +667,16 @@ public class TargetContainer extends Container implements MouseListener {
 
     private boolean isFromCatalog(ITarget target) {
 
-        if (target==null) {
+        if (target == null) {
             return false;
         }
 
         // TODO: handle this catalogs.
-        var catalogs = List.of(
-                "ObservationManager - SolarSystem Catalog 1.0",
-                "Revised Index Catalogue", "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ",
-                "Caldwell","ObservationManager - Messier Catalog 1.0","ObservationManager - Caldwell Catalog 1.0",
-                "Revised New General Catalogue",
-                "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
-                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",                
+        var catalogs = List.of("ObservationManager - SolarSystem Catalog 1.0", "Revised Index Catalogue",
+                "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ", "Caldwell",
+                "ObservationManager - Messier Catalog 1.0", "ObservationManager - Caldwell Catalog 1.0",
+                "Revised New General Catalogue", "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
+                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",
                 "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4");
 
         return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(target.getDatasource()));

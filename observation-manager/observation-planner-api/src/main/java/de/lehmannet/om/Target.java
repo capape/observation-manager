@@ -753,11 +753,14 @@ public abstract class Target extends SchemaElement implements ITarget {
             e_Target.appendChild(e_Constellation);
         }
 
-        if (notes != null) {
-            Element e_Notes = ownerDoc.createElement(ITarget.XML_ELEMENT_NOTES);
-            Node n_NotesText = ownerDoc.createCDATASection(this.notes);
-            e_Notes.appendChild(n_NotesText);
-            e_Target.appendChild(e_Notes);
+        if (notes == null) {
+            Element eNotes = ownerDoc.createElement(ITarget.XML_ELEMENT_NOTES);
+            e_Target.appendChild(eNotes);
+        } else {
+            Element eNotes = ownerDoc.createElement(ITarget.XML_ELEMENT_NOTES);
+            Node nNotesText = ownerDoc.createCDATASection(this.notes);
+            eNotes.appendChild(nNotesText);
+            e_Target.appendChild(eNotes);
         }
 
         return e_Target;
