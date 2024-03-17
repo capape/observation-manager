@@ -990,13 +990,13 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 return AbstractPanel.bundle.getString("panel.observation.addNewImages.fileSelector.description");
             }
         };
-        
+
         chooser.setFileFilter(imageFileFilter);
         chooser.setMultiSelectionEnabled(true);
 
         Action details = chooser.getActionMap().get("viewTypeDetails");
         details.actionPerformed(null);
-        
+
         File last = this.cache.getFile(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR);
         if ((last != null) && (last.exists()) && (last.isDirectory())) {
             chooser.setCurrentDirectory(last);

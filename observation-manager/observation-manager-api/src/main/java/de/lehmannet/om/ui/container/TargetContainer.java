@@ -31,6 +31,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IObserver;
@@ -93,28 +95,28 @@ public class TargetContainer extends Container implements MouseListener {
     public ITarget updateTarget() {
 
         String name = this.getName();
-        if ((name == null) || ("".equals(name.trim()))) {
+        if (StringUtils.isBlank(name)) {
             this.createWarning(this.bundle.getString("target.warning.noName"));
             return null;
         }
         target.setName(name);
 
         if (this.targetDatasource.isEnabled()) {
-            if (this.getDatasource() != null) {
-                this.createWarning(this.bundle.getString("target.warning.noObserver"));
+            if (StringUtils.isBlank(this.getDatasource())) {
+                this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
                 return null;
             }
             target.setDatasource(this.getDatasource());
             target.setObserver(null);
 
         } else {
-           IObserver observer = this.getObserver();
+            IObserver observer = this.getObserver();
             if (observer != null) {
                 target.setObserver(observer);
                 target.setDatasource(null);
 
             } else {
-                this.createWarning(this.bundle.getString("target.warning.noObserver"));
+                this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
                 return null;
             }
         }
@@ -124,18 +126,10 @@ public class TargetContainer extends Container implements MouseListener {
         target.setAliasNames(aliasNames);
 
         EquPosition pos = this.getPosition();
-        /*
-         * if( pos == null ) { this.createWarning(TargetContainer.bundle.getString( "target.warning.posMalformed"));
-         * return null; }
-         */
         target.setPosition(pos);
 
         Constellation constellation = this.getConstellation();
-        /*
-         * if( (constellation != null) && !("".equals(constellation)) ) {
-         */
         target.setConstellation(constellation);
-        // }
 
         target.setNotes(this.notes.getText().trim());
 
@@ -233,7 +227,7 @@ public class TargetContainer extends Container implements MouseListener {
         List<String> list = new ArrayList<>();
 
         String aliasNames = this.targetAliasNames.getText();
-        if ((aliasNames != null) && !("".equals(aliasNames))) {
+        if (aliasNames != null && !"".equals(aliasNames)) {
             StringTokenizer tokenizer = new StringTokenizer(aliasNames, ";");
             while (tokenizer.hasMoreTokens()) {
                 list.add(tokenizer.nextToken().trim());
@@ -249,13 +243,13 @@ public class TargetContainer extends Container implements MouseListener {
     public boolean checkOrigin(String datasource, IObserver observer) {
 
         // Both cannot be null
-        if (((datasource == null) || ("".equals(datasource))) && (observer == null)) {
+        if (StringUtils.isBlank(datasource) && observer == null) {
             this.createWarning(this.bundle.getString("target.warning.datasourceOrObserver"));
             return false;
         }
 
         // Both cannot be set
-        if (((datasource != null) && !("".equals(datasource))) && (observer != null)) {
+        if (StringUtils.isNotBlank(datasource) && observer != null) {
             this.createWarning(this.bundle.getString("target.warning.datasourceOrObserverBoth"));
             return false;
         }
@@ -317,12 +311,17 @@ public class TargetContainer extends Container implements MouseListener {
         }
 
         // Origin of target can be an observer, or an external datasource (catalogue)
-        if ((this.target.getDatasource() != null) && !("".equals(target.getDatasource()))) {
+        if (StringUtils.isNotBlank(this.target.getDatasource())) {
             this.targetDatasource.setText(this.target.getDatasource());
             this.targetDatasource.setEditable(this.editable);
             this.targetDatasource.setEnabled(true);
             this.sourceObserverBox.setEnabled(false);
-           
+
+            if (isFromCatalog(this.target.getDatasource())) {
+                this.targetDatasource.setEditable(false);
+             //   this.targetDatasource.setEnabled(false);
+            }
+
         } else {
             if (!this.editable) {
                 IObserver observer = this.target.getObserver();
@@ -580,13 +579,14 @@ public class TargetContainer extends Container implements MouseListener {
         observer.setToolTipText("Observer");
 
         observer.addActionListener(selectSourceObserverActionListener());
-        observer.setSelected(true);
+
+        observer.setSelected(isAssignedObserver());
         gridbag.setConstraints(observer, constraints);
 
         JRadioButton otherSource = new JRadioButton("Other source");
         otherSource.setToolTipText("Observer");
         otherSource.addActionListener(selectOtherSourceActionListener());
-        otherSource.setSelected(true);
+        otherSource.setSelected(!isAssignedObserver());
         constraints.gridy = 6;
         gridbag.setConstraints(otherSource, constraints);
 
@@ -596,6 +596,13 @@ public class TargetContainer extends Container implements MouseListener {
         this.add(observer);
         this.add(otherSource);
 
+        if (isFromCatalog(this.target.getDatasource())) {            
+            observer.setEnabled(false);
+            otherSource.setEnabled(false);
+            this.targetDatasource.setEditable(false);             
+         //   this.targetDatasource.setEnabled(false);       
+        }
+
     }
 
     private ActionListener selectOtherSourceActionListener() {
@@ -604,8 +611,9 @@ public class TargetContainer extends Container implements MouseListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               TargetContainer.this.sourceObserverBox.setEnabled(false);
-               TargetContainer.this.targetDatasource.setEnabled(true);
+                TargetContainer.this.sourceObserverBox.setEnabled(false);
+                TargetContainer.this.targetDatasource.setEnabled(true);
+                TargetContainer.this.targetDatasource.setEditable(true);
 
             }
 
@@ -620,10 +628,15 @@ public class TargetContainer extends Container implements MouseListener {
             public void actionPerformed(ActionEvent e) {
                 TargetContainer.this.sourceObserverBox.setEnabled(true);
                 TargetContainer.this.targetDatasource.setEnabled(false);
+                TargetContainer.this.targetDatasource.setEditable(false);
 
             }
 
         };
+    }
+
+    private boolean isAssignedObserver() {
+        return this.target != null && this.target.getObserver() != null;
     }
 
     private OMComboBox<IObserver> createObserverDropDownBox() {
@@ -631,6 +644,42 @@ public class TargetContainer extends Container implements MouseListener {
         var sourceObserverBox = new OMComboBox<IObserver>();
         sourceObserverBox.setToolTipText(this.bundle.getString("target.dropdown.selectObserver"));
 
+        fillComboWithObservers(sourceObserverBox);
+
+        if (isAssignedObserver()) {
+            sourceObserverBox.setSelectedItem(this.target.getObserver());
+            this.targetDatasource.setEditable(false);
+            this.targetDatasource.setEnabled(false);
+        } else {
+            sourceObserverBox.setSelectedItem(null);
+            this.targetDatasource.setEditable(true);
+            this.targetDatasource.setEnabled(true);        
+            if (isFromCatalog(this.target.getDatasource())) {
+                this.targetDatasource.setEditable(false);
+               // this.targetDatasource.setEnabled(false);
+            }
+        }
+
+        return sourceObserverBox;
+    }
+
+    private boolean isFromCatalog(String datasource) {
+
+        // TODO: handle this catalogs.
+        var catalogs = List.of(
+                "ObservationManager - SolarSystem Catalog 1.0",
+                "Revised Index Catalogue", "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ",
+                "Caldwell","ObservationManager - Messier Catalog 1.0","ObservationManager - Caldwell Catalog 1.0",
+                "Revised New General Catalogue",
+                "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
+                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",                
+                "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4");
+
+        return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(datasource));
+
+    }
+
+    private void fillComboWithObservers(OMComboBox<IObserver> sourceObserverBox) {
         IObserver[] observer = this.model.getObservers();
         if (observer != null) {
             for (IObserver iObserver : observer) {
@@ -639,13 +688,6 @@ public class TargetContainer extends Container implements MouseListener {
         } else {
             sourceObserverBox.addEmptyItem();
         }
-
-        if ((this.target != null) && (this.target.getObserver() != null)) {
-            sourceObserverBox.setSelectedItem(this.target.getObserver());
-        } else {
-            sourceObserverBox.setSelectedItem(null);
-        }
-        return sourceObserverBox;
     }
 
     private void createWarning(String message) {
