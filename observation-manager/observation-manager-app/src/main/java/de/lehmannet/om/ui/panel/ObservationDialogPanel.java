@@ -1374,8 +1374,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 .setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.selectTargetfromCatalog"));
         this.selectTarget.addActionListener(this);
         // Check if there are catalogs installed. If not, disable button
-        if ((this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames() == null)
-                || (this.observationManager.getExtensionLoader().getCatalogLoader().getCatalogNames().length == 0)) {
+        var catalogLoader = this.observationManager.getExtensionLoader().getCatalogLoader();
+        if ((catalogLoader.getCatalogNames() == null) || (catalogLoader.getCatalogNames().length == 0)) {
             this.selectTarget.setEnabled(false);
         }
         gridbag.setConstraints(this.selectTarget, constraints);
@@ -1626,21 +1626,12 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
         ITarget[] targets = this.model.getTargets();
         for (ITarget target : targets) {
-            if (target.getObserver() != null) {
+            if (isNotATargetFromCatalogs(target)) {
                 this.targetBox.addItem(target);
             }
             if (this.observation != null) { // In edit mode, add current target to list
                 this.targetBox.addItem(this.observation.getTarget());
             }
-
-            // if( this.observation == null) { // Only show non-catalog targets (on create
-            // new observation)
-            // if( targets[i].getObserver() != null ) {
-            // this.targetBox.addItem(targets[i]);
-            // }
-            // } else { // In edit case show all targets
-            // this.targetBox.addItem(targets[i]);
-            // }
         }
         if (refill) {
             this.targetBox.setSelectedItem(element);
@@ -1782,6 +1773,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         } else {
             this.imagerBox.addEmptyItem();
         }
+
+    }
+
+    private boolean isNotATargetFromCatalogs(ITarget target) {
+
+        if (target.getObserver() != null) {
+            return true;
+        }
+
+        var catalogLoader = this.observationManager.getExtensionLoader().getCatalogLoader();
+        return catalogLoader.isFromCatalog(target.getName()) != true;
 
     }
 

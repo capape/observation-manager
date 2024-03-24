@@ -67,18 +67,12 @@ public class CatalogManagerImpl implements CatalogManager {
 
                 while (this.catalogManager.projectLoader == null) {
                     try {
-                        if (!this.catalogManager.extensionLoader.getCatalogLoader().isLoading()) {
 
-                            LOGGER.debug("Catalog loading done. Start project loading in background...");
-                            // Initialite ProjectLoader and start loading projects
-                            this.catalogManager.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
-                                    this.catalogManager.extensionLoader.getCatalogLoader(),
-                                    CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
-                        } else {
-                            this.wait(300);
-                        }
-                    } catch (final InterruptedException ie) {
-                        LOGGER.error("Interrupted while waiting for Catalog Loader to finish", ie);
+                        LOGGER.debug("Catalog loading done. Start project loading in background...");
+                        // Initialite ProjectLoader and start loading projects
+                        this.catalogManager.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
+                                this.catalogManager.extensionLoader.getCatalogLoader(),
+                                CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
                     } catch (final IllegalMonitorStateException imse) {
                         // Ignore this
                     }

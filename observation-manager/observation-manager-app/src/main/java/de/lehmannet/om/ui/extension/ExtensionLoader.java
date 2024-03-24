@@ -98,7 +98,6 @@ public class ExtensionLoader {
         } else {
             LOGGER.info("Successfully loaded extension: {} ", extension.getName());
             this.extensions.add(extension);
-            this.catalogLoader.update();
             // Clear Menu and PopupMenu Caches
             this.cachedMenus = null;
             this.cachedPopupMenus = null;

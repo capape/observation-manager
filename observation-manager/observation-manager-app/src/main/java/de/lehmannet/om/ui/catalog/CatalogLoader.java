@@ -7,7 +7,6 @@
 
 package de.lehmannet.om.ui.catalog;
 
-import java.awt.BorderLayout;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,14 +15,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.swing.JProgressBar;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.ITarget;
-import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.update.Version;
@@ -63,15 +60,11 @@ public class CatalogLoader {
 
     public String[] getCatalogNames() {
 
-        this.waitForCatalogLoaders();
-
         return (String[]) this.catalogMap.keySet().toArray(new String[] {});
 
     }
 
     public String[] getListableCatalogNames() {
-
-        this.waitForCatalogLoaders();
 
         Iterator<String> iterator = this.catalogMap.keySet().iterator();
         ICatalog cat = null;
@@ -91,8 +84,6 @@ public class CatalogLoader {
 
     public ITarget getTarget(String catalogName, String objectID) {
 
-        this.waitForCatalogLoaders();
-
         ICatalog catalog = this.getCatalog(catalogName);
 
         if (catalog != null) {
@@ -104,8 +95,6 @@ public class CatalogLoader {
     }
 
     public ICatalog getCatalog(String catalogName) {
-
-        this.waitForCatalogLoaders();
 
         if (!this.catalogMap.containsKey(catalogName)) {
             if (catalogName != null) { // Search for abbreviation
@@ -126,6 +115,7 @@ public class CatalogLoader {
 
     }
 
+    /*
     public void update() {
 
         this.waitForCatalogLoaders();
@@ -133,6 +123,8 @@ public class CatalogLoader {
         this.loadCatalogues();
 
     }
+
+
 
     public boolean isLoading() {
 
@@ -148,6 +140,7 @@ public class CatalogLoader {
         }
 
     }
+    */
 
     private void loadCatalogues() {
 
@@ -179,27 +172,51 @@ public class CatalogLoader {
                 }
             }
 
-            // Create a thread for all catalogs, where the catalogs will be loaded in.
-            // As catalogs are loaded during startup and loading of catalogs can take some
-            // time,
-            // this should increase startup times
-            CatalogLoaderRunnable runnable = new CatalogLoaderRunnable(current, this.catalogMap, catalogDir);
-            Thread thread = new Thread(this.loadCatalogs, runnable, "Load catalog " + current.getName());
-            catalogs.add(thread);
+            this.catalogMap.putAll(loadCatalogsAsMap(current, catalogDir));
 
             // Add current extension to list of known extesions
             this.knownExtensions.put(current.getName(), Version.createVersion(current.getVersion()));
         }
 
-        // Start loading all catalogs
-        for (Object catalog : catalogs) {
-            ((Thread) catalog).start();
+    }
+
+    public boolean isFromCatalog(String name) {
+
+        for (String catalog : getListableCatalogNames()) {
+
+            if (getTarget(catalog, name) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Map<String, ICatalog> loadCatalogsAsMap(IExtension extension, File catalogDir) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Catalog loading start: {}", extension.getName());
         }
 
+        // On huge catalogs, this may take some time:
+        ICatalog[] currentCatalogs = extension.getCatalogs(catalogDir);
+
+        var catalogs = new ConcurrentHashMap<String, ICatalog>();
+
+        // All catalogs are loaded, so add them to map
+        if (currentCatalogs != null) {
+            for (ICatalog currentCatalog : currentCatalogs) {
+                catalogs.put(currentCatalog.getName(), currentCatalog);
+            }
+        }
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Catalog loading done: {}", extension.getName());
+        }
+        return catalogs;
     }
 
 }
 
+/*
 class CatalogLoaderRunnable implements Runnable {
 
     private IExtension extension = null;
@@ -242,6 +259,8 @@ class CatalogLoaderRunnable implements Runnable {
     }
 
 }
+*/
+/*
 
 class WaitPopup extends OMDialog {
 
@@ -293,5 +312,4 @@ class WaitPopup extends OMDialog {
         this.dispose();
 
     }
-
-}
+*/
