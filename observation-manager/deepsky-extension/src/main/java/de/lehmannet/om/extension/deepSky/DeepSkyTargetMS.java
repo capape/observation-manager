@@ -15,9 +15,9 @@ import org.w3c.dom.NodeList;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ITargetContaining;
 import de.lehmannet.om.RootElement;
 import de.lehmannet.om.Target;
-import de.lehmannet.om.ITargetContaining;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.util.SchemaException;
 
@@ -188,6 +188,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
         }
         // Set XSI:Type
         e_MSTarget.setAttribute(ITarget.XML_XSI_TYPE, DeepSkyTargetMS.XML_XSI_TYPE_VALUE);
+        e_MSTarget.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         // Add all components
         // Cannot use addAsLinkToXMLElement as we're dealing with unique ID links only

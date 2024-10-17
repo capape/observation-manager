@@ -417,6 +417,10 @@ public class Scope extends SchemaElement implements IScope {
 
         addMagnificationNode(ownerDoc, e_Scope);
 
+        // Set XSI:Type
+        e_Scope.setAttribute(IScope.XML_XSI_TYPE, Scope.XML_XSI_TYPE_VALUE);
+        e_Scope.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+
     }
 
     private boolean existsNodeElement(Element element) {
@@ -484,8 +488,7 @@ public class Scope extends SchemaElement implements IScope {
             Node n_FocalLengthText = ownerDoc.createTextNode(Float.toString(this.focalLength));
             e_FocalLength.appendChild(n_FocalLengthText);
             e_Scope.appendChild(e_FocalLength);
-            // Set XSI:Type
-            e_Scope.setAttribute(IScope.XML_XSI_TYPE, Scope.XML_XSI_TYPE_VALUE);
+            
         }
     }
 
