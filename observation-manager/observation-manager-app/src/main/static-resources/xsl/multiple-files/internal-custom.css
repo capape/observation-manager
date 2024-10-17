@@ -5,6 +5,8 @@ body {
     font-family: 'Arial';
     font-size: 12px;
     vertical-align: top;
+    color: #aaa;
+    background: #121212;
 }
 
 h1 {
@@ -30,8 +32,8 @@ h1 {
 .session {
     margin-top: 20px;
     margin-bottom: 20px;
-    background-color: lightgray;
-    border-bottom: solid 2px black;
+    background-color: #202020;
+    border-bottom: solid 2px #aaa;
 }
 
 .session div {
@@ -47,7 +49,7 @@ h1 {
 
 .observation {
 
-    background-color: white;
+    background-color: #121212;
     padding: 40px;
     border: 1px solid;
     width: 90%;
@@ -56,7 +58,7 @@ h1 {
 
 .position {
     font-family: Courier;
-    color: black;
+    color: #aaa;
 }
 
 div.position div span {
@@ -82,8 +84,8 @@ div.observation div.date {
     padding: 5px;
     text-align: left;
     margin-top: 20px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
 }
 
 div.date div {
@@ -121,7 +123,7 @@ div.date div {
 }
 
 .data {
-    border-bottom: 1px dashed black;
+    border-bottom: 1px dashed #aaa;
     margin-bottom: 10px;
     padding-bottom: 5px;
 }
@@ -149,12 +151,12 @@ div.date div {
 
 .targetlist table th {
     font-style: bold;
-    background-color: #a2a2a2;
+    background-color: #0a0a0a;
 
 }
 
 .targetlist table tr:nth-child(even) {
-    background-color: #d2d2d2;
+    background-color: #2a2a2a;
 }
 
 
