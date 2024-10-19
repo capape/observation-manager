@@ -338,6 +338,7 @@ public abstract class DeepSkyTarget extends Target {
 
         // Set XSI:Type
         e_Target.setAttribute(ITarget.XML_XSI_TYPE, xsiType);
+        e_Target.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         if (smallDiameter != null) {
             Element e_SmallDiameter = ownerDoc.createElement(XML_ELEMENT_SMALLDIAMETER);

@@ -299,6 +299,7 @@ public class FindingVariableStar extends Finding {
 
         // ----- Set XSI:Type
         e_Finding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, FindingVariableStar.XML_XSI_TYPE_VALUE);
+        e_Finding.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         // ----- Set Comments (do this at the very beginning to possibly increase speed
         // during read

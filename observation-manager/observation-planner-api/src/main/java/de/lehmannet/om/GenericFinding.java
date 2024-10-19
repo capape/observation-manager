@@ -164,6 +164,7 @@ public class GenericFinding extends Finding {
 
         // Set XSI:Type
         eFinding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, GenericFinding.XML_XSI_TYPE_VALUE);
+        eFinding.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         parent.appendChild(eFinding);
 

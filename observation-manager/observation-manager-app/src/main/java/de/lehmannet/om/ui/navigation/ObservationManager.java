@@ -143,6 +143,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         return this.dateManager;
     }
 
+    public CatalogManager getCatalogManager() {
+        return this.catalogManager;
+    }
+
     private final CatalogManager catalogManager;
 
     private ObservationManager(Builder builder) {

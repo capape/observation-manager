@@ -303,6 +303,7 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
         // Set XSI:Type
         e_Finding.setAttribute(IExtendableSchemaElement.XML_XSI_TYPE, DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
+        e_Finding.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         if (this.equalBrightness != -1) {
             e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS,

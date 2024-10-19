@@ -165,6 +165,7 @@ public class CCDImager extends Imager {
             return; // Already added
         }
         e_Imager.setAttribute(IImager.XML_XSI_TYPE, CCDImager.XML_ATTRIBUTE_CCDIMAGER);
+        e_Imager.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         Element e_XPixels = ownerDoc.createElement(CCDImager.XML_ELEMENT_XPIXELS);
         Node n_xPixelsText = ownerDoc.createTextNode("" + this.xPixels);
