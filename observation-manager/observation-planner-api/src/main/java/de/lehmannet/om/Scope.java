@@ -488,7 +488,7 @@ public class Scope extends SchemaElement implements IScope {
             Node n_FocalLengthText = ownerDoc.createTextNode(Float.toString(this.focalLength));
             e_FocalLength.appendChild(n_FocalLengthText);
             e_Scope.appendChild(e_FocalLength);
-            
+
         }
     }
 

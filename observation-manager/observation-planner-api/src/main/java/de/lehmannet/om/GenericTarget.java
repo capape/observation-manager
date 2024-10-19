@@ -181,12 +181,10 @@ public class GenericTarget extends Target {
         // Create the new target element
         Element e_Target = this.createXmlTargetElement(e_Targets);
         e_Targets.appendChild(e_Target);
-        
 
         // Set XSI:Type
         e_Target.setAttribute(ITarget.XML_XSI_TYPE, this.getXSIType());
         e_Target.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-
 
         // If container element was created, add container here so that XML sequence
         // fits forward references
