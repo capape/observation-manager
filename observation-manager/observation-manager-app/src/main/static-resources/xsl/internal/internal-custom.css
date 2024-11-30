@@ -1,13 +1,21 @@
 /*
  *  Add here your css styles to customise html export.
  */
-body {
+ body {
     font-family: 'Arial';
-    font-size: 12px;
+    font-size: 14px;
     vertical-align: top;
     color: #aaa;
-    background: #121212;
+    background: #181818;
 }
+
+a {
+    color: #5786ee;
+}
+a:visited {
+    color: #79b8ff;
+}
+
 
 h1 {
     align-content: center;
@@ -19,14 +27,23 @@ h1 {
 }
 
 .sessions ul li {
-    font-size: 10px;
+    font-size: 14px;
+    margin: 4px;
+    list-style-type: none;
+    list-style-position: outside;
+    
+}
 
+.sessions ul li span:hover {    
+    color: #aaa;
+    background-color: #353559;
 }
 
 .sessions ul li span {
 
     display: inline-grid;
     min-width: 200px;
+   
 }
 
 .session {
@@ -68,16 +85,16 @@ div.position div span {
 
 div.target {
     display: inline-block;
-    width: 30%;
+    width: 100%;
     vertical-align: top;
     text-align: left;
 }
 
 div.infoTarget {
     display: inline-block;
-    width: 60%;
+    width: 100%;
     vertical-align: top;
-    text-align: leftM
+    text-align: left;
 }
 
 div.observation div.date {
@@ -150,7 +167,7 @@ div.date div {
 }
 
 .targetlist table th {
-    font-style: bold;
+    font-weight: bold;
     background-color: #0a0a0a;
 
 }
@@ -165,7 +182,7 @@ div.date div {
 }
 
 .targetlist table tr td:last-child {
-    font-size: 10px;
+    font-size: 13px;
 
 }
 
@@ -174,7 +191,7 @@ div.date div {
 .targetlist table tr td ul {
     columns: 4;
     -webkit-columns: 4;
-    -moz-columns: 4;
+    
 }
 
 /* avoid breaking external elements */
@@ -188,3 +205,43 @@ div.preformatted {
     white-space: pre;
     font-family: monospace;
 }
+
+div.observation div.target a {
+    display: inline-block;
+}
+
+div.observation div.target a h4 {   
+    
+    margin-right: 200px;
+  }
+  
+  
+  .session div.observations div.observation a h4 {
+    
+    display: inline-block;
+   
+  }
+  
+  .session div.observations div.observation div.infoTarget {
+    
+    display: block;
+    
+  }
+  
+  .session div.observations div.observation a div.date {
+  
+   display:block;
+  }
+  
+  .session div {  
+   display:block;
+  }
+  
+  div.observation {
+    display: block;
+  }
+  
+  
+  div.observations {
+    display: block;
+  }
