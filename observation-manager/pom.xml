@@ -36,7 +36,7 @@
 
 
         <!-- dependency versions -->
-        <checkstyle.version>10.20.0</checkstyle.version>
+        <checkstyle.version>10.21.0</checkstyle.version>
         <checkstyle-rules.version>7.0.0</checkstyle-rules.version>
 
         <disruptor.version>4.0.0</disruptor.version>
@@ -49,17 +49,16 @@
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
         <maven-formatter-plugin.version>2.24.1</maven-formatter-plugin.version>
-        <maven-git-commit-id-plugin.version.version>5.0.0</maven-git-commit-id-plugin.version.version>
         <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
-        <maven-javadoc-plugin.version>3.10.1</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
         <maven-spotbugs-plugin.version>4.0.0</maven-spotbugs-plugin.version>
-        <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
-        <maven-versions-plugin.version>2.17.1</maven-versions-plugin.version>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
 
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm </maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -372,29 +371,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>${maven-git-commit-id-plugin.version.version}</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${maven.multiModuleProjectDirectory}/observation-manager-app/src/main/resources/git.properties</generateGitPropertiesFilename>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-                    </includeOnlyProperties>
-                    <commitIdGenerationMode>full</commitIdGenerationMode>
-                </configuration>
             </plugin>
         </plugins>
     </build>
