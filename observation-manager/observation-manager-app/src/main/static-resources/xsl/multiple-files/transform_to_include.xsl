@@ -381,10 +381,11 @@
             <div class="target">
                 <xsl:text disable-output-escaping="yes">&lt;a name="target</xsl:text>
                 <xsl:value-of select="@id"/>
+                <xsl:variable name="objectType" select="@xsi:type"/>
                 <xsl:text disable-output-escaping="yes">"&gt;</xsl:text>
                 
                     <xsl:choose>
-                        <xsl:when test="@type='oal:PlanetTargetType' or @type='oal:MoonTargetType' or  @type='oal:SunTargetType'">
+                        <xsl:when test="@xsi:type='oal:PlanetTargetType' or @xsi:type='oal:MoonTargetType' or  @xsi:type='oal:SunTargetType'">
                             <xsl:variable name="objectName"  select="name"/>
                             <xsl:call-template name="language-text"><xsl:with-param name="text"><h4><xsl:value-of select="$objectName"/></h4></xsl:with-param></xsl:call-template>
 
@@ -395,16 +396,8 @@
                 
 
                 <div>
-                    <span class="objectype">
-                        <xsl:choose>
-                            <xsl:when test="@type">
-                                <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="@type"/></xsl:with-param></xsl:call-template>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:call-template name="language-text"><xsl:with-param name="text">type.unkown</xsl:with-param></xsl:call-template>
-                            </xsl:otherwise>
-                        </xsl:choose>
-
+                    <span class="objectype">                       
+                        <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectType"/></xsl:with-param></xsl:call-template>
                     </span>
                 </div>
                 <div><xsl:if test="count(constellation)>0">
