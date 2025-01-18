@@ -399,6 +399,9 @@
                     <span class="objectype">
                         <xsl:call-template name="language-text"><xsl:with-param name="text"><xsl:value-of select="$objectType"/></xsl:with-param></xsl:call-template>
                     </span>
+                    <xsl:if test="@xsi:type='oal:variableStarTargetType'" >
+                    <span class="objectype">: <xsl:value-of select="type"/></span>
+                    </xsl:if>
                 </div>
                 <div><xsl:if test="count(constellation)>0">
 
