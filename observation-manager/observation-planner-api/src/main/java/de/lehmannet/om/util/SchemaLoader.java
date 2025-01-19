@@ -415,9 +415,6 @@ public class SchemaLoader {
         // This might be parallelize in a future release, as some elements, have no
         // dependencies
 
-        Node element = null;
-        NodeList elementContainer = null;
-
         loadObserver(rootElement);
         loadTargets(rootElement);
         loadSite(rootElement);
@@ -666,8 +663,16 @@ public class SchemaLoader {
         try {
             if (SchemaElementConstants.FINDING == schemaElementType) {
                 return ConfigLoader.getFindingClassnameFromType(xsiType);
-            } else { // TARGETs and all other extenable schemaElements can be found in Targetable of
-                     // ConfigLoader
+            } else if ( SchemaElementConstants.TARGET == schemaElementType) { // TARGET 
+                try {
+                    return ConfigLoader.getTargetClassnameFromType(xsiType);
+                } catch (ConfigException ce) {
+                    LOGGER.warn("Fail to load custom target type {}.", ce.getLocalizedMessage());        
+                    return "de.lehmannet.om.GenericTarget";
+                }
+
+            } else {
+                // All other extenable schemaElements can be found in Targetable 
                 return ConfigLoader.getTargetClassnameFromType(xsiType);
             }
         } catch (ConfigException ce) {
