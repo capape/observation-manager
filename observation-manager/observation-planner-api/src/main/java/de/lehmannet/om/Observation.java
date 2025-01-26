@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -146,9 +147,9 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      * @throws SchemaException
      *             if the given Node does not match the XML Schema specifications
      */
-    public Observation(Node observation, ITarget[] targets, IObserver[] observers, ISite[] sites, IScope[] scopes,
-            ISession[] sessions, IEyepiece[] eyepieces, IFilter[] filters, IImager[] imagers, ILens... lenses)
-            throws SchemaException, IllegalArgumentException {
+    public Observation(Node observation, boolean fixNodeErrors, ITarget[] targets, IObserver[] observers, ISite[] sites,
+            IScope[] scopes, ISession[] sessions, IEyepiece[] eyepieces, IFilter[] filters, IImager[] imagers,
+            ILens... lenses) throws SchemaException, IllegalArgumentException {
 
         if (observation == null) {
             LOGGER.error("Parameter observation node cannot be NULL.");
@@ -183,7 +184,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setAccessories(ObservationMapper.getOptionalAccesories(observationElement));
         this.setSeeing(ObservationMapper.getOptionalSeeing(observationElement));
         var sessionLoaded = ObservationMapper.getOptionalSession(sessions, observationElement);
-        fixSessionDatesOnLoad(sessionLoaded);
+        if (fixNodeErrors) {
+            fixSessionDatesOnLoad(sessionLoaded);
+        }
+
         this.setSession(sessionLoaded);
         this.setEyepiece(ObservationMapper.getOptionalEyepiece(eyepieces, observationElement));
         this.setLens(ObservationMapper.getOptionalLens(observationElement, lenses));
@@ -267,7 +271,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             throw new IllegalArgumentException("Observer cannot be null. ");
         }
 
-        if ((results == null) || (results.isEmpty())) {
+        if (results == null || results.isEmpty()) {
             LOGGER.error("Result list cannot be null or empty. ");
             throw new IllegalArgumentException("Result list cannot be null or empty. ");
         }
@@ -302,7 +306,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this(begin, target, observer, results);
 
         this.end = end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
-        ;
 
     }
 
@@ -607,151 +610,151 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         Document ownerDoc = parent.getOwnerDocument();
 
-        Element e_Observation = ownerDoc.createElement(IObservation.XML_ELEMENT_OBSERVATION);
+        Element eObservation = ownerDoc.createElement(IObservation.XML_ELEMENT_OBSERVATION);
 
         // Create the link attribute
-        e_Observation.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, this.getID());
+        eObservation.setAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID, this.getID());
 
         // Don't change the sequence, as otherwise E&T cannot load the schema :-)
-        e_Observation = observer.addAsLinkToXmlElement(e_Observation, IObserver.XML_ELEMENT_OBSERVER);
+        eObservation = observer.addAsLinkToXmlElement(eObservation, IObserver.XML_ELEMENT_OBSERVER);
 
         if (site != null) {
-            e_Observation = site.addAsLinkToXmlElement(e_Observation);
+            eObservation = site.addAsLinkToXmlElement(eObservation);
         }
 
         if (session != null) {
-            e_Observation = session.addAsLinkToXmlElement(e_Observation);
+            eObservation = session.addAsLinkToXmlElement(eObservation);
         }
 
-        e_Observation = target.addAsLinkToXmlElement(e_Observation, null);
+        eObservation = target.addAsLinkToXmlElement(eObservation, null);
 
-        addBegin(ownerDoc, e_Observation);
-        addEnd(ownerDoc, e_Observation);
-        addFaintestStar(ownerDoc, e_Observation);
+        addBegin(ownerDoc, eObservation);
+        addEnd(ownerDoc, eObservation);
+        addFaintestStar(ownerDoc, eObservation);
 
-        addSqm(ownerDoc, e_Observation);
+        addSqm(ownerDoc, eObservation);
 
-        addSeeing(ownerDoc, e_Observation);
+        addSeeing(ownerDoc, eObservation);
 
         if (scope != null) {
-            e_Observation = scope.addAsLinkToXmlElement(e_Observation);
+            eObservation = scope.addAsLinkToXmlElement(eObservation);
         }
 
-        addAccesories(ownerDoc, e_Observation);
+        addAccesories(ownerDoc, eObservation);
 
         if (eyepiece != null) {
-            e_Observation = eyepiece.addAsLinkToXmlElement(e_Observation);
+            eObservation = eyepiece.addAsLinkToXmlElement(eObservation);
         }
 
         if (lens != null) {
-            e_Observation = lens.addAsLinkToXmlElement(e_Observation);
+            eObservation = lens.addAsLinkToXmlElement(eObservation);
         }
 
         if (filter != null) {
-            e_Observation = filter.addAsLinkToXmlElement(e_Observation);
+            eObservation = filter.addAsLinkToXmlElement(eObservation);
         }
 
-        addMagnification(ownerDoc, e_Observation);
+        addMagnification(ownerDoc, eObservation);
 
         if (imager != null) {
-            e_Observation = imager.addAsLinkToXmlElement(e_Observation);
+            eObservation = imager.addAsLinkToXmlElement(eObservation);
         }
 
         ListIterator<IFinding> iterator = this.results.listIterator();
         IFinding result = null;
         while (iterator.hasNext()) {
             result = iterator.next();
-            e_Observation = result.addToXmlElement(e_Observation);
+            eObservation = result.addToXmlElement(eObservation);
         }
 
-        addImages(ownerDoc, e_Observation);
+        addImages(ownerDoc, eObservation);
 
         // Add element here so that XML sequence fits forward references
-        parent.appendChild(e_Observation);
+        parent.appendChild(eObservation);
 
     }
 
-    private void addImages(Document ownerDoc, Element e_Observation) {
+    private void addImages(Document ownerDoc, Element eObservation) {
         if ((this.images != null) && (!this.images.isEmpty())) {
             ListIterator<String> imagesIterator = this.images.listIterator();
-            Element e_currentImage = null;
-            Node n_ImageText = null;
+            Element eCurrentImage = null;
+            Node nImageText = null;
             String path = null;
             while (imagesIterator.hasNext()) {
-                e_currentImage = ownerDoc.createElement(XML_ELEMENT_IMAGE);
+                eCurrentImage = ownerDoc.createElement(XML_ELEMENT_IMAGE);
                 // Always write image path with / separators. While loading from XML, convert
                 // back to \ if necessary
                 path = (String) imagesIterator.next();
                 path = path.replace('\\', '/');
-                n_ImageText = ownerDoc.createCDATASection(path);
-                e_currentImage.appendChild(n_ImageText);
-                e_Observation.appendChild(e_currentImage);
+                nImageText = ownerDoc.createCDATASection(path);
+                eCurrentImage.appendChild(nImageText);
+                eObservation.appendChild(eCurrentImage);
             }
         }
     }
 
-    private void addMagnification(Document ownerDoc, Element e_Observation) {
+    private void addMagnification(Document ownerDoc, Element eObservation) {
         if (!Float.isNaN(this.magnification)) {
-            Element e_Magnification = ownerDoc.createElement(XML_ELEMENT_MAGNIFICATION);
-            Node n_MagnificationText = ownerDoc.createTextNode(String.valueOf(this.magnification));
-            e_Magnification.appendChild(n_MagnificationText);
-            e_Observation.appendChild(e_Magnification);
+            Element eMagnification = ownerDoc.createElement(XML_ELEMENT_MAGNIFICATION);
+            Node nMagnificationText = ownerDoc.createTextNode(String.valueOf(this.magnification));
+            eMagnification.appendChild(nMagnificationText);
+            eObservation.appendChild(eMagnification);
         }
     }
 
-    private void addAccesories(Document ownerDoc, Element e_Observation) {
+    private void addAccesories(Document ownerDoc, Element eObservation) {
         if (this.accessories != null) {
-            Element e_Accessories = ownerDoc.createElement(XML_ELEMENT_ACCESSORIES);
-            Node n_AccessoriesText = ownerDoc.createCDATASection(String.valueOf(this.accessories));
-            e_Accessories.appendChild(n_AccessoriesText);
-            e_Observation.appendChild(e_Accessories);
+            Element eAccessories = ownerDoc.createElement(XML_ELEMENT_ACCESSORIES);
+            Node nAccessoriesText = ownerDoc.createCDATASection(String.valueOf(this.accessories));
+            eAccessories.appendChild(nAccessoriesText);
+            eObservation.appendChild(eAccessories);
         }
     }
 
-    private void addSeeing(Document ownerDoc, Element e_Observation) {
+    private void addSeeing(Document ownerDoc, Element eObservation) {
         if (seeing != -1) {
-            Element e_Seeing = ownerDoc.createElement(XML_ELEMENT_SEEING);
-            Node n_SeeingText = ownerDoc.createTextNode(String.valueOf(seeing));
-            e_Seeing.appendChild(n_SeeingText);
-            e_Observation.appendChild(e_Seeing);
+            Element eSeeing = ownerDoc.createElement(XML_ELEMENT_SEEING);
+            Node nSeeingText = ownerDoc.createTextNode(String.valueOf(seeing));
+            eSeeing.appendChild(nSeeingText);
+            eObservation.appendChild(eSeeing);
         }
     }
 
-    private void addSqm(Document ownerDoc, Element e_Observation) {
+    private void addSqm(Document ownerDoc, Element eObservation) {
         if (sqmValue != null) {
-            Element e_SQMValue = ownerDoc.createElement(XML_ELEMENT_SKYQUALITY_NEW);
-            e_SQMValue = sqmValue.setToXmlElement(e_SQMValue);
-            e_Observation.appendChild(e_SQMValue);
+            Element eSQMValue = ownerDoc.createElement(XML_ELEMENT_SKYQUALITY_NEW);
+            eSQMValue = sqmValue.setToXmlElement(eSQMValue);
+            eObservation.appendChild(eSQMValue);
         }
     }
 
-    private void addFaintestStar(Document ownerDoc, Element e_Observation) {
+    private void addFaintestStar(Document ownerDoc, Element eObservation) {
         if (!Float.isNaN(faintestStar)) {
-            Element e_FaintestStar = ownerDoc.createElement(XML_ELEMENT_FAINTESTSTAR);
-            Node n_FaintestStarText = ownerDoc.createTextNode(String.valueOf(faintestStar));
-            e_FaintestStar.appendChild(n_FaintestStarText);
-            e_Observation.appendChild(e_FaintestStar);
+            Element eFaintestStar = ownerDoc.createElement(XML_ELEMENT_FAINTESTSTAR);
+            Node nFaintestStarText = ownerDoc.createTextNode(String.valueOf(faintestStar));
+            eFaintestStar.appendChild(nFaintestStarText);
+            eObservation.appendChild(eFaintestStar);
         }
     }
 
-    private void addEnd(Document ownerDoc, Element e_Observation) {
+    private void addEnd(Document ownerDoc, Element eObservation) {
         if (end != null) {
-            Element e_End = ownerDoc.createElement(XML_ELEMENT_END);
+            Element eEnd = ownerDoc.createElement(XML_ELEMENT_END);
             String endText = DateTimeFormatter.ISO_INSTANT.format(end);
 
-            Node n_EndText = ownerDoc.createTextNode(endText);
-            e_End.appendChild(n_EndText);
-            e_Observation.appendChild(e_End);
+            Node nEndText = ownerDoc.createTextNode(endText);
+            eEnd.appendChild(nEndText);
+            eObservation.appendChild(eEnd);
         }
     }
 
-    private void addBegin(Document ownerDoc, Element e_Observation) {
-        Element e_Begin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
+    private void addBegin(Document ownerDoc, Element eObservation) {
+        Element eBegin = ownerDoc.createElement(XML_ELEMENT_BEGIN);
         String beginText = DateTimeFormatter.ISO_INSTANT.format(begin);
 
-        Node n_BeginText = ownerDoc.createTextNode(beginText);
-        e_Begin.appendChild(n_BeginText);
-        e_Observation.appendChild(e_Begin);
+        Node nBeginText = ownerDoc.createTextNode(beginText);
+        eBegin.appendChild(nBeginText);
+        eObservation.appendChild(eBegin);
     }
 
     /**
@@ -890,7 +893,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public List<String> getImages() {
 
-        if ((this.images == null) || (this.images.isEmpty())) {
+        if (this.images == null || this.images.isEmpty()) {
             return null;
         }
 
@@ -995,7 +998,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public void setAccessories(String accessories) {
 
-        if ((accessories != null) && ("".equals(accessories.trim()))) {
+        if (StringUtils.isBlank(accessories)) {
             this.accessories = null;
             return;
         }
@@ -1066,7 +1069,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public boolean addResults(List<IFinding> results) {
 
-        if ((results == null) || (results.isEmpty())) {
+        if (results == null || results.isEmpty()) {
             return false;
         }
 
@@ -1108,7 +1111,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public boolean addImages(List<String> images) {
 
-        if ((images == null) || (images.isEmpty())) {
+        if (images == null || images.isEmpty()) {
             return false;
         }
 

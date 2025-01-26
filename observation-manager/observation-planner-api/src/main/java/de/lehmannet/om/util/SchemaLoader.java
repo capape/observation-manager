@@ -258,17 +258,21 @@ public class SchemaLoader {
     /**
      * Loads/parses a XML File
      *
+     * @param xmlFile
+     *            file to parse
      * @param schemaPath
      *            The path to the XML Schemas
+     * @param fixLoadErrors
+     *            if true try to solve issues on loading.
      * @throws OALException
      *             if schema File cannot be accessed
      * @throws SchemaException
      *             if XML File is not valid
      */
-    public RootElement load(File xmlFile, File schemaPath) throws OALException, SchemaException {
+    public RootElement load(File xmlFile, File schemaPath, boolean fixLoadErrors) throws OALException, SchemaException {
 
         // Check if file is OK
-        if ((xmlFile == null) || !(xmlFile.exists()) || (xmlFile.isDirectory())) {
+        if (xmlFile == null || !xmlFile.exists() || xmlFile.isDirectory()) {
             throw new OALException("XML file is null, does not exist or is directory. ");
         }
 
@@ -283,7 +287,7 @@ public class SchemaLoader {
             DocumentBuilder db = dbf.newDocumentBuilder();
             try (FileInputStream is = new FileInputStream(xmlFile)) {
                 Document doc = db.parse(is);
-                return this.load(doc).node();
+                return this.load(doc, fixLoadErrors).node();
             }
 
         } catch (IOException e) {
@@ -399,7 +403,7 @@ public class SchemaLoader {
      * @throws SchemaException
      *             if XML File is not valid
      */
-    private Result load(Document doc) throws OALException, SchemaException {
+    private Result load(Document doc, boolean fixLoadErrors) throws OALException, SchemaException {
 
         // Check if document is OK
         if ((doc == null) || (!doc.hasChildNodes())) {
@@ -428,7 +432,7 @@ public class SchemaLoader {
         loadSession(rootElement);
 
         // --------- Observation -----------
-        this.observations = createObservationElements(rootElement);
+        this.observations = createObservationElements(rootElement, fixLoadErrors);
 
         // Bugfix from 0.516 to 0.617
         // Remove all doublicate catalog targets
@@ -447,16 +451,18 @@ public class SchemaLoader {
     }
 
     private void logData() {
-        LOGGER.debug("Observations {} ", (Object[]) this.observations);
-        LOGGER.debug("session {} ", (Object[]) this.sessions);
-        LOGGER.debug("targets {} ", (Object[]) this.targets);
-        LOGGER.debug("observers {} ", (Object[]) this.observers);
-        LOGGER.debug("sites {} ", (Object[]) this.sites);
-        LOGGER.debug("scopes {} ", (Object[]) this.scopes);
-        LOGGER.debug("eyepieces {} ", (Object[]) this.eyepieces);
-        LOGGER.debug("filters {} ", (Object[]) this.filters);
-        LOGGER.debug("lenses {} ", (Object[]) this.lenses);
-        LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Observations {} ", (Object[]) this.observations);
+            LOGGER.debug("session {} ", (Object[]) this.sessions);
+            LOGGER.debug("targets {} ", (Object[]) this.targets);
+            LOGGER.debug("observers {} ", (Object[]) this.observers);
+            LOGGER.debug("sites {} ", (Object[]) this.sites);
+            LOGGER.debug("scopes {} ", (Object[]) this.scopes);
+            LOGGER.debug("eyepieces {} ", (Object[]) this.eyepieces);
+            LOGGER.debug("filters {} ", (Object[]) this.filters);
+            LOGGER.debug("lenses {} ", (Object[]) this.lenses);
+            LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
+        }
 
     }
 
@@ -685,7 +691,7 @@ public class SchemaLoader {
     // Private Methods ---------------------------------------------------
     // ---------------
 
-    private IObservation[] createObservationElements(Node observations) {
+    private IObservation[] createObservationElements(Node observations, boolean fixLoadErrors) {
 
         Element e = (Element) observations;
         NodeList observationList = e.getElementsByTagName(IObservation.XML_ELEMENT_OBSERVATION);
@@ -698,8 +704,9 @@ public class SchemaLoader {
         for (int i = 0; i < observationList.getLength(); i++) {
 
             try {
-                obs.add(new Observation(observationList.item(i), this.targets, this.observers, this.sites, this.scopes,
-                        this.sessions, this.eyepieces, this.filters, this.imagers, this.lenses));
+                obs.add(new Observation(observationList.item(i), fixLoadErrors, this.targets, this.observers,
+                        this.sites, this.scopes, this.sessions, this.eyepieces, this.filters, this.imagers,
+                        this.lenses));
             } catch (SchemaException | IllegalArgumentException se) {
                 LOGGER.error("\n\nContinue loading next observation...\n\n", se);
             }
@@ -730,7 +737,6 @@ public class SchemaLoader {
             NamedNodeMap attributes = currentNode.getAttributes();
             if ((attributes != null) && (attributes.getLength() != 0)) {
                 String xsiType = getAttributeXsiTypeOrAssigneGeneric(attributes);
-
                 ITarget object = null;
                 try {
                     object = SchemaLoader.getTargetFromXSIType(xsiType, currentNode, observers);

@@ -180,7 +180,8 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     @Override
     public boolean loadObservations(final String filePath) {
         this.clear();
-        return this.xmlCache.loadObservations(filePath);
+        boolean fixErrors = configuration.getBooleanConfig("om.fix.xml.errors.on.load");
+        return this.xmlCache.loadObservations(filePath, fixErrors);
     }
 
     public void exportToHtml() {
