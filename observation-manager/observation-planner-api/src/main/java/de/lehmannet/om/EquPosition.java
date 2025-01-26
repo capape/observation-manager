@@ -89,7 +89,7 @@ public class EquPosition extends SchemaElement {
         Angle ra = null;
         Angle dec = null;
 
-        NodeList positionValues = position.getElementsByTagName(EquPosition.XML_ELEMENT_RA);
+        NodeList positionValues = position.getElementsByTagName(XML_ELEMENT_RA);
 
         if (positionValues.getLength() == 1) {
             Node raElement = positionValues.item(0);
@@ -99,7 +99,7 @@ public class EquPosition extends SchemaElement {
             throw new SchemaException("Position can have only one <ra> element. ");
         }
 
-        positionValues = position.getElementsByTagName(EquPosition.XML_ELEMENT_DEC);
+        positionValues = position.getElementsByTagName(XML_ELEMENT_DEC);
         if (positionValues.getLength() == 1) {
             Node decElement = positionValues.item(0);
 
@@ -228,8 +228,8 @@ public class EquPosition extends SchemaElement {
      */
     private static String getRaString(int hours, int min, int sec) {
 
-        return DateConverter.setLeadingZero(hours) + EquPosition.RA_HOUR + DateConverter.setLeadingZero(min)
-                + EquPosition.RA_MIN + DateConverter.setLeadingZero(sec) + EquPosition.RA_SEC;
+        return DateConverter.setLeadingZero(hours) + RA_HOUR + DateConverter.setLeadingZero(min)
+                + RA_MIN + DateConverter.setLeadingZero(sec) + RA_SEC;
 
     }
 
@@ -244,8 +244,8 @@ public class EquPosition extends SchemaElement {
      */
     public static String getRaString(int hours, int min, double sec) {
 
-        return DateConverter.setLeadingZero(hours) + EquPosition.RA_HOUR + DateConverter.setLeadingZero(min)
-                + EquPosition.RA_MIN + DateConverter.setLeadingZero(sec) + EquPosition.RA_SEC;
+        return DateConverter.setLeadingZero(hours) + RA_HOUR + DateConverter.setLeadingZero(min)
+                + RA_MIN + DateConverter.setLeadingZero(sec) + RA_SEC;
 
     }
 
@@ -264,13 +264,13 @@ public class EquPosition extends SchemaElement {
     public static String getDecString(boolean negative, int deg, int min, double sec) {
 
         if (negative) {
-            return "-" + DateConverter.setLeadingZero(deg) + EquPosition.DEC_DEG
-                    + DateConverter.setLeadingZero(Math.abs(min)) + EquPosition.DEC_MIN
-                    + DateConverter.setLeadingZero(Math.abs(sec)) + EquPosition.DEC_SEC;
+            return "-" + DateConverter.setLeadingZero(deg) + DEC_DEG
+                    + DateConverter.setLeadingZero(Math.abs(min)) + DEC_MIN
+                    + DateConverter.setLeadingZero(Math.abs(sec)) + DEC_SEC;
         }
 
-        return DateConverter.setLeadingZero(deg) + EquPosition.DEC_DEG + DateConverter.setLeadingZero(Math.abs(min))
-                + EquPosition.DEC_MIN + DateConverter.setLeadingZero(Math.abs(sec)) + EquPosition.DEC_SEC;
+        return DateConverter.setLeadingZero(deg) + DEC_DEG + DateConverter.setLeadingZero(Math.abs(min))
+                + DEC_MIN + DateConverter.setLeadingZero(Math.abs(sec)) + DEC_SEC;
 
     }
 
@@ -354,7 +354,7 @@ public class EquPosition extends SchemaElement {
         double sd = rest * 3600.0;
         int sec = (int) Math.round(sd);
 
-        return EquPosition.getDecString(negative, hours, min, sec);
+        return getDecString(negative, hours, min, sec);
 
     }
 
@@ -389,7 +389,7 @@ public class EquPosition extends SchemaElement {
         double sd = rest * 3600.0 / 15;
         int sec = (int) Math.round(sd);
 
-        return EquPosition.getRaString(hours, min, sec);
+        return getRaString(hours, min, sec);
 
     }
 
@@ -401,11 +401,9 @@ public class EquPosition extends SchemaElement {
     public double getRaDecimalHours() {
 
         String s = this.getRa();
-        double ra = Integer.parseInt(s.substring(0, s.indexOf(EquPosition.RA_HOUR)));
-        ra = ra + (Integer.parseInt(s.substring(s.indexOf(EquPosition.RA_HOUR) + 1, s.indexOf(EquPosition.RA_MIN))))
-                / 60.0;
-        ra = ra + (Integer.parseInt(s.substring(s.indexOf(EquPosition.RA_MIN) + 1, s.indexOf(EquPosition.RA_SEC))))
-                / (60.0 * 60.0);
+        double ra = Integer.parseInt(s.substring(0, s.indexOf(RA_HOUR)));
+        ra = ra + Integer.parseInt(s.substring(s.indexOf(RA_HOUR) + 1, s.indexOf(RA_MIN))) / 60.0;
+        ra = ra + Integer.parseInt(s.substring(s.indexOf(RA_MIN) + 1, s.indexOf(RA_SEC)))  / 3600.0;
 
         return ra;
 
@@ -425,11 +423,11 @@ public class EquPosition extends SchemaElement {
         String dec = paramdec.replace('+', ' ');
         dec = dec.replaceAll(" ", "");
         try {
-            int deg = Integer.parseInt(dec.substring(0, dec.indexOf(EquPosition.DEC_DEG)));
+            int deg = Integer.parseInt(dec.substring(0, dec.indexOf(DEC_DEG)));
             int min = Integer
-                    .parseInt(dec.substring(dec.indexOf(EquPosition.DEC_DEG) + 1, dec.indexOf(EquPosition.DEC_MIN)));
+                    .parseInt(dec.substring(dec.indexOf(DEC_DEG) + 1, dec.indexOf(DEC_MIN)));
             double sec = Double
-                    .parseDouble(dec.substring(dec.indexOf(EquPosition.DEC_MIN) + 1, dec.indexOf(EquPosition.DEC_SEC)));
+                    .parseDouble(dec.substring(dec.indexOf(DEC_MIN) + 1, dec.indexOf(DEC_SEC)));
 
             double d = 0.0;
             if (dec.startsWith("-")) {
@@ -458,11 +456,11 @@ public class EquPosition extends SchemaElement {
 
         String ra = paramra.replaceAll(" ", "");
         try {
-            int hour = Integer.parseInt(ra.substring(0, ra.indexOf(EquPosition.RA_HOUR)));
+            int hour = Integer.parseInt(ra.substring(0, ra.indexOf(RA_HOUR)));
             int min = Integer
-                    .parseInt(ra.substring(ra.indexOf(EquPosition.RA_HOUR) + 1, ra.indexOf(EquPosition.RA_MIN)));
+                    .parseInt(ra.substring(ra.indexOf(RA_HOUR) + 1, ra.indexOf(RA_MIN)));
             double sec = Double
-                    .parseDouble(ra.substring(ra.indexOf(EquPosition.RA_MIN) + 1, ra.indexOf(EquPosition.RA_SEC)));
+                    .parseDouble(ra.substring(ra.indexOf(RA_MIN) + 1, ra.indexOf(RA_SEC)));
 
             double r = (hour * 15) + (min / 60.0 * 15) + (sec / 3600.0 * 15);
 
@@ -516,17 +514,6 @@ public class EquPosition extends SchemaElement {
     }
 
     /**
-     * Returns the position reference frame of this equatorial position.
-     *
-     * @return The position reference frame of this equatorial position
-     */
-    private EquPositionReferenceFrame getFrame() {
-
-        return frame;
-
-    }
-
-    /**
      * Sets the position reference frame of this equatorial position.<br>
      * If <code>null</code> is passed the new position reference frame that is set is geocentric with equinox J2000.0
      *
@@ -567,28 +554,38 @@ public class EquPosition extends SchemaElement {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         EquPosition other = (EquPosition) obj;
         if (dec == null) {
-            if (other.dec != null)
+            if (other.dec != null) {
                 return false;
-        } else if (!dec.equals(other.dec))
+            }
+        } else if (!dec.equals(other.dec)) {
             return false;
+        }
         if (frame == null) {
-            if (other.frame != null)
+            if (other.frame != null) {
                 return false;
-        } else if (!frame.equals(other.frame))
+            }
+        } else if (!frame.equals(other.frame)) {
             return false;
+        }
+
         if (ra == null) {
-            if (other.ra != null)
+            if (other.ra != null) {
                 return false;
-        } else if (!ra.equals(other.ra))
+            }
+        } else if (!ra.equals(other.ra)) {
             return false;
+        }
         return true;
     }
 
