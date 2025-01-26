@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -73,15 +75,21 @@ class EquPositionContainer extends Container {
         int decD = -1;
         int decM = -1;
         double decS = -1;
+        boolean negative = false;
         try {
-            decD = Integer.parseInt(this.decDegreeValue.getText());
-            decM = Integer.parseInt(this.decMinValue.getText());
-            decS = Double.parseDouble(this.decSecValue.getText());
+            var decValue = StringUtils.trim(this.decDegreeValue.getText());
+            if (decValue.startsWith("-")) {
+                negative = true;
+            }
+
+            decD = Integer.parseInt(decValue.replace("-", ""));
+            decM = Integer.parseInt(this.decMinValue.getText().replace("-", ""));
+            decS = Double.parseDouble(this.decSecValue.getText().replace("-", ""));
         } catch (NumberFormatException nfe) {
             return null;
         }
 
-        String dec = EquPosition.getDecString(decD, decM, decS);
+        String dec = EquPosition.getDecString(negative, decD, decM, decS);
 
         this.equPosition = new EquPosition(ra, dec);
 
