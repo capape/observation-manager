@@ -987,7 +987,8 @@ public final class ObservationManagerMenuFile {
                 // Load import file
                 SchemaLoader importer = new SchemaLoader();
                 try {
-                    importer.load(importFile, schemaFile);
+                    boolean fixErrors = configuration.getBooleanConfig("om.fix.xml.errors.on.load");
+                    importer.load(importFile, schemaFile, fixErrors);
                 } catch (OALException se) {
                     returnValue = Worker.RETURN_TYPE_ERROR;
                     message = textManager.getString("error.import.xmlFile");

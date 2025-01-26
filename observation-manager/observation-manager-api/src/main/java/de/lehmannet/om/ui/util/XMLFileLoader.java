@@ -93,6 +93,6 @@ public interface XMLFileLoader {
 
     ILens[] getLenses();
 
-    boolean loadObservations(String xmlPath);
+    boolean loadObservations(String xmlPath, boolean fixErrors);
 
 }

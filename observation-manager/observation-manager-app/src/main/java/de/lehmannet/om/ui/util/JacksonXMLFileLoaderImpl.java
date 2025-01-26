@@ -197,7 +197,7 @@ public class JacksonXMLFileLoaderImpl implements XMLFileLoader {
     }
 
     @Override
-    public boolean loadObservations(String xmlPath) {
+    public boolean loadObservations(String xmlPath, boolean fixErrors) {
         // TODO Auto-generated method stub
         return false;
     }

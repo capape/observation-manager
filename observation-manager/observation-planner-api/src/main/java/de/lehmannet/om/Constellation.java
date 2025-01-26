@@ -7,6 +7,9 @@
 
 package de.lehmannet.om;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -35,7 +38,7 @@ public enum Constellation {
     CAMELOPARDALIS("Cam", "Camelopardalis"),
     CANCER("Cnc", "Cancer"),
     CANES_VENATICI("CVn", "Canes Venatici"),
-    CANIS_MAIOR("CMa", "Canis Maior"),
+    CANIS_MAJOR("CMa", "Canis Major", "Canis Maior"),
     CANIS_MINOR("CMi", "Canis Minor"),
     CAPRICORNUS("Cap", "Capricornus"),
     CARINA("Car", "Carina"),
@@ -76,7 +79,7 @@ public enum Constellation {
     LYRA("Lyr", "Lyra"),
     MENSA("Men", "Mensa"),
     MICROSCOPUS("Mic", "Microscopus"),
-    MONOCERUS("Mon", "Monocerus"),
+    MONOCEROS("Mon", "Monoceros", "Monocerus"),
     MUSCA("Mus", "Musca"),
     NORMA("Nor", "Norma"),
     OCTANS("Oct", "Octans"),
@@ -87,7 +90,7 @@ public enum Constellation {
     PERSEUS("Per", "Perseus"),
     PHOENIX("Phe", "Phoenix"),
     PICTOR("Pic", "Pictor"),
-    PISCES_AUSTRINUS("PsA", "Pisces Austrinus"),
+    PISCIS_AUSTRINUS("PsA", "Piscis Austrinus", "Pisces Austrinus"),
     PISCES("Psc", "Pisces"),
     PUPPIS("Pup", "Puppis"),
     PYXIS("Pyx", "Pyxis"),
@@ -104,7 +107,7 @@ public enum Constellation {
     TRIANGULUM_AUSTRALIS("TrA", "Triangulum Australis"),
     TRIANGULUM("Tri", "Triangulum"),
     TUCANA("Tuc", "Tucana"),
-    URSA_MAIOR("UMa", "Ursa Maior"),
+    URSA_MAJOR("UMa", "Ursa Major", "Ursa Maior"),
     URSA_MINOR("UMi", "Ursa Minor"),
     VELA("Vel", "Vela"),
     VIRGO("Vir", "Virgo"),
@@ -120,9 +123,23 @@ public enum Constellation {
     // Constellation name in latin
     private String name;
 
-    private Constellation(String abb, String name) {
+    private List<String> alternativeNames;
+
+    Constellation(String abb, String name, String... alternativeNames) {
         this.abbreviation = abb;
         this.name = name;
+        if (alternativeNames == null) {
+            this.alternativeNames = Collections.emptyList();
+        } else {
+            this.alternativeNames = Arrays.asList(alternativeNames);
+        }
+
+    }
+
+    Constellation(String abb, String name) {
+        this.abbreviation = abb;
+        this.name = name;
+        this.alternativeNames = Collections.emptyList();
     }
 
     public static Constellation getConstellationByName(String data) {
@@ -132,14 +149,19 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values()) {
-            if (item.getName().equalsIgnoreCase(toSearch)) {
+        for (Constellation item : values()) {
+            if (item.hasName(toSearch)) {
                 return item;
             }
         }
 
         throw new IllegalArgumentException("Invalid constellation");
 
+    }
+
+    private boolean hasName(final String toSearch) {
+        return this.name.equalsIgnoreCase(toSearch)
+                || this.alternativeNames.stream().anyMatch(alternative -> alternative.equalsIgnoreCase(toSearch));
     }
 
     public static Constellation getConstellationByAbb(String data) {
@@ -149,7 +171,7 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values()) {
+        for (Constellation item : values()) {
             if (item.getAbbreviation().equalsIgnoreCase(toSearch)) {
                 return item;
             }
@@ -166,8 +188,8 @@ public enum Constellation {
         }
         final String toSearch = data.trim().toUpperCase(Locale.getDefault());
 
-        for (Constellation item : Constellation.values()) {
-            if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.getName().equalsIgnoreCase(toSearch)) {
+        for (Constellation item : values()) {
+            if (item.getAbbreviation().equalsIgnoreCase(toSearch) || item.hasName(toSearch)) {
                 return item;
             }
         }
@@ -200,12 +222,9 @@ public enum Constellation {
                 this.bundle = ResourceBundle.getBundle("Constellations", Locale.getDefault());
             }
             result = this.bundle.getString(this.getAbbreviation());
-        } catch (MissingResourceException mre1) { // Try with name as key
-            try {
-                result = this.bundle.getString(this.getName());
-            } catch (MissingResourceException mre2) {
-                // OK, seems there's really no I18N for this...
-            }
+        } catch (MissingResourceException mre1) {
+            // Latin name if not found
+            result = this.getName();
         }
 
         return result; // In worst case the non I18N name is returned

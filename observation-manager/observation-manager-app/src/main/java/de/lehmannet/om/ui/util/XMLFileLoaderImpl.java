@@ -953,10 +953,10 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
     }
 
-    public boolean loadObservations(String xmlPath) {
+    public boolean loadObservations(String xmlPath, boolean fixErrors) {
 
         try {
-            loader.load(new File(xmlPath), this.schemaPath);
+            loader.load(new File(xmlPath), this.schemaPath, fixErrors);
 
             IObservation[] obs = loader.getObservations();
             IEyepiece[] eye = loader.getEyepieces();
