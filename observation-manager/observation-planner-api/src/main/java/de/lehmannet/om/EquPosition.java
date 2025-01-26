@@ -276,6 +276,7 @@ public class EquPosition extends SchemaElement {
     /**
      * Returns a correct formed declination string.
      *
+     * @param negative
      * @param deg
      *            Degree value
      * @param min
@@ -284,9 +285,9 @@ public class EquPosition extends SchemaElement {
      *            Second value
      * @return The declination as correct formated sting.
      */
-    public static String getDecString(int deg, int min, double sec) {
+    public static String getDecString(boolean negative, int deg, int min, double sec) {
 
-        if ((deg == 0) && ((min < 0) || ((min == 0) && (sec < 0)))) {
+        if (negative) {
             return "-" + DateConverter.setLeadingZero(deg) + EquPosition.DEC_DEG
                     + DateConverter.setLeadingZero(Math.abs(min)) + EquPosition.DEC_MIN
                     + DateConverter.setLeadingZero(Math.abs(sec)) + EquPosition.DEC_SEC;
