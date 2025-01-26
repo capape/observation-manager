@@ -182,7 +182,9 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setMagnification(ObservationMapper.getOptionalMagnification(observationElement));
         this.setAccessories(ObservationMapper.getOptionalAccesories(observationElement));
         this.setSeeing(ObservationMapper.getOptionalSeeing(observationElement));
-        this.setSession(ObservationMapper.getOptionalSession(sessions, observationElement));
+        var sessionLoaded = ObservationMapper.getOptionalSession(sessions, observationElement);
+        fixSessionDatesOnLoad(sessionLoaded);
+        this.setSession(sessionLoaded);
         this.setEyepiece(ObservationMapper.getOptionalEyepiece(eyepieces, observationElement));
         this.setLens(ObservationMapper.getOptionalLens(observationElement, lenses));
         this.setFilter(ObservationMapper.getOptionalFilter(filters, observationElement));
@@ -1405,6 +1407,14 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             return;
         }
 
+        checkSessionDatesBeforeSetting(session);
+
+        this.session = session;
+
+    }
+
+    private void fixSessionDatesOnLoad(ISession session) {
+
         OffsetDateTime sessionStart = session.getBegin();
         OffsetDateTime sessionEnd = session.getEnd();
 
@@ -1415,9 +1425,34 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         // Check if start date of observation is equal or later then session start
         if (sessionStart.isAfter(this.begin)) {
-            LOGGER.error("Session start date is after observation start date  for:  {}", this.getDisplayName());
+            session.setBegin(this.begin);
+            LOGGER.warn("Session start date is after observation start date  for:  {}. Fixed to load",
+                    this.getDisplayName());
+
+        }
+
+        // Check if also end date is correct (if set)
+        if (this.end != null && this.end.isAfter(sessionEnd)) {
+            session.setEnd(this.end);
+            LOGGER.warn("Observation end date is after session end date  for:  {}", this.getDisplayName());
+        }
+    }
+
+    private void checkSessionDatesBeforeSetting(ISession session) {
+
+        OffsetDateTime sessionStart = session.getBegin();
+        OffsetDateTime sessionEnd = session.getEnd();
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Session from:  {} to : {}", toMillisString(sessionStart), toMillisString(sessionEnd));
+            LOGGER.debug("Observation from:  {} to : {}", toMillisString(this.begin), toMillisString(this.end));
+        }
+
+        // Check if start date of observation is equal or later then session start
+        if (sessionStart.isAfter(this.begin)) {
+            LOGGER.error("Session start date is after observation start date  for:  {}.", this.getDisplayName());
             throw new IllegalArgumentException(
-                    "Session start date is after observation start date  for:  " + this.getDisplayName());
+                    "Session start date is after observation start date for: " + this.getDisplayName());
 
         }
 
@@ -1427,9 +1462,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             throw new IllegalArgumentException(
                     "Observation end date is after session end date " + this.getDisplayName());
         }
-
-        this.session = session;
-
     }
 
     /**

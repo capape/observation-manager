@@ -283,7 +283,7 @@ public class SchemaLoader {
             DocumentBuilder db = dbf.newDocumentBuilder();
             try (FileInputStream is = new FileInputStream(xmlFile)) {
                 Document doc = db.parse(is);
-                return this.load(doc);
+                return this.load(doc).node();
             }
 
         } catch (IOException e) {
@@ -399,7 +399,7 @@ public class SchemaLoader {
      * @throws SchemaException
      *             if XML File is not valid
      */
-    private RootElement load(Document doc) throws OALException, SchemaException {
+    private Result load(Document doc) throws OALException, SchemaException {
 
         // Check if document is OK
         if ((doc == null) || (!doc.hasChildNodes())) {
@@ -414,7 +414,7 @@ public class SchemaLoader {
 
         // This might be parallelize in a future release, as some elements, have no
         // dependencies
-
+        var errors = new ArrayList<String>();
         loadObserver(rootElement);
         loadTargets(rootElement);
         loadSite(rootElement);
@@ -442,7 +442,7 @@ public class SchemaLoader {
         }
 
         logData();
-        return obs;
+        return new Result(obs, errors);
 
     }
 
@@ -663,16 +663,16 @@ public class SchemaLoader {
         try {
             if (SchemaElementConstants.FINDING == schemaElementType) {
                 return ConfigLoader.getFindingClassnameFromType(xsiType);
-            } else if ( SchemaElementConstants.TARGET == schemaElementType) { // TARGET 
+            } else if (SchemaElementConstants.TARGET == schemaElementType) { // TARGET
                 try {
                     return ConfigLoader.getTargetClassnameFromType(xsiType);
                 } catch (ConfigException ce) {
-                    LOGGER.warn("Fail to load custom target type {}.", ce.getLocalizedMessage());        
+                    LOGGER.warn("Fail to load custom target type {}.", ce.getLocalizedMessage());
                     return "de.lehmannet.om.GenericTarget";
                 }
 
             } else {
-                // All other extenable schemaElements can be found in Targetable 
+                // All other extenable schemaElements can be found in Targetable
                 return ConfigLoader.getTargetClassnameFromType(xsiType);
             }
         } catch (ConfigException ce) {
@@ -1035,4 +1035,6 @@ public class SchemaLoader {
 
     }
 
+    record Result(RootElement node, List<String> errors) {
+    }
 }

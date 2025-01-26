@@ -21,7 +21,6 @@ import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
-
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.FloatUtil;
@@ -55,11 +54,7 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_CAMELOPARDALIS = new int[] { 4649, 4934 };
     private static final int[] LINES_CANCER = new int[] { 4934, 5169 };
     private static final int[] LINES_CANES_VENATICI = new int[] { 5169, 5323 };
-    private static final int[] LINES_CANES_MAJOR = new int[] { 5323, 5692 };
     private static final int[] LINES_CANIS_MAJOR = new int[] { 5323, 5692 };
-    private static final int[] LINES_CANES_MAIOR = new int[] { 5323, 5692 };
-    private static final int[] LINES_CANIS_MAIOR = new int[] { 5323, 5692 };
-    private static final int[] LINES_CANES_MINOR = new int[] { 5692, 5821 };
     private static final int[] LINES_CANIS_MINOR = new int[] { 5692, 5821 };
     private static final int[] LINES_CAPRICORNUS = new int[] { 5821, 5940 };
     private static final int[] LINES_CARINA = new int[] { 5940, 6545 };
@@ -101,7 +96,6 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_MENSA = new int[] { 19312, 19383 };
     private static final int[] LINES_MICROSCOPUS = new int[] { 19383, 19512 };
     private static final int[] LINES_MONOCEROS = new int[] { 19512, 20384 };
-    private static final int[] LINES_MONOCERUS = new int[] { 19512, 20384 };
     private static final int[] LINES_MUSCA = new int[] { 20384, 20672 };
     private static final int[] LINES_NORMA = new int[] { 20672, 21062 };
     private static final int[] LINES_OCTANS = new int[] { 21062, 21210 };
@@ -113,7 +107,6 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_PHOENIX = new int[] { 27192, 27320 };
     private static final int[] LINES_PICTOR = new int[] { 27320, 27385 };
     private static final int[] LINES_PISCIS_AUSTRINUS = new int[] { 27548, 27600 };
-    private static final int[] LINES_PISCES_AUSTRINUS = new int[] { 27548, 27600 };
     private static final int[] LINES_PISCES = new int[] { 27385, 27548 };
     private static final int[] LINES_PUPPIS = new int[] { 27600, 28202 };
     private static final int[] LINES_PYXIS = new int[] { 28202, 28334 };
@@ -131,7 +124,6 @@ public class GCVS4Catalog implements ICatalog {
     private static final int[] LINES_TRIANGULUM = new int[] { 38258, 38331 };
     private static final int[] LINES_TUCANA = new int[] { 38624, 38778 };
     private static final int[] LINES_URSA_MAJOR = new int[] { 38778, 39075 };
-    private static final int[] LINES_URSA_MAIOR = new int[] { 38778, 39075 };
     private static final int[] LINES_URSA_MINOR = new int[] { 39075, 39118 };
     private static final int[] LINES_VELA = new int[] { 39118, 39523 };
     private static final int[] LINES_VIRGO = new int[] { 39523, 39862 };
@@ -260,9 +252,9 @@ public class GCVS4Catalog implements ICatalog {
         } else if (constellation.equals(Constellation.CANES_VENATICI)) {
             lines = GCVS4Catalog.LINES_CANES_VENATICI;
         } else if (constellation.equals(Constellation.CANIS_MAJOR)) {
-            lines = GCVS4Catalog.LINES_CANES_MAJOR;
+            lines = GCVS4Catalog.LINES_CANIS_MAJOR;
         } else if (constellation.equals(Constellation.CANIS_MINOR)) {
-            lines = GCVS4Catalog.LINES_CANES_MINOR;
+            lines = GCVS4Catalog.LINES_CANIS_MINOR;
         } else if (constellation.equals(Constellation.CAPRICORNUS)) {
             lines = GCVS4Catalog.LINES_CAPRICORNUS;
         } else if (constellation.equals(Constellation.CARINA)) {
