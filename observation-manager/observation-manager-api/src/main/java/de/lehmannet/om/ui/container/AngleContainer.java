@@ -23,6 +23,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -85,7 +87,7 @@ public class AngleContainer extends Container {
     public Angle getAngle() throws NumberFormatException {
 
         if (!this.useArc) {
-            if ((this.decValue.getText() != null) && !("".equals(this.decValue.getText()))) {
+            if (StringUtils.isNotBlank(this.decValue.getText())) {
                 try {
                     this.angleValue = Double.parseDouble(this.decValue.getText());
                 } catch (NumberFormatException nfe) {
@@ -99,19 +101,28 @@ public class AngleContainer extends Container {
                 return new Angle(this.angleValue, this.angleUnit);
             }
         } else {
-            if ((this.arcDegreeValue.getText() != null) && !("".equals(this.arcDegreeValue.getText().trim()))) {
+            if (StringUtils.isNotBlank(this.arcDegreeValue.getText())) {
                 int deg;
+                boolean negative = false;
                 try {
-                    deg = Integer.parseInt(this.arcDegreeValue.getText());
+
+                    if (this.arcDegreeValue.getText().startsWith("-")) {
+                        negative = true;
+                    }
+                    deg = Math.abs(Integer.parseInt(this.arcDegreeValue.getText()));
                 } catch (NumberFormatException nfe) {
                     throw new NumberFormatException(
                             "Given arc degree value " + this.arcDegreeValue.getText() + " cannot be parsed");
                 }
 
                 int min = 0;
-                if ((this.arcMinValue.getText() != null) && !("".equals(this.arcMinValue.getText().trim()))) {
+                if (StringUtils.isNotBlank(this.arcMinValue.getText())) {
                     try {
                         min = Integer.parseInt(this.arcMinValue.getText());
+                        if (min < 0) {
+                            throw new NumberFormatException(
+                                    "Given arc min value " + this.arcMinValue.getText() + " cannot be parsed");
+                        }
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException(
                                 "Given arc min value " + this.arcMinValue.getText() + " cannot be parsed");
@@ -119,12 +130,16 @@ public class AngleContainer extends Container {
                 }
 
                 int sec = 0;
-                if ((this.arcSecValue.getText() != null) && !("".equals(this.arcSecValue.getText().trim()))) {
+                if (StringUtils.isNotBlank(this.arcSecValue.getText())) {
                     try {
                         String secString = this.arcSecValue.getText();
                         secString = secString.replace('.', ' ');
                         secString = secString.replace(',', ' ');
                         sec = Integer.parseInt(secString);
+                        if (sec < 0) {
+                            throw new NumberFormatException(
+                                    "Given arc sec value " + this.arcSecValue.getText() + " cannot be parsed");
+                        }
                     } catch (NumberFormatException nfe) {
                         throw new NumberFormatException(
                                 "Given arc sec value " + this.arcSecValue.getText() + " cannot be parsed");
@@ -132,7 +147,7 @@ public class AngleContainer extends Container {
                 }
 
                 // Use EquPosition for transformation (with dummy value for RA)
-                String arcString = EquPosition.getDecString(deg, min, sec);
+                String arcString = EquPosition.getDecString(negative, deg, min, sec);
                 EquPosition eq = new EquPosition(
                         "0" + EquPosition.RA_HOUR + "0" + EquPosition.RA_MIN + "0" + EquPosition.RA_SEC, arcString);
 

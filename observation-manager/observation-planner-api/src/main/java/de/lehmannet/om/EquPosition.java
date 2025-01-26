@@ -252,30 +252,6 @@ public class EquPosition extends SchemaElement {
     /**
      * Returns a correct formed declination string.
      *
-     * @param deg
-     *            Degree value
-     * @param min
-     *            Minute value
-     * @param sec
-     *            Second value
-     * @return The declination as correct formated sting.
-     */
-    public static String getDecString(int deg, int min, int sec) {
-
-        if ((deg == 0) && ((min < 0) || ((min == 0) && (sec < 0)))) {
-            return "-" + DateConverter.setLeadingZero(deg) + EquPosition.DEC_DEG
-                    + DateConverter.setLeadingZero(Math.abs(min)) + EquPosition.DEC_MIN
-                    + DateConverter.setLeadingZero(Math.abs(sec)) + EquPosition.DEC_SEC;
-        }
-
-        return DateConverter.setLeadingZero(deg) + EquPosition.DEC_DEG + DateConverter.setLeadingZero(Math.abs(min))
-                + EquPosition.DEC_MIN + DateConverter.setLeadingZero(Math.abs(sec)) + EquPosition.DEC_SEC;
-
-    }
-
-    /**
-     * Returns a correct formed declination string.
-     *
      * @param negative
      * @param deg
      *            Degree value
@@ -361,42 +337,24 @@ public class EquPosition extends SchemaElement {
     public String getDec() {
 
         double degree = dec.toDegree();
-        int deg = 0;
-        if (degree > 0) {
-            deg = (int) Math.floor(degree);
-        } else {
-            deg = (int) Math.ceil(degree);
+        boolean negative = false;
+        double absDegree = degree;
+        if (degree < 0) {
+            negative = true;
+            absDegree = Math.abs(degree);
         }
-        double rest = degree - deg;
+
+        int hours = (int) Math.floor(absDegree);
+        double rest = absDegree - hours;
 
         double md = rest * 60.0;
-        int min = 0;
-        if (md > 0) {
-            min = (int) Math.floor(md);
-        } else {
-            min = (int) Math.ceil(md);
-        }
+        int min = (int) Math.floor(md);
         rest = rest - (min / 60.0);
 
         double sd = rest * 3600.0;
         int sec = (int) Math.round(sd);
-        if (sec == 60) {
-            min++;
-            if (min >= 60) {
-                deg++;
-                min = 0;
-            }
-            sec = 0;
-        } else if (sec == -60) {
-            min--;
-            if (min >= 60) {
-                deg--;
-                min = 0;
-            }
-            sec = 0;
-        }
 
-        return EquPosition.getDecString(deg, min, sec);
+        return EquPosition.getDecString(negative, hours, min, sec);
 
     }
 
