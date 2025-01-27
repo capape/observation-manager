@@ -660,11 +660,15 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             eObservation = imager.addAsLinkToXmlElement(eObservation);
         }
 
-        ListIterator<IFinding> iterator = this.results.listIterator();
-        IFinding result = null;
-        while (iterator.hasNext()) {
-            result = iterator.next();
-            eObservation = result.addToXmlElement(eObservation);
+        if (this.results.isEmpty()) {
+            GenericFinding finding = new GenericFinding("");
+            eObservation = finding.addToXmlElement(eObservation);
+        } else {
+            ListIterator<IFinding> iterator = this.results.listIterator();
+            while (iterator.hasNext()) {
+                IFinding result = iterator.next();
+                eObservation = result.addToXmlElement(eObservation);
+            }
         }
 
         addImages(ownerDoc, eObservation);
