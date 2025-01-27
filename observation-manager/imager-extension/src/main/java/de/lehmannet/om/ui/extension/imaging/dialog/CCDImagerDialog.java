@@ -22,10 +22,10 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
     private static final long serialVersionUID = 8966093381064556604L;
 
-    public CCDImagerDialog(
-            JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, IImager editableImager) {
+    public CCDImagerDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
+            IImager editableImager, boolean editable) {
 
-        super(om, model, uiHelper, new CCDImagerPanel(editableImager, Boolean.TRUE));
+        super(om, model, uiHelper, new CCDImagerPanel(editableImager, editable));
 
         ResourceBundle bundle =
                 ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());

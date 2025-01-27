@@ -216,6 +216,7 @@ public class ImagerExtension extends AbstractExtension {
     @Override
     public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
 
-        return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager);
+        return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager,
+                editable);
     }
 }

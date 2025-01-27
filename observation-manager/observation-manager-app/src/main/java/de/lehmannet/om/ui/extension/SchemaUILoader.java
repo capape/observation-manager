@@ -321,7 +321,7 @@ public class SchemaUILoader {
             Object additionalParameter2,
             boolean editable) {
 
-        LOGGER.warn("***WARNING*** loading by reflection class: {}, object: {}", classname, findingOrTarget);
+        LOGGER.warn("***WARNING*** loading by reflection class: {}, object: {}", classname, objectToLoad);
         // Get Java class
         Class<?> currentClass = null;
         try {
@@ -397,6 +397,49 @@ public class SchemaUILoader {
                     } else if ((parameters.length == 1) // Maybe its the most simple extension of AbstractPanel?
                             && (parameters[0].isInstance(Boolean.FALSE))) {
                         object = constructor.newInstance(editable);
+                        break;
+                    } else if (parameters.length == 2 && parameters[0].isAssignableFrom(exampleClass)
+                            && parameters[1].isInstance(Boolean.FALSE)) {
+                        object = constructor.newInstance(objectToLoad, editable);
+                        break;
+                    } else if (parameters.length == 2 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isAssignableFrom(exampleClass)) {
+                        object = constructor.newInstance(this.observationManager, objectToLoad);
+                        break;
+                    } else if (parameters.length == 3 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isAssignableFrom(exampleClass)
+                            && parameters[2].isInstance(Boolean.FALSE)) {
+                        object = constructor.newInstance(this.observationManager, objectToLoad, editable);
+                        break;
+                    } else if (parameters.length == 3 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isInstance(this.model) && parameters[2].isAssignableFrom(exampleClass)) {
+                        object = constructor.newInstance(this.observationManager, this.model, objectToLoad);
+                        break;
+                    } else if (parameters.length == 4 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isAssignableFrom(exampleClass)
+                            && parameters[2].isAssignableFrom(additionalParameterClass1)
+                            && parameters[3].isInstance(Boolean.FALSE)) {
+                        object = constructor.newInstance(this.observationManager, objectToLoad, additionalParameter1,
+                                editable);
+                        break;
+                    } else if (parameters.length == 4 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isInstance(this.model) && parameters[2].isAssignableFrom(exampleClass)
+                            && parameters[3].isInstance(Boolean.FALSE)) {
+                        object = constructor.newInstance(this.observationManager, this.model, objectToLoad, editable);
+                        break;
+                    } else if (parameters.length == 5 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isInstance(this.observationManager.getUiHelper())
+                            && parameters[2].isInstance(this.model) && parameters[3].isAssignableFrom(exampleClass)) {
+                        object = constructor.newInstance(this.observationManager, this.observationManager.getUiHelper(),
+                                this.model, objectToLoad, editable);
+                        break;
+                    } else if (parameters.length == 5 && parameters[0].isInstance(this.observationManager)
+                            && parameters[1].isAssignableFrom(exampleClass)
+                            && parameters[2].isAssignableFrom(additionalParameterClass1)
+                            && parameters[3].isAssignableFrom(additionalParameterClass2)
+                            && parameters[4].isInstance(Boolean.FALSE)) {
+                        object = constructor.newInstance(this.observationManager, objectToLoad, additionalParameter1,
+                                additionalParameter2, editable);
                         break;
                     } else {
                         LOGGER.error("Unable to instantiate class: {}. No constructor found", classname);
