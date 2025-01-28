@@ -62,6 +62,7 @@
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
         <maven-spotbugs-plugin.version>4.0.0</maven-spotbugs-plugin.version>
+        <maven-spotless-plugin.version>2.44.2</maven-spotless-plugin.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
 
@@ -264,10 +265,10 @@
                         <failOnError>true</failOnError>
                         <includeFilterFile>
                             ${session.executionRootDirectory}/spotbugs-security-include.xml
-                            </includeFilterFile>
+                        </includeFilterFile>
                         <excludeFilterFile>
                             ${session.executionRootDirectory}/spotbugs-security-exclude.xml
-                            </excludeFilterFile>
+                        </excludeFilterFile>
                         <plugins>
                             <plugin>
                                 <groupId>com.h3xstream.findsecbugs</groupId>
@@ -355,20 +356,22 @@
         <!-- To use the plugin goals in your POM or parent POM -->
         <plugins>
             <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <version>${maven-formatter-plugin.version}</version>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${maven-spotless-plugin.version}</version>
                 <configuration>
-                    <configFile>
-                        ${maven.multiModuleProjectDirectory}/build-tools/src/main/resources/build-tools/formatter-config.xml</configFile>
+                    <java>
+                        <removeUnusedImports />
+                        <formatAnnotations />
+                        <importOrder />
+                        <palantirJavaFormat>
+                            <version>2.39.0</version>                     <!-- optional -->
+                            <style>PALANTIR</style>                       <!-- or AOSP/GOOGLE (optional) -->
+                            <formatJavadoc>false</formatJavadoc>          <!-- defaults to false
+                                (optional, requires at least Palantir 2.39.0) -->
+                        </palantirJavaFormat>
+                    </java>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
