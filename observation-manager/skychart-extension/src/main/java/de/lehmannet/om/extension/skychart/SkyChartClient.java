@@ -16,19 +16,21 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -171,8 +173,10 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         // ---- Set observation site
         /*
          * if( observation.getSite() != null ) { commands = new String[1]; commands[0] =
-         * this.createSiteCommand(observation.getSite()); response = this.sendData(socket, commands[0]); if( response ==
-         * null ) { return; // Something went wrong. User is already informed, so cancel here. } }
+         * this.createSiteCommand(observation.getSite()); response =
+         * this.sendData(socket, commands[0]); if( response ==
+         * null ) { return; // Something went wrong. User is already informed, so cancel
+         * here. } }
          */
 
         // ---- Set observation date
@@ -225,158 +229,121 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
     private boolean moveSkychartToTarget(StarchartSocket socket, ITarget target) {
 
-        // Begin with data sending
-        String[] commands = null;
         Boolean response = null;
 
         // ---- Set Target (via Skychart search)
-        commands = this.createSEARCHCommands(target);
+        var commands = this.createSEARCHCommands(target);
         String responseString = null;
         for (String s : commands) {
             responseString = this.sendDataWithServerResponse(socket, s);
             if (responseString == null) { // Communication error
                 LOGGER.error("Set Target by position...Failed with error");
                 return false;
-            } else {
+            }
 
-                // This is somehow new from Skychart.
-                // In older versions it returned the moved to coordinated. Now
-                // it just responds OK! or not Found.
-                if (responseString.contains("OK!")) { // Direct hit! :-)
-                    return true;
-                } else if (responseString.indexOf("Not found!") != 1) {
-                    continue;
-                } else if ("".equals(responseString.replace('.', ' ').trim())) { // Only
-                    // ....
-                    // as
-                    // response
-                    // can
-                    // also
-                    // be
-                    // considered
-                    // as
-                    // OK...whatever
-                    // (test
-                    // with
-                    // moon
-                    // as
-                    // target)
-                    return true;
-                }
+            String[] responses = responseString.split("\t");
 
-                StringTokenizer tokenizer = new StringTokenizer(responseString, "\t");
-                int j = 0;
-                String current = null;
-                String ra = null;
-                String dec = null;
-                String objectName = null;
-                while (tokenizer.hasMoreTokens()) {
-                    current = tokenizer.nextToken();
-                    if (j == 2) {
-                        ra = current;
-                        dec = tokenizer.nextToken();
-                        char d = 176;
-                        dec = dec.replaceAll("" + d, EquPosition.DEC_DEG);
-                        if (dec.contains(".")) {
-                            dec = dec.substring(0, dec.lastIndexOf("."));
-                        } else {
-                            if (dec.lastIndexOf("s") != -1) {
-                                dec = dec.substring(0, dec.lastIndexOf("s"));
-                            }
-                        }
-                        dec = dec + "\"";
-                        tokenizer.nextToken(); // This is the type returned by
-                        // Skycharts
-                        objectName = tokenizer.nextToken();
-                        break;
-                    }
-                    j++;
-                }
+            // This is somehow new from Skychart.
+            // In older versions it returned the moved to coordinated. Now
+            // it just responds OK! or not Found.
+            if (responseString.contains("INFO:Zero (0)") || responseString.contains("Not found!")) {
+                continue;
+            }
 
-                // Check whether found object and target object have same name
-                if (objectName != null) {
+            if (responseString.contains("OK!")) { // Direct hit! :-)
+                return true;
+            }
 
-                    objectName = objectName.replaceAll(" ", "");
-                    objectName = objectName.trim().toUpperCase();
-                    if (objectName.equals(target.getName().toUpperCase())) {
-                        LOGGER.debug("Found {} by name", target.getName());
+            if (StringUtils.isBlank(responseString.replace('.', ' '))) {
+                // Only
+                // ....
+                // as response can also be considered as OK
+                // ...whatever (test with moon as target)
+                return true;
+            }
+
+            String ra = responses[2];
+            String dec = responses[3];
+            String objectName = StringUtils.trimToEmpty(responses[5]);
+
+            // Check whether found object and target object have same name
+            objectName = objectName.replaceAll(" ", "");
+
+            if (objectName.equalsIgnoreCase(target.getName())) {
+                LOGGER.debug("Found {} by name", target.getName());
+                return true; // Names match. We found our object
+            }
+
+            String[] aliasNames = target.getAliasNames();
+            if (aliasNames != null) {
+                for (String aliasName : aliasNames) {
+                    if (objectName.equalsIgnoreCase(aliasName)) {
+                        LOGGER.debug("Found {} by aliasname {}", target.getName(), aliasName);
                         return true; // Names match. We found our object
                     }
-                    String[] aliasNames = target.getAliasNames();
-                    if ((aliasNames != null) && (aliasNames.length > 0)) {
-                        for (String aliasName : aliasNames) {
-                            if (objectName.equals(aliasName.toUpperCase())) {
-                                LOGGER.debug("Found {} by aliasname {}", target.getName(), aliasName);
-                                return true; // Names match. We found our object
-                            }
-                        }
-                    }
-                }
-
-                // Check whether found object and target are max. 0.5 degree
-                // away from each other
-                // which we consider as a good hit.
-                if (ra != null) {
-                    EquPosition ep = null;
-                    try {
-                        ep = new EquPosition(ra, dec);
-                    } catch (IllegalArgumentException iae) {
-                        LOGGER.debug("RA or DEC string is malformed: RA: {} \tDEC: {}", ra, dec);
-                        continue;
-                    }
-                    EquPosition targetEp = target.getPosition();
-
-                    if (targetEp == null) {
-                        LOGGER.debug("Cannot find {} as target position is NULL", target.getName());
-                        continue;
-                    }
-
-                    // Check whether RA differs only max 0.5 degree
-                    Angle epRa = ep.getRaAngle();
-                    double epRaDegree = epRa.toDegree();
-                    Angle targetEpRa = targetEp.getRaAngle();
-                    double targetEpRaDegree = targetEpRa.toDegree();
-
-                    double raDiff = Math.abs(epRaDegree - targetEpRaDegree);
-                    if (raDiff > 0.5) {
-                        LOGGER.debug("Found wrong {} as RA differs more than 0.5 degree", target.getName());
-                        continue; // This is most propably not the object we'Re
-                        // searching
-                    }
-
-                    // Check whether DEC differs only max 0.5 degree
-                    Angle epDec = ep.getDecAngle();
-                    double epDecDegree = epDec.toDegree();
-                    Angle targetEpDec = targetEp.getDecAngle();
-                    double targetEpDecDegree = targetEpDec.toDegree();
-
-                    double decDiff = Math.abs(epDecDegree - targetEpDecDegree);
-                    if (decDiff > 0.5) {
-                        LOGGER.debug("Found wrong {} as DEC differs more than 0.5 degree", target.getName());
-                        continue; // This is most propably not the object we're
-                        // searching
-                    }
-
-                    // If we come here the found object is max 0.5 degree (in RA
-                    // or DEC) away from our target, so we stop searching
-                    LOGGER.debug("Found as RA and DEC do not differ more than 0.5 degree", target.getName());
-
-                    return true;
                 }
             }
+
+            // Check whether found object and target are max. 0.5 degree
+            // away from each other
+            // which we consider as a good hit.
+            if (ra != null) {
+                EquPosition ep = null;
+                try {
+                    ep = new EquPosition(ra, dec);
+                } catch (IllegalArgumentException iae) {
+                    LOGGER.debug("RA or DEC string is malformed: RA: {} \tDEC: {}", ra, dec);
+                    continue;
+                }
+                EquPosition targetEp = target.getPosition();
+
+                if (targetEp == null) {
+                    LOGGER.debug("Cannot find {} as target position is NULL", target.getName());
+                    continue;
+                }
+
+                // Check whether RA differs only max 0.5 degree
+                Angle epRa = ep.getRaAngle();
+                double epRaDegree = epRa.toDegree();
+                Angle targetEpRa = targetEp.getRaAngle();
+                double targetEpRaDegree = targetEpRa.toDegree();
+
+                double raDiff = Math.abs(epRaDegree - targetEpRaDegree);
+                if (raDiff > 0.5) {
+                    LOGGER.debug("Found wrong {} as RA differs more than 0.5 degree", target.getName());
+                    continue; // This is most propably not the object we'Re
+                    // searching
+                }
+
+                // Check whether DEC differs only max 0.5 degree
+                Angle epDec = ep.getDecAngle();
+                double epDecDegree = epDec.toDegree();
+                Angle targetEpDec = targetEp.getDecAngle();
+                double targetEpDecDegree = targetEpDec.toDegree();
+
+                double decDiff = Math.abs(epDecDegree - targetEpDecDegree);
+                if (decDiff > 0.5) {
+                    LOGGER.debug("Found wrong {} as DEC differs more than 0.5 degree", target.getName());
+                    continue; // This is most propably not the object we're
+                    // searching
+                }
+
+                // If we come here the found object is max 0.5 degree (in RA
+                // or DEC) away from our target, so we stop searching
+                LOGGER.debug("Found as RA and DEC do not differ more than 0.5 degree", target.getName());
+
+                return true;
+            }
+
         }
 
         // ---- Set target (via position)
-        commands = this.createEquPositionCommands(target.getPosition());
-        if ((commands != null) && (commands.length > 0)) {
-            for (String command : commands) {
-                response = this.sendData(socket, command);
-                if (response == null) { // Communication error
-                    LOGGER.error("Set Target by position...Failed with error");
-                    return false;
-                } else {
-                    return true;
-                }
+        var eqCommands = this.createEquPositionCommands(target.getPosition());
+        for (String command : eqCommands) {
+            response = this.sendData(socket, command);
+            if (response == null) { // Communication error
+                LOGGER.error("Set Target by position...Failed with error");
+                return false;
             }
         }
 
@@ -424,15 +391,15 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         // Get IP
         String ip = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY);
-        if ((ip == null) || ("".equals(ip.trim()))) {
+        if (StringUtils.isNotBlank(ip)) {
             ip = SkyChartPreferences.SERVER_DEFAULT_IP;
         }
 
         // Get Port
-        String s_port = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
+        String sPort = this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY);
         int port = SkyChartPreferences.SERVER_DEFAULT_PORT;
-        if ((s_port != null) && !("".equals(s_port.trim()))) {
-            port = Integer.parseInt(s_port);
+        if (StringUtils.isNotBlank(sPort)) {
+            port = Integer.parseInt(sPort);
         }
 
         // Create Socket
@@ -442,16 +409,11 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         } catch (UnknownHostException uhe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed.host"));
             LOGGER.error("Unable to reach Skychart application. Host unknown.", uhe);
-        } catch (ConnectException ce) { // SkyChart is most probably not open.
-                                        // So try to start it
-            // Try to get application path
-            // final String applicationPath =
+        } catch (ConnectException ce) {
+            // SkyChart is most probably not open. So try to start it
             final String applicationPath = this.context.getConfiguration()
                     .getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
-            if (applicationPath == null || "".equals(applicationPath.trim())) { // No
-                                                                                // application
-                                                                                // path
-                                                                                // specified
+            if (StringUtils.isBlank(applicationPath)) {
                 om.createWarning(this.bundle.getString("skychart.application.start.nopath"));
                 LOGGER.error(
                         "Unable to reach Skychart application and unable to start it as no application path is provided.",
@@ -524,13 +486,13 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
     // See Server Commands:
     // http://www.ap-i.net/skychart/en/documentation/server_commands
-    private String[] createEquPositionCommands(EquPosition position) {
+    private List<String> createEquPositionCommands(EquPosition position) {
 
         if (position == null) {
-            return null;
+            return Collections.emptyList();
         }
 
-        String[] result = new String[3];
+        var result = new ArrayList<String>(3);
 
         // I've no idea why we need this. But when Searching for an object
         // failed for CdC
@@ -539,11 +501,11 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         // test this with open cluster "STOCK 2" (where it finds an object STOCK
         // upon search command. Afterwards
         // the SETRA/SETDEC don't move the chart
-        result[0] = "MOVEEAST";
+        result.add("MOVEEAST");
 
         // Build RA string
         String ra = position.getRa();
-        result[1] = "SETRA RA:" + ra;
+        result.add("SETRA RA:" + ra);
 
         // Build DEC string
         String dec = position.getDec();
@@ -551,7 +513,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         dec = dec.replace(d, 'd');
         dec = dec.replace('\'', 'm');
         dec = dec.replace('\"', 's');
-        result[2] = "SETDEC DEC:" + dec;
+        result.add("SETDEC DEC:" + dec);
 
         return result;
 
@@ -559,25 +521,19 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
     // See Server Commands:
     // http://www.ap-i.net/skychart/en/documentation/server_commands
-    private String[] createSEARCHCommands(ITarget target) {
+    private List<String> createSEARCHCommands(ITarget target) {
 
-        String[] commands;
-        if ((target.getAliasNames() != null) && (target.getAliasNames().length > 0)) {
-            commands = new String[target.getAliasNames().length + 2];
-        } else {
-            commands = new String[2];
-        }
+        var commands = new ArrayList<String>();
 
-        commands[0] = "SEARCH \"" + target.getName().trim() + "\"";
-        commands[1] = "SEARCH \"" + target.getDisplayName().trim() + "\"";
+        commands.add("SEARCH \"" + target.getName().trim() + "\"");
+        commands.add("SEARCH \"" + target.getDisplayName().trim() + "\"");
 
         // Search for alias names
         String[] aliasNames = target.getAliasNames();
-        if ((aliasNames != null) && (aliasNames.length > 0)) {
-            for (int i = 0; i < aliasNames.length; i++) {
-                commands[i + 2] = "SEARCH \"" + aliasNames[i].trim() + "\"";
+        if (aliasNames != null) {
+            for (String alias : aliasNames) {
+                commands.add("SEARCH \"" + alias.trim() + "\"");
             }
-
         }
 
         return commands;
