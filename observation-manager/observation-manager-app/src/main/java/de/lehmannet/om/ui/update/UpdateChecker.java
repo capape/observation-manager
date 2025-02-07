@@ -6,11 +6,14 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.semver4j.Semver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +77,8 @@ public class UpdateChecker implements Runnable {
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) checkURL.openConnection();
+            conn.setReadTimeout(3000);
+            conn.setReadTimeout(2000);
             conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 LOGGER.error("No update check possible for: {}. HTTP Response was: {}", checkURL,
@@ -82,55 +87,53 @@ public class UpdateChecker implements Runnable {
 
                 throw new ConnectException("HTTP error while connecting to host for update");
             } else {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String currentLine = null;
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    String currentLine = null;
 
-                URL downloadURL = null;
-                // Try to get online Version
-                String newVersion = oldVersion;
+                    URL downloadURL = null;
+                    // Try to get online Version
+                    String newVersion = oldVersion;
 
-                do {
-                    currentLine = in.readLine();
+                    do {
+                        currentLine = in.readLine();
 
-                    // Check whether line contains any data
-                    if ((currentLine == null) || ("".equals(currentLine.trim()))) {
-                        continue;
-                    }
+                        // Check whether line contains any data
+                        if (StringUtils.isNotBlank(currentLine)) {
 
-                    if (currentLine.startsWith(UpdateChecker.UPDATEFILE_LATESTVERSION)) {
+                            if (currentLine.startsWith(UPDATEFILE_LATESTVERSION)) {
 
-                        newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
+                                newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
 
-                    }
+                            }
 
-                    // Try to get download URL
-                    if (currentLine.startsWith(UpdateChecker.UPDATEFILE_DOWNLOADURL)) {
-                        String d_downloadURL = currentLine.substring(currentLine.indexOf("=") + 1);
-                        downloadURL = new URL(d_downloadURL);
-                    }
+                            // Try to get download URL
+                            if (currentLine.startsWith(UPDATEFILE_DOWNLOADURL)) {
+                                String downloadSpec = currentLine.substring(currentLine.indexOf("=") + 1);
+                                downloadURL = new URL(downloadSpec);
+                            }
 
-                    // We have all required informations, so we can exit
-                    if ((downloadURL != null) && Version.isValidVersion(newVersion)) {
-                        return new UpdateEntry(name, oldVersion, newVersion, downloadURL);
-                    }
+                            // We have all required informations, so we can exit
+                            if (downloadURL != null && Semver.isValid(newVersion)
+                                    && Semver.parse(newVersion).isGreaterThan(oldVersion)) {
+                                return new UpdateEntry(name, oldVersion, newVersion, downloadURL);
+                            }
+                        }
 
-                } while (currentLine != null);
-
+                    } while (currentLine != null);
+                }
                 return null;
             }
 
+        } catch (SocketTimeoutException | UnknownHostException ee) {
+            LOGGER.error("Host for update unknown: {} ", checkURL);
+            LOGGER.error(
+                    "** Network connection not available or PROXY settings may be needed. Change the following line in obs.sh/obs.bat file to set proxy:");
+            LOGGER.error("** start javaw -Djextensions.dirs=.....  to");
+            LOGGER.error(
+                    "** start javaw -Dhttp.proxyHost={YOURPROXY} -Dhttp.proxyPort={YOURPROXYPORT} -Dextensions.dirs=.....");
+            throw new ConnectException("Unable to connect to host for update");
         } catch (IOException ioe) {
-            if (ioe instanceof UnknownHostException) {
-                LOGGER.error("Host for update unknown: {} ", checkURL);
-                LOGGER.error(
-                        "** Network connection not available or PROXY settings may be needed. Change the following line in obs.sh/obs.bat file to set proxy:");
-                LOGGER.error("** start javaw -Djextensions.dirs=.....  to");
-                LOGGER.error(
-                        "** start javaw -Dhttp.proxyHost={YOURPROXY} -Dhttp.proxyPort={YOURPROXYPORT} -Dextensions.dirs=.....");
-            } else {
-                LOGGER.error("Error during update check for URL:  {}", checkURL, ioe);
-            }
-
+            LOGGER.error("Error during update check for URL:  {}", checkURL, ioe);
             throw new ConnectException("Unable to connect to host for update");
         } finally {
             if (conn != null) {
