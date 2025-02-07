@@ -118,10 +118,7 @@ public final class ObservationManagerMenuExtras {
         if (checker.isUpdateAvailable()) {
             new UpdateInfoDialog(this.observationManager, checker);
 
-        } else { // Something went wrong
-            this.uiHelper.showInfo(textManager.getString("updates.check.noAvailable"));
-
-        }
+        } 
     }
 
     private UpdateChecker checkForUpdates() {
