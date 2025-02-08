@@ -10,12 +10,14 @@
     <parent>
         <artifactId>observation-manager</artifactId>
         <groupId>de.lehmannet.om</groupId>
-        <version>1.7.0-beta1</version>
+        <version>1.7.0-beta2-SNAPSHOT</version>
     </parent>
     <properties>
+        <!-- Dependencies -->
         <eap.fits.version>1.3</eap.fits.version>
         <jackson-dataformat-xml.version>2.18.2</jackson-dataformat-xml.version>
-
+        <semver4j.version>5.6.0</semver4j.version>
+        <!-- Plugins -->
         <maven-git-commit-id-plugin.version.version>9.0.1</maven-git-commit-id-plugin.version.version>
     </properties>
     <dependencies>
@@ -61,6 +63,12 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <!-- Third party dependencies-->
+        <dependency>
+            <groupId>org.semver4j</groupId>
+            <artifactId>semver4j</artifactId>
+            <version>${semver4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>eap.fits</groupId>
             <artifactId>fits</artifactId>
@@ -91,24 +99,11 @@
         </dependency>
 
 
-        <!-- testing new dependencies-->
-   <!--     <dependency>
-            <groupId>xalan</groupId>
-            <artifactId>xalan</artifactId>
-            <version>2.7.3</version>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>12.5</version>
         </dependency>
-
-<dependency>
-    <groupId>xalan</groupId>
-    <artifactId>serializer</artifactId>
-    <version>2.7.3</version>
-</dependency>
--->
-<dependency>
-    <groupId>net.sf.saxon</groupId>
-    <artifactId>Saxon-HE</artifactId>
-    <version>12.5</version>
-</dependency>
     </dependencies>
     <build>
         <finalName>observation-manager</finalName>
@@ -124,7 +119,7 @@
             </resource>
         </resources>
         <plugins>
-                    <plugin>
+            <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
                 <version>${maven-git-commit-id-plugin.version.version}</version>
