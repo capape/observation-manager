@@ -16,11 +16,9 @@ import de.lehmannet.om.EquPosition;
 
 public class ConstellationCalculatorTest {
 
-    private static Logger log = LoggerFactory.getLogger(ConstellationCalculatorTest.class);
-
     private Map<String, List<String>> messier = messierPositions();
 
-    ConstellationCalculator calculator = new ConstellationCalculator();
+    ConstellationCalculator calculator = ConstellationCalculator.getInstance();
 
     @Test
     public void shouldReturnAndromedaWhenPositionIsInAndromeda() {

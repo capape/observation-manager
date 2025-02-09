@@ -7,11 +7,17 @@ import de.lehmannet.om.Angle;
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 
-public class ConstellationCalculator {
+public final class ConstellationCalculator {
 
     private List<ConstellationLimit> limits = new ArrayList<>();
 
-    public ConstellationCalculator() {
+    private static final ConstellationCalculator INSTANCE = new ConstellationCalculator();
+
+    public static ConstellationCalculator getInstance() {
+        return INSTANCE;
+    }
+
+    private ConstellationCalculator() {
         initLimits();
     }
 

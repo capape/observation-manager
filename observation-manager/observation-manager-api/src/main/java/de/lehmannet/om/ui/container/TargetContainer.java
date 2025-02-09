@@ -7,20 +7,6 @@
 
 package de.lehmannet.om.ui.container;
 
-import de.lehmannet.om.Constellation;
-import de.lehmannet.om.EquPosition;
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.box.ConstellationBox;
-import de.lehmannet.om.ui.box.OMComboBox;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.EditPopupHandler;
-import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.OMLabel;
-import de.lehmannet.om.util.AtlasUtil;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -35,7 +21,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -43,7 +31,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import org.apache.commons.lang3.StringUtils;
+
+import de.lehmannet.om.Constellation;
+import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.box.ConstellationBox;
+import de.lehmannet.om.ui.box.OMComboBox;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.EditPopupHandler;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.OMLabel;
+import de.lehmannet.om.util.AtlasUtil;
+import de.lehmannet.om.util.ConstellationCalculator;
 
 public class TargetContainer extends Container implements MouseListener {
 
@@ -423,13 +428,7 @@ public class TargetContainer extends Container implements MouseListener {
             if (this.target != null) {
                 this.notes.setText(this.target.getNotes());
             }
-            // if (!this.editable) {
-            // if (this.observationManager.isNightVisionEnabled()) {
-            // this.notes.setBackground(new Color(255, 175, 175));
-            // } else {
-            // this.notes.setBackground(Color.WHITE);
-            // }
-            // }
+            
             JScrollPane descriptionScroll = new JScrollPane(this.notes);
             descriptionScroll.setMinimumSize(new Dimension(300, 60));
             gridbag.setConstraints(descriptionScroll, constraints);
@@ -502,12 +501,23 @@ public class TargetContainer extends Container implements MouseListener {
             ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 45, 1);
             this.constellationBox.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
             gridbag.setConstraints(this.constellationBox, constraints);
+
+            ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 10, 1);
+            var constellationButton = new JButton("+");
+            constellationButton.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
+            constellationButton.addActionListener(addConstellationListener());
+
+            gridbag.setConstraints(constellationButton, constraints);
+
             if (this.positionDisabled) {
                 this.constellationBox.setEnabled(false);
+                constellationButton.setEnabled(false);
             } else {
                 this.constellationBox.setEnabled(this.editable);
+                constellationButton.setEnabled(this.editable);
             }
             this.add(this.constellationBox);
+            this.add(constellationButton);
 
             targetDatasourceLabel =
                     new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT, true);
@@ -553,6 +563,23 @@ public class TargetContainer extends Container implements MouseListener {
             gridbag.setConstraints(descriptionScroll, constraints);
             this.add(descriptionScroll);
         }
+    }
+
+    private ActionListener addConstellationListener() {
+        return e -> {
+            if (this.positionDisabled) {
+                return;
+            }
+
+            if (this.getPosition() == null) {
+                return;
+            }
+            var calculator = ConstellationCalculator.getInstance();
+            var constellation = calculator.getConstellation(getPosition(), 2000);
+            if (constellation != null) {
+                this.constellationBox.setSelectedConstellation(constellation);   
+            }
+        };
     }
 
     private void selectSourceType(GridBagLayout gridbag) {
