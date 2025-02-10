@@ -180,7 +180,7 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         if (fixNodeErrors) {
             this.fixConstellation(this.target);
         }
-        
+
         this.setObserver(ObservationMapper.getMandatoryObserver(observers, observationElement));
         this.setResults(ObservationMapper.getOptionalResults(this.getTarget(), observationElement));
         this.setEnd(ObservationMapper.getOptionalEndDate(observationElement));
@@ -1509,12 +1509,12 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     }
 
     private void fixConstellation(ITarget target) {
-        
+
         if (target.getPosition() != null && target.getConstellation() == null) {
 
             var constellationCalculator = ConstellationCalculator.getInstance();
             var constellation = constellationCalculator.getConstellation(target.getPosition(), 2000);
-            target.setConstellation(constellation);            
+            target.setConstellation(constellation);
         }
     }
 

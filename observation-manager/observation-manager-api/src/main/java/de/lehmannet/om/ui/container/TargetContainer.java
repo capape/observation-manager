@@ -428,7 +428,7 @@ public class TargetContainer extends Container implements MouseListener {
             if (this.target != null) {
                 this.notes.setText(this.target.getNotes());
             }
-            
+
             JScrollPane descriptionScroll = new JScrollPane(this.notes);
             descriptionScroll.setMinimumSize(new Dimension(300, 60));
             gridbag.setConstraints(descriptionScroll, constraints);
@@ -577,7 +577,7 @@ public class TargetContainer extends Container implements MouseListener {
             var calculator = ConstellationCalculator.getInstance();
             var constellation = calculator.getConstellation(getPosition(), 2000);
             if (constellation != null) {
-                this.constellationBox.setSelectedConstellation(constellation);   
+                this.constellationBox.setSelectedConstellation(constellation);
             }
         };
     }
