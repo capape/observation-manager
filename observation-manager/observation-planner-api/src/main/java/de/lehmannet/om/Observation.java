@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+
 /**
  * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>
  * The observation must have one start date to be correct, but does not have to have an end date (as the end date might
@@ -175,6 +176,11 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setID(ObservationMapper.getMandatoryID(observationElement));
         this.setBegin(ObservationMapper.getMandatoryBeginDate(observationElement));
         this.setTarget(ObservationMapper.getMandatoryTarget(targets, observationElement));
+
+        if (fixNodeErrors) {
+            this.fixConstellation(this.target);
+        }
+        
         this.setObserver(ObservationMapper.getMandatoryObserver(observers, observationElement));
         this.setResults(ObservationMapper.getOptionalResults(this.getTarget(), observationElement));
         this.setEnd(ObservationMapper.getOptionalEndDate(observationElement));
@@ -1500,6 +1506,16 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.target = target;
+    }
+
+    private void fixConstellation(ITarget target) {
+        
+        if (target.getPosition() != null && target.getConstellation() == null) {
+
+            var constellationCalculator = ConstellationCalculator.getInstance();
+            var constellation = constellationCalculator.getConstellation(target.getPosition(), 2000);
+            target.setConstellation(constellation);            
+        }
     }
 
     @Override
