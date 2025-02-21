@@ -69,7 +69,7 @@ public class GeneralPanel extends PreferencesPanel {
         this.setConfig(ConfigKey.CONFIG_UILANGUAGE, String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
         this.setConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD, String.valueOf(this.fixXmlOnLoad.isSelected()));
         this.configuration.saveConfiguration();
-        
+
         this.om.reloadLanguage();
         if (this.xslTemplate.getSelectedItem() != null) {
             this.setConfig(ConfigKey.CONFIG_XSL_TEMPLATE, String.valueOf(this.xslTemplate.getSelectedItem()));
