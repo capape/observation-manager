@@ -26,8 +26,7 @@ public class UpdateChecker implements Runnable {
     public static URL UPDATE_URL = null;
     static {
         try {
-            UPDATE_URL = new URL(
-                    "https://raw.githubusercontent.com/capape/observation-manager/master/observation-manager/observation-manager-app/src/main/resources/version.properties");
+            UPDATE_URL = new URL("https://capape.github.io/om/version.properties");
         } catch (MalformedURLException url) {
             LOGGER.error("Malformed update check URL: {} ", UPDATE_URL);
         }
