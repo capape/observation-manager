@@ -94,14 +94,13 @@ public class GeneralPanel extends PreferencesPanel {
         JLabel labelFill = new JLabel("");
         gridbag.setConstraints(labelFill, constraints);
         this.add(labelFill);
-
     }
 
     private void addResetWindowsSizePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel labelResetWindowsSizes = new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"),
-                true);
+        OMLabel labelResetWindowsSizes =
+                new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"), true);
         labelResetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(labelResetWindowsSizes, constraints);
         this.add(labelResetWindowsSizes);
@@ -119,11 +118,9 @@ public class GeneralPanel extends PreferencesPanel {
 
     private ActionListener resetWindowSizesListener() {
         return e -> {
-
             if ("ResetWindowSizes".equals(e.getActionCommand())) {
                 GeneralPanel.this.om.resetWindowSizes();
             }
-
         };
     }
 
@@ -167,8 +164,8 @@ public class GeneralPanel extends PreferencesPanel {
     private void addFixXmlErrosOnLoadPreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel labelFixXmlOnLoad = new OMLabel(this.bundle.getString("dialog.preferences.label.fix.xml.on.load"),
-                true);
+        OMLabel labelFixXmlOnLoad =
+                new OMLabel(this.bundle.getString("dialog.preferences.label.fix.xml.on.load"), true);
         labelFixXmlOnLoad.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.fix.xml.on.load"));
         gridbag.setConstraints(labelFixXmlOnLoad, constraints);
         this.add(labelFixXmlOnLoad);
@@ -177,7 +174,8 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 5, 1, 1, 40, 15);
         this.fixXmlOnLoad = new JCheckBox();
-        var configValue = Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD).orElse("false"));
+        var configValue = Boolean.parseBoolean(
+                this.getConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD).orElse("false"));
         this.fixXmlOnLoad.setSelected(configValue);
         this.fixXmlOnLoad.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.fix.xml.on.load"));
         gridbag.setConstraints(this.fixXmlOnLoad, constraints);

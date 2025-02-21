@@ -1,11 +1,10 @@
 package de.lehmannet.om.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ConstellationCalculator {
 
@@ -21,8 +20,7 @@ public final class ConstellationCalculator {
         initLimits();
     }
 
-    record ConstellationLimit(double ra, double rau, double dec, Constellation constellation) {
-    }
+    record ConstellationLimit(double ra, double rau, double dec, Constellation constellation) {}
 
     //
     // Input: coordinates (RA in hours, declination in degrees, epoch in years AD)
@@ -52,7 +50,7 @@ public final class ConstellationCalculator {
         var a = Math.cos(dec1);
 
         var ra1 = position.getRaAngle().toRadiant();
-        double x1[] = { a * Math.cos(ra1), a * Math.sin(ra1), Math.sin(dec1) };
+        double x1[] = {a * Math.cos(ra1), a * Math.sin(ra1), Math.sin(dec1)};
 
         var t = 0.001 * (epoch2 - epoch1);
         var st = 0.001 * (epoch1 - 1900.0);
@@ -65,7 +63,7 @@ public final class ConstellationCalculator {
         var cosa = Math.cos(a);
         var cosb = Math.cos(b);
         var cosc = Math.cos(c);
-        double r[][] = { { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 } };
+        double r[][] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
         r[0][0] = cosa * cosb * cosc - sina * sinb;
         r[0][1] = -cosa * sinb - sina * cosb * cosc;
         r[0][2] = -cosb * sinc;
@@ -76,7 +74,7 @@ public final class ConstellationCalculator {
         r[2][1] = -sina * sinc;
         r[2][2] = cosc;
 
-        double x2[] = { 0.0, 0.0, 0.0 };
+        double x2[] = {0.0, 0.0, 0.0};
         for (var i = 0; i < 3; i++) {
             x2[i] = r[i][0] * x1[0] + r[i][1] * x1[1] + r[i][2] * x1[2];
         }
@@ -89,7 +87,6 @@ public final class ConstellationCalculator {
         var dec2 = Math.asin(x2[2]);
 
         return new EquPosition(new Angle(ra2, Angle.RADIANT), new Angle(dec2, Angle.RADIANT));
-
     }
 
     // TODO read from file
@@ -452,6 +449,5 @@ public final class ConstellationCalculator {
         limits.add(new ConstellationLimit(13.6667, 18.0000, -82.5000, Constellation.getConstellationByAbb("Aps")));
         limits.add(new ConstellationLimit(3.5000, 7.6667, -85.0000, Constellation.getConstellationByAbb("Men")));
         limits.add(new ConstellationLimit(0.0000, 24.0000, -90.0000, Constellation.getConstellationByAbb("Oct")));
-
     }
 }

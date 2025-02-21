@@ -8,6 +8,7 @@
 package de.lehmannet.om;
 
 import de.lehmannet.om.mapper.ObservationMapper;
+import de.lehmannet.om.util.ConstellationCalculator;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaException;
@@ -24,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
 
 /**
  * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>

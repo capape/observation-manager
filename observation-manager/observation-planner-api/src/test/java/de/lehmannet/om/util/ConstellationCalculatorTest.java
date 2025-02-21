@@ -2,17 +2,13 @@ package de.lehmannet.om.util;
 
 import static org.junit.Assert.assertEquals;
 
+import de.lehmannet.om.Constellation;
+import de.lehmannet.om.EquPosition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.Constellation;
-import de.lehmannet.om.EquPosition;
 
 public class ConstellationCalculatorTest {
 
@@ -45,9 +41,7 @@ public class ConstellationCalculatorTest {
 
             var result = calculator.getConstellation(equPos, 2000.0);
             assertEquals(expected, result);
-
         }
-
     }
 
     private Map<String, List<String>> messierPositions() {
