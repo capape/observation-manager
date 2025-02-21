@@ -8,28 +8,22 @@
 	<parent>
 		<artifactId>observation-manager</artifactId>
 		<groupId>de.lehmannet.om</groupId>
-		<version>1.7.0-beta2-SNAPSHOT</version>
+		<version>1.7.0</version>
 	</parent>
 
 
-	<properties>
-		<commons.lang3.version>3.17.0</commons.lang3.version>
-		<commons.text.version>1.13.0</commons.text.version>
-     
+	<properties>		
         <jaxb.api.version>2.4.0-b180830.0359</jaxb.api.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${commons.lang3.version}</version>
 		</dependency>
 		<dependency>
 		   <groupId>org.apache.commons</groupId>
    			<artifactId>commons-text</artifactId>
-   			<version>${commons.text.version}</version>
-		</dependency>
-				
+   		</dependency>				
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
