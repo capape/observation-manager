@@ -118,7 +118,7 @@ public final class ObservationManagerMenuExtras {
         if (checker.isUpdateAvailable()) {
             new UpdateInfoDialog(this.observationManager, checker);
 
-        } 
+        }
     }
 
     private UpdateChecker checkForUpdates() {
