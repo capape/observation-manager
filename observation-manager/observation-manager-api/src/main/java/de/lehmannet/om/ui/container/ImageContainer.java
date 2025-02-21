@@ -7,6 +7,15 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.dialog.FITSImageDialog;
+import de.lehmannet.om.ui.dialog.ImageDialog;
+import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.RelativPath;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -24,21 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Scrollable;
-
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.dialog.FITSImageDialog;
-import de.lehmannet.om.ui.dialog.ImageDialog;
-import de.lehmannet.om.ui.image.ImageResolver;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.RelativPath;
 
 public class ImageContainer extends Container implements MouseListener, Scrollable {
 
@@ -47,8 +45,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
      */
     private static final long serialVersionUID = 1L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private static final int THUMBNAIL_SIZE_WIDTH = 96;
     private static final int THUMBNAIL_SIZE_HEIGHT = 96;
@@ -66,8 +64,13 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     private final IConfiguration configuration;
     private final JFrame om;
 
-    public ImageContainer(List<File> files, JFrame om, IConfiguration configuration, ObservationManagerModel model,
-            boolean editable, ImageResolver resolver) {
+    public ImageContainer(
+            List<File> files,
+            JFrame om,
+            IConfiguration configuration,
+            ObservationManagerModel model,
+            boolean editable,
+            ImageResolver resolver) {
 
         this.configuration = configuration;
         this.model = model;
@@ -78,13 +81,11 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         this.createContainer();
 
         this.addImages(files);
-
     }
 
     public void addImagesFromPath(List<String> images) {
 
         this.addImages(this.model.getFilesFromPath(images));
-
     }
 
     public void addImages(List<File> images) {
@@ -109,10 +110,12 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
             if (!((path.endsWith(".fits")) || (path.endsWith(".fit")) || (path.endsWith(".fts")))) {
                 image = Toolkit.getDefaultToolkit().getImage(path);
 
-                thumb = image.getScaledInstance(ImageContainer.THUMBNAIL_SIZE_WIDTH,
-                        ImageContainer.THUMBNAIL_SIZE_HEIGHT, Image.SCALE_FAST);
+                thumb = image.getScaledInstance(
+                        ImageContainer.THUMBNAIL_SIZE_WIDTH, ImageContainer.THUMBNAIL_SIZE_HEIGHT, Image.SCALE_FAST);
             } else {
-                URL urlThumbFits = this.imageResolver.getImageURL(ImageContainer.THUMBNAIL_NAME_FITS).orElse(null);
+                URL urlThumbFits = this.imageResolver
+                        .getImageURL(ImageContainer.THUMBNAIL_NAME_FITS)
+                        .orElse(null);
                 thumb = Toolkit.getDefaultToolkit().getImage(urlThumbFits);
             }
 
@@ -142,11 +145,9 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
 
                 this.add(delete);
             }
-
         }
 
         this.numberOfImages += i;
-
     }
 
     public List<String> getImages(String homeDir) {
@@ -179,13 +180,11 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         }
 
         return result;
-
     }
 
     private void createContainer() {
 
         this.setLayout(this.layout);
-
     }
 
     // -------------
@@ -198,7 +197,8 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
         if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
             if (e.getSource() instanceof MyImageLabel) {
                 MyImageLabel l = (MyImageLabel) e.getSource();
-                if (!((l.getPath().endsWith(".fits")) || (l.getPath().endsWith(".fit"))
+                if (!((l.getPath().endsWith(".fits"))
+                        || (l.getPath().endsWith(".fit"))
                         || (l.getPath().endsWith(".fts")))) {
                     new ImageDialog(l.getImage(), this.om);
                 } else {
@@ -220,7 +220,6 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
                 }
             }
         }
-
     }
 
     @Override
@@ -251,7 +250,6 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     public Dimension getPreferredScrollableViewportSize() {
 
         return new Dimension(this.getWidth(), this.getHeight());
-
     }
 
     @Override
@@ -263,23 +261,19 @@ public class ImageContainer extends Container implements MouseListener, Scrollab
     public boolean getScrollableTracksViewportHeight() {
 
         return false;
-
     }
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
 
         return false;
-
     }
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
 
         return 1;
-
     }
-
 }
 
 class MyImageLabel extends JLabel {
@@ -288,6 +282,7 @@ class MyImageLabel extends JLabel {
      *
      */
     private static final long serialVersionUID = -1770949789891300L;
+
     private String path = null;
     private JLabel deleteButton = null;
 
@@ -296,31 +291,25 @@ class MyImageLabel extends JLabel {
         super(thumb);
 
         this.path = path;
-
     }
 
     public String getPath() {
 
         return this.path;
-
     }
 
     public Image getImage() {
 
         return Toolkit.getDefaultToolkit().getImage(this.path);
-
     }
 
     public void addDeleteButton(JLabel button) {
 
         this.deleteButton = button;
-
     }
 
     public JLabel getDeleteButton() {
 
         return this.deleteButton;
-
     }
-
 }

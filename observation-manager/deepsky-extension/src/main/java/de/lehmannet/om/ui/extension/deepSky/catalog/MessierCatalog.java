@@ -7,23 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
@@ -42,6 +25,21 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.panel.GenericListableCatalogSearchPanel;
 import de.lehmannet.om.util.FloatUtil;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessierCatalog implements IListableCatalog {
 
@@ -68,56 +66,48 @@ public class MessierCatalog implements IListableCatalog {
         }
 
         this.tableModel = new DeepSkyTableModel(this);
-
     }
 
     @Override
     public AbstractSchemaTableModel getTableModel() {
 
         return this.tableModel;
-
     }
 
     @Override
     public String[] getCatalogIndex() {
 
         return (String[]) this.map.keySet().toArray(new String[] {});
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return MessierCatalog.CATALOG_ABB;
-
     }
 
     @Override
     public String getName() {
 
         return MessierCatalog.CATALOG_NAME;
-
     }
 
     @Override
     public ITarget getTarget(String messierNumber) {
 
         return (DeepSkyTarget) this.map.get(messierNumber);
-
     }
 
     @Override
     public ITarget[] getTargets() {
 
         return (ITarget[]) this.map.values().toArray(new ITarget[0]);
-
     }
 
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
         return new GenericListableCatalogSearchPanel(this);
-
     }
 
     private boolean loadTargets(File file) {
@@ -139,7 +129,7 @@ public class MessierCatalog implements IListableCatalog {
         String messierNumber = null;
         DeepSkyTarget target = null;
         StringTokenizer tokenizer = null;
-        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
+        try (BufferedReader bufferedReader = new BufferedReader(reader); ) {
             while ((line = bufferedReader.readLine()) != null) {
                 if ((line.startsWith("#")) || ("".equals(line.trim()))) { // Comment or empty line
                     // line = bufferedReader.readLine();
@@ -325,7 +315,6 @@ public class MessierCatalog implements IListableCatalog {
 
                     this.map.put(messierNumber, target);
                 }
-
             }
 
         } catch (IOException ioe) {
@@ -334,7 +323,5 @@ public class MessierCatalog implements IListableCatalog {
         }
 
         return true;
-
     }
-
 }

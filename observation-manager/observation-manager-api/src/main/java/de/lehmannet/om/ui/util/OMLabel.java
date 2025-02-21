@@ -1,7 +1,6 @@
 package de.lehmannet.om.ui.util;
 
 import java.awt.Font;
-
 import javax.swing.JLabel;
 
 public class OMLabel extends JLabel {
@@ -13,20 +12,17 @@ public class OMLabel extends JLabel {
     public OMLabel() {
 
         super();
-
     }
 
     public OMLabel(boolean mandatoryField) {
 
         this.mandatoryField = mandatoryField;
-
     }
 
     public OMLabel(String labelText, int horizontalAlignment, boolean mandatoryField) {
 
         this(labelText, mandatoryField);
         this.setHorizontalAlignment(horizontalAlignment);
-
     }
 
     public OMLabel(String labelText, boolean mandatoryField) {
@@ -36,7 +32,6 @@ public class OMLabel extends JLabel {
         this.mandatoryField = mandatoryField;
 
         this.setText(labelText);
-
     }
 
     @Override
@@ -49,7 +44,5 @@ public class OMLabel extends JLabel {
             super.setText(text);
             this.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
         }
-
     }
-
 }

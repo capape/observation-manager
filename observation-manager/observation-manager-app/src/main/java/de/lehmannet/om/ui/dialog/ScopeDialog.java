@@ -29,7 +29,6 @@ public class ScopeDialog extends AbstractDialog {
 
         this.setSize(ScopeDialog.serialVersionUID, 650, 250);
         this.setVisible(true);
-
     }
 
     public IScope getScope() {
@@ -39,7 +38,5 @@ public class ScopeDialog extends AbstractDialog {
         }
 
         return null;
-
     }
-
 }

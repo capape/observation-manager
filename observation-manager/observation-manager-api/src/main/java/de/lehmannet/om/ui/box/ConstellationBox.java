@@ -7,13 +7,11 @@
 
 package de.lehmannet.om.ui.box;
 
+import de.lehmannet.om.Constellation;
 import java.awt.Component;
-
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
-
-import de.lehmannet.om.Constellation;
 
 public class ConstellationBox extends JComboBox<String> {
 
@@ -35,7 +33,6 @@ public class ConstellationBox extends JComboBox<String> {
         if (useI18Nnames) {
             this.setRenderer(new ConstellationRenderer());
         }
-
     }
 
     public Constellation getSelectedConstellation() {
@@ -46,7 +43,6 @@ public class ConstellationBox extends JComboBox<String> {
         } else {
             return Constellation.valueOf(cons);
         }
-
     }
 
     public void setSelectedConstellation(Constellation constellation) {
@@ -57,22 +53,18 @@ public class ConstellationBox extends JComboBox<String> {
         }
 
         this.setSelectedItem(constellation.name());
-
     }
 
     private void selectEmptyItem() {
 
         this.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
-
     }
 
     private void addEmptyItem() {
 
         this.addItem(ConstellationBox.EMPTY_ENTRY);
         this.setSelectedItem(ConstellationBox.EMPTY_ENTRY);
-
     }
-
 }
 
 class ConstellationRenderer extends DefaultListCellRenderer {
@@ -83,8 +75,8 @@ class ConstellationRenderer extends DefaultListCellRenderer {
     private static final long serialVersionUID = 2469467850811602651L;
 
     @Override
-    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
-            boolean cellHasFocus) {
+    public Component getListCellRendererComponent(
+            JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
         Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (value instanceof Constellation) {
@@ -93,7 +85,5 @@ class ConstellationRenderer extends DefaultListCellRenderer {
         }
 
         return c;
-
     }
-
 }

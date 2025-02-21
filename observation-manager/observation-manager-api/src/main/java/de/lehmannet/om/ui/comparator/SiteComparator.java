@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.ISite;
+import java.util.Comparator;
 
 public class SiteComparator implements Comparator<ISite> {
 
@@ -23,11 +22,8 @@ public class SiteComparator implements Comparator<ISite> {
             String s1Name = s1.getName().toLowerCase().trim();
 
             return s1Name.compareToIgnoreCase(s2.getName().trim());
-
         }
 
         return 0;
-
     }
-
 }

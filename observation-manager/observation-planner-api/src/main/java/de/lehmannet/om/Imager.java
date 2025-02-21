@@ -7,15 +7,14 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.ImagerMapper;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.ImagerMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * An Imager describes a camera. This class is an abstract implementation of de.lehmannet.om.IImager.<br>
@@ -74,7 +73,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         this.setAvailability(ImagerMapper.getOptionalAvailability(imagerElement));
         this.setVendor(ImagerMapper.getOptionalVendor(imagerElement));
         this.setRemarks(ImagerMapper.getOptionalRemarks(imagerElement));
-
     }
 
     /**
@@ -88,7 +86,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     protected Imager(String model) throws IllegalArgumentException {
 
         this.setModel(model);
-
     }
 
     // -------------
@@ -113,7 +110,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         return dn;
-
     }
 
     // ------
@@ -153,7 +149,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public boolean isAvailable() {
 
         return this.available;
-
     }
 
     /**
@@ -166,7 +161,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public void setAvailability(boolean available) {
 
         this.available = available;
-
     }
 
     // -------
@@ -241,7 +235,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         return parent;
-
     }
 
     /**
@@ -264,7 +257,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -276,7 +268,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public String getModel() {
 
         return this.model;
-
     }
 
     /**
@@ -288,7 +279,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public String getVendor() {
 
         return this.vendor;
-
     }
 
     /*
@@ -308,7 +298,6 @@ public abstract class Imager extends SchemaElement implements IImager {
     public String getRemarks() {
 
         return this.remarks;
-
     }
 
     /**
@@ -327,7 +316,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         this.model = modelname;
-
     }
 
     /**
@@ -345,7 +333,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         this.vendor = vendor;
-
     }
 
     /*
@@ -372,7 +359,6 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         this.remarks = remarks;
-
     }
 
     // -----------------
@@ -414,7 +400,10 @@ public abstract class Imager extends SchemaElement implements IImager {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return parent;
                 }
             }
@@ -458,7 +447,5 @@ public abstract class Imager extends SchemaElement implements IImager {
         }
 
         return e_Imager;
-
     }
-
 }

@@ -10,6 +10,12 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public interface IExtensionPanelFactory {
 
-    IFindingPanel newInstance(IConfiguration configuration, InstallDir installDir, UserInterfaceHelper uiHelper,
-            ObservationManagerModel model, ITarget target, ISession s, Boolean editable);
+    IFindingPanel newInstance(
+            IConfiguration configuration,
+            InstallDir installDir,
+            UserInterfaceHelper uiHelper,
+            ObservationManagerModel model,
+            ITarget target,
+            ISession s,
+            Boolean editable);
 }

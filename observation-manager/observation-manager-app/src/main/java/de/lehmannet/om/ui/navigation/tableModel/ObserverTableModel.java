@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.Iterator;
-
 import de.lehmannet.om.IObserver;
+import java.util.Iterator;
 
 public class ObserverTableModel extends AbstractSchemaTableModel {
 
@@ -17,26 +16,24 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Observer";
 
     public ObserverTableModel(IObserver[] observer) {
 
         this.elements = observer;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 3;
-
     }
 
     @Override
     public String getID() {
 
         return ObserverTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -46,7 +43,6 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -79,13 +75,12 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
                 }
                 break;
             }
-            /*
-             * case 3 : { value = observer.getgetDSLCode(); break; }
-             */
+                /*
+                 * case 3 : { value = observer.getgetDSLCode(); break; }
+                 */
         }
 
         return value.toString();
-
     }
 
     @Override
@@ -106,13 +101,11 @@ public class ObserverTableModel extends AbstractSchemaTableModel {
                 name = AbstractSchemaTableModel.bundle.getString("table.header.observer.contact");
                 break;
             }
-            /*
-             * case 3 : { name = AbstractSchemaTableModel.bundle.getString("table.header.observer.dsl"); break; }
-             */
+                /*
+                 * case 3 : { name = AbstractSchemaTableModel.bundle.getString("table.header.observer.dsl"); break; }
+                 */
         }
 
         return name;
-
     }
-
 }

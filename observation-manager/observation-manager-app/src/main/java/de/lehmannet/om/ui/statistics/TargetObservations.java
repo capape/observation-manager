@@ -1,12 +1,11 @@
 package de.lehmannet.om.ui.statistics;
 
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ITarget;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import de.lehmannet.om.IObservation;
-import de.lehmannet.om.ITarget;
 
 public class TargetObservations {
 
@@ -16,13 +15,11 @@ public class TargetObservations {
     public TargetObservations(ITarget target) {
 
         this.target = target;
-
     }
 
     public ITarget getTarget() {
 
         return this.target;
-
     }
 
     public List<IObservation> getObservations() {
@@ -31,10 +28,11 @@ public class TargetObservations {
             return Collections.emptyList();
         }
 
-        return this.observations.stream().map(x -> {
-            return (IObservation) x;
-        }).collect(Collectors.toList());
-
+        return this.observations.stream()
+                .map(x -> {
+                    return (IObservation) x;
+                })
+                .collect(Collectors.toList());
     }
 
     public boolean addObservation(IObservation observation) {
@@ -47,7 +45,5 @@ public class TargetObservations {
         this.observations.add(observation);
 
         return first;
-
     }
-
 }

@@ -59,5 +59,4 @@ public interface ISchemaElement {
      * @see java.lang.Object.toString();
      */
     String getDisplayName();
-
 }

@@ -7,16 +7,14 @@
 
 package de.lehmannet.om.util;
 
+import de.lehmannet.om.SchemaOalTypeInfo;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.SchemaOalTypeInfo;
 
 /**
  * The ConfigLoader is used to find config files inside the classpath (and the extension directory), and if config files
@@ -80,7 +78,8 @@ public class ConfigLoader {
 
         if (!targets.containsKey(type)) { // Given type is finding type...try to get target type
             LOGGER.debug("Type  not in targets. Searching in findings");
-            Iterator<Entry<String, String>> iterator = target_findings.entrySet().iterator();
+            Iterator<Entry<String, String>> iterator =
+                    target_findings.entrySet().iterator();
             while (iterator.hasNext()) {
                 Entry<String, String> entry = iterator.next();
                 String currentKey = entry.getKey();
@@ -140,7 +139,8 @@ public class ConfigLoader {
         String type = ConfigLoader.checkAncestorTypes(ptype);
 
         if (!findings.containsKey(type)) { // Given type is target type...try to get finding type
-            Iterator<Entry<String, String>> iterator = target_findings.entrySet().iterator();
+            Iterator<Entry<String, String>> iterator =
+                    target_findings.entrySet().iterator();
             while (iterator.hasNext()) {
                 Entry<String, String> entry = iterator.next();
                 String currentKey = entry.getKey();
@@ -165,7 +165,6 @@ public class ConfigLoader {
     private static void loadConfig() throws ConfigException {
         // Add fixed generic elements (no extenstion package required)
         ConfigLoader.addGenericElements();
-
     }
 
     private static void addGenericElements() {
@@ -195,7 +194,6 @@ public class ConfigLoader {
             findings.put(starTarget_finding_type, starTarget_finding_classname);
             target_findings.put(starTarget_type, starTarget_finding_type);
         }
-
     }
 
     // Check on old xsi types/names (before OAL 2.0)
@@ -206,7 +204,6 @@ public class ConfigLoader {
         } else {
             return type;
         }
-
     }
 
     public static void loadInternalExtension(SchemaOalTypeInfo schemaOalTypeInfo) {
@@ -224,7 +221,6 @@ public class ConfigLoader {
                 target_findings.put(schemaOalTypeInfo.getTargetType(), schemaOalTypeInfo.getFindingType());
             }
         }
-
     }
 
     private static boolean hasTypesDefined(SchemaOalTypeInfo schemaOalTypeInfo) {

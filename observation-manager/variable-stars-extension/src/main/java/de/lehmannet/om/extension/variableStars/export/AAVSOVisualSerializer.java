@@ -1,18 +1,16 @@
 package de.lehmannet.om.extension.variableStars.export;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.util.DateConverter;
-
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +115,6 @@ public class AAVSOVisualSerializer implements ISerializer {
 
         this.softwareName = softwareName;
         this.variableStarObservations = variableStarObservations;
-
     }
 
     // -----------
@@ -146,8 +143,9 @@ public class AAVSOVisualSerializer implements ISerializer {
             // Get Variable Star Finding
             IFinding finding = (IFinding) currentObservation.getResults().get(0);
             if (!(finding instanceof FindingVariableStar)) {
-                String message = "Finding must be of type de.lehmannet.om.extension.variableStars.FindingVariableStar for observaton: "
-                        + currentObservation;
+                String message =
+                        "Finding must be of type de.lehmannet.om.extension.variableStars.FindingVariableStar for observaton: "
+                                + currentObservation;
                 this.closeStreamOnError(stream, message);
                 throw new Exception(message);
             }
@@ -191,7 +189,6 @@ public class AAVSOVisualSerializer implements ISerializer {
             stream.write("\n".getBytes("UTF-8"));
 
             counter++;
-
         }
 
         // End stream correctly
@@ -199,12 +196,12 @@ public class AAVSOVisualSerializer implements ISerializer {
         stream.close();
 
         return counter;
-
     }
 
     private String writeObservation(OutputStream stream, IObservation currentObservation) throws IOException {
         // Get observation julian date and write it into stream
-        String obsDate = "" + DateConverter.toJulianDate(currentObservation.getBegin().toZonedDateTime());
+        String obsDate =
+                "" + DateConverter.toJulianDate(currentObservation.getBegin().toZonedDateTime());
         stream.write(obsDate.getBytes("UTF-8"));
         stream.write(AAVSOVisualSerializer.DELIMITER);
         return obsDate;
@@ -328,7 +325,6 @@ public class AAVSOVisualSerializer implements ISerializer {
         } catch (IOException ioe) {
             log.error("Unable to close stream on error.");
         }
-
     }
 
     // ------------------------------------------------------------------------
@@ -339,7 +335,6 @@ public class AAVSOVisualSerializer implements ISerializer {
                 + AAVSOVisualSerializer.PARAMETER_DELIMITER + AAVSOVisualSerializer.DELIMITER + "\n"
                 + AAVSOVisualSerializer.PARAMETER_DATE + AAVSOVisualSerializer.JULIAN_DATE + "\n"
                 + AAVSOVisualSerializer.PARAMETER_OBSERVATIONTYPE + AAVSOVisualSerializer.VISUAL + "\n";
-
     }
 
     // ------------------------------------------------------------------------
@@ -396,7 +391,5 @@ public class AAVSOVisualSerializer implements ISerializer {
         }
 
         return result;
-
     }
-
 }

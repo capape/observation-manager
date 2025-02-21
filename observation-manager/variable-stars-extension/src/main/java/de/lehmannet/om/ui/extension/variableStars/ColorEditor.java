@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -21,8 +20,8 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
      */
     private static final long serialVersionUID = 1L;
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private Color currentColor;
     private final JButton button;
@@ -40,11 +39,13 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
 
         // Set up the dialog that the button brings up.
         this.colorChooser = new JColorChooser();
-        this.dialog = JColorChooser.createDialog(button, this.bundle.getString("popup.observerColor.colorEditor.title"),
+        this.dialog = JColorChooser.createDialog(
+                button,
+                this.bundle.getString("popup.observerColor.colorEditor.title"),
                 true, // modal
-                colorChooser, this, // OK button handler
+                colorChooser,
+                this, // OK button handler
                 null); // no CANCEL button handler
-
     }
 
     @Override
@@ -61,7 +62,6 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
         } else { // User pressed dialog's "OK" button.
             currentColor = colorChooser.getColor();
         }
-
     }
 
     // Implement the one CellEditor method that AbstractCellEditor doesn't.
@@ -69,7 +69,6 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
     public Object getCellEditorValue() {
 
         return currentColor;
-
     }
 
     // Implement the one method defined by TableCellEditor.
@@ -87,7 +86,5 @@ public class ColorEditor extends AbstractCellEditor implements TableCellEditor, 
         }
 
         return this.button;
-
     }
-
 }

@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.Angle;
+import java.util.Comparator;
 
 public class AngleComparator implements Comparator<Angle> {
 
@@ -33,7 +32,5 @@ public class AngleComparator implements Comparator<Angle> {
         }
 
         return 0;
-
     }
-
 }

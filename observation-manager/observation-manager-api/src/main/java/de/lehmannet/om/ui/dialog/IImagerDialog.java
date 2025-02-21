@@ -16,5 +16,4 @@ import de.lehmannet.om.IImager;
 public interface IImagerDialog {
 
     IImager getImager();
-
 }

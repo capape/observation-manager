@@ -7,12 +7,11 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
-
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public abstract class AbstractSchemaTableModel extends AbstractTableModel {
 
@@ -21,8 +20,8 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = -3423592371149917442L;
 
-    static ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    static ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     protected ISchemaElement[] elements = null;
 
@@ -37,7 +36,6 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
         }
 
         return this.elements[row];
-
     }
 
     public int getRow(ISchemaElement element) {
@@ -49,21 +47,17 @@ public abstract class AbstractSchemaTableModel extends AbstractTableModel {
         }
 
         return 0;
-
     }
 
     public int getColumnSize(int columnIndex) {
 
         return -1;
-
     }
 
     public static void reloadLanguage() {
 
         bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
-
     }
 
     public abstract String getID();
-
 }

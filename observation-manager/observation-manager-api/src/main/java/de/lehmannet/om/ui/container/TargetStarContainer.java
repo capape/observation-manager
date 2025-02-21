@@ -7,19 +7,6 @@
 
 package de.lehmannet.om.ui.container;
 
-import java.awt.Container;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -29,11 +16,22 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class TargetStarContainer extends Container {
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private boolean editable = false;
 
@@ -55,8 +53,9 @@ public class TargetStarContainer extends Container {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetStarContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            boolean editable) throws IllegalArgumentException {
+    public TargetStarContainer(
+            IConfiguration configuration, ObservationManagerModel model, ITarget target, boolean editable)
+            throws IllegalArgumentException {
 
         this.editable = editable;
         this.model = model;
@@ -73,7 +72,6 @@ public class TargetStarContainer extends Container {
         if (this.starTarget != null) {
             this.loadSchemaElement();
         }
-
     }
 
     public ISchemaElement createSchemaElement() {
@@ -105,13 +103,11 @@ public class TargetStarContainer extends Container {
         }
 
         return this.starTarget;
-
     }
 
     public ISchemaElement getSchemaElement() {
 
         return this.starTarget;
-
     }
 
     public ITarget updateTarget() {
@@ -149,7 +145,6 @@ public class TargetStarContainer extends Container {
         }
 
         return this.starTarget;
-
     }
 
     private void loadSchemaElement() {
@@ -166,39 +161,33 @@ public class TargetStarContainer extends Container {
             this.stellarClassification.setText(this.starTarget.getStellarClassification());
         }
         this.stellarClassification.setEditable(this.editable);
-
     }
 
     public boolean checkOrigin(String datasource, IObserver observer) {
 
         return targetContainer.checkOrigin(datasource, observer);
-
     }
 
     public String getDatasource() {
 
         return targetContainer.getDatasource();
-
     }
 
     public IObserver getObserver() {
 
         return targetContainer.getObserver();
-
     }
 
     @Override
     public String getName() {
 
         return targetContainer.getName();
-
     }
 
     public void setTarget(TargetStar target) {
 
         this.starTarget = target;
         this.targetContainer.setTarget(target);
-
     }
 
     private void createPanel() {
@@ -210,8 +199,8 @@ public class TargetStarContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.starTarget, this.editable,
-                false);
+        this.targetContainer =
+                new TargetContainer(this.configuration, this.model, this.starTarget, this.editable, false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -222,8 +211,8 @@ public class TargetStarContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.NONE;
-        JLabel LstellarClassification = new JLabel(
-                this.bundle.getString("panel.targetStar.label.stellarClassification"));
+        JLabel LstellarClassification =
+                new JLabel(this.bundle.getString("panel.targetStar.label.stellarClassification"));
         LstellarClassification.setToolTipText(this.bundle.getString("panel.targetStar.tooltip.stellarClassification"));
         gridbag.setConstraints(LstellarClassification, constraints);
         LstellarClassification.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
@@ -231,8 +220,8 @@ public class TargetStarContainer extends Container {
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.stellarClassification = new JTextField();
-        this.stellarClassification
-                .setToolTipText(this.bundle.getString("panel.targetStar.tooltip.stellarClassification"));
+        this.stellarClassification.setToolTipText(
+                this.bundle.getString("panel.targetStar.tooltip.stellarClassification"));
         this.stellarClassification.setEditable(this.editable);
         gridbag.setConstraints(this.stellarClassification, constraints);
         this.add(this.stellarClassification);
@@ -271,14 +260,11 @@ public class TargetStarContainer extends Container {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     private void createWarning(String message) {
 
-        JOptionPane.showMessageDialog(this, message, this.bundle.getString("target.warning.title"),
-                JOptionPane.WARNING_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                this, message, this.bundle.getString("target.warning.title"), JOptionPane.WARNING_MESSAGE);
     }
-
 }

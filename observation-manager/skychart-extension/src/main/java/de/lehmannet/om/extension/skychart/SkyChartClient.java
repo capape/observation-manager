@@ -7,34 +7,6 @@
 
 package de.lehmannet.om.extension.skychart;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.ConnectException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IFinding;
@@ -56,6 +28,31 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 public class SkyChartClient extends AbstractExtension implements ActionListener {
 
@@ -78,7 +75,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         this.context = context;
         this.initLanguage();
         this.initMenus();
-
     }
 
     @Override
@@ -112,12 +108,12 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 } else if (se instanceof ITarget) {
                     this.moveSkychart((ITarget) se);
                 } else {
-                    this.context.getUserInterfaceHelper()
+                    this.context
+                            .getUserInterfaceHelper()
                             .showWarning(this.bundle.getString("skychart.move.wrongSchemaElementType"));
                 }
             }
         }
-
     }
 
     private void moveSkychart(ITarget target) {
@@ -135,10 +131,11 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             Boolean response = this.sendData(socket, command);
             if (response == null) {
                 return; // Something went wrong. User is already informed, so
-                        // cancel here.
+                // cancel here.
             } else if (response) {
                 // Inform user
-                this.context.getUserInterfaceHelper()
+                this.context
+                        .getUserInterfaceHelper()
                         .showInfo(this.bundle.getString("skychart.move.ok") + target.getDisplayName());
             } else {
                 // Inform user
@@ -156,7 +153,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             // Can't do much here.
             LOGGER.error("Unable to close socket to Skychart application.", ioe);
         }
-
     }
 
     private void moveSkychart(IObservation observation) {
@@ -203,11 +199,13 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             response = this.sendData(socket, commands[0]);
             if (response == null) {
                 return; // Something went wrong. User is already informed, so
-                        // cancel here.
+                // cancel here.
             } else if (response) {
                 // Inform user
-                this.context.getUserInterfaceHelper()
-                        .showInfo(this.bundle.getString("skychart.move.ok") + observation.getTarget().getDisplayName());
+                this.context
+                        .getUserInterfaceHelper()
+                        .showInfo(this.bundle.getString("skychart.move.ok")
+                                + observation.getTarget().getDisplayName());
             } else {
                 // Inform user
                 this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
@@ -224,7 +222,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             // Can't do much here.
             LOGGER.error("Unable to close socket to Skychart application.", ioe);
         }
-
     }
 
     private boolean moveSkychartToTarget(StarchartSocket socket, ITarget target) {
@@ -334,7 +331,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
                 return true;
             }
-
         }
 
         // ---- Set target (via position)
@@ -348,7 +344,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         }
 
         return true;
-
     }
 
     private Boolean sendData(StarchartSocket socket, String command) {
@@ -357,8 +352,9 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         try {
             String response = socket.send(command);
 
-            if ((response != null) && ((response.startsWith(StarchartSocket.SERVER_RESPONSE_OK))
-                    || (response.endsWith(StarchartSocket.SERVER_RESPONSE_OK)))) {
+            if ((response != null)
+                    && ((response.startsWith(StarchartSocket.SERVER_RESPONSE_OK))
+                            || (response.endsWith(StarchartSocket.SERVER_RESPONSE_OK)))) {
                 return Boolean.TRUE;
             } else {
                 return Boolean.FALSE;
@@ -369,7 +365,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
-
     }
 
     private String sendDataWithServerResponse(StarchartSocket socket, String command) {
@@ -384,7 +379,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
-
     }
 
     private StarchartSocket createSocket() {
@@ -411,8 +405,8 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             LOGGER.error("Unable to reach Skychart application. Host unknown.", uhe);
         } catch (ConnectException ce) {
             // SkyChart is most probably not open. So try to start it
-            final String applicationPath = this.context.getConfiguration()
-                    .getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
+            final String applicationPath =
+                    this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
             if (StringUtils.isBlank(applicationPath)) {
                 om.createWarning(this.bundle.getString("skychart.application.start.nopath"));
                 LOGGER.error(
@@ -431,7 +425,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                             Runtime rt = Runtime.getRuntime();
                             rt.exec(applicationPath + " --unique");
                             Thread.sleep(10 * 1000); // Wait max. 10 sec for
-                                                     // startup
+                            // startup
 
                         } catch (IOException ioe) {
                             om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
@@ -446,7 +440,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                     public String getReturnMessage() {
 
                         return "";
-
                     }
 
                     @Override
@@ -456,14 +449,15 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                             p.exitValue();
                         }
                         return Worker.RETURN_TYPE_ERROR;
-
                     }
-
                 };
 
-                this.context.getUserInterfaceHelper().createProgressDialog(
-                        this.bundle.getString("skychart.application.start.title"),
-                        this.bundle.getString("skychart.application.start.loading"), startApplication);
+                this.context
+                        .getUserInterfaceHelper()
+                        .createProgressDialog(
+                                this.bundle.getString("skychart.application.start.title"),
+                                this.bundle.getString("skychart.application.start.loading"),
+                                startApplication);
 
                 try {
                     socket = new StarchartSocket(ip, port);
@@ -473,7 +467,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 }
 
                 return socket;
-
             }
         } catch (IOException ioe) {
             om.createWarning(this.bundle.getString("skychart.communication.failed"));
@@ -481,7 +474,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         }
 
         return socket;
-
     }
 
     // See Server Commands:
@@ -516,7 +508,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         result.add("SETDEC DEC:" + dec);
 
         return result;
-
     }
 
     // See Server Commands:
@@ -537,7 +528,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         }
 
         return commands;
-
     }
 
     // See Server Commands:
@@ -565,7 +555,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         String lon = "LON:" + lonArc;
 
         return "SETOBS " + lat + lon + alt + obs;
-
     }
 
     // See Server Commands:
@@ -573,7 +562,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     private String createREFRESHCommand() {
 
         return "REDRAW";
-
     }
 
     private String createDateCommand(ZonedDateTime date) {
@@ -581,7 +569,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         String dateString = DateTimeFormatter.ISO_INSTANT.format(date);
 
         return "SETDATE " + dateString.substring(0, dateString.lastIndexOf("T") + 9);
-
     }
 
     private void initMenus() {
@@ -603,7 +590,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         this.popupMoveTo.setMnemonic('s');
         this.popupMoveTo.addActionListener(this);
         this.popupMenu.add(this.popupMoveTo);
-
     }
 
     // ----------
@@ -614,37 +600,32 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     public JMenu getMenu() {
 
         return this.mainMenu;
-
     }
 
     @Override
     public PopupMenuExtension getPopupMenu() {
 
         return new PopupMenuExtension(
-                new SchemaElementConstants[] { SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET },
+                new SchemaElementConstants[] {SchemaElementConstants.OBSERVATION, SchemaElementConstants.TARGET},
                 this.popupMenu);
-
     }
 
     @Override
     public String getName() {
 
         return SkyChartClient.NAME;
-
     }
 
     @Override
     public Optional<URL> getUpdateInformationURL() {
 
         return Optional.empty();
-
     }
 
     @Override
     public PreferencesPanel getPreferencesPanel() {
 
         return new SkyChartPreferences(this.context.getConfiguration());
-
     }
 
     @Override
@@ -652,7 +633,6 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
 
         this.initLanguage();
         this.initMenus();
-
     }
 
     // --------------
@@ -663,42 +643,36 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     public Set<String> getAllSupportedXSITypes() {
 
         return Collections.emptySet();
-
     }
 
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
 
         return null;
-
     }
 
     @Override
     public String getDisplayNameForXSIType(String xsiType) {
 
         return null;
-
     }
 
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
 
         return Collections.emptySet();
-
     }
 
     @Override
     public boolean isCreationAllowed(String xsiType) {
 
         return false;
-
     }
 
     @Override
     public boolean addOALExtensionElement(Element docElement) {
 
         return true;
-
     }
 
     @Override
@@ -714,22 +688,22 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
-            boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(
+            String xsiType, IFinding finding, ISession session, ITarget target, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
-            boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(
+            String xsiType, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
-            IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(
+            String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -745,5 +719,4 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         // TODO Auto-generated method stub
         return null;
     }
-
 }

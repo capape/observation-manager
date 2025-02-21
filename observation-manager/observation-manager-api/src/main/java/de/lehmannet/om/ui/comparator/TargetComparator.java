@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.ITarget;
+import java.util.Comparator;
 
 public class TargetComparator implements Comparator<ITarget> {
 
@@ -39,11 +38,8 @@ public class TargetComparator implements Comparator<ITarget> {
 
             // No equal name found....sort using native String method
             return t1Name.compareToIgnoreCase(t2.getName().trim());
-
         }
 
         return 0;
-
     }
-
 }

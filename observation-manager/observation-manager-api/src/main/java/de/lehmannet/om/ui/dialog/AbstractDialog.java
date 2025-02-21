@@ -7,30 +7,28 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public abstract class AbstractDialog extends OMDialog implements ActionListener, IDialog {
 
     private static final long serialVersionUID = 3761803558554164428L;
 
-    protected static ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    protected static ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     protected ISchemaElement schemaElement = null;
 
@@ -43,25 +41,31 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
-            AbstractPanel panel) {
+    protected AbstractDialog(
+            JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper, AbstractPanel panel) {
 
         this(false, om, model, uiHelper, panel);
 
         this.initDialog();
-
     }
 
-    protected AbstractDialog(JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
-            AbstractPanel panel, boolean oneButton) {
+    protected AbstractDialog(
+            JFrame om,
+            ObservationManagerModel model,
+            UserInterfaceHelper uiHelper,
+            AbstractPanel panel,
+            boolean oneButton) {
 
         this(true, om, model, uiHelper, panel);
 
         this.initDialog();
-
     }
 
-    private AbstractDialog(boolean oneButton, JFrame om, ObservationManagerModel model, UserInterfaceHelper uiHelper,
+    private AbstractDialog(
+            boolean oneButton,
+            JFrame om,
+            ObservationManagerModel model,
+            UserInterfaceHelper uiHelper,
             AbstractPanel panel) {
 
         super(om);
@@ -89,7 +93,6 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
         this.getRootPane().setDefaultButton(this.positive);
 
         this.oneButton = oneButton;
-
     }
 
     @Override
@@ -123,19 +126,16 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
                             this.dispose();
                         }
                     }
-
                 }
             } else if (source.equals(this.cancel)) {
                 this.dispose();
             }
         }
-
     }
 
     public static void reloadLanguage() {
 
         bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
-
     }
 
     private void initDialog() {
@@ -161,7 +161,5 @@ public abstract class AbstractDialog extends OMDialog implements ActionListener,
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
-
 }

@@ -7,29 +7,6 @@
 
 package de.lehmannet.om.ui.statistics;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
-
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -47,6 +24,26 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import org.w3c.dom.Document;
 
 public class StatisticsDetailsDialog extends AbstractDialog {
 
@@ -65,7 +62,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     private final InstallDir installDir;
     private final IConfiguration configuration;
 
-    public StatisticsDetailsDialog(final ObservationManager om, final ObservationManagerModel omModel,
+    public StatisticsDetailsDialog(
+            final ObservationManager om,
+            final ObservationManagerModel omModel,
             final ObservationStatisticsTableModel tableModel) {
 
         super(om, omModel, om.getUiHelper(), new DetailPanel(om, tableModel), true);
@@ -93,7 +92,6 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         this.createMenu();
 
         this.setVisible(true);
-
     }
 
     private void createMenu() {
@@ -117,8 +115,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         this.exportObservedOAL.addActionListener(this);
         exportObserved.add(this.exportObservedOAL);
 
-        this.exportObservedHTML = new JMenuItem(
-                AbstractDialog.bundle.getString("dialog.statistics.menu.observed.html"));
+        this.exportObservedHTML =
+                new JMenuItem(AbstractDialog.bundle.getString("dialog.statistics.menu.observed.html"));
         this.exportObservedHTML.setMnemonic('h');
         this.exportObservedHTML.addActionListener(this);
         exportObserved.add(this.exportObservedHTML);
@@ -134,7 +132,6 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         exportMissing.add(this.exportMissingHTML);
 
         this.setJMenuBar(menuBar);
-
     }
 
     @Override
@@ -154,7 +151,6 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         super.actionPerformed(e);
-
     }
 
     private void exportObservedAsXML() {
@@ -181,7 +177,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_observed", "xml")
+                final String file = StatisticsDetailsDialog.this
+                        .model
+                        .getExportFile(catalogName + "_observed", "xml")
                         .getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
@@ -193,27 +191,25 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     this.message = AbstractDialog.bundle.getString("dialog.statistics.observed.export.nok");
                     this.returnValue = Worker.RETURN_TYPE_ERROR;
                 }
-
             }
 
             @Override
             public String getReturnMessage() {
 
                 return message;
-
             }
 
             @Override
             public byte getReturnType() {
 
                 return returnValue;
-
             }
-
         };
 
-        this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
-                AbstractDialog.bundle.getString("progress.wait.xml.info"), calculation);
+        this.uiHelper.createProgressDialog(
+                AbstractDialog.bundle.getString("progress.wait.title"),
+                AbstractDialog.bundle.getString("progress.wait.xml.info"),
+                calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -222,7 +218,6 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         } else {
             this.uiHelper.showWarning(calculation.getReturnMessage());
         }
-
     }
 
     private void exportObservedAsHTML() {
@@ -248,28 +243,26 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                         }
                     }
                 }
-
             }
 
             @Override
             public String getReturnMessage() {
 
                 return message;
-
             }
 
             @Override
             public byte getReturnType() {
 
                 return Worker.RETURN_TYPE_OK;
-
             }
-
         };
 
         // Show progresDialog for first part of export
-        this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
-                AbstractDialog.bundle.getString("progress.wait.html.info"), calculation);
+        this.uiHelper.createProgressDialog(
+                AbstractDialog.bundle.getString("progress.wait.title"),
+                AbstractDialog.bundle.getString("progress.wait.html.info"),
+                calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -280,9 +273,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        this.htmlHelper.createHTML(xmlHelper.getDocument(), this.model.getExportFile(catalogName + "_observed", "html"),
-                null);
-
+        this.htmlHelper.createHTML(
+                xmlHelper.getDocument(), this.model.getExportFile(catalogName + "_observed", "html"), null);
     }
 
     private void exportMissingTargetAsXML() {
@@ -303,7 +295,9 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     }
                 }
 
-                final String file = StatisticsDetailsDialog.this.model.getExportFile(catalogName + "_missing", "xml")
+                final String file = StatisticsDetailsDialog.this
+                        .model
+                        .getExportFile(catalogName + "_missing", "xml")
                         .getAbsolutePath();
 
                 final boolean result = xmlHelper.save(file);
@@ -315,27 +309,25 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                     this.message = AbstractDialog.bundle.getString("dialog.statistics.missing.export.nok");
                     this.returnValue = Worker.RETURN_TYPE_ERROR;
                 }
-
             }
 
             @Override
             public String getReturnMessage() {
 
                 return message;
-
             }
 
             @Override
             public byte getReturnType() {
 
                 return returnValue;
-
             }
-
         };
 
-        this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
-                AbstractDialog.bundle.getString("progress.wait.xml.info"), calculation);
+        this.uiHelper.createProgressDialog(
+                AbstractDialog.bundle.getString("progress.wait.title"),
+                AbstractDialog.bundle.getString("progress.wait.xml.info"),
+                calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -344,7 +336,6 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         } else {
             this.uiHelper.showWarning(calculation.getReturnMessage());
         }
-
     }
 
     private void exportMissingTargetAsHTML() {
@@ -368,36 +359,33 @@ public class StatisticsDetailsDialog extends AbstractDialog {
                 }
 
                 this.document = xmlHelper.getDocument();
-
             }
 
             @Override
             public String getReturnMessage() {
 
                 return message;
-
             }
 
             @Override
             public byte getReturnType() {
 
                 return Worker.RETURN_TYPE_OK;
-
             }
 
             Document getDocument() {
 
                 return this.document;
-
             }
-
         }
 
         final MyWorker calculation = new MyWorker();
 
         // Show progresDialog for first part of export
-        this.uiHelper.createProgressDialog(AbstractDialog.bundle.getString("progress.wait.title"),
-                AbstractDialog.bundle.getString("progress.wait.html.info"), calculation);
+        this.uiHelper.createProgressDialog(
+                AbstractDialog.bundle.getString("progress.wait.title"),
+                AbstractDialog.bundle.getString("progress.wait.html.info"),
+                calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -408,9 +396,8 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         // Call OM and let him to the second part of the export
-        this.htmlHelper.createHTML(calculation.getDocument(),
-                this.model.getExportFile(catalogName + "_missing", "html"), getXSLFile());
-
+        this.htmlHelper.createHTML(
+                calculation.getDocument(), this.model.getExportFile(catalogName + "_missing", "html"), getXSLFile());
     }
 
     private File getXSLFile() {
@@ -419,14 +406,14 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
         String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
-                                       // (Usefull for migrations)
+                // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {
             selectedTemplate = "oal2html";
         }
 
         // Check if XSL directory exists
-        final File path = new File(
-                this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        final File path =
+                new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
         if (!path.exists()) {
             this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                     + path.getAbsolutePath());
@@ -448,9 +435,7 @@ public class StatisticsDetailsDialog extends AbstractDialog {
         }
 
         return xslFile;
-
     }
-
 }
 
 class DetailPanel extends AbstractPanel implements ActionListener {
@@ -459,6 +444,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
     private ObservationManager om = null;
@@ -477,8 +463,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
         final ListSelectionModel lsm = table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
-            if (e.getValueIsAdjusting())
-                return;
+            if (e.getValueIsAdjusting()) return;
 
             final ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
             if (lsm1.isSelectionEmpty()) {
@@ -522,7 +507,9 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                cr.setText(this.om.getDateManager().zonedDateTimeToStringWithHour(o.getBegin().toZonedDateTime()));
+                cr.setText(this.om
+                        .getDateManager()
+                        .zonedDateTimeToStringWithHour(o.getBegin().toZonedDateTime()));
             }
 
             if (isSelected) {
@@ -545,33 +532,27 @@ class DetailPanel extends AbstractPanel implements ActionListener {
         this.scrollTable = new JScrollPane(table);
 
         this.createPanel();
-
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-
-    }
+    public void actionPerformed(final ActionEvent e) {}
 
     @Override
     public ISchemaElement createSchemaElement() {
 
         return this.model.getSchemaElement(0);
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.model.getSchemaElement(0);
-
     }
 
     @Override
     public ISchemaElement updateSchemaElement() {
 
         return this.model.getSchemaElement(0);
-
     }
 
     private void createPanel() {
@@ -585,7 +566,5 @@ class DetailPanel extends AbstractPanel implements ActionListener {
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(this.scrollTable, constraints);
         this.add(this.scrollTable);
-
     }
-
 }

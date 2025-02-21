@@ -86,6 +86,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * Filter types
      */
     String FILTER_TYPE_BROADBAND = "broad band";
+
     String FILTER_TYPE_COLOR = "color";
     String FILTER_TYPE_CORRECTIVE = "corrective";
     String FILTER_TYPE_HALPHA = "H-alpha";
@@ -100,6 +101,7 @@ public interface IFilter extends ISchemaElement, IEquipment {
      * Filter colors (only valid for filter type color)
      */
     String FILTER_COLOR_BLUE = "blue";
+
     String FILTER_COLOR_DEEPBLUE = "deep blue";
     String FILTER_COLOR_DEEPRED = "deep red";
     String FILTER_COLOR_DEEPYELLOW = "deep yellow";
@@ -280,5 +282,4 @@ public interface IFilter extends ISchemaElement, IEquipment {
      *            The new vendor name to be set.
      */
     void setVendor(String vendor);
-
 }

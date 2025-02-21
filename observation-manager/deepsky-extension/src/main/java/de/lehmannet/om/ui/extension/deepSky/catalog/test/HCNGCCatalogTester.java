@@ -7,10 +7,9 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog.test;
 
-import java.io.File;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.HCNGCCatalog;
+import java.io.File;
 
 class HCNGCCatalogTester {
 
@@ -33,7 +32,5 @@ class HCNGCCatalogTester {
             System.out.println(t);
             System.out.println("----");
         }
-
     }
-
 }

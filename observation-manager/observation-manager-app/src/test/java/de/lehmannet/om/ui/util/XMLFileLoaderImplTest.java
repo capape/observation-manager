@@ -6,11 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.OffsetDateTime;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.Filter;
@@ -28,6 +23,9 @@ import de.lehmannet.om.Scope;
 import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
 import de.lehmannet.om.util.DateManagerImpl;
+import java.time.OffsetDateTime;
+import org.junit.Before;
+import org.junit.Test;
 
 public class XMLFileLoaderImplTest {
 
@@ -61,7 +59,6 @@ public class XMLFileLoaderImplTest {
     public void clearEmptyTest() {
         emptyNewFile.clear();
         assertTrue("No file used", emptyNewFile.isEmpty());
-
     }
 
     @Test
@@ -70,7 +67,6 @@ public class XMLFileLoaderImplTest {
         emptyNewFile.addSchemaElement(element);
         emptyNewFile.clear();
         assertTrue("No file used", emptyNewFile.isEmpty());
-
     }
 
     @Test
@@ -83,7 +79,6 @@ public class XMLFileLoaderImplTest {
         final ISchemaElement element = new Scope(150.0f, 0, "Orion XT6 Plus");
         emptyNewFile.addSchemaElement(element);
         assertNotNull("Empty document", emptyNewFile.getDocument());
-
     }
 
     @Test
@@ -106,7 +101,6 @@ public class XMLFileLoaderImplTest {
         assertEquals("Only one observer", 1, observers.length);
         assertEquals("Observer added", "Carl", observers[0].getName());
         assertFalse("No empty document", emptyNewFile.isEmpty());
-
     }
 
     @Test
@@ -161,15 +155,14 @@ public class XMLFileLoaderImplTest {
 
         final Site site = new Site("Moon", longitude, latitude, 60);
 
-        final ISchemaElement element = new Session(new DateManagerImpl(), OffsetDateTime.now(), OffsetDateTime.now(),
-                site);
+        final ISchemaElement element =
+                new Session(new DateManagerImpl(), OffsetDateTime.now(), OffsetDateTime.now(), site);
         emptyNewFile.addSchemaElement(element);
 
         final ISession[] sessions = emptyNewFile.getSessions();
         assertEquals("Only one session", 1, sessions.length);
         assertEquals("Session added", "Moon", sessions[0].getSite().getName());
         assertFalse("No empty document", emptyNewFile.isEmpty());
-
     }
 
     @Test
@@ -181,7 +174,6 @@ public class XMLFileLoaderImplTest {
         assertEquals("Only one target", 1, targets.length);
         assertEquals("Target added", "Mars", targets[0].getName());
         assertFalse("No empty document", emptyNewFile.isEmpty());
-
     }
 
     @Test
@@ -211,7 +203,6 @@ public class XMLFileLoaderImplTest {
 
         emptyNewFile.addSchemaElement(null);
         assertTrue("Empty document", emptyNewFile.isEmpty());
-
     }
 
     /*

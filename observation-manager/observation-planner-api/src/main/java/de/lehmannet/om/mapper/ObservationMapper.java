@@ -1,21 +1,5 @@
 package de.lehmannet.om.mapper;
 
-import java.io.File;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -33,6 +17,20 @@ import de.lehmannet.om.SurfaceBrightness;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
+import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ObservationMapper {
 
@@ -419,7 +417,9 @@ public class ObservationMapper {
             } else {
                 String ISO8601End = child.getFirstChild().getNodeValue();
                 try {
-                    return ZonedDateTime.parse(ISO8601End).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+                    return ZonedDateTime.parse(ISO8601End)
+                            .withZoneSameInstant(ZoneId.of("UTC"))
+                            .toOffsetDateTime();
 
                 } catch (NumberFormatException nfe) {
                     throw new SchemaException("End date is malformed. ", nfe);
@@ -505,7 +505,6 @@ public class ObservationMapper {
             } else {
                 throw new IllegalArgumentException("Parameter ITarget array cannot be NULL or empty. ");
             }
-
         }
     }
 
@@ -527,13 +526,14 @@ public class ObservationMapper {
                 throw new SchemaException("Begin date is empty. ");
             }
             try {
-                return ZonedDateTime.parse(ISO8601Begin).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+                return ZonedDateTime.parse(ISO8601Begin)
+                        .withZoneSameInstant(ZoneId.of("UTC"))
+                        .toOffsetDateTime();
 
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);
             }
         }
-
     }
 
     public static String getMandatoryID(Element observationElement) throws SchemaException {
@@ -567,6 +567,5 @@ public class ObservationMapper {
         }
 
         throw new SchemaException("Unable to load class of type: " + xsiType);
-
     }
 }

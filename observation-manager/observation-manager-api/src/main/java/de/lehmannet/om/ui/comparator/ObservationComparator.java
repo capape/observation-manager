@@ -7,25 +7,21 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.time.OffsetDateTime;
-import java.util.Comparator;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import java.time.OffsetDateTime;
+import java.util.Comparator;
 
 public class ObservationComparator implements Comparator<IObservation> {
 
     private boolean reverse = false;
 
-    public ObservationComparator() {
-
-    }
+    public ObservationComparator() {}
 
     public ObservationComparator(boolean reverse) {
 
         this.reverse = reverse;
-
     }
 
     @Override
@@ -79,11 +75,8 @@ public class ObservationComparator implements Comparator<IObservation> {
                 }
                 return retValue;
             }
-
         }
 
         return 0;
-
     }
-
 }

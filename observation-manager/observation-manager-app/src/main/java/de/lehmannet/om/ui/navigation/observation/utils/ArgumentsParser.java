@@ -10,7 +10,6 @@ public class ArgumentsParser {
     private ArgumentsParser(String[] paramArgs) {
         this.arguments = new HashMap<>();
         this.parseArguments(paramArgs);
-
     }
 
     public String getArgumentValue(ArgumentName nameArgument) {
@@ -28,22 +27,18 @@ public class ArgumentsParser {
                 if (ArgumentName.isValid(arg)) {
                     arguments.put(getArgName(arg), getArgValue(arg));
                 }
-
             }
         }
-
     }
 
     private String getArgName(String argument) {
 
         return argument.substring(0, argument.indexOf("="));
-
     }
 
     private String getArgValue(String argument) {
 
         return argument.substring(argument.indexOf("=") + 1);
-
     }
 
     public static class Builder {
@@ -56,7 +51,5 @@ public class ArgumentsParser {
         public ArgumentsParser build() {
             return new ArgumentsParser(args);
         }
-
     }
-
 }

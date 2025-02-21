@@ -7,20 +7,6 @@
 
 package de.lehmannet.om.ui.extension.variableStars.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-
-import javax.swing.JCheckBox;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
@@ -34,6 +20,18 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import javax.swing.JCheckBox;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class VariableStarFindingPanel extends AbstractPanel implements IFindingPanel {
 
@@ -45,10 +43,10 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     private static final String CONFIG_LAST_NONAAVSOCHART = "om.extension.variableStar.finding.lastNonAAVSOChart";
     private static final String CONFIG_LAST_STAR = "om.extension.variableStar.finding.lastStar";
 
-    private final static String DELIMITER_COMPARISM_STAR = ",";
+    private static final String DELIMITER_COMPARISM_STAR = ",";
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private FindingVariableStar finding = null;
     private ISession session = null;
@@ -74,8 +72,9 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
     private final IConfiguration configuration;
 
-    public VariableStarFindingPanel(IConfiguration configuration, IFinding finding, ISession s, ITarget t,
-            Boolean editable) throws IllegalArgumentException {
+    public VariableStarFindingPanel(
+            IConfiguration configuration, IFinding finding, ISession s, ITarget t, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
         this.configuration = configuration;
@@ -106,7 +105,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         } else {
             this.loadFromCache();
         }
-
     }
 
     // ------
@@ -117,7 +115,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     public String getName() {
 
         return this.bundle.getString("panel.variableStarFinding.name");
-
     }
 
     // -------------
@@ -128,7 +125,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     public String getXSIType() {
 
         return FindingVariableStar.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------------
@@ -139,7 +135,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
     public ISchemaElement getSchemaElement() {
 
         return this.finding;
-
     }
 
     @Override
@@ -239,7 +234,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         this.writeToCache();
 
         return this.finding;
-
     }
 
     @Override
@@ -285,7 +279,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         }
 
         return this.finding;
-
     }
 
     private void createPanel() {
@@ -298,8 +291,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LchartDate = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.chartDate"),
-                SwingConstants.LEFT, true);
+        OMLabel LchartDate = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.chartDate"), SwingConstants.LEFT, true);
         LchartDate.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.chartDate"));
         gridbag.setConstraints(LchartDate, constraints);
         this.add(LchartDate);
@@ -322,8 +315,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LnonAAVSOchart = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.nonAAVSOchart"),
-                SwingConstants.LEFT, false);
+        OMLabel LnonAAVSOchart = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.nonAAVSOchart"), SwingConstants.LEFT, false);
         LnonAAVSOchart.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.nonAAVSOchart"));
         gridbag.setConstraints(LnonAAVSOchart, constraints);
         this.add(LnonAAVSOchart);
@@ -331,8 +324,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel Lmagnitude = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.magnitude"),
-                SwingConstants.RIGHT, true);
+        OMLabel Lmagnitude = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.magnitude"), SwingConstants.RIGHT, true);
         Lmagnitude.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.magnitude"));
         gridbag.setConstraints(Lmagnitude, constraints);
         this.add(Lmagnitude);
@@ -348,18 +341,19 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         constraints.anchor = GridBagConstraints.EAST;
         constraints.fill = GridBagConstraints.NONE;
         this.magnitudeFainterThan = new JCheckBox();
-        this.magnitudeFainterThan
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.magnitudeFainterThan"));
+        this.magnitudeFainterThan.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.magnitudeFainterThan"));
         gridbag.setConstraints(this.magnitudeFainterThan, constraints);
         this.add(this.magnitudeFainterThan);
 
         ConstraintsBuilder.buildConstraints(constraints, 7, 0, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel LmagnitudeFainterThan = new OMLabel(
-                this.bundle.getString("panel.variableStarFinding.label.magnitudeFainterThan"), SwingConstants.LEFT,
+                this.bundle.getString("panel.variableStarFinding.label.magnitudeFainterThan"),
+                SwingConstants.LEFT,
                 false);
-        LmagnitudeFainterThan
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.magnitudeFainterThan"));
+        LmagnitudeFainterThan.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.magnitudeFainterThan"));
         gridbag.setConstraints(LmagnitudeFainterThan, constraints);
         this.add(LmagnitudeFainterThan);
 
@@ -372,8 +366,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 0, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LmagnitudeUncertain = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.magUncertain"),
-                SwingConstants.LEFT, false);
+        OMLabel LmagnitudeUncertain = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.magUncertain"), SwingConstants.LEFT, false);
         LmagnitudeUncertain.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.magUncertain"));
         gridbag.setConstraints(LmagnitudeUncertain, constraints);
         this.add(LmagnitudeUncertain);
@@ -381,8 +375,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 1, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel LcompStars = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.compStars"),
-                SwingConstants.RIGHT, true);
+        OMLabel LcompStars = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.compStars"), SwingConstants.RIGHT, true);
         LcompStars.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.compStars"));
         gridbag.setConstraints(LcompStars, constraints);
         this.add(LcompStars);
@@ -398,8 +392,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 6, 1, 1, 1, 1, 1);
         constraints.anchor = GridBagConstraints.EAST;
         this.comparismSequenceProblem = new JCheckBox();
-        this.comparismSequenceProblem
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.comparismSeqProblem"));
+        this.comparismSequenceProblem.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.comparismSeqProblem"));
         constraints.fill = GridBagConstraints.NONE;
         gridbag.setConstraints(this.comparismSequenceProblem, constraints);
         this.add(this.comparismSequenceProblem);
@@ -407,10 +401,11 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 7, 1, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel LcomparismSequenceProblem = new OMLabel(
-                this.bundle.getString("panel.variableStarFinding.label.comparismSeqProblem"), SwingConstants.LEFT,
+                this.bundle.getString("panel.variableStarFinding.label.comparismSeqProblem"),
+                SwingConstants.LEFT,
                 false);
-        LcomparismSequenceProblem
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.comparismSeqProblem"));
+        LcomparismSequenceProblem.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.comparismSeqProblem"));
         gridbag.setConstraints(LcomparismSequenceProblem, constraints);
         this.add(LcomparismSequenceProblem);
 
@@ -423,8 +418,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LbrightSky = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.brightSky"),
-                SwingConstants.LEFT, false);
+        OMLabel LbrightSky = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.brightSky"), SwingConstants.LEFT, false);
         LbrightSky.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.brightSky"));
         gridbag.setConstraints(LbrightSky, constraints);
         this.add(LbrightSky);
@@ -438,8 +433,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel Lclouds = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.clouds"),
-                SwingConstants.LEFT, false);
+        OMLabel Lclouds = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.clouds"), SwingConstants.LEFT, false);
         Lclouds.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.clouds"));
         gridbag.setConstraints(Lclouds, constraints);
         this.add(Lclouds);
@@ -453,8 +448,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 5, 2, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LpoorSeeing = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.poorSeeing"),
-                SwingConstants.LEFT, false);
+        OMLabel LpoorSeeing = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.poorSeeing"), SwingConstants.LEFT, false);
         LpoorSeeing.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.poorSeeing"));
         gridbag.setConstraints(LpoorSeeing, constraints);
         this.add(LpoorSeeing);
@@ -468,8 +463,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 7, 2, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LnearHorizion = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.nearHorizon"),
-                SwingConstants.LEFT, false);
+        OMLabel LnearHorizion = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.nearHorizon"), SwingConstants.LEFT, false);
         LnearHorizion.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.nearHorizon"));
         gridbag.setConstraints(LnearHorizion, constraints);
         this.add(LnearHorizion);
@@ -483,8 +478,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LunusualActivity = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.unusualActivity"),
-                SwingConstants.LEFT, false);
+        OMLabel LunusualActivity = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.unusualActivity"), SwingConstants.LEFT, false);
         LunusualActivity.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.unusualActivity"));
         gridbag.setConstraints(LunusualActivity, constraints);
         this.add(LunusualActivity);
@@ -498,8 +493,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 3, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel Loutburst = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.outburst"),
-                SwingConstants.LEFT, false);
+        OMLabel Loutburst = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.outburst"), SwingConstants.LEFT, false);
         Loutburst.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.outburst"));
         gridbag.setConstraints(Loutburst, constraints);
         this.add(Loutburst);
@@ -507,8 +502,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         ConstraintsBuilder.buildConstraints(constraints, 4, 3, 1, 1, 1, 1);
         constraints.anchor = GridBagConstraints.EAST;
         this.starIdentificationUncertain = new JCheckBox();
-        this.starIdentificationUncertain
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.starIdentificationUncertain"));
+        this.starIdentificationUncertain.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.starIdentificationUncertain"));
         gridbag.setConstraints(this.starIdentificationUncertain, constraints);
         this.add(this.starIdentificationUncertain);
 
@@ -516,9 +511,10 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         constraints.anchor = GridBagConstraints.WEST;
         OMLabel LstarIdentificationUncertain = new OMLabel(
                 this.bundle.getString("panel.variableStarFinding.label.starIdentificationUncertain"),
-                SwingConstants.LEFT, false);
-        LstarIdentificationUncertain
-                .setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.starIdentificationUncertain"));
+                SwingConstants.LEFT,
+                false);
+        LstarIdentificationUncertain.setToolTipText(
+                this.bundle.getString("panel.variableStarFinding.tooltip.starIdentificationUncertain"));
         gridbag.setConstraints(LstarIdentificationUncertain, constraints);
         this.add(LstarIdentificationUncertain);
 
@@ -531,8 +527,8 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         ConstraintsBuilder.buildConstraints(constraints, 7, 3, 1, 1, 3, 1);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LfaintStar = new OMLabel(this.bundle.getString("panel.variableStarFinding.label.faintStar"),
-                SwingConstants.LEFT, false);
+        OMLabel LfaintStar = new OMLabel(
+                this.bundle.getString("panel.variableStarFinding.label.faintStar"), SwingConstants.LEFT, false);
         LfaintStar.setToolTipText(this.bundle.getString("panel.variableStarFinding.tooltip.faintStar"));
         gridbag.setConstraints(LfaintStar, constraints);
         this.add(LfaintStar);
@@ -612,7 +608,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         this.faintStar.setSelected(this.finding.isFaintStar());
         this.faintStar.setEnabled(this.isEditable());
-
     }
 
     private List<String> getComparismStars() {
@@ -623,27 +618,28 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
         }
 
         List<String> result = new ArrayList<>(4);
-        StringTokenizer tokenizer = new StringTokenizer(compStarText,
-                VariableStarFindingPanel.DELIMITER_COMPARISM_STAR);
+        StringTokenizer tokenizer =
+                new StringTokenizer(compStarText, VariableStarFindingPanel.DELIMITER_COMPARISM_STAR);
         while (tokenizer.hasMoreTokens()) {
             result.add(tokenizer.nextToken().trim());
         }
 
         return result;
-
     }
 
     private void writeToCache() {
 
-        if ((this.isEditable()) && (this.finding != null)
+        if ((this.isEditable())
+                && (this.finding != null)
                 && (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))) {
 
             this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE, this.finding.getChartDate());
             // Use JTextField here so that we don't need to build up string again
-            this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS,
-                    this.comparismStars.getText());
+            this.configuration.setConfig(
+                    VariableStarFindingPanel.CONFIG_LAST_COMPARISM_STARS, this.comparismStars.getText());
             if (this.nonAAVSOchart.isSelected()) {
-                this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
+                this.configuration.setConfig(
+                        VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART,
                         Boolean.toString(this.finding.isNonAAVSOchart()));
             } else {
                 this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_NONAAVSOCHART, null);
@@ -652,7 +648,6 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
                 this.configuration.setConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, this.target.getName());
             }
         }
-
     }
 
     private void loadFromCache() {
@@ -664,8 +659,9 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
 
         if ((this.isEditable())
                 && (Boolean.parseBoolean(this.configuration.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED)))
-                && (targetName.equals(
-                        this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "").toLowerCase()))) {
+                && (targetName.equals(this.configuration
+                        .getConfig(VariableStarFindingPanel.CONFIG_LAST_STAR, "")
+                        .toLowerCase()))) {
 
             String lastChartDate = this.configuration.getConfig(VariableStarFindingPanel.CONFIG_LAST_CHARTDATE);
             if ((lastChartDate != null) && !("".equals(lastChartDate.trim()))) {
@@ -682,7 +678,5 @@ public class VariableStarFindingPanel extends AbstractPanel implements IFindingP
                 this.nonAAVSOchart.setSelected(Boolean.parseBoolean(lastNonAAVSOChart));
             }
         }
-
     }
-
 }

@@ -7,6 +7,9 @@
 
 package de.lehmannet.om.ui.extension.deepSky.dialog;
 
+import de.lehmannet.om.extension.deepSky.DeepSkyFindingOC;
+import de.lehmannet.om.ui.dialog.OMDialog;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -14,23 +17,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.extension.deepSky.DeepSkyFindingOC;
-import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-
 public class DeepSkyFindingOCTraitDialog extends OMDialog {
 
     private static final long serialVersionUID = -162741988653614067L;
 
-    final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     private TraitPanel panel = null;
 
@@ -50,13 +48,11 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
         this.setLocationRelativeTo(om);
 
         this.setVisible(true);
-
     }
 
     public Character getCharacter() {
 
         return this.panel.getCharacter();
-
     }
 
     private void initDialog() {
@@ -70,9 +66,7 @@ public class DeepSkyFindingOCTraitDialog extends OMDialog {
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(this.panel, constraints);
         this.getContentPane().add(this.panel);
-
     }
-
 }
 
 class TraitPanel extends JPanel implements ActionListener {
@@ -100,13 +94,11 @@ class TraitPanel extends JPanel implements ActionListener {
         this.character = character;
 
         this.createPanel();
-
     }
 
     public Character getCharacter() {
 
         return this.character;
-
     }
 
     @Override
@@ -139,7 +131,6 @@ class TraitPanel extends JPanel implements ActionListener {
 
             this.dialog.dispose();
         }
-
     }
 
     private void createPanel() {
@@ -232,7 +223,5 @@ class TraitPanel extends JPanel implements ActionListener {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(cancel, constraints);
         this.add(cancel);
-
     }
-
 }

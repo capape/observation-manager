@@ -28,7 +28,6 @@ public class OALException extends Exception {
     public OALException(String message) {
 
         super(addMessageFlavour(message));
-
     }
 
     /**
@@ -42,7 +41,6 @@ public class OALException extends Exception {
     public OALException(String message, Throwable cause) {
 
         super(addMessageFlavour(message), cause);
-
     }
 
     // ---------------
@@ -55,7 +53,5 @@ public class OALException extends Exception {
     private static String addMessageFlavour(String message) {
 
         return "\n*********" + message + "*********\n";
-
     }
-
 }

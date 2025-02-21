@@ -34,5 +34,4 @@ public enum ConfigKey implements IConfigKey {
     public String getKey() {
         return this.key;
     }
-
 }

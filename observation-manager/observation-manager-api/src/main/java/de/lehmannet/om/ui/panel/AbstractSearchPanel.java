@@ -1,5 +1,9 @@
 package de.lehmannet.om.ui.panel;
 
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.OMLabel;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,23 +12,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.OMLabel;
-
 public abstract class AbstractSearchPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = -1182026656125311590L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     protected ISchemaElement searchResult = null;
 
@@ -42,13 +40,11 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
         this.cancel = new JButton();
 
         this.searchText = new JTextField();
-
     }
 
     public ISchemaElement getSearchResult() {
 
         return this.searchResult;
-
     }
 
     public abstract void search(String searchString);
@@ -56,7 +52,6 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
     public JButton getDefaultButton() {
 
         return this.search;
-
     }
 
     public void setGeneralInfoText(String info) {
@@ -64,7 +59,6 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
         this.infoText = info;
         this.generalInfoText.setText(this.infoText);
         this.generalInfoText.setToolTipText(this.infoText);
-
     }
 
     @Override
@@ -84,7 +78,6 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
                 this.processComponentEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_HIDDEN));
             }
         }
-
     }
 
     protected void createPanel() {
@@ -132,7 +125,6 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.add(this.cancel);
-
     }
 
     String formatName(String name) {
@@ -142,7 +134,5 @@ public abstract class AbstractSearchPanel extends JPanel implements ActionListen
         name = name.replaceAll(" ", "");
 
         return name;
-
     }
-
 }

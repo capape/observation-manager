@@ -11,5 +11,4 @@ public interface ImageResolver {
      * @return a URL to the image
      */
     Optional<URL> getImageURL(String name);
-
 }

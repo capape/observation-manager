@@ -52,15 +52,12 @@ public class InstallDir {
     public File getInstallDir() {
 
         return this.installDir;
-
     }
 
     public static class Builder {
         private String folderName;
 
-        public Builder() {
-
-        }
+        public Builder() {}
 
         public Builder withInstallDir(String folderName) {
             this.folderName = folderName;
@@ -70,6 +67,5 @@ public class InstallDir {
         public InstallDir build() {
             return new InstallDir(folderName);
         }
-
     }
 }

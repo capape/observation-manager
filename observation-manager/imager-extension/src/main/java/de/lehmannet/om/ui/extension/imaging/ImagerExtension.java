@@ -1,20 +1,5 @@
 package de.lehmannet.om.ui.extension.imaging;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
@@ -32,6 +17,19 @@ import de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.io.File;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 
 public class ImagerExtension extends AbstractExtension {
 
@@ -56,24 +54,24 @@ public class ImagerExtension extends AbstractExtension {
         this.initDialogs();
 
         this.initExtensionTypes();
-
     }
 
     private void initExtensionTypes() {
 
-        this.extensionTypes
-                .add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.extension.imaging.CCDImager")
-                        .targetType(CCDImager.XML_ATTRIBUTE_CCDIMAGER).build());
+        this.extensionTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.extension.imaging.CCDImager")
+                .targetType(CCDImager.XML_ATTRIBUTE_CCDIMAGER)
+                .build());
     }
 
     private void initLanguage() {
         try {
-            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames",
-                    Locale.getDefault());
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames", Locale.getDefault());
         } catch (MissingResourceException mre) {
 
-            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames",
-                    Locale.ENGLISH);
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.imaging.oalImagingDisplayNames", Locale.ENGLISH);
         }
     }
 
@@ -86,7 +84,6 @@ public class ImagerExtension extends AbstractExtension {
     public ICatalog[] getCatalogs(File catalogDir) {
 
         return null;
-
     }
 
     @Override
@@ -97,42 +94,36 @@ public class ImagerExtension extends AbstractExtension {
         } catch (MissingResourceException mre) { // XSIType not found
             return null;
         }
-
     }
 
     @Override
     public JMenu getMenu() {
 
         return null;
-
     }
 
     @Override
     public void reloadLanguage() {
 
         this.initLanguage();
-
     }
 
     @Override
     public String getName() {
 
         return ImagerExtension.NAME;
-
     }
 
     @Override
     public Optional<URL> getUpdateInformationURL() {
 
         return Optional.empty();
-
     }
 
     @Override
     public PreferencesPanel getPreferencesPanel() {
 
         return null;
-
     }
 
     private void initSupportedXSITypes() {
@@ -147,14 +138,12 @@ public class ImagerExtension extends AbstractExtension {
         }
 
         return Collections.emptySet();
-
     }
 
     @Override
     public Set<String> getAllSupportedXSITypes() {
 
         return Collections.unmodifiableSet(this.allSupportedXSITypes);
-
     }
 
     public void initAllSupportedXSITypes() {
@@ -162,14 +151,12 @@ public class ImagerExtension extends AbstractExtension {
         this.initSupportedXSITypes();
 
         this.allSupportedXSITypes.addAll(this.supportedXSITypes);
-
     }
 
     @Override
     public boolean isCreationAllowed(String xsiType) {
 
         return true;
-
     }
 
     private void initPanels() {
@@ -179,7 +166,6 @@ public class ImagerExtension extends AbstractExtension {
         panels.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel");
 
         this.getPanels().put(SchemaElementConstants.IMAGER, panels);
-
     }
 
     private void initDialogs() {
@@ -189,33 +175,31 @@ public class ImagerExtension extends AbstractExtension {
         dialogs.put(CCDImager.XML_ATTRIBUTE_CCDIMAGER, "de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog");
 
         this.getPanels().put(SchemaElementConstants.IMAGER, dialogs);
-
     }
 
     @Override
     public PopupMenuExtension getPopupMenu() {
 
         return null;
-
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
-            boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(
+            String xsiType, IFinding finding, ISession session, ITarget target, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
-            boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(
+            String xsiType, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
-            IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(
+            String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -234,5 +218,4 @@ public class ImagerExtension extends AbstractExtension {
 
         return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager);
     }
-
 }

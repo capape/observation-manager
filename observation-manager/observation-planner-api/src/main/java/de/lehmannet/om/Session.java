@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.SchemaException;
 import java.io.File;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -15,16 +17,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * A Session can be used to link several observations together. Typically a session would describe an observation night,
@@ -41,10 +39,12 @@ public class Session extends SchemaElement implements ISession {
     // ------------------
 
     // Start date of session
-    private OffsetDateTime begin = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+    private OffsetDateTime begin =
+            ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
     // End date of session
-    private OffsetDateTime end = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+    private OffsetDateTime end =
+            ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
     // Site where session took place
     private ISite site = null;
@@ -132,7 +132,6 @@ public class Session extends SchemaElement implements ISession {
         getLanguage(sessionElement);
 
         getImages(sessionElement);
-
     }
 
     private void getImages(Element sessionElement) throws SchemaException {
@@ -160,7 +159,6 @@ public class Session extends SchemaElement implements ISession {
                 throw new SchemaException("Problem while retrieving image of session. ");
             }
         }
-
     }
 
     private void getLanguage(Element sessionElement) {
@@ -192,7 +190,6 @@ public class Session extends SchemaElement implements ISession {
         } else if (children.getLength() > 1) {
             throw new SchemaException("Session can have only one comment entry. ");
         }
-
     }
 
     private void getEquipment(Element sessionElement) throws SchemaException {
@@ -217,7 +214,6 @@ public class Session extends SchemaElement implements ISession {
         } else if (children.getLength() > 1) {
             throw new SchemaException("Session can have only one equipment entry. ");
         }
-
     }
 
     private void getWeather(Element sessionElement) throws SchemaException {
@@ -241,7 +237,6 @@ public class Session extends SchemaElement implements ISession {
         } else if (children.getLength() > 1) {
             throw new SchemaException("Session can have only one weather entry. ");
         }
-
     }
 
     private void getObserverLink(IObserver[] observers, Element sessionElement) throws SchemaException {
@@ -269,7 +264,6 @@ public class Session extends SchemaElement implements ISession {
                 throw new SchemaException("Problem retrieving coObserver from session. ");
             }
         }
-
     }
 
     private void getSite(ISite[] sites, Element sessionElement) throws SchemaException {
@@ -314,7 +308,9 @@ public class Session extends SchemaElement implements ISession {
         } else {
             String ISO8601End = child.getFirstChild().getNodeValue();
             try {
-                end = ZonedDateTime.parse(ISO8601End).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+                end = ZonedDateTime.parse(ISO8601End)
+                        .withZoneSameInstant(ZoneId.of("UTC"))
+                        .toOffsetDateTime();
                 this.setEnd(end);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("End date is malformed. ", nfe);
@@ -340,7 +336,9 @@ public class Session extends SchemaElement implements ISession {
                 throw new SchemaException("Session cannot have an empty begin date. ");
             }
             try {
-                begin = ZonedDateTime.parse(ISO8601Begin).withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+                begin = ZonedDateTime.parse(ISO8601Begin)
+                        .withZoneSameInstant(ZoneId.of("UTC"))
+                        .toOffsetDateTime();
                 this.setBegin(begin);
             } catch (NumberFormatException nfe) {
                 throw new SchemaException("Begin date is malformed. ", nfe);
@@ -367,7 +365,6 @@ public class Session extends SchemaElement implements ISession {
         this.setBegin(begin);
         this.setEnd(end);
         this.setSite(site);
-
     }
 
     // -------------
@@ -388,7 +385,6 @@ public class Session extends SchemaElement implements ISession {
 
         return this.dateManager.zonedDateTimeToStringWithHour(this.getBegin().toZonedDateTime()) + " - "
                 + this.dateManager.zonedDateTimeToStringWithHour(this.getEnd().toZonedDateTime());
-
     }
 
     // ------
@@ -447,7 +443,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         return buffer.toString();
-
     }
 
     /*
@@ -499,7 +494,10 @@ public class Session extends SchemaElement implements ISession {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return element;
                 }
             }
@@ -581,7 +579,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         return element;
-
     }
 
     /**
@@ -651,7 +648,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         return element;
-
     }
 
     /**
@@ -674,7 +670,6 @@ public class Session extends SchemaElement implements ISession {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -686,7 +681,6 @@ public class Session extends SchemaElement implements ISession {
     public OffsetDateTime getBegin() {
 
         return begin;
-
     }
 
     /**
@@ -699,7 +693,6 @@ public class Session extends SchemaElement implements ISession {
     public String getComments() {
 
         return comments;
-
     }
 
     /**
@@ -711,7 +704,6 @@ public class Session extends SchemaElement implements ISession {
     public OffsetDateTime getEnd() {
 
         return end;
-
     }
 
     /**
@@ -723,7 +715,6 @@ public class Session extends SchemaElement implements ISession {
     public ISite getSite() {
 
         return this.site;
-
     }
 
     /**
@@ -738,7 +729,6 @@ public class Session extends SchemaElement implements ISession {
     public String getEquipment() {
 
         return equipment;
-
     }
 
     /**
@@ -752,7 +742,6 @@ public class Session extends SchemaElement implements ISession {
     public String getWeather() {
 
         return weather;
-
     }
 
     /**
@@ -768,7 +757,6 @@ public class Session extends SchemaElement implements ISession {
     public String getLanguage() {
 
         return this.lang;
-
     }
 
     /**
@@ -785,7 +773,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         return this.images;
-
     }
 
     /**
@@ -804,7 +791,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.begin = begin;
-
     }
 
     /**
@@ -823,7 +809,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.comments = comments;
-
     }
 
     /**
@@ -842,7 +827,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.end = end;
-
     }
 
     /**
@@ -862,7 +846,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.equipment = equipment;
-
     }
 
     /**
@@ -882,7 +865,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.site = site;
-
     }
 
     /**
@@ -903,7 +885,6 @@ public class Session extends SchemaElement implements ISession {
 
         this.coObservers.clear();
         this.coObservers.addAll(coObservers);
-
     }
 
     /**
@@ -926,7 +907,6 @@ public class Session extends SchemaElement implements ISession {
 
         this.coObservers.addAll(coObservers);
         return true;
-
     }
 
     /**
@@ -943,7 +923,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.coObservers.add(coObserver);
-
     }
 
     /**
@@ -956,7 +935,6 @@ public class Session extends SchemaElement implements ISession {
     public List<IObserver> getCoObservers() {
 
         return this.coObservers;
-
     }
 
     /**
@@ -976,7 +954,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.weather = weather;
-
     }
 
     /**
@@ -996,7 +973,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.lang = language;
-
     }
 
     /**
@@ -1020,7 +996,6 @@ public class Session extends SchemaElement implements ISession {
 
         this.images.addAll(images);
         return true;
-
     }
 
     /**
@@ -1037,7 +1012,6 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.images.add(imagePath);
-
     }
 
     /**
@@ -1068,7 +1042,5 @@ public class Session extends SchemaElement implements ISession {
         }
 
         this.images = imagesList;
-
     }
-
 }

@@ -7,6 +7,13 @@
 
 package de.lehmannet.om.ui.panel;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.Observer;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.EditPopupHandler;
+import de.lehmannet.om.ui.util.OMLabel;
+import de.lehmannet.om.util.FloatUtil;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,7 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -39,14 +45,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.Observer;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.EditPopupHandler;
-import de.lehmannet.om.ui.util.OMLabel;
-import de.lehmannet.om.util.FloatUtil;
 
 public class ObserverPanel extends AbstractPanel implements MouseListener, ActionListener {
 
@@ -73,7 +71,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         if (observer != null) {
             this.loadSchemaElement();
         }
-
     }
 
     private void loadSchemaElement() {
@@ -121,7 +118,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         if (e.getButton() == MouseEvent.BUTTON3) {
             new EditPopupHandler(e.getX(), e.getY(), this.contacts);
         }
-
     }
 
     @Override
@@ -148,7 +144,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
     public ISchemaElement getSchemaElement() {
 
         return this.observer;
-
     }
 
     @Override
@@ -166,7 +161,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             ((AccountTableModel) this.accounts.getModel()).deleteRow(this.accounts.getSelectedRow());
             this.accounts.getColumnModel().getColumn(0).setCellEditor(editor);
         }
-
     }
 
     @Override
@@ -214,7 +208,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
 
         return this.observer;
-
     }
 
     @Override
@@ -255,7 +248,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
 
         return this.observer;
-
     }
 
     private String getObserverName() {
@@ -267,7 +259,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
 
         return name;
-
     }
 
     private String getSurname() {
@@ -281,7 +272,6 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         }
 
         return surname;
-
     }
 
     private void createPanel() {
@@ -304,8 +294,8 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         this.add(this.name);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel Lsurname = new OMLabel(AbstractPanel.bundle.getString("panel.observer.label.surname"),
-                SwingConstants.RIGHT, true);
+        OMLabel Lsurname =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observer.label.surname"), SwingConstants.RIGHT, true);
         Lsurname.setToolTipText(AbstractPanel.bundle.getString("panel.observer.tooltip.surname"));
         gridbag.setConstraints(Lsurname, constraints);
         this.add(Lsurname);
@@ -386,15 +376,14 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
             ConstraintsBuilder.buildConstraints(constraints, 2, 6, 2, 1, 25, 1);
             this.deleteAccountRow = new JButton(AbstractPanel.bundle.getString("panel.observer.button.deleteAccount"));
             this.deleteAccountRow.addActionListener(this);
-            this.deleteAccountRow
-                    .setToolTipText(AbstractPanel.bundle.getString("panel.observer.tooltip.deleteAccount"));
+            this.deleteAccountRow.setToolTipText(
+                    AbstractPanel.bundle.getString("panel.observer.tooltip.deleteAccount"));
             gridbag.setConstraints(this.deleteAccountRow, constraints);
             this.add(this.deleteAccountRow);
         } /*
            * else { ConstraintsBuilder.buildConstraints(constraints, 0, 6, 4, 1, 45, 100); JLabel Lfill = new
            * JLabel(""); gridbag.setConstraints(Lfill, constraints); this.add(Lfill); }
            */
-
     }
 
     private String[] getAccountBoxItems(Map<String, String> accounts) {
@@ -413,20 +402,18 @@ public class ObserverPanel extends AbstractPanel implements MouseListener, Actio
         for (String s : accountArray) {
 
             // Filter out generic entires
-            if (Observer.ACCOUNT_AAVSO.equals(s) || Observer.ACCOUNT_DEEPSKYLOG.equals(s)
+            if (Observer.ACCOUNT_AAVSO.equals(s)
+                    || Observer.ACCOUNT_DEEPSKYLOG.equals(s)
                     || Observer.ACCOUNT_DSL.equals(s)) {
                 continue;
             }
 
             // Found user created entry
             items.add(s);
-
         }
 
         return (String[]) items.toArray(new String[] {});
-
     }
-
 }
 
 class AccountTableModel extends AbstractTableModel {
@@ -457,14 +444,12 @@ class AccountTableModel extends AbstractTableModel {
 
         this.tableEditable = tableEditable;
         this.box = box;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
@@ -472,7 +457,6 @@ class AccountTableModel extends AbstractTableModel {
 
         // Make sure both lists indicies are always equal
         return this.accounts.length;
-
     }
 
     @Override
@@ -497,7 +481,6 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         return "";
-
     }
 
     @Override
@@ -513,7 +496,6 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         fireTableCellUpdated(row, col);
-
     }
 
     @Override
@@ -533,14 +515,12 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         return name;
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
         return this.tableEditable;
-
     }
 
     public Map<String, String> getAllEntries() {
@@ -552,7 +532,8 @@ class AccountTableModel extends AbstractTableModel {
         for (int i = 0; i < this.accounts.length; i++) {
             account = this.accounts[i];
             if ((account == null) // Skip empty lines
-                    || ("".equals(account)) || AccountListRenderer.EMPTY_LIST_ENTRY.equals(account)) {
+                    || ("".equals(account))
+                    || AccountListRenderer.EMPTY_LIST_ENTRY.equals(account)) {
                 continue;
             }
             user = this.userNames[i];
@@ -565,7 +546,6 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         return result;
-
     }
 
     public void addNewRow() {
@@ -584,7 +564,6 @@ class AccountTableModel extends AbstractTableModel {
         }
 
         fireTableRowsInserted(this.accounts.length - 1, this.accounts.length);
-
     }
 
     public void deleteRow(int row) {
@@ -602,21 +581,19 @@ class AccountTableModel extends AbstractTableModel {
         this.userNames = (String[]) list2.toArray(new String[] {});
 
         fireTableRowsDeleted(row - 1, row);
-
     }
-
 }
 
 class AccountListRenderer extends DefaultListCellRenderer {
 
     private static final long serialVersionUID = 2594810794131546967L;
 
-    public static final String EMPTY_LIST_ENTRY = AbstractPanel.bundle
-            .getString("panel.observer.account.comboBox.enterValue");
+    public static final String EMPTY_LIST_ENTRY =
+            AbstractPanel.bundle.getString("panel.observer.account.comboBox.enterValue");
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-            boolean cellHasFocus) {
+    public Component getListCellRendererComponent(
+            JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
         Font f = null;
         if (value != null) {
@@ -631,7 +608,5 @@ class AccountListRenderer extends DefaultListCellRenderer {
         c.setFont(f);
 
         return c;
-
     }
-
 }

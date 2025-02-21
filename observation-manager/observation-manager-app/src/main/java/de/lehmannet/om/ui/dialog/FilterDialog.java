@@ -28,7 +28,6 @@ public class FilterDialog extends AbstractDialog {
 
         this.setSize(FilterDialog.serialVersionUID, 490, 130);
         this.setVisible(true);
-
     }
 
     public IFilter getFilter() {
@@ -38,7 +37,5 @@ public class FilterDialog extends AbstractDialog {
         }
 
         return null;
-
     }
-
 }

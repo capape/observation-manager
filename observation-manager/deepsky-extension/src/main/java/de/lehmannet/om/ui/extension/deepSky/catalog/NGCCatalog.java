@@ -17,21 +17,17 @@ public class NGCCatalog extends AbstractNGCICCatalog {
     public NGCCatalog(File ngcCatalogFile) {
 
         super(ngcCatalogFile);
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return NGCCatalog.CATALOG_ABB;
-
     }
 
     @Override
     public String getName() {
 
         return NGCCatalog.CATALOG_NAME;
-
     }
-
 }

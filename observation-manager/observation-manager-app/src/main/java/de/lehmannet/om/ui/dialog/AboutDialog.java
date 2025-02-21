@@ -6,18 +6,16 @@
  */
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
-
-import de.lehmannet.om.ui.i18n.TextManager;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class AboutDialog extends OMDialog implements ActionListener {
 
@@ -44,7 +42,6 @@ public class AboutDialog extends OMDialog implements ActionListener {
         this.setSize(AboutDialog.serialVersionUID, 400, 260);
 
         this.setVisible(true);
-
     }
 
     // --------------
@@ -60,7 +57,6 @@ public class AboutDialog extends OMDialog implements ActionListener {
                 this.dispose();
             }
         }
-
     }
 
     private void initDialog() {
@@ -76,7 +72,9 @@ public class AboutDialog extends OMDialog implements ActionListener {
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         text.setEditable(false);
-        String about = textManager.getString("about.dialog.text") + System.lineSeparator() + System.lineSeparator()
+        String about = textManager.getString("about.dialog.text")
+                + System.lineSeparator()
+                + System.lineSeparator()
                 + String.format("Open Astronomy Log Version: %s", this.versionTextManager.getString("oal.version"));
 
         text.setText(about);
@@ -88,7 +86,5 @@ public class AboutDialog extends OMDialog implements ActionListener {
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
-
 }

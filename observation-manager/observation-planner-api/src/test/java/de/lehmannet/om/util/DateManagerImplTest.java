@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
-
 import org.junit.Test;
 
 public class DateManagerImplTest {
@@ -42,7 +41,6 @@ public class DateManagerImplTest {
         assertEquals(1, result.getHour());
         assertEquals(4, result.getSecond());
         assertEquals("Turkey", result.getZone().getId());
-
     }
 
     @Test
@@ -54,7 +52,6 @@ public class DateManagerImplTest {
 
         assertEquals(dateConverterResult, dateManagerResult, 0.0);
         assertEquals(2455206.4688, dateManagerResult, 0.001);
-
     }
 
     @Test

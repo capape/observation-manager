@@ -23,28 +23,24 @@ public class ProjectCatalog implements IListableCatalog {
         this.targets = targets;
         this.name = name;
         this.catalogIndex = this.createCatalogIndex();
-
     }
 
     @Override
     public String[] getCatalogIndex() {
 
         return this.catalogIndex;
-
     }
 
     @Override
     public AbstractSchemaTableModel getTableModel() {
 
         return null;
-
     }
 
     @Override
     public ITarget[] getTargets() {
 
         return this.targets;
-
     }
 
     @Override
@@ -54,14 +50,12 @@ public class ProjectCatalog implements IListableCatalog {
         // Currently only used by search function, which doesn't exist for
         // ProjectCatalogs
         return null;
-
     }
 
     @Override
     public String getName() {
 
         return this.name;
-
     }
 
     @Override
@@ -70,7 +64,6 @@ public class ProjectCatalog implements IListableCatalog {
         // Not implemented
         // There is no search in ProjectCatalogs
         return null;
-
     }
 
     @Override
@@ -92,7 +85,6 @@ public class ProjectCatalog implements IListableCatalog {
         }
 
         return null;
-
     }
 
     private String[] createCatalogIndex() {
@@ -103,7 +95,5 @@ public class ProjectCatalog implements IListableCatalog {
         }
 
         return result;
-
     }
-
 }

@@ -1,12 +1,10 @@
 package de.lehmannet.om.ui.extension.variableStars.catalog.test;
 
-import java.io.File;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
+import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class GCVS4CatalogTester {
 
@@ -18,7 +16,5 @@ class GCVS4CatalogTester {
         ITarget target = cat.getTarget("SU Tau");
 
         LOGGER.debug("target: {}", target);
-
     }
-
 }

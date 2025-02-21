@@ -1,8 +1,7 @@
 package de.lehmannet.om.ui.i18n;
 
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import java.util.ResourceBundle;
 
 // import javax.swing.JComponent;
 
@@ -16,7 +15,6 @@ public class TextManagerImpl implements TextManager {
         this.resource = resource;
         this.isoLanguage = isoLanguage.trim();
         this.bundle = LocaleToolsFactory.appInstance().getBundle(resource, isoLanguage);
-
     }
 
     @Override
@@ -40,7 +38,5 @@ public class TextManagerImpl implements TextManager {
             this.isoLanguage = newIsoKey.trim();
             this.bundle = LocaleToolsFactory.appInstance().getBundle(resource, newIsoKey);
         }
-
     }
-
 }

@@ -24,11 +24,8 @@ public class CalendarComparator implements Comparator<Calendar> {
             } else if (c1.after(c2)) {
                 return 1;
             }
-
         }
 
         return 0;
-
     }
-
 }

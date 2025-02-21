@@ -17,8 +17,8 @@ public class SessionDialog extends AbstractDialog {
 
     private static final long serialVersionUID = 3246978868012633237L;
 
-    public SessionDialog(ObservationManager om, ObservationManagerModel model, ISession editableSession,
-            UIDataCache uiCache) {
+    public SessionDialog(
+            ObservationManager om, ObservationManagerModel model, ISession editableSession, UIDataCache uiCache) {
 
         super(om, model, om.getUiHelper(), new SessionPanel(om, model, editableSession, true, uiCache));
 
@@ -32,7 +32,6 @@ public class SessionDialog extends AbstractDialog {
         this.setSize(SessionDialog.serialVersionUID, 1090, 610);
         this.setLocationRelativeTo(om);
         this.setVisible(true);
-
     }
 
     public ISession getSession() {
@@ -42,7 +41,5 @@ public class SessionDialog extends AbstractDialog {
         }
 
         return null;
-
     }
-
 }

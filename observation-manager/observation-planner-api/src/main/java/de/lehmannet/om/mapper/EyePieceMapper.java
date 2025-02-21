@@ -1,16 +1,15 @@
 package de.lehmannet.om.mapper;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class EyePieceMapper {
 
@@ -127,7 +126,6 @@ public class EyePieceMapper {
             focalLength = child.getFirstChild().getNodeValue();
         }
         return FloatUtil.parseFloat(focalLength);
-
     }
 
     public static String getMandatoryModel(Element eyepieceElement) throws SchemaException {
@@ -156,5 +154,4 @@ public class EyePieceMapper {
         }
         return "";
     }
-
 }

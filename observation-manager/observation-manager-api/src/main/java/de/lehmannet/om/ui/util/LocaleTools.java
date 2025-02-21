@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -16,7 +15,6 @@ public class LocaleTools {
 
     private LocaleTools() {
         bundles = new ConcurrentHashMap<>();
-
     }
 
     public final ResourceBundle getBundle(String resource, String isoKey) {
@@ -26,7 +24,6 @@ public class LocaleTools {
         }
         final Locale locale = new Locale.Builder().setLanguage(isoKey).build();
         return getBundle(resource, locale);
-
     }
 
     public final ResourceBundle getBundle(String resource, Locale locale) {
@@ -55,7 +52,6 @@ public class LocaleTools {
             bundles.put(key, bundle);
             return bundle;
         }
-
     }
 
     private ResourceBundle readBundle(String resource, Locale locale) {
@@ -73,10 +69,8 @@ public class LocaleTools {
                 } catch (final MissingResourceException mre2) {
                     return ResourceBundle.getBundle("ObservationManager", Locale.ENGLISH);
                 }
-
             }
         }
-
     }
 
     public static class Builder {
@@ -84,7 +78,5 @@ public class LocaleTools {
         public LocaleTools build() {
             return new LocaleTools();
         }
-
     }
-
 }

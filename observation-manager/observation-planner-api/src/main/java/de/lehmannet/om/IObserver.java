@@ -9,7 +9,6 @@ package de.lehmannet.om;
 
 import java.util.List;
 import java.util.Map;
-
 import org.w3c.dom.Element;
 
 /**
@@ -147,8 +146,8 @@ public interface IObserver extends ISchemaElement {
      * @see org.w3c.dom.Element
      * @since 2.0
      */
-    org.w3c.dom.Element addAsLinkToXmlElement(org.w3c.dom.Element parent, String NameOfLinkElement,
-            boolean addElementToContainer);
+    org.w3c.dom.Element addAsLinkToXmlElement(
+            org.w3c.dom.Element parent, String NameOfLinkElement, boolean addElementToContainer);
 
     /**
      * Adds the observer link to an given XML DOM Element The observer element itself will <b>NOT</b> be attached to
@@ -338,5 +337,4 @@ public interface IObserver extends ISchemaElement {
      * @since 2.0
      */
     float getFSTOffset();
-
 }

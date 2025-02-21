@@ -1,14 +1,5 @@
 package de.lehmannet.om.ui.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -21,6 +12,14 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ITargetContaining;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class CacheEntry {
 
@@ -48,12 +47,19 @@ class CacheEntry {
     // TargetStar C
     private List<SchemaElementCacheEntry<ITarget>> targetContaining = new ArrayList<>();
 
-    public CacheEntry() {
+    public CacheEntry() {}
 
-    }
-
-    public CacheEntry(String xmlPath, IObservation[] observation, IEyepiece[] eyepiece, IFilter[] filter,
-            IImager[] imager, IObserver[] observer, IScope[] scope, ISession[] session, ISite[] site, ITarget[] target,
+    public CacheEntry(
+            String xmlPath,
+            IObservation[] observation,
+            IEyepiece[] eyepiece,
+            IFilter[] filter,
+            IImager[] imager,
+            IObserver[] observer,
+            IScope[] scope,
+            ISession[] session,
+            ISite[] site,
+            ITarget[] target,
             ILens[] lens) {
 
         this.xmlPath = xmlPath;
@@ -69,7 +75,6 @@ class CacheEntry {
         addTargetsToCache(target);
         addLensesToCache(lens);
         assignObservationsToCacheElements();
-
     }
 
     private void assignObservationsToCacheElements() {
@@ -92,7 +97,6 @@ class CacheEntry {
                 this.targetContaining.add(entry);
             }
         }
-
     }
 
     private SchemaElementCacheEntry<ITarget> addReferencedElements(ITarget[] target, ITarget current) {
@@ -139,7 +143,6 @@ class CacheEntry {
             this.observer.add(new SchemaElementCacheEntry<IObserver>(observer[i]));
             this.coObserver.add(new SchemaElementCacheEntry<IObserver>(observer[i]));
         }
-
     }
 
     private void addImagerToCache(IImager[] imager) {
@@ -182,7 +185,6 @@ class CacheEntry {
     public String getXmlPath() {
 
         return this.xmlPath;
-
     }
 
     public List<ISchemaElement> getReferedElements(ISchemaElement element) {
@@ -250,101 +252,96 @@ class CacheEntry {
         }
 
         return null;
-
     }
 
     public List<ISchemaElement> getReferencedObservationsForCoObserver(IObserver coObserver) {
 
         for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) {
             if (schemaElementCacheEntry.getSchemaElement().equals(coObserver)) {
-                List<ISchemaElement> re = new ArrayList<ISchemaElement>(
-                        schemaElementCacheEntry.getReferencedElements());
+                List<ISchemaElement> re =
+                        new ArrayList<ISchemaElement>(schemaElementCacheEntry.getReferencedElements());
                 re.removeIf(o -> o instanceof ISession);
                 return re;
             }
         }
 
         return null;
-
     }
 
     public IObservation[] getObservations() {
 
-        List<IObservation> set = this.observation.stream().map(entry -> entry.getSchemaElement())
-                .collect(Collectors.toList());
+        List<IObservation> set =
+                this.observation.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IObservation[set.size()]);
-
     }
 
     public IEyepiece[] getEyepieces() {
-        List<IEyepiece> set = this.eyepiece.stream().map(entry -> entry.getSchemaElement())
-                .collect(Collectors.toList());
+        List<IEyepiece> set =
+                this.eyepiece.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IEyepiece[set.size()]);
-
     }
 
     public IImager[] getImagers() {
 
-        List<IImager> set = this.imager.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<IImager> set =
+                this.imager.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IImager[set.size()]);
-
     }
 
     public IFilter[] getFilters() {
 
-        List<IFilter> set = this.filter.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<IFilter> set =
+                this.filter.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IFilter[set.size()]);
     }
 
     public IObserver[] getObservers() {
 
-        List<IObserver> set = this.observer.stream().map(entry -> entry.getSchemaElement())
-                .collect(Collectors.toList());
+        List<IObserver> set =
+                this.observer.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IObserver[set.size()]);
-
     }
 
     public IObserver[] getCoObservers() {
 
-        List<IObserver> set = this.coObserver.stream().map(entry -> entry.getSchemaElement())
-                .collect(Collectors.toList());
+        List<IObserver> set =
+                this.coObserver.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IObserver[set.size()]);
-
     }
 
     public IScope[] getScopes() {
 
-        List<IScope> set = this.scope.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<IScope> set =
+                this.scope.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new IScope[set.size()]);
-
     }
 
     public ISession[] getSessions() {
 
-        List<ISession> set = this.session.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<ISession> set =
+                this.session.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new ISession[set.size()]);
-
     }
 
     public ISite[] getSites() {
 
-        List<ISite> set = this.site.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<ISite> set =
+                this.site.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new ISite[set.size()]);
-
     }
 
     public ITarget[] getTargets() {
 
-        List<ITarget> set = this.target.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<ITarget> set =
+                this.target.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new ITarget[set.size()]);
-
     }
 
     public ILens[] getLenses() {
 
-        List<ILens> set = this.lens.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
+        List<ILens> set =
+                this.lens.stream().map(entry -> entry.getSchemaElement()).collect(Collectors.toList());
         return set.toArray(new ILens[set.size()]);
-
     }
 
     public void addEyepiece(IEyepiece eyepiece) {
@@ -357,14 +354,12 @@ class CacheEntry {
 
         SchemaElementCacheEntry<IImager> entry = new SchemaElementCacheEntry<IImager>(imager);
         this.imager.add(entry);
-
     }
 
     public void addFilter(IFilter filter) {
 
         SchemaElementCacheEntry<IFilter> entry = new SchemaElementCacheEntry<IFilter>(filter);
         this.filter.add(entry);
-
     }
 
     public void addObservation(IObservation observation) {
@@ -373,7 +368,6 @@ class CacheEntry {
         this.observation.add(entry);
         // Add observation to other schemaElements
         this.addAllObservationElements(entry);
-
     }
 
     public void addObserver(IObserver observer) {
@@ -383,27 +377,23 @@ class CacheEntry {
 
         SchemaElementCacheEntry<IObserver> entry2 = new SchemaElementCacheEntry<IObserver>(observer);
         this.coObserver.add(entry2);
-
     }
 
     public void addScope(IScope scope) {
 
         SchemaElementCacheEntry<IScope> entry = new SchemaElementCacheEntry<IScope>(scope);
         this.scope.add(entry);
-
     }
 
     public void addSession(ISession session) {
         SchemaElementCacheEntry<ISession> entry = new SchemaElementCacheEntry<ISession>(session);
         this.session.add(entry);
-
     }
 
     public void addSite(ISite site) {
 
         SchemaElementCacheEntry<ISite> entry = new SchemaElementCacheEntry<ISite>(site);
         this.site.add(entry);
-
     }
 
     public void addTarget(ITarget target) {
@@ -414,7 +404,6 @@ class CacheEntry {
         if (added) { // Add target to targetContaining
             addToTargetContaining(target);
         }
-
     }
 
     private void addToTargetContaining(ITarget target) {
@@ -428,7 +417,6 @@ class CacheEntry {
 
         SchemaElementCacheEntry<ILens> entry = new SchemaElementCacheEntry<ILens>(lens);
         this.lens.add(entry);
-
     }
 
     public void updateObservation(IObservation observation) {
@@ -493,7 +481,7 @@ class CacheEntry {
                         schemaElementCacheEntry.removeReferencedElement(observation);
                     }
                     if (schemaElementCacheEntry.getSchemaElement().equals(observation.getImager())) { // Add new cache
-                                                                                                      // reference
+                        // reference
                         schemaElementCacheEntry.addReferencedElement(observation);
                     }
                 }
@@ -507,7 +495,7 @@ class CacheEntry {
                         schemaElementCacheEntry.removeReferencedElement(observation);
                     }
                     if (schemaElementCacheEntry.getSchemaElement().equals(observation.getFilter())) { // Add new cache
-                                                                                                      // reference
+                        // reference
                         schemaElementCacheEntry.addReferencedElement(observation);
                     }
                 }
@@ -521,7 +509,7 @@ class CacheEntry {
                         schemaElementCacheEntry.removeReferencedElement(observation);
                     }
                     if (schemaElementCacheEntry.getSchemaElement().equals(observation.getScope())) { // Add new cache
-                                                                                                     // reference
+                        // reference
                         schemaElementCacheEntry.addReferencedElement(observation);
                     }
                 }
@@ -544,10 +532,13 @@ class CacheEntry {
                             IObserver currentObserver = null;
                             while (listIterator.hasNext()) { // Iterate over all coObservers
                                 currentObserver = listIterator.next();
-                                for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) { // Iterate
+                                for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry :
+                                        this.coObserver) { // Iterate
                                     // over all
                                     // coObservers
-                                    if (schemaElementCacheEntry.getSchemaElement().equals(currentObserver)) {
+                                    if (schemaElementCacheEntry
+                                            .getSchemaElement()
+                                            .equals(currentObserver)) {
                                         // Add Observation to coObservers refered elements
                                         schemaElementCacheEntry.removeReferencedElement(observation);
 
@@ -556,7 +547,6 @@ class CacheEntry {
                                 }
                             }
                         }
-
                     }
                     if (elementCacheEntry.getSchemaElement().equals(observation.getSession())) { // Add new cache
                         // reference
@@ -567,15 +557,19 @@ class CacheEntry {
                         // Add new coObserver references
                         if ((observation.getSession().getCoObservers() != null)
                                 && !(observation.getSession().getCoObservers().isEmpty())) {
-                            List<IObserver> coObservers = observation.getSession().getCoObservers();
+                            List<IObserver> coObservers =
+                                    observation.getSession().getCoObservers();
                             ListIterator<IObserver> listIterator = coObservers.listIterator();
                             IObserver currentObserver = null;
                             while (listIterator.hasNext()) { // Iterate over all coObservers
                                 currentObserver = listIterator.next();
-                                for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) { // Iterate
+                                for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry :
+                                        this.coObserver) { // Iterate
                                     // over all
                                     // coObservers
-                                    if (schemaElementCacheEntry.getSchemaElement().equals(currentObserver)) {
+                                    if (schemaElementCacheEntry
+                                            .getSchemaElement()
+                                            .equals(currentObserver)) {
                                         // Add Observation to coObservers refered elements
                                         schemaElementCacheEntry.addReferencedElement(observation);
                                         // Also include a reference to the session, as we need this in case
@@ -588,7 +582,6 @@ class CacheEntry {
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -615,7 +608,7 @@ class CacheEntry {
                         schemaElementCacheEntry.removeReferencedElement(observation);
                     }
                     if (schemaElementCacheEntry.getSchemaElement().equals(observation.getSite())) { // Add new cache
-                                                                                                    // reference
+                        // reference
                         schemaElementCacheEntry.addReferencedElement(observation);
                     }
                 }
@@ -638,8 +631,10 @@ class CacheEntry {
                             while (listIterator.hasNext()) {
                                 ct = listIterator.next();
                                 for (SchemaElementCacheEntry<ITarget> schemaElementCacheEntry : this.target) {
-                                    if (schemaElementCacheEntry.getSchemaElement().equals(ct)) { // Found a depending
-                                                                                                 // target
+                                    if (schemaElementCacheEntry
+                                            .getSchemaElement()
+                                            .equals(ct)) { // Found a depending
+                                        // target
                                         schemaElementCacheEntry.removeReferencedElement(observation);
                                     }
                                 }
@@ -647,7 +642,7 @@ class CacheEntry {
                         }
                     }
                     if (elementCacheEntry.getSchemaElement().equals(observation.getTarget())) { // Add new cache
-                                                                                                // reference
+                        // reference
                         elementCacheEntry.addReferencedElement(observation);
 
                         // If the current target is a TargetContaining target, we need to add also
@@ -660,8 +655,10 @@ class CacheEntry {
                             while (listIterator.hasNext()) {
                                 ct = listIterator.next();
                                 for (SchemaElementCacheEntry<ITarget> schemaElementCacheEntry : this.target) {
-                                    if (schemaElementCacheEntry.getSchemaElement().equals(ct)) { // Found a depending
-                                                                                                 // target
+                                    if (schemaElementCacheEntry
+                                            .getSchemaElement()
+                                            .equals(ct)) { // Found a depending
+                                        // target
                                         schemaElementCacheEntry.addReferencedElement(observation);
                                     }
                                 }
@@ -682,7 +679,6 @@ class CacheEntry {
                         len.addReferencedElement(observation);
                     }
                 }
-
             }
         }
 
@@ -710,7 +706,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<IEyepiece> schemaElementCacheEntry : this.eyepiece) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getEyepiece())) { // Add new cache
-                                                                                                    // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -722,7 +718,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<IImager> schemaElementCacheEntry : this.imager) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getImager())) { // Add new cache
-                                                                                                  // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -734,7 +730,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<IFilter> schemaElementCacheEntry : this.filter) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getFilter())) { // Add new cache
-                                                                                                  // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -746,7 +742,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.observer) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getObserver())) { // Add new cache
-                                                                                                    // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -758,7 +754,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<IScope> schemaElementCacheEntry : this.scope) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getScope())) { // Add new cache
-                                                                                                 // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -780,8 +776,9 @@ class CacheEntry {
                         IObserver currentObserver = null;
                         while (listIterator.hasNext()) { // Iterate over all coObservers
                             currentObserver = listIterator.next();
-                            for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) { // Iterate
-                                                                                                                 // over
+                            for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry :
+                                    this.coObserver) { // Iterate
+                                // over
                                 // all coObservers
                                 if (schemaElementCacheEntry.getSchemaElement().equals(currentObserver)) {
                                     // Add Observation to coObservers refered elements
@@ -792,7 +789,6 @@ class CacheEntry {
                             }
                         }
                     }
-
                 }
             }
         }
@@ -803,7 +799,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<ISite> schemaElementCacheEntry : this.site) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getSite())) { // Add new cache
-                                                                                                // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -815,7 +811,7 @@ class CacheEntry {
             // Update element cache entry to observation
             for (SchemaElementCacheEntry<ITarget> schemaElementCacheEntry : this.target) {
                 if (schemaElementCacheEntry.getSchemaElement().equals(observation.getTarget())) { // Add new cache
-                                                                                                  // reference
+                    // reference
                     schemaElementCacheEntry.addReferencedElement(observation);
                 }
             }
@@ -831,7 +827,6 @@ class CacheEntry {
                 }
             }
         }
-
     }
 
     public void updateSession(IObservation[] observations, ISession session) {
@@ -841,18 +836,19 @@ class CacheEntry {
         ISchemaElement currentSE = null;
         List<ISchemaElement> removeList = new ArrayList<>();
         for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) { // Iterator over all
-                                                                                             // coObservers
+            // coObservers
 
             // -------- First remove old coObservers
 
             oldReferedElements = schemaElementCacheEntry.getReferencedElements(); // Iterate over all referenced
-                                                                                  // sessions
+            // sessions
             oldReferedElementsIterator = oldReferedElements.listIterator();
             while (oldReferedElementsIterator.hasNext()) {
                 currentSE = oldReferedElementsIterator.next();
                 if (currentSE instanceof ISession) {
                     if (session.getID().equals(currentSE.getID())) { // Is referenced session the searched session?
-                        if (!session.getCoObservers().contains(schemaElementCacheEntry.getSchemaElement())) { // coObserver
+                        if (!session.getCoObservers()
+                                .contains(schemaElementCacheEntry.getSchemaElement())) { // coObserver
                             // no longer
                             // part of
                             // session
@@ -877,7 +873,7 @@ class CacheEntry {
                     // session's
                     // list
                     && !(schemaElementCacheEntry.getReferencedElements().contains(session)) // but we are not in the
-                                                                                            // cached
+            // cached
             // list of the
             // observer
             ) { // => we must be added
@@ -887,13 +883,11 @@ class CacheEntry {
                 // Add session
                 schemaElementCacheEntry.addReferencedElement(session);
             }
-
         }
 
         for (IObservation observation : observations) {
             updateObservation(observation);
         }
-
     }
 
     public void updateTarget(ITarget target) {
@@ -974,15 +968,17 @@ class CacheEntry {
                 }
             }
         }
-
     }
 
     public List<ISchemaElement> removeEyepiece(IEyepiece eyepiece) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            IEyepiece element = o.getSchemaElement().getEyepiece();
-            return element != null && element.equals(eyepiece);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    IEyepiece element = o.getSchemaElement().getEyepiece();
+                    return element != null && element.equals(eyepiece);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<IEyepiece> observationEntry = new SchemaElementCacheEntry<IEyepiece>(eyepiece);
         boolean foundElement = this.eyepiece.remove(observationEntry);
@@ -992,15 +988,17 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeImager(IImager imager) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            IImager element = o.getSchemaElement().getImager();
-            return element != null && element.equals(imager);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    IImager element = o.getSchemaElement().getImager();
+                    return element != null && element.equals(imager);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<IImager> entry = new SchemaElementCacheEntry<IImager>(imager);
         boolean foundElement = this.imager.remove(entry);
@@ -1010,15 +1008,17 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeFilter(IFilter filter) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            IFilter element = o.getSchemaElement().getFilter();
-            return element != null && element.equals(filter);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    IFilter element = o.getSchemaElement().getFilter();
+                    return element != null && element.equals(filter);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<IFilter> entry = new SchemaElementCacheEntry<IFilter>(filter);
         boolean foundElement = this.filter.remove(entry);
@@ -1028,7 +1028,6 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeObservation(IObservation observation) {
@@ -1102,14 +1101,15 @@ class CacheEntry {
         if (session != null) {
             for (SchemaElementCacheEntry<ISession> entrySession : this.session) {
                 // Remove coObservers (if available)
-                if ((session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())) {
+                if ((session.getCoObservers() != null)
+                        && !(session.getCoObservers().isEmpty())) {
                     List<IObserver> coObservers = session.getCoObservers();
                     ListIterator<IObserver> iterator = coObservers.listIterator();
                     IObserver current = null;
                     while (iterator.hasNext()) { // Iterate over all coObservers
                         current = iterator.next();
                         for (SchemaElementCacheEntry<IObserver> coobsever : this.coObserver) { // Iterate over all
-                                                                                               // coObservers
+                            // coObservers
                             if (coobsever.getSchemaElement().equals(current)) {
                                 // Remove Observation from coObservers refered elements
                                 coobsever.removeReferencedElement(observation);
@@ -1180,20 +1180,25 @@ class CacheEntry {
 
         // An observation doesn't have any dependencies, so always return empty list
         return new ArrayList<ISchemaElement>();
-
     }
 
     public List<ISchemaElement> removeObserver(IObserver observer) {
 
-        List<IObservation> dependenciesObservation = this.observation.stream().filter(o -> {
-            IObserver element = o.getSchemaElement().getObserver();
-            return element != null && element.equals(observer);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<IObservation> dependenciesObservation = this.observation.stream()
+                .filter(o -> {
+                    IObserver element = o.getSchemaElement().getObserver();
+                    return element != null && element.equals(observer);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
-        List<ISession> dependenciesSession = this.session.stream().filter(o -> {
-            List<IObserver> element = o.getSchemaElement().getCoObservers();
-            return element != null && element.contains(observer);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISession> dependenciesSession = this.session.stream()
+                .filter(o -> {
+                    List<IObserver> element = o.getSchemaElement().getCoObservers();
+                    return element != null && element.contains(observer);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<IObserver> entry = new SchemaElementCacheEntry<IObserver>(observer);
         boolean foundElement = this.observer.remove(entry) || this.coObserver.remove(entry);
@@ -1207,15 +1212,17 @@ class CacheEntry {
         dependencies.addAll(dependenciesSession);
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeScope(IScope scope) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            IScope element = o.getSchemaElement().getScope();
-            return element != null && element.equals(scope);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    IScope element = o.getSchemaElement().getScope();
+                    return element != null && element.equals(scope);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<IScope> entry = new SchemaElementCacheEntry<IScope>(scope);
         boolean foundElement = this.scope.remove(entry);
@@ -1225,15 +1232,17 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeSession(ISession session) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            ISession element = o.getSchemaElement().getSession();
-            return element != null && element.equals(session);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    ISession element = o.getSchemaElement().getSession();
+                    return element != null && element.equals(session);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<ISession> entry = new SchemaElementCacheEntry<ISession>(session);
         boolean foundElement = this.session.remove(entry);
@@ -1243,20 +1252,25 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeSite(ISite site) {
 
-        List<IObservation> dependenciesObservation = this.observation.stream().filter(o -> {
-            ISite element = o.getSchemaElement().getSite();
-            return element != null && element.equals(site);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<IObservation> dependenciesObservation = this.observation.stream()
+                .filter(o -> {
+                    ISite element = o.getSchemaElement().getSite();
+                    return element != null && element.equals(site);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
-        List<ISession> dependenciesSession = this.session.stream().filter(o -> {
-            ISite element = o.getSchemaElement().getSite();
-            return element != null && element.equals(site);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISession> dependenciesSession = this.session.stream()
+                .filter(o -> {
+                    ISite element = o.getSchemaElement().getSite();
+                    return element != null && element.equals(site);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<ISite> entry = new SchemaElementCacheEntry<ISite>(site);
         boolean foundElement = this.site.remove(entry);
@@ -1270,21 +1284,28 @@ class CacheEntry {
         dependencies.addAll(dependenciesSession);
 
         return dependencies;
-
     }
 
     public List<ISchemaElement> removeTarget(ITarget target) {
 
-        List<ISchemaElement> dependenciesTarget = this.observation.stream().filter(o -> {
-            ITarget element = o.getSchemaElement().getTarget();
-            return element != null && element.equals(target);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependenciesTarget = this.observation.stream()
+                .filter(o -> {
+                    ITarget element = o.getSchemaElement().getTarget();
+                    return element != null && element.equals(target);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
-        List<ISchemaElement> dependenciesTargetContaining = this.observation.stream().filter(o -> {
-            ITarget element = o.getSchemaElement().getTarget();
-            return element != null && !element.equals(target);
-        }).map(a -> a.getSchemaElement()).filter(a -> a instanceof ITargetContaining)
-                .filter(a -> ((ITargetContaining) a).getComponentTargets(this.getTargets()).contains(target))
+        List<ISchemaElement> dependenciesTargetContaining = this.observation.stream()
+                .filter(o -> {
+                    ITarget element = o.getSchemaElement().getTarget();
+                    return element != null && !element.equals(target);
+                })
+                .map(a -> a.getSchemaElement())
+                .filter(a -> a instanceof ITargetContaining)
+                .filter(a -> ((ITargetContaining) a)
+                        .getComponentTargets(this.getTargets())
+                        .contains(target))
                 .collect(Collectors.toList());
 
         SchemaElementCacheEntry<ITarget> entry = new SchemaElementCacheEntry<ITarget>(target);
@@ -1317,10 +1338,13 @@ class CacheEntry {
 
     public List<ISchemaElement> removeLens(ILens lens) {
 
-        List<ISchemaElement> dependencies = this.observation.stream().filter(o -> {
-            ILens element = o.getSchemaElement().getLens();
-            return element != null && element.equals(lens);
-        }).map(a -> a.getSchemaElement()).collect(Collectors.toList());
+        List<ISchemaElement> dependencies = this.observation.stream()
+                .filter(o -> {
+                    ILens element = o.getSchemaElement().getLens();
+                    return element != null && element.equals(lens);
+                })
+                .map(a -> a.getSchemaElement())
+                .collect(Collectors.toList());
 
         SchemaElementCacheEntry<ILens> entry = new SchemaElementCacheEntry<ILens>(lens);
         boolean foundElement = this.lens.remove(entry);
@@ -1330,13 +1354,11 @@ class CacheEntry {
         }
 
         return dependencies;
-
     }
 
     public void setXMLPath(String path) {
 
         this.xmlPath = path;
-
     }
 
     private void addAllObservationElements(SchemaElementCacheEntry<IObservation> observationCacheEntry) {
@@ -1436,8 +1458,9 @@ class CacheEntry {
                         IObserver current = null;
                         while (iterator.hasNext()) { // Iterate over all coObservers
                             current = iterator.next();
-                            for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry : this.coObserver) { // Iterate
-                                                                                                                 // over
+                            for (SchemaElementCacheEntry<IObserver> schemaElementCacheEntry :
+                                    this.coObserver) { // Iterate
+                                // over
                                 // all coObservers
                                 if (schemaElementCacheEntry.getSchemaElement().equals(current)) {
                                     // Add Observation to coObservers refered elements
@@ -1532,7 +1555,5 @@ class CacheEntry {
                 }
             }
         }
-
     }
-
 }

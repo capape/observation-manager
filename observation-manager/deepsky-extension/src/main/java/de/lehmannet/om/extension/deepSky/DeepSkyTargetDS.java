@@ -7,14 +7,13 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.Angle;
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.Angle;
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetDS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -116,7 +115,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetDS can only have one separation value. ");
         }
-
     }
 
     /**
@@ -130,7 +128,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public DeepSkyTargetDS(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -144,7 +141,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public DeepSkyTargetDS(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -197,7 +193,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_MagComp);
         }
-
     }
 
     // ------------------------
@@ -216,7 +211,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetDS.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -232,7 +226,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public int getPositionAngle() {
 
         return this.positionAngle;
-
     }
 
     /**
@@ -245,7 +238,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public Angle getSeparation() {
 
         return this.separation;
-
     }
 
     /**
@@ -257,7 +249,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public double getCompanionMag() {
 
         return this.magComp;
-
     }
 
     /**
@@ -269,7 +260,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
     public void setCompanionMag(double newMagnitude) {
 
         this.magComp = newMagnitude;
-
     }
 
     /**
@@ -287,7 +277,6 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
         }
 
         this.positionAngle = newPosAngle;
-
     }
 
     /**
@@ -313,7 +302,5 @@ public class DeepSkyTargetDS extends DeepSkyTarget {
         }
 
         this.separation = copy;
-
     }
-
 }

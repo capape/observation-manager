@@ -7,14 +7,12 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.time.OffsetDateTime;
-import java.util.Iterator;
-
-import org.apache.commons.lang3.StringUtils;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.Site;
+import java.time.OffsetDateTime;
+import java.util.Iterator;
+import org.apache.commons.lang3.StringUtils;
 
 public class SessionTableModel extends AbstractSchemaTableModel {
 
@@ -22,26 +20,24 @@ public class SessionTableModel extends AbstractSchemaTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Session";
 
     public SessionTableModel(ISession[] session) {
 
         this.elements = session;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 7;
-
     }
 
     @Override
     public String getID() {
 
         return SessionTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -51,7 +47,6 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -79,7 +74,6 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -125,7 +119,6 @@ public class SessionTableModel extends AbstractSchemaTableModel {
             default:
                 return StringUtils.EMPTY;
         }
-
     }
 
     @Override
@@ -165,7 +158,5 @@ public class SessionTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

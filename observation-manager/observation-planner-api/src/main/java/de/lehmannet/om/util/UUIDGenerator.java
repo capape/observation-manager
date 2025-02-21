@@ -28,7 +28,6 @@ public class UUIDGenerator implements IIDGenerator {
         // This will cause the ClassNotFoundException in case the UUID class cannot be
         // found (VM Version < 1.5)
         ClassLoader.getSystemClassLoader().loadClass("java.util.UUID");
-
     }
 
     // ------------
@@ -54,7 +53,5 @@ public class UUIDGenerator implements IIDGenerator {
         // As XML Schema requires an ID not to start with a number,
         // we put a 'OM' before each ID
         return "OM" + uid;
-
     }
-
 }

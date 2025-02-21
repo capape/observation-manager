@@ -1,14 +1,12 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
+import de.lehmannet.om.IObserver;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.swing.table.AbstractTableModel;
-
-import de.lehmannet.om.IObserver;
 
 public class ObserverColorTableModel extends AbstractTableModel {
 
@@ -17,8 +15,8 @@ public class ObserverColorTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = 1L;
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private IObserver[] observers = null;
     private Color[] colors = null;
@@ -30,21 +28,18 @@ public class ObserverColorTableModel extends AbstractTableModel {
 
         // The first observer (default observer) gets automatically a Color assigned
         this.colors[0] = defaultColor;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
     public int getRowCount() {
 
         return this.observers.length;
-
     }
 
     @Override
@@ -60,7 +55,6 @@ public class ObserverColorTableModel extends AbstractTableModel {
         }
 
         return "";
-
     }
 
     @Override
@@ -77,7 +71,6 @@ public class ObserverColorTableModel extends AbstractTableModel {
         }
 
         fireTableCellUpdated(row, col);
-
     }
 
     @Override
@@ -97,7 +90,6 @@ public class ObserverColorTableModel extends AbstractTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -117,14 +109,12 @@ public class ObserverColorTableModel extends AbstractTableModel {
         }
 
         return name;
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
         return columnIndex == 1;
-
     }
 
     public Map<IObserver, Color> getResult() {
@@ -143,7 +133,5 @@ public class ObserverColorTableModel extends AbstractTableModel {
         }
 
         return map;
-
     }
-
 }

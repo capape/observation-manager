@@ -1,18 +1,15 @@
 package de.lehmannet.om.ui.util;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserInterfaceHelperImpl implements UserInterfaceHelper {
 
@@ -23,34 +20,29 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
     public UserInterfaceHelperImpl(ObservationManager parent, TextManager textManager) {
         this.parent = parent;
         this.textManager = textManager;
-
     }
 
     @Override
     public void showInfo(String message) {
-        JOptionPane.showMessageDialog(parent, message, this.textManager.getString("title.info"),
-                JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                parent, message, this.textManager.getString("title.info"), JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void showWarning(String message) {
-        JOptionPane.showMessageDialog(parent, message, this.textManager.getString("title.warning"),
-                JOptionPane.WARNING_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                parent, message, this.textManager.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
     }
 
     @Override
     public void showError(String message) {
-        JOptionPane.showMessageDialog(parent, message, this.textManager.getString("title.error"),
-                JOptionPane.ERROR_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                parent, message, this.textManager.getString("title.error"), JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void createProgressDialog(String title, String messageInfo, Worker task) {
         new ProgressDialog(parent, title, messageInfo, task);
-
     }
 
     @Override
@@ -88,7 +80,6 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
             Thread waitThread = new Thread(wait, "WaitPopup");
             waitThread.start();
             this.setVisible(true);
-
         }
 
         private void waitForCatalogLoaders() {
@@ -104,7 +95,6 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
                 }
             }
             this.dispose();
-
         }
     }
 
@@ -113,5 +103,4 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
 
         this.parent.refreshUI();
     }
-
 }

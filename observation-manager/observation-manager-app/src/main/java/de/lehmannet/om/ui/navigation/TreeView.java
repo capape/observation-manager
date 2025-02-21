@@ -7,36 +7,6 @@
 
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreePath;
-
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -54,6 +24,34 @@ import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
 
 public class TreeView extends JPanel implements TreeSelectionListener {
 
@@ -90,8 +88,12 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private final TextManager textManager;
     private final UIDataCache cache;
 
-    public TreeView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
-            ImageResolver resolver, UIDataCache cache) {
+    public TreeView(
+            ObservationManager om,
+            ObservationManagerModel omModel,
+            TextManager textManager,
+            ImageResolver resolver,
+            UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
@@ -137,8 +139,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                     int y = e.getY();
 
                     // Convert coordinates
-                    MouseEvent c = SwingUtilities.convertMouseEvent(TreeView.this.tree, e,
-                            TreeView.this.observationManager);
+                    MouseEvent c =
+                            SwingUtilities.convertMouseEvent(TreeView.this.tree, e, TreeView.this.observationManager);
                     Point p = new Point(c.getX(), c.getY());
 
                     int selRow = tree.getRowForLocation(x, y);
@@ -150,13 +152,25 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
                             if (node instanceof SchemaElementMutableTreeNode) {
                                 ISchemaElement element = ((SchemaElementMutableTreeNode) node).getSchemaElement();
-                                byte options = (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
-                                        + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
-                                        + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS);
-                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
-                                        TreeView.this.textManager, element, p.x, p.y, options,
+                                byte options = (byte) (PopupMenuHandler.EDIT
+                                        + PopupMenuHandler.CREATE_HTML
+                                        + PopupMenuHandler.CREATE_XML
+                                        + PopupMenuHandler.DELETE
+                                        + PopupMenuHandler.CREATE_NEW_OBSERVATION
+                                        + PopupMenuHandler.EXTENSIONS);
+                                new PopupMenuHandler(
+                                        TreeView.this.observationManager,
+                                        TreeView.this.model,
+                                        TreeView.this.textManager,
+                                        element,
+                                        p.x,
+                                        p.y,
+                                        options,
                                         SchemaElementConstants.NONE,
-                                        TreeView.this.observationManager.getExtensionLoader().getPopupMenus(),
+                                        TreeView.this
+                                                .observationManager
+                                                .getExtensionLoader()
+                                                .getPopupMenus(),
                                         TreeView.this.cache);
                             } else if (node instanceof DefaultMutableTreeNode) {
                                 SchemaElementConstants type = SchemaElementConstants.NONE;
@@ -184,8 +198,16 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                     type = SchemaElementConstants.LENS;
                                 }
 
-                                new PopupMenuHandler(TreeView.this.observationManager, TreeView.this.model,
-                                        TreeView.this.textManager, null, p.x, p.y, PopupMenuHandler.CREATE, type, null,
+                                new PopupMenuHandler(
+                                        TreeView.this.observationManager,
+                                        TreeView.this.model,
+                                        TreeView.this.textManager,
+                                        null,
+                                        p.x,
+                                        p.y,
+                                        PopupMenuHandler.CREATE,
+                                        type,
+                                        null,
                                         TreeView.this.cache);
                             }
                         }
@@ -198,7 +220,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         this.setLayout(new BorderLayout());
         this.scrollTree = new JScrollPane(this.tree);
         this.add(this.scrollTree);
-
     }
 
     // ---------------------
@@ -230,7 +251,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                 node = node.getFirstLeaf();
                 this.tree.setSelectionPath(new TreePath(node.getPath()));
             }
-
         }
 
         if ((node instanceof SchemaElementMutableTreeNode)) {
@@ -251,7 +271,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
             SchemaElementMutableTreeNode lastSelected = (SchemaElementMutableTreeNode) node;
         }
-
     }
 
     // --------------
@@ -279,7 +298,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         // this.tree.updateUI();
         // Try this
         EventQueue.invokeLater(() -> tree.updateUI());
-
     }
 
     // ParentElement can be null
@@ -296,8 +314,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                 for (int i = 0; i < current.getChildCount(); i++) {
                     currentSE = ((SchemaElementMutableTreeNode) current.getChildAt(i)).getSchemaElement();
                     if (element.equals(currentSE)) {
-                        TreePath newPath = new TreePath(
-                                ((SchemaElementMutableTreeNode) current.getChildAt(i)).getPath());
+                        TreePath newPath =
+                                new TreePath(((SchemaElementMutableTreeNode) current.getChildAt(i)).getPath());
                         if (!this.tree.getSelectionPath().equals(newPath)) { // Only set new Path when neccessary
                             this.tree.setSelectionPath(newPath);
                             this.scrollTree(newPath);
@@ -319,7 +337,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         }
 
         this.scrollTree(tp);
-
     }
 
     // ---------------
@@ -363,7 +380,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
 
         // Scroll the area into view.
         viewport.scrollRectToVisible(rect);
-
     }
 
     private void initTree() {
@@ -372,8 +388,8 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         ISchemaElement[] elements = this.model.getObservations();
         this.addSchemaElements(elements, this.observation);
         if (elements.length > 0) {
-            this.observation
-                    .setUserObject(this.textManager.getString("tree.observations") + " (" + elements.length + ")");
+            this.observation.setUserObject(
+                    this.textManager.getString("tree.observations") + " (" + elements.length + ")");
         } else {
             this.observation.setUserObject(this.textManager.getString("tree.observations"));
         }
@@ -458,7 +474,6 @@ public class TreeView extends JPanel implements TreeSelectionListener {
         } else {
             this.lens.setUserObject(this.textManager.getString("lenses"));
         }
-
     }
 
     private void addSchemaElements(ISchemaElement[] elements, DefaultMutableTreeNode node) {
@@ -514,9 +529,7 @@ public class TreeView extends JPanel implements TreeSelectionListener {
             this.nodes.put(element, current); // For faster access
             node.add(current); // Add element to treenode
         }
-
     }
-
 }
 
 class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
@@ -525,25 +538,23 @@ class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private ISchemaElement element = null;
 
     public SchemaElementMutableTreeNode(ISchemaElement element) {
 
         this(element, -1);
-
     }
 
     public SchemaElementMutableTreeNode(ISchemaElement element, int size) {
 
         this.element = element;
         this.setSize(size, -1);
-
     }
 
     public ISchemaElement getSchemaElement() {
 
         return this.element;
-
     }
 
     public void setSize(int size, int secondValue) {
@@ -558,9 +569,7 @@ class SchemaElementMutableTreeNode extends DefaultMutableTreeNode {
         } else {
             this.setUserObject(element.getDisplayName());
         }
-
     }
-
 }
 
 class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -569,6 +578,7 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private TreeView treeView = null;
 
     private ObservationManager om = null;
@@ -579,12 +589,11 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         this.treeView = treeView;
         this.om = om;
         this.imageResolver = resolver;
-
     }
 
     @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
-            int row, boolean hasFocus) {
+    public Component getTreeCellRendererComponent(
+            JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
@@ -617,19 +626,22 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISession) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("session_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ISite) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("site_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -645,19 +657,22 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("scope_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof ITarget) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("target_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             } else if (se instanceof IObserver) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observer_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -669,15 +684,15 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     // Check if parent element is an IObserver
                     // If so, check if parentObserver is the main observer of this observation
                     // If no, he's one of the coObservers and we change the font a little
-                    ISchemaElement parentSE = ((SchemaElementMutableTreeNode) schemaNode.getParent())
-                            .getSchemaElement();
+                    ISchemaElement parentSE =
+                            ((SchemaElementMutableTreeNode) schemaNode.getParent()).getSchemaElement();
                     if (parentSE instanceof IObserver) {
                         if (parentSE.equals(((IObservation) se).getObserver())) { // "Main" Observer
                             this.setForeground(Color.GRAY);
                             this.setFont(new Font("Arial", Font.ITALIC, 12));
                         } else { // CoObserver
                             this.setForeground(new Color(175, 175, 175)); // Matches <font color=\"#afafaf\"> in
-                                                                          // MutableTreeNode
+                            // MutableTreeNode
                             this.setFont(new Font("Arial", Font.ITALIC, 12));
                         }
                     } else { // Not an IObserver
@@ -686,7 +701,8 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     }
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observation_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -702,7 +718,8 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("imager_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -718,7 +735,8 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("filter_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
@@ -734,13 +752,13 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
                     this.setFont(new Font("Arial", Font.PLAIN, 12));
                 }
 
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("lens_l.png").orElse(null), "");
                 this.setToolTipText("");
                 this.setIcon(icon);
 
                 return this;
             }
-
         }
 
         // Check nodes
@@ -749,86 +767,105 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         if (this.treeView.eyepiece.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("eyepiece_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("eyepiece_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.session.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("session_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("session_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.site.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("site_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("site_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.scope.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("scope_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("scope_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.target.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("target_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("target_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.observer.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observer_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observer_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.observation.equals(node)) {
 
             this.setFont(new Font("Arial", Font.BOLD, 12));
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observation_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("observation_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.imager.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("imager_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("imager_c.png").orElse(null), "");
             }
         } else if (this.treeView.filter.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("filter_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("filter_c.png").orElse(null), "");
             }
         } else if (this.treeView.lens.equals(node)) {
 
             if (expanded) {
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("lens_e.png").orElse(null), "");
             } else {
-                icon = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null), "");
+                icon = new ImageIcon(
+                        this.imageResolver.getImageURL("lens_c.png").orElse(null), "");
             }
 
         } else if (this.treeView.root.equals(node)) {
 
             icon = new ImageIcon(this.imageResolver.getImageURL("root.png").orElse(null), "");
-
         }
 
         // Check if node is empty
@@ -839,7 +876,5 @@ class SchemaElementTreeCellRenderer extends DefaultTreeCellRenderer {
         this.setIcon(icon);
 
         return this;
-
     }
-
 }

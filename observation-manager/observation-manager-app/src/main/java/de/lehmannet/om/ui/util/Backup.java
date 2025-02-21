@@ -6,13 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class Backup {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Backup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Backup.class);
 
     private final boolean created;
     private final String path;
@@ -55,6 +54,5 @@ public final class Backup {
                 LOGGER.error("Problem deleting backup {}", path, e);
             }
         }
-
     }
 }

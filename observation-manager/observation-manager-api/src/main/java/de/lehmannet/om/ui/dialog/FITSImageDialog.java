@@ -6,6 +6,8 @@
  */
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import eap.fitsbrowser.FITSFileDisplay;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,18 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import eap.fitsbrowser.FITSFileDisplay;
 
 public class FITSImageDialog extends OMDialog implements ActionListener {
 
@@ -32,8 +29,8 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 5090506213345186056L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private File fitsImageFile = null;
 
@@ -52,7 +49,6 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
 
         this.pack();
         this.setVisible(true);
-
     }
 
     private void initDialog() {
@@ -82,7 +78,6 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
 
         fitsDisplay.setPreferredSize(new Dimension(608, 337));
         this.getContentPane().add(fitsDisplay);
-
     }
 
     @Override
@@ -92,7 +87,5 @@ public class FITSImageDialog extends OMDialog implements ActionListener {
         if (e.getSource() instanceof JMenuItem) {
             this.dispose();
         }
-
     }
-
 }

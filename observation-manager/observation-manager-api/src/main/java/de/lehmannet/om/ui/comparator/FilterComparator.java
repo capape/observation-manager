@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.IFilter;
+import java.util.Comparator;
 
 public class FilterComparator implements Comparator<IFilter> {
 
@@ -24,11 +23,8 @@ public class FilterComparator implements Comparator<IFilter> {
             String i2m = i2.getModel().trim();
 
             return i1m.compareToIgnoreCase(i2m);
-
         }
 
         return 0;
-
     }
-
 }

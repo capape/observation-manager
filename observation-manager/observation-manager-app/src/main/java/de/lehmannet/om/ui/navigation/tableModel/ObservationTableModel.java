@@ -7,8 +7,6 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.time.OffsetDateTime;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.Observer;
 import de.lehmannet.om.Scope;
@@ -16,6 +14,7 @@ import de.lehmannet.om.Site;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
+import java.time.OffsetDateTime;
 
 public class ObservationTableModel extends AbstractSchemaTableModel {
 
@@ -32,21 +31,18 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
 
         this.om = om;
         this.elements = observations;
-
     }
 
     @Override
     public String getID() {
 
         return ObservationTableModel.MODEL_ID;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 7;
-
     }
 
     @Override
@@ -56,7 +52,6 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
             return 30;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -96,7 +91,6 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
 
     @Override
@@ -133,7 +127,6 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -170,7 +163,9 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
                 break;
             }
             case 3: {
-                value = this.om.getExtensionLoader().getSchemaUILoader()
+                value = this.om
+                        .getExtensionLoader()
+                        .getSchemaUILoader()
                         .getDisplayNameForType(observation.getTarget().getXSIType());
                 break;
             }
@@ -189,7 +184,5 @@ public class ObservationTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
-
 }

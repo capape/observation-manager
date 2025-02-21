@@ -7,15 +7,14 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.EyePieceMapper;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.EyePieceMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * Eyepiece implements the class de.lehmannet.om.IEyepiece. An Eyepiece describes a optical eyepiece. The model name and
@@ -81,7 +80,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         this.setVendor(EyePieceMapper.getOptionalVendor(eyepieceElement));
         this.setMaxFocalLength(EyePieceMapper.getOptionalMaximunFocusLength(eyepieceElement));
         this.setApparentFOV(EyePieceMapper.getApparentFOV(eyepieceElement));
-
     }
 
     /**
@@ -98,7 +96,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
 
         this.setModel(model);
         this.setFocalLength(focalLength);
-
     }
 
     // -------------
@@ -126,7 +123,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         return dn;
-
     }
 
     // ------
@@ -175,7 +171,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         return buffer.toString();
-
     }
 
     /*
@@ -213,7 +208,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public boolean isAvailable() {
 
         return this.available;
-
     }
 
     /**
@@ -226,7 +220,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public void setAvailability(boolean available) {
 
         this.available = available;
-
     }
 
     // ---------
@@ -260,7 +253,10 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -308,7 +304,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
             e_ApparentFOV = apparentFOV.setToXmlElement(e_ApparentFOV);
             e_Eyepiece.appendChild(e_ApparentFOV);
         }
-
     }
 
     /**
@@ -369,7 +364,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         return element;
-
     }
 
     /**
@@ -392,7 +386,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -406,7 +399,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public Angle getApparentFOV() {
 
         return apparentFOV;
-
     }
 
     /**
@@ -422,7 +414,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public float getFocalLength() {
 
         return focalLength;
-
     }
 
     /**
@@ -436,7 +427,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public float getMaxFocalLength() {
 
         return maxFocalLength;
-
     }
 
     /**
@@ -448,7 +438,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public String getModel() {
 
         return model;
-
     }
 
     /**
@@ -461,7 +450,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public String getVendor() {
 
         return vendor;
-
     }
 
     /**
@@ -475,7 +463,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public boolean isZoomEyepiece() {
 
         return !Float.isNaN(this.maxFocalLength);
-
     }
 
     /**
@@ -493,7 +480,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         this.apparentFOV = apparentFOV;
-
     }
 
     /**
@@ -512,7 +498,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         this.focalLength = focalLength;
-
     }
 
     /**
@@ -527,7 +512,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
     public void setMaxFocalLength(float maxFocalLength) {
 
         this.maxFocalLength = maxFocalLength;
-
     }
 
     /**
@@ -546,7 +530,6 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         this.model = modelname;
-
     }
 
     /**
@@ -564,7 +547,5 @@ public class Eyepiece extends SchemaElement implements IEyepiece {
         }
 
         this.vendor = vendorname;
-
     }
-
 }

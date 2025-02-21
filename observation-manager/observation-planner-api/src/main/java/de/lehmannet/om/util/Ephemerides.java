@@ -7,11 +7,10 @@
 
 package de.lehmannet.om.util;
 
-import java.time.ZonedDateTime;
-import java.util.Objects;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
+import java.time.ZonedDateTime;
+import java.util.Objects;
 
 // See http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
 // http://www.stjarnhimlen.se/comp/ppcomp.html
@@ -65,7 +64,6 @@ public class Ephemerides {
         }
 
         return -1;
-
     }
 
     public static EquPosition getPosition(int planet, ZonedDateTime date) {
@@ -95,7 +93,6 @@ public class Ephemerides {
         }
 
         return new EquPosition(new Angle(RA, Angle.DEGREE), new Angle(Dec, Angle.DEGREE));
-
     }
 
     public static EquPosition getSunPosition(ZonedDateTime date) {
@@ -112,7 +109,6 @@ public class Ephemerides {
         }
 
         return new EquPosition(new Angle(RA, Angle.DEGREE), new Angle(Dec, Angle.DEGREE));
-
     }
 
     public static EquPosition getMoonPosition(ZonedDateTime date, double geoLongitude) {
@@ -140,17 +136,24 @@ public class Ephemerides {
         double mpar = Math.asin(Math.toRadians(1 / r));
         mpar = Math.toDegrees(mpar);
 
-        double topRA = RA - mpar * rho * Math.cos(Math.toRadians(gcLat)) * Math.sin(Math.toRadians(HA))
-                / Math.cos(Math.toRadians(Dec));
-        double topDecl = Dec - mpar * rho * Math.sin(Math.toRadians(gcLat)) * Math.sin(Math.toRadians(g - Dec))
-                / Math.sin(Math.toRadians(g));
+        double topRA = RA
+                - mpar
+                        * rho
+                        * Math.cos(Math.toRadians(gcLat))
+                        * Math.sin(Math.toRadians(HA))
+                        / Math.cos(Math.toRadians(Dec));
+        double topDecl = Dec
+                - mpar
+                        * rho
+                        * Math.sin(Math.toRadians(gcLat))
+                        * Math.sin(Math.toRadians(g - Dec))
+                        / Math.sin(Math.toRadians(g));
 
         if (topRA < 0) {
             topRA = 360 + topRA;
         }
 
         return new EquPosition(new Angle(topRA, Angle.DEGREE), new Angle(topDecl, Angle.DEGREE));
-
     }
 
     public static boolean isMoonAboveHorizon(ZonedDateTime date, double geoLongitude, double geoLatitude) {
@@ -168,11 +171,10 @@ public class Ephemerides {
         h = Math.toDegrees(h);
 
         return h > 0;
-
     }
 
-    public static double altitudeAboveHorizon(EquPosition equPos, ZonedDateTime date, double geoLongitude,
-            double geoLatitude) {
+    public static double altitudeAboveHorizon(
+            EquPosition equPos, ZonedDateTime date, double geoLongitude, double geoLatitude) {
 
         double Dec = equPos.getDecAngle().toDegree();
         double RA = equPos.getRaAngle().toDegree();
@@ -183,7 +185,7 @@ public class Ephemerides {
         double GMST0 = Ls + 180;
 
         double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
-                                                                                                          // in ms
+        // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -197,7 +199,6 @@ public class Ephemerides {
         h = Math.toDegrees(h);
 
         return h;
-
     }
 
     public static double getAzimut(EquPosition equPos, ZonedDateTime date, double geoLongitude, double geoLatitude) {
@@ -213,7 +214,7 @@ public class Ephemerides {
         double GMST0 = Ls + 180;
 
         double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
-                                                                                                          // in ms
+        // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -230,7 +231,6 @@ public class Ephemerides {
         at = at + 180; // North = 180deg;
 
         return (at % 360);
-
     }
 
     public static double getMoonPhase(ZonedDateTime date) {
@@ -247,7 +247,6 @@ public class Ephemerides {
         }
 
         return currentPhase;
-
     }
 
     private static double getMoonPhasePercentage(ZonedDateTime date) {
@@ -264,7 +263,6 @@ public class Ephemerides {
         double FV = 180 - elong;
 
         return (1 + Math.cos(Math.toRadians(FV))) / 2;
-
     }
 
     private static double getMoonHourAngle(ZonedDateTime date, double geoLongitude) {
@@ -279,7 +277,7 @@ public class Ephemerides {
         double GMST0 = Ls + 180;
 
         double UT = date.getHour() - date.getOffset().getTotalSeconds() / 3600 + date.getMinute() / 60.0; // Offset is
-                                                                                                          // in ms
+        // in ms
 
         // Local Sidereal Time
         double LST = GMST0 + (UT * 15) + geoLongitude;
@@ -287,7 +285,6 @@ public class Ephemerides {
         // Moons hour angle
 
         return LST - RA;
-
     }
 
     private static double[] getSunXY(int planet, ZonedDateTime date) {
@@ -298,8 +295,7 @@ public class Ephemerides {
         double xv = Math.cos(Math.toRadians(E)) - e;
         double yv = Math.sqrt(1.0 - e * e) * Math.sin(Math.toRadians(E));
 
-        return new double[] { xv, yv };
-
+        return new double[] {xv, yv};
     }
 
     private static double[] getXY(int planet, ZonedDateTime date) {
@@ -311,8 +307,7 @@ public class Ephemerides {
         double xv = a * (Math.cos(Math.toRadians(E)) - e);
         double yv = a * (Math.sqrt(1.0 - e * e) * Math.sin(Math.toRadians(E)));
 
-        return new double[] { xv, yv };
-
+        return new double[] {xv, yv};
     }
 
     private static double getDistance(int planet, ZonedDateTime date) {
@@ -324,7 +319,6 @@ public class Ephemerides {
         }
 
         return Math.sqrt(XvYv[0] * XvYv[0] + XvYv[1] * XvYv[1]);
-
     }
 
     private static double getTrueAnomaly(int planet, ZonedDateTime date) {
@@ -338,7 +332,6 @@ public class Ephemerides {
         double v = Math.atan2(XvYv[1], XvYv[0]);
 
         return Math.toDegrees(v);
-
     }
 
     private static double[] getSunEclipticRectangularGeocentric(ZonedDateTime date) {
@@ -349,8 +342,7 @@ public class Ephemerides {
         double xs = r * Math.cos(Math.toRadians(lonsun));
         double ys = r * Math.sin(Math.toRadians(lonsun));
 
-        return new double[] { xs, ys };
-
+        return new double[] {xs, ys};
     }
 
     private static double getSunLongitude(ZonedDateTime date) {
@@ -358,7 +350,6 @@ public class Ephemerides {
         int planet = Ephemerides.SUN;
 
         return Ephemerides.getTrueAnomaly(planet, date) + Ephemerides.getArgumentOfPerihelion(planet, date);
-
     }
 
     private static double[] getSunEquatorialRectangularGeocentric(ZonedDateTime date) {
@@ -372,8 +363,7 @@ public class Ephemerides {
         double ye = ecliptivRectangularGeocentric[1] * Math.cos(ecl);
         double ze = ecliptivRectangularGeocentric[1] * Math.sin(ecl);
 
-        return new double[] { xe, ye, ze };
-
+        return new double[] {xe, ye, ze};
     }
 
     private static double[] getHeliocentricPosition(int planet, ZonedDateTime date) {
@@ -414,8 +404,7 @@ public class Ephemerides {
             zh = r * Math.sin(Math.toRadians(latecl));
         }
 
-        return new double[] { xh, yh, zh, lonecl, latecl };
-
+        return new double[] {xh, yh, zh, lonecl, latecl};
     }
 
     private static double[] getGeocentricPosition(int planet, ZonedDateTime date) {
@@ -438,8 +427,7 @@ public class Ephemerides {
         double yg = helio[1] + ys;
         double zg = helio[2];
 
-        return new double[] { xg, yg, zg };
-
+        return new double[] {xg, yg, zg};
     }
 
     private static double getD(ZonedDateTime date) {
@@ -453,7 +441,6 @@ public class Ephemerides {
         d = d + time;
 
         return d;
-
     }
 
     private static double getObliquityOfTheEcliptic(ZonedDateTime date) {
@@ -461,7 +448,6 @@ public class Ephemerides {
         double d = Ephemerides.getD(date);
 
         return 23.4393 - 3.563E-7 * d;
-
     }
 
     private static double getLongitudeOfTheAscendingNode(int planet, ZonedDateTime date) {
@@ -490,7 +476,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getInclination(int planet, ZonedDateTime date) {
@@ -519,7 +504,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getArgumentOfPerihelion(int planet, ZonedDateTime date) {
@@ -548,7 +532,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getSemiMajorAxis(int planet, ZonedDateTime date) {
@@ -577,7 +560,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getEccentricity(int planet, ZonedDateTime date) {
@@ -606,7 +588,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getMeanAnomaly(int planet, ZonedDateTime date) {
@@ -635,7 +616,6 @@ public class Ephemerides {
             default:
                 return Double.NaN;
         }
-
     }
 
     private static double getEccentricAnomaly(int planetKey, ZonedDateTime date) {
@@ -661,11 +641,9 @@ public class Ephemerides {
             deltaE = deltaM / (1 - e * Math.cos(Math.toRadians(E)));
 
             E = E + deltaE;
-
         }
 
         return E;
-
     }
 
     private static double getPerturbationsForMoonDistance(double pdistance, ZonedDateTime date) {
@@ -684,7 +662,6 @@ public class Ephemerides {
         distance = distance + (-0.46 * Math.cos(Math.toRadians(2 * D)));
 
         return distance;
-
     }
 
     private static double[] getPerturbationsForMoon(double plongitude, double platitude, ZonedDateTime date) {
@@ -718,8 +695,6 @@ public class Ephemerides {
         latitude = latitude + (+0.033 * Math.sin(Math.toRadians(F + 2 * D)));
         latitude = latitude + (+0.017 * Math.sin(Math.toRadians(2 * Mm + F)));
 
-        return new double[] { longitude, latitude };
-
+        return new double[] {longitude, latitude};
     }
-
 }

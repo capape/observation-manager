@@ -22,7 +22,5 @@ public class FloatUtil {
         }
 
         return Float.parseFloat(floatString.replace(',', '.'));
-
     }
-
 }

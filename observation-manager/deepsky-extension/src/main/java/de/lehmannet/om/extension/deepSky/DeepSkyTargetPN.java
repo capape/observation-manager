@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetPN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -77,7 +76,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetPN can only have one value for central star magnitude. ");
         }
-
     }
 
     /**
@@ -91,7 +89,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     public DeepSkyTargetPN(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -105,7 +102,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     public DeepSkyTargetPN(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -143,7 +139,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_Magnitude);
         }
-
     }
 
     // ------------------------
@@ -162,7 +157,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetPN.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -178,7 +172,6 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     public double getCentralStarMagnitude() {
 
         return this.magnitude;
-
     }
 
     /**
@@ -190,7 +183,5 @@ public class DeepSkyTargetPN extends DeepSkyTarget {
     public void setCentralStarMagnitude(double newMagnitude) {
 
         this.magnitude = newMagnitude;
-
     }
-
 }

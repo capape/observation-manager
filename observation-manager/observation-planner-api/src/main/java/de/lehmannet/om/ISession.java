@@ -9,7 +9,6 @@ package de.lehmannet.om;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-
 import org.w3c.dom.Element;
 
 /**
@@ -392,5 +391,4 @@ public interface ISession extends ISchemaElement {
      * @return List of images or <code>null</code> if no images were set.
      */
     List<String> getImages();
-
 }

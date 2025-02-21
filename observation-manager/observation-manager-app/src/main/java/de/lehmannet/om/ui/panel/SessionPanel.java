@@ -7,35 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileFilter;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -58,6 +29,33 @@ import de.lehmannet.om.ui.util.DatePicker;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
 
 public class SessionPanel extends AbstractPanel implements ActionListener, MouseListener {
 
@@ -81,7 +79,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private JTextArea equipment = null;
     private JTextArea comments = null;
     private final JTextField coObservers = new JTextField(); // Shows selected coObservers in a TextField (Creation,
-                                                             // Edit)
+    // Edit)
     private JTabbedPane coObserverTabbedPane = null; // Shows selected coObservers in a TabbedPane (Show)
     private JButton selectCoObservers = null; // Brings up ObserverSelectorPopup (Creation, Edit)
     private JButton newCoObservers = null; // Brings up observer dialog for creating new observer
@@ -98,7 +96,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private final UIDataCache cache;
 
     // Requires ObservationManager to load Observers
-    public SessionPanel(ObservationManager manager, ObservationManagerModel model, ISession session, boolean editable,
+    public SessionPanel(
+            ObservationManager manager,
+            ObservationManagerModel model,
+            ISession session,
+            boolean editable,
             UIDataCache cache) {
 
         super(editable);
@@ -119,7 +121,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -138,7 +139,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             }
             new EditPopupHandler(e.getX(), e.getY(), area);
         }
-
     }
 
     @Override
@@ -185,7 +185,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                 this.addNewImages();
             }
         }
-
     }
 
     private void setSite() {
@@ -194,8 +193,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void setCoObservers() {
-        this.coObsSelector = new SchemaElementSelectorPopup(this.observationManager, this.model,
-                AbstractPanel.bundle.getString("dialog.coObserver.title"), null, this.coObserversList, true,
+        this.coObsSelector = new SchemaElementSelectorPopup(
+                this.observationManager,
+                this.model,
+                AbstractPanel.bundle.getString("dialog.coObserver.title"),
+                null,
+                this.coObserversList,
+                true,
                 SchemaElementConstants.OBSERVER);
         List<ISchemaElement> selected = new ArrayList<>();
         if (this.coObsSelector.getAllSelectedElements() != null) {
@@ -203,9 +207,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             selected = new ArrayList<>(this.coObsSelector.getAllSelectedElements());
         }
         this.coObserversList.clear(); // Remove entries first
-        List<IObserver> result = selected.stream().map(x -> {
-            return (IObserver) x;
-        }).collect(Collectors.toList());
+        List<IObserver> result = selected.stream()
+                .map(x -> {
+                    return (IObserver) x;
+                })
+                .collect(Collectors.toList());
 
         this.fillCoObserverTextField(result);
     }
@@ -233,13 +239,21 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private void selectEndDate() {
         DatePicker dp = null;
         if (this.endDate != null) {
-            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
-                    this.endDate, this.observationManager.getDateManager());
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.endDate,
+                    this.observationManager.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
-                    this.beginDate, this.observationManager.getDateManager());
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+                    this.beginDate,
+                    this.observationManager.getDateManager());
         } else {
-            dp = new DatePicker(this.observationManager, AbstractPanel.bundle.getString("panel.session.datePicker.end"),
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.end"),
                     this.observationManager.getDateManager());
         }
         this.endDate = dp.getDate();
@@ -250,11 +264,14 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private void selectBeginDate() {
         DatePicker dp = null;
         if (this.beginDate != null) {
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.session.datePicker.start"), this.beginDate,
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.session.datePicker.start"),
+                    this.beginDate,
                     this.observationManager.getDateManager());
         } else {
-            dp = new DatePicker(this.observationManager,
+            dp = new DatePicker(
+                    this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.start"),
                     this.observationManager.getDateManager());
         }
@@ -267,7 +284,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     public ISchemaElement getSchemaElement() {
 
         return this.session;
-
     }
 
     private void loadSchemaElement() {
@@ -308,7 +324,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.setVisible(false);
         this.setVisible(true);
-
     }
 
     @Override
@@ -357,7 +372,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             return null;
         }
         this.session.setEnd(this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
-        this.session.setBegin(this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
+        this.session.setBegin(
+                this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
 
         // Set optional elements
         String weather = this.weather.getText();
@@ -384,7 +400,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.session.setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(session)));
 
         return this.session;
-
     }
 
     private void setSiteInObservations(ObservationManagerModel model, ISession session, ISite site) {
@@ -399,12 +414,17 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
     private ZonedDateTime createDateTimeInUTC(ZonedDateTime date, TimeContainer timeContainer) {
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(),
-                timeContainer.getHour(), timeContainer.getMinutes(), timeContainer.getSeconds(), 0,
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(
+                date.getYear(),
+                date.getMonthValue(),
+                date.getDayOfMonth(),
+                timeContainer.getHour(),
+                timeContainer.getMinutes(),
+                timeContainer.getSeconds(),
+                0,
                 ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
-
     }
 
     @Override
@@ -446,9 +466,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         }
 
         // Create session
-        this.session = new Session(this.observationManager.getDateManager(),
+        this.session = new Session(
+                this.observationManager.getDateManager(),
                 this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
-                this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(), site);
+                this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
+                site);
 
         // Set optional elements
         String weather = this.weather.getText();
@@ -479,7 +501,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.session.setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(session)));
 
         return this.session;
-
     }
 
     private void createPanel() {
@@ -570,9 +591,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             showNonEditableData(gridbag, constraints);
         } else { // Create or edit
             showEditableData(gridbag, constraints);
-
         }
-
     }
 
     private void addSeparator(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -658,7 +677,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.end.setEditable(false);
         gridbag.setConstraints(this.end, constraints);
         this.add(this.end);
-
     }
 
     private void addEndDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -673,8 +691,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void addEndDateLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT,
-                true);
+        OMLabel Lend =
+                new OMLabel(AbstractPanel.bundle.getString("panel.session.label.end"), SwingConstants.LEFT, true);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
         this.add(Lend);
@@ -694,8 +712,8 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void addLanguageLabel(GridBagLayout gridbag, GridBagConstraints constraints) {
-        OMLabel Llanguage = new OMLabel(AbstractPanel.bundle.getString("panel.session.label.language"),
-                SwingConstants.RIGHT, false);
+        OMLabel Llanguage = new OMLabel(
+                AbstractPanel.bundle.getString("panel.session.label.language"), SwingConstants.RIGHT, false);
         Llanguage.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.language"));
         gridbag.setConstraints(Llanguage, constraints);
         this.add(Llanguage);
@@ -726,7 +744,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         gridbag.setConstraints(this.begin, constraints);
 
         this.add(this.begin);
-
     }
 
     private void addBeginDateSelectorButton(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -783,7 +800,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.CENTER;
         addNewImageButton(gridbag, constraints);
-
     }
 
     private void addNewImageButton(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -796,11 +812,17 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     }
 
     private void addImagesPanel(GridBagLayout gridbag, GridBagConstraints constraints) {
-        this.imageContainer = new ImageContainer(null, this.observationManager,
-                this.observationManager.getConfiguration(), this.model, true,
+        this.imageContainer = new ImageContainer(
+                null,
+                this.observationManager,
+                this.observationManager.getConfiguration(),
+                this.model,
+                true,
                 this.observationManager.getImageResolver());
-        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane imageContainerScroll = new JScrollPane(
+                this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);
         imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
         this.add(imageContainerScroll);
@@ -883,21 +905,25 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             yPos = addNewSeparator(gridbag, constraints, yPos);
             yPos = addObserverTabbedPanel(gridbag, constraints, yPos);
             this.createObserverPanel();
-
         }
 
         addImagesScrollPanel(gridbag, constraints, yPos);
-
     }
 
     private void addImagesScrollPanel(GridBagLayout gridbag, GridBagConstraints constraints, int yPos) {
         ConstraintsBuilder.buildConstraints(constraints, 0, ++yPos, 13, 1, 15, 30);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager,
-                this.observationManager.getConfiguration(), this.model, false,
+        this.imageContainer = new ImageContainer(
+                null,
+                this.observationManager,
+                this.observationManager.getConfiguration(),
+                this.model,
+                false,
                 this.observationManager.getImageResolver());
-        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane imageContainerScroll = new JScrollPane(
+                this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         imageContainerScroll.setBorder(
                 BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.observationItem.label.images")));
         imageContainerScroll.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
@@ -913,8 +939,10 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         this.coObserverTabbedPane.setBorder(
                 BorderFactory.createTitledBorder(AbstractPanel.bundle.getString("panel.session.label.addObservers")));
         this.coObserverTabbedPane.setToolTipText(AbstractPanel.bundle.getString("panel.session.tooltip.addObservers"));
-        JScrollPane scrollPane = new JScrollPane(this.coObserverTabbedPane,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(
+                this.coObserverTabbedPane,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         constraints.anchor = GridBagConstraints.NORTH;
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPane, constraints);
@@ -949,7 +977,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             coObserversList.add(current);
             this.addCoObserverToTextfield(current.getDisplayName());
         }
-
     }
 
     private void addCoObserverToTextfield(String coObserver) {
@@ -957,7 +984,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         String t = this.coObservers.getText();
         t = coObserver + "; " + t;
         this.coObservers.setText(t);
-
     }
 
     private void createObserverPanel() {
@@ -969,7 +995,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             ObserverPanel observerPanel = new ObserverPanel(current, false);
             this.coObserverTabbedPane.add(current.getDisplayName(), observerPanel);
         }
-
     }
 
     private void createSiteDropDownBox() {
@@ -986,7 +1011,6 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         } else {
             this.siteBox.setSelectedItem(null);
         }
-
     }
 
     private void addNewImages() {
@@ -995,10 +1019,14 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
         FileFilter imageFileFilter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return (f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
-                        || (f.getName().toLowerCase().endsWith(".gif")) || (f.getName().toLowerCase().endsWith(".png"))
-                        || (f.getName().toLowerCase().endsWith(".fits")) || (f.getName().toLowerCase().endsWith(".fit"))
-                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory());
+                return (f.getName().toLowerCase().endsWith(".jpg"))
+                        || (f.getName().toLowerCase().endsWith(".jpeg"))
+                        || (f.getName().toLowerCase().endsWith(".gif"))
+                        || (f.getName().toLowerCase().endsWith(".png"))
+                        || (f.getName().toLowerCase().endsWith(".fits"))
+                        || (f.getName().toLowerCase().endsWith(".fit"))
+                        || (f.getName().toLowerCase().endsWith(".fts"))
+                        || (f.isDirectory());
             }
 
             @Override
@@ -1031,14 +1059,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
             this.updateUI();
 
             if (files.length > 0) {
-                this.cache.putString(ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR,
+                this.cache.putString(
+                        ObservationDialogPanel.CACHEKEY_LASTIMAGEDIR,
                         files[0].getParentFile().getAbsolutePath());
             }
 
             Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
             setCursor(normalCursor);
         }
-
     }
-
 }

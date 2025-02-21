@@ -7,11 +7,6 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.catalog;
 
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetMoon;
@@ -20,6 +15,10 @@ import de.lehmannet.om.extension.solarSystem.SolarSystemTargetSun;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class SolarSystemCatalog implements IListableCatalog {
 
@@ -50,21 +49,18 @@ public class SolarSystemCatalog implements IListableCatalog {
         this.fillCatalog();
 
         this.tableModel = new SolarSystemTableModel(this);
-
     }
 
     @Override
     public String getName() {
 
         return SolarSystemCatalog.CATALOG_NAME;
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return SolarSystemCatalog.CATALOG_ABB;
-
     }
 
     @Override
@@ -75,21 +71,18 @@ public class SolarSystemCatalog implements IListableCatalog {
         }
 
         return (ITarget) this.map.get(catalogNumber);
-
     }
 
     @Override
     public ITarget[] getTargets() {
 
         return (ITarget[]) this.map.values().toArray(new ITarget[] {});
-
     }
 
     @Override
     public String[] getCatalogIndex() {
 
         return (String[]) this.map.keySet().toArray(new String[] {});
-
     }
 
     @Override
@@ -101,14 +94,13 @@ public class SolarSystemCatalog implements IListableCatalog {
         }
 
         return this.tableModel;
-
     }
 
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
         return null; // We don't offer a search panel in this catalog, as object names are I18N
-                     // relevant
+        // relevant
 
     }
 
@@ -116,29 +108,28 @@ public class SolarSystemCatalog implements IListableCatalog {
 
         this.tableModel = new SolarSystemTableModel(this);
         this.lastKnownDefaultLocale = Locale.getDefault();
-
     }
 
     private void fillCatalog() {
 
-        SolarSystemTargetSun sun = new SolarSystemTargetSun(SolarSystemTarget.KEY_SUN,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet mecury = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MERCURY,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet venus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_VENUS,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetMoon moon = new SolarSystemTargetMoon(SolarSystemTarget.KEY_MOON,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet mars = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MARS,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet jupiter = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_JUPITER,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet saturn = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_SATURN,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet uranus = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_URANUS,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
-        SolarSystemTargetPlanet neptune = new SolarSystemTargetPlanet(SolarSystemTarget.KEY_NEPTUNE,
-                SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetSun sun =
+                new SolarSystemTargetSun(SolarSystemTarget.KEY_SUN, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet mecury =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MERCURY, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet venus =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_VENUS, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetMoon moon =
+                new SolarSystemTargetMoon(SolarSystemTarget.KEY_MOON, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet mars =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_MARS, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet jupiter =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_JUPITER, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet saturn =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_SATURN, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet uranus =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_URANUS, SolarSystemCatalog.DATASOURCE_ORIGIN);
+        SolarSystemTargetPlanet neptune =
+                new SolarSystemTargetPlanet(SolarSystemTarget.KEY_NEPTUNE, SolarSystemCatalog.DATASOURCE_ORIGIN);
 
         this.map.put(sun.getName(), sun);
         this.map.put(mecury.getName(), mecury);
@@ -149,9 +140,7 @@ public class SolarSystemCatalog implements IListableCatalog {
         this.map.put(saturn.getName(), saturn);
         this.map.put(uranus.getName(), uranus);
         this.map.put(neptune.getName(), neptune);
-
     }
-
 }
 
 class SolarSystemTableModel extends AbstractSchemaTableModel {
@@ -160,6 +149,7 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "SolSys";
 
     public SolarSystemTableModel(SolarSystemCatalog catalog) {
@@ -171,21 +161,18 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         }
 
         this.elements = targets;
-
     }
 
     @Override
     public String getID() {
 
         return SolarSystemTableModel.MODEL_ID;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 1;
-
     }
 
     @Override
@@ -195,7 +182,6 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -216,7 +202,6 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -225,13 +210,12 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         String name = "";
 
         if (column == 0) {
-            ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
-                    Locale.getDefault());
+            ResourceBundle bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
             name = bundle.getString("catalog.table.columnHeader.name");
         }
 
         return name;
-
     }
 
     @Override
@@ -242,7 +226,5 @@ class SolarSystemTableModel extends AbstractSchemaTableModel {
         }
 
         return super.getColumnSize(columnIndex);
-
     }
-
 }

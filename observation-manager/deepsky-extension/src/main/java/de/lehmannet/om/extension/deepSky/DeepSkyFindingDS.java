@@ -7,14 +7,13 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IExtendableSchemaElement;
+import de.lehmannet.om.util.SchemaException;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyFindingDS extends the de.lehmannet.om.DeepSkyFinding class. Its specialised for double star observations and
@@ -160,7 +159,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyFindingDS can have only one companion star entry. ");
         }
-
     }
 
     /**
@@ -176,7 +174,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     public DeepSkyFindingDS(String description, int rating) throws IllegalArgumentException {
 
         super(description, rating);
-
     }
 
     // ------
@@ -219,7 +216,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         result = result.replaceAll("DeepSkyFinding", "DeepSkyFindingDS");
 
         return result;
-
     }
 
     @Override
@@ -235,25 +231,17 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         DeepSkyFindingDS other = (DeepSkyFindingDS) obj;
         if (colorCompanion == null) {
-            if (other.colorCompanion != null)
-                return false;
-        } else if (!colorCompanion.equals(other.colorCompanion))
-            return false;
+            if (other.colorCompanion != null) return false;
+        } else if (!colorCompanion.equals(other.colorCompanion)) return false;
         if (colorMain == null) {
-            if (other.colorMain != null)
-                return false;
-        } else if (!colorMain.equals(other.colorMain))
-            return false;
-        if (equalBrightness != other.equalBrightness)
-            return false;
+            if (other.colorMain != null) return false;
+        } else if (!colorMain.equals(other.colorMain)) return false;
+        if (equalBrightness != other.equalBrightness) return false;
         return niceSurrounding == other.niceSurrounding;
     }
 
@@ -273,7 +261,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     public String getXSIType() {
 
         return DeepSkyFindingDS.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------
@@ -306,13 +293,13 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         e_Finding.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         if (this.equalBrightness != -1) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS,
-                    Boolean.toString(this.getEqualBrightness()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_EQUALBRIGHTNESS, Boolean.toString(this.getEqualBrightness()));
         }
 
         if (this.niceSurrounding != -1) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING,
-                    Boolean.toString(this.getNiceSurrounding()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_NICESURROUNDING, Boolean.toString(this.getNiceSurrounding()));
         }
 
         if (this.colorMain != null) {
@@ -332,7 +319,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         parent.appendChild(e_Finding);
 
         return parent;
-
     }
 
     // --------------
@@ -354,7 +340,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         }
 
         return equalBrightness == 1;
-
     }
 
     /**
@@ -372,7 +357,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         }
 
         return niceSurrounding == 1;
-
     }
 
     /**
@@ -384,7 +368,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     public String getColorMain() {
 
         return this.colorMain;
-
     }
 
     /**
@@ -396,7 +379,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
     public String getColorCompanion() {
 
         return this.colorCompanion;
-
     }
 
     /**
@@ -419,7 +401,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         } else {
             this.equalBrightness = 0;
         }
-
     }
 
     /**
@@ -442,7 +423,6 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
         } else {
             this.niceSurrounding = 0;
         }
-
     }
 
     /**
@@ -462,14 +442,16 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             return;
         }
 
-        if (DeepSkyFindingDS.COLOR_BLUE.equals(color) || DeepSkyFindingDS.COLOR_GREEN.equals(color)
-                || DeepSkyFindingDS.COLOR_ORANGE.equals(color) || DeepSkyFindingDS.COLOR_RED.equals(color)
-                || DeepSkyFindingDS.COLOR_WHITE.equals(color) || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
+        if (DeepSkyFindingDS.COLOR_BLUE.equals(color)
+                || DeepSkyFindingDS.COLOR_GREEN.equals(color)
+                || DeepSkyFindingDS.COLOR_ORANGE.equals(color)
+                || DeepSkyFindingDS.COLOR_RED.equals(color)
+                || DeepSkyFindingDS.COLOR_WHITE.equals(color)
+                || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
             this.colorMain = color;
         } else {
             throw new IllegalArgumentException("Main star color value is not valid.\n");
         }
-
     }
 
     /**
@@ -489,14 +471,15 @@ public class DeepSkyFindingDS extends DeepSkyFinding {
             return;
         }
 
-        if (DeepSkyFindingDS.COLOR_BLUE.equals(color) || DeepSkyFindingDS.COLOR_GREEN.equals(color)
-                || DeepSkyFindingDS.COLOR_ORANGE.equals(color) || DeepSkyFindingDS.COLOR_RED.equals(color)
-                || DeepSkyFindingDS.COLOR_WHITE.equals(color) || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
+        if (DeepSkyFindingDS.COLOR_BLUE.equals(color)
+                || DeepSkyFindingDS.COLOR_GREEN.equals(color)
+                || DeepSkyFindingDS.COLOR_ORANGE.equals(color)
+                || DeepSkyFindingDS.COLOR_RED.equals(color)
+                || DeepSkyFindingDS.COLOR_WHITE.equals(color)
+                || DeepSkyFindingDS.COLOR_YELLOW.equals(color)) {
             this.colorCompanion = color;
         } else {
             throw new IllegalArgumentException("Companion star color value is not valid.\n");
         }
-
     }
-
 }

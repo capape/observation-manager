@@ -7,15 +7,14 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.FilterMapper;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.FilterMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * Filter implements the class de.lehmannet.om.IFilter. A Filter describes a optical filter used during the
@@ -89,7 +88,6 @@ public class Filter extends SchemaElement implements IFilter {
         this.setWratten(FilterMapper.getOptionalWrattenValue(filterElement));
         this.setSchott(FilterMapper.getOptionalSchottValue(filterElement));
         this.setVendor(FilterMapper.getOptionalVendorName(filterElement));
-
     }
 
     /**
@@ -107,7 +105,6 @@ public class Filter extends SchemaElement implements IFilter {
 
         this.setModel(model);
         this.setType(type);
-
     }
 
     // ------
@@ -153,7 +150,6 @@ public class Filter extends SchemaElement implements IFilter {
         }
 
         return buffer.toString();
-
     }
 
     /*
@@ -193,7 +189,6 @@ public class Filter extends SchemaElement implements IFilter {
      *
      * @return Returns a String with a one line display name
      */
-
     @Override
     public String getDisplayName() {
 
@@ -204,7 +199,6 @@ public class Filter extends SchemaElement implements IFilter {
         // Don't add type and color as we wanna translate them later on UI
 
         return this.getModel();
-
     }
 
     // ----------
@@ -220,7 +214,6 @@ public class Filter extends SchemaElement implements IFilter {
     public boolean isAvailable() {
 
         return this.available;
-
     }
 
     /**
@@ -233,7 +226,6 @@ public class Filter extends SchemaElement implements IFilter {
     public void setAvailability(boolean available) {
 
         this.available = available;
-
     }
 
     // -------
@@ -267,7 +259,10 @@ public class Filter extends SchemaElement implements IFilter {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -323,7 +318,6 @@ public class Filter extends SchemaElement implements IFilter {
             e_Schott.appendChild(n_SchottText);
             eFilter.appendChild(e_Schott);
         }
-
     }
 
     /**
@@ -383,7 +377,6 @@ public class Filter extends SchemaElement implements IFilter {
         }
 
         return element;
-
     }
 
     /**
@@ -406,7 +399,6 @@ public class Filter extends SchemaElement implements IFilter {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -419,7 +411,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getColor() {
 
         return this.color;
-
     }
 
     /**
@@ -447,19 +438,25 @@ public class Filter extends SchemaElement implements IFilter {
                     "Filter type is not color.\n" + "setColor(...) can only be called on color filters");
         }
 
-        if (IFilter.FILTER_COLOR_BLUE.equals(color) || IFilter.FILTER_COLOR_DEEPBLUE.equals(color)
-                || IFilter.FILTER_COLOR_DEEPRED.equals(color) || IFilter.FILTER_COLOR_DEEPYELLOW.equals(color)
-                || IFilter.FILTER_COLOR_GREEN.equals(color) || IFilter.FILTER_COLOR_LIGHTGREEN.equals(color)
-                || IFilter.FILTER_COLOR_LIGHTRED.equals(color) || IFilter.FILTER_COLOR_LIGHTYELLOW.equals(color)
-                || IFilter.FILTER_COLOR_MEDIUMBLUE.equals(color) || IFilter.FILTER_COLOR_PALEBLUE.equals(color)
-                || IFilter.FILTER_COLOR_ORANGE.equals(color) || IFilter.FILTER_COLOR_RED.equals(color)
-                || IFilter.FILTER_COLOR_VIOLET.equals(color) || IFilter.FILTER_COLOR_YELLOW.equals(color)
+        if (IFilter.FILTER_COLOR_BLUE.equals(color)
+                || IFilter.FILTER_COLOR_DEEPBLUE.equals(color)
+                || IFilter.FILTER_COLOR_DEEPRED.equals(color)
+                || IFilter.FILTER_COLOR_DEEPYELLOW.equals(color)
+                || IFilter.FILTER_COLOR_GREEN.equals(color)
+                || IFilter.FILTER_COLOR_LIGHTGREEN.equals(color)
+                || IFilter.FILTER_COLOR_LIGHTRED.equals(color)
+                || IFilter.FILTER_COLOR_LIGHTYELLOW.equals(color)
+                || IFilter.FILTER_COLOR_MEDIUMBLUE.equals(color)
+                || IFilter.FILTER_COLOR_PALEBLUE.equals(color)
+                || IFilter.FILTER_COLOR_ORANGE.equals(color)
+                || IFilter.FILTER_COLOR_RED.equals(color)
+                || IFilter.FILTER_COLOR_VIOLET.equals(color)
+                || IFilter.FILTER_COLOR_YELLOW.equals(color)
                 || IFilter.FILTER_COLOR_YELLOWGREEN.equals(color)) {
             this.color = color;
         } else {
             throw new IllegalArgumentException("Given color is unknown.\n");
         }
-
     }
 
     /**
@@ -471,7 +468,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getModel() {
 
         return this.model;
-
     }
 
     /**
@@ -490,7 +486,6 @@ public class Filter extends SchemaElement implements IFilter {
         }
 
         this.model = model;
-
     }
 
     /**
@@ -503,7 +498,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getSchott() {
 
         return this.schott;
-
     }
 
     /**
@@ -521,7 +515,6 @@ public class Filter extends SchemaElement implements IFilter {
         }
 
         this.schott = schott;
-
     }
 
     /**
@@ -533,7 +526,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getType() {
 
         return this.type;
-
     }
 
     /**
@@ -555,11 +547,16 @@ public class Filter extends SchemaElement implements IFilter {
             throw new IllegalArgumentException("Type cannot be null or empty string.\n");
         }
 
-        if (IFilter.FILTER_TYPE_BROADBAND.equals(type) || IFilter.FILTER_TYPE_COLOR.equals(type)
-                || IFilter.FILTER_TYPE_CORRECTIVE.equals(type) || IFilter.FILTER_TYPE_HALPHA.equals(type)
-                || IFilter.FILTER_TYPE_HBETA.equals(type) || IFilter.FILTER_TYPE_NARROWBAND.equals(type)
-                || IFilter.FILTER_TYPE_SOLAR.equals(type) || IFilter.FILTER_TYPE_NEUTRAL.equals(type)
-                || IFilter.FILTER_TYPE_OIII.equals(type) || IFilter.FILTER_TYPE_OTHER.equals(type)) {
+        if (IFilter.FILTER_TYPE_BROADBAND.equals(type)
+                || IFilter.FILTER_TYPE_COLOR.equals(type)
+                || IFilter.FILTER_TYPE_CORRECTIVE.equals(type)
+                || IFilter.FILTER_TYPE_HALPHA.equals(type)
+                || IFilter.FILTER_TYPE_HBETA.equals(type)
+                || IFilter.FILTER_TYPE_NARROWBAND.equals(type)
+                || IFilter.FILTER_TYPE_SOLAR.equals(type)
+                || IFilter.FILTER_TYPE_NEUTRAL.equals(type)
+                || IFilter.FILTER_TYPE_OIII.equals(type)
+                || IFilter.FILTER_TYPE_OTHER.equals(type)) {
             // In case that old value was color filter (and new value is not color filter)
             // clear color value
             if (IFilter.FILTER_TYPE_COLOR.equals(this.type) && !IFilter.FILTER_TYPE_COLOR.equals(type)) {
@@ -571,7 +568,6 @@ public class Filter extends SchemaElement implements IFilter {
         } else {
             throw new IllegalArgumentException("Given filter type is unknown.\n");
         }
-
     }
 
     /**
@@ -584,7 +580,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getWratten() {
 
         return this.wratten;
-
     }
 
     /**
@@ -599,7 +594,6 @@ public class Filter extends SchemaElement implements IFilter {
         }
 
         this.wratten = wratten;
-
     }
 
     /**
@@ -612,7 +606,6 @@ public class Filter extends SchemaElement implements IFilter {
     public String getVendor() {
 
         return this.vendor;
-
     }
 
     /**
@@ -625,7 +618,5 @@ public class Filter extends SchemaElement implements IFilter {
     public void setVendor(String vendor) {
 
         this.vendor = vendor;
-
     }
-
 }

@@ -7,11 +7,6 @@
 
 package de.lehmannet.om.ui.extension.imaging.dialog;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JFrame;
-
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.extension.imaging.CCDImager;
 import de.lehmannet.om.model.ObservationManagerModel;
@@ -19,18 +14,21 @@ import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.IImagerDialog;
 import de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JFrame;
 
 public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
     private static final long serialVersionUID = 8966093381064556604L;
 
-    public CCDImagerDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            IImager editableImager) {
+    public CCDImagerDialog(
+            JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model, IImager editableImager) {
 
         super(om, model, uiHelper, new CCDImagerPanel(editableImager, Boolean.TRUE));
 
-        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging",
-                Locale.getDefault());
+        ResourceBundle bundle =
+                ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());
         if (editableImager == null) {
             this.setTitle(bundle.getString("dialog.ccdImager.title"));
         } else {
@@ -40,7 +38,6 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
         this.setSize(CCDImagerDialog.serialVersionUID, 520, 240);
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -51,7 +48,5 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
         }
 
         return null;
-
     }
-
 }

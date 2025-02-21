@@ -1,5 +1,9 @@
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ISite;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.util.Ephemerides;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -10,14 +14,8 @@ import java.text.DecimalFormatSymbols;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import de.lehmannet.om.EquPosition;
-import de.lehmannet.om.ISite;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.Ephemerides;
 
 public class HorizontalSkymap extends JLabel {
 
@@ -26,8 +24,8 @@ public class HorizontalSkymap extends JLabel {
      */
     private static final long serialVersionUID = -1501342339873856272L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     // Width and height of our map
     private static final int WIDTH = 50;
@@ -51,20 +49,18 @@ public class HorizontalSkymap extends JLabel {
         this.site = site;
 
         this.createImage();
-
     }
 
     private void createImage() {
 
-        BufferedImage image = new BufferedImage(HorizontalSkymap.WIDTH, HorizontalSkymap.HEIGHT,
-                BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image =
+                new BufferedImage(HorizontalSkymap.WIDTH, HorizontalSkymap.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         this.paintSky(image);
         this.paintLabel(image);
         this.paintObjectPosition(image);
 
         this.setIcon(new ImageIcon(image));
-
     }
 
     private void paintSky(BufferedImage image) {
@@ -77,10 +73,11 @@ public class HorizontalSkymap extends JLabel {
 
         // Print circle as sky
         g2d.setPaint(Color.black);
-        g2d.fillOval(HorizontalSkymap.SKY_BORDER, HorizontalSkymap.SKY_BORDER,
+        g2d.fillOval(
+                HorizontalSkymap.SKY_BORDER,
+                HorizontalSkymap.SKY_BORDER,
                 (HorizontalSkymap.WIDTH) - 2 * HorizontalSkymap.SKY_BORDER,
                 (HorizontalSkymap.HEIGHT) - 2 * HorizontalSkymap.SKY_BORDER);
-
     }
 
     private void paintObjectPosition(BufferedImage image) {
@@ -88,10 +85,16 @@ public class HorizontalSkymap extends JLabel {
         Graphics2D g2d = (Graphics2D) image.getGraphics();
 
         // Get object location
-        double azimut = Ephemerides.getAzimut(this.position, this.calendar, this.site.getLongitude().getValue(),
+        double azimut = Ephemerides.getAzimut(
+                this.position,
+                this.calendar,
+                this.site.getLongitude().getValue(),
                 this.site.getLatitude().getValue());
-        double altitude = Ephemerides.altitudeAboveHorizon(this.position, this.calendar,
-                this.site.getLongitude().getValue(), this.site.getLatitude().getValue());
+        double altitude = Ephemerides.altitudeAboveHorizon(
+                this.position,
+                this.calendar,
+                this.site.getLongitude().getValue(),
+                this.site.getLatitude().getValue());
 
         DecimalFormat df = new DecimalFormat("0.00");
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
@@ -104,7 +107,7 @@ public class HorizontalSkymap extends JLabel {
         // Calculate some helpers
         int radius = (HorizontalSkymap.WIDTH / 2) - HorizontalSkymap.SKY_BORDER; // Radius of sky circle
         Point center = new Point(HorizontalSkymap.WIDTH / 2, HorizontalSkymap.HEIGHT / 2); // Center point of sky
-                                                                                           // (zenith)
+        // (zenith)
 
         if (azimut == 0) { // Make sure next calculation doesn't div by zero
             azimut = 1;
@@ -159,7 +162,6 @@ public class HorizontalSkymap extends JLabel {
 
         g2d.setPaint(Color.yellow);
         g2d.fillOval((int) x, (int) y, HorizontalSkymap.POINT_DIAMETER, HorizontalSkymap.POINT_DIAMETER);
-
     }
 
     private void paintLabel(BufferedImage image) {
@@ -173,9 +175,7 @@ public class HorizontalSkymap extends JLabel {
         g2d.setPaint(Color.LIGHT_GRAY);
         g2d.setFont(new Font("sansserif", Font.PLAIN, 9));
         g2d.drawChars(north.toCharArray(), 0, north.length(), HorizontalSkymap.WIDTH / 2 - 3, 8);
-        g2d.drawChars(west.toCharArray(), 0, west.length(), HorizontalSkymap.WIDTH - 9,
-                HorizontalSkymap.HEIGHT / 2 + 3);
-
+        g2d.drawChars(
+                west.toCharArray(), 0, west.length(), HorizontalSkymap.WIDTH - 9, HorizontalSkymap.HEIGHT / 2 + 3);
     }
-
 }

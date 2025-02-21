@@ -7,6 +7,15 @@
 
 package de.lehmannet.om.ui.project;
 
+import de.lehmannet.om.GenericTarget;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.catalog.CatalogLoader;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,19 +26,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.GenericTarget;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.catalog.CatalogLoader;
-import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
-import de.lehmannet.om.ui.panel.AbstractSearchPanel;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.UserInterfaceHelper;
 
 public class ProjectLoader {
 
@@ -47,7 +45,10 @@ public class ProjectLoader {
     // Used to load projects in parallel
     private final ThreadGroup loadProjects = new ThreadGroup("Load all projects");
 
-    public ProjectLoader(ObservationManagerModel model, CatalogLoader catalogLoader, InstallDir installDir,
+    public ProjectLoader(
+            ObservationManagerModel model,
+            CatalogLoader catalogLoader,
+            InstallDir installDir,
             UserInterfaceHelper uiHelper) {
 
         this.model = model;
@@ -56,7 +57,6 @@ public class ProjectLoader {
         this.uiHelper = uiHelper;
 
         this.loadProjects();
-
     }
 
     public ProjectCatalog[] getProjects() {
@@ -64,7 +64,6 @@ public class ProjectLoader {
         this.waitForProjectsLoaders();
 
         return (ProjectCatalog[]) projectList.toArray(new ProjectCatalog[] {});
-
     }
 
     private void waitForProjectsLoaders() {
@@ -73,9 +72,7 @@ public class ProjectLoader {
         if (this.loadProjects.activeCount() > 0) {
 
             this.uiHelper.createWaitPopUp(bundle.getString("catalogLoader.info.waitOnLoaders"), this.loadProjects);
-
         }
-
     }
 
     private void loadProjects() {
@@ -87,10 +84,8 @@ public class ProjectLoader {
 
         // Get all project files
         String[] projects = path.list((dir, name) -> {
-
             File file = new File(dir.getAbsolutePath() + File.separator + name);
             return file.getName().endsWith(".omp") && !"CVS".equals(file.getName()); // For developers ;-)
-
         });
 
         // No project files found
@@ -112,8 +107,8 @@ public class ProjectLoader {
         File projectFile = null;
         for (String project : projects) {
             projectFile = new File(path.getAbsolutePath() + File.separator + project);
-            ProjectLoaderRunnable runnable = new ProjectLoaderRunnable(this.catalogLoader, this.projectList,
-                    userTargets, projectFile);
+            ProjectLoaderRunnable runnable =
+                    new ProjectLoaderRunnable(this.catalogLoader, this.projectList, userTargets, projectFile);
             Thread thread = new Thread(this.loadProjects, runnable, "Load project " + project);
             projectThreads.add(thread);
         }
@@ -122,7 +117,6 @@ public class ProjectLoader {
         for (Object projectThread : projectThreads) {
             ((Thread) projectThread).start();
         }
-
     }
 
     private List<ITarget> loadUserTargets() {
@@ -137,9 +131,7 @@ public class ProjectLoader {
         }
 
         return userTargets;
-
     }
-
 }
 
 class ProjectLoaderRunnable implements Runnable {
@@ -151,14 +143,16 @@ class ProjectLoaderRunnable implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectLoaderRunnable.class);
 
-    public ProjectLoaderRunnable(CatalogLoader catalogLoader, List<ProjectCatalog> projectList,
-            List<ITarget> userTargets, File projectFile) {
+    public ProjectLoaderRunnable(
+            CatalogLoader catalogLoader,
+            List<ProjectCatalog> projectList,
+            List<ITarget> userTargets,
+            File projectFile) {
 
         this.catalogLoader = catalogLoader;
         this.projectList = projectList;
         this.projectFile = projectFile;
         this.userTargets = userTargets;
-
     }
 
     @Override
@@ -180,7 +174,6 @@ class ProjectLoaderRunnable implements Runnable {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Project loading done: {} {}", this.projectFile.getName(), System.currentTimeMillis());
         }
-
     }
 
     private ITarget searchForTarget(String line) {
@@ -263,7 +256,6 @@ class ProjectLoaderRunnable implements Runnable {
         }
 
         return null; // Given targetName couldn't be found in any catalog
-
     }
 
     private String formatName(String name) {
@@ -273,7 +265,6 @@ class ProjectLoaderRunnable implements Runnable {
         name = name.toUpperCase();
 
         return name;
-
     }
 
     private ProjectCatalog loadProjectCatalog(File projectFile) {
@@ -290,7 +281,7 @@ class ProjectLoaderRunnable implements Runnable {
         String name = null;
         try (FileInputStream fis = new FileInputStream(projectFile);
                 InputStreamReader isr = new InputStreamReader(fis);
-                BufferedReader reader = new BufferedReader(isr);) {
+                BufferedReader reader = new BufferedReader(isr); ) {
 
             String line = null;
             while ((line = reader.readLine()) != null) {
@@ -317,7 +308,6 @@ class ProjectLoaderRunnable implements Runnable {
                 } else {
                     targets.add(target);
                 }
-
             }
         } catch (IOException ioe) {
             LOGGER.error("Cannot load project file: {}", projectFile, ioe);
@@ -335,7 +325,5 @@ class ProjectLoaderRunnable implements Runnable {
         // Create catalog
 
         return new ProjectCatalog(name, (ITarget[]) targets.toArray(new ITarget[] {}));
-
     }
-
 }

@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
 import javax.xml.bind.DatatypeConverter;
 
 /**
@@ -57,7 +56,7 @@ public class DateConverter {
         double leapYear = Double.NaN;
         Calendar gregStartDate = Calendar.getInstance();
         gregStartDate.set(1583, Calendar.OCTOBER, 16); // 16.10.1583 day of introduction of greg. Calendar. Before that
-                                                       // there're no
+        // there're no
         // leap
         // years
         if (gregorianCalendar.after(gregStartDate)) {
@@ -218,7 +217,6 @@ public class DateConverter {
         }
 
         return DatatypeConverter.parseDateTime(iso8601);
-
     }
 
     /*
@@ -248,5 +246,4 @@ public class DateConverter {
         }
         return "" + value;
     }
-
 }

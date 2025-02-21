@@ -7,15 +7,13 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.SchemaException;
 import java.util.Locale;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.SchemaException;
 
 public class GenericTarget extends Target {
 
@@ -34,19 +32,16 @@ public class GenericTarget extends Target {
     public GenericTarget(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
-
     }
 
     public GenericTarget(String name, String datasource) throws IllegalArgumentException {
 
         super(name, datasource);
-
     }
 
     public GenericTarget(String name, IObserver observer) throws IllegalArgumentException {
 
         super(name, observer);
-
     }
 
     // ------
@@ -84,7 +79,6 @@ public class GenericTarget extends Target {
         }
 
         return buffer.toString();
-
     }
 
     /**
@@ -115,7 +109,6 @@ public class GenericTarget extends Target {
 
         return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
                 && (this.getXSIType()).equals(target.getXSIType());
-
     }
 
     @Override
@@ -169,7 +162,10 @@ public class GenericTarget extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -194,7 +190,6 @@ public class GenericTarget extends Target {
         if (created) {
             ownerDoc.getDocumentElement().appendChild(e_Targets);
         }
-
     }
 
     // ------------------------
@@ -213,7 +208,5 @@ public class GenericTarget extends Target {
     public String getXSIType() {
 
         return GenericTarget.XML_XSI_TYPE_VALUE;
-
     }
-
 }

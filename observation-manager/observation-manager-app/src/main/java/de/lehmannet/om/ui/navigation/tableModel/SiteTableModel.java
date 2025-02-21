@@ -7,12 +7,11 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.Site;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class SiteTableModel extends AbstractSchemaTableModel {
 
@@ -20,26 +19,24 @@ public class SiteTableModel extends AbstractSchemaTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Site";
 
     public SiteTableModel(ISite[] sites) {
 
         this.elements = sites;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 6;
-
     }
 
     @Override
     public String getID() {
 
         return SiteTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -49,7 +46,6 @@ public class SiteTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -82,7 +78,6 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -124,7 +119,6 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -160,7 +154,6 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
 
     private String getValue(double value) {
@@ -172,6 +165,5 @@ public class SiteTableModel extends AbstractSchemaTableModel {
         df.setDecimalFormatSymbols(dfs);
 
         return df.format(value);
-
     }
 }

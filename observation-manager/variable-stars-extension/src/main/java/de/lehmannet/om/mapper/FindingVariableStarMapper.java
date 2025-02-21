@@ -1,16 +1,14 @@
 package de.lehmannet.om.mapper;
 
+import de.lehmannet.om.extension.variableStars.FindingVariableStar;
+import de.lehmannet.om.util.FloatUtil;
+import de.lehmannet.om.util.SchemaException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.extension.variableStars.FindingVariableStar;
-import de.lehmannet.om.util.FloatUtil;
-import de.lehmannet.om.util.SchemaException;
 
 public class FindingVariableStarMapper {
 
@@ -21,14 +19,13 @@ public class FindingVariableStarMapper {
 
     public static boolean getOptionalStarIdentificationUncertain(Element finding) {
         // Get optional star identification uncertain attribute
-        return getBooleanAttribute(finding,
-                FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN);
+        return getBooleanAttribute(
+                finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN);
     }
 
     public static boolean getOptionalPoorSeeing(Element finding) {
         // Get optional poor seeing attribute
         return getBooleanAttribute(finding, FindingVariableStar.XML_ELEMENT_FINDING_ATTRIBUTE_POORSEEING);
-
     }
 
     public static boolean getOptionalOutburst(Element finding) {
@@ -172,7 +169,6 @@ public class FindingVariableStarMapper {
                 return 100.0f;
                 // throw new SchemaException("FindingVariableStar visual magnitude must be a numeric value. ", nfe);
             }
-
         }
     }
 

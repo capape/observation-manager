@@ -7,19 +7,17 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.ILens;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.Lens;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class LensPanel extends AbstractPanel {
 
@@ -42,14 +40,12 @@ public class LensPanel extends AbstractPanel {
         if (lens != null) {
             this.loadSchemaElement();
         }
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.lens;
-
     }
 
     @Override
@@ -80,7 +76,6 @@ public class LensPanel extends AbstractPanel {
         this.lens.setVendor(this.vendor.getText());
 
         return this.lens;
-
     }
 
     @Override
@@ -111,7 +106,6 @@ public class LensPanel extends AbstractPanel {
         }
 
         return this.lens;
-
     }
 
     private String getModelName() {
@@ -123,7 +117,6 @@ public class LensPanel extends AbstractPanel {
         }
 
         return modelName;
-
     }
 
     private float getFactor() {
@@ -142,7 +135,6 @@ public class LensPanel extends AbstractPanel {
         }
 
         return f;
-
     }
 
     private void loadSchemaElement() {
@@ -155,7 +147,6 @@ public class LensPanel extends AbstractPanel {
 
         this.factor.setText(String.valueOf(this.lens.getFactor()));
         this.factor.setEditable(this.isEditable());
-
     }
 
     private void createPanel() {
@@ -178,8 +169,8 @@ public class LensPanel extends AbstractPanel {
         this.add(this.model);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.lens.label.vendor"),
-                SwingConstants.RIGHT, false);
+        OMLabel LvendorName =
+                new OMLabel(AbstractPanel.bundle.getString("panel.lens.label.vendor"), SwingConstants.RIGHT, false);
         LvendorName.setToolTipText(AbstractPanel.bundle.getString("panel.lens.tooltip.vendor"));
         gridbag.setConstraints(LvendorName, constraints);
         this.add(LvendorName);
@@ -218,7 +209,5 @@ public class LensPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

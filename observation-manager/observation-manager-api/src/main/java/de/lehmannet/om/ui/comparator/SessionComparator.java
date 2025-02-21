@@ -7,22 +7,19 @@
 
 package de.lehmannet.om.ui.comparator;
 
+import de.lehmannet.om.ISession;
 import java.time.OffsetDateTime;
 import java.util.Comparator;
-
-import de.lehmannet.om.ISession;
 
 public class SessionComparator implements Comparator<ISession> {
 
     private boolean reverse = false;
 
-    public SessionComparator() {
-    }
+    public SessionComparator() {}
 
     public SessionComparator(boolean reverse) {
 
         this.reverse = reverse;
-
     }
 
     @Override
@@ -47,11 +44,8 @@ public class SessionComparator implements Comparator<ISession> {
             } else if (s1Begin.isAfter(s2Begin)) {
                 return 1;
             }
-
         }
 
         return 0;
-
     }
-
 }

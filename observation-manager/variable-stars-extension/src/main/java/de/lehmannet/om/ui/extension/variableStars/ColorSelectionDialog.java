@@ -1,5 +1,10 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,12 +23,6 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import de.lehmannet.om.IObservation;
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
-
 public class ColorSelectionDialog extends JDialog implements ActionListener {
 
     /**
@@ -32,8 +30,8 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private IObservation[] observations = null;
 
@@ -62,7 +60,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -75,7 +72,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         }
 
         this.dispose();
-
     }
 
     private void initDialog() {
@@ -97,7 +93,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         this.table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         this.table.setDefaultEditor(Color.class, new ColorEditor());
         this.table.setDefaultRenderer(Color.class, (table, value, isSelected, hasFocus, row, column) -> {
-
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
                 cr.setBackground((Color) value);
@@ -124,13 +119,11 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(cancel);
-
     }
 
     public Map<IObserver, Color> getColorMap() {
 
         return this.result;
-
     }
 
     private Map<IObserver, Color> createMap() {
@@ -138,7 +131,6 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         ObserverColorTableModel model = (ObserverColorTableModel) this.table.getModel();
 
         return model.getResult();
-
     }
 
     private IObserver[] getObservers() {
@@ -148,7 +140,9 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         for (IObservation observation : this.observations) {
             if (!list.contains(observation.getObserver())) {
                 // Make sure the default observer is the top entry
-                if (observation.getObserver().getDisplayName()
+                if (observation
+                        .getObserver()
+                        .getDisplayName()
                         .equals(this.configuration.getConfig(ConfigKey.CONFIG_DEFAULT_OBSERVER))) {
                     list.add(0, observation.getObserver());
                 } else {
@@ -158,7 +152,5 @@ public class ColorSelectionDialog extends JDialog implements ActionListener {
         }
 
         return (IObserver[]) list.toArray(new IObserver[] {});
-
     }
-
 }

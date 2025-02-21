@@ -1,18 +1,16 @@
 package de.lehmannet.om.extension.variableStars;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import de.lehmannet.om.Finding;
 import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.mapper.FindingVariableStarMapper;
 import de.lehmannet.om.util.SchemaException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * FindingVariableStar extends the de.lehmannet.om.Finding class. Its specialised for variable star observations and
@@ -71,14 +69,16 @@ public class FindingVariableStar extends Finding {
     public static final String XML_ELEMENT_FINDING_ATTRIBUTE_COMPARISMSEQPROBLEM = "comparismSequenceProblem";
 
     // Constant for XML representation: finding attribute nonAAVSOchart
-    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN = "starIdentificationUncertain";
+    public static final String XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN =
+            "starIdentificationUncertain";
 
     // Constant for XML representation: finding attribute nonAAVSOchart
     public static final String XML_ELEMENT_FINDING_ATTRIBUTE_FAINTSTAR = "faintStar";
 
     // Constant for XML representation: finding comment indicating whether this
     // finding was already exported
-    public static final String XML_COMMENT_FINDING_EXPORTED_TO_AAVSO = "Exported to AAVSO (ObservationManager automatically generated comment)";
+    public static final String XML_COMMENT_FINDING_EXPORTED_TO_AAVSO =
+            "Exported to AAVSO (ObservationManager automatically generated comment)";
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -165,7 +165,6 @@ public class FindingVariableStar extends Finding {
         this.setPoorSeeing(FindingVariableStarMapper.getOptionalPoorSeeing(finding));
         this.setStarIdentificationUncertain(FindingVariableStarMapper.getOptionalStarIdentificationUncertain(finding));
         this.setUnusualActivity(FindingVariableStarMapper.getOptionalUnsualActivity(finding));
-
     }
 
     public FindingVariableStar(float magnitude, List<String> comparismStars, String chartDate) {
@@ -175,7 +174,6 @@ public class FindingVariableStar extends Finding {
         this.setMagnitude(magnitude);
         this.setComparismStars(comparismStars);
         this.setChartDate(chartDate);
-
     }
 
     // -------------
@@ -197,7 +195,6 @@ public class FindingVariableStar extends Finding {
         result = result + this.getMagnitude();
 
         return result;
-
     }
 
     // ------
@@ -253,7 +250,6 @@ public class FindingVariableStar extends Finding {
         buffer.append(this.isFaintStar());
 
         return buffer.toString();
-
     }
 
     // ------------------------
@@ -273,7 +269,6 @@ public class FindingVariableStar extends Finding {
     public String getXSIType() {
 
         return FindingVariableStar.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------
@@ -334,8 +329,8 @@ public class FindingVariableStar extends Finding {
         }
 
         if (this.isUnusualActivity()) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALACTIVITY,
-                    Boolean.toString(this.isUnusualActivity()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALACTIVITY, Boolean.toString(this.isUnusualActivity()));
         }
 
         if (this.isOutburst()) {
@@ -343,12 +338,14 @@ public class FindingVariableStar extends Finding {
         }
 
         if (this.isComparismSequenceProblem()) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_COMPARISMSEQPROBLEM,
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_COMPARISMSEQPROBLEM,
                     Boolean.toString(this.isComparismSequenceProblem()));
         }
 
         if (this.isStarIdentificationUncertain()) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN,
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_STARIDENTIFICATIONUNCERTAIN,
                     Boolean.toString(this.isStarIdentificationUncertain()));
         }
 
@@ -359,7 +356,6 @@ public class FindingVariableStar extends Finding {
         parent.appendChild(e_Finding);
 
         return parent;
-
     }
 
     private void addMagnitudeData(Document ownerDoc, Element e_Finding) {
@@ -369,13 +365,13 @@ public class FindingVariableStar extends Finding {
         e_visMag.appendChild(e_visMagText);
 
         if (this.isMagnitudeFainterThan()) {
-            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_FAINTERTHAN,
-                    Boolean.toString(this.isMagnitudeFainterThan()));
+            e_visMag.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_FAINTERTHAN, Boolean.toString(this.isMagnitudeFainterThan()));
         }
 
         if (this.isMagnitudeUncertain()) {
-            e_visMag.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_UNCERTAIN,
-                    Boolean.toString(this.isMagnitudeUncertain()));
+            e_visMag.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_UNCERTAIN, Boolean.toString(this.isMagnitudeUncertain()));
         }
 
         e_Finding.appendChild(e_visMag);
@@ -426,7 +422,6 @@ public class FindingVariableStar extends Finding {
     public boolean isMagnitudeFainterThan() {
 
         return this.magnitudeFainterThan;
-
     }
 
     // ------------------------------------------------------------------------
@@ -438,7 +433,6 @@ public class FindingVariableStar extends Finding {
     public float getMagnitude() {
 
         return this.magnitude;
-
     }
 
     // ------------------------------------------------------------------------
@@ -450,7 +444,6 @@ public class FindingVariableStar extends Finding {
     public List<String> getComparismStars() {
 
         return new ArrayList<>(this.comparismStars);
-
     }
 
     // ------------------------------------------------------------------------
@@ -462,7 +455,6 @@ public class FindingVariableStar extends Finding {
     public String getChartDate() {
 
         return this.chartDate;
-
     }
 
     // ------------------------------------------------------------------------
@@ -474,7 +466,6 @@ public class FindingVariableStar extends Finding {
     public boolean isAlreadyExportedToAAVSO() {
 
         return this.alreadyExportedToAAVSOformat;
-
     }
 
     // ------------------------------------------------------------------------
@@ -487,7 +478,6 @@ public class FindingVariableStar extends Finding {
     public void setAlreadyExportedToAAVSO(boolean exported) {
 
         this.alreadyExportedToAAVSOformat = exported;
-
     }
 
     // ------------------------------------------------------------------------
@@ -507,7 +497,6 @@ public class FindingVariableStar extends Finding {
         }
 
         this.chartDate = chartDate;
-
     }
 
     // ------------------------------------------------------------------------
@@ -526,7 +515,6 @@ public class FindingVariableStar extends Finding {
         }
 
         this.magnitude = magnitude;
-
     }
 
     // ------------------------------------------------------------------------
@@ -537,7 +525,6 @@ public class FindingVariableStar extends Finding {
     public void setMagnitudeFainterThan(boolean fainterThan) {
 
         this.magnitudeFainterThan = fainterThan;
-
     }
 
     // ------------------------------------------------------------------------
@@ -571,7 +558,6 @@ public class FindingVariableStar extends Finding {
 
         // Add values
         this.addAllComparismStars(comparismStars);
-
     }
 
     // ------------------------------------------------------------------------
@@ -589,7 +575,6 @@ public class FindingVariableStar extends Finding {
         }
 
         this.comparismStars.add(comparismStar.trim());
-
     }
 
     // ------------------------------------------------------------------------
@@ -616,7 +601,6 @@ public class FindingVariableStar extends Finding {
             current = current.trim();
             this.addComparismStar(current);
         }
-
     }
 
     // ------------------------------------------------------------------------
@@ -628,7 +612,6 @@ public class FindingVariableStar extends Finding {
     public boolean isBrightSky() {
 
         return brightSky;
-
     }
 
     // ------------------------------------------------------------------------
@@ -639,7 +622,6 @@ public class FindingVariableStar extends Finding {
     public void setBrightSky(boolean brightSky) {
 
         this.brightSky = brightSky;
-
     }
 
     // ------------------------------------------------------------------------
@@ -651,7 +633,6 @@ public class FindingVariableStar extends Finding {
     public boolean isClouds() {
 
         return clouds;
-
     }
 
     // ------------------------------------------------------------------------
@@ -661,7 +642,6 @@ public class FindingVariableStar extends Finding {
     public void setClouds(boolean clouds) {
 
         this.clouds = clouds;
-
     }
 
     // ------------------------------------------------------------------------
@@ -673,7 +653,6 @@ public class FindingVariableStar extends Finding {
     public boolean isComparismSequenceProblem() {
 
         return comparismSequenceProblem;
-
     }
 
     // ------------------------------------------------------------------------
@@ -683,7 +662,6 @@ public class FindingVariableStar extends Finding {
     public void setComparismSequenceProblem(boolean comparismSequenceProblem) {
 
         this.comparismSequenceProblem = comparismSequenceProblem;
-
     }
 
     // ------------------------------------------------------------------------
@@ -695,7 +673,6 @@ public class FindingVariableStar extends Finding {
     public boolean isFaintStar() {
 
         return faintStar;
-
     }
 
     // ------------------------------------------------------------------------
@@ -705,7 +682,6 @@ public class FindingVariableStar extends Finding {
     public void setFaintStar(boolean faintStar) {
 
         this.faintStar = faintStar;
-
     }
 
     // ------------------------------------------------------------------------
@@ -717,7 +693,6 @@ public class FindingVariableStar extends Finding {
     public boolean isMagnitudeUncertain() {
 
         return magnitudeUncertain;
-
     }
 
     // ------------------------------------------------------------------------
@@ -727,7 +702,6 @@ public class FindingVariableStar extends Finding {
     public void setMagnitudeUncertain(boolean magnitudeUncertain) {
 
         this.magnitudeUncertain = magnitudeUncertain;
-
     }
 
     // ------------------------------------------------------------------------
@@ -739,7 +713,6 @@ public class FindingVariableStar extends Finding {
     public boolean isNearHorizion() {
 
         return nearHorizion;
-
     }
 
     // ------------------------------------------------------------------------
@@ -750,7 +723,6 @@ public class FindingVariableStar extends Finding {
     public void setNearHorizion(boolean nearHorizion) {
 
         this.nearHorizion = nearHorizion;
-
     }
 
     // ------------------------------------------------------------------------
@@ -762,7 +734,6 @@ public class FindingVariableStar extends Finding {
     public boolean isNonAAVSOchart() {
 
         return nonAAVSOchart;
-
     }
 
     // ------------------------------------------------------------------------
@@ -772,7 +743,6 @@ public class FindingVariableStar extends Finding {
     public void setNonAAVSOchart(boolean nonAAVSOchart) {
 
         this.nonAAVSOchart = nonAAVSOchart;
-
     }
 
     // ------------------------------------------------------------------------
@@ -784,7 +754,6 @@ public class FindingVariableStar extends Finding {
     public boolean isOutburst() {
 
         return outburst;
-
     }
 
     // ------------------------------------------------------------------------
@@ -794,7 +763,6 @@ public class FindingVariableStar extends Finding {
     public void setOutburst(boolean outburst) {
 
         this.outburst = outburst;
-
     }
 
     // ------------------------------------------------------------------------
@@ -806,7 +774,6 @@ public class FindingVariableStar extends Finding {
     public boolean isPoorSeeing() {
 
         return poorSeeing;
-
     }
 
     // ------------------------------------------------------------------------
@@ -816,7 +783,6 @@ public class FindingVariableStar extends Finding {
     public void setPoorSeeing(boolean poorSeeing) {
 
         this.poorSeeing = poorSeeing;
-
     }
 
     // ------------------------------------------------------------------------
@@ -828,7 +794,6 @@ public class FindingVariableStar extends Finding {
     public boolean isStarIdentificationUncertain() {
 
         return starIdentificationUncertain;
-
     }
 
     // ------------------------------------------------------------------------
@@ -838,7 +803,6 @@ public class FindingVariableStar extends Finding {
     public void setStarIdentificationUncertain(boolean starIdentificationUncertain) {
 
         this.starIdentificationUncertain = starIdentificationUncertain;
-
     }
 
     // ------------------------------------------------------------------------
@@ -850,7 +814,6 @@ public class FindingVariableStar extends Finding {
     public boolean isUnusualActivity() {
 
         return unusualActivity;
-
     }
 
     // ------------------------------------------------------------------------
@@ -861,7 +824,6 @@ public class FindingVariableStar extends Finding {
     public void setUnusualActivity(boolean unusualActivity) {
 
         this.unusualActivity = unusualActivity;
-
     }
 
     @Override
@@ -899,18 +861,12 @@ public class FindingVariableStar extends Finding {
      *         toString() method)
      * @see java.lang.Object
      */
-
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         FindingVariableStar other = (FindingVariableStar) obj;
         return this.toString().equals(other.toString()) && this.getXSIType().equals(other.getXSIType());
-
     }
-
 }

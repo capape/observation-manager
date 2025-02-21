@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TargetTableModel extends AbstractSchemaTableModel {
 
@@ -30,21 +29,18 @@ public class TargetTableModel extends AbstractSchemaTableModel {
 
         this.configuration = configuration;
         this.elements = target;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 7;
-
     }
 
     @Override
     public String getID() {
 
         return TargetTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -54,7 +50,6 @@ public class TargetTableModel extends AbstractSchemaTableModel {
             return 3;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -109,8 +104,8 @@ public class TargetTableModel extends AbstractSchemaTableModel {
             }
             case 5: {
                 if (target.getConstellation() != null) {
-                    boolean i18N = Boolean
-                            .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+                    boolean i18N = Boolean.parseBoolean(
+                            this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
                     if (i18N) {
                         value = new StringBuilder(target.getConstellation().getDisplayName());
                     } else {
@@ -130,7 +125,6 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         }
 
         return value.toString();
-
     }
 
     @Override
@@ -170,7 +164,6 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
 
     public void addTarget(ITarget target) {
@@ -178,7 +171,6 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
         list.add(target);
         this.elements = (ITarget[]) list.toArray(new ITarget[] {});
-
     }
 
     public void deleteTarget(ITarget target) {
@@ -186,19 +178,15 @@ public class TargetTableModel extends AbstractSchemaTableModel {
         List<ISchemaElement> list = new ArrayList<>(java.util.Arrays.asList(this.elements));
         list.remove(target);
         this.elements = (ITarget[]) list.toArray(new ITarget[] {});
-
     }
 
     public void setTargets(ITarget[] targets) {
 
         this.elements = targets;
-
     }
 
     public ITarget[] getAllTargets() {
 
         return (ITarget[]) this.elements;
-
     }
-
 }

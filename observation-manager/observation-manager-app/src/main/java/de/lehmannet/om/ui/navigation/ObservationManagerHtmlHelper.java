@@ -1,29 +1,5 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.Locale;
-import java.util.Optional;
-
-import javax.xml.transform.Templates;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
@@ -35,6 +11,27 @@ import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Locale;
+import java.util.Optional;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 public class ObservationManagerHtmlHelper {
 
@@ -46,14 +43,17 @@ public class ObservationManagerHtmlHelper {
     private final InstallDir installDir;
     private final ObservationManagerModel model;
 
-    public ObservationManagerHtmlHelper(UserInterfaceHelper uiHelper, TextManager textManager,
-            IConfiguration configuration, InstallDir installDir, ObservationManagerModel model) {
+    public ObservationManagerHtmlHelper(
+            UserInterfaceHelper uiHelper,
+            TextManager textManager,
+            IConfiguration configuration,
+            InstallDir installDir,
+            ObservationManagerModel model) {
         this.uiHelper = uiHelper;
         this.textManager = textManager;
         this.configuration = configuration;
         this.installDir = installDir;
         this.model = model;
-
     }
 
     public boolean transformXML2HTML(final Document doc, final File htmlFile, final File xslFile) {
@@ -125,7 +125,6 @@ public class ObservationManagerHtmlHelper {
                 } catch (IOException ioe) {
                     LOGGER.error("Cannot close stream.", ioe);
                 }
-
             }
 
             private StreamSource getXslStreamSource(final File xsl) {
@@ -148,9 +147,11 @@ public class ObservationManagerHtmlHelper {
                 String lang = Locale.getDefault().getLanguage();
                 String resourceName = "xsl/internal/transform_" + lang + ".xsl";
 
-                URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
+                URL resource =
+                        ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
                 if (resource == null) {
-                    resource = ObservationManagerHtmlHelper.class.getClassLoader()
+                    resource = ObservationManagerHtmlHelper.class
+                            .getClassLoader()
                             .getResource("xsl/internal/transform_en.xsl");
                 }
                 return resource;
@@ -159,7 +160,8 @@ public class ObservationManagerHtmlHelper {
             private URL getInternalXslFolderURL() {
 
                 String resourceName = "xsl/internal/";
-                URL resource = ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
+                URL resource =
+                        ObservationManagerHtmlHelper.class.getClassLoader().getResource(resourceName);
                 return resource;
             }
 
@@ -167,21 +169,20 @@ public class ObservationManagerHtmlHelper {
             public String getReturnMessage() {
 
                 return message;
-
             }
 
             @Override
             public byte getReturnType() {
 
                 return returnValue;
-
             }
-
         };
 
         // Show progresDialog for first part of export
-        uiHelper.createProgressDialog(textManager.getString("progress.wait.title"),
-                textManager.getString("progress.wait.html.info"), calculation);
+        uiHelper.createProgressDialog(
+                textManager.getString("progress.wait.title"),
+                textManager.getString("progress.wait.html.info"),
+                calculation);
 
         if (calculation.getReturnType() == Worker.RETURN_TYPE_OK) {
             if (calculation.getReturnMessage() != null) {
@@ -193,7 +194,6 @@ public class ObservationManagerHtmlHelper {
             uiHelper.showWarning(calculation.getReturnMessage());
             return false;
         }
-
     }
 
     private String getCustomCssName(boolean usingInternal) {
@@ -219,7 +219,6 @@ public class ObservationManagerHtmlHelper {
         Path destination = Path.of(htmlFolder, getCustomCssName(usingInternal));
 
         originalPath.ifPresent(path -> {
-
             if (path.toFile().exists()) {
 
                 try {
@@ -230,7 +229,6 @@ public class ObservationManagerHtmlHelper {
                 }
             }
         });
-
     }
 
     private Optional<Path> getCssSource(File xslFile) {
@@ -240,8 +238,8 @@ public class ObservationManagerHtmlHelper {
 
         if (xslFile == null) {
 
-            URL resource = ObservationManagerHtmlHelper.class.getClassLoader()
-                    .getResource("xsl/internal/" + cssFileName);
+            URL resource =
+                    ObservationManagerHtmlHelper.class.getClassLoader().getResource("xsl/internal/" + cssFileName);
 
             if (resource == null) {
                 return Optional.empty();
@@ -252,7 +250,6 @@ public class ObservationManagerHtmlHelper {
         } else {
             return Optional.of(Path.of(xslFile.getParent(), cssFileName));
         }
-
     }
 
     private void createHTMLForSchemaElement(ISchemaElement schemaElement, File htmlFile) {
@@ -277,7 +274,6 @@ public class ObservationManagerHtmlHelper {
         this.transformXML2HTML(doc, htmlFile, null);
 
         this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + htmlFile);
-
     }
 
     private void createXMLForSchemaElement(ISchemaElement schemaElement, String xmlFile) {
@@ -289,7 +285,7 @@ public class ObservationManagerHtmlHelper {
         // given schemaElement
         IObservation[] observations = null;
         if (schemaElement instanceof IObservation) {
-            observations = new IObservation[] { (IObservation) schemaElement };
+            observations = new IObservation[] {(IObservation) schemaElement};
         } else {
             observations = this.model.getObservations(schemaElement);
         }
@@ -315,7 +311,6 @@ public class ObservationManagerHtmlHelper {
         } else {
             this.uiHelper.showWarning(textManager.getString("error.export.xml.nok"));
         }
-
     }
 
     public void createHTMLForSchemaElement(ISchemaElement schemaElement) {
@@ -328,15 +323,14 @@ public class ObservationManagerHtmlHelper {
         File html = new File(fullFileName);
         int i = 2;
         while (html.exists()) { // Check if file exists (e.g. Two session or
-                                // observations (at same (start) time) from
-                                // different users...
+            // observations (at same (start) time) from
+            // different users...
             fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + htmlName + "(" + i + ").html";
             i++;
             html = new File(fullFileName);
         }
 
         this.createHTMLForSchemaElement(schemaElement, html);
-
     }
 
     public void createHTML(Document doc, File html, File xslFile) {
@@ -361,7 +355,6 @@ public class ObservationManagerHtmlHelper {
         if (result) {
             this.uiHelper.showInfo(textManager.getString("info.htmlExportDir") + " " + html);
         } // Otherwise error message have been provided
-
     }
 
     private File getXSLFile() {
@@ -379,7 +372,7 @@ public class ObservationManagerHtmlHelper {
         File xslFile = new File(pathXsl);
 
         if (!xslFile.exists()) { // Ok, maybe theres a general version which is
-                                 // not translated
+            // not translated
             String pathXslFileWithoutLocale = this.getPathXslFileWithoutLocale();
             xslFile = new File(pathXslFileWithoutLocale);
             if (!xslFile.exists()) {
@@ -390,7 +383,6 @@ public class ObservationManagerHtmlHelper {
         }
 
         return xslFile;
-
     }
 
     private String getPathXslFileWithoutLocale() {
@@ -407,7 +399,7 @@ public class ObservationManagerHtmlHelper {
     private String getTemplateFolderPath() {
         String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
         if ((selectedTemplate == null) // No config given, so take default one.
-                                       // (Usefull for migrations)
+                // (Usefull for migrations)
                 || ("".equals(selectedTemplate.trim()))) {
             selectedTemplate = "oal2html";
         }
@@ -426,15 +418,14 @@ public class ObservationManagerHtmlHelper {
         File xml = new File(fullFileName);
         int i = 2;
         while (xml.exists()) { // Check if file exists (e.g. Two session or
-                               // observations (at same (start) time) from
-                               // different users...
+            // observations (at same (start) time) from
+            // different users...
             fullFileName = this.getCurrentXMLParentPath() + File.separatorChar + xmlName + "(" + i + ").xml";
             i++;
             xml = new File(fullFileName);
         }
 
         this.createXMLForSchemaElement(schemaElement, xml.getAbsolutePath());
-
     }
 
     private String replaceSpecialChars(String string) {
@@ -449,7 +440,6 @@ public class ObservationManagerHtmlHelper {
         string = string.replace(';', '_');
 
         return string;
-
     }
 
     private String getCurrentXMLParentPath() {
@@ -460,7 +450,6 @@ public class ObservationManagerHtmlHelper {
         File xmlFile = new File(this.model.getAllOpenedFiles()[0]);
 
         return xmlFile.getParent();
-
     }
 
     private Templates getTemplate(StreamSource xslSource) {
@@ -474,7 +463,5 @@ public class ObservationManagerHtmlHelper {
         }
 
         return template;
-
     }
-
 }

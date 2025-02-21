@@ -7,21 +7,18 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.solarSystem.SolarSystemTargetComet;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 
 public class SolarSystemTargetCometPanel extends AbstractPanel {
 
@@ -37,8 +34,9 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
     private TargetContainer targetContainer = null;
     private ObservationManagerModel model;
 
-    public SolarSystemTargetCometPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public SolarSystemTargetCometPanel(
+            IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -51,14 +49,12 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
         this.configuration = configuration;
         this.model = model;
         this.createPanel();
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -80,7 +76,6 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
         this.updateUI();
 
         return this.target;
-
     }
 
     @Override
@@ -105,7 +100,6 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
         this.updateSchemaElement();
 
         return this.target;
-
     }
 
     private void createPanel() {
@@ -117,8 +111,8 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
-                true);
+        this.targetContainer =
+                new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), true);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -127,7 +121,5 @@ public class SolarSystemTargetCometPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

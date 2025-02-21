@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
@@ -52,7 +51,6 @@ public class EditPopupHandler implements ActionListener {
 
         popupMenu.setPopupSize(150, 75);
         popupMenu.show(area, x, y);
-
     }
 
     // --------------
@@ -72,7 +70,6 @@ public class EditPopupHandler implements ActionListener {
                 this.area.cut();
             }
         }
-
     }
 
     private void enablePaste() {
@@ -85,19 +82,17 @@ public class EditPopupHandler implements ActionListener {
         } else {
             this.paste.setEnabled(false);
         }
-
     }
 
     private void enableCutAndCopy() {
 
-        if ((this.area.getSelectedText() != null) && !("".equals(this.area.getSelectedText().trim()))) {
+        if ((this.area.getSelectedText() != null)
+                && !("".equals(this.area.getSelectedText().trim()))) {
             this.copy.setEnabled(true);
             this.cut.setEnabled(true);
         } else {
             this.copy.setEnabled(false);
             this.cut.setEnabled(false);
         }
-
     }
-
 }

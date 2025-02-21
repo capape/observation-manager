@@ -7,18 +7,6 @@
 
 package de.lehmannet.om.ui.extension;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.zip.ZipFile;
-
-import javax.swing.JMenu;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.extension.skychart.SkyChartClient;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
@@ -30,6 +18,15 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.ConfigLoader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.zip.ZipFile;
+import javax.swing.JMenu;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExtensionLoader {
 
@@ -53,6 +50,7 @@ public class ExtensionLoader {
     private JMenu[] cachedMenus = null;
 
     private final InstallDir installDir;
+
     @Deprecated
     private final ObservationManager om;
 
@@ -69,8 +67,12 @@ public class ExtensionLoader {
         this.installDir = installDir;
         this.om = om;
         this.model = model;
-        this.context = new ExtensionContext.Builder().configuration(this.om.getConfiguration())
-                .installDir(this.installDir).uiHelper(this.om.getUiHelper()).model(this.model).build();
+        this.context = new ExtensionContext.Builder()
+                .configuration(this.om.getConfiguration())
+                .installDir(this.installDir)
+                .uiHelper(this.om.getUiHelper())
+                .model(this.model)
+                .build();
 
         // TODO inject
         this.loader = new ExternalExtensionLoader(context);
@@ -79,7 +81,6 @@ public class ExtensionLoader {
 
         this.catalogLoader = new CatalogLoader(om, this.extensions);
         this.schemaUILoader = new SchemaUILoader(om, this.extensions, this.model);
-
     }
 
     // --------------
@@ -90,8 +91,8 @@ public class ExtensionLoader {
 
         IExtension extension = loader.addExtension(fileExtension);
 
-        final List<String> extensionNames = this.extensions.stream().map(IExtension::getName)
-                .collect(Collectors.toList());
+        final List<String> extensionNames =
+                this.extensions.stream().map(IExtension::getName).collect(Collectors.toList());
         if (extensionNames.contains(extension.getName())) {
             LOGGER.info("There is already an extension called: {}", extension.getName());
 
@@ -101,9 +102,7 @@ public class ExtensionLoader {
             // Clear Menu and PopupMenu Caches
             this.cachedMenus = null;
             this.cachedPopupMenus = null;
-
         }
-
     }
 
     public List<IExtension> getExtensions() {
@@ -118,11 +117,9 @@ public class ExtensionLoader {
             if (!GenericExtension.NAME.equals(current.getName())) {
                 result.add(current);
             }
-
         }
 
         return result;
-
     }
 
     public void reloadLanguage() {
@@ -133,19 +130,16 @@ public class ExtensionLoader {
 
         this.cachedMenus = null;
         this.cachedPopupMenus = null;
-
     }
 
     public CatalogLoader getCatalogLoader() {
 
         return this.catalogLoader;
-
     }
 
     public SchemaUILoader getSchemaUILoader() {
 
         return this.schemaUILoader;
-
     }
 
     public JMenu[] getMenus() {
@@ -161,11 +155,9 @@ public class ExtensionLoader {
             }
 
             this.cachedMenus = result.toArray(new JMenu[] {});
-
         }
 
         return this.cachedMenus;
-
     }
 
     public PopupMenuExtension[] getPopupMenus() {
@@ -181,11 +173,9 @@ public class ExtensionLoader {
             }
 
             this.cachedPopupMenus = result.toArray(new PopupMenuExtension[] {});
-
         }
 
         return this.cachedPopupMenus;
-
     }
 
     public PreferencesPanel[] getPreferencesTabs() {
@@ -199,7 +189,6 @@ public class ExtensionLoader {
         }
 
         return result.toArray(new PreferencesPanel[] {});
-
     }
 
     // ---------------
@@ -214,13 +203,11 @@ public class ExtensionLoader {
         this.addInternalExtension(new ImagerExtension(context));
         this.addInternalExtension(new SolarSystemExtension(context));
         this.addInternalExtension(new VariableStarsExtension(context));
-
     }
 
     private void addInternalExtension(IExtension extension) {
 
         this.loadExtensionTypes(extension);
-
     }
 
     private void loadExtensionTypes(IExtension extension) {
@@ -236,7 +223,8 @@ public class ExtensionLoader {
 
     private void logSupported(IExtension extension) {
         if (LOGGER.isDebugEnabled()) {
-            extension.getAllSupportedXSITypes()
+            extension
+                    .getAllSupportedXSITypes()
                     .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type));
         }
     }

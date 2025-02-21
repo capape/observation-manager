@@ -7,12 +7,16 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.comparator.TargetComparator;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
@@ -21,12 +25,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.comparator.TargetComparator;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-
 // NO LONGER NEEDED - REPLACED BY SCHEMAELEMENTSELECTORPOPUP
 class TargetSelectorPopup extends JDialog implements ActionListener {
 
@@ -34,12 +32,17 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private JButton ok = null;
     private JButton cancel = null;
 
     private TargetSelectionModel tableModel = null;
 
-    public TargetSelectorPopup(ObservationManager om, ObservationManagerModel model, String title, String targetType,
+    public TargetSelectorPopup(
+            ObservationManager om,
+            ObservationManagerModel model,
+            String title,
+            String targetType,
             List<ITarget> preSelectedTargets) {
 
         super(om, true);
@@ -54,7 +57,6 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -74,7 +76,6 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
            * Integer.parseInt(((JCheckBox)source).getActionCommand()); // We send the row in the action Command
            * this.tableModel.setSelection(row, ((JCheckBox)source).isSelected()); }
            */
-
     }
 
     public List<ITarget> getSelectedTargets() {
@@ -84,7 +85,6 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         }
 
         return this.tableModel.getAllSelectedTargets();
-
     }
 
     private void initDialog() {
@@ -121,9 +121,7 @@ class TargetSelectorPopup extends JDialog implements ActionListener {
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
-
 }
 
 class TargetSelectionModel extends AbstractTableModel {
@@ -132,6 +130,7 @@ class TargetSelectionModel extends AbstractTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private Map<ITarget, Boolean> targetMap = null;
 
     public TargetSelectionModel(ITarget[] targets, String targetFilter, List<ITarget> preSelectedTargets) {
@@ -145,16 +144,13 @@ class TargetSelectionModel extends AbstractTableModel {
                     targetMap.put(target, Boolean.FALSE);
                 }
             }
-
         }
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
@@ -165,14 +161,12 @@ class TargetSelectionModel extends AbstractTableModel {
         }
 
         return targetMap.size();
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
         return columnIndex == 1;
-
     }
 
     @Override
@@ -194,7 +188,6 @@ class TargetSelectionModel extends AbstractTableModel {
             default:
                 return "";
         }
-
     }
 
     @Override
@@ -205,7 +198,6 @@ class TargetSelectionModel extends AbstractTableModel {
                 this.setSelection(row, (Boolean) o);
             }
         }
-
     }
 
     @Override
@@ -221,7 +213,6 @@ class TargetSelectionModel extends AbstractTableModel {
         }
 
         return String.class;
-
     }
 
     private void setSelection(int row, boolean selection) {
@@ -229,7 +220,6 @@ class TargetSelectionModel extends AbstractTableModel {
         ITarget keyTarget = (ITarget) this.targetMap.keySet().toArray(new Object[0])[row];
         this.targetMap.remove(keyTarget);
         this.targetMap.put(keyTarget, selection);
-
     }
 
     public List<ITarget> getAllSelectedTargets() {
@@ -248,7 +238,5 @@ class TargetSelectionModel extends AbstractTableModel {
         }
 
         return result;
-
     }
-
 }

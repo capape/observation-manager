@@ -22,7 +22,6 @@ public class SessionBox extends OMComboBox<ISession> {
     public SessionBox(DateManager dateManager) {
         super();
         this.dateManager = dateManager;
-
     }
 
     @Override
@@ -30,7 +29,5 @@ public class SessionBox extends OMComboBox<ISession> {
 
         return dateManager.offsetDateTimeToStringWithHour(session.getBegin()) + " - "
                 + dateManager.offsetDateTimeToStringWithHour(session.getEnd());
-
     }
-
 }

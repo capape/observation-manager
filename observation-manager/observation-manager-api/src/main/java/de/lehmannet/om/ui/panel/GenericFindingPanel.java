@@ -7,11 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
 import de.lehmannet.om.GenericFinding;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
@@ -19,6 +14,9 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ui.container.FindingContainer;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 
 public class GenericFindingPanel extends AbstractPanel implements IFindingPanel {
 
@@ -42,14 +40,12 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
         this.configuration = configuration;
 
         this.createPanel();
-
     }
 
     @Override
     public String getXSIType() {
 
         return GenericFindingPanel.XSI_TYPE;
-
     }
 
     // ------
@@ -60,7 +56,6 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
     public String getName() {
 
         return AbstractPanel.bundle.getString("panel.finding.name");
-
     }
 
     @Override
@@ -77,7 +72,6 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
         }
 
         return this.finding;
-
     }
 
     @Override
@@ -90,14 +84,12 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
         }
 
         return gf;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.finding;
-
     }
 
     private void createPanel() {
@@ -118,7 +110,5 @@ public class GenericFindingPanel extends AbstractPanel implements IFindingPanel 
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

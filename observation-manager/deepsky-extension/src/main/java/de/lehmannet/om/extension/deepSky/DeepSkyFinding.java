@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.Angle;
+import de.lehmannet.om.Finding;
+import de.lehmannet.om.IExtendableSchemaElement;
+import de.lehmannet.om.util.SchemaException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +18,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.Angle;
-import de.lehmannet.om.Finding;
-import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyFinding extends the de.lehmannet.om.Finding class. Its specialised for DeepSky observations and their
@@ -198,7 +197,6 @@ public class DeepSkyFinding extends Finding {
         if (!StringUtils.isBlank(extended)) {
             this.setExtended(Boolean.valueOf(extended));
         }
-
     }
 
     /**
@@ -216,7 +214,6 @@ public class DeepSkyFinding extends Finding {
         super(description);
 
         this.setRating(rating);
-
     }
 
     // -------------
@@ -236,7 +233,6 @@ public class DeepSkyFinding extends Finding {
     public String getDisplayName() {
 
         return this.getDescription().substring(0, 7);
-
     }
 
     // ------
@@ -290,7 +286,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         return buffer.toString();
-
     }
 
     // ------------------------
@@ -313,31 +308,20 @@ public class DeepSkyFinding extends Finding {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         DeepSkyFinding other = (DeepSkyFinding) obj;
-        if (extended != other.extended)
-            return false;
+        if (extended != other.extended) return false;
         if (largeDiameter == null) {
-            if (other.largeDiameter != null)
-                return false;
-        } else if (!largeDiameter.equals(other.largeDiameter))
-            return false;
-        if (mottled != other.mottled)
-            return false;
-        if (rating != other.rating)
-            return false;
-        if (resolved != other.resolved)
-            return false;
+            if (other.largeDiameter != null) return false;
+        } else if (!largeDiameter.equals(other.largeDiameter)) return false;
+        if (mottled != other.mottled) return false;
+        if (rating != other.rating) return false;
+        if (resolved != other.resolved) return false;
         if (smallDiameter == null) {
-            if (other.smallDiameter != null)
-                return false;
-        } else if (!smallDiameter.equals(other.smallDiameter))
-            return false;
+            if (other.smallDiameter != null) return false;
+        } else if (!smallDiameter.equals(other.smallDiameter)) return false;
         return stellar == other.stellar;
     }
 
@@ -353,7 +337,6 @@ public class DeepSkyFinding extends Finding {
     public String getXSIType() {
 
         return DeepSkyFinding.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------
@@ -382,7 +365,6 @@ public class DeepSkyFinding extends Finding {
         parent.appendChild(e_Finding);
 
         return parent;
-
     }
 
     // --------------
@@ -399,7 +381,6 @@ public class DeepSkyFinding extends Finding {
     public Angle getLargeDiameter() {
 
         return largeDiameter;
-
     }
 
     /**
@@ -417,7 +398,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         return mottled == 1;
-
     }
 
     /**
@@ -430,7 +410,6 @@ public class DeepSkyFinding extends Finding {
     public int getRating() {
 
         return rating;
-
     }
 
     /**
@@ -447,7 +426,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         return resolved == 1;
-
     }
 
     /**
@@ -460,7 +438,6 @@ public class DeepSkyFinding extends Finding {
     public Angle getSmallDiameter() {
 
         return smallDiameter;
-
     }
 
     /**
@@ -477,7 +454,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         return stellar == 1;
-
     }
 
     /**
@@ -494,7 +470,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         return extended == 1;
-
     }
 
     /**
@@ -514,7 +489,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         this.largeDiameter = largeDiameter;
-
     }
 
     /**
@@ -537,7 +511,6 @@ public class DeepSkyFinding extends Finding {
         } else {
             this.mottled = 0;
         }
-
     }
 
     /**
@@ -578,7 +551,8 @@ public class DeepSkyFinding extends Finding {
         if ((rating > 7) || (rating < 1)) {
             if (rating != 99) {
 
-                LOG.warn("Rating value cannot be smaller then 1 or greater then 7: {}. Setting to 99 as unknown value.",
+                LOG.warn(
+                        "Rating value cannot be smaller then 1 or greater then 7: {}. Setting to 99 as unknown value.",
                         rating);
                 rating = 99;
                 /*
@@ -595,7 +569,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         this.rating = rating;
-
     }
 
     /**
@@ -617,7 +590,6 @@ public class DeepSkyFinding extends Finding {
         } else {
             this.resolved = 0;
         }
-
     }
 
     /**
@@ -637,7 +609,6 @@ public class DeepSkyFinding extends Finding {
         }
 
         this.smallDiameter = smallDiameter;
-
     }
 
     /**
@@ -660,7 +631,6 @@ public class DeepSkyFinding extends Finding {
         } else {
             this.stellar = 0;
         }
-
     }
 
     /**
@@ -683,7 +653,6 @@ public class DeepSkyFinding extends Finding {
         } else {
             this.extended = 0;
         }
-
     }
 
     // -----------------
@@ -738,7 +707,5 @@ public class DeepSkyFinding extends Finding {
 
         // return parent;
         return e_Finding;
-
     }
-
 }

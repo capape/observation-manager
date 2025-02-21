@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.extension.variableStars.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -28,13 +18,21 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class VariableStarTargetPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -7456755701627150427L;
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private TargetVariableStar target = null;
 
@@ -46,8 +44,9 @@ public class VariableStarTargetPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public VariableStarTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public VariableStarTargetPanel(
+            IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -65,14 +64,12 @@ public class VariableStarTargetPanel extends AbstractPanel {
         if (this.target != null) {
             this.loadSchemaElement();
         }
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -113,7 +110,6 @@ public class VariableStarTargetPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     @Override
@@ -144,7 +140,6 @@ public class VariableStarTargetPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     private void loadSchemaElement() {
@@ -175,7 +170,6 @@ public class VariableStarTargetPanel extends AbstractPanel {
             this.period.setText("");
         }
         this.period.setEditable(this.isEditable());
-
     }
 
     private void createPanel() {
@@ -192,12 +186,12 @@ public class VariableStarTargetPanel extends AbstractPanel {
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
         // Change labels in container
-        this.targetContainer.labelMagnitudeApp
-                .setText(this.bundle.getString("panel.variableStarTarget.label.minApparentMag"));
-        this.targetContainer.labelMagnitudeApp
-                .setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));
-        this.targetContainer.magnitudeApparent
-                .setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));
+        this.targetContainer.labelMagnitudeApp.setText(
+                this.bundle.getString("panel.variableStarTarget.label.minApparentMag"));
+        this.targetContainer.labelMagnitudeApp.setToolTipText(
+                this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));
+        this.targetContainer.magnitudeApparent.setToolTipText(
+                this.bundle.getString("panel.variableStarTarget.tooltip.minApparentMag"));
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 5, 1, 100, 1);
         JSeparator seperator1 = new JSeparator(SwingConstants.HORIZONTAL);
@@ -234,8 +228,8 @@ public class VariableStarTargetPanel extends AbstractPanel {
         this.add(this.type);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 1, 1);
-        OMLabel Lperiod = new OMLabel(this.bundle.getString("panel.variableStarTarget.label.period"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lperiod = new OMLabel(
+                this.bundle.getString("panel.variableStarTarget.label.period"), SwingConstants.RIGHT, false);
         Lperiod.setToolTipText(this.bundle.getString("panel.variableStarTarget.tooltip.period"));
         gridbag.setConstraints(Lperiod, constraints);
         this.add(Lperiod);
@@ -255,7 +249,5 @@ public class VariableStarTargetPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

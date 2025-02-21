@@ -7,24 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.ZonedDateTime;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IEyepiece;
@@ -52,6 +34,22 @@ import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.DateConverter;
 import de.lehmannet.om.util.Ephemerides;
 import de.lehmannet.om.util.OpticsUtil;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.ZonedDateTime;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 public class ObservationItemPanel extends AbstractPanel {
 
@@ -61,8 +59,8 @@ public class ObservationItemPanel extends AbstractPanel {
     private final JTextField begin = new JTextField(14);
     private final JTextField end = new JTextField(14);
     private final JTextField faintestStar = new JTextField(4);
-    private final SurfaceBrightnessContainer sqm = new SurfaceBrightnessContainer(null, false,
-            new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
+    private final SurfaceBrightnessContainer sqm = new SurfaceBrightnessContainer(
+            null, false, new String[] {SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC});
     private final JTextField magnification = new JTextField(4);
     private final JTextField seeing = new JTextField(2);
     private final JTextField images = new JTextField(15);
@@ -107,7 +105,6 @@ public class ObservationItemPanel extends AbstractPanel {
         this.loadSchemaElement();
 
         this.setVisible(true);
-
     }
 
     private void loadSchemaElement() {
@@ -121,7 +118,8 @@ public class ObservationItemPanel extends AbstractPanel {
         ZonedDateTime begin = observation.getBegin().toZonedDateTime();
         this.begin.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
-        String toolTipDate = String.format("JD: %s \nUTC: %s",
+        String toolTipDate = String.format(
+                "JD: %s \nUTC: %s",
                 this.om.getDateManager().formatAsAstronomicalJulianDate(begin), observation.getBegin());
         this.begin.setToolTipText(toolTipDate);
 
@@ -138,10 +136,12 @@ public class ObservationItemPanel extends AbstractPanel {
         // Load optional stuff
 
         if (observation.getEnd() != null) {
-            this.end.setText(
-                    this.om.getDateManager().zonedDateTimeToStringWithSeconds(observation.getEnd().toZonedDateTime()));
+            this.end.setText(this.om
+                    .getDateManager()
+                    .zonedDateTimeToStringWithSeconds(observation.getEnd().toZonedDateTime()));
             this.end.setCaretPosition(0);
-            this.end.setToolTipText("JD: " + DateConverter.toJulianDate(observation.getEnd().toZonedDateTime()));
+            this.end.setToolTipText(
+                    "JD: " + DateConverter.toJulianDate(observation.getEnd().toZonedDateTime()));
         }
 
         float fs = observation.getFaintestStar();
@@ -279,28 +279,24 @@ public class ObservationItemPanel extends AbstractPanel {
         if (filter != null) {
             this.filter.setText(filter.getDisplayName());
         }
-
     }
 
     @Override
     public ISchemaElement createSchemaElement() {
 
         return this.observation;
-
     }
 
     @Override
     public ISchemaElement updateSchemaElement() {
 
         return this.observation;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.observation;
-
     }
 
     private void createPanel() {
@@ -323,8 +319,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.begin);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 8, 1);
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.end"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lend = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.end"), SwingConstants.RIGHT, false);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
         this.add(Lend);
@@ -335,8 +331,10 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.end);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 8, 1);
-        OMLabel LfaintestStar = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.faintestStar"),
-                SwingConstants.RIGHT, false);
+        OMLabel LfaintestStar = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.faintestStar"),
+                SwingConstants.RIGHT,
+                false);
         LfaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.faintestStar"));
         gridbag.setConstraints(LfaintestStar, constraints);
         this.add(LfaintestStar);
@@ -353,14 +351,14 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(Lmag);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 1);
         this.magnification.setEditable(false);
-        this.magnification
-                .setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.magnification"));
+        this.magnification.setToolTipText(
+                AbstractPanel.bundle.getString("panel.observationItem.tooltip.magnification"));
         gridbag.setConstraints(this.magnification, constraints);
         this.add(this.magnification);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 8, 1);
-        OMLabel Lseeing = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.seeing"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lseeing = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.seeing"), SwingConstants.RIGHT, false);
         Lseeing.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.seeing"));
         gridbag.setConstraints(Lseeing, constraints);
         this.add(Lseeing);
@@ -371,8 +369,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.seeing);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 8, 1);
-        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.sqm"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lsqm = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.sqm"), SwingConstants.RIGHT, false);
         Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.sqm"));
         gridbag.setConstraints(Lsqm, constraints);
         this.add(Lsqm);
@@ -383,8 +381,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.sqm);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 8, 1);
-        OMLabel Laccessories = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.accessories"),
-                false);
+        OMLabel Laccessories =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.accessories"), false);
         Laccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.accessories"));
         gridbag.setConstraints(Laccessories, constraints);
         this.add(Laccessories);
@@ -411,8 +409,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.session);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 8, 1);
-        OMLabel Lsite = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.site"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lsite = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.site"), SwingConstants.RIGHT, false);
         Lsite.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.site"));
         gridbag.setConstraints(Lsite, constraints);
         this.add(Lsite);
@@ -423,8 +421,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.site);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 4, 1, 1, 8, 1);
-        OMLabel Lobserver = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.observer"),
-                SwingConstants.RIGHT, true);
+        OMLabel Lobserver = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.observer"), SwingConstants.RIGHT, true);
         Lobserver.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.observer"));
         gridbag.setConstraints(Lobserver, constraints);
         this.add(Lobserver);
@@ -451,8 +449,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.scope);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 6, 1, 1, 8, 1);
-        OMLabel Leyepiece = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.eyepiece"),
-                SwingConstants.RIGHT, false);
+        OMLabel Leyepiece = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.eyepiece"), SwingConstants.RIGHT, false);
         Leyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.eyepiece"));
         gridbag.setConstraints(Leyepiece, constraints);
         this.add(Leyepiece);
@@ -463,8 +461,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.eyepiece);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 6, 1, 1, 8, 1);
-        OMLabel Lfilter = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.filter"),
-                SwingConstants.RIGHT, false);
+        OMLabel Lfilter = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.filter"), SwingConstants.RIGHT, false);
         Lfilter.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.filter"));
         gridbag.setConstraints(Lfilter, constraints);
         this.add(Lfilter);
@@ -496,8 +494,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.lens);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 7, 1, 1, 8, 1);
-        JLabel LtrueFoV = new JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.trueFoV"),
-                SwingConstants.RIGHT);
+        JLabel LtrueFoV =
+                new JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.trueFoV"), SwingConstants.RIGHT);
         LtrueFoV.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.trueFoV"));
         gridbag.setConstraints(LtrueFoV, constraints);
         LtrueFoV.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
@@ -509,8 +507,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.trueFoV);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 7, 1, 1, 8, 1);
-        JLabel LexitPupil = new JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.exitPupil"),
-                SwingConstants.RIGHT);
+        JLabel LexitPupil = new JLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.exitPupil"), SwingConstants.RIGHT);
         LexitPupil.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
         gridbag.setConstraints(LexitPupil, constraints);
         LexitPupil.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
@@ -522,8 +520,8 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.exitPupil);
 
         ConstraintsBuilder.buildConstraints(constraints, 6, 7, 1, 1, 1, 1);
-        JLabel LexitPupilUnit = new JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.exitPupilUnit"),
-                SwingConstants.RIGHT);
+        JLabel LexitPupilUnit = new JLabel(
+                AbstractPanel.bundle.getString("panel.observationItem.label.exitPupilUnit"), SwingConstants.RIGHT);
         LexitPupilUnit.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
         gridbag.setConstraints(LexitPupilUnit, constraints);
         LexitPupilUnit.setFont(new Font("sansserif", Font.BOLD, 12));
@@ -549,15 +547,16 @@ public class ObservationItemPanel extends AbstractPanel {
         if (this.observation != null) {
             EquPosition pos = this.observation.getTarget().getPosition();
             if (pos == null) { // Try to calculate position
-                pos = Ephemerides.getPosition(Ephemerides.planetKey(this.observation.getTarget().getName()),
+                pos = Ephemerides.getPosition(
+                        Ephemerides.planetKey(this.observation.getTarget().getName()),
                         this.observation.getBegin().toZonedDateTime());
             }
             if ((pos != null) && (this.observation.getSite() != null)) {
                 ConstraintsBuilder.buildConstraints(constraints, 7, 6, 1, 2, 1, 1);
                 constraints.fill = GridBagConstraints.BOTH;
                 constraints.anchor = GridBagConstraints.EAST;
-                HorizontalSkymap skyMap = new HorizontalSkymap(pos, this.observation.getBegin().toZonedDateTime(),
-                        this.observation.getSite());
+                HorizontalSkymap skyMap = new HorizontalSkymap(
+                        pos, this.observation.getBegin().toZonedDateTime(), this.observation.getSite());
                 skyMap.setHorizontalAlignment(SwingConstants.RIGHT);
                 gridbag.setConstraints(skyMap, constraints);
                 this.add(skyMap);
@@ -622,18 +621,24 @@ public class ObservationItemPanel extends AbstractPanel {
 
         if (this.observation != null && this.observation.getImages() != null) {
             ConstraintsBuilder.buildConstraints(constraints, 0, 16, 1, 1, 99, 1);
-            OMLabel LimageContainer = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"),
-                    false);
+            OMLabel LimageContainer =
+                    new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"), false);
             LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
             gridbag.setConstraints(LimageContainer, constraints);
             this.add(LimageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
             ImageContainer imageContainer = new ImageContainer(
-                    this.model.getFilesFromPath(this.observation.getImages()), this.om, this.om.getConfiguration(),
-                    this.model, false, this.om.getImageResolver());
-            JScrollPane imageContainerScroll = new JScrollPane(imageContainer,
-                    ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    this.model.getFilesFromPath(this.observation.getImages()),
+                    this.om,
+                    this.om.getConfiguration(),
+                    this.model,
+                    false,
+                    this.om.getImageResolver());
+            JScrollPane imageContainerScroll = new JScrollPane(
+                    imageContainer,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             gridbag.setConstraints(imageContainerScroll, constraints);
             // Make sure size of scroll container can handle image thumbnail
             imageContainerScroll.setPreferredSize(imageContainer.getPreferredSize());
@@ -643,7 +648,5 @@ public class ObservationItemPanel extends AbstractPanel {
            * GridBagConstraints.BOTH; JLabel Lfill = new JLabel(""); gridbag.setConstraints(Lfill, constraints);
            * this.add(Lfill);
            */
-
     }
-
 }

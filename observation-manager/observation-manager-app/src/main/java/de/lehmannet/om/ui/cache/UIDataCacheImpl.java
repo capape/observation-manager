@@ -1,16 +1,15 @@
 package de.lehmannet.om.ui.cache;
 
-import java.io.File;
-import java.time.ZonedDateTime;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.SurfaceBrightness;
+import java.io.File;
+import java.time.ZonedDateTime;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UIDataCacheImpl implements UIDataCache {
 
@@ -42,13 +41,11 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
     public void remove(String key) {
         this.cache.remove(key);
-
     }
 
     @Override
@@ -57,7 +54,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -84,7 +80,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -98,7 +93,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -112,7 +106,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -126,7 +119,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -140,7 +132,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -158,7 +149,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override
@@ -168,7 +158,6 @@ public class UIDataCacheImpl implements UIDataCache {
         } catch (ClassCastException e) {
             return Float.NaN;
         }
-
     }
 
     @Override
@@ -177,7 +166,6 @@ public class UIDataCacheImpl implements UIDataCache {
             return;
         }
         this.cache.putIfAbsent(key, value);
-
     }
 
     @Override

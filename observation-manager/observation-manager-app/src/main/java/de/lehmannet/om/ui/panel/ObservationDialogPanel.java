@@ -7,45 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
-
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -91,6 +52,43 @@ import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileFilter;
 
 public class ObservationDialogPanel extends AbstractPanel implements ActionListener, ItemListener, ChangeListener {
 
@@ -168,8 +166,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     // Requires ObservationManager for instancating all dialoges
     // Receives (non-persistent) cache in order to preset some UI values with recent
     // values
-    public ObservationDialogPanel(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation, ISchemaElement se, ImageResolver resolver, UIDataCache uiCache) {
+    public ObservationDialogPanel(
+            ObservationManager om,
+            ObservationManagerModel model,
+            TextManager textManager,
+            IObservation observation,
+            ISchemaElement se,
+            ImageResolver resolver,
+            UIDataCache uiCache) {
 
         super(true);
 
@@ -278,7 +282,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     public ISchemaElement getSchemaElement() {
 
         return this.observation;
-
     }
 
     @Override
@@ -337,7 +340,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         this.beginDate = createDateTimeInUTC(this.beginDate, this.beginTime);
-        this.offSetBeginDate = this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+        this.offSetBeginDate =
+                this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
         this.observation.setBegin(this.offSetBeginDate);
         this.cache.putDate(ObservationDialogPanel.CACHEKEY_STARTDATE, this.beginDate); // Fill cache
@@ -350,7 +354,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.endDate != null) {
 
             this.endDate = createDateTimeInUTC(this.endDate, this.endTime);
-            this.offSetEndDate = this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
+            this.offSetEndDate =
+                    this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
 
             if (this.endDate.isBefore(this.beginDate)) {
                 this.createWarning(AbstractPanel.bundle.getString("panel.observation.warning.endBeforeStart"));
@@ -366,13 +371,16 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         try {
             // Check whether observer is not listed as coObserver
             ISession session = this.sessionBox.getSelectedSchemaElement();
-            if ((session != null) && (session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())
+            if ((session != null)
+                    && (session.getCoObservers() != null)
+                    && !(session.getCoObservers().isEmpty())
                     && (session.getCoObservers().contains(observer))) {
                 JOptionPane pane = new JOptionPane(
                         AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver"),
-                        JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-                JDialog dialog = pane.createDialog(this,
-                        AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver.title"));
+                        JOptionPane.QUESTION_MESSAGE,
+                        JOptionPane.YES_NO_OPTION);
+                JDialog dialog = pane.createDialog(
+                        this, AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver.title"));
                 dialog.setVisible(true);
                 Object selectedValue = pane.getValue();
                 if ((selectedValue instanceof Integer)) {
@@ -460,11 +468,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         this.observation.setAccessories(this.accessories.getText());
 
-        this.observation
-                .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
+        this.observation.setImages(
+                this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
         return this.observation;
-
     }
 
     @Override
@@ -536,7 +543,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             }
 
             this.endDate = newEndDate;
-            this.observation.setEnd(this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
+            this.observation.setEnd(
+                    this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime());
             this.cache.putDate(ObservationDialogPanel.CACHEKEY_ENDDATE, this.endDate);
         } else {
             this.observation.setEnd(null);
@@ -548,12 +556,16 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             if (se != null) {
                 // Check whether observer is not listed as coObserver
                 ISession session = this.sessionBox.getSelectedSchemaElement();
-                if ((session != null) && (session.getCoObservers() != null) && !(session.getCoObservers().isEmpty())
+                if ((session != null)
+                        && (session.getCoObservers() != null)
+                        && !(session.getCoObservers().isEmpty())
                         && (session.getCoObservers().contains(observer))) {
                     JOptionPane pane = new JOptionPane(
                             AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver"),
-                            JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
-                    JDialog dialog = pane.createDialog(this,
+                            JOptionPane.QUESTION_MESSAGE,
+                            JOptionPane.YES_NO_OPTION);
+                    JDialog dialog = pane.createDialog(
+                            this,
                             AbstractPanel.bundle.getString("panel.observation.warning.coObserverIsObserver.title"));
                     dialog.setVisible(true);
                     Object selectedValue = pane.getValue();
@@ -667,11 +679,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             this.cache.putString(ObservationDialogPanel.CACHEKEY_ACCESSORIES, ac);
         }
 
-        this.observation
-                .setImages(this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
+        this.observation.setImages(
+                this.imageContainer.getImages(this.model.getXMLFileForSchemaElement(this.observation)));
 
         return this.observation;
-
     }
 
     // --------------
@@ -718,7 +729,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 }
             } else if (source.equals(this.newImager)) {
                 ExtenableSchemaElementSelector imagerChooser = new ExtenableSchemaElementSelector(
-                        this.observationManager, this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                        this.observationManager,
+                        this.observationManager.getExtensionLoader().getSchemaUILoader(),
                         SchemaElementConstants.IMAGER);
                 if (imagerChooser.getResult()) {
                     // Get ImagerDialog
@@ -730,7 +742,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 }
             } else if (source.equals(this.newTarget)) {
                 ExtenableSchemaElementSelector targetChooser = new ExtenableSchemaElementSelector(
-                        this.observationManager, this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                        this.observationManager,
+                        this.observationManager.getExtensionLoader().getSchemaUILoader(),
                         SchemaElementConstants.TARGET);
                 if (targetChooser.getResult()) {
                     // Get TargetContainer
@@ -761,8 +774,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
             } else if (source.equals(this.beginNow)) {
                 this.beginDate = ZonedDateTime.now();
-                this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(),
-                        this.beginDate.getSecond());
+                this.beginTime.setTime(
+                        this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
                 this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
             }
         } else {
@@ -771,22 +784,26 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 // we don't need to do further checks here
                 this.calculateMagnification(-1);
         }
-
     }
 
     private void readEndDate() {
         DatePicker dp = null;
 
         if (this.endDate != null) {
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.endDate,
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"),
+                    this.endDate,
                     this.observationManager.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"), this.beginDate,
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"),
+                    this.beginDate,
                     this.observationManager.getDateManager());
         } else {
-            dp = new DatePicker(this.observationManager,
+            dp = new DatePicker(
+                    this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.end.datePicker.title"),
                     this.observationManager.getDateManager());
         }
@@ -799,11 +816,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         DatePicker dp = null;
 
         if (this.beginDate != null) {
-            dp = new DatePicker(this.observationManager,
-                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"), this.beginDate,
+            dp = new DatePicker(
+                    this.observationManager,
+                    AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"),
+                    this.beginDate,
                     this.observationManager.getDateManager());
         } else {
-            dp = new DatePicker(this.observationManager,
+            dp = new DatePicker(
+                    this.observationManager,
                     AbstractPanel.bundle.getString("panel.observation.start.datePicker.title"),
                     this.observationManager.getDateManager());
         }
@@ -823,7 +843,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             int currentValue = this.eyepieceFLSlider.getValue();
             this.calculateMagnification(currentValue);
         }
-
     }
 
     // ------------
@@ -894,15 +913,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                     this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
 
                     // Check whether enddate/time should be autom. set
-                    if (Boolean.parseBoolean(this.observationManager.getConfiguration()
+                    if (Boolean.parseBoolean(this.observationManager
+                            .getConfiguration()
                             .getConfig(ConfigKey.CONFIG_RETRIEVE_ENDDATE_FROM_SESSION))) {
                         this.endDate = this.beginDate.plusMinutes(OBSERVATION_DURATION_MINUTES); // Add 10 minutes, as
-                                                                                                 // end date should be
-                                                                                                 // after
+                        // end date should be
+                        // after
                         // begin date
-                        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(endDate));
-                        this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(),
-                                this.endDate.getSecond());
+                        this.end.setText(
+                                this.observationManager.getDateManager().zonedDateTimeToString(endDate));
+                        this.endTime.setTime(
+                                this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
                     }
 
                     // Set site
@@ -966,7 +987,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
                 this.updateUI();
             }
         }
-
     }
 
     // ---------------
@@ -979,10 +999,14 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         FileFilter imageFileFilter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return (f.getName().toLowerCase().endsWith(".jpg")) || (f.getName().toLowerCase().endsWith(".jpeg"))
-                        || (f.getName().toLowerCase().endsWith(".gif")) || (f.getName().toLowerCase().endsWith(".png"))
-                        || (f.getName().toLowerCase().endsWith(".fits")) || (f.getName().toLowerCase().endsWith(".fit"))
-                        || (f.getName().toLowerCase().endsWith(".fts")) || (f.isDirectory());
+                return (f.getName().toLowerCase().endsWith(".jpg"))
+                        || (f.getName().toLowerCase().endsWith(".jpeg"))
+                        || (f.getName().toLowerCase().endsWith(".gif"))
+                        || (f.getName().toLowerCase().endsWith(".png"))
+                        || (f.getName().toLowerCase().endsWith(".fits"))
+                        || (f.getName().toLowerCase().endsWith(".fit"))
+                        || (f.getName().toLowerCase().endsWith(".fts"))
+                        || (f.isDirectory());
             }
 
             @Override
@@ -1019,7 +1043,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
             Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
             setCursor(normalCursor);
         }
-
     }
 
     private ITarget getTarget() {
@@ -1031,7 +1054,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         return target;
-
     }
 
     private IObserver getObserver() {
@@ -1043,7 +1065,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         return observer;
-
     }
 
     private IFinding getFinding() {
@@ -1054,7 +1075,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         return (IFinding) this.findingsPanel.createSchemaElement();
-
     }
 
     private void loadSchemaElement() {
@@ -1142,8 +1162,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.observation.getEyepiece() != null) {
             this.eyepieceBox.setSelectedItem(this.observation.getEyepiece());
             if (this.observation.getEyepiece().isZoomEyepiece()) {
-                float afl = OpticsUtil.getActualFocalLength(this.observation.getScope(), this.observation.getLens(),
-                        this.observation.getMagnification());
+                float afl = OpticsUtil.getActualFocalLength(
+                        this.observation.getScope(), this.observation.getLens(), this.observation.getMagnification());
                 this.eyepieceFLSlider.setValue(Math.round(afl));
             }
         }
@@ -1162,7 +1182,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.newImager.setEnabled(this.isEditable());
 
         this.imageContainer.addImagesFromPath(this.observation.getImages());
-
     }
 
     private void createPanel() {
@@ -1190,12 +1209,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         imagerRow(gridbag, constraints);
         imagesRow(gridbag, constraints);
 
-        this.tabbedPane.addTab(AbstractPanel.bundle.getString("panel.observation.mainPannel.title"),
-                this.selectionPanel);
+        this.tabbedPane.addTab(
+                AbstractPanel.bundle.getString("panel.observation.mainPannel.title"), this.selectionPanel);
 
         this.setLayout(new BorderLayout());
         this.add(this.tabbedPane);
-
     }
 
     private void imagesRow(GridBagLayout gridbag, GridBagConstraints constraints) {
@@ -1206,10 +1224,17 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(LimageContainer);
         ConstraintsBuilder.buildConstraints(constraints, 2, 13, 14, 4, 1, 100);
         constraints.fill = GridBagConstraints.BOTH;
-        this.imageContainer = new ImageContainer(null, this.observationManager,
-                this.observationManager.getConfiguration(), this.model, true, this.imageResolver);
-        JScrollPane imageContainerScroll = new JScrollPane(this.imageContainer,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.imageContainer = new ImageContainer(
+                null,
+                this.observationManager,
+                this.observationManager.getConfiguration(),
+                this.model,
+                true,
+                this.imageResolver);
+        JScrollPane imageContainerScroll = new JScrollPane(
+                this.imageContainer,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         gridbag.setConstraints(imageContainerScroll, constraints);
         imageContainerScroll.setMinimumSize(new Dimension(this.getWidth(), 130));
         this.selectionPanel.add(imageContainerScroll);
@@ -1368,10 +1393,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         gridbag.setConstraints(this.targetBox, constraints);
         this.selectionPanel.add(this.targetBox);
         ConstraintsBuilder.buildConstraints(constraints, 11, 6, 4, 1, 1, 1);
-        this.selectTarget = new JButton(
-                AbstractPanel.bundle.getString("panel.observation.button.selectTargetfromCatalog"));
-        this.selectTarget
-                .setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.selectTargetfromCatalog"));
+        this.selectTarget =
+                new JButton(AbstractPanel.bundle.getString("panel.observation.button.selectTargetfromCatalog"));
+        this.selectTarget.setToolTipText(
+                AbstractPanel.bundle.getString("panel.observation.tooltip.selectTargetfromCatalog"));
         this.selectTarget.addActionListener(this);
         // Check if there are catalogs installed. If not, disable button
         var catalogLoader = this.observationManager.getExtensionLoader().getCatalogLoader();
@@ -1409,8 +1434,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void accesoriesRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 3, 1);
-        OMLabel LAccessories = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.accessories"),
-                false);
+        OMLabel LAccessories =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.accessories"), false);
         LAccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.accessories"));
         gridbag.setConstraints(LAccessories, constraints);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -1424,8 +1449,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
     private void magnificationRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 2, 1, 3, 1);
-        OMLabel LMagnification = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.magnification"),
-                false);
+        OMLabel LMagnification =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.magnification"), false);
         LMagnification.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.magnification"));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(LMagnification, constraints);
@@ -1437,15 +1462,15 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(this.magnification);
 
         ConstraintsBuilder.buildConstraints(constraints, 8, 3, 2, 1, 1, 1);
-        OMLabel Lsqm = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lsqm =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.sqm"), SwingConstants.RIGHT, false);
         Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(Lsqm, constraints);
         this.selectionPanel.add(Lsqm);
         ConstraintsBuilder.buildConstraints(constraints, 10, 3, 0, 1, 6, 1);
-        this.sqmValue = new SurfaceBrightnessContainer(null, true,
-                new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
+        this.sqmValue = new SurfaceBrightnessContainer(
+                null, true, new String[] {SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC});
         this.sqmValue.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.sqm"));
         gridbag.setConstraints(this.sqmValue, constraints);
         this.selectionPanel.add(this.sqmValue);
@@ -1474,8 +1499,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
     private void starAndSeeingRow(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 3, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel LfaintestStar = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.faintestStar"),
-                false);
+        OMLabel LfaintestStar =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.faintestStar"), false);
         LfaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.faintestStar"));
         gridbag.setConstraints(LfaintestStar, constraints);
         this.selectionPanel.add(LfaintestStar);
@@ -1486,8 +1511,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.selectionPanel.add(this.faintestStar);
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 2, 1, 1, 1, 1);
-        OMLabel LSeeing = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.seeing"),
-                SwingConstants.RIGHT, false);
+        OMLabel LSeeing = new OMLabel(
+                AbstractPanel.bundle.getString("panel.observation.label.seeing"), SwingConstants.RIGHT, false);
         LSeeing.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.seeing"));
         gridbag.setConstraints(LSeeing, constraints);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -1541,8 +1566,8 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         ConstraintsBuilder.buildConstraints(constraints, 9, 1, 1, 1, 1, 1);
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel Lend = new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.end"), SwingConstants.RIGHT,
-                false);
+        OMLabel Lend =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observation.label.end"), SwingConstants.RIGHT, false);
         Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.end"));
         gridbag.setConstraints(Lend, constraints);
 
@@ -1583,10 +1608,10 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         this.clearEndDateAndTime = new JButton();
-        this.clearEndDateAndTime
-                .setText(AbstractPanel.bundle.getString("panel.observation.button.clearEndDateAndTime"));
-        this.clearEndDateAndTime
-                .setToolTipText(AbstractPanel.bundle.getString("panel.observation.tooltip.clearEndDateAndTime"));
+        this.clearEndDateAndTime.setText(
+                AbstractPanel.bundle.getString("panel.observation.button.clearEndDateAndTime"));
+        this.clearEndDateAndTime.setToolTipText(
+                AbstractPanel.bundle.getString("panel.observation.tooltip.clearEndDateAndTime"));
         this.clearEndDateAndTime.addActionListener(this);
         gridbag.setConstraints(this.clearEndDateAndTime, constraints);
         this.selectionPanel.add(this.clearEndDateAndTime);
@@ -1773,7 +1798,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         } else {
             this.imagerBox.addEmptyItem();
         }
-
     }
 
     private boolean isNotATargetFromCatalogs(ITarget target) {
@@ -1784,7 +1808,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         var catalogLoader = this.observationManager.getExtensionLoader().getCatalogLoader();
         return catalogLoader.isFromCatalog(target.getName()) != true;
-
     }
 
     private void setFindingPanel(ITarget target) {
@@ -1821,13 +1844,11 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         }
 
         this.repaint();
-
     }
 
     private AbstractPanel getFindingPanel() {
 
         return this.findingsPanel;
-
     }
 
     private void calculateMagnification(float focalLength) {
@@ -1881,7 +1902,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
 
         this.magnification.setEditable(false);
         this.magnification.setText(df.format(m));
-
     }
 
     private void loadFromCache() {
@@ -1939,7 +1959,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         if (this.cache.getString(CACHEKEY_ACCESSORIES) != null) {
             this.accessories.setText("" + this.cache.getString(CACHEKEY_ACCESSORIES));
         }
-
     }
 
     private void clearCacheData() {
@@ -1968,7 +1987,6 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         this.cache.remove(ObservationDialogPanel.CACHEKEY_SEEING);
 
         this.accessories.setText("");
-
     }
 
     private void fillSeeingBox() {
@@ -1995,21 +2013,25 @@ public class ObservationDialogPanel extends AbstractPanel implements ActionListe
         // Ensure time zone is default.
         ZonedDateTime dateInDefaultZone = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
 
-        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(dateInDefaultZone.getYear(),
-                dateInDefaultZone.getMonthValue(), dateInDefaultZone.getDayOfMonth(), timeContainer.getHour(),
-                timeContainer.getMinutes(), timeContainer.getSeconds(), 0, ZoneId.systemDefault());
+        ZonedDateTime currentZoneDateTime = ZonedDateTime.of(
+                dateInDefaultZone.getYear(),
+                dateInDefaultZone.getMonthValue(),
+                dateInDefaultZone.getDayOfMonth(),
+                timeContainer.getHour(),
+                timeContainer.getMinutes(),
+                timeContainer.getSeconds(),
+                0,
+                ZoneId.systemDefault());
 
         return ZonedDateTime.ofInstant(currentZoneDateTime.toInstant(), ZoneId.of("UTC"));
-
     }
-
 }
 
 class SeeingBoxEntry {
 
     private static final String BUNDLE_PREFIX = "seeing.antoniadi.short.";
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private static final String EMPTY_ENTRY = "----";
 
@@ -2022,7 +2044,6 @@ class SeeingBoxEntry {
         }
 
         this.value = value;
-
     }
 
     @Override
@@ -2034,7 +2055,6 @@ class SeeingBoxEntry {
 
         // Get I18N string for value
         return this.bundle.getString(BUNDLE_PREFIX + this.value);
-
     }
 
     @Override
@@ -2045,19 +2065,15 @@ class SeeingBoxEntry {
         }
 
         return false;
-
     }
 
     public int getValue() {
 
         return this.value;
-
     }
 
     public boolean isEmptyItem() {
 
         return this.value == 0;
-
     }
-
 }

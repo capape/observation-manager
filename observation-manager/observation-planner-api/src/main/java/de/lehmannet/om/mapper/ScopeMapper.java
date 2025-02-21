@@ -1,19 +1,17 @@
 package de.lehmannet.om.mapper;
 
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.IScope;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
+import java.util.Locale;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ScopeMapper {
 
@@ -27,9 +25,11 @@ public class ScopeMapper {
         if (children.getLength() == 1) {
             Element child = (Element) children.item(0);
             if (child != null) {
-                ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT).trim()
+                ori_Erect = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_ERECT)
+                        .trim()
                         .toLowerCase(Locale.getDefault());
-                ori_Truesided = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_TRUESIDED).trim()
+                ori_Truesided = child.getAttribute(IScope.XML_ELEMENT_ORENTATION_ATTRIBUTE_TRUESIDED)
+                        .trim()
                         .toLowerCase(Locale.getDefault());
                 return Pair.of(Boolean.parseBoolean(ori_Erect), Boolean.parseBoolean(ori_Truesided));
 
@@ -269,5 +269,4 @@ public class ScopeMapper {
         }
         return ID;
     }
-
 }

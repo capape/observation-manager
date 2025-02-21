@@ -7,20 +7,18 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
-
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class ProgressDialogSwing extends JDialog implements ComponentListener, PropertyChangeListener {
 
@@ -47,7 +45,6 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
         this.pack();
 
         this.setVisible(true);
-
     }
 
     // -----------------
@@ -70,13 +67,11 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
         if (resize) {
             setSize(width, this.getHeight());
         }
-
     }
 
     public void close() {
 
         this.dispose();
-
     }
 
     private JProgressBar initDialog(String information) {
@@ -109,9 +104,7 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
         if ("state".equals(evt.getPropertyName()) && SwingWorker.StateValue.DONE == evt.getNewValue()) {
             this.setVisible(false);
             this.dispose();
-
         }
-
     }
 
     @Override
@@ -131,5 +124,4 @@ public class ProgressDialogSwing extends JDialog implements ComponentListener, P
         // TODO Auto-generated method stub
 
     }
-
 }

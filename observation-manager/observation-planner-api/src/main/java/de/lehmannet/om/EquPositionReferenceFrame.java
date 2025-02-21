@@ -8,7 +8,6 @@
 package de.lehmannet.om;
 
 import java.util.Locale;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -85,7 +84,6 @@ class EquPositionReferenceFrame {
         } else {
             throw new IllegalArgumentException("Origin did not have valid value. ");
         }
-
     }
 
     // ------
@@ -107,7 +105,6 @@ class EquPositionReferenceFrame {
     public String toString() {
 
         return this.getOrigin() + " " + this.getEquinox();
-
     }
 
     /**
@@ -131,11 +128,14 @@ class EquPositionReferenceFrame {
 
         EquPositionReferenceFrame frame = (EquPositionReferenceFrame) obj;
 
-        return (frame.getEquinox().toLowerCase(Locale.getDefault()).trim()
-                .equals(equinox.toLowerCase(Locale.getDefault()).trim()))
-                && (frame.getOrigin().toLowerCase(Locale.getDefault()).trim()
+        return (frame.getEquinox()
+                        .toLowerCase(Locale.getDefault())
+                        .trim()
+                        .equals(equinox.toLowerCase(Locale.getDefault()).trim()))
+                && (frame.getOrigin()
+                        .toLowerCase(Locale.getDefault())
+                        .trim()
                         .equals(origin.toLowerCase(Locale.getDefault()).trim()));
-
     }
 
     @Override
@@ -182,7 +182,6 @@ class EquPositionReferenceFrame {
         parent.appendChild(e_Frame);
 
         return parent;
-
     }
 
     /**
@@ -193,7 +192,6 @@ class EquPositionReferenceFrame {
     private String getEquinox() {
 
         return equinox;
-
     }
 
     /**
@@ -204,7 +202,6 @@ class EquPositionReferenceFrame {
     private String getOrigin() {
 
         return origin;
-
     }
 
     /**
@@ -223,7 +220,6 @@ class EquPositionReferenceFrame {
         }
 
         this.equinox = equinox;
-
     }
 
     /**
@@ -246,7 +242,5 @@ class EquPositionReferenceFrame {
         } else {
             throw new IllegalArgumentException("Origin did not have valid value. ");
         }
-
     }
-
 }

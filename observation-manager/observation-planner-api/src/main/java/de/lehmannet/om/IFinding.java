@@ -129,5 +129,4 @@ public interface IFinding extends ISchemaElement, IExtendableSchemaElement {
      * @since 1.6
      */
     void setSeen(boolean seen);
-
 }

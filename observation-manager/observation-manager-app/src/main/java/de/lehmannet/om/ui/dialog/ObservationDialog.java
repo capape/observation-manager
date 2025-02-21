@@ -7,12 +7,6 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JButton;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
@@ -21,6 +15,10 @@ import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.ObservationDialogPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
 
 public class ObservationDialog extends AbstractDialog {
 
@@ -30,16 +28,28 @@ public class ObservationDialog extends AbstractDialog {
     private boolean createAdditionalObservation = false;
     private final UIDataCache uiCache;
 
-    public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation, UIDataCache uiCache) {
+    public ObservationDialog(
+            ObservationManager om,
+            ObservationManagerModel model,
+            TextManager textManager,
+            IObservation observation,
+            UIDataCache uiCache) {
 
         this(om, model, textManager, observation, null, uiCache);
     }
 
-    public ObservationDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            IObservation observation, ISchemaElement se, UIDataCache uiCache) {
+    public ObservationDialog(
+            ObservationManager om,
+            ObservationManagerModel model,
+            TextManager textManager,
+            IObservation observation,
+            ISchemaElement se,
+            UIDataCache uiCache) {
 
-        super(om, model, om.getUiHelper(),
+        super(
+                om,
+                model,
+                om.getUiHelper(),
                 new ObservationDialogPanel(om, model, textManager, observation, se, om.getImageResolver(), uiCache));
 
         this.uiCache = uiCache;
@@ -76,7 +86,6 @@ public class ObservationDialog extends AbstractDialog {
         this.setLocationRelativeTo(om);
 
         this.setVisible(true);
-
     }
 
     public IObservation getObservation() {
@@ -86,7 +95,6 @@ public class ObservationDialog extends AbstractDialog {
         }
 
         return null;
-
     }
 
     @Override
@@ -105,13 +113,10 @@ public class ObservationDialog extends AbstractDialog {
 
         // Call action handler from super class for cancel and OK buttons
         super.actionPerformed(e);
-
     }
 
     public boolean isCreateAdditionalObservation() {
 
         return this.createAdditionalObservation;
-
     }
-
 }

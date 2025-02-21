@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.box;
 
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,14 +16,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.swing.JComboBox;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LanguageBox extends JComboBox<String> {
 
@@ -81,27 +78,23 @@ public class LanguageBox extends JComboBox<String> {
 
         // No typing in the box allowed
         this.setEditable(false);
-
     }
 
     public LanguageBox(boolean allowEmptyEntry) {
 
         this(new ArrayList<String>(), allowEmptyEntry);
-
     }
 
     public LanguageBox(String isoKey, boolean allowEmptyEntry) {
 
         this(new ArrayList<String>(), allowEmptyEntry);
         this.setLanguage(isoKey);
-
     }
 
     public LanguageBox(List<String> acceptedLanguages, String isoKey, boolean allowEmptyEntry) {
 
         this(acceptedLanguages, allowEmptyEntry);
         this.setLanguage(isoKey);
-
     }
 
     // --------------
@@ -116,7 +109,6 @@ public class LanguageBox extends JComboBox<String> {
         } else {
             return (String) map.get(si);
         }
-
     }
 
     public void setLanguage(String isoKey) {
@@ -141,7 +133,6 @@ public class LanguageBox extends JComboBox<String> {
         // Key not found
         this.setDefaultEntry();
         LOGGER.warn("ISO language key unknown: {}", isoKey);
-
     }
 
     private void setDefaultEntry() {
@@ -156,9 +147,6 @@ public class LanguageBox extends JComboBox<String> {
                 // Set en as very last fallback, as this will always work
                 this.setLanguage(Locale.ENGLISH.getLanguage());
             }
-
         }
-
     }
-
 }

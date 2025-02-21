@@ -12,5 +12,4 @@ public interface ObservationManagerContext {
     InstallDir getInstallDir();
 
     IConfiguration getConfiguration();
-
 }

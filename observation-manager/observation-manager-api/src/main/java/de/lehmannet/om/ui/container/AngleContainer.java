@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.Angle;
+import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,17 +22,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import org.apache.commons.lang3.StringUtils;
-
-import de.lehmannet.om.Angle;
-import de.lehmannet.om.EquPosition;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class AngleContainer extends Container {
 
@@ -36,9 +33,10 @@ public class AngleContainer extends Container {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String UNIT_KEY_PREFIX = "Angle.Unit.";
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private double angleValue = Double.NaN;
     private String angleUnit = Angle.DEGREE;
@@ -67,7 +65,6 @@ public class AngleContainer extends Container {
         this.editable = editable;
 
         this.createContainer();
-
     }
 
     public AngleContainer(String angleUnit, boolean editable) {
@@ -81,7 +78,6 @@ public class AngleContainer extends Container {
         } else {
             throw new IllegalArgumentException("Invalid angle unit. Use de.lehmannet.om.Angle constants.\n");
         }
-
     }
 
     public Angle getAngle() throws NumberFormatException {
@@ -156,12 +152,10 @@ public class AngleContainer extends Container {
                 this.angleUnit = decAngle.getUnit(); // Should always set the value to DEGREE
 
                 return decAngle;
-
             }
         }
 
         return null;
-
     }
 
     public void setAngle(Angle angle) {
@@ -174,14 +168,12 @@ public class AngleContainer extends Container {
             this.unit.setText(this.getI18NUnit(this.angleUnit));
             this.unitBox.addItem(this.getI18NUnit(this.angleUnit));
         }
-
     }
 
     public void setToolTipText(String text) {
 
         this.decValue.setToolTipText(text);
         this.unit.setToolTipText(text);
-
     }
 
     public void setEditable(boolean editable) {
@@ -189,7 +181,6 @@ public class AngleContainer extends Container {
         this.editable = editable;
 
         this.decValue.setEditable(this.editable);
-
     }
 
     public void setUnits(String[] units) {
@@ -227,7 +218,6 @@ public class AngleContainer extends Container {
         // Recreate container, as this method is not called after constructor
         this.removeAll();
         this.createContainer();
-
     }
 
     public void setArcDecTransformation(boolean enabled) {
@@ -245,7 +235,6 @@ public class AngleContainer extends Container {
         // Recreate container, as this method is not called after constructor
         this.removeAll();
         this.createContainer();
-
     }
 
     private void createContainer() {
@@ -313,7 +302,6 @@ public class AngleContainer extends Container {
                 this.add(this.unit);
             }
         }
-
     }
 
     private String getValue() {
@@ -325,7 +313,6 @@ public class AngleContainer extends Container {
         df.setDecimalFormatSymbols(dfs);
 
         return df.format(this.angleValue);
-
     }
 
     private void setArcValues() {
@@ -341,15 +328,14 @@ public class AngleContainer extends Container {
         String arcString = ep.getDec();
 
         String deg = arcString.substring(0, arcString.indexOf(EquPosition.DEC_DEG));
-        String min = arcString.substring(arcString.indexOf(EquPosition.DEC_DEG) + 1,
-                arcString.indexOf(EquPosition.DEC_MIN));
-        String sec = arcString.substring(arcString.indexOf(EquPosition.DEC_MIN) + 1,
-                arcString.indexOf(EquPosition.DEC_SEC));
+        String min =
+                arcString.substring(arcString.indexOf(EquPosition.DEC_DEG) + 1, arcString.indexOf(EquPosition.DEC_MIN));
+        String sec =
+                arcString.substring(arcString.indexOf(EquPosition.DEC_MIN) + 1, arcString.indexOf(EquPosition.DEC_SEC));
 
         this.arcDegreeValue.setText(deg);
         this.arcMinValue.setText(min);
         this.arcSecValue.setText(sec);
-
     }
 
     private String getI18NUnit(String unit) {
@@ -359,13 +345,11 @@ public class AngleContainer extends Container {
         unitI18Nmap.put(result, unit);
 
         return result;
-
     }
 
     private String getUnitFromI18NString(String I18N) {
 
         return (String) this.unitI18Nmap.get(I18N);
-
     }
 
     // ---------------------
@@ -378,6 +362,7 @@ public class AngleContainer extends Container {
          *
          */
         private static final long serialVersionUID = 7549558268570152814L;
+
         private final List<String> list = new ArrayList<>();
 
         // ---------
@@ -395,9 +380,6 @@ public class AngleContainer extends Container {
             this.list.add(angleUnit);
             super.addItem(angleUnit);
             this.setSelectedItem(angleUnit);
-
         }
-
     }
-
 }

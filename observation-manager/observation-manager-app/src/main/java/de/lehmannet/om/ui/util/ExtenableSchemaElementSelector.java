@@ -7,6 +7,9 @@
 
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.ui.dialog.IDialog;
+import de.lehmannet.om.ui.extension.SchemaUILoader;
+import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -24,14 +26,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.ui.dialog.IDialog;
-import de.lehmannet.om.ui.extension.SchemaUILoader;
-import de.lehmannet.om.util.SchemaElementConstants;
-
 public class ExtenableSchemaElementSelector extends JDialog implements ActionListener {
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private JButton ok = null;
     private JButton cancel = null;
@@ -45,8 +43,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
     private SchemaUILoader loader = null;
 
-    public ExtenableSchemaElementSelector(JDialog parent, SchemaUILoader loader,
-            SchemaElementConstants schemaElementConstant) {
+    public ExtenableSchemaElementSelector(
+            JDialog parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 
@@ -59,8 +57,8 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         this.setVisible(true);
     }
 
-    public ExtenableSchemaElementSelector(JFrame parent, SchemaUILoader loader,
-            SchemaElementConstants schemaElementConstant) {
+    public ExtenableSchemaElementSelector(
+            JFrame parent, SchemaUILoader loader, SchemaElementConstants schemaElementConstant) {
 
         super(parent, true);
 
@@ -80,9 +78,11 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
 
         if ((this.loader.getAllXSIDisplayNamesForCreation(this.schemaElementConstant) == null)
                 || (this.loader.getAllXSIDisplayNamesForCreation(this.schemaElementConstant).length == 0)) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(
+                    this,
                     this.bundle.getString("extenableSchemaElementSelector.warning.noElements"),
-                    this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
+                    this.bundle.getString("title.warning"),
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -94,7 +94,6 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         int x = obsLocation.x + (obsSize.width / 2) - (this.getSize().width / 2);
         int y = obsLocation.y + (obsSize.height / 2) - (this.getSize().height / 2);
         this.setLocation(x, y);
-
     }
 
     @Override
@@ -115,14 +114,12 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
     public IDialog getDialog() {
 
         return this.selectedSchemaElementDialog;
-
     }
 
     public boolean getResult() {
 
         // As dialog might by canceled, we need to know if
         return this.result;
-
     }
 
     private void initFindingChooser() {
@@ -152,7 +149,6 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         gridbag.setConstraints(this.cancel, constraints);
         this.cancel.addActionListener(this);
         this.getContentPane().add(this.cancel);
-
     }
 
     private void fillSelector() {
@@ -161,14 +157,12 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         for (String name : names) {
             this.selector.addItem(name);
         }
-
     }
 
     private void cancel() {
 
         this.dispose();
         this.result = false;
-
     }
 
     private IDialog loadDialog(String name) {
@@ -180,7 +174,5 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         } else {
             return this.loader.getSchemaElementDialog(type, this.schemaElementConstant, null, true);
         }
-
     }
-
 }

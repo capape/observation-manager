@@ -20,5 +20,4 @@ import java.util.List;
 public interface ITargetContaining {
 
     List<ITarget> getComponentTargets(ITarget... targets);
-
 }

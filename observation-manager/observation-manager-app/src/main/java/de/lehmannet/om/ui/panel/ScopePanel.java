@@ -7,18 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.IScope;
@@ -28,6 +16,16 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.OpticsUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class ScopePanel extends AbstractPanel implements ActionListener {
 
@@ -61,7 +59,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         if (scope != null) {
             this.loadSchemaElement();
         }
-
     }
 
     private void loadSchemaElement() {
@@ -146,14 +143,12 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.orientation.setEnabled(this.isEditable());
         this.orientationTruesided.setEnabled(this.isEditable());
         this.orientationErect.setEnabled(this.isEditable());
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.scope;
-
     }
 
     @Override
@@ -234,7 +229,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
 
         return this.scope;
-
     }
 
     @Override
@@ -309,7 +303,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
 
         return this.scope;
-
     }
 
     @Override
@@ -332,7 +325,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
                 }
             }
         }
-
     }
 
     private IScope getScope(boolean update, float aperture, String modelName) {
@@ -391,7 +383,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
 
         return scope;
-
     }
 
     private float getAperture() {
@@ -414,7 +405,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
 
         return ap;
-
     }
 
     private String getModelName() {
@@ -426,7 +416,6 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         }
 
         return modelName;
-
     }
 
     private void createPanel() {
@@ -449,8 +438,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.add(this.model);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.vendor"),
-                SwingConstants.RIGHT, false);
+        OMLabel LvendorName =
+                new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.vendor"), SwingConstants.RIGHT, false);
         LvendorName.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.vendor"));
         gridbag.setConstraints(LvendorName, constraints);
         this.add(LvendorName);
@@ -474,11 +463,11 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 5, 1);
         OMLabel LfocalLength = null;
         if (this.isEditable()) {
-            LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength") + "*",
-                    SwingConstants.RIGHT, true);
+            LfocalLength = new OMLabel(
+                    AbstractPanel.bundle.getString("panel.scope.label.focalLength") + "*", SwingConstants.RIGHT, true);
         } else {
-            LfocalLength = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLength"),
-                    SwingConstants.RIGHT, true);
+            LfocalLength = new OMLabel(
+                    AbstractPanel.bundle.getString("panel.scope.label.focalLength"), SwingConstants.RIGHT, true);
         }
         LfocalLength.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.focalLength"));
         gridbag.setConstraints(LfocalLength, constraints);
@@ -507,11 +496,13 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
         OMLabel Lmagnification = null;
         if (this.isEditable()) {
-            Lmagnification = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.magnification") + "*",
-                    SwingConstants.RIGHT, true);
+            Lmagnification = new OMLabel(
+                    AbstractPanel.bundle.getString("panel.scope.label.magnification") + "*",
+                    SwingConstants.RIGHT,
+                    true);
         } else {
-            Lmagnification = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.magnification"),
-                    SwingConstants.RIGHT, true);
+            Lmagnification = new OMLabel(
+                    AbstractPanel.bundle.getString("panel.scope.label.magnification"), SwingConstants.RIGHT, true);
         }
         Lmagnification.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.magnification"));
         gridbag.setConstraints(Lmagnification, constraints);
@@ -544,8 +535,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         this.add(this.lightGrasp);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 3, 1, 1, 5, 1);
-        OMLabel LtfoV = new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.trueFoV"), SwingConstants.RIGHT,
-                false);
+        OMLabel LtfoV =
+                new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.trueFoV"), SwingConstants.RIGHT, false);
         gridbag.setConstraints(LtfoV, constraints);
         LtfoV.setToolTipText(AbstractPanel.bundle.getString("panel.scope.tooltip.trueFoV"));
         // Only show trueFoV in creation mode, or magnification is set
@@ -621,8 +612,8 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         // mode
         if (this.isEditable()) {
             ConstraintsBuilder.buildConstraints(constraints, 0, rowCounter++, 4, 1, 45, 80);
-            OMLabel focalLengthMagnificationHint = new OMLabel(
-                    AbstractPanel.bundle.getString("panel.scope.label.focalLengthMagnificationHint"), true);
+            OMLabel focalLengthMagnificationHint =
+                    new OMLabel(AbstractPanel.bundle.getString("panel.scope.label.focalLengthMagnificationHint"), true);
             gridbag.setConstraints(focalLengthMagnificationHint, constraints);
             this.add(focalLengthMagnificationHint);
         }
@@ -632,7 +623,5 @@ public class ScopePanel extends AbstractPanel implements ActionListener {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

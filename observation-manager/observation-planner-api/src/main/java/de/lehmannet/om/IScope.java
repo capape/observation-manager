@@ -397,5 +397,4 @@ public interface IScope extends ISchemaElement, IEquipment {
      *            <code>true</code> if the scope produces truesided pictures
      */
     void setOrientation(boolean errected, boolean truesided);
-
 }

@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.util.DateManager;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -20,7 +21,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -31,12 +31,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.util.DateManager;
-
 public class DatePicker extends JDialog {
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private final JButton[] fields = new JButton[38];
     private final DateManager dateManager;
@@ -56,7 +54,6 @@ public class DatePicker extends JDialog {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
         this.dateManager = dateManager;
         createDatePicker(title, now);
-
     }
 
     public DatePicker(JFrame parent, String title, ZonedDateTime date, DateManager dateManager) {
@@ -83,7 +80,6 @@ public class DatePicker extends JDialog {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
-
     }
 
     public ZonedDateTime getDate() {
@@ -93,16 +89,20 @@ public class DatePicker extends JDialog {
     public String getDateString() {
 
         return this.dateManager.zonedDateTimeToStringWithHour(this.date);
-
     }
 
     private void initDialog() {
 
         // Set table header
-        String[] header = { this.bundle.getString("datePicker.sun"), this.bundle.getString("datePicker.mon"),
-                this.bundle.getString("datePicker.tue"), this.bundle.getString("datePicker.wed"),
-                this.bundle.getString("datePicker.thu"), this.bundle.getString("datePicker.fri"),
-                this.bundle.getString("datePicker.sat") };
+        String[] header = {
+            this.bundle.getString("datePicker.sun"),
+            this.bundle.getString("datePicker.mon"),
+            this.bundle.getString("datePicker.tue"),
+            this.bundle.getString("datePicker.wed"),
+            this.bundle.getString("datePicker.thu"),
+            this.bundle.getString("datePicker.fri"),
+            this.bundle.getString("datePicker.sat")
+        };
 
         JPanel headerPanel = new JPanel(new GridLayout(1, 7));
         for (String s : header) {
@@ -143,7 +143,6 @@ public class DatePicker extends JDialog {
         footerPanel.add(julianDateButton);
 
         this.getContentPane().add(footerPanel, BorderLayout.SOUTH);
-
     }
 
     private JButton createDayButton() {
@@ -159,10 +158,11 @@ public class DatePicker extends JDialog {
                 DatePicker.this.day = Integer.parseInt(((JButton) event.getSource()).getText());
 
                 // @formatter:off
-                DatePicker.this.date = DatePicker.this.date
-                    .withDayOfMonth(DatePicker.this.day)
-                    .withMonth(DatePicker.this.month)
-                    .withYear(DatePicker.this.year);
+                DatePicker.this.date = DatePicker.this
+                        .date
+                        .withDayOfMonth(DatePicker.this.day)
+                        .withMonth(DatePicker.this.month)
+                        .withYear(DatePicker.this.year);
                 // @formatter:on
 
                 DatePicker.this.dispose();
@@ -178,17 +178,15 @@ public class DatePicker extends JDialog {
         return label;
     }
 
-    private JButton createJulianDateButton(GridBagLayout gridbag, GridBagConstraints constraints,
-            DateManager dateManager) {
+    private JButton createJulianDateButton(
+            GridBagLayout gridbag, GridBagConstraints constraints, DateManager dateManager) {
         JButton julianDateButton = new JButton(this.bundle.getString("datePicker.button.julianDate"));
         julianDateButton.addActionListener(ae -> {
-
             JulianDateDialog jdd = new JulianDateDialog(DatePicker.this, dateManager);
             DatePicker.this.date = jdd.getZonedDateTime();
             if (DatePicker.this.date != null) {
                 DatePicker.this.dispose();
             }
-
         });
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 5, 1, 100, 50);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -287,15 +285,13 @@ public class DatePicker extends JDialog {
         }
 
         this.getContentPane().repaint();
-
     }
-
 }
 
 class JulianDateDialog extends JDialog implements ActionListener {
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private ZonedDateTime zonedDateTime;
     private JButton cancel;
@@ -319,13 +315,11 @@ class JulianDateDialog extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     public ZonedDateTime getZonedDateTime() {
 
         return this.zonedDateTime;
-
     }
 
     // --------------
@@ -347,19 +341,27 @@ class JulianDateDialog extends JDialog implements ActionListener {
                     this.zonedDateTime = this.dateManager.fromAstronomicalJulianDate(jd, ZoneId.systemDefault());
 
                 } catch (NumberFormatException e1) {
-                    JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
-                            this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            this.bundle.getString("julianDateDialog.warning.wrongFormat"),
+                            this.bundle.getString("title.warning"),
+                            JOptionPane.WARNING_MESSAGE);
                 } catch (IllegalArgumentException nfe) {
-                    JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
-                            this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            this.bundle.getString("julianDateDialog.warning.wrongFormat"),
+                            this.bundle.getString("title.warning"),
+                            JOptionPane.WARNING_MESSAGE);
                 } catch (ParseException e1) {
-                    JOptionPane.showMessageDialog(this, this.bundle.getString("julianDateDialog.warning.wrongFormat"),
-                            this.bundle.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            this.bundle.getString("julianDateDialog.warning.wrongFormat"),
+                            this.bundle.getString("title.warning"),
+                            JOptionPane.WARNING_MESSAGE);
                 }
                 this.dispose();
             }
         }
-
     }
 
     private void initDialog() {
@@ -399,7 +401,5 @@ class JulianDateDialog extends JDialog implements ActionListener {
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
-
 }

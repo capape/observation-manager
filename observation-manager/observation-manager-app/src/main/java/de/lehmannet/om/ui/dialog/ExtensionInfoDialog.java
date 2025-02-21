@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -14,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,17 +25,12 @@ import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
-import de.lehmannet.om.ui.extension.IExtension;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-
 public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3369603577422579950L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private final JButton close = new JButton(this.bundle.getString("extensionInfo.button.close"));
 
@@ -58,7 +56,6 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
         this.setVisible(true);
-
     }
 
     // --------------
@@ -74,7 +71,6 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
                 this.dispose();
             }
         }
-
     }
 
     private void initDialog() {
@@ -86,7 +82,8 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 5, 1, 99);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-        JTable infoTable = new JTable(new ExtensionTableModel(this.om.getExtensionLoader().getExtensions()));
+        JTable infoTable =
+                new JTable(new ExtensionTableModel(this.om.getExtensionLoader().getExtensions()));
         infoTable.setRowSelectionAllowed(false);
         TableColumn col0 = infoTable.getColumnModel().getColumn(0);
         TableColumn col1 = infoTable.getColumnModel().getColumn(1);
@@ -101,31 +98,27 @@ public class ExtensionInfoDialog extends OMDialog implements ActionListener {
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
-
 }
 
 class ExtensionTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 7980803807760340818L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private List<IExtension> extensions = null;
 
     public ExtensionTableModel(List<IExtension> extensions) {
 
         this.extensions = extensions;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
@@ -136,7 +129,6 @@ class ExtensionTableModel extends AbstractTableModel {
         }
 
         return this.extensions.size();
-
     }
 
     @Override
@@ -152,7 +144,6 @@ class ExtensionTableModel extends AbstractTableModel {
             default:
                 return "";
         }
-
     }
 
     @Override
@@ -174,7 +165,5 @@ class ExtensionTableModel extends AbstractTableModel {
         }
 
         return name;
-
     }
-
 }

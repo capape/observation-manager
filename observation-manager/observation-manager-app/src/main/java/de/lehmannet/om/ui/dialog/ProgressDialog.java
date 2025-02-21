@@ -7,21 +7,18 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.Worker;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.Worker;
 
 public class ProgressDialog extends OMDialog implements ComponentListener {
 
@@ -61,7 +58,6 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         } catch (ArrayIndexOutOfBoundsException e) {
             LOGGER.error("Ignoring unexpected exception", e);
         }
-
     }
 
     // ------
@@ -82,9 +78,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
             ;
 
             this.close();
-
         }
-
     }
 
     // -----------------
@@ -107,7 +101,6 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         if (resize) {
             setSize(width, this.getHeight());
         }
-
     }
 
     @Override
@@ -128,7 +121,6 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
     public void close() {
         LOGGER.debug("Closing progress dialog");
         this.dispose();
-
     }
 
     private void initDialog(String information) {
@@ -151,9 +143,7 @@ public class ProgressDialog extends OMDialog implements ComponentListener {
         progressBar.setIndeterminate(true);
         gridbag.setConstraints(progressBar, constraints);
         this.getContentPane().add(progressBar);
-
     }
-
 }
 
 class Watchdog implements Runnable {
@@ -181,7 +171,5 @@ class Watchdog implements Runnable {
 
         // Close the wait/progress UI;
         this.progress.close();
-
     }
-
 }

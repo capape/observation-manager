@@ -47,9 +47,7 @@ public class ExtensionContext implements IExtensionContext {
         private InstallDir installDir;
         private IConfiguration configuration;
 
-        public Builder() {
-
-        }
+        public Builder() {}
 
         public Builder uiHelper(UserInterfaceHelper value) {
             this.uiHelper = value;
@@ -74,6 +72,5 @@ public class ExtensionContext implements IExtensionContext {
         public ExtensionContext build() {
             return new ExtensionContext(this);
         }
-
     }
 }

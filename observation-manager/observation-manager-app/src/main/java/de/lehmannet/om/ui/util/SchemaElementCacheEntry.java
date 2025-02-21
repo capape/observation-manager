@@ -1,10 +1,9 @@
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.ISchemaElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import de.lehmannet.om.ISchemaElement;
 
 // One cache entry per file
 // Stores an ISchemaElement and list of refering elements
@@ -39,13 +38,11 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
         // this.referenceList.
 
         return this.referenceList;
-
     }
 
     public T getSchemaElement() {
 
         return this.element;
-
     }
 
     public void addReferencedElement(ISchemaElement se) {
@@ -55,7 +52,6 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
         }
 
         this.referenceList.add(se);
-
     }
 
     public void addReferencedElements(Collection<ISchemaElement> collection) {
@@ -65,37 +61,31 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
         }
 
         this.referenceList.addAll(collection);
-
     }
 
     public void removeReferencedElement(ISchemaElement se) {
 
         this.referenceList.remove(se);
-
     }
 
     public void removeReferencedElements(Collection<ISchemaElement> collection) {
 
         this.referenceList.removeAll(collection);
-
     }
 
     public int getNumberOfReferences() {
 
         return this.referenceList.size();
-
     }
 
     public boolean contains(T se) {
 
         return this.referenceList.contains(se);
-
     }
 
     public void clearAllReferences() {
 
         this.referenceList.clear();
-
     }
 
     @Override
@@ -127,5 +117,4 @@ class SchemaElementCacheEntry<T extends ISchemaElement> {
         }
         return true;
     }
-
 }

@@ -17,5 +17,4 @@ public interface IFindingExtensionPanel extends IFindingPanel {
     ISchemaElement createSchemaElement();
 
     ISchemaElement updateSchemaElement();
-
 }

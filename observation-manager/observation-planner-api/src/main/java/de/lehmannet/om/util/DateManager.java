@@ -90,5 +90,4 @@ public interface DateManager {
     double parseAstronomicalJulianDate(String jdString) throws ParseException;
 
     String formatAsAstronomicalJulianDate(ZonedDateTime date);
-
 }

@@ -17,5 +17,4 @@ public interface IListableCatalog extends ICatalog {
     String[] getCatalogIndex();
 
     AbstractSchemaTableModel getTableModel();
-
 }

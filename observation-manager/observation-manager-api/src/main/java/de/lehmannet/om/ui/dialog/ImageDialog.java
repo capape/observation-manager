@@ -6,6 +6,7 @@
  */
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -18,7 +19,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -29,14 +29,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-
 public class ImageDialog extends JDialog implements ActionListener, KeyListener, MouseWheelListener {
 
     private static final long serialVersionUID = -3798904199589986801L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private Image origImage = null; // Won't be resized/changed at all
     private Image image = null; // Will be used for display
@@ -82,7 +80,6 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         this.setTitle(this.bundle.getString("dialog.image.title"));
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -94,7 +91,6 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         } else {
             this.zoomOut();
         }
-
     }
 
     @Override
@@ -105,7 +101,6 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         } else if (e.getKeyChar() == '-') {
             this.zoomOut();
         }
-
     }
 
     @Override
@@ -124,24 +119,22 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
 
     private void zoomIn() {
 
-        this.image = this.origImage.getScaledInstance(this.image.getWidth(this) << 1, this.image.getHeight(this) << 1,
-                Image.SCALE_DEFAULT);
+        this.image = this.origImage.getScaledInstance(
+                this.image.getWidth(this) << 1, this.image.getHeight(this) << 1, Image.SCALE_DEFAULT);
         ImageIcon icon = new ImageIcon(this.image);
         this.imageLabel.setIcon(icon);
         imageLabel.setPreferredSize(new Dimension(image.getWidth(this), image.getHeight(this)));
         this.update(this.getGraphics());
-
     }
 
     private void zoomOut() {
 
-        this.image = this.origImage.getScaledInstance(this.image.getWidth(this) >> 1, this.image.getHeight(this) >> 1,
-                Image.SCALE_DEFAULT);
+        this.image = this.origImage.getScaledInstance(
+                this.image.getWidth(this) >> 1, this.image.getHeight(this) >> 1, Image.SCALE_DEFAULT);
         ImageIcon icon = new ImageIcon(this.image);
         this.imageLabel.setIcon(icon);
         imageLabel.setPreferredSize(new Dimension(image.getWidth(this), image.getHeight(this)));
         this.update(this.getGraphics());
-
     }
 
     private void initDialog() {
@@ -204,7 +197,6 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
         zoomMenu.add(zoomOut);
 
         this.setJMenuBar(menuBar);
-
     }
 
     @Override
@@ -219,7 +211,5 @@ public class ImageDialog extends JDialog implements ActionListener, KeyListener,
                 this.dispose();
             }
         }
-
     }
-
 }

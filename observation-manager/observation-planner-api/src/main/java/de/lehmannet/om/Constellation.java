@@ -133,7 +133,6 @@ public enum Constellation {
         } else {
             this.alternativeNames = Arrays.asList(alternativeNames);
         }
-
     }
 
     Constellation(String abb, String name) {
@@ -156,7 +155,6 @@ public enum Constellation {
         }
 
         throw new IllegalArgumentException("Invalid constellation");
-
     }
 
     private boolean hasName(final String toSearch) {
@@ -178,7 +176,6 @@ public enum Constellation {
         }
 
         throw new IllegalArgumentException("Invalid constellation");
-
     }
 
     public static Constellation getConstellationByAbbOrName(String data) {
@@ -195,7 +192,6 @@ public enum Constellation {
         }
 
         throw new IllegalArgumentException("Invalid constellation: " + data);
-
     }
 
     /**
@@ -207,7 +203,6 @@ public enum Constellation {
     public String toString() {
 
         return String.format("%s (%s)", this.getName(), this.getAbbreviation());
-
     }
 
     /**
@@ -228,7 +223,6 @@ public enum Constellation {
         }
 
         return result; // In worst case the non I18N name is returned
-
     }
 
     /**
@@ -239,7 +233,6 @@ public enum Constellation {
     public String getName() {
 
         return this.name;
-
     }
 
     /**
@@ -250,7 +243,5 @@ public enum Constellation {
     public String getAbbreviation() {
 
         return this.abbreviation;
-
     }
-
 }

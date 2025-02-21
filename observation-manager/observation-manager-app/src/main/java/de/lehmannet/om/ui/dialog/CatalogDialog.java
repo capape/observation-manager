@@ -7,24 +7,6 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
@@ -38,6 +20,22 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class CatalogDialog extends OMDialog implements ComponentListener {
 
@@ -65,20 +63,17 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
         this.setLocationRelativeTo(om);
 
         this.setVisible(true);
-
     }
 
     public ITarget getTarget() {
 
         return (ITarget) this.panel.getSchemaElement();
-
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
 
         this.dispose();
-
     }
 
     @Override
@@ -101,7 +96,6 @@ public class CatalogDialog extends OMDialog implements ComponentListener {
         // Do nothing
 
     }
-
 }
 
 class CatalogPanel extends AbstractPanel implements ActionListener {
@@ -110,6 +104,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
      *
      */
     private static final long serialVersionUID = -8388323169559287306L;
+
     private final JComboBox<String> catalogBox = new JComboBox<>();
     private JButton searchButton = null;
 
@@ -160,8 +155,7 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         ListSelectionModel lsm = this.table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
-            if (e.getValueIsAdjusting())
-                return;
+            if (e.getValueIsAdjusting()) return;
 
             ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
             if (lsm1.isSelectionEmpty()) {
@@ -179,7 +173,6 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
                         break;
                     }
                 }
-
             }
         });
 
@@ -191,28 +184,24 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         this.scrollTable = new JScrollPane(this.table);
 
         this.createPanel();
-
     }
 
     @Override
     public ISchemaElement createSchemaElement() {
 
         return this.selectedTarget;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.selectedTarget;
-
     }
 
     @Override
     public ISchemaElement updateSchemaElement() {
 
         return this.selectedTarget;
-
     }
 
     @Override
@@ -257,7 +246,6 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
                 }
             }
         }
-
     }
 
     private void showSearchDialog() {
@@ -281,7 +269,6 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
             this.om.setChanged(true);
             this.processComponentEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_HIDDEN));
         }
-
     }
 
     private void setColumnSize() {
@@ -299,7 +286,6 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         col.setPreferredWidth(((AbstractSchemaTableModel) this.table.getModel()).getColumnSize(1));
 
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-
     }
 
     private void createPanel() {
@@ -350,7 +336,5 @@ class CatalogPanel extends AbstractPanel implements ActionListener {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

@@ -12,7 +12,6 @@ public class LocaleToolsFactory {
     public static final LocaleTools appInstance() {
 
         synchronized (LOCK) {
-
             if (appInstance == null) {
                 appInstance = new LocaleTools.Builder().build();
             }

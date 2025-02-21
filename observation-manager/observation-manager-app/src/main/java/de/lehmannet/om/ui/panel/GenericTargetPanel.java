@@ -1,10 +1,5 @@
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -13,6 +8,9 @@ import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetContainer;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 
 public class GenericTargetPanel extends AbstractPanel {
 
@@ -24,8 +22,9 @@ public class GenericTargetPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public GenericTargetPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public GenericTargetPanel(
+            IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -38,7 +37,6 @@ public class GenericTargetPanel extends AbstractPanel {
         this.model = model;
 
         this.createPanel();
-
     }
 
     @Override
@@ -66,14 +64,12 @@ public class GenericTargetPanel extends AbstractPanel {
         this.updateSchemaElement();
 
         return this.target;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -91,7 +87,6 @@ public class GenericTargetPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     private void createPanel() {
@@ -103,8 +98,8 @@ public class GenericTargetPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.configuration, this.model, this.target, this.isEditable(),
-                false);
+        this.targetContainer =
+                new TargetContainer(this.configuration, this.model, this.target, this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -113,7 +108,5 @@ public class GenericTargetPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

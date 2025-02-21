@@ -7,14 +7,13 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.SiteMapper;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.SiteMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * An Site describes an observation site where an observation took place.<br>
@@ -82,7 +81,6 @@ public class Site extends SchemaElement implements ISite {
         this.setTimezone(SiteMapper.getMandatoryTimeZone(siteElement));
         this.setElevation(SiteMapper.getOptionalElevation(siteElement));
         this.setIAUCode(SiteMapper.getOptionalIauCode(siteElement));
-
     }
 
     /**
@@ -103,7 +101,6 @@ public class Site extends SchemaElement implements ISite {
         this.setLongitude(longitude);
         this.setLatitude(latitude);
         this.setTimezone(timezone);
-
     }
 
     // -------------
@@ -119,12 +116,10 @@ public class Site extends SchemaElement implements ISite {
      * @return Returns a String with a one line display name
      * @see java.lang.Object.toString();
      */
-
     @Override
     public String getDisplayName() {
 
         return this.getName();
-
     }
 
     // ------
@@ -138,7 +133,6 @@ public class Site extends SchemaElement implements ISite {
      * @return This DeepSkyTarget field values
      * @see java.lang.Object
      */
-
     @Override
     public String toString() {
 
@@ -166,7 +160,6 @@ public class Site extends SchemaElement implements ISite {
         buffer.append(timezone);
 
         return buffer.toString();
-
     }
 
     /*
@@ -219,7 +212,10 @@ public class Site extends SchemaElement implements ISite {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -262,7 +258,6 @@ public class Site extends SchemaElement implements ISite {
             e_IAUCode.appendChild(n_IAUCodeText);
             e_Site.appendChild(e_IAUCode);
         }
-
     }
 
     /**
@@ -320,7 +315,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         return element;
-
     }
 
     /**
@@ -343,7 +337,6 @@ public class Site extends SchemaElement implements ISite {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -356,7 +349,6 @@ public class Site extends SchemaElement implements ISite {
     public Angle getLatitude() {
 
         return latitude;
-
     }
 
     /**
@@ -369,7 +361,6 @@ public class Site extends SchemaElement implements ISite {
     public Angle getLongitude() {
 
         return longitude;
-
     }
 
     /**
@@ -382,7 +373,6 @@ public class Site extends SchemaElement implements ISite {
     public String getName() {
 
         return name;
-
     }
 
     /**
@@ -396,7 +386,6 @@ public class Site extends SchemaElement implements ISite {
     public int getTimezone() {
 
         return timezone;
-
     }
 
     /**
@@ -416,7 +405,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         this.latitude = latitude;
-
     }
 
     /**
@@ -436,7 +424,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         this.longitude = longitude;
-
     }
 
     /**
@@ -456,7 +443,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         this.name = name;
-
     }
 
     /**
@@ -477,7 +463,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         this.timezone = timezone;
-
     }
 
     /**
@@ -495,7 +480,6 @@ public class Site extends SchemaElement implements ISite {
         }
 
         this.iauCode = IAUCode;
-
     }
 
     /**
@@ -509,7 +493,6 @@ public class Site extends SchemaElement implements ISite {
     public void setElevation(float elevation) {
 
         this.elevation = elevation;
-
     }
 
     /**
@@ -523,7 +506,6 @@ public class Site extends SchemaElement implements ISite {
     public float getElevation() {
 
         return elevation;
-
     }
 
     /**
@@ -537,7 +519,5 @@ public class Site extends SchemaElement implements ISite {
     public String getIAUCode() {
 
         return iauCode;
-
     }
-
 }

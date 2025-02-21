@@ -7,14 +7,13 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IExtendableSchemaElement;
+import de.lehmannet.om.util.SchemaException;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IExtendableSchemaElement;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyFindingOC extends the de.lehmannet.om.DeepSkyFinding class. Its specialised for open cluster observations and
@@ -144,7 +143,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyFindingOC can have only one character entry. ");
         }
-
     }
 
     /**
@@ -160,7 +158,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     public DeepSkyFindingOC(String description, int rating) throws IllegalArgumentException {
 
         super(description, rating);
-
     }
 
     // ------
@@ -203,7 +200,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         result = result.replaceAll("DeepSkyFinding", "DeepSkyFindingOC");
 
         return result;
-
     }
 
     // ------------------------
@@ -222,7 +218,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     public String getXSIType() {
 
         return DeepSkyFindingOC.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------
@@ -242,22 +237,15 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         DeepSkyFindingOC other = (DeepSkyFindingOC) obj;
         if (character == null) {
-            if (other.character != null)
-                return false;
-        } else if (!character.equals(other.character))
-            return false;
-        if (colorContrasts != other.colorContrasts)
-            return false;
-        if (partlyUnresolved != other.partlyUnresolved)
-            return false;
+            if (other.character != null) return false;
+        } else if (!character.equals(other.character)) return false;
+        if (colorContrasts != other.colorContrasts) return false;
+        if (partlyUnresolved != other.partlyUnresolved) return false;
         return unusualShape == other.unusualShape;
     }
 
@@ -287,23 +275,24 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         e_Finding.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         if (this.unusualShape != -1) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALSHAPE,
-                    Boolean.toString(this.getUnusualShape()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_UNUSUALSHAPE, Boolean.toString(this.getUnusualShape()));
         }
 
         if (this.partlyUnresolved != -1) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_PARTLYUNRESOLVED,
-                    Boolean.toString(this.getPartlyUnresolved()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_PARTLYUNRESOLVED, Boolean.toString(this.getPartlyUnresolved()));
         }
 
         if (this.colorContrasts != -1) {
-            e_Finding.setAttribute(XML_ELEMENT_FINDING_ATTRIBUTE_COLORCONTRASTS,
-                    Boolean.toString(this.getColorContrasts()));
+            e_Finding.setAttribute(
+                    XML_ELEMENT_FINDING_ATTRIBUTE_COLORCONTRASTS, Boolean.toString(this.getColorContrasts()));
         }
 
         if (this.character != null) {
             Element e_Character = ownerDoc.createElement(XML_ELEMENT_CHARACTER);
-            Node n_CharacterText = ownerDoc.createCDATASection(this.getCharacter().toString());
+            Node n_CharacterText =
+                    ownerDoc.createCDATASection(this.getCharacter().toString());
             e_Character.appendChild(n_CharacterText);
             e_Finding.appendChild(e_Character);
         }
@@ -311,7 +300,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         parent.appendChild(e_Finding);
 
         return parent;
-
     }
 
     // --------------
@@ -333,7 +321,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         }
 
         return unusualShape == 1;
-
     }
 
     /**
@@ -351,7 +338,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         }
 
         return partlyUnresolved == 1;
-
     }
 
     /**
@@ -369,7 +355,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         }
 
         return colorContrasts == 1;
-
     }
 
     /**
@@ -382,7 +367,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
     public Character getCharacter() {
 
         return this.character;
-
     }
 
     /**
@@ -405,7 +389,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         } else {
             this.unusualShape = 0;
         }
-
     }
 
     /**
@@ -428,7 +411,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         } else {
             this.partlyUnresolved = 0;
         }
-
     }
 
     /**
@@ -451,7 +433,6 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         } else {
             this.colorContrasts = 0;
         }
-
     }
 
     /**
@@ -472,16 +453,18 @@ public class DeepSkyFindingOC extends DeepSkyFinding {
         }
 
         char cv = c;
-        if (DeepSkyFindingOC.CHARACTER_A == cv || DeepSkyFindingOC.CHARACTER_B == cv
-                || DeepSkyFindingOC.CHARACTER_C == cv || DeepSkyFindingOC.CHARACTER_D == cv
-                || DeepSkyFindingOC.CHARACTER_E == cv || DeepSkyFindingOC.CHARACTER_F == cv
-                || DeepSkyFindingOC.CHARACTER_G == cv || DeepSkyFindingOC.CHARACTER_H == cv
+        if (DeepSkyFindingOC.CHARACTER_A == cv
+                || DeepSkyFindingOC.CHARACTER_B == cv
+                || DeepSkyFindingOC.CHARACTER_C == cv
+                || DeepSkyFindingOC.CHARACTER_D == cv
+                || DeepSkyFindingOC.CHARACTER_E == cv
+                || DeepSkyFindingOC.CHARACTER_F == cv
+                || DeepSkyFindingOC.CHARACTER_G == cv
+                || DeepSkyFindingOC.CHARACTER_H == cv
                 || DeepSkyFindingOC.CHARACTER_I == cv) {
             this.character = c;
         } else {
             throw new IllegalArgumentException("Character value is not valid.\n");
         }
-
     }
-
 }

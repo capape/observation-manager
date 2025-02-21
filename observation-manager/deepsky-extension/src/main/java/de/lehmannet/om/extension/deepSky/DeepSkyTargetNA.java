@@ -6,11 +6,10 @@
  */
 package de.lehmannet.om.extension.deepSky;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * DeepSkyTarget extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class. Its a simple implementation for
@@ -42,7 +41,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     public DeepSkyTargetNA(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
-
     }
 
     /**
@@ -56,7 +54,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     public DeepSkyTargetNA(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -70,7 +67,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     public DeepSkyTargetNA(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------------------------
@@ -89,7 +85,6 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetNA.XML_XSI_TYPE_VALUE;
-
     }
 
     // ------
@@ -112,7 +107,5 @@ public class DeepSkyTargetNA extends DeepSkyTarget {
         }
 
         this.createXmlDeepSkyTargetElement(element, DeepSkyTargetNA.XML_XSI_TYPE_VALUE);
-
     }
-
 }

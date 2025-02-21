@@ -7,15 +7,14 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.LensMapper;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.LensMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * A Lens describes a lens used to extend or reduce a focal length. Implementations of Lens can be Barlow lenses or
@@ -75,7 +74,6 @@ public class Lens extends SchemaElement implements ILens {
         this.setFactor(LensMapper.getMandatoryFactor(lensElement));
         this.setAvailability(LensMapper.getOptionalAvailability(lensElement));
         this.setVendor(LensMapper.getOptionalVendor(lensElement));
-
     }
 
     /**
@@ -95,7 +93,6 @@ public class Lens extends SchemaElement implements ILens {
 
         this.setModel(model);
         this.setFactor(factor);
-
     }
 
     // -------------
@@ -120,7 +117,6 @@ public class Lens extends SchemaElement implements ILens {
         }
 
         return dn;
-
     }
 
     // ------
@@ -159,7 +155,6 @@ public class Lens extends SchemaElement implements ILens {
         buffer.append(this.getFactor());
 
         return buffer.toString();
-
     }
 
     // ----------
@@ -175,7 +170,6 @@ public class Lens extends SchemaElement implements ILens {
     public boolean isAvailable() {
 
         return this.available;
-
     }
 
     /**
@@ -188,7 +182,6 @@ public class Lens extends SchemaElement implements ILens {
     public void setAvailability(boolean available) {
 
         this.available = available;
-
     }
 
     // -----
@@ -222,7 +215,10 @@ public class Lens extends SchemaElement implements ILens {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -257,7 +253,6 @@ public class Lens extends SchemaElement implements ILens {
         Node n_FocalLengthText = ownerDoc.createTextNode(Float.toString(this.factor));
         e_factor.appendChild(n_FocalLengthText);
         e_Lens.appendChild(e_factor);
-
     }
 
     /**
@@ -317,7 +312,6 @@ public class Lens extends SchemaElement implements ILens {
         }
 
         return element;
-
     }
 
     /**
@@ -340,7 +334,6 @@ public class Lens extends SchemaElement implements ILens {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -355,7 +348,6 @@ public class Lens extends SchemaElement implements ILens {
     public float getFactor() {
 
         return this.factor;
-
     }
 
     /**
@@ -367,7 +359,6 @@ public class Lens extends SchemaElement implements ILens {
     public String getModel() {
 
         return model;
-
     }
 
     /**
@@ -380,7 +371,6 @@ public class Lens extends SchemaElement implements ILens {
     public String getVendor() {
 
         return vendor;
-
     }
 
     /**
@@ -403,7 +393,6 @@ public class Lens extends SchemaElement implements ILens {
         }
 
         this.factor = factor;
-
     }
 
     /**
@@ -422,7 +411,6 @@ public class Lens extends SchemaElement implements ILens {
         }
 
         this.model = modelname;
-
     }
 
     /**
@@ -440,7 +428,5 @@ public class Lens extends SchemaElement implements ILens {
         }
 
         this.vendor = vendorname;
-
     }
-
 }

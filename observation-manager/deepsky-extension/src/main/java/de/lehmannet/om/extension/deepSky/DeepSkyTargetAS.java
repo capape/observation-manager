@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetAS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -77,7 +76,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetAS can only have one position angle entry. ");
         }
-
     }
 
     /**
@@ -91,7 +89,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     public DeepSkyTargetAS(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -105,7 +102,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     public DeepSkyTargetAS(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -143,7 +139,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_PositionAngle);
         }
-
     }
 
     // ------------------------
@@ -162,7 +157,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetAS.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -178,7 +172,6 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
     public int getPositionAngle() {
 
         return this.positionAngle;
-
     }
 
     /**
@@ -196,7 +189,5 @@ public class DeepSkyTargetAS extends DeepSkyTarget {
         }
 
         this.positionAngle = newPosAngle;
-
     }
-
 }

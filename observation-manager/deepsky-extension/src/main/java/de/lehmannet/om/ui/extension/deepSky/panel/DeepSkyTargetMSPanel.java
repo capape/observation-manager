@@ -7,25 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -40,13 +21,30 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListener {
 
     private static final long serialVersionUID = 9161244919972564982L;
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     private DeepSkyTargetMS target = null;
 
@@ -63,8 +61,9 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetMSPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public DeepSkyTargetMSPanel(
+            UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -82,7 +81,6 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         if (this.target != null) {
             this.loadSchemaElement();
         }
-
     }
 
     // --------------
@@ -101,9 +99,14 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
                     this.tableModel.addTarget(t);
                 }
             } else if (source.equals(this.addExistingStar)) {
-                SchemaElementSelectorPopup targetSelector = new SchemaElementSelectorPopup(null, this.model,
-                        this.bundle.getString("popup.ms.addExistingStars"), TargetStar.XML_XSI_TYPE_VALUE,
-                        Arrays.asList(this.tableModel.getAllTargets()), true, SchemaElementConstants.TARGET);
+                SchemaElementSelectorPopup targetSelector = new SchemaElementSelectorPopup(
+                        null,
+                        this.model,
+                        this.bundle.getString("popup.ms.addExistingStars"),
+                        TargetStar.XML_XSI_TYPE_VALUE,
+                        Arrays.asList(this.tableModel.getAllTargets()),
+                        true,
+                        SchemaElementConstants.TARGET);
                 List<ISchemaElement> selectedTargets = targetSelector.getAllSelectedElements();
                 if (selectedTargets == null) {
                     return;
@@ -120,14 +123,12 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
             this.componentStars.updateUI();
         }
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -151,11 +152,11 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             this.createWarning(this.bundle.getString("panel.ms.warning.threeComponentsRequired"));
             return null;
         }
-        List<String> components = Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
+        List<String> components =
+                Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
         this.target.setComponents(components);
 
         return this.target;
-
     }
 
     @Override
@@ -176,7 +177,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             return null;
         }
 
-        List<String> components = Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
+        List<String> components =
+                Arrays.asList(targets).stream().map(x -> x.getID()).collect(Collectors.toList());
         if (observer != null) {
             this.target = new DeepSkyTargetMS(name, observer, components);
         } else {
@@ -184,20 +186,18 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         }
 
         return this.target;
-
     }
 
     private void loadSchemaElement() {
 
         List<ITarget> targets = this.target.getComponentTargets(this.model.getTargets());
         if ((targets != null) && !(targets.isEmpty())) {
-            this.tableModel = new TargetTableModel((ITarget[]) targets.toArray(new ITarget[] {}),
-                    this.model.getConfiguration());
+            this.tableModel =
+                    new TargetTableModel((ITarget[]) targets.toArray(new ITarget[] {}), this.model.getConfiguration());
             this.componentStars.setModel(this.tableModel);
         } else {
             this.createWarning(this.bundle.getString("panel.ms.warning.componentsNotFound"));
         }
-
     }
 
     private void createPanel() {
@@ -216,8 +216,7 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         ListSelectionModel lsm = this.componentStars.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
-            if (e.getValueIsAdjusting())
-                return;
+            if (e.getValueIsAdjusting()) return;
 
             ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
             if (lsm1.isSelectionEmpty()) {
@@ -244,8 +243,8 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 15, 1);
-        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target,
-                this.isEditable(), false);
+        this.targetContainer =
+                new TargetContainer(this.model.getConfiguration(), this.model, this.target, this.isEditable(), false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -332,7 +331,6 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
 
             this.componentStars.setEnabled(false);
         }
-
     }
 
     private void activateChangeButtons(boolean enabled) {
@@ -341,7 +339,5 @@ public class DeepSkyTargetMSPanel extends AbstractPanel implements ActionListene
             this.editStar.setEnabled(enabled);
             this.deleteStar.setEnabled(enabled);
         }
-
     }
-
 }

@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.SurfaceBrightness;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.util.FloatUtil;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,15 +21,9 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import de.lehmannet.om.SurfaceBrightness;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.FloatUtil;
 
 public class SurfaceBrightnessContainer extends Container {
 
@@ -34,8 +32,8 @@ public class SurfaceBrightnessContainer extends Container {
      */
     private static final long serialVersionUID = -4743410983946178443L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private static final String BUNDLE_UNIT_PREFIX = "SurfaceBrightness.unit.";
 
@@ -62,7 +60,6 @@ public class SurfaceBrightnessContainer extends Container {
         this.setUnits(sbUnits);
         this.setSurfaceBrightness(sb);
         this.createContainer();
-
     }
 
     public SurfaceBrightnessContainer(boolean editable, String[] sbUnits) {
@@ -70,7 +67,6 @@ public class SurfaceBrightnessContainer extends Container {
         this.editable = editable;
         this.setUnits(sbUnits);
         this.createContainer();
-
     }
 
     public SurfaceBrightness getSurfaceBrightness() throws NumberFormatException {
@@ -96,7 +92,6 @@ public class SurfaceBrightnessContainer extends Container {
         }
 
         return null;
-
     }
 
     public void setSurfaceBrightness(SurfaceBrightness sb) {
@@ -111,7 +106,6 @@ public class SurfaceBrightnessContainer extends Container {
         } else {
             this.value = Float.NaN;
         }
-
     }
 
     public void setSurfaceBrightness(SurfaceBrightness sb, boolean calculatedValue) {
@@ -121,7 +115,6 @@ public class SurfaceBrightnessContainer extends Container {
             this.valueField.setText(SurfaceBrightnessContainer.CALCULATION_INDICATOR + this.getValue());
             this.valueField.setToolTipText(this.bundle.getString("info.fst_BSB.calculated"));
         }
-
     }
 
     private boolean isCalculatedValue() {
@@ -131,7 +124,6 @@ public class SurfaceBrightnessContainer extends Container {
         }
 
         return false;
-
     }
 
     public void setToolTipText(String text) {
@@ -140,7 +132,6 @@ public class SurfaceBrightnessContainer extends Container {
         if (!this.editable) {
             this.Lunit.setToolTipText(text);
         }
-
     }
 
     public void setEditable(boolean editable) {
@@ -148,7 +139,6 @@ public class SurfaceBrightnessContainer extends Container {
         this.editable = editable;
 
         this.valueField.setEditable(this.editable);
-
     }
 
     private void setUnits(String[] units) {
@@ -174,7 +164,6 @@ public class SurfaceBrightnessContainer extends Container {
                 }
             }
         }
-
     }
 
     private void createContainer() {
@@ -204,7 +193,6 @@ public class SurfaceBrightnessContainer extends Container {
             gridbag.setConstraints(this.Lunit, constraints);
             this.add(this.Lunit);
         }
-
     }
 
     private String getValue() {
@@ -216,13 +204,11 @@ public class SurfaceBrightnessContainer extends Container {
         df.setDecimalFormatSymbols(dfs);
 
         return df.format(this.value);
-
     }
 
     private String getUnitLabel(String unit) {
 
         return this.bundle.getString(SurfaceBrightnessContainer.BUNDLE_UNIT_PREFIX + unit);
-
     }
 
     private String getUnitFromLabel(String label) {
@@ -241,7 +227,5 @@ public class SurfaceBrightnessContainer extends Container {
         }
 
         return null;
-
     }
-
 }
