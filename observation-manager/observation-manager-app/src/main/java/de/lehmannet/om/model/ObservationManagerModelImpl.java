@@ -1,13 +1,5 @@
 package de.lehmannet.om.model;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -22,6 +14,12 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.w3c.dom.Document;
 
 public class ObservationManagerModelImpl implements ObservationManagerModel {
 
@@ -41,7 +39,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         this.xmlCache = cache;
         this.installDir = installDir;
         this.configuration = configuration;
-
     }
 
     @Override
@@ -52,7 +49,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     @Override
     public void setChanged(boolean b) {
         this.changed = true;
-
     }
 
     @Override
@@ -61,9 +57,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
             this.changed = true;
             this.title = title;
             this.titleWhenChanges = this.title + CHANGED_SUFFIX;
-
         }
-
     }
 
     @Override
@@ -111,7 +105,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     public void update(ISchemaElement element) {
         this.xmlCache.updateSchemaElement(element);
         this.setChanged(true);
-
     }
 
     @Override
@@ -184,9 +177,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         return this.xmlCache.loadObservations(filePath, fixErrors);
     }
 
-    public void exportToHtml() {
-
-    }
+    public void exportToHtml() {}
 
     @Override
     public Optional<String> getRootName() {
@@ -203,7 +194,10 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         if (imagePath == null) {
             return Collections.emptyList();
         }
-        return imagePath.stream().map(x -> this.createPath(x)).filter(x -> x.exists()).collect(Collectors.toList());
+        return imagePath.stream()
+                .map(x -> this.createPath(x))
+                .filter(x -> x.exists())
+                .collect(Collectors.toList());
     }
 
     private File createPath(String x) {
@@ -220,7 +214,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
             return this.xmlCache.getDocument();
         }
         return doc;
-
     }
 
     @Override
@@ -255,7 +248,6 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
         }
 
         return file;
-
     }
 
     @Override
@@ -283,12 +275,10 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     @Override
     public boolean saveAs(String oldPath, String newPath) {
         return this.xmlCache.saveAs(oldPath, newPath);
-
     }
 
     @Override
     public IConfiguration getConfiguration() {
         return this.configuration;
     }
-
 }

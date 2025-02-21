@@ -7,11 +7,10 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog.test;
 
-import java.io.File;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.ICCatalog;
 import de.lehmannet.om.ui.extension.deepSky.catalog.NGCCatalog;
+import java.io.File;
 
 class NGCICCatalogTester {
 
@@ -51,7 +50,5 @@ class NGCICCatalogTester {
             System.out.println(t);
             System.out.println("----");
         }
-
     }
-
 }

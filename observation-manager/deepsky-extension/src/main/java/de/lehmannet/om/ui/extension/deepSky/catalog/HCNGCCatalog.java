@@ -7,21 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
@@ -40,6 +25,19 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.panel.GenericListableCatalogSearchPanel;
 import de.lehmannet.om.util.FloatUtil;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HCNGCCatalog implements IListableCatalog {
 
@@ -66,42 +64,36 @@ public class HCNGCCatalog implements IListableCatalog {
         }
 
         this.tableModel = new DeepSkyTableModel(this);
-
     }
 
     @Override
     public String getName() {
 
         return HCNGCCatalog.CATALOG_NAME;
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return HCNGCCatalog.CATALOG_ABB;
-
     }
 
     @Override
     public ITarget getTarget(String hcngcNumber) {
 
         return (ITarget) this.map.get(hcngcNumber);
-
     }
 
     @Override
     public ITarget[] getTargets() {
 
         return (ITarget[]) this.map.values().toArray(new ITarget[] {});
-
     }
 
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
         return new GenericListableCatalogSearchPanel(this);
-
     }
 
     private boolean loadTargets(File file) {
@@ -122,12 +114,12 @@ public class HCNGCCatalog implements IListableCatalog {
         String hcngcNumber = null;
         StringTokenizer tokenizer = null;
         ITarget target = null;
-        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
+        try (BufferedReader bufferedReader = new BufferedReader(reader); ) {
             int counter = 1;
             while ((line = bufferedReader.readLine()) != null) {
                 if (!(line.startsWith("" + counter)) || ("".equals(line.trim()))) { // Comment, header or empty line.
-                                                                                    // Real data starts with a counter
-                                                                                    // at 1.
+                    // Real data starts with a counter
+                    // at 1.
                     continue;
                 }
 
@@ -186,7 +178,7 @@ public class HCNGCCatalog implements IListableCatalog {
                 if (("NF".equals(type)) // NF Not Found NGC 412
                         || ("GxyCld".equals(type)) // Bright cloud/knot in a galaxy NGC 5447
                         || ("***".equals(type)) // *** Triple Star NGC 4397 (Cannot use DeepSkyMS as catalog doesn't
-                                                // contain component star list
+                // contain component star list
                 ) {
                     // For the above named types we don't have a representation in the OAL model,
                     // therefore
@@ -247,8 +239,11 @@ public class HCNGCCatalog implements IListableCatalog {
                 } else if ("GC".equals(type)) {
                     target = new DeepSkyTargetGC(hcngcNumber, HCNGCCatalog.DATASOURCE_ORIGIN);
 
-                } else if (("Neb".equals(type)) || ("Neb?".equals(type)) // e.g. HCNGC1990
-                        || ("SNR".equals(type)) || ("HIIRgn".equals(type)) || ("OC+Neb".equals(type)) // NGC 256
+                } else if (("Neb".equals(type))
+                        || ("Neb?".equals(type)) // e.g. HCNGC1990
+                        || ("SNR".equals(type))
+                        || ("HIIRgn".equals(type))
+                        || ("OC+Neb".equals(type)) // NGC 256
                 ) {
                     target = new DeepSkyTargetGN(hcngcNumber, HCNGCCatalog.DATASOURCE_ORIGIN);
 
@@ -326,7 +321,7 @@ public class HCNGCCatalog implements IListableCatalog {
                     target.setPosition(new EquPosition(ra, dec));
 
                     if (target instanceof DeepSkyTarget) { // In case of single star target is not an DeepSkyTarget
-                                                           // instance
+                        // instance
                         size = size.replaceAll("\'", "");
                         size = size.replaceAll("\"", "");
                         size = size.replaceAll("\u00b0", "");
@@ -340,8 +335,8 @@ public class HCNGCCatalog implements IListableCatalog {
                                 String s_large = size.substring(0, size.indexOf('X'));
                                 String s_small = size.substring(size.indexOf('X') + 1);
                                 if (!("".equals(s_large.trim()) && ("".equals(s_small.trim())))) { // In case of e.g.
-                                                                                                   // HCNGC501 size is
-                                                                                                   // empty
+                                    // HCNGC501 size is
+                                    // empty
                                     double large = Double.parseDouble(s_large);
                                     double small = Double.parseDouble(s_small);
                                     if (small > large) {
@@ -367,7 +362,6 @@ public class HCNGCCatalog implements IListableCatalog {
                     this.map.put(hcngcNumber, target);
                 }
                 counter++;
-
             }
         } catch (IOException ioe) {
             LOGGER.error("Error reading file {} ", file, ioe);
@@ -375,21 +369,17 @@ public class HCNGCCatalog implements IListableCatalog {
         }
 
         return true;
-
     }
 
     @Override
     public String[] getCatalogIndex() {
 
         return (String[]) this.map.keySet().toArray(new String[] {});
-
     }
 
     @Override
     public AbstractSchemaTableModel getTableModel() {
 
         return this.tableModel;
-
     }
-
 }

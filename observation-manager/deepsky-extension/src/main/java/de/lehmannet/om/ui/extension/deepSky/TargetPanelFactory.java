@@ -32,13 +32,17 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 
 public class TargetPanelFactory {
 
-    public static AbstractPanel newInstance(IExtensionContext context, String xsiType, ITarget target,
-            boolean editable) {
+    public static AbstractPanel newInstance(
+            IExtensionContext context, String xsiType, ITarget target, boolean editable) {
 
         switch (xsiType) {
             case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetDNPanel(context.getConfiguration(), context.getUserInterfaceHelper(),
-                        context.getModel(), target, editable);
+                return new DeepSkyTargetDNPanel(
+                        context.getConfiguration(),
+                        context.getUserInterfaceHelper(),
+                        context.getModel(),
+                        target,
+                        editable);
             case DeepSkyTargetDS.XML_XSI_TYPE_VALUE:
                 return new DeepSkyTargetDSPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
             case DeepSkyTargetGC.XML_XSI_TYPE_VALUE:
@@ -62,11 +66,14 @@ public class TargetPanelFactory {
             case DeepSkyTargetMS.XML_XSI_TYPE_VALUE:
                 return new DeepSkyTargetMSPanel(context.getUserInterfaceHelper(), context.getModel(), target, editable);
             case DeepSkyTargetCG.XML_XSI_TYPE_VALUE:
-                return new DeepSkyTargetCGPanel(context.getConfiguration(), context.getUserInterfaceHelper(),
-                        context.getModel(), target, editable);
+                return new DeepSkyTargetCGPanel(
+                        context.getConfiguration(),
+                        context.getUserInterfaceHelper(),
+                        context.getModel(),
+                        target,
+                        editable);
             default:
                 throw new IllegalArgumentException("Invalid target panel");
         }
     }
-
 }

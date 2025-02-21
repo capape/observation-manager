@@ -14,5 +14,4 @@ public interface IExtensionContext {
     ObservationManagerModel getModel();
 
     UserInterfaceHelper getUserInterfaceHelper();
-
 }

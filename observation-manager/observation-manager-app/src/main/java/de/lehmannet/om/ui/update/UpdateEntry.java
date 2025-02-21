@@ -15,31 +15,25 @@ class UpdateEntry {
         this.oldVersion = oldVersion;
         this.newVersion = newVersion;
         this.downloadURL = downloadURL;
-
     }
 
     public String getName() {
 
         return name;
-
     }
 
     public String getOldVersion() {
 
         return oldVersion;
-
     }
 
     public String getNewVersion() {
 
         return newVersion;
-
     }
 
     public URL getDownloadURL() {
 
         return downloadURL;
-
     }
-
 }

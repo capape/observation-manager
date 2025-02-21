@@ -7,11 +7,10 @@
 
 package de.lehmannet.om.extension.solarSystem;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.util.SchemaException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * SolarSystemTargetComet extends the de.lehmannet.om.extension.solarSystem.SolarSystemTarget class. Its specialised for
@@ -52,7 +51,6 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
     public SolarSystemTargetComet(Node targetElement, IObserver... observers) throws SchemaException {
 
         super(targetElement, observers);
-
     }
 
     /**
@@ -66,7 +64,6 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
     public SolarSystemTargetComet(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     /**
@@ -80,7 +77,6 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
     public SolarSystemTargetComet(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     // ------------------------
@@ -99,7 +95,6 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
     public String getXSIType() {
 
         return SolarSystemTargetComet.XML_XSI_TYPE_VALUE;
-
     }
 
     // ------
@@ -122,7 +117,5 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
         }
 
         this.createXmlSolarSystemTargetElement(element, SolarSystemTargetComet.XML_XSI_TYPE_VALUE);
-
     }
-
 }

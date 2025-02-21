@@ -1,15 +1,13 @@
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.FloatUtil;
+import de.lehmannet.om.util.SchemaException;
 import java.util.Locale;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.FloatUtil;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * TargetStar extends the de.lehmannet.om.Target class.<br>
@@ -90,19 +88,16 @@ public class TargetStar extends Target {
             throw new SchemaException(
                     "TargetStar can only have one stellar classification. (ID: " + this.getID() + ")");
         }
-
     }
 
     public TargetStar(String starName, String datasource) {
 
         super(starName, datasource);
-
     }
 
     public TargetStar(String starName, IObserver observer) {
 
         super(starName, observer);
-
     }
 
     // ------
@@ -160,7 +155,6 @@ public class TargetStar extends Target {
         }
 
         return buffer.toString();
-
     }
 
     // ------
@@ -179,7 +173,6 @@ public class TargetStar extends Target {
     public void addToXmlElement(Element element) {
 
         this.createXmlTargetStarElement(element, this.getXSIType());
-
     }
 
     // ------------------------
@@ -198,7 +191,6 @@ public class TargetStar extends Target {
     public String getXSIType() {
 
         return TargetStar.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -214,7 +206,6 @@ public class TargetStar extends Target {
     public float getMagnitudeApparent() {
 
         return this.magnitudeApparent;
-
     }
 
     /**
@@ -223,7 +214,6 @@ public class TargetStar extends Target {
     public void setMagnitudeApparent(float magnitudeApparent) {
 
         this.magnitudeApparent = magnitudeApparent;
-
     }
 
     /**
@@ -236,7 +226,6 @@ public class TargetStar extends Target {
     public String getStellarClassification() {
 
         return this.stellarClassification;
-
     }
 
     /**
@@ -257,7 +246,6 @@ public class TargetStar extends Target {
         }
 
         this.stellarClassification = stellarClassification;
-
     }
 
     // -----------------
@@ -318,7 +306,10 @@ public class TargetStar extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -362,7 +353,6 @@ public class TargetStar extends Target {
         }
 
         return e_Target;
-
     }
 
     @Override
@@ -394,8 +384,7 @@ public class TargetStar extends Target {
         }
 
         ITarget other = (ITarget) obj;
-        if (this == obj)
-            return true;
+        if (this == obj) return true;
 
         String targetName = other.getName();
         if (targetName == null) {
@@ -404,7 +393,5 @@ public class TargetStar extends Target {
 
         return this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault()))
                 && this.getXSIType().equals(other.getXSIType());
-
     }
-
 }

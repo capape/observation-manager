@@ -1,25 +1,5 @@
 package de.lehmannet.om.ui.extension.deepSky;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
@@ -57,6 +37,23 @@ import de.lehmannet.om.ui.extension.deepSky.catalog.NGCCatalog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.io.File;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
 
 public class DeepSkyExtension extends AbstractExtension {
 
@@ -90,74 +87,100 @@ public class DeepSkyExtension extends AbstractExtension {
         this.initTargetDialogs();
 
         this.initExtensionTypes();
-
     }
 
     private void initExtensionTypes() {
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDN").targetType("oal:deepSkyDN")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDN")
+                .targetType("oal:deepSkyDN")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDS").targetType("oal:deepSkyDS")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetDS")
+                .targetType("oal:deepSkyDS")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFindingDS")
-                .findingType("oal:findingsDeepSkyDSType").build());
+                .findingType("oal:findingsDeepSkyDSType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGC").targetType("oal:deepSkyGC")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGC")
+                .targetType("oal:deepSkyGC")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGN").targetType("oal:deepSkyGN")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGN")
+                .targetType("oal:deepSkyGN")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGX").targetType("oal:deepSkyGX")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetGX")
+                .targetType("oal:deepSkyGX")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetOC").targetType("oal:deepSkyOC")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetOC")
+                .targetType("oal:deepSkyOC")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFindingOC")
-                .findingType("oal:findingsDeepSkyOCType").build());
+                .findingType("oal:findingsDeepSkyOCType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetPN").targetType("oal:deepSkyPN")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetPN")
+                .targetType("oal:deepSkyPN")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetQS").targetType("oal:deepSkyQS")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetQS")
+                .targetType("oal:deepSkyQS")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetNA").targetType("oal:deepSkyNA")
-                .findingClassName("de.lehmannet.om.GenericFinding").findingType("oal:findingsType").build());
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetNA")
+                .targetType("oal:deepSkyNA")
+                .findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType("oal:findingsType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetAS").targetType("oal:deepSkyAS")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetAS")
+                .targetType("oal:deepSkyAS")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetSC").targetType("oal:deepSkySC")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetSC")
+                .targetType("oal:deepSkySC")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
+                .findingType("oal:findingsDeepSkyType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetMS").targetType("oal:deepSkyMS")
-                .findingClassName("de.lehmannet.om.GenericFinding").findingType("oal:findingsType").build());
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetMS")
+                .targetType("oal:deepSkyMS")
+                .findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType("oal:findingsType")
+                .build());
 
         this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
-                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetCG").targetType("oal:deepSkyCG")
+                .targetClassName("de.lehmannet.om.extension.deepSky.DeepSkyTargetCG")
+                .targetType("oal:deepSkyCG")
                 .findingClassName("de.lehmannet.om.extension.deepSky.DeepSkyFinding")
-                .findingType("oal:findingsDeepSkyType").build());
-
+                .findingType("oal:findingsDeepSkyType")
+                .build());
     }
 
     @Override
@@ -168,12 +191,12 @@ public class DeepSkyExtension extends AbstractExtension {
 
     private void initLanguage() {
         try {
-            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames",
-                    Locale.getDefault());
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.getDefault());
         } catch (MissingResourceException mre) {
 
-            this.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames",
-                    Locale.ENGLISH);
+            this.bundle = ResourceBundle.getBundle(
+                    "de.lehmannet.om.ui.extension.deepSky.oalDeepSkyTargetDisplayNames", Locale.ENGLISH);
         }
     }
 
@@ -181,14 +204,12 @@ public class DeepSkyExtension extends AbstractExtension {
     public String getName() {
 
         return DeepSkyExtension.NAME;
-
     }
 
     @Override
     public Optional<URL> getUpdateInformationURL() {
 
         return Optional.empty();
-
     }
 
     @Override
@@ -196,7 +217,6 @@ public class DeepSkyExtension extends AbstractExtension {
 
         this.initLanguage();
         DeepSkyTableModel.reloadLanguage();
-
     }
 
     @Override
@@ -204,25 +224,23 @@ public class DeepSkyExtension extends AbstractExtension {
 
         // No menu for DeepSky
         return null;
-
     }
 
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
 
-        IListableCatalog messier = new MessierCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/messier"));
-        IListableCatalog ngc = new NGCCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/NGC2009"));
+        IListableCatalog messier =
+                new MessierCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/messier"));
+        IListableCatalog ngc =
+                new NGCCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/NGC2009"));
         IListableCatalog ic = new ICCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/IC2009"));
         // @since 0.81: Replaced with NGC/IC2009 by Wolfgang Steinicke
         // IListableCatalog hcngc = new HCNGCCatalog(new
         // File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/HCNGC"));
-        IListableCatalog caldwell = new CaldwellCatalog(
-                new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/caldwell"));
+        IListableCatalog caldwell =
+                new CaldwellCatalog(new File(catalogDir.getAbsoluteFile() + File.separator + "deepSky/caldwell"));
 
-        return new ICatalog[] { messier, ngc, ic, caldwell };
-
+        return new ICatalog[] {messier, ngc, ic, caldwell};
     }
 
     @Override
@@ -230,7 +248,6 @@ public class DeepSkyExtension extends AbstractExtension {
 
         // No preferences from DeepSky
         return null;
-
     }
 
     @Override
@@ -244,7 +261,6 @@ public class DeepSkyExtension extends AbstractExtension {
         } else {
             return Collections.emptySet();
         }
-
     }
 
     private void initSupportedTargetXSITypes() {
@@ -262,7 +278,6 @@ public class DeepSkyExtension extends AbstractExtension {
         supportedTargetXSITypes.add(DeepSkyTargetSC.XML_XSI_TYPE_VALUE);
         supportedTargetXSITypes.add(DeepSkyTargetMS.XML_XSI_TYPE_VALUE);
         supportedTargetXSITypes.add(DeepSkyTargetCG.XML_XSI_TYPE_VALUE);
-
     }
 
     private void initSupportedFindingXSITypes() {
@@ -270,7 +285,6 @@ public class DeepSkyExtension extends AbstractExtension {
         supportedFinfingXSITypes.add(DeepSkyFinding.XML_XSI_TYPE_VALUE);
         supportedFinfingXSITypes.add(DeepSkyFindingOC.XML_XSI_TYPE_VALUE);
         supportedFinfingXSITypes.add(DeepSkyFindingDS.XML_XSI_TYPE_VALUE);
-
     }
 
     @Override
@@ -281,7 +295,6 @@ public class DeepSkyExtension extends AbstractExtension {
         } catch (MissingResourceException mre) { // XSIType not found
             return null;
         }
-
     }
 
     @Override
@@ -289,111 +302,121 @@ public class DeepSkyExtension extends AbstractExtension {
 
         // All elements are allowed for creation of new instances
         return true;
-
     }
 
     private void initFindingPanels() {
 
-        this.findingPanels.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetDN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
         this.findingPanels.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
-        this.findingPanels.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel");
-        this.findingPanels.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel");
-        this.findingPanels.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel");
+        this.findingPanels.put(
+                DeepSkyTargetGC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetGN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetGX.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel");
+        this.findingPanels.put(
+                DeepSkyTargetPN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetQS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetAS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyTargetSC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
         this.findingPanels.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
-        this.findingPanels.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyFinding.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
-        this.findingPanels.put(DeepSkyFindingOC.XML_XSI_TYPE_VALUE,
+        this.findingPanels.put(
+                DeepSkyTargetCG.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyFinding.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingPanel");
+        this.findingPanels.put(
+                DeepSkyFindingOC.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingOCPanel");
-        this.findingPanels.put(DeepSkyFindingDS.XML_XSI_TYPE_VALUE,
+        this.findingPanels.put(
+                DeepSkyFindingDS.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyFindingDSPanel");
-
     }
 
     private void initTargetPanels() {
 
-        this.targetPanels.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDNPanel");
-        this.targetPanels.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDSPanel");
-        this.targetPanels.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGCPanel");
-        this.targetPanels.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGNPanel");
-        this.targetPanels.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGXPanel");
-        this.targetPanels.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetOCPanel");
-        this.targetPanels.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetPNPanel");
-        this.targetPanels.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetQSPanel");
-        this.targetPanels.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetNAPanel");
-        this.targetPanels.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetASPanel");
-        this.targetPanels.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetSCPanel");
-        this.targetPanels.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetMSPanel");
-        this.targetPanels.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE,
-                "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetCGPanel");
-
+        this.targetPanels.put(
+                DeepSkyTargetDN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDNPanel");
+        this.targetPanels.put(
+                DeepSkyTargetDS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetDSPanel");
+        this.targetPanels.put(
+                DeepSkyTargetGC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGCPanel");
+        this.targetPanels.put(
+                DeepSkyTargetGN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGNPanel");
+        this.targetPanels.put(
+                DeepSkyTargetGX.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetGXPanel");
+        this.targetPanels.put(
+                DeepSkyTargetOC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetOCPanel");
+        this.targetPanels.put(
+                DeepSkyTargetPN.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetPNPanel");
+        this.targetPanels.put(
+                DeepSkyTargetQS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetQSPanel");
+        this.targetPanels.put(
+                DeepSkyTargetNA.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetNAPanel");
+        this.targetPanels.put(
+                DeepSkyTargetAS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetASPanel");
+        this.targetPanels.put(
+                DeepSkyTargetSC.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetSCPanel");
+        this.targetPanels.put(
+                DeepSkyTargetMS.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetMSPanel");
+        this.targetPanels.put(
+                DeepSkyTargetCG.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.extension.deepSky.panel.DeepSkyTargetCGPanel");
     }
 
     private void initTargetDialogs() {
 
-        this.targetDialogs.put(DeepSkyTargetDN.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetDN.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetDNDialog");
-        this.targetDialogs.put(DeepSkyTargetDS.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetDS.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetDSDialog");
-        this.targetDialogs.put(DeepSkyTargetGC.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetGC.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGCDialog");
-        this.targetDialogs.put(DeepSkyTargetGN.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetGN.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGNDialog");
-        this.targetDialogs.put(DeepSkyTargetGX.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetGX.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetGXDialog");
-        this.targetDialogs.put(DeepSkyTargetOC.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetOC.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetOCDialog");
-        this.targetDialogs.put(DeepSkyTargetPN.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetPN.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetPNDialog");
-        this.targetDialogs.put(DeepSkyTargetQS.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetQS.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetQSDialog");
-        this.targetDialogs.put(DeepSkyTargetNA.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetNA.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetNADialog");
-        this.targetDialogs.put(DeepSkyTargetAS.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetAS.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetASDialog");
-        this.targetDialogs.put(DeepSkyTargetSC.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetSC.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetSCDialog");
-        this.targetDialogs.put(DeepSkyTargetMS.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetMS.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetMSDialog");
-        this.targetDialogs.put(DeepSkyTargetCG.XML_XSI_TYPE_VALUE,
+        this.targetDialogs.put(
+                DeepSkyTargetCG.XML_XSI_TYPE_VALUE,
                 "de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetCGDialog");
-
     }
 
     @Override
     public Set<String> getAllSupportedXSITypes() {
 
         return Collections.unmodifiableSet(this.allSupportedXSITypes);
-
     }
 
     public void initAllSupportedXSITypes() {
@@ -403,7 +426,6 @@ public class DeepSkyExtension extends AbstractExtension {
 
         allSupportedXSITypes.addAll(this.supportedFinfingXSITypes);
         allSupportedXSITypes.addAll(this.supportedTargetXSITypes);
-
     }
 
     @Override
@@ -414,7 +436,8 @@ public class DeepSkyExtension extends AbstractExtension {
         NamedNodeMap attributes = null;
         for (int i = 0; i < list.getLength(); i++) {
             attributes = list.item(i).getAttributes();
-            if (this.OAL_EXTENSION_FILE.equals(attributes.getNamedItem("schemaLocation").getNodeValue())) {
+            if (this.OAL_EXTENSION_FILE.equals(
+                    attributes.getNamedItem("schemaLocation").getNodeValue())) {
                 return true;
             }
         }
@@ -427,7 +450,6 @@ public class DeepSkyExtension extends AbstractExtension {
         docElement.appendChild(e);
 
         return true;
-
     }
 
     @Override
@@ -443,17 +465,12 @@ public class DeepSkyExtension extends AbstractExtension {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         DeepSkyExtension other = (DeepSkyExtension) obj;
-        if (!findingPanels.equals(other.findingPanels))
-            return false;
-        if (!targetDialogs.equals(other.targetDialogs))
-            return false;
+        if (!findingPanels.equals(other.findingPanels)) return false;
+        if (!targetDialogs.equals(other.targetDialogs)) return false;
         return targetPanels.equals(other.targetPanels);
     }
 
@@ -461,27 +478,25 @@ public class DeepSkyExtension extends AbstractExtension {
     public PopupMenuExtension getPopupMenu() {
 
         return null;
-
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
-            boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(
+            String xsiType, IFinding finding, ISession session, ITarget target, boolean editable) {
         return FindingPanelFactory.newInstance(this.context, xsiType, finding, session, editable);
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
-            boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(
+            String xsiType, ITarget target, IObservation observation, boolean editable) {
         return TargetPanelFactory.newInstance(this.context, xsiType, target, editable);
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
-            IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(
+            String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
 
         return TargetDialogFactory.newInstance(this.context, xsiType, parent, target, editable);
-
     }
 
     @Override
@@ -494,7 +509,6 @@ public class DeepSkyExtension extends AbstractExtension {
         }
 
         return null;
-
     }
 
     @Override
@@ -505,7 +519,6 @@ public class DeepSkyExtension extends AbstractExtension {
         }
 
         return null;
-
     }
 
     @Override
@@ -521,5 +534,4 @@ public class DeepSkyExtension extends AbstractExtension {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

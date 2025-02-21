@@ -1,16 +1,7 @@
 package de.lehmannet.om.ui.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -22,6 +13,12 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 public class JacksonXMLFileLoaderImpl implements XMLFileLoader {
 
@@ -43,7 +40,6 @@ public class JacksonXMLFileLoaderImpl implements XMLFileLoader {
         this.schemaPath = path;
 
         mapper.readTree(this.schemaPath);
-
     }
 
     @Override
@@ -201,5 +197,4 @@ public class JacksonXMLFileLoaderImpl implements XMLFileLoader {
         // TODO Auto-generated method stub
         return false;
     }
-
 }

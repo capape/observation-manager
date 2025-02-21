@@ -33,7 +33,6 @@ public class RelativPath {
         List<String> filelist = RelativPath.getPathList(f);
 
         return RelativPath.matchPathLists(homelist, filelist);
-
     }
 
     /**
@@ -61,7 +60,6 @@ public class RelativPath {
         }
 
         return l;
-
     }
 
     /**
@@ -105,7 +103,5 @@ public class RelativPath {
         s.insert(0, "." + File.separator);
 
         return s.toString();
-
     }
-
 }

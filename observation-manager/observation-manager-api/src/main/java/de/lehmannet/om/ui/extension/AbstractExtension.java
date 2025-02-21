@@ -1,30 +1,28 @@
 package de.lehmannet.om.ui.extension;
 
+import de.lehmannet.om.SchemaOalTypeInfo;
+import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.util.SchemaElementConstants;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import javax.swing.JMenu;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
-import de.lehmannet.om.SchemaOalTypeInfo;
-import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.SchemaElementConstants;
-
 public abstract class AbstractExtension implements IExtension {
 
     protected String OAL_EXTENSION_FILE = "noCorrectSetByExtension";
 
-    final private ResourceBundle versionBundle = LocaleToolsFactory.appInstance().getBundle("version", "en");
+    private final ResourceBundle versionBundle =
+            LocaleToolsFactory.appInstance().getBundle("version", "en");
 
     // HashMap:
     // Key: SchemaElementConstant Value: HashMap of xsiTypes
@@ -68,7 +66,6 @@ public abstract class AbstractExtension implements IExtension {
         result.addAll(this.getSupportedXSITypes(SchemaElementConstants.TARGET));
 
         return result;
-
     }
 
     @Override
@@ -80,7 +77,6 @@ public abstract class AbstractExtension implements IExtension {
             return null;
         }
         return o.get(xsiType);
-
     }
 
     @Override
@@ -92,7 +88,6 @@ public abstract class AbstractExtension implements IExtension {
             return null;
         }
         return o.get(xsiType);
-
     }
 
     @Override
@@ -103,7 +98,8 @@ public abstract class AbstractExtension implements IExtension {
         NamedNodeMap attributes = null;
         for (int i = 0; i < list.getLength(); i++) {
             attributes = list.item(i).getAttributes();
-            if (this.OAL_EXTENSION_FILE.equals(attributes.getNamedItem("schemaLocation").getNodeValue())) {
+            if (this.OAL_EXTENSION_FILE.equals(
+                    attributes.getNamedItem("schemaLocation").getNodeValue())) {
                 return true;
             }
         }
@@ -116,7 +112,6 @@ public abstract class AbstractExtension implements IExtension {
         docElement.appendChild(e);
 
         return true;
-
     }
 
     @Override
@@ -129,12 +124,9 @@ public abstract class AbstractExtension implements IExtension {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         AbstractExtension other = (AbstractExtension) obj;
 
         if (other.getName().equals(this.getName())) {

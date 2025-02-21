@@ -1,11 +1,9 @@
 package de.lehmannet.om.mapper;
 
+import de.lehmannet.om.util.SchemaException;
 import java.util.Optional;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.SchemaException;
 
 public class NodeParser {
 
@@ -19,7 +17,6 @@ public class NodeParser {
         }
 
         return Optional.of((Element) nodes.item(0));
-
     }
 
     public static String getChildrenNodesAsText(Element element) {
@@ -32,7 +29,5 @@ public class NodeParser {
             }
         }
         return sBin.toString();
-
     }
-
 }

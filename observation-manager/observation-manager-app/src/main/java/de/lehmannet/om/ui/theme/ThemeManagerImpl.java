@@ -1,7 +1,10 @@
 package de.lehmannet.om.ui.theme;
 
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.IConfiguration;
 import java.lang.reflect.Constructor;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JRootPane;
@@ -11,14 +14,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.i18n.TextManager;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.IConfiguration;
 
 public class ThemeManagerImpl implements ThemeManager {
 
@@ -91,7 +88,6 @@ public class ThemeManagerImpl implements ThemeManager {
             LOGGER.error("Error in theme", e);
             this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
         }
-
     }
 
     @Override
@@ -152,5 +148,4 @@ public class ThemeManagerImpl implements ThemeManager {
             LOGGER.error("Error in theme", e);
         }
     }
-
 }

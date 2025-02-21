@@ -7,15 +7,14 @@
 
 package de.lehmannet.om.ui.statistics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
@@ -26,8 +25,8 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Statistics";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private CatalogTargets catalogTargets = null;
     private List<TargetObservation> rowIndexMapping = null;
@@ -52,28 +51,24 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
                 }
             }
         }
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
     public String getID() {
 
         return ObservationStatisticsTableModel.MODEL_ID;
-
     }
 
     @Override
     public int getRowCount() {
 
         return this.rowIndexMapping.size();
-
     }
 
     @Override
@@ -93,7 +88,6 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -131,7 +125,6 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -151,7 +144,6 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
 
     @Override
@@ -167,21 +159,17 @@ public class ObservationStatisticsTableModel extends AbstractSchemaTableModel {
         }
 
         return super.getColumnSize(columnIndex);
-
     }
 
     TargetObservations[] getTargetObservations() {
 
         return catalogTargets.getTargetObservations();
-
     }
 
     String getCatalogName() {
 
         return catalogTargets.getCatalog().getName();
-
     }
-
 }
 
 class TargetObservation {
@@ -193,7 +181,5 @@ class TargetObservation {
 
         this.targetIndex = targetIndex;
         this.observtionIndex = observationIndex;
-
     }
-
 }

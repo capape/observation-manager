@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISite;
@@ -25,6 +15,14 @@ import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class SitePanel extends AbstractPanel implements ActionListener {
 
@@ -54,7 +52,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -67,7 +64,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
             this.updateUI();
         }
-
     }
 
     private void loadSchemaElement() {
@@ -92,14 +88,12 @@ public class SitePanel extends AbstractPanel implements ActionListener {
 
         this.timezone.setText(String.valueOf(this.site.getTimezone()));
         this.timezone.setEditable(this.isEditable());
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.site;
-
     }
 
     @Override
@@ -175,7 +169,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return this.site;
-
     }
 
     @Override
@@ -245,7 +238,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return this.site;
-
     }
 
     private String getSiteName() {
@@ -257,7 +249,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return name;
-
     }
 
     private Angle getLongitude() {
@@ -275,7 +266,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return longitude;
-
     }
 
     private Angle getLatitude() {
@@ -293,7 +283,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return latitude;
-
     }
 
     private String getTimezone() {
@@ -312,7 +301,6 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         }
 
         return timezone;
-
     }
 
     private void createPanel() {
@@ -336,8 +324,8 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(this.name);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 10, 1);
-        OMLabel LiauCode = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.iau"), SwingConstants.RIGHT,
-                false);
+        OMLabel LiauCode =
+                new OMLabel(AbstractPanel.bundle.getString("panel.site.label.iau"), SwingConstants.RIGHT, false);
         LiauCode.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.iau"));
         gridbag.setConstraints(LiauCode, constraints);
         this.add(LiauCode);
@@ -359,8 +347,8 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(this.longitude);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 10, 1);
-        OMLabel llatitude = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.latitude"),
-                SwingConstants.RIGHT, true);
+        OMLabel llatitude =
+                new OMLabel(AbstractPanel.bundle.getString("panel.site.label.latitude"), SwingConstants.RIGHT, true);
         llatitude.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.latitude"));
         gridbag.setConstraints(llatitude, constraints);
         this.add(llatitude);
@@ -396,8 +384,8 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         this.add(LelevationUnit);
 
         ConstraintsBuilder.buildConstraints(constraints, 3, 2, 1, 1, 10, 1);
-        OMLabel Ltimezone = new OMLabel(AbstractPanel.bundle.getString("panel.site.label.timezone"),
-                SwingConstants.RIGHT, true);
+        OMLabel Ltimezone =
+                new OMLabel(AbstractPanel.bundle.getString("panel.site.label.timezone"), SwingConstants.RIGHT, true);
         gridbag.setConstraints(Ltimezone, constraints);
         Ltimezone.setToolTipText(AbstractPanel.bundle.getString("panel.site.tooltip.timezone"));
         this.add(Ltimezone);
@@ -417,7 +405,5 @@ public class SitePanel extends AbstractPanel implements ActionListener {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

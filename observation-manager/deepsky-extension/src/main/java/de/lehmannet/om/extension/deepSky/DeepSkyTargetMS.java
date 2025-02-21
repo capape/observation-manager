@@ -1,17 +1,5 @@
 package de.lehmannet.om.extension.deepSky;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -20,6 +8,16 @@ import de.lehmannet.om.RootElement;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.util.SchemaException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * DeepSkyTargetMS extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -93,21 +91,18 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
             throw new SchemaException(
                     "DeepSkyTargetMS must have at least three component stars. (ID: " + this.getID() + ")");
         }
-
     }
 
     public DeepSkyTargetMS(String starName, String datasource, List<String> componentStars) {
 
         super(starName, datasource);
         this.setComponents(componentStars);
-
     }
 
     public DeepSkyTargetMS(String starName, IObserver observer, List<String> componentStars) {
 
         super(starName, observer);
         this.setComponents(componentStars);
-
     }
 
     // ------------------------
@@ -126,7 +121,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     public String getXSIType() {
 
         return DeepSkyTargetMS.XML_XSI_TYPE_VALUE;
-
     }
 
     // ------
@@ -169,7 +163,10 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -206,7 +203,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
             e_MSTarget.appendChild(e_Link);
         }
-
     }
 
     // --------------
@@ -222,7 +218,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     private List<String> getComponents() {
 
         return new ArrayList<>(this.components);
-
     }
 
     /**
@@ -250,7 +245,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
         }
 
         return result;
-
     }
 
     /**
@@ -296,7 +290,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
         this.components = resultList;
         return true;
-
     }
 
     /**
@@ -338,7 +331,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
         this.components.addAll(additionalComponents);
         return true;
-
     }
 
     /**
@@ -362,7 +354,6 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
         this.components.add(additionalStar.getID());
         return true;
-
     }
 
     /**
@@ -386,7 +377,5 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
         this.components.add(additionalStar);
         return true;
-
     }
-
 }

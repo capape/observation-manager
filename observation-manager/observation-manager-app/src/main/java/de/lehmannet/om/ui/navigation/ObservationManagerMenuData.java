@@ -1,18 +1,5 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
@@ -30,6 +17,16 @@ import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ObservationManagerMenuData {
 
@@ -42,8 +39,12 @@ public final class ObservationManagerMenuData {
     private final JMenu menu;
     private final UIDataCache uiCache;
 
-    public ObservationManagerMenuData(ObservationManagerModel model, ImageResolver imageResolver,
-            TextManager textManager, ObservationManager om, UIDataCache cache) {
+    public ObservationManagerMenuData(
+            ObservationManagerModel model,
+            ImageResolver imageResolver,
+            TextManager textManager,
+            ObservationManager om,
+            UIDataCache cache) {
 
         // Load configuration
         this.model = model;
@@ -53,7 +54,6 @@ public final class ObservationManagerMenuData {
         this.uiCache = cache;
 
         this.menu = this.createMenuDataItems();
-
     }
 
     public JMenu getMenu() {
@@ -67,8 +67,10 @@ public final class ObservationManagerMenuData {
         final JMenu dataMenu = new JMenu(this.textManager.getString("menu.data"));
         dataMenu.setMnemonic('d');
 
-        JMenuItem createObservation = new JMenuItem(this.textManager.getString("menu.createObservation"),
-                new ImageIcon(this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
+        JMenuItem createObservation = new JMenuItem(
+                this.textManager.getString("menu.createObservation"),
+                new ImageIcon(
+                        this.imageResolver.getImageURL("observation_l.png").orElse(null), ""));
         createObservation.setMnemonic('o');
         createObservation.addActionListener(new CreateObservationListener());
         createObservation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuKeyModifier));
@@ -77,55 +79,64 @@ public final class ObservationManagerMenuData {
         // Seperate Observation from the rest
         dataMenu.addSeparator();
 
-        JMenuItem createObserver = new JMenuItem(this.textManager.getString("menu.createObserver"),
+        JMenuItem createObserver = new JMenuItem(
+                this.textManager.getString("menu.createObserver"),
                 new ImageIcon(this.imageResolver.getImageURL("observer_l.png").orElse(null), ""));
         createObserver.setMnemonic('v');
         createObserver.addActionListener(new CreateObserverListener());
         dataMenu.add(createObserver);
 
-        JMenuItem createSite = new JMenuItem(this.textManager.getString("menu.createSite"),
+        JMenuItem createSite = new JMenuItem(
+                this.textManager.getString("menu.createSite"),
                 new ImageIcon(this.imageResolver.getImageURL("site_l.png").orElse(null), ""));
         createSite.setMnemonic('l');
         createSite.addActionListener(new CreateSiteListener());
         dataMenu.add(createSite);
 
-        JMenuItem createScope = new JMenuItem(this.textManager.getString("menu.createScope"),
+        JMenuItem createScope = new JMenuItem(
+                this.textManager.getString("menu.createScope"),
                 new ImageIcon(this.imageResolver.getImageURL("scope_l.png").orElse(null), ""));
         createScope.setMnemonic('s');
         createScope.addActionListener(new CreateScopeListener());
         dataMenu.add(createScope);
 
-        JMenuItem createEyepiece = new JMenuItem(this.textManager.getString("menu.createEyepiece"),
+        JMenuItem createEyepiece = new JMenuItem(
+                this.textManager.getString("menu.createEyepiece"),
                 new ImageIcon(this.imageResolver.getImageURL("eyepiece_l.png").orElse(null), ""));
         createEyepiece.setMnemonic('e');
         createEyepiece.addActionListener(new CreateEyepieceListener());
         dataMenu.add(createEyepiece);
 
-        JMenuItem createLens = new JMenuItem(this.textManager.getString("menu.createLens"),
+        JMenuItem createLens = new JMenuItem(
+                this.textManager.getString("menu.createLens"),
                 new ImageIcon(this.imageResolver.getImageURL("lens_l.png").orElse(null), ""));
         createLens.setMnemonic('o');
         createLens.addActionListener(new CreateLensListener());
         dataMenu.add(createLens);
 
-        JMenuItem createFilter = new JMenuItem(this.textManager.getString("menu.createFilter"),
+        JMenuItem createFilter = new JMenuItem(
+                this.textManager.getString("menu.createFilter"),
                 new ImageIcon(this.imageResolver.getImageURL("filter_l.png").orElse(null), ""));
         createFilter.setMnemonic('f');
         createFilter.addActionListener(new CreateFilterListener());
         dataMenu.add(createFilter);
 
-        JMenuItem createImager = new JMenuItem(this.textManager.getString("menu.createImager"),
+        JMenuItem createImager = new JMenuItem(
+                this.textManager.getString("menu.createImager"),
                 new ImageIcon(this.imageResolver.getImageURL("imager_l.png").orElse(null), ""));
         createImager.setMnemonic('i');
         createImager.addActionListener(new CreateImagerListener());
         dataMenu.add(createImager);
 
-        JMenuItem createTarget = new JMenuItem(this.textManager.getString("menu.createTarget"),
+        JMenuItem createTarget = new JMenuItem(
+                this.textManager.getString("menu.createTarget"),
                 new ImageIcon(this.imageResolver.getImageURL("target_l.png").orElse(null), ""));
         createTarget.setMnemonic('t');
         createTarget.addActionListener(new CreateTargetListener());
         dataMenu.add(createTarget);
 
-        JMenuItem createSession = new JMenuItem(this.textManager.getString("menu.createSession"),
+        JMenuItem createSession = new JMenuItem(
+                this.textManager.getString("menu.createSession"),
                 new ImageIcon(this.imageResolver.getImageURL("session_l.png").orElse(null), ""));
         createSession.setMnemonic('n');
         createSession.addActionListener(new CreateSessionListener());
@@ -134,7 +145,8 @@ public final class ObservationManagerMenuData {
         // Seperate Availability from the rest
         dataMenu.addSeparator();
 
-        JMenuItem equipmentAvailability = new JMenuItem(this.textManager.getString("menu.equipmentAvailability"),
+        JMenuItem equipmentAvailability = new JMenuItem(
+                this.textManager.getString("menu.equipmentAvailability"),
                 new ImageIcon(this.imageResolver.getImageURL("equipment.png").orElse(null), ""));
         equipmentAvailability.setMnemonic('a');
         equipmentAvailability.addActionListener(new CreateEquipmentListener());
@@ -155,7 +167,6 @@ public final class ObservationManagerMenuData {
             // (and table) on new
             // element
         }
-
     }
 
     public void createNewObserver() {
@@ -215,8 +226,10 @@ public final class ObservationManagerMenuData {
 
     public void createNewImager() {
 
-        ExtenableSchemaElementSelector is = new ExtenableSchemaElementSelector(this.observationManager,
-                this.observationManager.getExtensionLoader().getSchemaUILoader(), SchemaElementConstants.IMAGER);
+        ExtenableSchemaElementSelector is = new ExtenableSchemaElementSelector(
+                this.observationManager,
+                this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                SchemaElementConstants.IMAGER);
         if (is.getResult()) {
             // Get Imager Dialog
             IImagerDialog imagerDialog = (IImagerDialog) is.getDialog();
@@ -227,7 +240,6 @@ public final class ObservationManagerMenuData {
             // (and table) on new
             // element
         }
-
     }
 
     public void createNewFilter() {
@@ -243,8 +255,10 @@ public final class ObservationManagerMenuData {
 
     public void createNewTarget() {
 
-        ExtenableSchemaElementSelector ts = new ExtenableSchemaElementSelector(this.observationManager,
-                this.observationManager.getExtensionLoader().getSchemaUILoader(), SchemaElementConstants.TARGET);
+        ExtenableSchemaElementSelector ts = new ExtenableSchemaElementSelector(
+                this.observationManager,
+                this.observationManager.getExtensionLoader().getSchemaUILoader(),
+                SchemaElementConstants.TARGET);
         if (ts.getResult()) {
             // Get TargetContainer
             ITargetDialog targetDialog = (ITargetDialog) ts.getDialog();
@@ -255,7 +269,6 @@ public final class ObservationManagerMenuData {
             // (and table) on new
             // element
         }
-
     }
 
     public void createNewLens() {
@@ -274,9 +287,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewObservation();
-
         }
-
     }
 
     class CreateObserverListener implements ActionListener {
@@ -285,7 +296,6 @@ public final class ObservationManagerMenuData {
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewObserver();
         }
-
     }
 
     class CreateSiteListener implements ActionListener {
@@ -293,9 +303,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewSite();
-
         }
-
     }
 
     class CreateScopeListener implements ActionListener {
@@ -303,9 +311,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewScope();
-
         }
-
     }
 
     class CreateEyepieceListener implements ActionListener {
@@ -314,7 +320,6 @@ public final class ObservationManagerMenuData {
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewEyepiece();
         }
-
     }
 
     class CreateImagerListener implements ActionListener {
@@ -322,9 +327,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewImager();
-
         }
-
     }
 
     class CreateFilterListener implements ActionListener {
@@ -333,7 +336,6 @@ public final class ObservationManagerMenuData {
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewFilter();
         }
-
     }
 
     class CreateLensListener implements ActionListener {
@@ -341,9 +343,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewLens();
-
         }
-
     }
 
     class CreateTargetListener implements ActionListener {
@@ -351,9 +351,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewTarget();
-
         }
-
     }
 
     class CreateSessionListener implements ActionListener {
@@ -361,9 +359,7 @@ public final class ObservationManagerMenuData {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuData.this.createNewSession();
-
         }
-
     }
 
     class CreateEquipmentListener implements ActionListener {
@@ -374,8 +370,6 @@ public final class ObservationManagerMenuData {
                     ObservationManagerMenuData.this.observationManager, ObservationManagerMenuData.this.model,
                     ObservationManagerMenuData.this.textManager, ObservationManagerMenuData.this.imageResolver);
             ObservationManagerMenuData.this.observationManager.setChanged(uqd.changedElements());
-
         }
-
     }
 }

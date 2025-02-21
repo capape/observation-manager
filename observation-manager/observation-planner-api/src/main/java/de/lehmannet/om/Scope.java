@@ -7,9 +7,10 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.ScopeMapper;
+import de.lehmannet.om.util.SchemaException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -17,9 +18,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.ScopeMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * A Scope describes an optical instrument which can be used for astronomical observations.<br>
@@ -160,7 +158,6 @@ public class Scope extends SchemaElement implements IScope {
         this.setAperture(aperture);
 
         this.setFocalLength(focalLength);
-
     }
 
     /**
@@ -183,7 +180,6 @@ public class Scope extends SchemaElement implements IScope {
         this.setAperture(aperture);
 
         this.setMagnification(magnification);
-
     }
 
     // -------------
@@ -218,7 +214,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         return dn;
-
     }
 
     // ------------------------
@@ -295,11 +290,9 @@ public class Scope extends SchemaElement implements IScope {
             } else if (orientation_Truesided == 0) {
                 buffer.append(" Not Truesided)");
             }
-
         }
 
         return buffer.toString();
-
     }
 
     /*
@@ -340,7 +333,6 @@ public class Scope extends SchemaElement implements IScope {
     public boolean isAvailable() {
 
         return this.available;
-
     }
 
     /**
@@ -353,7 +345,6 @@ public class Scope extends SchemaElement implements IScope {
     public void setAvailability(boolean available) {
 
         this.available = available;
-
     }
 
     // ------
@@ -420,7 +411,6 @@ public class Scope extends SchemaElement implements IScope {
         // Set XSI:Type
         e_Scope.setAttribute(IScope.XML_XSI_TYPE, Scope.XML_XSI_TYPE_VALUE);
         e_Scope.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-
     }
 
     private boolean existsNodeElement(Element element) {
@@ -434,7 +424,10 @@ public class Scope extends SchemaElement implements IScope {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     existsElement = false;
                     ;
                 }
@@ -488,7 +481,6 @@ public class Scope extends SchemaElement implements IScope {
             Node n_FocalLengthText = ownerDoc.createTextNode(Float.toString(this.focalLength));
             e_FocalLength.appendChild(n_FocalLengthText);
             e_Scope.appendChild(e_FocalLength);
-
         }
     }
 
@@ -565,7 +557,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         return element;
-
     }
 
     /**
@@ -588,7 +579,6 @@ public class Scope extends SchemaElement implements IScope {
     public Element addAsLinkToXmlElement(Element element) {
 
         return this.addAsLinkToXmlElement(element, false);
-
     }
 
     /**
@@ -601,7 +591,6 @@ public class Scope extends SchemaElement implements IScope {
     public float getAperture() {
 
         return aperture;
-
     }
 
     /**
@@ -615,7 +604,6 @@ public class Scope extends SchemaElement implements IScope {
     public float getFocalLength() {
 
         return focalLength;
-
     }
 
     /**
@@ -629,7 +617,6 @@ public class Scope extends SchemaElement implements IScope {
     public float getLightGrasp() {
 
         return lightGrasp;
-
     }
 
     /**
@@ -642,7 +629,6 @@ public class Scope extends SchemaElement implements IScope {
     public Angle getTrueFieldOfView() {
 
         return this.trueFieldOfView;
-
     }
 
     /**
@@ -660,7 +646,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         return this.orientation_Erect == 1;
-
     }
 
     /**
@@ -678,7 +663,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         return this.orientation_Truesided == 1;
-
     }
 
     /**
@@ -692,7 +676,6 @@ public class Scope extends SchemaElement implements IScope {
     public float getMagnification() {
 
         return magnification;
-
     }
 
     /**
@@ -704,7 +687,6 @@ public class Scope extends SchemaElement implements IScope {
     public String getModel() {
 
         return model;
-
     }
 
     /**
@@ -746,12 +728,10 @@ public class Scope extends SchemaElement implements IScope {
                     return "Maksutov";
                 default:
                     return type;
-
             }
         }
 
         return type;
-
     }
 
     /**
@@ -765,7 +745,6 @@ public class Scope extends SchemaElement implements IScope {
     public String getVendor() {
 
         return vendor;
-
     }
 
     /**
@@ -789,7 +768,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.aperture = aperture;
-
     }
 
     /**
@@ -820,7 +798,6 @@ public class Scope extends SchemaElement implements IScope {
         this.magnification = Float.NaN;
         this.trueFieldOfView = null;
         this.focalLength = focalLength;
-
     }
 
     private void setFocalLengthNoCheckingMagnification(float focalLength) throws IllegalArgumentException {
@@ -835,7 +812,6 @@ public class Scope extends SchemaElement implements IScope {
             this.trueFieldOfView = null;
             this.focalLength = focalLength;
         }
-
     }
 
     /**
@@ -853,7 +829,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.lightGrasp = lightGrasp;
-
     }
 
     /**
@@ -881,7 +856,6 @@ public class Scope extends SchemaElement implements IScope {
             this.focalLength = Float.NaN;
             this.magnification = magnification;
         }
-
     }
 
     private void setMagnificationOnLoad(float magnification) throws IllegalArgumentException {
@@ -896,7 +870,6 @@ public class Scope extends SchemaElement implements IScope {
             this.focalLength = Float.NaN;
             this.magnification = magnification;
         }
-
     }
 
     /**
@@ -916,7 +889,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.trueFieldOfView = tfov;
-
     }
 
     /**
@@ -936,7 +908,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.model = model;
-
     }
 
     /**
@@ -961,7 +932,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.type = type;
-
     }
 
     /**
@@ -979,7 +949,6 @@ public class Scope extends SchemaElement implements IScope {
         }
 
         this.vendor = vendor;
-
     }
 
     /**
@@ -1004,7 +973,5 @@ public class Scope extends SchemaElement implements IScope {
         } else {
             this.orientation_Truesided = 0;
         }
-
     }
-
 }

@@ -17,21 +17,17 @@ public class ICCatalog extends AbstractNGCICCatalog {
     public ICCatalog(File icCatalogFile) {
 
         super(icCatalogFile);
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return ICCatalog.CATALOG_ABB;
-
     }
 
     @Override
     public String getName() {
 
         return ICCatalog.CATALOG_NAME;
-
     }
-
 }

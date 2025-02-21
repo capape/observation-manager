@@ -7,15 +7,6 @@
 
 package de.lehmannet.om.ui.extension.variableStars.catalog;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.StringTokenizer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
@@ -24,111 +15,120 @@ import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.FloatUtil;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GCVS4Catalog implements ICatalog {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GCVS4Catalog.class);
 
-    private static final String CATALOG_NAME = "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)";
+    private static final String CATALOG_NAME =
+            "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)";
 
     private static final String CATALOG_ABB = "GCVS";
 
-    private static final String DATASOURCE_ORIGIN = "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4";
+    private static final String DATASOURCE_ORIGIN =
+            "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4";
 
     private static final int CATALOG_LINE_SIZE = 162; // Size of lines in catalog file (in bytes)
 
     // Data index
-    private static final int[] LINES_ALL = new int[] { 3, 40370 };
+    private static final int[] LINES_ALL = new int[] {3, 40370};
 
     // Catalog index
-    private static final int[] LINES_ANDROMEDA = new int[] { 3, 461 };
-    private static final int[] LINES_ANTLIA = new int[] { 461, 545 };
-    private static final int[] LINES_APUS = new int[] { 545, 866 };
-    private static final int[] LINES_AQUARIUS = new int[] { 866, 1171 };
-    private static final int[] LINES_AQUILA = new int[] { 1171, 2879 };
-    private static final int[] LINES_ARA = new int[] { 2879, 3762 };
-    private static final int[] LINES_ARIES = new int[] { 3762, 3845 };
-    private static final int[] LINES_AURIGA = new int[] { 3845, 4406 };
-    private static final int[] LINES_BOOTES = new int[] { 4406, 4627 };
-    private static final int[] LINES_CAELUM = new int[] { 4627, 4649 };
-    private static final int[] LINES_CAMELOPARDALIS = new int[] { 4649, 4934 };
-    private static final int[] LINES_CANCER = new int[] { 4934, 5169 };
-    private static final int[] LINES_CANES_VENATICI = new int[] { 5169, 5323 };
-    private static final int[] LINES_CANIS_MAJOR = new int[] { 5323, 5692 };
-    private static final int[] LINES_CANIS_MINOR = new int[] { 5692, 5821 };
-    private static final int[] LINES_CAPRICORNUS = new int[] { 5821, 5940 };
-    private static final int[] LINES_CARINA = new int[] { 5940, 6545 };
-    private static final int[] LINES_CASSIOPEIA = new int[] { 6545, 7560 };
-    private static final int[] LINES_CENTAURUS = new int[] { 7560, 8633 };
-    private static final int[] LINES_CEPHEUS = new int[] { 8633, 9371 };
-    private static final int[] LINES_CETUS = new int[] { 9371, 9559 };
-    private static final int[] LINES_CHAMAELEON = new int[] { 9559, 9725 };
-    private static final int[] LINES_CIRCINUS = new int[] { 9725, 9859 };
-    private static final int[] LINES_COLUMBA = new int[] { 9859, 9934 };
-    private static final int[] LINES_COMA_BERENICES = new int[] { 9934, 10214 };
-    private static final int[] LINES_CORONA_AUSTRALIS = new int[] { 10214, 10945 };
-    private static final int[] LINES_CORONA_BOREALIS = new int[] { 10945, 11026 };
-    private static final int[] LINES_CORVUS = new int[] { 11026, 11070 };
-    private static final int[] LINES_CRATER = new int[] { 11070, 11126 };
-    private static final int[] LINES_CRUX = new int[] { 11126, 11284 };
-    private static final int[] LINES_CYGNUS = new int[] { 11284, 13757 };
-    private static final int[] LINES_DELPHINUS = new int[] { 13757, 14063 };
-    private static final int[] LINES_DORADO = new int[] { 14063, 14147 };
-    private static final int[] LINES_DRACO = new int[] { 14147, 14434 };
-    private static final int[] LINES_EQUULEUS = new int[] { 14434, 14464 };
-    private static final int[] LINES_ERIDANUS = new int[] { 14464, 14716 };
-    private static final int[] LINES_FORNAX = new int[] { 14716, 14790 };
-    private static final int[] LINES_GEMINI = new int[] { 14790, 15172 };
-    private static final int[] LINES_GRUS = new int[] { 15172, 15316 };
-    private static final int[] LINES_HERCULES = new int[] { 15316, 16442 };
-    private static final int[] LINES_HOROLOGIUM = new int[] { 16442, 16502 };
-    private static final int[] LINES_HYDRA = new int[] { 16502, 16929 };
-    private static final int[] LINES_HYDRUS = new int[] { 16929, 17055 };
-    private static final int[] LINES_INDUS = new int[] { 17055, 17168 };
-    private static final int[] LINES_LACERTA = new int[] { 17168, 17621 };
-    private static final int[] LINES_LEO = new int[] { 17621, 17835 };
-    private static final int[] LINES_LEO_MINOR = new int[] { 17835, 17887 };
-    private static final int[] LINES_LEPUS = new int[] { 17887, 17952 };
-    private static final int[] LINES_LIBRA = new int[] { 17952, 18214 };
-    private static final int[] LINES_LUPUS = new int[] { 18214, 18520 };
-    private static final int[] LINES_LYNX = new int[] { 18520, 18673 };
-    private static final int[] LINES_LYRA = new int[] { 18673, 19312 };
-    private static final int[] LINES_MENSA = new int[] { 19312, 19383 };
-    private static final int[] LINES_MICROSCOPUS = new int[] { 19383, 19512 };
-    private static final int[] LINES_MONOCEROS = new int[] { 19512, 20384 };
-    private static final int[] LINES_MUSCA = new int[] { 20384, 20672 };
-    private static final int[] LINES_NORMA = new int[] { 20672, 21062 };
-    private static final int[] LINES_OCTANS = new int[] { 21062, 21210 };
-    private static final int[] LINES_OPHIUCHUS = new int[] { 21210, 23829 };
-    private static final int[] LINES_ORION = new int[] { 23829, 25638 };
-    private static final int[] LINES_PAVO = new int[] { 25638, 26042 };
-    private static final int[] LINES_PEGASUS = new int[] { 26042, 26459 };
-    private static final int[] LINES_PERSEUS = new int[] { 26459, 27192 };
-    private static final int[] LINES_PHOENIX = new int[] { 27192, 27320 };
-    private static final int[] LINES_PICTOR = new int[] { 27320, 27385 };
-    private static final int[] LINES_PISCIS_AUSTRINUS = new int[] { 27548, 27600 };
-    private static final int[] LINES_PISCES = new int[] { 27385, 27548 };
-    private static final int[] LINES_PUPPIS = new int[] { 27600, 28202 };
-    private static final int[] LINES_PYXIS = new int[] { 28202, 28334 };
-    private static final int[] LINES_RETICULUM = new int[] { 28334, 28377 };
-    private static final int[] LINES_SAGITTA = new int[] { 28377, 28743 };
-    private static final int[] LINES_SAGITTARIUS = new int[] { 28743, 34304 };
-    private static final int[] LINES_SCORPIUS = new int[] { 34304, 35591 };
-    private static final int[] LINES_SCULPTOR = new int[] { 35591, 35703 };
-    private static final int[] LINES_SCUTUM = new int[] { 35703, 36195 };
-    private static final int[] LINES_SERPENS = new int[] { 36195, 36604 };
-    private static final int[] LINES_SEXTANS = new int[] { 36604, 36657 };
-    private static final int[] LINES_TAURUS = new int[] { 36657, 37905 };
-    private static final int[] LINES_TELESCOPIUM = new int[] { 37905, 38258 };
-    private static final int[] LINES_TRIANGULUM_AUSTRALIS = new int[] { 38331, 38624 };
-    private static final int[] LINES_TRIANGULUM = new int[] { 38258, 38331 };
-    private static final int[] LINES_TUCANA = new int[] { 38624, 38778 };
-    private static final int[] LINES_URSA_MAJOR = new int[] { 38778, 39075 };
-    private static final int[] LINES_URSA_MINOR = new int[] { 39075, 39118 };
-    private static final int[] LINES_VELA = new int[] { 39118, 39523 };
-    private static final int[] LINES_VIRGO = new int[] { 39523, 39862 };
-    private static final int[] LINES_VOLANS = new int[] { 39862, 39914 };
-    private static final int[] LINES_VULPECULA = new int[] { 39914, 40370 };
+    private static final int[] LINES_ANDROMEDA = new int[] {3, 461};
+    private static final int[] LINES_ANTLIA = new int[] {461, 545};
+    private static final int[] LINES_APUS = new int[] {545, 866};
+    private static final int[] LINES_AQUARIUS = new int[] {866, 1171};
+    private static final int[] LINES_AQUILA = new int[] {1171, 2879};
+    private static final int[] LINES_ARA = new int[] {2879, 3762};
+    private static final int[] LINES_ARIES = new int[] {3762, 3845};
+    private static final int[] LINES_AURIGA = new int[] {3845, 4406};
+    private static final int[] LINES_BOOTES = new int[] {4406, 4627};
+    private static final int[] LINES_CAELUM = new int[] {4627, 4649};
+    private static final int[] LINES_CAMELOPARDALIS = new int[] {4649, 4934};
+    private static final int[] LINES_CANCER = new int[] {4934, 5169};
+    private static final int[] LINES_CANES_VENATICI = new int[] {5169, 5323};
+    private static final int[] LINES_CANIS_MAJOR = new int[] {5323, 5692};
+    private static final int[] LINES_CANIS_MINOR = new int[] {5692, 5821};
+    private static final int[] LINES_CAPRICORNUS = new int[] {5821, 5940};
+    private static final int[] LINES_CARINA = new int[] {5940, 6545};
+    private static final int[] LINES_CASSIOPEIA = new int[] {6545, 7560};
+    private static final int[] LINES_CENTAURUS = new int[] {7560, 8633};
+    private static final int[] LINES_CEPHEUS = new int[] {8633, 9371};
+    private static final int[] LINES_CETUS = new int[] {9371, 9559};
+    private static final int[] LINES_CHAMAELEON = new int[] {9559, 9725};
+    private static final int[] LINES_CIRCINUS = new int[] {9725, 9859};
+    private static final int[] LINES_COLUMBA = new int[] {9859, 9934};
+    private static final int[] LINES_COMA_BERENICES = new int[] {9934, 10214};
+    private static final int[] LINES_CORONA_AUSTRALIS = new int[] {10214, 10945};
+    private static final int[] LINES_CORONA_BOREALIS = new int[] {10945, 11026};
+    private static final int[] LINES_CORVUS = new int[] {11026, 11070};
+    private static final int[] LINES_CRATER = new int[] {11070, 11126};
+    private static final int[] LINES_CRUX = new int[] {11126, 11284};
+    private static final int[] LINES_CYGNUS = new int[] {11284, 13757};
+    private static final int[] LINES_DELPHINUS = new int[] {13757, 14063};
+    private static final int[] LINES_DORADO = new int[] {14063, 14147};
+    private static final int[] LINES_DRACO = new int[] {14147, 14434};
+    private static final int[] LINES_EQUULEUS = new int[] {14434, 14464};
+    private static final int[] LINES_ERIDANUS = new int[] {14464, 14716};
+    private static final int[] LINES_FORNAX = new int[] {14716, 14790};
+    private static final int[] LINES_GEMINI = new int[] {14790, 15172};
+    private static final int[] LINES_GRUS = new int[] {15172, 15316};
+    private static final int[] LINES_HERCULES = new int[] {15316, 16442};
+    private static final int[] LINES_HOROLOGIUM = new int[] {16442, 16502};
+    private static final int[] LINES_HYDRA = new int[] {16502, 16929};
+    private static final int[] LINES_HYDRUS = new int[] {16929, 17055};
+    private static final int[] LINES_INDUS = new int[] {17055, 17168};
+    private static final int[] LINES_LACERTA = new int[] {17168, 17621};
+    private static final int[] LINES_LEO = new int[] {17621, 17835};
+    private static final int[] LINES_LEO_MINOR = new int[] {17835, 17887};
+    private static final int[] LINES_LEPUS = new int[] {17887, 17952};
+    private static final int[] LINES_LIBRA = new int[] {17952, 18214};
+    private static final int[] LINES_LUPUS = new int[] {18214, 18520};
+    private static final int[] LINES_LYNX = new int[] {18520, 18673};
+    private static final int[] LINES_LYRA = new int[] {18673, 19312};
+    private static final int[] LINES_MENSA = new int[] {19312, 19383};
+    private static final int[] LINES_MICROSCOPUS = new int[] {19383, 19512};
+    private static final int[] LINES_MONOCEROS = new int[] {19512, 20384};
+    private static final int[] LINES_MUSCA = new int[] {20384, 20672};
+    private static final int[] LINES_NORMA = new int[] {20672, 21062};
+    private static final int[] LINES_OCTANS = new int[] {21062, 21210};
+    private static final int[] LINES_OPHIUCHUS = new int[] {21210, 23829};
+    private static final int[] LINES_ORION = new int[] {23829, 25638};
+    private static final int[] LINES_PAVO = new int[] {25638, 26042};
+    private static final int[] LINES_PEGASUS = new int[] {26042, 26459};
+    private static final int[] LINES_PERSEUS = new int[] {26459, 27192};
+    private static final int[] LINES_PHOENIX = new int[] {27192, 27320};
+    private static final int[] LINES_PICTOR = new int[] {27320, 27385};
+    private static final int[] LINES_PISCIS_AUSTRINUS = new int[] {27548, 27600};
+    private static final int[] LINES_PISCES = new int[] {27385, 27548};
+    private static final int[] LINES_PUPPIS = new int[] {27600, 28202};
+    private static final int[] LINES_PYXIS = new int[] {28202, 28334};
+    private static final int[] LINES_RETICULUM = new int[] {28334, 28377};
+    private static final int[] LINES_SAGITTA = new int[] {28377, 28743};
+    private static final int[] LINES_SAGITTARIUS = new int[] {28743, 34304};
+    private static final int[] LINES_SCORPIUS = new int[] {34304, 35591};
+    private static final int[] LINES_SCULPTOR = new int[] {35591, 35703};
+    private static final int[] LINES_SCUTUM = new int[] {35703, 36195};
+    private static final int[] LINES_SERPENS = new int[] {36195, 36604};
+    private static final int[] LINES_SEXTANS = new int[] {36604, 36657};
+    private static final int[] LINES_TAURUS = new int[] {36657, 37905};
+    private static final int[] LINES_TELESCOPIUM = new int[] {37905, 38258};
+    private static final int[] LINES_TRIANGULUM_AUSTRALIS = new int[] {38331, 38624};
+    private static final int[] LINES_TRIANGULUM = new int[] {38258, 38331};
+    private static final int[] LINES_TUCANA = new int[] {38624, 38778};
+    private static final int[] LINES_URSA_MAJOR = new int[] {38778, 39075};
+    private static final int[] LINES_URSA_MINOR = new int[] {39075, 39118};
+    private static final int[] LINES_VELA = new int[] {39118, 39523};
+    private static final int[] LINES_VIRGO = new int[] {39523, 39862};
+    private static final int[] LINES_VOLANS = new int[] {39862, 39914};
+    private static final int[] LINES_VULPECULA = new int[] {39914, 40370};
 
     private File catalogFile = null;
 
@@ -145,28 +145,24 @@ public class GCVS4Catalog implements ICatalog {
         if (!this.catalogFile.exists()) {
             return;
         }
-
     }
 
     @Override
     public String getName() {
 
         return GCVS4Catalog.CATALOG_NAME;
-
     }
 
     @Override
     public String getAbbreviation() {
 
         return GCVS4Catalog.CATALOG_ABB;
-
     }
 
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
         return new GCVS4SearchPanel(this, configuration);
-
     }
 
     @Override
@@ -199,7 +195,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return target;
-
     }
 
     private int searchByName(String objectName) {
@@ -210,7 +205,7 @@ public class GCVS4Catalog implements ICatalog {
         objectName = objectName.trim();
         int cStart = objectName.lastIndexOf(' ');
         if (cStart == -1) { // There is no space in given object name. This pattern does not match the GCVS4
-                            // catalog
+            // catalog
             return -1; // We won't find anything in our catalog
         }
         String constName = objectName.substring(cStart);
@@ -418,7 +413,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return line;
-
     }
 
     private int seqentialSearch(int[] startEnd, String objectName) {
@@ -437,7 +431,7 @@ public class GCVS4Catalog implements ICatalog {
             boolean found = false;
             do {
                 pointerPos = GCVS4Catalog.CATALOG_LINE_SIZE * currentLine; // Calculate read/write pointer position in
-                                                                           // bytes
+                // bytes
                 pointerPos = pointerPos + off; // Move to position in line, where ID or name is placed
                 raf.seek(pointerPos); // Goto position
                 raf.read(buffer, 0, len); // Read name or ID
@@ -488,7 +482,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return -1;
-
     }
 
     private int binarySearch(int[] startEnd, String objectName, boolean catalogNumber) {
@@ -572,7 +565,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return -1;
-
     }
 
     private ITarget createTarget(int lineNumber) {
@@ -638,11 +630,14 @@ public class GCVS4Catalog implements ICatalog {
             // Star is listed as with different designation. Read new designation and parse
             // line again
             String additionalDesignation = null;
-            if ((equPosition == null) && !("".equals(otherDesignations)) && !(otherDesignations.startsWith("HIP")
-                    || (((byte) otherDesignations.charAt(0) >= 48) && ((byte) otherDesignations.charAt(0) < 58)) // Starts
-                                                                                                                 // with
-                                                                                                                 // number
-            )) {
+            if ((equPosition == null)
+                    && !("".equals(otherDesignations))
+                    && !(otherDesignations.startsWith("HIP")
+                            || (((byte) otherDesignations.charAt(0) >= 48)
+                                    && ((byte) otherDesignations.charAt(0) < 58)) // Starts
+                    // with
+                    // number
+                    )) {
                 additionalDesignation = designation; // Save old designation
 
                 int newLine = this.searchByName(otherDesignations);
@@ -671,8 +666,8 @@ public class GCVS4Catalog implements ICatalog {
                     String decMin = position.substring(11, 13);
                     String decSec = position.substring(13);
                     String ra = raHour + EquPosition.RA_HOUR + raMin + EquPosition.RA_MIN + raSec + EquPosition.RA_SEC;
-                    String dec = decDec + EquPosition.DEC_DEG + decMin + EquPosition.DEC_MIN + decSec
-                            + EquPosition.DEC_SEC;
+                    String dec =
+                            decDec + EquPosition.DEC_DEG + decMin + EquPosition.DEC_MIN + decSec + EquPosition.DEC_SEC;
                     equPosition = new EquPosition(ra, dec);
                 }
 
@@ -719,10 +714,11 @@ public class GCVS4Catalog implements ICatalog {
             target.setConstellation(constellation);
             target.setStellarClassification(spectrum);
             if (additionalDesignation != null) {
-                target.setAliasNames(new String[] { (GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations,
-                        additionalDesignation });
+                target.setAliasNames(
+                        new String[] {(GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations, additionalDesignation
+                        });
             } else {
-                target.setAliasNames(new String[] { (GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations });
+                target.setAliasNames(new String[] {(GCVS4Catalog.CATALOG_ABB + gcvsNumber), otherDesignations});
             }
 
         } catch (FileNotFoundException fnfe) {
@@ -741,7 +737,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return target;
-
     }
 
     private int compareStrings(String a, String b) {
@@ -759,11 +754,26 @@ public class GCVS4Catalog implements ICatalog {
         if ((b.compareTo("R") >= 0) || (a.compareTo("R") >= 0)) {
 
             // Exception from above rule
-            if ((b.startsWith("V0")) || (b.startsWith("V1")) || (b.startsWith("V2")) || (b.startsWith("V3"))
-                    || (b.startsWith("V4")) || (b.startsWith("V5")) || (b.startsWith("V6")) || (b.startsWith("V7"))
-                    || (b.startsWith("V8")) || (b.startsWith("V9")) || (a.startsWith("V0")) || (a.startsWith("V1"))
-                    || (a.startsWith("V2")) || (a.startsWith("V3")) || (a.startsWith("V4")) || (a.startsWith("V5"))
-                    || (a.startsWith("V6")) || (a.startsWith("V7")) || (a.startsWith("V8")) || (a.startsWith("V9"))) {
+            if ((b.startsWith("V0"))
+                    || (b.startsWith("V1"))
+                    || (b.startsWith("V2"))
+                    || (b.startsWith("V3"))
+                    || (b.startsWith("V4"))
+                    || (b.startsWith("V5"))
+                    || (b.startsWith("V6"))
+                    || (b.startsWith("V7"))
+                    || (b.startsWith("V8"))
+                    || (b.startsWith("V9"))
+                    || (a.startsWith("V0"))
+                    || (a.startsWith("V1"))
+                    || (a.startsWith("V2"))
+                    || (a.startsWith("V3"))
+                    || (a.startsWith("V4"))
+                    || (a.startsWith("V5"))
+                    || (a.startsWith("V6"))
+                    || (a.startsWith("V7"))
+                    || (a.startsWith("V8"))
+                    || (a.startsWith("V9"))) {
                 return result; // Don't change anything if we're operation on Vxxxx names
             }
 
@@ -777,7 +787,6 @@ public class GCVS4Catalog implements ICatalog {
         }
 
         return result;
-
     }
 
     private String removeWhiteSpaces(String name) {
@@ -789,7 +798,5 @@ public class GCVS4Catalog implements ICatalog {
         name = name.trim();
 
         return name;
-
     }
-
 }

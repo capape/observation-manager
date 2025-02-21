@@ -1,19 +1,17 @@
 package de.lehmannet.om.mapper;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.util.SchemaException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.util.SchemaException;
 
 public class ObserverMapper {
 
@@ -28,8 +26,9 @@ public class ObserverMapper {
         for (int x = 0; x < children.getLength(); x++) {
             Element child = (Element) children.item(x);
             if (child != null) {
-                String accountName = child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME).trim();
-                StringBuilder accountID = new StringBuilder();// child.getFirstChild().getNodeValue();
+                String accountName =
+                        child.getAttribute(IObserver.XML_ATTRIBUTE_ACCOUNT_NAME).trim();
+                StringBuilder accountID = new StringBuilder(); // child.getFirstChild().getNodeValue();
                 NodeList textElements = child.getChildNodes();
                 if (textElements.getLength() > 0) {
                     for (int te = 0; te < textElements.getLength(); te++) {
@@ -87,7 +86,6 @@ public class ObserverMapper {
                         DSLCode.append(textElements.item(te).getNodeValue());
                     }
                     return DSLCode.toString().trim();
-
                 }
             } else {
                 log.error(
@@ -190,5 +188,4 @@ public class ObserverMapper {
         String ID = observerElement.getAttribute(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
         return ID;
     }
-
 }

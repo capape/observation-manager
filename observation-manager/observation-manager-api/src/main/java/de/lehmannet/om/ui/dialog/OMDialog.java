@@ -1,10 +1,8 @@
 package de.lehmannet.om.ui.dialog;
 
 import java.awt.Dimension;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +18,8 @@ public abstract class OMDialog extends JDialog {
 
         super(om, true);
 
-        LOGGER.debug("Creating dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(),
-                this.getHeight());
-
+        LOGGER.debug(
+                "Creating dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
     }
 
     public void setSize(long uniqueDialogID, int width, int height) {
@@ -50,7 +47,6 @@ public abstract class OMDialog extends JDialog {
         // this.setSize(width, height);
         // }
         this.setSize(width, height);
-
     }
 
     @Override
@@ -58,7 +54,6 @@ public abstract class OMDialog extends JDialog {
 
         this.saveWindowSize();
         super.dispose();
-
     }
 
     private void saveWindowSize() {
@@ -68,13 +63,12 @@ public abstract class OMDialog extends JDialog {
         // Save current size
         Dimension size = this.getSize();
 
-        LOGGER.debug("Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(),
-                this.getHeight());
+        LOGGER.debug(
+                "Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
         // this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
         // size.width + "x" + size.height);
 
         // }
 
     }
-
 }

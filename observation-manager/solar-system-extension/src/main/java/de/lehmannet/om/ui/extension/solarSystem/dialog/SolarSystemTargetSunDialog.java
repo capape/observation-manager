@@ -7,11 +7,6 @@
 
 package de.lehmannet.om.ui.extension.solarSystem.dialog;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JFrame;
-
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
@@ -19,19 +14,29 @@ import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.solarSystem.panel.SolarSystemTargetSunPanel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JFrame;
 
 public class SolarSystemTargetSunDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -8081855396371032209L;
 
-    public SolarSystemTargetSunDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            IObservation o, ITarget editableTarget) {
+    public SolarSystemTargetSunDialog(
+            JFrame om,
+            UserInterfaceHelper uiHelper,
+            ObservationManagerModel model,
+            IObservation o,
+            ITarget editableTarget) {
 
-        super(om, model, uiHelper,
+        super(
+                om,
+                model,
+                uiHelper,
                 new SolarSystemTargetSunPanel(model.getConfiguration(), model, editableTarget, o, Boolean.TRUE));
 
-        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem",
-                Locale.getDefault());
+        ResourceBundle bundle =
+                ResourceBundle.getBundle("de.lehmannet.om.ui.extension.solarSystem.SolarSystem", Locale.getDefault());
         if (editableTarget == null) {
             this.setTitle(bundle.getString("dialog.sun.title"));
         } else {
@@ -41,7 +46,6 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
         this.setSize(SolarSystemTargetSunDialog.serialVersionUID, 550, 575);
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -52,7 +56,5 @@ public class SolarSystemTargetSunDialog extends AbstractDialog implements ITarge
         }
 
         return null;
-
     }
-
 }

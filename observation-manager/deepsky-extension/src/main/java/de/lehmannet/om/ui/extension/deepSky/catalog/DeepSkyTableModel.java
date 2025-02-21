@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
@@ -24,8 +23,8 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "DeepSky";
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    private static ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     public DeepSkyTableModel(IListableCatalog catalog) {
 
@@ -36,21 +35,18 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         }
 
         this.elements = targets;
-
     }
 
     @Override
     public String getID() {
 
         return DeepSkyTableModel.MODEL_ID;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 4;
-
     }
 
     @Override
@@ -60,7 +56,6 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -112,7 +107,6 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -140,7 +134,6 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
 
     @Override
@@ -159,14 +152,11 @@ public class DeepSkyTableModel extends AbstractSchemaTableModel {
             default:
                 return super.getColumnSize(columnIndex);
         }
-
     }
 
     public static void reloadLanguage() {
 
-        DeepSkyTableModel.bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-                Locale.getDefault());
-
+        DeepSkyTableModel.bundle =
+                ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
     }
-
 }

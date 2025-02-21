@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetGX extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -100,7 +99,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetGX can only have one hubble type entry. ");
         }
-
     }
 
     /**
@@ -114,7 +112,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     public DeepSkyTargetGX(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -128,7 +125,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     public DeepSkyTargetGX(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -174,7 +170,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_PositionAngle);
         }
-
     }
 
     // ------------------------
@@ -193,7 +188,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetGX.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -209,7 +203,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     public int getPositionAngle() {
 
         return this.positionAngle;
-
     }
 
     /**
@@ -221,7 +214,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
     public String getHubbleType() {
 
         return this.hubbleType;
-
     }
 
     /**
@@ -239,7 +231,6 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
         }
 
         this.positionAngle = newPosAngle;
-
     }
 
     /**
@@ -256,7 +247,5 @@ public class DeepSkyTargetGX extends DeepSkyTarget {
         }
 
         this.hubbleType = newHubbleType;
-
     }
-
 }

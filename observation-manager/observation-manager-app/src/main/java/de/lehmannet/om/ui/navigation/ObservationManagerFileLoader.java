@@ -1,19 +1,17 @@
 package de.lehmannet.om.ui.navigation;
 
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.IConfiguration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.IConfiguration;
 
 public class ObservationManagerFileLoader {
 
@@ -34,7 +32,6 @@ public class ObservationManagerFileLoader {
         }
 
         return Arrays.stream(files).map(x -> Pair.of(x, this.loadFile(x))).collect(Collectors.toList());
-
     }
 
     /**
@@ -57,7 +54,6 @@ public class ObservationManagerFileLoader {
         }
 
         return Optional.of(Pair.of(lastFile, false));
-
     }
 
     private boolean loadFile(final String file) {
@@ -76,7 +72,5 @@ public class ObservationManagerFileLoader {
             LOGGER.debug("Loaded: {} , result: {}", file, result);
         }
         return result;
-
     }
-
 }

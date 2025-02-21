@@ -43,7 +43,6 @@ public class OpticsUtil {
         }
 
         return scope.getAperture() / mag;
-
     }
 
     /**
@@ -54,7 +53,6 @@ public class OpticsUtil {
     public static float getExitPupil(IScope scope) {
 
         return OpticsUtil.getExitPupil(scope, -1.0f, null);
-
     }
 
     /**
@@ -116,7 +114,6 @@ public class OpticsUtil {
         }
 
         return null;
-
     }
 
     /**
@@ -139,7 +136,6 @@ public class OpticsUtil {
             }
             return scope.getFocalLength() / eyepieceFL;
         }
-
     }
 
     /**
@@ -172,7 +168,6 @@ public class OpticsUtil {
                 return scope.getFocalLength() / eyepieceFL;
             }
         }
-
     }
 
     /**
@@ -203,7 +198,5 @@ public class OpticsUtil {
         }
 
         return F * p / magnification;
-
     }
-
 }

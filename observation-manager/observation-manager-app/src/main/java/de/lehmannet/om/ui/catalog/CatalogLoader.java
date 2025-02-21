@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.ui.catalog;
 
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,15 +20,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.semver4j.Semver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.ui.extension.IExtension;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class CatalogLoader {
 
@@ -52,13 +50,11 @@ public class CatalogLoader {
         this.extensions = extensions;
 
         this.loadCatalogues();
-
     }
 
     public String[] getCatalogNames() {
 
         return (String[]) this.catalogMap.keySet().toArray(new String[] {});
-
     }
 
     public String[] getListableCatalogNames() {
@@ -76,7 +72,6 @@ public class CatalogLoader {
         }
 
         return (String[]) result.toArray(new String[] {});
-
     }
 
     public ITarget getTarget(String catalogName, String objectID) {
@@ -88,7 +83,6 @@ public class CatalogLoader {
         }
 
         return null;
-
     }
 
     public ICatalog getCatalog(String catalogName) {
@@ -109,7 +103,6 @@ public class CatalogLoader {
         }
 
         return (ICatalog) this.catalogMap.get(catalogName);
-
     }
 
     private void loadCatalogues() {
@@ -146,7 +139,6 @@ public class CatalogLoader {
             // Add current extension to list of known extesions
             this.knownExtensions.put(current.getName(), current.getVersion());
         }
-
     }
 
     public boolean isFromCatalog(String name) {
@@ -182,5 +174,4 @@ public class CatalogLoader {
         }
         return catalogs;
     }
-
 }

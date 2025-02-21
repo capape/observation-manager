@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.IScope;
+import java.util.Comparator;
 
 public class ScopeComparator implements Comparator<IScope> {
 
@@ -24,11 +23,8 @@ public class ScopeComparator implements Comparator<IScope> {
             float s2a = s2.getAperture();
 
             return Math.round((float) Math.ceil(s1a - s2a));
-
         }
 
         return 0;
-
     }
-
 }

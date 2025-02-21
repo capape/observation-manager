@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.ui.navigation.ObservationManager;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -18,11 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class Configuration implements IConfiguration {
 
@@ -50,7 +48,6 @@ public class Configuration implements IConfiguration {
         } catch (IOException ioe) {
             LOGGER.error("Cannot find configuration file {} ", path, ioe);
         }
-
     }
 
     public boolean saveConfiguration() {
@@ -79,7 +76,6 @@ public class Configuration implements IConfiguration {
 
             LOGGER.error("Cannot load configuration file {} ", path, ioe);
         }
-
     }
 
     private boolean saveConfiguration(String path) {
@@ -108,7 +104,6 @@ public class Configuration implements IConfiguration {
         }
         LOGGER.error("Cannot create config folders {} ", realPath);
         return false;
-
     }
 
     public void setConfig(String key, String value) {
@@ -121,19 +116,16 @@ public class Configuration implements IConfiguration {
 
         this.persistence.setProperty(key, value);
         this.changed = true;
-
     }
 
     public String getConfig(String key) {
 
         return this.persistence.getProperty(key);
-
     }
 
     public String getConfig(String key, String defaultValue) {
 
         return this.persistence.getProperty(key, defaultValue);
-
     }
 
     private String getConfigPath(String path) {
@@ -145,7 +137,6 @@ public class Configuration implements IConfiguration {
         path = path + File.separatorChar + ObservationManager.WORKING_DIR;
 
         return path;
-
     }
 
     public void deleteKeysStartingWith(String prefix) {
@@ -161,7 +152,6 @@ public class Configuration implements IConfiguration {
         for (String removeKey : removeKeys) {
             this.persistence.remove(removeKey);
         }
-
     }
 
     @Override
@@ -171,7 +161,6 @@ public class Configuration implements IConfiguration {
             if (currentKey.startsWith(prefix)) {
                 result.add(currentKey);
             }
-
         }
         return result;
     }
@@ -180,7 +169,6 @@ public class Configuration implements IConfiguration {
     public boolean getBooleanConfig(String key) {
 
         return Boolean.parseBoolean(this.getConfig(key));
-
     }
 
     @Override
@@ -191,7 +179,6 @@ public class Configuration implements IConfiguration {
     @Override
     public void setConfig(IConfigKey key, String value) {
         this.setConfig(key.getKey(), value);
-
     }
 
     @Override
@@ -216,5 +203,4 @@ public class Configuration implements IConfiguration {
 
         return this.getBooleanConfig(key.getKey(), defaultValue);
     }
-
 }

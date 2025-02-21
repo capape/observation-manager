@@ -7,21 +7,18 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.EquPosition;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import org.apache.commons.lang3.StringUtils;
-
-import de.lehmannet.om.EquPosition;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 class EquPositionContainer extends Container {
 
@@ -30,8 +27,8 @@ class EquPositionContainer extends Container {
      */
     private static final long serialVersionUID = 4434903051968591296L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private EquPosition equPosition = null;
 
@@ -54,7 +51,6 @@ class EquPositionContainer extends Container {
         if (this.equPosition != null) {
             this.loadEquPosition();
         }
-
     }
 
     public EquPosition getEquPosition() {
@@ -94,7 +90,6 @@ class EquPositionContainer extends Container {
         this.equPosition = new EquPosition(ra, dec);
 
         return this.equPosition;
-
     }
 
     public void setEquPosition(EquPosition equPosition) {
@@ -103,7 +98,6 @@ class EquPositionContainer extends Container {
             this.equPosition = equPosition;
             this.loadEquPosition();
         }
-
     }
 
     public void setEditable(boolean editable) {
@@ -117,7 +111,6 @@ class EquPositionContainer extends Container {
         this.decDegreeValue.setEditable(this.editable);
         this.decMinValue.setEditable(this.editable);
         this.decSecValue.setEditable(this.editable);
-
     }
 
     private void loadEquPosition() {
@@ -139,7 +132,6 @@ class EquPositionContainer extends Container {
         this.decDegreeValue.setText(decDeg);
         this.decMinValue.setText(decMin);
         this.decSecValue.setText(decSec);
-
     }
 
     private void createContainer() {
@@ -242,7 +234,5 @@ class EquPositionContainer extends Container {
         decSecLabel.setToolTipText(this.bundle.getString("equPosition.tooltip.dec"));
         gridbag.setConstraints(decSecLabel, constraints);
         this.add(decSecLabel);
-
     }
-
 }

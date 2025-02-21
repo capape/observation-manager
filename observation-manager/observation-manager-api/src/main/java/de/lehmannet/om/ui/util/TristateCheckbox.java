@@ -10,7 +10,6 @@ package de.lehmannet.om.ui.util;
 import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,7 +42,6 @@ public class TristateCheckbox extends JPanel {
         this.add(this.trueValue);
 
         this.setVisible(true);
-
     }
 
     public void setEditable(boolean editable) {
@@ -51,43 +49,35 @@ public class TristateCheckbox extends JPanel {
         this.trueValue.setEnabled(editable);
         this.falseValue.setEnabled(editable);
         this.naValue.setEnabled(editable);
-
     }
 
     public boolean isFalseSelected() {
 
         return this.falseValue.isSelected();
-
     }
 
     public boolean isNASelected() {
 
         return !this.naValue.isSelected();
-
     }
 
     public boolean isTrueSelected() {
 
         return this.trueValue.isSelected();
-
     }
 
     public void setTrueSelected() {
 
         this.trueValue.setSelected(true);
-
     }
 
     public void setFalseSelected() {
 
         this.falseValue.setSelected(true);
-
     }
 
     public void setNASelected() {
 
         this.naValue.setSelected(true);
-
     }
-
 }

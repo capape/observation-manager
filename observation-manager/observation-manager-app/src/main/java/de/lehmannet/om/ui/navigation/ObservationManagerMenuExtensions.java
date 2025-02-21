@@ -1,21 +1,18 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ObservationManagerMenuExtensions {
 
@@ -29,8 +26,13 @@ public final class ObservationManagerMenuExtensions {
     private final TextManager textManager;
     private final UserInterfaceHelper uiHelper;
 
-    public ObservationManagerMenuExtensions(IConfiguration configuration, ExtensionLoader extLoader,
-            ImageResolver imageResolver, TextManager textManager, UserInterfaceHelper uiHelper, ObservationManager om) {
+    public ObservationManagerMenuExtensions(
+            IConfiguration configuration,
+            ExtensionLoader extLoader,
+            ImageResolver imageResolver,
+            TextManager textManager,
+            UserInterfaceHelper uiHelper,
+            ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
@@ -40,7 +42,6 @@ public final class ObservationManagerMenuExtensions {
         this.textManager = textManager;
         this.uiHelper = uiHelper;
         this.menu = this.createMenuExtensionItems();
-
     }
 
     public JMenu getMenu() {
@@ -61,8 +62,10 @@ public final class ObservationManagerMenuExtensions {
             extensionMenu.addSeparator();
         }
 
-        JMenuItem extensionInfo = new JMenuItem(this.textManager.getString("menu.extensionInfo"),
-                new ImageIcon(this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
+        JMenuItem extensionInfo = new JMenuItem(
+                this.textManager.getString("menu.extensionInfo"),
+                new ImageIcon(
+                        this.imageResolver.getImageURL("extensionInfo.png").orElse(null), ""));
         extensionInfo.setMnemonic('p');
         extensionInfo.addActionListener(new ExtensionInfoListener());
         extensionMenu.add(extensionInfo);
@@ -81,9 +84,6 @@ public final class ObservationManagerMenuExtensions {
             } else {
                 new ExtensionInfoDialog(ObservationManagerMenuExtensions.this.observationManager);
             }
-
         }
-
     }
-
 }

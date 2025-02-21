@@ -27,5 +27,4 @@ public interface IIDGenerator {
      * @return Returns a unique ID that can be used to identify a schema element and to link several schema elements
      */
     String generateUID();
-
 }

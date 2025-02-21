@@ -7,45 +7,6 @@
 
 package de.lehmannet.om.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.Filter;
 import de.lehmannet.om.GenericTarget;
@@ -68,6 +29,42 @@ import de.lehmannet.om.RootElement;
 import de.lehmannet.om.Scope;
 import de.lehmannet.om.Session;
 import de.lehmannet.om.Site;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * The SchemaLoader provides loading facilities to load (parse) a XML Schema file.<br>
@@ -80,8 +77,8 @@ public class SchemaLoader {
 
     private static Logger LOGGER = LoggerFactory.getLogger(SchemaLoader.class);
     // XML Schema Filenames
-    private static final String[] VERSIONS = new String[] { "comast14.xsd", "comast15.xsd", "comast16.xsd",
-            "comast17.xsd", "oal20.xsd", "oal21.xsd" };
+    private static final String[] VERSIONS =
+            new String[] {"comast14.xsd", "comast15.xsd", "comast16.xsd", "comast17.xsd", "oal20.xsd", "oal21.xsd"};
 
     // ------------------
     // Instance Variables ------------------------------------------------
@@ -152,9 +149,8 @@ public class SchemaLoader {
     private static ITarget getTargetFromXSIType(String xsiType, Node currentNode, IObserver... observers)
             throws SchemaException {
 
-        return (ITarget) SchemaLoader.getObjectFromXSIType(xsiType, currentNode, observers,
-                SchemaElementConstants.TARGET);
-
+        return (ITarget)
+                SchemaLoader.getObjectFromXSIType(xsiType, currentNode, observers, SchemaElementConstants.TARGET);
     }
 
     /**
@@ -171,7 +167,6 @@ public class SchemaLoader {
     public static IFinding getFindingFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
         return (IFinding) SchemaLoader.getObjectFromXSIType(xsiType, currentNode, null, SchemaElementConstants.FINDING);
-
     }
 
     /**
@@ -188,7 +183,6 @@ public class SchemaLoader {
     private static IImager getImagerFromXSIType(String xsiType, Node currentNode) throws SchemaException {
 
         return (IImager) SchemaLoader.getObjectFromXSIType(xsiType, currentNode, null, SchemaElementConstants.IMAGER);
-
     }
 
     // --------------
@@ -198,61 +192,51 @@ public class SchemaLoader {
     public IObservation[] getObservations() {
 
         return this.observations.clone();
-
     }
 
     public ISession[] getSessions() {
 
         return this.sessions.clone();
-
     }
 
     public ITarget[] getTargets() {
 
         return this.targets.clone();
-
     }
 
     public IObserver[] getObservers() {
 
         return this.observers.clone();
-
     }
 
     public ISite[] getSites() {
 
         return this.sites.clone();
-
     }
 
     public IScope[] getScopes() {
 
         return this.scopes.clone();
-
     }
 
     public IEyepiece[] getEyepieces() {
 
         return this.eyepieces.clone();
-
     }
 
     public IFilter[] getFilters() {
 
         return this.filters.clone();
-
     }
 
     public ILens[] getLenses() {
 
         return this.lenses.clone();
-
     }
 
     public IImager[] getImagers() {
 
         return this.imagers.clone();
-
     }
 
     /**
@@ -302,7 +286,6 @@ public class SchemaLoader {
         } catch (ParserConfigurationException e) {
             LOGGER.error("Error in xml file: {}.{} ", xmlFile, e.getLocalizedMessage(), e);
             throw new OALException("ror in xmlxml file: " + xmlFile.getAbsolutePath(), e);
-
         }
 
         // throw new OALException("Error reading xml xml file: " + xmlFile.getAbsolutePath());
@@ -390,7 +373,6 @@ public class SchemaLoader {
         if (classloader != null) {
             SchemaLoader.extensionClassLoaders.add(classloader);
         }
-
     }
 
     /**
@@ -447,7 +429,6 @@ public class SchemaLoader {
 
         logData();
         return new Result(obs, errors);
-
     }
 
     private void logData() {
@@ -463,7 +444,6 @@ public class SchemaLoader {
             LOGGER.debug("lenses {} ", (Object[]) this.lenses);
             LOGGER.debug("doublicateTargets {} ", this.doublicateTargets);
         }
-
     }
 
     private void loadSession(Element rootElement) throws OALException, SchemaException {
@@ -589,8 +569,9 @@ public class SchemaLoader {
      * @param observers
      *            Needed for Target Objects, can be <code>null</code> for Findings
      */
-    private static Object getObjectFromXSIType(String xsiType, Node currentNode, IObserver[] observers,
-            SchemaElementConstants schemaElementType) throws SchemaException {
+    private static Object getObjectFromXSIType(
+            String xsiType, Node currentNode, IObserver[] observers, SchemaElementConstants schemaElementType)
+            throws SchemaException {
 
         final String classname = getClassNameToLoad(xsiType, schemaElementType);
 
@@ -599,11 +580,11 @@ public class SchemaLoader {
         Object object = createObject(currentNode, observers, classname, currentClass);
 
         return object;
-
     }
 
-    private static Object createObject(Node currentNode, IObserver[] observers, final String classname,
-            Class<?> currentClass) throws SchemaException {
+    private static Object createObject(
+            Node currentNode, IObserver[] observers, final String classname, Class<?> currentClass)
+            throws SchemaException {
         Constructor<?>[] constructors = currentClass.getConstructors();
         Object object = null;
         if (constructors.length > 0) {
@@ -616,7 +597,8 @@ public class SchemaLoader {
                             return constructor.newInstance(currentNode);
                         }
                     } else {
-                        if ((parameters.length == 2) && (parameters[0].isInstance(currentNode))
+                        if ((parameters.length == 2)
+                                && (parameters[0].isInstance(currentNode))
                                 && (parameters[1].isInstance(observers))) {
                             return constructor.newInstance(currentNode, observers);
                         }
@@ -704,17 +686,24 @@ public class SchemaLoader {
         for (int i = 0; i < observationList.getLength(); i++) {
 
             try {
-                obs.add(new Observation(observationList.item(i), fixLoadErrors, this.targets, this.observers,
-                        this.sites, this.scopes, this.sessions, this.eyepieces, this.filters, this.imagers,
+                obs.add(new Observation(
+                        observationList.item(i),
+                        fixLoadErrors,
+                        this.targets,
+                        this.observers,
+                        this.sites,
+                        this.scopes,
+                        this.sessions,
+                        this.eyepieces,
+                        this.filters,
+                        this.imagers,
                         this.lenses));
             } catch (SchemaException | IllegalArgumentException se) {
                 LOGGER.error("\n\nContinue loading next observation...\n\n", se);
             }
-
         }
 
         return (IObservation[]) obs.toArray(new IObservation[] {});
-
     }
 
     private ITarget[] createTargetElements(Node targets, IObserver... observers) throws SchemaException {
@@ -765,7 +754,6 @@ public class SchemaLoader {
             } else {
                 throw new SchemaException("No attribute specified: " + ITarget.XML_XSI_TYPE);
             }
-
         }
 
         return (ITarget[]) targetElements.toArray(new ITarget[] {});
@@ -777,8 +765,8 @@ public class SchemaLoader {
         if (attribute != null) {
             xsiType = attribute.getNodeValue();
         } else {
-            LOGGER.warn("No attribute specified: {}, using: {}", ITarget.XML_XSI_TYPE,
-                    GenericTarget.XML_XSI_TYPE_VALUE);
+            LOGGER.warn(
+                    "No attribute specified: {}, using: {}", ITarget.XML_XSI_TYPE, GenericTarget.XML_XSI_TYPE_VALUE);
             // throw new SchemaException("No attribute specified: " + ITarget.XML_XSI_TYPE);
         }
         return xsiType;
@@ -796,7 +784,6 @@ public class SchemaLoader {
         }
 
         return sessionElements;
-
     }
 
     private IObserver[] createObserverElements(Node observers) throws SchemaException {
@@ -812,7 +799,6 @@ public class SchemaLoader {
         }
 
         return observerElements;
-
     }
 
     private ISite[] createSiteElements(Node sites) throws SchemaException {
@@ -828,7 +814,6 @@ public class SchemaLoader {
         }
 
         return siteElements;
-
     }
 
     private IScope[] createScopeElements(Node scopes) throws SchemaException {
@@ -844,7 +829,6 @@ public class SchemaLoader {
         }
 
         return scopeElements;
-
     }
 
     private IEyepiece[] createEyepieceElements(Node eyepieces) throws SchemaException {
@@ -860,7 +844,6 @@ public class SchemaLoader {
         }
 
         return eyepieceElements;
-
     }
 
     private ILens[] createLensElements(Node lenses) throws SchemaException {
@@ -881,7 +864,6 @@ public class SchemaLoader {
         }
 
         return lensElements;
-
     }
 
     private IFilter[] createFilterElements(Node filters) throws SchemaException {
@@ -902,7 +884,6 @@ public class SchemaLoader {
         }
 
         return filterElements;
-
     }
 
     private IImager[] createImagerElements(Node imagers) throws SchemaException {
@@ -913,7 +894,6 @@ public class SchemaLoader {
         imagerElements.addAll(extractImagerByNodeName(e, IImager.XML_ELEMENT_IMAGER_SKY_SAFARI));
 
         return (IImager[]) imagerElements.toArray(new IImager[] {});
-
     }
 
     private List<IImager> extractImagerByNodeName(Element e, String nodeName) throws SchemaException {
@@ -928,7 +908,6 @@ public class SchemaLoader {
             if (imager.isPresent()) {
                 imagerElements.add(imager.get());
             }
-
         }
         return imagerElements;
     }
@@ -978,7 +957,6 @@ public class SchemaLoader {
         }
 
         throw new OALException("Cannot determine schema version from XML file: " + xmlFile + "\n");
-
     }
 
     private char[] getSchemaVersionForXml(File xmlFile) throws OALException {
@@ -994,8 +972,8 @@ public class SchemaLoader {
         } catch (FileNotFoundException fnf) {
             throw new OALException("XML file " + xmlFile + " cannot be found.\n" + fnf, fnf);
         } catch (IOException ioe) {
-            throw new OALException("Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe,
-                    ioe);
+            throw new OALException(
+                    "Cannot read XML file to determine schema version. File " + xmlFile + "\n" + ioe, ioe);
         }
         return buffer;
     }
@@ -1038,9 +1016,7 @@ public class SchemaLoader {
         }
         // Set clean targets array
         this.targets = (ITarget[]) targetElements.toArray(new ITarget[] {});
-
     }
 
-    record Result(RootElement node, List<String> errors) {
-    }
+    record Result(RootElement node, List<String> errors) {}
 }

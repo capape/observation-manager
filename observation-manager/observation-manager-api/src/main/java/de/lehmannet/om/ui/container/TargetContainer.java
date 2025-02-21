@@ -7,32 +7,6 @@
 
 package de.lehmannet.om.ui.container;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import org.apache.commons.lang3.StringUtils;
-
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IObserver;
@@ -47,13 +21,36 @@ import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.AtlasUtil;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import org.apache.commons.lang3.StringUtils;
 
 public class TargetContainer extends Container implements MouseListener {
 
     private static final long serialVersionUID = -9052717626196198395L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private ITarget target = null;
 
@@ -72,8 +69,12 @@ public class TargetContainer extends Container implements MouseListener {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetContainer(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            boolean editable, boolean positionDisabled) {
+    public TargetContainer(
+            IConfiguration configuration,
+            ObservationManagerModel model,
+            ITarget target,
+            boolean editable,
+            boolean positionDisabled) {
 
         this.target = target;
         this.model = model;
@@ -89,7 +90,6 @@ public class TargetContainer extends Container implements MouseListener {
         if (target != null) {
             this.loadSchemaElement();
         }
-
     }
 
     public ITarget updateTarget() {
@@ -134,7 +134,6 @@ public class TargetContainer extends Container implements MouseListener {
         target.setNotes(this.notes.getText().trim());
 
         return target;
-
     }
 
     @Override
@@ -145,7 +144,6 @@ public class TargetContainer extends Container implements MouseListener {
         if (e.getButton() == MouseEvent.BUTTON3) {
             new EditPopupHandler(e.getX(), e.getY(), this.notes);
         }
-
     }
 
     @Override
@@ -171,13 +169,11 @@ public class TargetContainer extends Container implements MouseListener {
     public String getDatasource() {
 
         return targetDatasource.getText();
-
     }
 
     public IObserver getObserver() {
 
         return this.sourceObserverBox.getSelectedSchemaElement();
-
     }
 
     public Constellation getConstellation() {
@@ -188,38 +184,32 @@ public class TargetContainer extends Container implements MouseListener {
         } else { // Create, edit
             return this.constellationBox.getSelectedConstellation();
         }
-
     }
 
     public EquPosition getPosition() {
 
         return this.equPosition.getEquPosition();
-
     }
 
     public void setPosition(EquPosition equPos) {
 
         this.equPosition.setEquPosition(equPos);
-
     }
 
     public void setTarget(ITarget target) {
 
         this.target = target;
-
     }
 
     @Override
     public String getName() {
 
         return this.targetName.getText();
-
     }
 
     public String getNotes() {
 
         return this.notes.getText().trim();
-
     }
 
     public String[] getAliasNames() {
@@ -237,7 +227,6 @@ public class TargetContainer extends Container implements MouseListener {
         } else {
             return null;
         }
-
     }
 
     public boolean checkOrigin(String datasource, IObserver observer) {
@@ -255,7 +244,6 @@ public class TargetContainer extends Container implements MouseListener {
         }
 
         return true;
-
     }
 
     private void loadSchemaElement() {
@@ -280,8 +268,8 @@ public class TargetContainer extends Container implements MouseListener {
         if (c != null) {
             this.constellationBox.setSelectedConstellation(c);
             String cName = null;
-            boolean i18N = Boolean
-                    .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+            boolean i18N =
+                    Boolean.parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
             if (i18N) {
                 cName = c.getDisplayName();
             } else {
@@ -335,7 +323,6 @@ public class TargetContainer extends Container implements MouseListener {
             this.notes.setText(this.target.getNotes());
         }
         this.notes.setEditable(this.editable);
-
     }
 
     private void createPanel() {
@@ -361,8 +348,8 @@ public class TargetContainer extends Container implements MouseListener {
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.EAST;
-        OMLabel labelAliasName = new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT,
-                false);
+        OMLabel labelAliasName =
+                new OMLabel(this.bundle.getString("target.label.aliasNames"), SwingConstants.RIGHT, false);
         labelAliasName.setToolTipText(this.bundle.getString("target.tooltip.aliasNames"));
         gridbag.setConstraints(labelAliasName, constraints);
         this.add(labelAliasName);
@@ -402,8 +389,8 @@ public class TargetContainer extends Container implements MouseListener {
             gridbag.setConstraints(this.targetConstellation, constraints);
             this.add(this.targetConstellation);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT,
-                    true);
+            targetDatasourceLabel =
+                    new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT, true);
             targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 5, 1);
             constraints.fill = GridBagConstraints.NONE;
@@ -522,8 +509,8 @@ public class TargetContainer extends Container implements MouseListener {
             }
             this.add(this.constellationBox);
 
-            targetDatasourceLabel = new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT,
-                    true);
+            targetDatasourceLabel =
+                    new OMLabel(this.bundle.getString("target.label.datasource"), SwingConstants.RIGHT, true);
             targetDatasourceLabel.setToolTipText(this.bundle.getString("target.tooltip.datasource"));
             ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 4, 1);
             gridbag.setConstraints(targetDatasourceLabel, constraints);
@@ -566,7 +553,6 @@ public class TargetContainer extends Container implements MouseListener {
             gridbag.setConstraints(descriptionScroll, constraints);
             this.add(descriptionScroll);
         }
-
     }
 
     private void selectSourceType(GridBagLayout gridbag) {
@@ -604,7 +590,6 @@ public class TargetContainer extends Container implements MouseListener {
             this.targetDatasource.setEditable(false);
             // this.targetDatasource.setEnabled(false);
         }
-
     }
 
     private ActionListener selectOtherSourceActionListener() {
@@ -616,9 +601,7 @@ public class TargetContainer extends Container implements MouseListener {
                 TargetContainer.this.sourceObserverBox.setEnabled(false);
                 TargetContainer.this.targetDatasource.setEnabled(true);
                 TargetContainer.this.targetDatasource.setEditable(true);
-
             }
-
         };
     }
 
@@ -631,9 +614,7 @@ public class TargetContainer extends Container implements MouseListener {
                 TargetContainer.this.sourceObserverBox.setEnabled(true);
                 TargetContainer.this.targetDatasource.setEnabled(false);
                 TargetContainer.this.targetDatasource.setEditable(false);
-
             }
-
         };
     }
 
@@ -672,15 +653,20 @@ public class TargetContainer extends Container implements MouseListener {
         }
 
         // TODO: handle this catalogs.
-        var catalogs = List.of("ObservationManager - SolarSystem Catalog 1.0", "Revised Index Catalogue",
-                "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ", "Caldwell",
-                "ObservationManager - Messier Catalog 1.0", "ObservationManager - Caldwell Catalog 1.0",
-                "Revised New General Catalogue", "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
-                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)", "Solar System",
+        var catalogs = List.of(
+                "ObservationManager - SolarSystem Catalog 1.0",
+                "Revised Index Catalogue",
+                "The Historically Corrected New General Catalogue (HCNGC) Ver 1.11 ",
+                "Caldwell",
+                "ObservationManager - Messier Catalog 1.0",
+                "ObservationManager - Caldwell Catalog 1.0",
+                "Revised New General Catalogue",
+                "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11",
+                "General Catalogue of Variable Stars - Volumes I-III, 4th Edition - (GCVS4)",
+                "Solar System",
                 "Sternberg Astronomical Institute, Moscow, Russia (http://www.sai.msu.su/groups/cluster/gcvs/gcvs/) - Edition: 4");
 
         return catalogs.stream().anyMatch(p -> p.equalsIgnoreCase(target.getDatasource()));
-
     }
 
     private void fillComboWithObservers(OMComboBox<IObserver> sourceObserverBox) {
@@ -696,9 +682,7 @@ public class TargetContainer extends Container implements MouseListener {
 
     private void createWarning(String message) {
 
-        JOptionPane.showMessageDialog(this, message, this.bundle.getString("target.warning.title"),
-                JOptionPane.WARNING_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                this, message, this.bundle.getString("target.warning.title"), JOptionPane.WARNING_MESSAGE);
     }
-
 }

@@ -12,7 +12,6 @@ import java.time.temporal.JulianFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class DateManagerImpl implements DateManager {
@@ -21,12 +20,12 @@ public class DateManagerImpl implements DateManager {
     private final SimpleDateFormat sdfDateOnly = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     private final SimpleDateFormat sdfSeconds = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
 
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-            .withZone(ZoneId.systemDefault());
-    private final DateTimeFormatter dtfDateOnly = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            .withZone(ZoneId.systemDefault());
-    private final DateTimeFormatter dtfSeconds = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-            .withZone(ZoneId.systemDefault());
+    private final DateTimeFormatter dtf =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").withZone(ZoneId.systemDefault());
+    private final DateTimeFormatter dtfDateOnly =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy").withZone(ZoneId.systemDefault());
+    private final DateTimeFormatter dtfSeconds =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
 
     @Override
     public String dateToString(Date date) {
@@ -137,7 +136,8 @@ public class DateManagerImpl implements DateManager {
     @Override
     public double toAstronomicalJulianDate(ZonedDateTime date) {
 
-        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l).withNano(0);
+        ZonedDateTime datePickerDateInGMAT =
+                date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l).withNano(0);
         long dayOfJulianDate = JulianFields.JULIAN_DAY.getFrom(datePickerDateInGMAT);
 
         double hourPart = (double) datePickerDateInGMAT.getHour();
@@ -152,7 +152,8 @@ public class DateManagerImpl implements DateManager {
     @Override
     public double getAstronomicalJulianDateDay(ZonedDateTime date) {
 
-        ZonedDateTime datePickerDateInGMAT = date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l);
+        ZonedDateTime datePickerDateInGMAT =
+                date.withZoneSameInstant(ZoneId.of("UTC")).minusHours(12l);
         return (double) JulianFields.JULIAN_DAY.getFrom(datePickerDateInGMAT);
     }
 
@@ -177,11 +178,14 @@ public class DateManagerImpl implements DateManager {
         ZonedDateTime zeroTime = Instant.ofEpochMilli(0l).atZone(ZoneId.of("UTC"));
         long diffDays = days - JulianFields.JULIAN_DAY.getFrom(zeroTime);
 
-        ZonedDateTime julianDate = zeroTime.withHour(hours).withMinute(minutes).withSecond(seconds)
-                .withNano(nanoSeconds).plusDays(diffDays).plusHours(12l);
+        ZonedDateTime julianDate = zeroTime.withHour(hours)
+                .withMinute(minutes)
+                .withSecond(seconds)
+                .withNano(nanoSeconds)
+                .plusDays(diffDays)
+                .plusHours(12l);
 
         return julianDate.withZoneSameInstant(zone);
-
     }
 
     @Override
@@ -201,5 +205,4 @@ public class DateManagerImpl implements DateManager {
         instance.setGroupingUsed(false);
         return instance.format(toAstronomicalJulianDate(date));
     }
-
 }

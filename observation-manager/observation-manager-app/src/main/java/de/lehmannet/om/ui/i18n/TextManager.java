@@ -7,5 +7,4 @@ public interface TextManager {
     String getCurrentLanguage();
 
     void useLanguage(String isoKey);
-
 }

@@ -7,14 +7,13 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.FloatUtil;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.FloatUtil;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetCG extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -78,7 +77,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetCG can only have one mag10 entry. ");
         }
-
     }
 
     /**
@@ -92,7 +90,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     public DeepSkyTargetCG(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -106,7 +103,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     public DeepSkyTargetCG(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -144,7 +140,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_magTen);
         }
-
     }
 
     // ------------------------
@@ -163,7 +158,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetCG.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -179,7 +173,6 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     public float getMagnitudeOf10thBrightestMember() {
 
         return this.magTen;
-
     }
 
     /**
@@ -191,7 +184,5 @@ public class DeepSkyTargetCG extends DeepSkyTarget {
     public void setMagnitudeOf10thBrightestMember(float magTen) {
 
         this.magTen = magTen;
-
     }
-
 }

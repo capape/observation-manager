@@ -1,14 +1,13 @@
 package de.lehmannet.om.mapper;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IEquipment;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.util.SchemaException;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class FilterMapper {
 
@@ -158,7 +157,6 @@ public class FilterMapper {
                         type.append(textElements.item(te).getNodeValue());
                     }
                     return type.toString().trim();
-
                 }
                 // type = child.getFirstChild().getNodeValue();
             } else {

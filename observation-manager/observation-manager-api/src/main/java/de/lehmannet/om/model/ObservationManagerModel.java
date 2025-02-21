@@ -1,11 +1,5 @@
 package de.lehmannet.om.model;
 
-import java.io.File;
-import java.util.List;
-import java.util.Optional;
-
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -18,6 +12,10 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
+import org.w3c.dom.Document;
 
 /**
  * Model for observation manager.
@@ -97,5 +95,4 @@ public interface ObservationManagerModel {
     boolean save(String name);
 
     boolean saveAs(String oldPath, String newPath);
-
 }

@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.IEyepiece;
+import java.util.Comparator;
 
 public class EyepieceComparator implements Comparator<IEyepiece> {
 
@@ -24,11 +23,8 @@ public class EyepieceComparator implements Comparator<IEyepiece> {
             float e2a = e2.getFocalLength();
 
             return Math.round((float) Math.ceil(e1a - e2a));
-
         }
 
         return 0;
-
     }
-
 }

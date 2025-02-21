@@ -1,14 +1,13 @@
 package de.lehmannet.om.extension.variableStars;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * TargetVariableStar extends the de.lehmannet.om.TargetStar class.<br>
@@ -128,19 +127,16 @@ public class TargetVariableStar extends TargetStar {
         } else if (children.getLength() > 1) {
             throw new SchemaException("TargetVariableStar can only have one period. (ID: " + this.getID() + ")");
         }
-
     }
 
     public TargetVariableStar(String starName, String datasource) {
 
         super(starName, datasource);
-
     }
 
     public TargetVariableStar(String starName, IObserver observer) {
 
         super(starName, observer);
-
     }
 
     // ------
@@ -176,7 +172,6 @@ public class TargetVariableStar extends TargetStar {
         }
 
         return buffer.toString();
-
     }
 
     // ------
@@ -232,7 +227,6 @@ public class TargetVariableStar extends TargetStar {
 
             e_VSTarget.appendChild(e_Period);
         }
-
     }
 
     // ------------------------
@@ -251,7 +245,6 @@ public class TargetVariableStar extends TargetStar {
     public String getXSIType() {
 
         return TargetVariableStar.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -269,7 +262,6 @@ public class TargetVariableStar extends TargetStar {
     public float getMaxApparentMag() {
 
         return this.maxApparentMag;
-
     }
 
     /**
@@ -279,7 +271,6 @@ public class TargetVariableStar extends TargetStar {
     public void setMaxMagnitudeApparent(float maxApparentMag) {
 
         this.maxApparentMag = maxApparentMag;
-
     }
 
     /**
@@ -295,7 +286,6 @@ public class TargetVariableStar extends TargetStar {
     public String getType() {
 
         return type;
-
     }
 
     /**
@@ -309,7 +299,6 @@ public class TargetVariableStar extends TargetStar {
         }
 
         this.type = type.trim();
-
     }
 
     /**
@@ -321,7 +310,6 @@ public class TargetVariableStar extends TargetStar {
     public float getPeriod() {
 
         return this.period;
-
     }
 
     /**
@@ -331,7 +319,6 @@ public class TargetVariableStar extends TargetStar {
     public void setPeriod(float period) {
 
         this.period = period;
-
     }
 
     @Override
@@ -343,5 +330,4 @@ public class TargetVariableStar extends TargetStar {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
-
 }

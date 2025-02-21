@@ -7,30 +7,6 @@
 
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.KeyStroke;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -69,13 +45,33 @@ import de.lehmannet.om.ui.theme.ThemeManagerImpl;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LoggerConfig;
-// import de.lehmannet.om.ui.util.SplashScreen;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ObservationManager extends JFrame implements IObservationManagerJFrame {
 
@@ -99,7 +95,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     private TreeView tree;
 
     private boolean changed = false; // Indicates if changed where made after
-                                     // load.
+    // load.
 
     private Boolean nightVisionOnStartup;
     // private Thread splash;
@@ -165,7 +161,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
         LOGGER.info("Observation Manager {} starting up...", this.getVersion());
         LOGGER.info("Java:\t {} {}  ", System.getProperty("java.vendor"), System.getProperty("java.version"));
-        LOGGER.info("OS:\t {} ({}) {}", System.getProperty("os.name"), System.getProperty("os.arch"),
+        LOGGER.info(
+                "OS:\t {} ({}) {}",
+                System.getProperty("os.name"),
+                System.getProperty("os.arch"),
                 System.getProperty("os.version"));
 
         LOGGER.debug("Launching extension loader ...");
@@ -182,21 +181,36 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         LOGGER.debug("Generating menus...");
 
         this.catalogManager = new CatalogManagerImpl(this.model, this.installDir, this.extLoader, uiHelper);
-        this.htmlHelper = new ObservationManagerHtmlHelper(uiHelper, this.textManager, this.configuration,
-                this.installDir, this.model);
-        this.menuFile = new ObservationManagerMenuFile(this.configuration, this.model, this.htmlHelper,
-                this.imageResolver, this.textManager, uiHelper, this.installDir, this);
-        this.menuData = new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this,
-                this.uiCache);
-        this.menuExtras = new ObservationManagerMenuExtras(this.configuration, this.imageResolver, this.themeManager,
-                this.textManager, uiHelper, this.model, this.installDir, this);
-        this.menuHelp = new ObservationManagerMenuHelp(this.configuration, this.textManager, this.versionTextManager,
+        this.htmlHelper = new ObservationManagerHtmlHelper(
+                uiHelper, this.textManager, this.configuration, this.installDir, this.model);
+        this.menuFile = new ObservationManagerMenuFile(
+                this.configuration,
+                this.model,
+                this.htmlHelper,
+                this.imageResolver,
+                this.textManager,
+                uiHelper,
+                this.installDir,
                 this);
-        this.menuExtensions = new ObservationManagerMenuExtensions(this.configuration, this.extLoader,
-                this.imageResolver, this.textManager, uiHelper, this);
+        this.menuData =
+                new ObservationManagerMenuData(this.model, this.imageResolver, this.textManager, this, this.uiCache);
+        this.menuExtras = new ObservationManagerMenuExtras(
+                this.configuration,
+                this.imageResolver,
+                this.themeManager,
+                this.textManager,
+                uiHelper,
+                this.model,
+                this.installDir,
+                this);
+        this.menuHelp =
+                new ObservationManagerMenuHelp(this.configuration, this.textManager, this.versionTextManager, this);
+        this.menuExtensions = new ObservationManagerMenuExtensions(
+                this.configuration, this.extLoader, this.imageResolver, this.textManager, uiHelper, this);
 
         // Set icon
-        this.imageResolver.getImageURL("om_logo.png")
+        this.imageResolver
+                .getImageURL("om_logo.png")
                 .ifPresent(iconPath -> this.setIconImage(new ImageIcon(iconPath).getImage()));
 
         // Init menu and disable it during startup
@@ -249,7 +263,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             LOGGER.debug("Up and running: {} ", new Date());
             LOGGER.debug(SystemInfo.printMemoryUsage());
         }
-
     }
 
     private void loadConfigFiles() {
@@ -264,7 +277,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
                 result = fileLoader.loadConfig().orElse(Pair.of("Not loaded", true));
                 LOGGER.debug("Config: {},{}", result.getLeft(), result.getRight());
-
             }
 
             @Override
@@ -278,7 +290,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 String msgError = ObservationManager.this.textManager.getString("error.loadXML");
                 LOGGER.error("Configuration error: {} ", msgError);
                 return msgError + " " + result.getLeft();
-
             }
 
             @Override
@@ -289,15 +300,16 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 } else {
                     return Worker.RETURN_TYPE_ERROR;
                 }
-
             }
-
         };
         final boolean load = this.configuration.getBooleanConfig(ConfigKey.CONFIG_OPENONSTARTUP);
         LOGGER.debug("Loading config at startup: {}", load);
         if (load) {
-            new ProgressDialog(this, this.textManager.getString("progress.wait.title"),
-                    this.textManager.getString("progress.wait.xml.load.info"), configLoader);
+            new ProgressDialog(
+                    this,
+                    this.textManager.getString("progress.wait.title"),
+                    this.textManager.getString("progress.wait.xml.load.info"),
+                    configLoader);
         }
     }
 
@@ -317,16 +329,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 this.processWindowEvent(e);
                 this.dispose();
             }
-
         }
-
     }
 
     public void reloadLanguage() {
 
         // Load new bundle
-        final String isoKey = this.configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE,
-                Locale.getDefault().getLanguage());
+        final String isoKey = this.configuration.getConfig(
+                ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
         this.textManager.useLanguage(isoKey);
 
         final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
@@ -359,7 +369,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         // Reload items
         this.table.showObservations(null, null);
         this.tree.updateTree();
-
     }
 
     public void deleteSchemaElement(final ISchemaElement element) {
@@ -369,8 +378,10 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         }
 
         // Confirmation pop-up
-        final JOptionPane pane = new JOptionPane(this.textManager.getString("info.delete.question"),
-                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+        final JOptionPane pane = new JOptionPane(
+                this.textManager.getString("info.delete.question"),
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION);
         final JDialog dialog = pane.createDialog(this, this.textManager.getString("info.delete.title"));
         dialog.setVisible(true);
         final Object selectedValue = pane.getValue();
@@ -395,19 +406,16 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         } else { // Deletion failed due to dependencies
             new TableElementsDialog(this, this.model, result);
         }
-
     }
 
     public ExtensionLoader getExtensionLoader() {
 
         return this.extLoader;
-
     }
 
     public ISchemaElement getSelectedTableElement() {
 
         return this.table.getSelectedElement();
-
     }
 
     // parentElement can be null (in that case all available observations will
@@ -450,7 +458,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 this.table.showLenses((ILens) element);
             }
         }
-
     }
 
     public void exit() {
@@ -460,15 +467,14 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void updateLeft() {
 
         this.tree.updateTree();
-
     }
 
     public void updateUI(final ISchemaElement element) {
 
         // Update UI
         this.tree.setSelection(element, null); // This is enough...the rest
-                                               // (table, item) will be updated
-                                               // subsequently
+        // (table, item) will be updated
+        // subsequently
 
     }
 
@@ -482,7 +488,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
         // Update UI
         this.updateUI(element);
-
     }
 
     public void refreshUI() {
@@ -502,7 +507,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             this.setTitle(); // From changed to unchanged
         }
         this.changed = changed;
-
     }
 
     public boolean isChanged() {
@@ -512,51 +516,43 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public ItemView getItemView() {
 
         return this.item;
-
     }
 
     public TableView getTableView() {
 
         return this.table;
-
     }
 
     public TreeView getTreeView() {
 
         return this.tree;
-
     }
 
     public JSplitPane getHorizontalSplitPane() {
 
         return this.hSplitPane;
-
     }
 
     public JSplitPane getVerticalSplitPane() {
 
         return this.vSplitPane;
-
     }
 
     public void createWarning(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.warning"),
-                JOptionPane.WARNING_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                this, message, this.textManager.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
     }
 
     public void createInfo(final String message) {
 
-        JOptionPane.showMessageDialog(this, message, this.textManager.getString("title.info"),
-                JOptionPane.INFORMATION_MESSAGE);
-
+        JOptionPane.showMessageDialog(
+                this, message, this.textManager.getString("title.info"), JOptionPane.INFORMATION_MESSAGE);
     }
 
     public IConfiguration getConfiguration() {
 
         return this.configuration;
-
     }
 
     public ProjectCatalog[] getProjects() {
@@ -567,7 +563,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     public void resetWindowSizes() {
 
         this.configuration.deleteKeysStartingWith(OMDialog.DIALOG_SIZE_KEY);
-
     }
 
     private void setTitle() {
@@ -575,7 +570,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         String title = String.format("Observation Manager: %s - OAL: %s", this.getVersion(), this.getOALVersion());
 
         this.setTitle(title);
-
     }
 
     private void initMenuBar() {
@@ -611,7 +605,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         this.setDividerLocation();
 
         this.setVisible(true);
-
     }
 
     private void setLocationAndSize() {
@@ -620,8 +613,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final Dimension maxSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Get last size
-        final String stringSize = this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_SIZE,
-                maxSize.width + "x" + maxSize.height);
+        final String stringSize =
+                this.configuration.getConfig(ConfigKey.CONFIG_MAINWINDOW_SIZE, maxSize.width + "x" + maxSize.height);
         int width = Integer.parseInt(stringSize.substring(0, stringSize.indexOf('x')));
         int height = Integer.parseInt(stringSize.substring(stringSize.indexOf('x') + 1));
         if (width > maxSize.width) {
@@ -656,7 +649,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         if (maximized) {
             this.setExtendedState(Frame.MAXIMIZED_BOTH);
         }
-
     }
 
     private void setDividerLocation() {
@@ -689,7 +681,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         } else {
             this.hSplitPane.setDividerLocation((int) (this.getHeight() / horizontal));
         }
-
     }
 
     private TableView initTableView() {
@@ -698,7 +689,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         table.setVisible(true);
 
         return table;
-
     }
 
     private ItemView initItemView() {
@@ -707,7 +697,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         item.setVisible(true);
 
         return item;
-
     }
 
     private TreeView initTreeView() {
@@ -717,7 +706,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         tree.setVisible(true);
 
         return tree;
-
     }
 
     private void enableMenus(final boolean enabled) {
@@ -725,7 +713,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         for (int i = 0; i < this.menuBar.getMenuCount(); i++) {
             this.menuBar.getMenu(i).setEnabled(enabled);
         }
-
     }
 
     private void addShortcuts() {
@@ -733,7 +720,8 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
         final int menuKeyModifier = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
         // New Observation
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuKeyModifier), "NEW_OBSERVATION");
         this.getRootPane().getActionMap().put("NEW_OBSERVATION", new AbstractAction() {
 
@@ -743,11 +731,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public void actionPerformed(final ActionEvent e) {
                 ObservationManager.this.menuData.createNewObservation();
             }
-
         });
 
         // (Print) Show HTML export
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_P, menuKeyModifier), "PRINT");
         this.getRootPane().getActionMap().put("PRINT", new AbstractAction() {
 
@@ -757,13 +745,13 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public void actionPerformed(final ActionEvent e) {
 
                 ObservationManager.this.menuFile.createHTML();
-
             }
         });
 
         // Help
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0),
-                "HELP");
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "HELP");
         this.getRootPane().getActionMap().put("HELP", new AbstractAction() {
 
             private static final long serialVersionUID = 2672501453219731894L;
@@ -772,12 +760,12 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public void actionPerformed(final ActionEvent e) {
 
                 ObservationManager.this.menuExtras.showDidYouKnow();
-
             }
         });
 
         // Edit Observation
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_E, menuKeyModifier), "EDIT_OBSERVATION");
         this.getRootPane().getActionMap().put("EDIT_OBSERVATION", new AbstractAction() {
 
@@ -788,12 +776,17 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                 final ISchemaElement element = ObservationManager.this.getSelectedTableElement();
                 if (element instanceof IObservation) {
                     // Edit current/selected observation
-                    new ObservationDialog(ObservationManager.this, ObservationManager.this.model,
-                            ObservationManager.this.textManager, (IObservation) element,
+                    new ObservationDialog(
+                            ObservationManager.this,
+                            ObservationManager.this.model,
+                            ObservationManager.this.textManager,
+                            (IObservation) element,
                             ObservationManager.this.uiCache);
                 } else if (element instanceof ITarget) {
                     final ITarget target = (ITarget) element;
-                    ObservationManager.this.getExtensionLoader().getSchemaUILoader()
+                    ObservationManager.this
+                            .getExtensionLoader()
+                            .getSchemaUILoader()
                             .getTargetDialog(target.getXSIType(), target, null);
                 } else if (element instanceof IScope) {
                     new ScopeDialog(ObservationManager.this, ObservationManager.this.model, (IScope) element);
@@ -801,27 +794,31 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     new EyepieceDialog(ObservationManager.this, ObservationManager.this.model, (IEyepiece) element);
                 } else if (element instanceof IImager) {
                     final IImager imager = (IImager) element;
-                    ObservationManager.this.getExtensionLoader().getSchemaUILoader()
+                    ObservationManager.this
+                            .getExtensionLoader()
+                            .getSchemaUILoader()
                             .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
                 } else if (element instanceof ISite) {
                     new SiteDialog(ObservationManager.this, ObservationManager.this.model, (ISite) element);
                 } else if (element instanceof IFilter) {
                     new FilterDialog(ObservationManager.this, ObservationManager.this.model, (IFilter) element);
                 } else if (element instanceof ISession) {
-                    new SessionDialog(ObservationManager.this, ObservationManager.this.model, (ISession) element,
+                    new SessionDialog(
+                            ObservationManager.this,
+                            ObservationManager.this.model,
+                            (ISession) element,
                             ObservationManager.this.uiCache);
                 } else if (element instanceof IObserver) {
                     new ObserverDialog(ObservationManager.this, ObservationManager.this.model, (IObserver) element);
                 } else if (element instanceof ILens) {
                     new LensDialog(ObservationManager.this, ObservationManager.this.model, (ILens) element);
                 }
-
             }
-
         });
 
         // Save file
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuKeyModifier), "SAVE_FILE");
         this.getRootPane().getActionMap().put("SAVE_FILE", new AbstractAction() {
 
@@ -832,11 +829,11 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
                 ObservationManager.this.menuFile.saveFile();
             }
-
         });
 
         // Open file
-        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        this.getRootPane()
+                .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuKeyModifier), "OPEN_FILE");
         this.getRootPane().getActionMap().put("OPEN_FILE", new AbstractAction() {
 
@@ -846,9 +843,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
             public void actionPerformed(final ActionEvent e) {
                 ObservationManager.this.menuFile.openFile(ObservationManager.this.changed);
             }
-
         });
-
     }
 
     public ImageResolver getImageResolver() {
@@ -858,7 +853,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     @Override
     public void createProgressDialog(Worker worker, String title, String loadingMessage) {
         new ProgressDialog(this, title, loadingMessage, worker);
-
     }
 
     public boolean isNightVisionEnabled() {
@@ -930,7 +924,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
 
             return new ObservationManager(this);
         }
-
     }
 
     /**
@@ -939,7 +932,6 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
     @Deprecated
     public ObservationManagerModel getModel() {
         return this.model;
-
     }
 
     public String getVersion() {

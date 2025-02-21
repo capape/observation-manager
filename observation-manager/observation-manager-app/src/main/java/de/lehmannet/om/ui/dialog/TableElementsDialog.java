@@ -7,19 +7,6 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableColumn;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IFinding;
@@ -37,13 +24,24 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableColumn;
 
 public class TableElementsDialog extends AbstractDialog {
 
     private static final long serialVersionUID = -666228606403887834L;
 
-    public TableElementsDialog(ObservationManager om, ObservationManagerModel model,
-            List<ISchemaElement> schemaElements) {
+    public TableElementsDialog(
+            ObservationManager om, ObservationManagerModel model, List<ISchemaElement> schemaElements) {
 
         super(om, model, om.getUiHelper(), new TableElementsPanel(schemaElements, om), true);
 
@@ -53,9 +51,7 @@ public class TableElementsDialog extends AbstractDialog {
 
         this.setSize(TableElementsDialog.serialVersionUID, 450, 280);
         this.setVisible(true);
-
     }
-
 }
 
 class TableElementsPanel extends AbstractPanel {
@@ -77,8 +73,7 @@ class TableElementsPanel extends AbstractPanel {
         ListSelectionModel lsm = this.table.getSelectionModel();
         lsm.addListSelectionListener(e -> {
             // Ignore extra messages.
-            if (e.getValueIsAdjusting())
-                return;
+            if (e.getValueIsAdjusting()) return;
 
             ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
             if (lsm1.isSelectionEmpty()) {
@@ -98,28 +93,24 @@ class TableElementsPanel extends AbstractPanel {
         this.scrollTable = new JScrollPane(this.table);
 
         this.createPanel();
-
     }
 
     @Override
     public ISchemaElement createSchemaElement() {
 
         return null;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return null;
-
     }
 
     @Override
     public ISchemaElement updateSchemaElement() {
 
         return null;
-
     }
 
     private void setColumnSize() {
@@ -137,7 +128,6 @@ class TableElementsPanel extends AbstractPanel {
         col.setPreferredWidth(((AbstractSchemaTableModel) this.table.getModel()).getColumnSize(1));
 
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-
     }
 
     private void createPanel() {
@@ -163,36 +153,31 @@ class TableElementsPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }
 
 class SimpleSchemaElementModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "SimpleSE";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     public SimpleSchemaElementModel(ISchemaElement[] elements) {
 
         this.elements = elements;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 1;
-
     }
 
     @Override
     public String getID() {
 
         return SimpleSchemaElementModel.MODEL_ID;
-
     }
 
     @Override
@@ -202,7 +187,6 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -243,7 +227,6 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -256,7 +239,5 @@ class SimpleSchemaElementModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

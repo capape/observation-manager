@@ -7,38 +7,34 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.ui.panel.FilterPanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class FilterTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Filter";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     public FilterTableModel(IFilter[] filter) {
 
         this.elements = filter;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 5;
-
     }
 
     @Override
     public String getID() {
 
         return FilterTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -48,7 +44,6 @@ public class FilterTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -98,7 +93,6 @@ public class FilterTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -130,7 +124,5 @@ public class FilterTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

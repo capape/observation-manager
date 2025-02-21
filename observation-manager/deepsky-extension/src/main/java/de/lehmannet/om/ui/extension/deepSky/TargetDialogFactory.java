@@ -1,7 +1,5 @@
 package de.lehmannet.om.ui.extension.deepSky;
 
-import javax.swing.JFrame;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetAS;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetCG;
@@ -31,11 +29,12 @@ import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetOCDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetPNDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetQSDialog;
 import de.lehmannet.om.ui.extension.deepSky.dialog.DeepSkyTargetSCDialog;
+import javax.swing.JFrame;
 
 public class TargetDialogFactory {
 
-    public static ITargetDialog newInstance(IExtensionContext context, String xsiType, JFrame parent, ITarget target,
-            boolean editable) {
+    public static ITargetDialog newInstance(
+            IExtensionContext context, String xsiType, JFrame parent, ITarget target, boolean editable) {
 
         switch (xsiType) {
             case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:

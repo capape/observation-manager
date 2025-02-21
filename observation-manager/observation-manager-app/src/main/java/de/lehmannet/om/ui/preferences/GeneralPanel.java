@@ -1,5 +1,12 @@
 package de.lehmannet.om.ui.preferences;
 
+import de.lehmannet.om.ui.box.LanguageBox;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.OMLabel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
@@ -13,22 +20,12 @@ import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.box.LanguageBox;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.OMLabel;
 
 public class GeneralPanel extends PreferencesPanel {
 
@@ -36,8 +33,8 @@ public class GeneralPanel extends PreferencesPanel {
 
     private static final long serialVersionUID = 7383101472997890151L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
@@ -52,14 +49,12 @@ public class GeneralPanel extends PreferencesPanel {
 
         this.om = om;
         this.createPanel();
-
     }
 
     @Override
     public String getTabTitle() {
 
         return this.bundle.getString("dialog.preferences.generalTab.title");
-
     }
 
     @Override
@@ -73,7 +68,6 @@ public class GeneralPanel extends PreferencesPanel {
         if (this.xslTemplate.getSelectedItem() != null) {
             this.setConfig(ConfigKey.CONFIG_XSL_TEMPLATE, String.valueOf(this.xslTemplate.getSelectedItem()));
         }
-
     }
 
     private void createPanel() {
@@ -93,14 +87,13 @@ public class GeneralPanel extends PreferencesPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     private void addResetWindowsSizePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LresetWindowsSizes = new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"),
-                true);
+        OMLabel LresetWindowsSizes =
+                new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"), true);
         LresetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(LresetWindowsSizes, constraints);
         this.add(LresetWindowsSizes);
@@ -111,11 +104,9 @@ public class GeneralPanel extends PreferencesPanel {
         JButton resetWindowSizes = new JButton(this.bundle.getString("dialog.preferences.button.resetWindowSizes"));
         resetWindowSizes.setActionCommand("ResetWindowSizes");
         resetWindowSizes.addActionListener(e -> {
-
             if ("ResetWindowSizes".equals(e.getActionCommand())) {
                 GeneralPanel.this.om.resetWindowSizes();
             }
-
         });
         resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(resetWindowSizes, constraints);
@@ -162,10 +153,10 @@ public class GeneralPanel extends PreferencesPanel {
     private void addCheckForUpdatesPreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel checkForUpdates = new OMLabel(
-                this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
-        checkForUpdates
-                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        OMLabel checkForUpdates =
+                new OMLabel(this.bundle.getString("dialog.preferences.label.checkForUpdatesDuringStartup"), true);
+        checkForUpdates.setToolTipText(
+                this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(checkForUpdates, constraints);
         this.add(checkForUpdates);
 
@@ -173,10 +164,10 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 40, 15);
         this.checkForUpdates = new JCheckBox();
-        this.checkForUpdates.setSelected(
-                Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
-        this.checkForUpdates
-                .setToolTipText(this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
+        this.checkForUpdates.setSelected(Boolean.parseBoolean(
+                this.getConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP).orElse("false")));
+        this.checkForUpdates.setToolTipText(
+                this.bundle.getString("dialog.preferences.tooltip.checkForUpdatesDuringStartup"));
         gridbag.setConstraints(this.checkForUpdates, constraints);
         this.add(this.checkForUpdates);
     }
@@ -193,8 +184,8 @@ public class GeneralPanel extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.loadLastFile = new JCheckBox();
-        this.loadLastFile
-                .setSelected(Boolean.parseBoolean(this.getConfig(ConfigKey.CONFIG_OPENONSTARTUP).orElse("false")));
+        this.loadLastFile.setSelected(Boolean.parseBoolean(
+                this.getConfig(ConfigKey.CONFIG_OPENONSTARTUP).orElse("false")));
         this.loadLastFile.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.loadLastXML"));
         gridbag.setConstraints(this.loadLastFile, constraints);
         this.add(this.loadLastFile);
@@ -229,7 +220,6 @@ public class GeneralPanel extends PreferencesPanel {
                 this.xslTemplate.setSelectedItem(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE));
             }
         }
-
     }
 
     // Installed languages get determined by accessing the observationManager.jar
@@ -270,7 +260,6 @@ public class GeneralPanel extends PreferencesPanel {
         // }
 
         return result;
-
     }
 
     private List<String> scanJarFile(File jarFile) {
@@ -293,7 +282,6 @@ public class GeneralPanel extends PreferencesPanel {
         } catch (IOException zipEx) {
             LOGGER.error("Error while accessing JAR file.", zipEx);
             return null;
-
         }
     }
 }

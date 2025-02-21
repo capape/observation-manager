@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
@@ -30,6 +20,14 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.TristateCheckbox;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel {
 
@@ -38,8 +36,8 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
      */
     private static final long serialVersionUID = 1L;
 
-    final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     private static final String XSI_TYPE = "oal:findingsDeepSkyType";
 
@@ -74,7 +72,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.finding = result;
             this.loadSchemaElement();
         }
-
     }
 
     private DeepSkyFinding assureIsDeepSkyFinding(IFinding paramFinding) {
@@ -101,7 +98,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     public String getName() {
 
         return this.bundle.getString("panel.finding.name");
-
     }
 
     // -------------
@@ -112,7 +108,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     public String getXSIType() {
 
         return DeepSkyFindingPanel.XSI_TYPE;
-
     }
 
     // -------------
@@ -123,7 +118,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
     public ISchemaElement getSchemaElement() {
 
         return this.finding;
-
     }
 
     @Override
@@ -221,7 +215,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         }
 
         return this.finding;
-
     }
 
     @Override
@@ -247,7 +240,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         }
 
         return this.finding;
-
     }
 
     int getRating() {
@@ -258,7 +250,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         }
 
         return this.rating.getSelectedIndex();
-
     }
 
     private void createPanel() {
@@ -295,21 +286,21 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 15, 1);
         this.smallDiameter = new AngleContainer(Angle.ARCSECOND, this.isEditable());
         this.smallDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.smallDiameter"));
-        this.smallDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
+        this.smallDiameter.setUnits(new String[] {Angle.ARCMINUTE, Angle.ARCSECOND});
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.smallDiameter, constraints);
         this.add(this.smallDiameter);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 4, 1);
-        OMLabel LlargeDiameter = new OMLabel(this.bundle.getString("panel.finding.label.largeDiameter"),
-                SwingConstants.RIGHT, false);
+        OMLabel LlargeDiameter =
+                new OMLabel(this.bundle.getString("panel.finding.label.largeDiameter"), SwingConstants.RIGHT, false);
         LlargeDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.largeDiameter"));
         gridbag.setConstraints(LlargeDiameter, constraints);
         this.add(LlargeDiameter);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 5, 1);
         this.largeDiameter = new AngleContainer(Angle.ARCSECOND, this.isEditable());
         this.largeDiameter.setToolTipText(this.bundle.getString("panel.finding.tooltip.largeDiameter"));
-        this.largeDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
+        this.largeDiameter.setUnits(new String[] {Angle.ARCMINUTE, Angle.ARCSECOND});
         // constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(this.largeDiameter, constraints);
         this.add(this.largeDiameter);
@@ -373,7 +364,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     void loadSchemaElement() {
@@ -458,7 +448,6 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
             this.mottled.setEditable(false);
             this.extended.setEditable(false);
         }
-
     }
 
     JComboBox<String> getVisualRatingBox() {
@@ -475,7 +464,5 @@ public class DeepSkyFindingPanel extends AbstractPanel implements IFindingPanel 
         box.addItem(this.bundle.getString("panel.finding.dropdown.rating.99"));
 
         return box;
-
     }
-
 }

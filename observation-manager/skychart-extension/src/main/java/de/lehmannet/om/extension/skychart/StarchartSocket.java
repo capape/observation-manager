@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,6 @@ public class StarchartSocket extends Socket {
         String response = this.in.readLine();
 
         LOGGER.debug("Socket creation response from Skychart: {}", response);
-
     }
 
     public String send(String paramCommand) throws IOException {
@@ -74,16 +72,17 @@ public class StarchartSocket extends Socket {
             }
             response.append(r);
             index++;
-        } while ((r != null && (!r.contains(StarchartSocket.SERVER_RESPONSE_OK))
-                && (!r.contains(StarchartSocket.SERVER_RESPONSE_NOTFOUND))
-                && (!r.contains(StarchartSocket.SERVER_RESPONSE_FAILED))) && (index <= 3) // Wait for 3 responses
-                                                                                          // for a OK or Failure
-                                                                                          // from
-                                                                                          // Skychart
+        } while ((r != null
+                        && (!r.contains(StarchartSocket.SERVER_RESPONSE_OK))
+                        && (!r.contains(StarchartSocket.SERVER_RESPONSE_NOTFOUND))
+                        && (!r.contains(StarchartSocket.SERVER_RESPONSE_FAILED)))
+                && (index <= 3) // Wait for 3 responses
+        // for a OK or Failure
+        // from
+        // Skychart
         );
 
         return response.toString();
-
     }
 
     @Override
@@ -105,7 +104,5 @@ public class StarchartSocket extends Socket {
         }
 
         super.close();
-
     }
-
 }

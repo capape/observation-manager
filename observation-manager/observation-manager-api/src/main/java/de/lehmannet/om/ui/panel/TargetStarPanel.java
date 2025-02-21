@@ -7,19 +7,16 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.TargetStarContainer;
-
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 
 public class TargetStarPanel extends AbstractPanel {
 
@@ -31,8 +28,9 @@ public class TargetStarPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final IConfiguration configuration;
 
-    public TargetStarPanel(IConfiguration configuration, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public TargetStarPanel(
+            IConfiguration configuration, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -45,14 +43,12 @@ public class TargetStarPanel extends AbstractPanel {
         this.configuration = configuration;
 
         this.createPanel();
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -70,14 +66,12 @@ public class TargetStarPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     @Override
     public ISchemaElement createSchemaElement() {
 
         return this.targetContainer.createSchemaElement();
-
     }
 
     private void createPanel() {
@@ -98,7 +92,5 @@ public class TargetStarPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

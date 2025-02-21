@@ -7,24 +7,26 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JFrame;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.panel.GenericTargetPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JFrame;
 
 public class GenericTargetDialog extends AbstractDialog implements ITargetDialog {
 
     private static final long serialVersionUID = -8858493947135823299L;
 
-    public GenericTargetDialog(JFrame om, IConfiguration configuration, UserInterfaceHelper uiHelper,
-            ObservationManagerModel model, ITarget editableTarget) {
+    public GenericTargetDialog(
+            JFrame om,
+            IConfiguration configuration,
+            UserInterfaceHelper uiHelper,
+            ObservationManagerModel model,
+            ITarget editableTarget) {
 
         super(om, model, uiHelper, new GenericTargetPanel(configuration, model, editableTarget, Boolean.TRUE));
 
@@ -38,7 +40,6 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
         this.setSize(GenericTargetDialog.serialVersionUID, 590, 575);
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -49,7 +50,5 @@ public class GenericTargetDialog extends AbstractDialog implements ITargetDialog
         }
 
         return null;
-
     }
-
 }

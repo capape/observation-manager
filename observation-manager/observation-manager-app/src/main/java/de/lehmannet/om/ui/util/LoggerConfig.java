@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 public class LoggerConfig {
 
-    private final static Logger LOGGER_AWT = Logger.getLogger("java.awt");
-    private final static Logger LOGGER_SWING = Logger.getLogger("java.swing");
-    private final static Logger LOGGER_SUN_AWT = Logger.getLogger("sun.awt");
+    private static final Logger LOGGER_AWT = Logger.getLogger("java.awt");
+    private static final Logger LOGGER_SWING = Logger.getLogger("java.swing");
+    private static final Logger LOGGER_SUN_AWT = Logger.getLogger("sun.awt");
 
     public static void initLogs() {
 
@@ -27,6 +27,5 @@ public class LoggerConfig {
         // Indicamos a partir de que nivel deseamos mostrar los logs, podemos especificar un nivel en especifico
         // para ignorar informacion que no necesitemos
         consoleHandler.setLevel(Level.ALL);
-
     }
 }

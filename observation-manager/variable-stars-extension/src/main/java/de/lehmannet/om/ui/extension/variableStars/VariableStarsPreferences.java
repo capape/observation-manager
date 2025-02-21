@@ -7,22 +7,20 @@
 
 package de.lehmannet.om.ui.extension.variableStars;
 
+import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
-
 public class VariableStarsPreferences extends PreferencesPanel {
 
-    private final ResourceBundle bundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private JCheckBox cacheEnabled = null;
 
@@ -31,7 +29,6 @@ public class VariableStarsPreferences extends PreferencesPanel {
         super(config);
 
         this.createPanel();
-
     }
 
     @Override
@@ -39,14 +36,12 @@ public class VariableStarsPreferences extends PreferencesPanel {
 
         // Use cache
         this.setConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED, String.valueOf(this.cacheEnabled.isSelected()));
-
     }
 
     @Override
     public String getTabTitle() {
 
         return this.bundle.getString("preferences.title");
-
     }
 
     private void createPanel() {
@@ -66,8 +61,8 @@ public class VariableStarsPreferences extends PreferencesPanel {
         constraints.anchor = GridBagConstraints.WEST;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 40, 15);
         this.cacheEnabled = new JCheckBox();
-        this.cacheEnabled.setSelected(
-                Boolean.parseBoolean(this.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED).orElse("true")));
+        this.cacheEnabled.setSelected(Boolean.parseBoolean(
+                this.getConfig(VariableStarsConfigKey.CONFIG_CACHE_ENABLED).orElse("true")));
         this.cacheEnabled.setToolTipText(this.bundle.getString("preferences.tooltip.cacheEnabled"));
         gridbag.setConstraints(this.cacheEnabled, constraints);
         this.add(this.cacheEnabled);
@@ -79,7 +74,5 @@ public class VariableStarsPreferences extends PreferencesPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

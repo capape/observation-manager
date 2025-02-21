@@ -1,12 +1,11 @@
 package de.lehmannet.om.ui.project;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CatalogManagerImpl implements CatalogManager {
 
@@ -16,8 +15,11 @@ public class CatalogManagerImpl implements CatalogManager {
     private final ExtensionLoader extensionLoader;
     private ProjectLoader projectLoader;
 
-    public CatalogManagerImpl(final ObservationManagerModel model, InstallDir installDir,
-            ExtensionLoader extensionLoader, UserInterfaceHelper uiHelper) {
+    public CatalogManagerImpl(
+            final ObservationManagerModel model,
+            InstallDir installDir,
+            ExtensionLoader extensionLoader,
+            UserInterfaceHelper uiHelper) {
         this.model = model;
         this.installDir = installDir;
         this.uiHelper = uiHelper;
@@ -45,7 +47,6 @@ public class CatalogManagerImpl implements CatalogManager {
         }
 
         return this.projectLoader.getProjects();
-
     }
 
     public void loadProjectFiles() {
@@ -70,21 +71,20 @@ public class CatalogManagerImpl implements CatalogManager {
 
                         LOGGER.debug("Catalog loading done. Start project loading in background...");
                         // Initialite ProjectLoader and start loading projects
-                        this.catalogManager.projectLoader = new ProjectLoader(CatalogManagerImpl.this.model,
+                        this.catalogManager.projectLoader = new ProjectLoader(
+                                CatalogManagerImpl.this.model,
                                 this.catalogManager.extensionLoader.getCatalogLoader(),
-                                CatalogManagerImpl.this.installDir, CatalogManagerImpl.this.uiHelper);
+                                CatalogManagerImpl.this.installDir,
+                                CatalogManagerImpl.this.uiHelper);
                     } catch (final IllegalMonitorStateException imse) {
                         // Ignore this
                     }
                 }
-
             }
-
         }
 
-        this.waitForCatalogLoaderThread = new Thread(new WaitForCatalogLoader(this),
-                "Waiting for Catalog Loader to finish");
+        this.waitForCatalogLoaderThread =
+                new Thread(new WaitForCatalogLoader(this), "Waiting for Catalog Loader to finish");
         waitForCatalogLoaderThread.start();
-
     }
 }

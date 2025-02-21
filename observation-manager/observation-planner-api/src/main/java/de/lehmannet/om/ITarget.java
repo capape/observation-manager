@@ -306,5 +306,4 @@ public interface ITarget extends ISchemaElement, IExtendableSchemaElement {
      *            Additional notes
      */
     void setNotes(String notes);
-
 }

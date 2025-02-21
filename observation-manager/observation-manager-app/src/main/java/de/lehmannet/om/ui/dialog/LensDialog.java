@@ -34,7 +34,6 @@ public class LensDialog extends AbstractDialog {
 
         this.setSize(LensDialog.serialVersionUID, 710, 130);
         this.setVisible(true);
-
     }
 
     public ILens getLens() {
@@ -44,7 +43,5 @@ public class LensDialog extends AbstractDialog {
         }
 
         return null;
-
     }
-
 }

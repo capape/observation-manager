@@ -7,41 +7,6 @@
 
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
@@ -72,6 +37,38 @@ import de.lehmannet.om.ui.navigation.tableModel.TableSorter;
 import de.lehmannet.om.ui.navigation.tableModel.TargetTableModel;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TableView extends JPanel {
 
@@ -83,7 +80,7 @@ public class TableView extends JPanel {
     private static final String CONFIG_TABLESETTINGS_PREFIX = "om.tableSetting.";
     private static final Logger LOGGER = LoggerFactory.getLogger(TableView.class);
 
-    final private ObservationManager observationManager;
+    private final ObservationManager observationManager;
     private JTable table = null;
     private AbstractSchemaTableModel abstractSchemaTableModel = null;
     private JScrollPane scrollTable = null;
@@ -99,8 +96,8 @@ public class TableView extends JPanel {
 
     private final UIDataCache cache;
 
-    public TableView(ObservationManager om, ObservationManagerModel omModel, TextManager textManager,
-            UIDataCache cache) {
+    public TableView(
+            ObservationManager om, ObservationManagerModel omModel, TextManager textManager, UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
@@ -135,7 +132,6 @@ public class TableView extends JPanel {
 
         // Load table column settings
         this.loadSettings();
-
     }
 
     private MouseAdapter mouseListener() {
@@ -145,8 +141,8 @@ public class TableView extends JPanel {
                 if (e.getButton() == MouseEvent.BUTTON3) {
 
                     // Convert coordinates
-                    MouseEvent c = SwingUtilities.convertMouseEvent(TableView.this.table, e,
-                            TableView.this.observationManager);
+                    MouseEvent c = SwingUtilities.convertMouseEvent(
+                            TableView.this.table, e, TableView.this.observationManager);
                     Point p = new Point(c.getX(), c.getY());
 
                     int row = TableView.this.table.getSelectedRow();
@@ -154,17 +150,30 @@ public class TableView extends JPanel {
                         row = TableView.this.sorter.modelIndex(row);
                     }
 
-                    ISchemaElement element = ((AbstractSchemaTableModel) (TableView.this.table.getModel()))
-                            .getSchemaElement(row);
+                    ISchemaElement element =
+                            ((AbstractSchemaTableModel) (TableView.this.table.getModel())).getSchemaElement(row);
 
                     if (element != null) {
-                        byte options = (byte) (PopupMenuHandler.EDIT + PopupMenuHandler.CREATE_HTML
-                                + PopupMenuHandler.CREATE_XML + PopupMenuHandler.DELETE
-                                + PopupMenuHandler.CREATE_NEW_OBSERVATION + PopupMenuHandler.EXTENSIONS);
+                        byte options = (byte) (PopupMenuHandler.EDIT
+                                + PopupMenuHandler.CREATE_HTML
+                                + PopupMenuHandler.CREATE_XML
+                                + PopupMenuHandler.DELETE
+                                + PopupMenuHandler.CREATE_NEW_OBSERVATION
+                                + PopupMenuHandler.EXTENSIONS);
 
-                        new PopupMenuHandler(TableView.this.observationManager, TableView.this.model,
-                                TableView.this.textManager, element, p.x, p.y, options, SchemaElementConstants.NONE,
-                                TableView.this.observationManager.getExtensionLoader().getPopupMenus(),
+                        new PopupMenuHandler(
+                                TableView.this.observationManager,
+                                TableView.this.model,
+                                TableView.this.textManager,
+                                element,
+                                p.x,
+                                p.y,
+                                options,
+                                SchemaElementConstants.NONE,
+                                TableView.this
+                                        .observationManager
+                                        .getExtensionLoader()
+                                        .getPopupMenus(),
                                 TableView.this.cache);
                     }
                 }
@@ -179,8 +188,7 @@ public class TableView extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 // TODO Auto-generated method stub
-                if (e.getValueIsAdjusting())
-                    return;
+                if (e.getValueIsAdjusting()) return;
 
                 ListSelectionModel lsm1 = (ListSelectionModel) e.getSource();
                 if (lsm1.isSelectionEmpty()) {
@@ -214,9 +222,7 @@ public class TableView extends JPanel {
                     }
                 }
             }
-
         };
-
     }
 
     private TableCellRenderer objectRenderer() {
@@ -257,7 +263,8 @@ public class TableView extends JPanel {
 
                 if (value instanceof OffsetDateTime) {
                     final OffsetDateTime cal = (OffsetDateTime) value;
-                    cr.setText(this.observationManager.getDateManager()
+                    cr.setText(this.observationManager
+                            .getDateManager()
                             .zonedDateTimeToStringWithHour(cal.toZonedDateTime()));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
@@ -300,8 +307,10 @@ public class TableView extends JPanel {
 
                 if (value instanceof LocalDateTime) {
                     final LocalDateTime cal = (LocalDateTime) value;
-                    cr.setText(this.observationManager.getDateManager()
-                            .zonedDateTimeToStringWithHour(ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));
+                    cr.setText(this.observationManager
+                            .getDateManager()
+                            .zonedDateTimeToStringWithHour(
+                                    ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -317,7 +326,6 @@ public class TableView extends JPanel {
 
     private TableCellRenderer integerRenderer() {
         return (table, value, isSelected, hasFocus, row, column) -> {
-
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
                 Integer i = (Integer) value;
@@ -333,7 +341,6 @@ public class TableView extends JPanel {
 
     private TableCellRenderer angleRenderer() {
         return (table, value, isSelected, hasFocus, row, column) -> {
-
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
                 String result = null;
@@ -355,7 +362,6 @@ public class TableView extends JPanel {
 
     private TableCellRenderer floatRenderer() {
         return (table, value, isSelected, hasFocus, row, column) -> {
-
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
             if (value != null) {
 
@@ -438,8 +444,8 @@ public class TableView extends JPanel {
             // Do this later in UI Thread to avoid exception:
             // java.lang.ArrayIndexOutOfBoundsException: 0 >= 0
             // at java.util.Vector.elementAt(Vector.java:427)
-            SwingUtilities.invokeLater(() -> TableView.this.table
-                    .setModel(new ObservationTableModel(null, TableView.this.observationManager)));
+            SwingUtilities.invokeLater(() ->
+                    TableView.this.table.setModel(new ObservationTableModel(null, TableView.this.observationManager)));
             // this.table.setModel(new ObservationTableModel(null,
             // this.observationManager));
 
@@ -448,7 +454,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showObservers(IObserver selected) {
@@ -476,7 +481,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showTargets(ITarget selected) {
@@ -504,7 +508,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showSites(ISite selected) {
@@ -532,7 +535,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showScopes(IScope selected) {
@@ -560,7 +562,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showSessions(ISession selected) {
@@ -588,7 +589,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showImagers(IImager selected) {
@@ -616,7 +616,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showFilters(IFilter selected) {
@@ -644,7 +643,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showEyepieces(IEyepiece selected) {
@@ -672,7 +670,6 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public void showLenses(ILens selected) {
@@ -700,19 +697,16 @@ public class TableView extends JPanel {
 
         // Load new column settings for new table model
         this.loadCurrentTableModelSettings();
-
     }
 
     public ISchemaElement getSelectedElement() {
 
         return this.selectedElement;
-
     }
 
     public void reloadLanguage() {
 
         AbstractSchemaTableModel.reloadLanguage(); // Reload static bundle
-
     }
 
     void saveSettings() {
@@ -729,7 +723,6 @@ public class TableView extends JPanel {
                 config.setConfig(currentKey, "" + cache.getString(currentKey));
             }
         }
-
     }
 
     private void loadSettings() {
@@ -743,7 +736,6 @@ public class TableView extends JPanel {
 
         // Now set the loaded settings
         this.loadCurrentTableModelSettings();
-
     }
 
     private void updateItemView(ISchemaElement se) {
@@ -771,7 +763,6 @@ public class TableView extends JPanel {
                 observationManager.getItemView().showLens((ILens) se);
             }
         }
-
     }
 
     private void updateTable(ISchemaElement selected) {
@@ -779,16 +770,16 @@ public class TableView extends JPanel {
         // Current and selected element is equal...so we can stop here
         /*
          * if( (selected != null) && (selected.equals(this.selectedElement)) ) { return; }
-         */// Comment this out 02.04.08: Need to update table (setSelection) and ItemView
-            // as selected element can have
-            // different parent elements in tree
+         */
+        // Comment this out 02.04.08: Need to update table (setSelection) and ItemView
+        // as selected element can have
+        // different parent elements in tree
 
         // Do this later in UI Thread to avoid exception:
         // java.lang.ArrayIndexOutOfBoundsException: 0 >= 0
         // at java.util.Vector.elementAt(Vector.java:427)
         final ISchemaElement finalSelected = selected;
         SwingUtilities.invokeLater(() -> {
-
             TableView.this.table.setModel(TableView.this.abstractSchemaTableModel);
 
             int sel = TableView.this.abstractSchemaTableModel.getRow(finalSelected);
@@ -852,7 +843,6 @@ public class TableView extends JPanel {
 
             // Scroll the area into view.
             viewport.scrollRectToVisible(rect);
-
         });
     }
 
@@ -875,7 +865,6 @@ public class TableView extends JPanel {
             String key = TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex();
             this.cache.putString(key, String.valueOf(preferedWidth));
         }
-
     }
 
     private void loadCurrentTableModelSettings() {
@@ -891,11 +880,10 @@ public class TableView extends JPanel {
         Enumeration<TableColumn> en = tcm.getColumns();
         while (en.hasMoreElements()) {
             TableColumn current = en.nextElement();
-            String keySettings = TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "."
-                    + current.getModelIndex();
+            String keySettings =
+                    TableView.CONFIG_TABLESETTINGS_PREFIX + currentTableModelID + "." + current.getModelIndex();
             String value = this.cache.getString(keySettings);
-            if (value == null)
-                break;
+            if (value == null) break;
             try {
                 int preferedWidth = Integer.parseInt(value);
                 current.setPreferredWidth(preferedWidth);
@@ -903,7 +891,5 @@ public class TableView extends JPanel {
                 LOGGER.warn("Cannot read property {}", current, nfe);
             }
         }
-
     }
-
 }

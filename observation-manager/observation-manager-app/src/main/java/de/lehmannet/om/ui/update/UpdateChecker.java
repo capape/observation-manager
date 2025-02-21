@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.update;
 
+import de.lehmannet.om.ui.navigation.ObservationManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,19 +12,17 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.semver4j.Semver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.navigation.ObservationManager;
 
 public class UpdateChecker implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateChecker.class);
 
     public static URL UPDATE_URL = null;
+
     static {
         try {
             UPDATE_URL = new URL("https://capape.github.io/om/version.properties");
@@ -41,13 +40,11 @@ public class UpdateChecker implements Runnable {
     public UpdateChecker(ObservationManager om) {
 
         this.om = om;
-
     }
 
     public List<UpdateEntry> getResult() {
 
         return this.result;
-
     }
 
     public boolean isUpdateAvailable() {
@@ -68,7 +65,6 @@ public class UpdateChecker implements Runnable {
         } catch (ConnectException ce) {
             this.result = null; // This will indicate to the result retrieve that something went totally wrong
         }
-
     }
 
     private UpdateEntry checkForUpdates(String name, String oldVersion, URL checkURL) throws ConnectException {
@@ -80,8 +76,8 @@ public class UpdateChecker implements Runnable {
             conn.setReadTimeout(2000);
             conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                LOGGER.error("No update check possible for: {}. HTTP Response was: {}", checkURL,
-                        conn.getResponseMessage());
+                LOGGER.error(
+                        "No update check possible for: {}. HTTP Response was: {}", checkURL, conn.getResponseMessage());
                 conn.disconnect();
 
                 throw new ConnectException("HTTP error while connecting to host for update");
@@ -102,7 +98,6 @@ public class UpdateChecker implements Runnable {
                             if (currentLine.startsWith(UPDATEFILE_LATESTVERSION)) {
 
                                 newVersion = currentLine.substring(currentLine.indexOf("=") + 1);
-
                             }
 
                             // Try to get download URL
@@ -112,7 +107,8 @@ public class UpdateChecker implements Runnable {
                             }
 
                             // We have all required informations, so we can exit
-                            if (downloadURL != null && Semver.isValid(newVersion)
+                            if (downloadURL != null
+                                    && Semver.isValid(newVersion)
                                     && Semver.parse(newVersion).isGreaterThan(oldVersion)) {
                                 return new UpdateEntry(name, oldVersion, newVersion, downloadURL);
                             }
@@ -139,7 +135,5 @@ public class UpdateChecker implements Runnable {
                 conn.disconnect();
             }
         }
-
     }
-
 }

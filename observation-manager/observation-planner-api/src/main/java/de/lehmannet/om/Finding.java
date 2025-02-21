@@ -7,13 +7,12 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.SchemaException;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * The abstract class Finding provides some common features that may be used by the subclasses of an
@@ -80,10 +79,8 @@ public abstract class Finding extends SchemaElement implements IFinding {
                 } else {
 
                     this.setDescription("");
-
                 }
             }
-
         }
 
         // Get optional language
@@ -91,7 +88,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
         if (!StringUtils.isBlank(language)) {
             this.setLanguage(language);
         }
-
     }
 
     /**
@@ -112,7 +108,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
             throw new IllegalArgumentException("Description cannot be null. ");
         }
         this.description = description;
-
     }
 
     /**
@@ -130,7 +125,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
         }
 
         this.description = description;
-
     }
 
     // --------
@@ -160,7 +154,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
     public String getDescription() {
 
         return description;
-
     }
 
     /**
@@ -180,7 +173,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
         }
 
         this.description = description;
-
     }
 
     /**
@@ -196,7 +188,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
     public String getLanguage() {
 
         return this.lang;
-
     }
 
     /**
@@ -216,7 +207,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
         }
 
         this.lang = language;
-
     }
 
     /**
@@ -230,7 +220,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
     public boolean wasSeen() {
 
         return this.targetSeen;
-
     }
 
     /**
@@ -245,7 +234,6 @@ public abstract class Finding extends SchemaElement implements IFinding {
     public void setSeen(boolean seen) {
 
         this.targetSeen = seen;
-
     }
 
     // -----------------
@@ -292,7 +280,5 @@ public abstract class Finding extends SchemaElement implements IFinding {
         }
 
         return e_Finding;
-
     }
-
 }

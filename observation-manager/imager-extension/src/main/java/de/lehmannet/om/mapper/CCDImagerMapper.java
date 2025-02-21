@@ -1,11 +1,10 @@
 package de.lehmannet.om.mapper;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.extension.imaging.CCDImager;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class CCDImagerMapper {
 
@@ -33,7 +32,6 @@ public class CCDImagerMapper {
         } else {
             return Float.NaN;
         }
-
     }
 
     public static float getXPixelSize(Element imager) throws SchemaException {

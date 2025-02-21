@@ -13,7 +13,6 @@ public class TeeLog extends PrintStream {
     public TeeLog(final PrintStream file) {
 
         this(file, "");
-
     }
 
     public TeeLog(final PrintStream file, final String prefix) {
@@ -26,7 +25,6 @@ public class TeeLog extends PrintStream {
 
         // We write to console
         this.console = System.out;
-
     }
 
     @Override
@@ -40,12 +38,12 @@ public class TeeLog extends PrintStream {
         try {
             synchronized (TeeLog.syncMe) {
                 if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
+                        // cr is send we do not put date &
+                        // prefix in
+                        // advance
                         || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
+                // send we do not put date & prefix
+                // in advance
                 ) {
                     this.write(this.prefix, 0, this.prefix.length);
                     this.write(now.getBytes(), 0, now.length());
@@ -53,12 +51,12 @@ public class TeeLog extends PrintStream {
                 this.write(buf, off, len);
 
                 if (!((buf[0] == (byte) 13) // (byte 13 -> carage return) So if
-                                            // cr is send we do not put date &
-                                            // prefix in
-                                            // advance
+                        // cr is send we do not put date &
+                        // prefix in
+                        // advance
                         || (buf[0] == (byte) 10)) // (byte 10 -> line feed) So if lf is
-                                                  // send we do not put date & prefix
-                                                  // in advance
+                // send we do not put date & prefix
+                // in advance
                 ) {
                     this.console.write(this.prefix, 0, this.prefix.length);
                     this.console.write(now.getBytes(), 0, now.length());
@@ -68,7 +66,6 @@ public class TeeLog extends PrintStream {
         } catch (final Exception e) {
             // Can't do anything in here
         }
-
     }
 
     @Override
@@ -78,7 +75,5 @@ public class TeeLog extends PrintStream {
         synchronized (TeeLog.syncMe) {
             this.console.flush();
         }
-
     }
-
 }

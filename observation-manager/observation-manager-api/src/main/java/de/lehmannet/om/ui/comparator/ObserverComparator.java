@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.IObserver;
+import java.util.Comparator;
 
 public class ObserverComparator implements Comparator<IObserver> {
 
@@ -24,11 +23,8 @@ public class ObserverComparator implements Comparator<IObserver> {
             String n2 = ob2.getName().trim() + ob2.getSurname().trim();
 
             return n1.compareToIgnoreCase(n2);
-
         }
 
         return 0;
-
     }
-
 }

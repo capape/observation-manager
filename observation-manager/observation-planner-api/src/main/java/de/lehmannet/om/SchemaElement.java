@@ -7,10 +7,9 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.IIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.util.IIDGenerator;
 
 /**
  * The SchemaElement represents the root class for all schema element classes.
@@ -51,7 +50,6 @@ public abstract class SchemaElement implements ISchemaElement {
         } else { // Use UID
             IDGenerator = new de.lehmannet.om.util.UIDGenerator();
         }
-
     }
 
     // ------------------
@@ -74,7 +72,6 @@ public abstract class SchemaElement implements ISchemaElement {
     public SchemaElement() {
 
         ID = SchemaElement.IDGenerator.generateUID();
-
     }
 
     /**
@@ -93,7 +90,6 @@ public abstract class SchemaElement implements ISchemaElement {
             throw new IllegalArgumentException("ID cannot be null or empty! ");
         }
         ID = id;
-
     }
 
     // --------------
@@ -110,7 +106,6 @@ public abstract class SchemaElement implements ISchemaElement {
     public String getID() {
 
         return ID;
-
     }
 
     @Override
@@ -123,17 +118,13 @@ public abstract class SchemaElement implements ISchemaElement {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SchemaElement other = (SchemaElement) obj;
         if (ID == null) {
             return other.ID == null;
-        } else
-            return ID.equals(other.ID);
+        } else return ID.equals(other.ID);
     }
 
     /**
@@ -148,7 +139,6 @@ public abstract class SchemaElement implements ISchemaElement {
     void setID(String newID) {
 
         this.ID = newID;
-
     }
 
     /**
@@ -164,5 +154,4 @@ public abstract class SchemaElement implements ISchemaElement {
      */
     @Override
     public abstract String getDisplayName();
-
 }

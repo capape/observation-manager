@@ -9,7 +9,6 @@ package de.lehmannet.om;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-
 import org.w3c.dom.Element;
 
 /**
@@ -550,5 +549,4 @@ public interface IObservation extends ISchemaElement {
      *             if new target is <code>null</code>
      */
     void setTarget(ITarget target) throws IllegalArgumentException;
-
 }

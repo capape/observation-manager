@@ -19,5 +19,4 @@ public interface Worker extends Runnable {
     String getReturnMessage();
 
     byte getReturnType();
-
 }

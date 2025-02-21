@@ -7,12 +7,11 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class EyepieceTableModel extends AbstractSchemaTableModel {
 
@@ -23,27 +22,24 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
 
     private static final String MODEL_ID = "Eyepiece";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     public EyepieceTableModel(IEyepiece[] eyepiece) {
 
         this.elements = eyepiece;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 4;
-
     }
 
     @Override
     public String getID() {
 
         return EyepieceTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -53,7 +49,6 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -75,7 +70,6 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -116,7 +110,6 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -144,7 +137,5 @@ public class EyepieceTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

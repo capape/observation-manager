@@ -1,11 +1,4 @@
-
 package de.lehmannet.om;
-
-import java.net.URL;
-import java.util.Locale;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.model.ObservationManagerModelImpl;
@@ -26,6 +19,10 @@ import de.lehmannet.om.ui.util.XMLFileLoader;
 import de.lehmannet.om.ui.util.XMLFileLoaderImpl;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.DateManagerImpl;
+import java.net.URL;
+import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ObservationManagerApp {
 
@@ -57,22 +54,24 @@ public class ObservationManagerApp {
         final Configuration configuration = new Configuration(configDir, version);
 
         LOGGER.debug("Configure night vision...");
-        boolean nightVision = Boolean
-                .parseBoolean(configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
+        boolean nightVision =
+                Boolean.parseBoolean(configuration.getConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, "false"));
 
         LOGGER.info("Initializing image resolver...");
         final ImageResolver imageResolver = new ImageClassLoaderResolverImpl("images");
 
         final URL splashURL = imageResolver.getImageURL("splash.png").orElse(null);
 
-        SplashScreenWithText splash = new SplashScreenWithText.Builder(nightVision).image(splashURL).build();
+        SplashScreenWithText splash =
+                new SplashScreenWithText.Builder(nightVision).image(splashURL).build();
         splash.showSplash();
         splash.updateText("Loading...");
         splash.updateTextVersion(String.format("Version: %s", version));
         splash.updateText(String.format("OAL Version...%s", oalVersion));
 
         final String installDirName = argumentsParser.getArgumentValue(ArgumentName.INSTALL_DIR);
-        final InstallDir installDir = new InstallDir.Builder().withInstallDir(installDirName).build();
+        final InstallDir installDir =
+                new InstallDir.Builder().withInstallDir(installDirName).build();
 
         LOGGER.info("Install dir: {}", installDir.getPath());
         splash.updateText("Setting installation folder...");
@@ -83,7 +82,8 @@ public class ObservationManagerApp {
 
         LOGGER.info("Initializing text manager...");
         splash.updateText("Initializing text manager...");
-        final String isoKey = configuration.getConfig(ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
+        final String isoKey = configuration.getConfig(
+                ConfigKey.CONFIG_UILANGUAGE, Locale.getDefault().getLanguage());
         final TextManager textManager = new TextManagerImpl("ObservationManager", isoKey);
 
         final Locale aLocale = new Locale.Builder().setLanguage(isoKey).build();
@@ -101,9 +101,17 @@ public class ObservationManagerApp {
         splash.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
         // @formatter:off
-        new ObservationManager.Builder(model).locale(isoKey).nightVision(nightVision).installDir(installDir)
-                .configuration(configuration).imageResolver(imageResolver).textManager(textManager)
-                .versionTextManager(versionTextManager).uiCache(cache).dateManager(dateManager).build();
+        new ObservationManager.Builder(model)
+                .locale(isoKey)
+                .nightVision(nightVision)
+                .installDir(installDir)
+                .configuration(configuration)
+                .imageResolver(imageResolver)
+                .textManager(textManager)
+                .versionTextManager(versionTextManager)
+                .uiCache(cache)
+                .dateManager(dateManager)
+                .build();
         // @formatter:on
 
     }

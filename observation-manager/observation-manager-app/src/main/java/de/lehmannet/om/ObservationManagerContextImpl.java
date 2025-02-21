@@ -75,5 +75,4 @@ public class ObservationManagerContextImpl implements ObservationManagerContext 
             return new ObservationManagerContextImpl(this);
         }
     }
-
 }

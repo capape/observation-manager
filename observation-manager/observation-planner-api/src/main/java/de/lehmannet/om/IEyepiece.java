@@ -227,5 +227,4 @@ public interface IEyepiece extends ISchemaElement, IEquipment {
      *            The new vendor name to be set.
      */
     void setVendor(String vendorname);
-
 }

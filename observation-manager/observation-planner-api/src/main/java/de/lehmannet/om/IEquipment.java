@@ -22,5 +22,4 @@ public interface IEquipment {
      *            A boolean value indicating whether this element is still available for usage
      */
     void setAvailability(boolean available);
-
 }

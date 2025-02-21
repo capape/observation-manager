@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
@@ -32,13 +22,21 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 class DeepSkyTargetContainer extends Container {
 
     private static final long serialVersionUID = 7287706985477081449L;
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     private DeepSkyTarget target = null;
     private boolean editable = false;
@@ -53,8 +51,8 @@ class DeepSkyTargetContainer extends Container {
     // private final IConfiguration configuration;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetContainer(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
-            boolean editable) {
+    public DeepSkyTargetContainer(
+            UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, boolean editable) {
 
         if (target != null) {
             if (!(target instanceof DeepSkyTarget)) {
@@ -74,7 +72,6 @@ class DeepSkyTargetContainer extends Container {
         if (this.target != null) {
             this.loadElement();
         }
-
     }
 
     // ---------------------------------
@@ -84,44 +81,37 @@ class DeepSkyTargetContainer extends Container {
     public String getDatasource() {
 
         return this.targetContainer.getDatasource();
-
     }
 
     public IObserver getObserver() {
 
         return this.targetContainer.getObserver();
-
     }
 
     public Constellation getConstellation() {
 
         return this.targetContainer.getConstellation();
-
     }
 
     public EquPosition getPosition() {
 
         return this.targetContainer.getPosition();
-
     }
 
     @Override
     public String getName() {
 
         return this.targetContainer.getName();
-
     }
 
     public String[] getAliasNames() {
 
         return this.targetContainer.getAliasNames();
-
     }
 
     public boolean checkOrigin(String datasource, IObserver observer) {
 
         return !this.targetContainer.checkOrigin(datasource, observer);
-
     }
 
     // --------------
@@ -178,19 +168,16 @@ class DeepSkyTargetContainer extends Container {
         }
 
         return dsTarget;
-
     }
 
     private Angle getSmallDiameter() throws NumberFormatException {
 
         return this.smallDiameter.getAngle();
-
     }
 
     private Angle getLargeDiameter() throws NumberFormatException {
 
         return this.largeDiameter.getAngle();
-
     }
 
     private float getVisibleMagnitude() {
@@ -200,13 +187,11 @@ class DeepSkyTargetContainer extends Container {
         }
 
         return FloatUtil.parseFloat(this.visibleMagnitude.getText());
-
     }
 
     private SurfaceBrightness getSurfaceBrightness() throws NumberFormatException {
 
         return this.surfaceBrightness.getSurfaceBrightness();
-
     }
 
     private void loadElement() {
@@ -230,7 +215,6 @@ class DeepSkyTargetContainer extends Container {
             this.largeDiameter.setAngle(this.target.getLargeDiameter());
         }
         this.largeDiameter.setEditable(this.editable);
-
     }
 
     private void createContainer() {
@@ -242,8 +226,8 @@ class DeepSkyTargetContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 8, 7, 100, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.targetContainer = new TargetContainer(this.model.getConfiguration(), this.model, this.target,
-                this.editable, false);
+        this.targetContainer =
+                new TargetContainer(this.model.getConfiguration(), this.model, this.target, this.editable, false);
         gridbag.setConstraints(this.targetContainer, constraints);
         this.add(this.targetContainer);
 
@@ -268,15 +252,15 @@ class DeepSkyTargetContainer extends Container {
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 9, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
-        OMLabel LsurfaceBrightness = new OMLabel(this.bundle.getString("container.target.label.surfaceBrightness"),
-                SwingConstants.RIGHT, false);
+        OMLabel LsurfaceBrightness = new OMLabel(
+                this.bundle.getString("container.target.label.surfaceBrightness"), SwingConstants.RIGHT, false);
         LsurfaceBrightness.setToolTipText(this.bundle.getString("container.target.tooltip.surfaceBrightness"));
         gridbag.setConstraints(LsurfaceBrightness, constraints);
         this.add(LsurfaceBrightness);
         ConstraintsBuilder.buildConstraints(constraints, 3, 9, 5, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.surfaceBrightness = new SurfaceBrightnessContainer(this.editable,
-                new String[] { SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC });
+        this.surfaceBrightness = new SurfaceBrightnessContainer(
+                this.editable, new String[] {SurfaceBrightness.MAGS_SQR_ARC_MIN, SurfaceBrightness.MAGS_SQR_ARC_SEC});
         this.surfaceBrightness.setToolTipText(this.bundle.getString("container.target.tooltip.surfaceBrightness"));
         gridbag.setConstraints(this.surfaceBrightness, constraints);
         this.add(this.surfaceBrightness);
@@ -290,26 +274,24 @@ class DeepSkyTargetContainer extends Container {
         ConstraintsBuilder.buildConstraints(constraints, 1, 10, 1, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.smallDiameter = new AngleContainer(Angle.ARCSECOND, this.editable);
-        this.smallDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
+        this.smallDiameter.setUnits(new String[] {Angle.ARCMINUTE, Angle.ARCSECOND});
         this.smallDiameter.setToolTipText(this.bundle.getString("container.target.tooltip.smallDiameter"));
         gridbag.setConstraints(this.smallDiameter, constraints);
         this.add(this.smallDiameter);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 10, 1, 1, 5, 1);
         constraints.fill = GridBagConstraints.NONE;
-        OMLabel LlargeDiameter = new OMLabel(this.bundle.getString("container.target.label.largeDiameter"),
-                SwingConstants.RIGHT, false);
+        OMLabel LlargeDiameter =
+                new OMLabel(this.bundle.getString("container.target.label.largeDiameter"), SwingConstants.RIGHT, false);
         LlargeDiameter.setToolTipText(this.bundle.getString("container.target.tooltip.largeDiameter"));
         gridbag.setConstraints(LlargeDiameter, constraints);
         this.add(LlargeDiameter);
         ConstraintsBuilder.buildConstraints(constraints, 3, 10, 1, 1, 45, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         this.largeDiameter = new AngleContainer(Angle.ARCSECOND, this.editable);
-        this.largeDiameter.setUnits(new String[] { Angle.ARCMINUTE, Angle.ARCSECOND });
+        this.largeDiameter.setUnits(new String[] {Angle.ARCMINUTE, Angle.ARCSECOND});
         this.largeDiameter.setToolTipText(this.bundle.getString("container.target.tooltip.largeDiameter"));
         gridbag.setConstraints(this.largeDiameter, constraints);
         this.add(this.largeDiameter);
-
     }
-
 }

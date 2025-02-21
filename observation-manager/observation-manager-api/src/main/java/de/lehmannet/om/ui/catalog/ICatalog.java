@@ -19,5 +19,4 @@ public interface ICatalog {
     AbstractSearchPanel getSearchPanel();
 
     String getAbbreviation();
-
 }

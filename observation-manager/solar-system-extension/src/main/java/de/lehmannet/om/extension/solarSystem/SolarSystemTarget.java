@@ -7,22 +7,20 @@
 
 package de.lehmannet.om.extension.solarSystem;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.RootElement;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.util.SchemaException;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * SolarSystemTarget extends the de.lehmannet.om.Target class. Its specialised for solar system targets. A
@@ -79,7 +77,6 @@ public abstract class SolarSystemTarget extends Target {
         super(targetElement, observers);
 
         this.setI18NName();
-
     }
 
     /**
@@ -94,7 +91,6 @@ public abstract class SolarSystemTarget extends Target {
 
         super(name, datasource);
         this.setI18NName();
-
     }
 
     /**
@@ -109,7 +105,6 @@ public abstract class SolarSystemTarget extends Target {
 
         super(name, observer);
         this.setI18NName();
-
     }
 
     /*
@@ -153,7 +148,6 @@ public abstract class SolarSystemTarget extends Target {
         super.setName(name);
 
         this.setI18NName();
-
     }
 
     // ------
@@ -174,7 +168,6 @@ public abstract class SolarSystemTarget extends Target {
         }
 
         return this.i18nName;
-
     }
 
     // ------
@@ -211,7 +204,6 @@ public abstract class SolarSystemTarget extends Target {
         }
 
         return buffer.toString();
-
     }
 
     /**
@@ -247,7 +239,6 @@ public abstract class SolarSystemTarget extends Target {
 
         return (this.getName().toLowerCase().equals(targetName.toLowerCase()))
                 && (this.getXSIType()).equals(target.getXSIType());
-
     }
 
     // ------------------------
@@ -334,7 +325,10 @@ public abstract class SolarSystemTarget extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -350,13 +344,12 @@ public abstract class SolarSystemTarget extends Target {
         // Set XSI:Type
         e_Target.setAttribute(ITarget.XML_XSI_TYPE, xsiType);
         e_Target.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-
     }
 
     private void setI18NName() {
 
-        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem",
-                Locale.getDefault());
+        ResourceBundle bundle =
+                ResourceBundle.getBundle("de.lehmannet.om.extension.solarSystem.SolarSystem", Locale.getDefault());
 
         switch (this.getName()) {
             case SolarSystemTarget.KEY_SUN:
@@ -390,7 +383,5 @@ public abstract class SolarSystemTarget extends Target {
                 this.i18nName = this.getName();
                 break;
         }
-
     }
-
 }

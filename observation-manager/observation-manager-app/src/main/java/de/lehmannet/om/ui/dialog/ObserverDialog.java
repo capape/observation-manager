@@ -29,7 +29,6 @@ public class ObserverDialog extends AbstractDialog {
 
         this.setSize(ObserverDialog.serialVersionUID, 500, 300);
         this.setVisible(true);
-
     }
 
     public IObserver getObserver() {
@@ -39,7 +38,5 @@ public class ObserverDialog extends AbstractDialog {
         }
 
         return null;
-
     }
-
 }

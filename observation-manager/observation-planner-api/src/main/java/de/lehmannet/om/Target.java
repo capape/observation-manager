@@ -7,20 +7,18 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.TargetMapper;
+import de.lehmannet.om.util.SchemaException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.StringTokenizer;
-
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.TargetMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * The abstract class Target provides some common features that may be used by the subclasses of an
@@ -106,7 +104,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         this.setPosition(TargetMapper.getOptionalPosition(target, this.getName()));
         this.setConstellation(TargetMapper.getOptionalConstellation(target));
         this.setNotes(TargetMapper.getOptionalNotes(target));
-
     }
 
     /**
@@ -132,7 +129,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         this.dataSource = datasource;
 
         this.setName(name);
-
     }
 
     /**
@@ -158,7 +154,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         this.observer = observer;
 
         this.setName(name);
-
     }
 
     // -------------
@@ -178,7 +173,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public String getDisplayName() {
 
         return this.name;
-
     }
 
     // ------
@@ -215,7 +209,9 @@ public abstract class Target extends SchemaElement implements ITarget {
                 && !("".equals(this.getDatasource()))) {
             String dataSource = target.getDatasource();
             if (dataSource != null) {
-                if (!this.getDatasource().toLowerCase(Locale.getDefault()).trim()
+                if (!this.getDatasource()
+                        .toLowerCase(Locale.getDefault())
+                        .trim()
                         .equals(dataSource.toLowerCase(Locale.getDefault()).trim())) {
                     return false; // Datasources do not match
                 }
@@ -240,7 +236,6 @@ public abstract class Target extends SchemaElement implements ITarget {
 
         return (this.getName().toLowerCase(Locale.getDefault()).equals(targetName.toLowerCase(Locale.getDefault())))
                 && (this.getXSIType()).equals(target.getXSIType());
-
     }
 
     @Override
@@ -248,7 +243,8 @@ public abstract class Target extends SchemaElement implements ITarget {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((this.getName() == null) ? 0 : this.getName().hashCode());
-        result = prime * result + ((this.getXSIType() == null) ? 0 : this.getXSIType().hashCode());
+        result = prime * result
+                + ((this.getXSIType() == null) ? 0 : this.getXSIType().hashCode());
         return result;
     }
 
@@ -272,7 +268,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         return false;
-
     }
 
     /**
@@ -349,7 +344,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         return element;
-
     }
 
     /**
@@ -374,7 +368,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public Element addAsLinkToXmlElement(Element element, String xmlElementName) {
 
         return this.addAsLinkToXmlElement(element, xmlElementName, false);
-
     }
 
     /**
@@ -395,7 +388,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         this.aliasNames.add(newAliasName);
 
         return true;
-
     }
 
     /**
@@ -424,7 +416,6 @@ public abstract class Target extends SchemaElement implements ITarget {
             }
             this.aliasNames.add(newAliasName);
         }
-
     }
 
     /**
@@ -476,7 +467,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         return false;
-
     }
 
     /**
@@ -493,7 +483,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         // n = n.toUpperCase(Locale.getDefault());
 
         return this.name;
-
     }
 
     /**
@@ -506,7 +495,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public Constellation getConstellation() {
 
         return this.constellation;
-
     }
 
     /**
@@ -524,7 +512,6 @@ public abstract class Target extends SchemaElement implements ITarget {
 
             this.constellation = Constellation.getConstellationByAbbOrName(constellation);
         }
-
     }
 
     /**
@@ -537,7 +524,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public void setConstellation(Constellation constellation) {
 
         this.constellation = constellation;
-
     }
 
     /**
@@ -558,7 +544,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         this.name = name;
-
     }
 
     /**
@@ -573,7 +558,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public EquPosition getPosition() {
 
         return position;
-
     }
 
     /**
@@ -586,7 +570,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public IObserver getObserver() {
 
         return this.observer;
-
     }
 
     /**
@@ -599,7 +582,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public String getDatasource() {
 
         return this.dataSource;
-
     }
 
     /**
@@ -614,7 +596,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public void setPosition(EquPosition position) {
 
         this.position = position;
-
     }
 
     /**
@@ -630,7 +611,6 @@ public abstract class Target extends SchemaElement implements ITarget {
             this.observer = null;
             this.dataSource = datasource;
         }
-
     }
 
     /**
@@ -646,7 +626,6 @@ public abstract class Target extends SchemaElement implements ITarget {
             this.dataSource = null;
             this.observer = observer;
         }
-
     }
 
     /**
@@ -659,7 +638,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public String getNotes() {
 
         return this.notes;
-
     }
 
     /**
@@ -673,7 +651,6 @@ public abstract class Target extends SchemaElement implements ITarget {
     public void setNotes(String notes) {
 
         this.notes = notes;
-
     }
 
     // -----------------
@@ -738,7 +715,6 @@ public abstract class Target extends SchemaElement implements ITarget {
                 Node n_AliasText = ownerDoc.createCDATASection(alias);
                 e_Alias.appendChild(n_AliasText);
                 e_Target.appendChild(e_Alias);
-
             }
         }
 
@@ -764,7 +740,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         }
 
         return e_Target;
-
     }
 
     // ---------------
@@ -783,8 +758,8 @@ public abstract class Target extends SchemaElement implements ITarget {
     private void convertDataSource() {
 
         // Correct old HCNGC entries
-        if (this.dataSource
-                .startsWith("The NGC/IC Project LLC (http://www.ngcic.org) - Imported by ObservationManager")) {
+        if (this.dataSource.startsWith(
+                "The NGC/IC Project LLC (http://www.ngcic.org) - Imported by ObservationManager")) {
             this.dataSource = "The NGC/IC Project LLC (http://www.ngcic.org) - Ver 1.11";
             return;
         }
@@ -805,7 +780,6 @@ public abstract class Target extends SchemaElement implements ITarget {
         if (this.dataSource.endsWith("SolarSystem Extension")) {
             this.dataSource = "ObservationManager - SolarSystem Catalog 1.0";
         }
-
     }
 
     // --------------
@@ -833,11 +807,8 @@ public abstract class Target extends SchemaElement implements ITarget {
             token = tokenizer.nextToken();
 
             this.aliasNames.add(token);
-
         }
 
         return true;
-
     }
-
 }

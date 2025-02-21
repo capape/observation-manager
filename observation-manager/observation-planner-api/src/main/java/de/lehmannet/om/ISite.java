@@ -256,5 +256,4 @@ public interface ISite extends ISchemaElement {
      *             if new timezone is greater than 720 (12*60) or lower than -720 (12*60)
      */
     void setTimezone(int timezone) throws IllegalArgumentException;
-
 }

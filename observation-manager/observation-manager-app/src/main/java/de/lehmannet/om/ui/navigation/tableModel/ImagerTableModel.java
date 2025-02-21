@@ -16,21 +16,18 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
     public ImagerTableModel(IImager[] imagers) {
 
         this.elements = imagers;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 3;
-
     }
 
     @Override
     public String getID() {
 
         return ImagerTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -40,7 +37,6 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -74,7 +70,6 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -98,7 +93,5 @@ public class ImagerTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

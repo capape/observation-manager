@@ -7,6 +7,14 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.IFinding;
+import de.lehmannet.om.ISession;
+import de.lehmannet.om.ui.box.LanguageBox;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.EditPopupHandler;
+import de.lehmannet.om.ui.util.IConfiguration;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,20 +24,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-
-import de.lehmannet.om.IFinding;
-import de.lehmannet.om.ISession;
-import de.lehmannet.om.ui.box.LanguageBox;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.EditPopupHandler;
-import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class FindingContainer extends Container implements MouseListener {
 
@@ -38,8 +36,8 @@ public class FindingContainer extends Container implements MouseListener {
      */
     private static final long serialVersionUID = 6234708970033440904L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private IFinding finding = null;
     private ISession session = null;
@@ -60,7 +58,6 @@ public class FindingContainer extends Container implements MouseListener {
         this.language = new LanguageBox(this.configuration.getConfig(ConfigKey.CONFIG_CONTENTDEFAULTLANG), true);
 
         this.createContainer();
-
     }
 
     @Override
@@ -71,7 +68,6 @@ public class FindingContainer extends Container implements MouseListener {
         if (e.getButton() == MouseEvent.BUTTON3) {
             new EditPopupHandler(e.getX(), e.getY(), this.description);
         }
-
     }
 
     @Override
@@ -97,13 +93,11 @@ public class FindingContainer extends Container implements MouseListener {
     public String getDescription() {
 
         return this.description.getText();
-
     }
 
     public String getLanguage() {
 
         return this.language.getSelectedISOLanguage();
-
     }
 
     private void createContainer() {
@@ -161,7 +155,5 @@ public class FindingContainer extends Container implements MouseListener {
         }
         gridbag.setConstraints(this.language, constraints);
         this.add(this.language);
-
     }
-
 }

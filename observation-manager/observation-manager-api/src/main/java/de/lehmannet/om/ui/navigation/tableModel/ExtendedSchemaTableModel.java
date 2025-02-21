@@ -1,9 +1,5 @@
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.util.*;
-
-import javax.swing.table.AbstractTableModel;
-
 import de.lehmannet.om.IExtendableSchemaElement;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
@@ -19,6 +15,8 @@ import de.lehmannet.om.ui.comparator.SiteComparator;
 import de.lehmannet.om.ui.comparator.TargetComparator;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.util.*;
+import javax.swing.table.AbstractTableModel;
 
 public class ExtendedSchemaTableModel extends AbstractTableModel {
 
@@ -27,15 +25,19 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
      */
     private static final long serialVersionUID = 1L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private Map<ISchemaElement, Boolean> elementMap = null;
     private boolean multipleSelection = false;
     private int currentSelectedRow = 0; // Row number of currently selected row in case of singleSelection
 
-    public ExtendedSchemaTableModel(ISchemaElement[] elements, SchemaElementConstants schemaElementType,
-            String xsiFilter, boolean multipleSelection, List<? extends ISchemaElement> preSelectedTargets) {
+    public ExtendedSchemaTableModel(
+            ISchemaElement[] elements,
+            SchemaElementConstants schemaElementType,
+            String xsiFilter,
+            boolean multipleSelection,
+            List<? extends ISchemaElement> preSelectedTargets) {
 
         this.multipleSelection = multipleSelection;
 
@@ -118,14 +120,12 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
                 this.elementMap.put(element, Boolean.FALSE);
             }
         }
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 2;
-
     }
 
     @Override
@@ -136,14 +136,12 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return elementMap.size();
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
         return columnIndex == 0;
-
     }
 
     @Override
@@ -153,7 +151,8 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
             return "";
         }
 
-        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[rowIndex];
+        ISchemaElement keySchemaElement =
+                (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[rowIndex];
 
         if (keySchemaElement == null) {
             return "";
@@ -169,7 +168,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return "";
-
     }
 
     @Override
@@ -185,7 +183,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
                 this.fireTableDataChanged();
             }
         }
-
     }
 
     @Override
@@ -201,15 +198,14 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return String.class;
-
     }
 
     private void setSelection(int row, boolean selection) {
 
-        ISchemaElement keySchemaElement = (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[row];
+        ISchemaElement keySchemaElement =
+                (ISchemaElement) this.elementMap.keySet().toArray(new Object[0])[row];
         this.elementMap.remove(keySchemaElement);
         this.elementMap.put(keySchemaElement, selection);
-
     }
 
     private void setSingleSelection(int row, boolean selection) {
@@ -224,7 +220,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
 
         // Keep current row for next call
         this.currentSelectedRow = row;
-
     }
 
     public List<ISchemaElement> getAllSelectedElements() {
@@ -243,7 +238,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return result;
-
     }
 
     @Override
@@ -263,7 +257,6 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return name;
-
     }
 
     public int getSelectedRow() {
@@ -273,7 +266,5 @@ public class ExtendedSchemaTableModel extends AbstractTableModel {
         }
 
         return this.currentSelectedRow;
-
     }
-
 }

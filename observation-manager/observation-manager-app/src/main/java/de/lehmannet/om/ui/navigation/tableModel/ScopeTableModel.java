@@ -16,26 +16,24 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private static final String MODEL_ID = "Scope";
 
     public ScopeTableModel(IScope[] scopes) {
 
         this.elements = scopes;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 8;
-
     }
 
     @Override
     public String getID() {
 
         return ScopeTableModel.MODEL_ID;
-
     }
 
     @Override
@@ -45,7 +43,6 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
             return 5;
         }
         return this.elements.length;
-
     }
 
     @Override
@@ -74,7 +71,6 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
         }
 
         return c;
-
     }
 
     @Override
@@ -128,7 +124,6 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
         }
 
         return value;
-
     }
 
     @Override
@@ -172,7 +167,5 @@ public class ScopeTableModel extends AbstractSchemaTableModel {
         }
 
         return name;
-
     }
-
 }

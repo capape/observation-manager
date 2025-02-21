@@ -7,13 +7,11 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.SchemaException;
 import java.util.Locale;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * Angle is a wrapper class for angles used in the XML Schema definition. It stores an angle as double value along with
@@ -96,11 +94,12 @@ public class Angle {
         } else {
             throw new SchemaException("Angle unit is unknown. ");
         }
-
     }
 
     private boolean isTextADoubleUnit(String unit) {
-        return (unit.equals(Angle.RADIANT)) || (unit.equals(Angle.DEGREE)) || (unit.equals(Angle.ARCSECOND))
+        return (unit.equals(Angle.RADIANT))
+                || (unit.equals(Angle.DEGREE))
+                || (unit.equals(Angle.ARCSECOND))
                 || (unit.equals(Angle.ARCMINUTE));
     }
 
@@ -136,7 +135,6 @@ public class Angle {
         } else {
             this.value = value;
         }
-
     }
 
     // ------
@@ -156,7 +154,6 @@ public class Angle {
     public String toString() {
 
         return value + " " + unit.toUpperCase(Locale.getDefault());
-
     }
 
     /**
@@ -226,7 +223,6 @@ public class Angle {
         element.appendChild(n_ValueText);
 
         return element;
-
     }
 
     /**
@@ -238,7 +234,6 @@ public class Angle {
     public String getUnit() {
 
         return unit;
-
     }
 
     /**
@@ -250,7 +245,6 @@ public class Angle {
     public double getValue() {
 
         return value;
-
     }
 
     /**
@@ -280,7 +274,6 @@ public class Angle {
         }
 
         return value;
-
     }
 
     /**
@@ -310,7 +303,6 @@ public class Angle {
         }
 
         return value;
-
     }
 
     /**
@@ -340,7 +332,6 @@ public class Angle {
         }
 
         return value;
-
     }
 
     /**
@@ -374,7 +365,6 @@ public class Angle {
         }
 
         return value;
-
     }
 
     /**
@@ -387,9 +377,9 @@ public class Angle {
      */
     public static boolean isValidUnit(String unit) {
 
-        return (Angle.ARCMINUTE.equals(unit)) || (Angle.ARCSECOND.equals(unit)) || (Angle.DEGREE.equals(unit))
+        return (Angle.ARCMINUTE.equals(unit))
+                || (Angle.ARCSECOND.equals(unit))
+                || (Angle.DEGREE.equals(unit))
                 || (Angle.RADIANT.equals(unit));
-
     }
-
 }

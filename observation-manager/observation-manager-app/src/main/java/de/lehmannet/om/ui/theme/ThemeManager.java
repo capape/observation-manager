@@ -9,5 +9,4 @@ public interface ThemeManager {
     void enableNightVision();
 
     void disableNightVision();
-
 }

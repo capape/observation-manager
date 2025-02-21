@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -20,9 +19,7 @@ public class DateConverterTest {
     private static Logger log = LoggerFactory.getLogger(DateConverterTest.class);
 
     @Before
-    public void setup() {
-
-    }
+    public void setup() {}
 
     @Test
     public void testTest() {
@@ -37,15 +34,18 @@ public class DateConverterTest {
         log.info("Julian Date = {} ", julian);
 
         Calendar convertedJulianDate = DateConverter.toGregorianDate(julian, TimeZone.getDefault());
-        log.info("Converted Julian Date: {} \t(Timezone = {})", new Date(convertedJulianDate.getTimeInMillis()),
+        log.info(
+                "Converted Julian Date: {} \t(Timezone = {})",
+                new Date(convertedJulianDate.getTimeInMillis()),
                 convertedJulianDate.getTimeZone().getDisplayName());
 
         String iso8601 = DateConverter.toISO8601(convertedJulianDate);
         log.info("ISO8601 Date = {} ", iso8601);
         Calendar converted8601Date = DateConverter.toDate(iso8601);
-        log.info("Converted ISO8601 Date: {} \t(Timezone = {})", new Date(converted8601Date.getTimeInMillis()),
+        log.info(
+                "Converted ISO8601 Date: {} \t(Timezone = {})",
+                new Date(converted8601Date.getTimeInMillis()),
                 converted8601Date.getTimeZone().getDisplayName());
-
     }
 
     @Test
@@ -61,9 +61,10 @@ public class DateConverterTest {
         log.info("Julian Date = {} ", julian);
 
         Calendar convertedJulianDate = DateConverter.toGregorianDate(julian, TimeZone.getDefault());
-        log.info("Converted Julian Date: {} \t(Timezone = {})", new Date(convertedJulianDate.getTimeInMillis()),
+        log.info(
+                "Converted Julian Date: {} \t(Timezone = {})",
+                new Date(convertedJulianDate.getTimeInMillis()),
                 convertedJulianDate.getTimeZone().getDisplayName());
-
     }
 
     @Test
@@ -83,6 +84,5 @@ public class DateConverterTest {
 
         log.info("ISO8601 Date = {} ", iso8601);
         assertEquals("Calendar to string iso8601:", expected, iso8601);
-
     }
 }

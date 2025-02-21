@@ -1,11 +1,9 @@
 package de.lehmannet.om.ui.box;
 
+import de.lehmannet.om.ISchemaElement;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JComboBox;
-
-import de.lehmannet.om.ISchemaElement;
 
 public class OMComboBox<T extends ISchemaElement> extends JComboBox<String> {
 
@@ -22,20 +20,17 @@ public class OMComboBox<T extends ISchemaElement> extends JComboBox<String> {
         }
 
         return (T) node.getElement();
-
     }
 
     public void addEmptyItem() {
 
         this.addItem(NodeBox.EMPTY_ENTRY.getValue());
         this.setSelectedItem(NodeBox.EMPTY_ENTRY.getValue());
-
     }
 
     public void selectEmptyItem() {
 
         this.setSelectedItem(NodeBox.EMPTY_ENTRY.getValue());
-
     }
 
     public void setSelectedItem(T element) {
@@ -45,7 +40,6 @@ public class OMComboBox<T extends ISchemaElement> extends JComboBox<String> {
         } else {
             this.setSelectedItem(this.getKey(element));
         }
-
     }
 
     public void addItem(T element) {
@@ -57,13 +51,11 @@ public class OMComboBox<T extends ISchemaElement> extends JComboBox<String> {
         String key = this.getKey(element);
 
         addItem(key, NodeBox.of(element));
-
     }
 
     protected String getKey(T element) {
 
         return element.getDisplayName();
-
     }
 
     private void addItem(String key, NodeBox element) {
@@ -76,7 +68,5 @@ public class OMComboBox<T extends ISchemaElement> extends JComboBox<String> {
         this.map.put(key, element);
         super.addItem(key);
         this.setSelectedItem(key);
-
     }
-
 }

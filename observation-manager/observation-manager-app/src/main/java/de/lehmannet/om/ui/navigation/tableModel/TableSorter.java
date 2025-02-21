@@ -7,31 +7,6 @@
 
 package de.lehmannet.om.ui.navigation.tableModel;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
-
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.Imager;
@@ -53,6 +28,29 @@ import de.lehmannet.om.ui.comparator.ScopeComparator;
 import de.lehmannet.om.ui.comparator.SessionComparator;
 import de.lehmannet.om.ui.comparator.SiteComparator;
 import de.lehmannet.om.ui.comparator.TargetComparator;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class TableSorter extends AbstractSchemaTableModel {
 
@@ -73,7 +71,6 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private static final Comparator<?> COMPARABLE_COMPARATOR = (o1, o2) -> ((Comparable) o1).compareTo(o2);
     private static final Comparator<?> LEXICAL_COMPARATOR = (o1, o2) -> {
-
         String o1S = o1.toString();
         String o2S = o2.toString();
 
@@ -141,34 +138,29 @@ public class TableSorter extends AbstractSchemaTableModel {
         this.mouseListener = new MouseHandler();
         this.tableModelListener = new TableModelHandler();
         this.initColumnComparator();
-
     }
 
     public TableSorter(AbstractSchemaTableModel tableModel) {
 
         this();
         setTableModel(tableModel, true);
-
     }
 
     @Override
     public String getID() {
 
         return TableSorter.MODEL_ID;
-
     }
 
     private void clearSortingState() {
 
         viewToModel = null;
         modelToView = null;
-
     }
 
     public AbstractSchemaTableModel getTableModel() {
 
         return tableModel;
-
     }
 
     public void setTableModel(AbstractSchemaTableModel tableModel, boolean clear) {
@@ -190,13 +182,11 @@ public class TableSorter extends AbstractSchemaTableModel {
             clearSortingState();
             fireTableStructureChanged();
         }
-
     }
 
     public JTableHeader getTableHeader() {
 
         return tableHeader;
-
     }
 
     public void setTableHeader(JTableHeader tableHeader) {
@@ -214,13 +204,11 @@ public class TableSorter extends AbstractSchemaTableModel {
             this.tableHeader.addMouseListener(mouseListener);
             this.tableHeader.setDefaultRenderer(new SortableHeaderRenderer(this.tableHeader.getDefaultRenderer()));
         }
-
     }
 
     public boolean isSorting() {
 
         return sortingColumns.size() != 0;
-
     }
 
     private Directive getDirective(int column) {
@@ -232,13 +220,11 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         return EMPTY_DIRECTIVE;
-
     }
 
     private int getSortingStatus(int column) {
 
         return getDirective(column).direction;
-
     }
 
     private void sortingStatusChanged() {
@@ -248,7 +234,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         if (tableHeader != null) {
             tableHeader.repaint();
         }
-
     }
 
     private void setSortingStatus(int column, int status) {
@@ -261,7 +246,6 @@ public class TableSorter extends AbstractSchemaTableModel {
             sortingColumns.add(new Directive(column, status));
         }
         sortingStatusChanged();
-
     }
 
     private Icon getHeaderRendererIcon(int column, int size) {
@@ -272,14 +256,12 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         return new Arrow(directive.direction == DESCENDING, size, sortingColumns.indexOf(directive));
-
     }
 
     private void cancelSorting() {
 
         sortingColumns.clear();
         sortingStatusChanged();
-
     }
 
     public void setColumnComparator(Class<?> type, Comparator<?> comparator) {
@@ -289,7 +271,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         } else {
             columnComparators.put(type, comparator);
         }
-
     }
 
     private Comparator getComparator(int column) {
@@ -308,8 +289,8 @@ public class TableSorter extends AbstractSchemaTableModel {
 
     private void initColumnComparator() {
 
-        this.columnComparators.put(ZonedDateTime.class,
-                Comparator.comparing(zdt -> ((ZonedDateTime) zdt).truncatedTo(ChronoUnit.SECONDS)));
+        this.columnComparators.put(ZonedDateTime.class, Comparator.comparing(zdt -> ((ZonedDateTime) zdt)
+                .truncatedTo(ChronoUnit.SECONDS)));
         this.columnComparators.put(Target.class, new TargetComparator());
         this.columnComparators.put(Site.class, new SiteComparator());
         this.columnComparators.put(Scope.class, new ScopeComparator());
@@ -323,7 +304,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         this.columnComparators.put(java.lang.Integer.class, TableSorter.INT_COMPARATOR);
         this.columnComparators.put(java.lang.Float.class, TableSorter.FLOAT_COMPARATOR);
         this.columnComparators.put(de.lehmannet.om.Angle.class, new AngleComparator());
-
     }
 
     private Row[] getViewToModel() {
@@ -344,7 +324,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         return viewToModel;
-
     }
 
     public int modelIndex(int viewIndex) {
@@ -358,13 +337,11 @@ public class TableSorter extends AbstractSchemaTableModel {
         } else {
             return -1;
         }
-
     }
 
     public int viewIndex(int modelIndex) {
 
         return getModelToView()[modelIndex];
-
     }
 
     private int[] getModelToView() {
@@ -378,7 +355,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         }
 
         return modelToView;
-
     }
 
     // ----------
@@ -389,49 +365,42 @@ public class TableSorter extends AbstractSchemaTableModel {
     public int getRowCount() {
 
         return (tableModel == null) ? 0 : tableModel.getRowCount();
-
     }
 
     @Override
     public int getColumnCount() {
 
         return (tableModel == null) ? 0 : tableModel.getColumnCount();
-
     }
 
     @Override
     public String getColumnName(int column) {
 
         return tableModel.getColumnName(column);
-
     }
 
     @Override
     public Class<?> getColumnClass(int column) {
 
         return tableModel.getColumnClass(column);
-
     }
 
     @Override
     public boolean isCellEditable(int row, int column) {
 
         return tableModel.isCellEditable(modelIndex(row), column);
-
     }
 
     @Override
     public Object getValueAt(int row, int column) {
 
         return tableModel.getValueAt(modelIndex(row), column);
-
     }
 
     @Override
     public void setValueAt(Object aValue, int row, int column) {
 
         tableModel.setValueAt(aValue, modelIndex(row), column);
-
     }
 
     // --------------
@@ -445,7 +414,6 @@ public class TableSorter extends AbstractSchemaTableModel {
         Row(int index) {
 
             this.modelIndex = index;
-
         }
 
         @Override
@@ -476,9 +444,7 @@ public class TableSorter extends AbstractSchemaTableModel {
             }
 
             return 0;
-
         }
-
     }
 
     private class TableModelHandler implements TableModelListener {
@@ -527,21 +493,20 @@ public class TableSorter extends AbstractSchemaTableModel {
             // which can be a performance problem for large tables. The last
             // clause avoids this problem.
             int column = e.getColumn();
-            if (e.getFirstRow() == e.getLastRow() && column != TableModelEvent.ALL_COLUMNS
-                    && getSortingStatus(column) == NOT_SORTED && modelToView != null) {
+            if (e.getFirstRow() == e.getLastRow()
+                    && column != TableModelEvent.ALL_COLUMNS
+                    && getSortingStatus(column) == NOT_SORTED
+                    && modelToView != null) {
                 int viewIndex = getModelToView()[e.getFirstRow()];
                 fireTableChanged(new TableModelEvent(TableSorter.this, viewIndex, viewIndex, column, e.getType()));
                 return;
-
             }
 
             // Something has happened to the data that may have invalidated the
             // row order.
             clearSortingState();
             fireTableDataChanged();
-
         }
-
     }
 
     private class MouseHandler extends MouseAdapter {
@@ -564,12 +529,10 @@ public class TableSorter extends AbstractSchemaTableModel {
                 // shift is pressed.
                 status = status + (e.isShiftDown() ? -1 : 1);
                 status = (status + 4) % 3 - 1; // signed mod, returning {-1, 0,
-                                               // 1}
+                // 1}
                 setSortingStatus(column, status);
             }
-
         }
-
     }
 
     private static class Arrow implements Icon {
@@ -585,7 +548,6 @@ public class TableSorter extends AbstractSchemaTableModel {
             this.descending = descending;
             this.size = size;
             this.priority = priority;
-
         }
 
         @Override
@@ -621,23 +583,19 @@ public class TableSorter extends AbstractSchemaTableModel {
 
             g.setColor(color);
             g.translate(-x, -y);
-
         }
 
         @Override
         public int getIconWidth() {
 
             return size;
-
         }
 
         @Override
         public int getIconHeight() {
 
             return size;
-
         }
-
     }
 
     private class SortableHeaderRenderer implements TableCellRenderer {
@@ -647,15 +605,14 @@ public class TableSorter extends AbstractSchemaTableModel {
         SortableHeaderRenderer(TableCellRenderer tableCellRenderer) {
 
             this.tableCellRenderer = tableCellRenderer;
-
         }
 
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                int row, int column) {
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-            Component c = tableCellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-                    column);
+            Component c =
+                    tableCellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
             if (c instanceof JLabel) {
                 JLabel l = (JLabel) c;
@@ -673,9 +630,7 @@ public class TableSorter extends AbstractSchemaTableModel {
             }
 
             return c;
-
         }
-
     }
 
     private static class Directive {
@@ -687,9 +642,6 @@ public class TableSorter extends AbstractSchemaTableModel {
 
             this.column = column;
             this.direction = direction;
-
         }
-
     }
-
 }

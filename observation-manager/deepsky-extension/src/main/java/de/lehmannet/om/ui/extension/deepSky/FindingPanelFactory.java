@@ -27,10 +27,9 @@ import de.lehmannet.om.ui.panel.GenericFindingPanel;
 
 public class FindingPanelFactory {
 
-    public static final AbstractPanel newInstance(IExtensionContext context, String xsiType, IFinding finding,
-            ISession session, boolean editable) {
+    public static final AbstractPanel newInstance(
+            IExtensionContext context, String xsiType, IFinding finding, ISession session, boolean editable) {
         switch (xsiType) {
-
             case DeepSkyTargetDN.XML_XSI_TYPE_VALUE:
                 return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
@@ -50,8 +49,8 @@ public class FindingPanelFactory {
                 return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
             case DeepSkyTargetOC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
-                        editable);
+                return new DeepSkyFindingOCPanel(
+                        context.getConfiguration(), context.getInstallDir(), finding, session, editable);
 
             case DeepSkyTargetPN.XML_XSI_TYPE_VALUE:
                 return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
@@ -75,8 +74,8 @@ public class FindingPanelFactory {
                 return new DeepSkyFindingPanel(context.getConfiguration(), finding, session, editable);
 
             case DeepSkyFindingOC.XML_XSI_TYPE_VALUE:
-                return new DeepSkyFindingOCPanel(context.getConfiguration(), context.getInstallDir(), finding, session,
-                        editable);
+                return new DeepSkyFindingOCPanel(
+                        context.getConfiguration(), context.getInstallDir(), finding, session, editable);
 
             case DeepSkyFindingDS.XML_XSI_TYPE_VALUE:
                 return new DeepSkyFindingDSPanel(context.getConfiguration(), finding, session, editable);
@@ -84,7 +83,5 @@ public class FindingPanelFactory {
             default:
                 return new GenericFindingPanel(context.getConfiguration(), finding, session, editable);
         }
-
     }
-
 }

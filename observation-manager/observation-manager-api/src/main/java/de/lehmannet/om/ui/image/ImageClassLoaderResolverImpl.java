@@ -2,7 +2,6 @@ package de.lehmannet.om.ui.image;
 
 import java.net.URL;
 import java.util.Optional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,5 +39,4 @@ public class ImageClassLoaderResolverImpl implements ImageResolver {
 
         return this.imagePath + "/" + name;
     }
-
 }

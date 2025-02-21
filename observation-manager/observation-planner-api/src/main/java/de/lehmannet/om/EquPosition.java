@@ -7,13 +7,12 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.DateConverter;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.util.DateConverter;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * EquPosition provides a representation of a equatorial celestial position.<br>
@@ -110,7 +109,6 @@ public class EquPosition extends SchemaElement {
 
         this.setDecAngle(dec);
         this.setRaAngle(ra);
-
     }
 
     /*
@@ -134,7 +132,6 @@ public class EquPosition extends SchemaElement {
 
         this.ra = ra;
         this.dec = dec;
-
     }
 
     /*
@@ -156,7 +153,6 @@ public class EquPosition extends SchemaElement {
 
         this.setRa(ra);
         this.setDec(dec);
-
     }
 
     // -------------
@@ -176,7 +172,6 @@ public class EquPosition extends SchemaElement {
     public String getDisplayName() {
 
         return this.toString();
-
     }
 
     // ------
@@ -210,7 +205,6 @@ public class EquPosition extends SchemaElement {
         }
 
         return buffer.toString();
-
     }
 
     // ---------------------
@@ -228,9 +222,12 @@ public class EquPosition extends SchemaElement {
      */
     private static String getRaString(int hours, int min, int sec) {
 
-        return DateConverter.setLeadingZero(hours) + RA_HOUR + DateConverter.setLeadingZero(min) + RA_MIN
-                + DateConverter.setLeadingZero(sec) + RA_SEC;
-
+        return DateConverter.setLeadingZero(hours)
+                + RA_HOUR
+                + DateConverter.setLeadingZero(min)
+                + RA_MIN
+                + DateConverter.setLeadingZero(sec)
+                + RA_SEC;
     }
 
     /**
@@ -244,9 +241,12 @@ public class EquPosition extends SchemaElement {
      */
     public static String getRaString(int hours, int min, double sec) {
 
-        return DateConverter.setLeadingZero(hours) + RA_HOUR + DateConverter.setLeadingZero(min) + RA_MIN
-                + DateConverter.setLeadingZero(sec) + RA_SEC;
-
+        return DateConverter.setLeadingZero(hours)
+                + RA_HOUR
+                + DateConverter.setLeadingZero(min)
+                + RA_MIN
+                + DateConverter.setLeadingZero(sec)
+                + RA_SEC;
     }
 
     /**
@@ -268,9 +268,12 @@ public class EquPosition extends SchemaElement {
                     + DEC_MIN + DateConverter.setLeadingZero(Math.abs(sec)) + DEC_SEC;
         }
 
-        return DateConverter.setLeadingZero(deg) + DEC_DEG + DateConverter.setLeadingZero(Math.abs(min)) + DEC_MIN
-                + DateConverter.setLeadingZero(Math.abs(sec)) + DEC_SEC;
-
+        return DateConverter.setLeadingZero(deg)
+                + DEC_DEG
+                + DateConverter.setLeadingZero(Math.abs(min))
+                + DEC_MIN
+                + DateConverter.setLeadingZero(Math.abs(sec))
+                + DEC_SEC;
     }
 
     // --------------
@@ -314,7 +317,6 @@ public class EquPosition extends SchemaElement {
         parent.appendChild(e_Position);
 
         return parent;
-
     }
 
     /**
@@ -325,7 +327,6 @@ public class EquPosition extends SchemaElement {
     public Angle getDecAngle() {
 
         return dec;
-
     }
 
     /**
@@ -354,7 +355,6 @@ public class EquPosition extends SchemaElement {
         int sec = (int) Math.round(sd);
 
         return getDecString(negative, hours, min, sec);
-
     }
 
     /**
@@ -366,7 +366,6 @@ public class EquPosition extends SchemaElement {
     public Angle getRaAngle() {
 
         return ra;
-
     }
 
     /**
@@ -389,7 +388,6 @@ public class EquPosition extends SchemaElement {
         int sec = (int) Math.round(sd);
 
         return getRaString(hours, min, sec);
-
     }
 
     /**
@@ -405,7 +403,6 @@ public class EquPosition extends SchemaElement {
         ra = ra + Integer.parseInt(s.substring(s.indexOf(RA_MIN) + 1, s.indexOf(RA_SEC))) / 3600.0;
 
         return ra;
-
     }
 
     /**
@@ -437,7 +434,6 @@ public class EquPosition extends SchemaElement {
         } catch (NumberFormatException | StringIndexOutOfBoundsException nfe) {
             throw new IllegalArgumentException("DEC string malformed. " + dec, nfe);
         }
-
     }
 
     /**
@@ -465,7 +461,6 @@ public class EquPosition extends SchemaElement {
         } catch (StringIndexOutOfBoundsException siobe) {
             throw new IllegalArgumentException("RA string malformed. " + siobe, siobe);
         }
-
     }
 
     /**
@@ -483,7 +478,6 @@ public class EquPosition extends SchemaElement {
         }
 
         this.dec = dec;
-
     }
 
     /**
@@ -505,7 +499,6 @@ public class EquPosition extends SchemaElement {
         }
 
         this.ra = ra;
-
     }
 
     /**
@@ -518,12 +511,11 @@ public class EquPosition extends SchemaElement {
     public void setFrame(EquPositionReferenceFrame frame) {
 
         if (frame == null) {
-            this.frame = new EquPositionReferenceFrame(EquPositionReferenceFrame.ORIGIN_GEOCENTRIC,
-                    EquPositionReferenceFrame.EQUINOX_2000);
+            this.frame = new EquPositionReferenceFrame(
+                    EquPositionReferenceFrame.ORIGIN_GEOCENTRIC, EquPositionReferenceFrame.EQUINOX_2000);
         } else {
             this.frame = frame;
         }
-
     }
 
     @Override
@@ -583,5 +575,4 @@ public class EquPosition extends SchemaElement {
         }
         return true;
     }
-
 }

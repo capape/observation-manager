@@ -43,5 +43,4 @@ public interface IExtendableSchemaElement {
      * @return The xsi:type value of this implementation
      */
     String getXSIType();
-
 }

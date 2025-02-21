@@ -1,9 +1,5 @@
 package de.lehmannet.om.ui.util;
 
-import java.util.List;
-
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -15,6 +11,8 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import java.util.List;
+import org.w3c.dom.Document;
 
 public interface XMLFileLoader {
 
@@ -94,5 +92,4 @@ public interface XMLFileLoader {
     ILens[] getLenses();
 
     boolean loadObservations(String xmlPath, boolean fixErrors);
-
 }

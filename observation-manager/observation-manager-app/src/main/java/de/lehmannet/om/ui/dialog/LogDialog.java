@@ -7,6 +7,9 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -29,21 +31,16 @@ import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class LogDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = 3508562400111692974L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogDialog.class);
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private JTextPane text = null;
     private final JButton close = new JButton(this.bundle.getString("log.button.close"));
@@ -77,12 +74,10 @@ public class LogDialog extends OMDialog implements ActionListener {
                 return;
             }
             this.setText();
-
         }
 
         this.pack();
         this.setVisible(true);
-
     }
 
     // --------------
@@ -98,7 +93,6 @@ public class LogDialog extends OMDialog implements ActionListener {
                 this.dispose();
             }
         }
-
     }
 
     private void initDialog() {
@@ -126,7 +120,6 @@ public class LogDialog extends OMDialog implements ActionListener {
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
 
     private void setText() {
@@ -154,7 +147,5 @@ public class LogDialog extends OMDialog implements ActionListener {
         } catch (BadLocationException ble) {
             LOGGER.error("Error setting log text", ble);
         }
-
     }
-
 }

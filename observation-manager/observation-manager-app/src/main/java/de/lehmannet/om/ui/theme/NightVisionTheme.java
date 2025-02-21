@@ -24,28 +24,24 @@ public class NightVisionTheme extends DefaultMetalTheme {
     public String getName() {
 
         return "Night Vision";
-
     }
 
     @Override
     protected ColorUIResource getPrimary1() {
 
         return primary1;
-
     }
 
     @Override
     protected ColorUIResource getPrimary2() {
 
         return primary2;
-
     }
 
     @Override
     protected ColorUIResource getPrimary3() {
 
         return primary3;
-
     }
 
     @Override
@@ -67,5 +63,4 @@ public class NightVisionTheme extends DefaultMetalTheme {
     protected ColorUIResource getWhite() {
         return white;
     }
-
 }

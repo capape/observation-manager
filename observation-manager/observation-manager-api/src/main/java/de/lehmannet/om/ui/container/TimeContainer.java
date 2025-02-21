@@ -7,6 +7,8 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -15,20 +17,16 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class TimeContainer extends Container implements FocusListener {
 
     private static final long serialVersionUID = 2217864566103147417L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private final JTextField h = new JTextField(2);
     private final JTextField m = new JTextField(2);
@@ -46,7 +44,6 @@ public class TimeContainer extends Container implements FocusListener {
         this.editable = editable;
 
         this.createContainer();
-
     }
 
     @Override
@@ -60,7 +57,6 @@ public class TimeContainer extends Container implements FocusListener {
         } else if (c.equals(this.s)) {
             this.s.selectAll();
         }
-
     }
 
     @Override
@@ -83,7 +79,6 @@ public class TimeContainer extends Container implements FocusListener {
                 this.s.setText("00");
             }
         }
-
     }
 
     public int getHour() {
@@ -100,7 +95,6 @@ public class TimeContainer extends Container implements FocusListener {
         }
 
         return this.hour;
-
     }
 
     public int getMinutes() {
@@ -117,7 +111,6 @@ public class TimeContainer extends Container implements FocusListener {
         }
 
         return this.min;
-
     }
 
     public int getSeconds() {
@@ -134,13 +127,11 @@ public class TimeContainer extends Container implements FocusListener {
         }
 
         return this.sec;
-
     }
 
     public boolean checkTime() {
 
         return (this.getHour() == -1) || (this.getMinutes() == -1) || (this.getSeconds() == -1);
-
     }
 
     public void setTime(int hour, int min, int sec) {
@@ -153,7 +144,6 @@ public class TimeContainer extends Container implements FocusListener {
 
         this.sec = sec;
         this.s.setText(this.formatValue(this.sec));
-
     }
 
     public void setEditable(boolean editable) {
@@ -163,7 +153,6 @@ public class TimeContainer extends Container implements FocusListener {
         this.h.setEditable(this.editable);
         this.m.setEditable(this.editable);
         this.s.setEditable(this.editable);
-
     }
 
     public void setToolTipText(String text) {
@@ -171,7 +160,6 @@ public class TimeContainer extends Container implements FocusListener {
         this.h.setToolTipText(text);
         this.m.setToolTipText(text);
         this.s.setToolTipText(text);
-
     }
 
     private void createContainer() {
@@ -229,7 +217,5 @@ public class TimeContainer extends Container implements FocusListener {
         }
 
         return "" + value;
-
     }
-
 }

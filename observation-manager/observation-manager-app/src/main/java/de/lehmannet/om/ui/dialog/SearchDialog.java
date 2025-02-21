@@ -7,15 +7,13 @@
 
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.Component;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-
-import javax.swing.WindowConstants;
-
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
+import java.awt.Component;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import javax.swing.WindowConstants;
 
 class SearchDialog extends OMDialog implements ComponentListener {
 
@@ -41,20 +39,17 @@ class SearchDialog extends OMDialog implements ComponentListener {
         this.panel.addComponentListener(this);
 
         this.setVisible(true);
-
     }
 
     public ISchemaElement getSearchResult() {
 
         return this.panel.getSearchResult();
-
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
 
         this.dispose();
-
     }
 
     @Override
@@ -77,5 +72,4 @@ class SearchDialog extends OMDialog implements ComponentListener {
         // Do nothing
 
     }
-
 }

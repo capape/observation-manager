@@ -7,6 +7,12 @@
 
 package de.lehmannet.om.ui.update;
 
+import de.lehmannet.om.ui.dialog.OMDialog;
+import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.Worker;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.*;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
@@ -26,23 +31,15 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.dialog.ProgressDialog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.Worker;
 
 public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -6681965343558223755L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private final JButton close = new JButton(this.bundle.getString("dialog.button.cancel"));
     private final JButton download = new JButton(this.bundle.getString("updateInfo.button.download"));
@@ -66,7 +63,6 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
         this.initDialog();
         this.setVisible(true);
-
     }
 
     // --------------
@@ -108,7 +104,6 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                 }
             }
         }
-
     }
 
     private void initDialog() {
@@ -123,7 +118,6 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         this.infoTable = new JTable(new UpdateTableModel(this.updateEntries, this.download));
         this.infoTable.setRowSelectionAllowed(false);
         this.infoTable.setDefaultRenderer(String.class, (table, value, isSelected, hasFocus, row, column) -> {
-
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 
             if ((column == 2) || (column == 3)) {
@@ -156,20 +150,20 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
 
     private boolean downloadFiles(List<UpdateEntry> updateEntries, File directory) {
 
         DownloadTask downloadTask = new DownloadTask(updateEntries, directory);
 
-        new ProgressDialog(this.om, this.bundle.getString("updateInfo.downloadProgress.title"),
-                this.bundle.getString("updateInfo.downloadProgress.information"), downloadTask);
+        new ProgressDialog(
+                this.om,
+                this.bundle.getString("updateInfo.downloadProgress.title"),
+                this.bundle.getString("updateInfo.downloadProgress.information"),
+                downloadTask);
 
         return downloadTask.getReturnType() == Worker.RETURN_TYPE_OK;
-
     }
-
 }
 
 class DownloadTask implements Worker {
@@ -185,14 +179,12 @@ class DownloadTask implements Worker {
 
         this.updateEntries = updateEntries;
         this.targetDir = targetDirectory;
-
     }
 
     @Override
     public byte getReturnType() {
 
         return this.returnValue;
-
     }
 
     @Override
@@ -202,10 +194,13 @@ class DownloadTask implements Worker {
 
             try {
 
-                HttpURLConnection conn = (HttpURLConnection) currentEntry.getDownloadURL().openConnection();
+                HttpURLConnection conn =
+                        (HttpURLConnection) currentEntry.getDownloadURL().openConnection();
                 conn.setRequestProperty("User-Agent", "Observation Manager Update Client");
                 if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) { // HTTP connection error
-                    LOGGER.error("No download possible from: {}. HTTP Response was: {}", currentEntry.getDownloadURL(),
+                    LOGGER.error(
+                            "No download possible from: {}. HTTP Response was: {}",
+                            currentEntry.getDownloadURL(),
                             conn.getResponseMessage());
                     conn.disconnect();
                     this.returnValue = Worker.RETURN_TYPE_ERROR;
@@ -216,8 +211,8 @@ class DownloadTask implements Worker {
                     String filename = path.substring(path.lastIndexOf('/') + 1); // Get filename
 
                     BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-                    FileOutputStream fos = new FileOutputStream(
-                            this.targetDir.getAbsolutePath() + File.separator + filename);
+                    FileOutputStream fos =
+                            new FileOutputStream(this.targetDir.getAbsolutePath() + File.separator + filename);
                     byte[] buf = new byte[1024];
                     int len;
                     while ((len = bis.read(buf)) > 0) {
@@ -234,11 +229,9 @@ class DownloadTask implements Worker {
             } catch (IOException ioe) {
                 LOGGER.error("Error while downloading file: {}", currentEntry.getDownloadURL(), ioe);
             }
-
         }
 
         this.returnValue = Worker.RETURN_TYPE_OK;
-
     }
 
     @Override
@@ -246,15 +239,14 @@ class DownloadTask implements Worker {
         // TODO Auto-generated method stub
         return null;
     }
-
 }
 
 class UpdateTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 3059700226953902438L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private List<UpdateEntry> updateEntries = null;
     private boolean[] checkBoxes = null;
@@ -271,14 +263,12 @@ class UpdateTableModel extends AbstractTableModel {
 
         this.activeCounter = this.updateEntries.size();
         this.download = download;
-
     }
 
     @Override
     public int getColumnCount() {
 
         return 4;
-
     }
 
     @Override
@@ -289,7 +279,6 @@ class UpdateTableModel extends AbstractTableModel {
         }
 
         return this.updateEntries.size();
-
     }
 
     @Override
@@ -315,7 +304,6 @@ class UpdateTableModel extends AbstractTableModel {
                 this.fireTableDataChanged();
             }
         }
-
     }
 
     @Override
@@ -337,7 +325,6 @@ class UpdateTableModel extends AbstractTableModel {
         }
 
         return "";
-
     }
 
     @Override
@@ -352,14 +339,12 @@ class UpdateTableModel extends AbstractTableModel {
         }
 
         return c;
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
 
         return columnIndex == 0;
-
     }
 
     @Override
@@ -387,7 +372,6 @@ class UpdateTableModel extends AbstractTableModel {
         }
 
         return name;
-
     }
 
     public List<UpdateEntry> getSelected() {
@@ -402,7 +386,5 @@ class UpdateTableModel extends AbstractTableModel {
         }
 
         return result;
-
     }
-
 }

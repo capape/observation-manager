@@ -7,6 +7,7 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.SchemaException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -28,7 +28,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -37,8 +36,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
-
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * The RootElement element is the root element of a schema element. All other schema elements are grouped below
@@ -165,61 +162,51 @@ public class RootElement {
     public Collection<IObservation> getObservations() {
 
         return this.observationList;
-
     }
 
     public Collection<IEyepiece> getEyepieceList() {
 
         return this.eyepieceList;
-
     }
 
     public Collection<IImager> getImagerList() {
 
         return this.imagerList;
-
     }
 
     public Collection<IObserver> getObserverList() {
 
         return this.observerList;
-
     }
 
     public Collection<IScope> getScopeList() {
 
         return this.scopeList;
-
     }
 
     public Collection<ISession> getSessionList() {
 
         return this.sessionList;
-
     }
 
     public Collection<ISite> getSiteList() {
 
         return this.siteList;
-
     }
 
     public Collection<ITarget> getTargetList() {
 
         return this.targetList;
-
     }
 
     public Collection<IFilter> getFilterList() {
 
         return this.filterList;
-
     }
 
     public Collection<ILens> getLensList() {
 
         return this.lensList;
-
     }
 
     public void addObservation(IObservation observation) throws SchemaException {
@@ -229,7 +216,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Observation cannot be null. ");
         }
-
     }
 
     public void addObservations(Collection<IObservation> observations) throws SchemaException {
@@ -239,7 +225,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Observations cannot be null. ");
         }
-
     }
 
     public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
@@ -249,7 +234,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Eyepiece cannot be null. ");
         }
-
     }
 
     public void addEyepieces(Collection<IEyepiece> eyepieces) throws SchemaException {
@@ -259,7 +243,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Eyepieces cannot be null. ");
         }
-
     }
 
     public void addImager(IImager imager) throws SchemaException {
@@ -269,7 +252,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Imager cannot be null. ");
         }
-
     }
 
     public void addImagers(Collection<IImager> imagers) throws SchemaException {
@@ -279,7 +261,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Imagers cannot be null. ");
         }
-
     }
 
     public void addSite(ISite site) throws SchemaException {
@@ -289,7 +270,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Site cannot be null. ");
         }
-
     }
 
     public void addSites(Collection<ISite> sites) throws SchemaException {
@@ -299,7 +279,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Sites cannot be null. ");
         }
-
     }
 
     public void addScope(IScope scope) throws SchemaException {
@@ -309,7 +288,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Scope cannot be null. ");
         }
-
     }
 
     public void addScopes(Collection<IScope> scopes) throws SchemaException {
@@ -319,7 +297,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Scopes cannot be null. ");
         }
-
     }
 
     public void addSession(ISession session) throws SchemaException {
@@ -329,7 +306,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Session cannot be null. ");
         }
-
     }
 
     public void addSessions(Collection<ISession> sessions) throws SchemaException {
@@ -339,7 +315,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Sessions cannot be null. ");
         }
-
     }
 
     public void addObserver(IObserver observer) throws SchemaException {
@@ -349,7 +324,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Observer cannot be null. ");
         }
-
     }
 
     public void addObservers(Collection<IObserver> observers) throws SchemaException {
@@ -359,7 +333,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Observers cannot be null. ");
         }
-
     }
 
     public void addTarget(ITarget target) throws SchemaException {
@@ -369,7 +342,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Target cannot be null. ");
         }
-
     }
 
     public void addTargets(Collection<ITarget> targets) throws SchemaException {
@@ -379,7 +351,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Targets cannot be null. ");
         }
-
     }
 
     public void addFilter(IFilter filter) throws SchemaException {
@@ -389,7 +360,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Filter cannot be null. ");
         }
-
     }
 
     public void addFilters(Collection<IFilter> filters) throws SchemaException {
@@ -399,7 +369,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Filters cannot be null. ");
         }
-
     }
 
     public void addLens(ILens lens) throws SchemaException {
@@ -409,7 +378,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Lens cannot be null. ");
         }
-
     }
 
     public void addLenses(Collection<ILens> lenses) throws SchemaException {
@@ -419,7 +387,6 @@ public class RootElement {
         } else {
             throw new SchemaException("Lenses cannot be null. ");
         }
-
     }
 
     public void serializeAsXml(File xmlFile) throws SchemaException {
@@ -440,10 +407,14 @@ public class RootElement {
 
             writer.writeToURI(newSchema, xmlFile.toURI().toURL().toString());
         } catch (IOException ex) {
-            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
+            LOG.error(
+                    "saveConfiguration - Could not save the configuration to the file {} ",
+                    xmlFile.getAbsolutePath(),
                     ex);
         } catch (ClassNotFoundException e) {
-            LOG.error("saveConfiguration - Could not save the configuration to the file {} ", xmlFile.getAbsolutePath(),
+            LOG.error(
+                    "saveConfiguration - Could not save the configuration to the file {} ",
+                    xmlFile.getAbsolutePath(),
                     e);
             throw new SchemaException(e.toString(), e);
         } catch (InstantiationException e) {
@@ -453,7 +424,6 @@ public class RootElement {
         } catch (ClassCastException e) {
             throw new SchemaException(e.toString(), e);
         }
-
     }
 
     public void serializeAsXmlFormatted(File xmlFile) throws SchemaException {
@@ -489,8 +459,8 @@ public class RootElement {
 
     private Transformer createTransformer(TransformerFactory transformerFactory)
             throws TransformerConfigurationException, IOException {
-        Transformer transformer = transformerFactory
-                .newTransformer(new StreamSource(new StringReader(readPrettyPrintXslt())));
+        Transformer transformer =
+                transformerFactory.newTransformer(new StreamSource(new StringReader(readPrettyPrintXslt())));
         // Transformer transformer = transformerFactory.newTransformer();
         // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         // transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
@@ -517,7 +487,8 @@ public class RootElement {
 
         Document newSchema = null;
         try {
-            newSchema = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            newSchema =
+                    DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         } catch (ParserConfigurationException pce) {
             throw new SchemaException("Unable to create new XML document. ", pce);
         }
@@ -552,7 +523,6 @@ public class RootElement {
         }
 
         return newSchema;
-
     }
 
     private Element addEyepieceToXmlElement(Element root) {
@@ -581,7 +551,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addImagerToXmlElement(Element root) {
@@ -610,7 +579,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addSiteToXmlElement(Element root) {
@@ -639,7 +607,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addObserverToXmlElement(Element root) {
@@ -668,7 +635,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addTargetToXmlElement(Element root) {
@@ -697,7 +663,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addFilterToXmlElement(Element root) {
@@ -726,7 +691,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addLensToXmlElement(Element root) {
@@ -755,7 +719,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addSessionToXmlElement(Element root) {
@@ -784,7 +747,6 @@ public class RootElement {
         }
 
         return root;
-
     }
 
     private Element addScopeToXmlElement(Element root) {
@@ -813,6 +775,5 @@ public class RootElement {
         }
 
         return root;
-
     }
 }

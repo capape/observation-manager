@@ -1,19 +1,5 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
-
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
@@ -27,6 +13,17 @@ import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ObservationManagerMenuExtras {
 
@@ -43,9 +40,15 @@ public final class ObservationManagerMenuExtras {
     private final InstallDir installDir;
     private final File logFile;
 
-    public ObservationManagerMenuExtras(IConfiguration configuration, ImageResolver imageResolver,
-            ThemeManager themeManager, TextManager textManager, UserInterfaceHelper uiHelper,
-            ObservationManagerModel model, InstallDir installDir, ObservationManager om) {
+    public ObservationManagerMenuExtras(
+            IConfiguration configuration,
+            ImageResolver imageResolver,
+            ThemeManager themeManager,
+            TextManager textManager,
+            UserInterfaceHelper uiHelper,
+            ObservationManagerModel model,
+            InstallDir installDir,
+            ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
@@ -57,9 +60,8 @@ public final class ObservationManagerMenuExtras {
         this.textManager = textManager;
         this.installDir = installDir;
         this.menu = this.createMenuExtraItems();
-        this.logFile = new File(
-                this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
-
+        this.logFile =
+                new File(this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
     }
 
     public JMenu getMenu() {
@@ -75,7 +77,6 @@ public final class ObservationManagerMenuExtras {
         } else { // Turn off night vision theme
             this.themeManager.disableNightVision();
         }
-
     }
 
     public void showStatistics() {
@@ -91,33 +92,31 @@ public final class ObservationManagerMenuExtras {
         }
 
         new StatisticsDialog(this.observationManager, this.model);
-
     }
 
     public void showPreferencesDialog() {
 
-        new PreferencesDialog(this.observationManager, this.model, this.textManager,
+        new PreferencesDialog(
+                this.observationManager,
+                this.model,
+                this.textManager,
                 observationManager.getExtensionLoader().getPreferencesTabs());
-
     }
 
     public void showDidYouKnow() {
 
         new DidYouKnowDialog(this.observationManager);
-
     }
 
     public void showLogDialog() {
 
         new LogDialog(this.observationManager, this.logFile);
-
     }
 
     public void checkUpdates() {
         UpdateChecker checker = this.checkForUpdates();
         if (checker.isUpdateAvailable()) {
             new UpdateInfoDialog(this.observationManager, checker);
-
         }
     }
 
@@ -129,7 +128,6 @@ public final class ObservationManagerMenuExtras {
         updateChecker.run();
 
         return updateChecker;
-
     }
 
     private JMenu createMenuExtraItems() {
@@ -137,13 +135,15 @@ public final class ObservationManagerMenuExtras {
         final JMenu extraMenu = new JMenu(this.textManager.getString("menu.extra"));
         extraMenu.setMnemonic('e');
 
-        JMenuItem showStatistics = new JMenuItem(this.textManager.getString("menu.showStatistics"),
+        JMenuItem showStatistics = new JMenuItem(
+                this.textManager.getString("menu.showStatistics"),
                 new ImageIcon(this.imageResolver.getImageURL("statistic.png").orElse(null), ""));
         showStatistics.setMnemonic('s');
         showStatistics.addActionListener(new StatisticsActionListener());
         extraMenu.add(showStatistics);
 
-        JMenuItem preferences = new JMenuItem(this.textManager.getString("menu.preferences"),
+        JMenuItem preferences = new JMenuItem(
+                this.textManager.getString("menu.preferences"),
                 new ImageIcon(this.imageResolver.getImageURL("preferences.png").orElse(null), ""));
         preferences.setMnemonic('p');
         preferences.addActionListener(new PreferencesActionListener());
@@ -151,7 +151,8 @@ public final class ObservationManagerMenuExtras {
 
         extraMenu.addSeparator();
 
-        JMenuItem didYouKnow = new JMenuItem(this.textManager.getString("menu.didYouKnow"),
+        JMenuItem didYouKnow = new JMenuItem(
+                this.textManager.getString("menu.didYouKnow"),
                 new ImageIcon(this.imageResolver.getImageURL("questionMark.png").orElse(null), ""));
         didYouKnow.setMnemonic('d');
         didYouKnow.addActionListener(new DidYouKnowDialogActionListener());
@@ -166,7 +167,8 @@ public final class ObservationManagerMenuExtras {
         extraMenu.add(nightVision);
         extraMenu.addSeparator();
 
-        JMenuItem logMenuEntry = new JMenuItem(this.textManager.getString("menu.log"),
+        JMenuItem logMenuEntry = new JMenuItem(
+                this.textManager.getString("menu.log"),
                 new ImageIcon(this.imageResolver.getImageURL("logviewer.png").orElse(null), ""));
         logMenuEntry.setMnemonic('l');
         logMenuEntry.addActionListener(new LogMenuActionListener());
@@ -174,7 +176,8 @@ public final class ObservationManagerMenuExtras {
 
         extraMenu.addSeparator();
 
-        JMenuItem updateMenuEntry = new JMenuItem(this.textManager.getString("menu.updateCheck"),
+        JMenuItem updateMenuEntry = new JMenuItem(
+                this.textManager.getString("menu.updateCheck"),
                 new ImageIcon(this.imageResolver.getImageURL("updater.png").orElse(null), ""));
         updateMenuEntry.setMnemonic('u');
         updateMenuEntry.addActionListener(new UpdateMenuListener());
@@ -187,9 +190,7 @@ public final class ObservationManagerMenuExtras {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuExtras.this.showStatistics();
-
         }
-
     }
 
     class PreferencesActionListener implements ActionListener {
@@ -203,7 +204,6 @@ public final class ObservationManagerMenuExtras {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuExtras.this.showDidYouKnow();
-
         }
     }
 
@@ -222,7 +222,6 @@ public final class ObservationManagerMenuExtras {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuExtras.this.showLogDialog();
-
         }
     }
 
@@ -230,8 +229,6 @@ public final class ObservationManagerMenuExtras {
         @Override
         public void actionPerformed(ActionEvent e) {
             ObservationManagerMenuExtras.this.checkUpdates();
-
         }
     }
-
 }

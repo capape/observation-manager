@@ -30,7 +30,6 @@ public class COMASTException extends Exception {
     public COMASTException(String message) {
 
         super(addMessageFlavour(message));
-
     }
 
     /**
@@ -44,7 +43,6 @@ public class COMASTException extends Exception {
     public COMASTException(String message, Throwable cause) {
 
         super(addMessageFlavour(message), cause);
-
     }
 
     // ---------------
@@ -57,7 +55,5 @@ public class COMASTException extends Exception {
     private static String addMessageFlavour(String message) {
 
         return "\n*********" + message + "*********\n";
-
     }
-
 }

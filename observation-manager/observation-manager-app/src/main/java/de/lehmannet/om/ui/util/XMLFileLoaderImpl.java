@@ -7,17 +7,6 @@
 
 package de.lehmannet.om.ui.util;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -44,6 +33,15 @@ import de.lehmannet.om.ui.comparator.SiteComparator;
 import de.lehmannet.om.ui.comparator.TargetComparator;
 import de.lehmannet.om.util.SchemaException;
 import de.lehmannet.om.util.SchemaLoader;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 // All get{SchemaElement} are extremly slow. Implement faster caching!
 public class XMLFileLoaderImpl implements XMLFileLoader {
@@ -68,7 +66,8 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             LOGGER.error("Comast schema path not found:{}", pathFile);
         }
         return new XMLFileLoaderImpl(file);
-    };
+    }
+    ;
 
     private XMLFileLoaderImpl(File file) {
 
@@ -78,7 +77,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
     public void clear() {
 
         this.cache.clear();
-
     }
 
     public boolean isEmpty() {
@@ -86,13 +84,11 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         RootElement root = this.getRootElement();
 
         return root == null;
-
     }
 
     public boolean save(String path) {
 
         return this.saveAs(null, path);
-
     }
 
     public boolean saveAs(String oldPath, String newPath) {
@@ -111,13 +107,15 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             ((CacheEntry) this.cache.iterator().next()).setXMLPath(newPath); // Works only with one XML!!!
             backup.delete();
         } catch (SchemaException se) {
-            LOGGER.error("Unable to write file: {}. You have a previous backup of your data in {}", newPath, se,
+            LOGGER.error(
+                    "Unable to write file: {}. You have a previous backup of your data in {}",
+                    newPath,
+                    se,
                     backup.getPath());
             return false;
         }
 
         return true;
-
     }
 
     public Document getDocument() {
@@ -135,7 +133,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return null;
-
     }
 
     public String getXMLFileForSchemaElement(ISchemaElement schemaElement) {
@@ -148,13 +145,11 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
 
         // @todo This only works for ONE file opened...
         return this.cache.listIterator().next().getXmlPath();
-
     }
 
     public String getXMLPathForSchemaElement(ISchemaElement schemaElement) {
 
         return new File(this.getXMLFileForSchemaElement(schemaElement)).getParent();
-
     }
 
     public Document getDocumentForSchemaElement(ISchemaElement schemaElement) {
@@ -189,7 +184,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return null;
-
     }
 
     public void addSchemaElement(ISchemaElement element) {
@@ -229,7 +223,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else {
             LOGGER.warn("Unknown element: {} ", element);
         }
-
     }
 
     public void addSchemaElement(ISchemaElement element, boolean dependend) {
@@ -319,7 +312,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } else {
             LOGGER.warn("Unknown element: {}", element);
         }
-
     }
 
     public List<ISchemaElement> removeSchemaElement(ISchemaElement element) {
@@ -359,7 +351,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return resultList;
-
     }
 
     public void updateSchemaElement(ISchemaElement element) {
@@ -406,9 +397,7 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             }
 
             entry.updateTarget(target);
-
         }
-
     }
 
     public String[] getAllOpenedFiles() {
@@ -430,7 +419,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return files;
-
     }
 
     public IObserver[] getObservers() {
@@ -471,7 +459,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ObserverComparator());
 
         return result;
-
     }
 
     public IEyepiece[] getEyepieces() {
@@ -512,7 +499,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new EyepieceComparator());
 
         return result;
-
     }
 
     public IImager[] getImagers() {
@@ -553,7 +539,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ImagerComparator());
 
         return result;
-
     }
 
     public IFilter[] getFilters() {
@@ -594,7 +579,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new FilterComparator());
 
         return result;
-
     }
 
     public IObservation[] getObservations() {
@@ -635,7 +619,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ObservationComparator());
 
         return result;
-
     }
 
     public IObservation[] getObservations(ISchemaElement element) {
@@ -691,7 +674,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ObservationComparator());
 
         return result;
-
     }
 
     public IObservation[] getCoObserverObservations(IObserver observer) {
@@ -745,7 +727,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ObservationComparator());
 
         return result;
-
     }
 
     public IScope[] getScopes() {
@@ -786,7 +767,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new ScopeComparator());
 
         return result;
-
     }
 
     public ISession[] getSessions() {
@@ -827,7 +807,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new SessionComparator());
 
         return result;
-
     }
 
     public ISite[] getSites() {
@@ -868,7 +847,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new SiteComparator());
 
         return result;
-
     }
 
     public ITarget[] getTargets() {
@@ -909,7 +887,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new TargetComparator());
 
         return result;
-
     }
 
     public ILens[] getLenses() {
@@ -950,7 +927,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         Arrays.sort(result, new LensComparator());
 
         return result;
-
     }
 
     public boolean loadObservations(String xmlPath, boolean fixErrors) {
@@ -972,8 +948,8 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
             // Delete all old stuff
             this.cache.clear();
 
-            this.cache.add(new CacheEntry(xmlPath, obs, eye, fil, imager, observers, scopes, sessions, sites, targets,
-                    lenses));
+            this.cache.add(new CacheEntry(
+                    xmlPath, obs, eye, fil, imager, observers, scopes, sessions, sites, targets, lenses));
 
         } catch (OALException oal) {
             LOGGER.error("Cannot load: {} ", xmlPath, oal);
@@ -981,7 +957,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return true;
-
     }
 
     private RootElement getRootElement() {
@@ -1051,7 +1026,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         }
 
         return root;
-
     }
 
     private void addObservationsAndDependentToRoot(List<IObservation> observations, RootElement root) {
@@ -1059,7 +1033,6 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         for (IObservation observation : observations) {
             this.addObservationAndDependentToRoot(observation, root);
         }
-
     }
 
     private void addObservationAndDependentToRoot(IObservation observation, RootElement root) {
@@ -1116,7 +1089,5 @@ public class XMLFileLoaderImpl implements XMLFileLoader {
         } catch (SchemaException se) {
             LOGGER.error("Unable to add element", se);
         }
-
     }
-
 }

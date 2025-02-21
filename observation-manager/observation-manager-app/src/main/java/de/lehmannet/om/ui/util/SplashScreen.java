@@ -1,20 +1,17 @@
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.ui.image.ImageResolver;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.image.ImageResolver;
 
 public class SplashScreen extends JFrame implements Runnable {
 
@@ -31,26 +28,23 @@ public class SplashScreen extends JFrame implements Runnable {
         this.imageResolver = resolver;
         this.version = version;
         this.init();
-
     }
 
     private void init() {
 
-        this.imageResolver.getImageURL(SPLASH_PNG).ifPresent(
+        this.imageResolver.getImageURL(SPLASH_PNG).ifPresent(imageFile -> {
+            this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
 
-                imageFile -> {
-                    this.image = Toolkit.getDefaultToolkit().getImage(imageFile);
+            MediaTracker mt = new MediaTracker(this);
+            mt.addImage(this.image, 0);
 
-                    MediaTracker mt = new MediaTracker(this);
-                    mt.addImage(this.image, 0);
-
-                    try {
-                        mt.waitForAll();
-                    } catch (InterruptedException ie) {
-                        // Interrupted while loading image
-                        LOGGER.error("Interrupted while loading SplashScreen");
-                    }
-                });
+            try {
+                mt.waitForAll();
+            } catch (InterruptedException ie) {
+                // Interrupted while loading image
+                LOGGER.error("Interrupted while loading SplashScreen");
+            }
+        });
     }
 
     @Override
@@ -83,7 +77,6 @@ public class SplashScreen extends JFrame implements Runnable {
 
         this.setVisible(false);
         this.dispose();
-
     }
 
     @Override
@@ -93,7 +86,5 @@ public class SplashScreen extends JFrame implements Runnable {
         g.setFont(font);
         g.drawImage(this.image, 0, 0, this);
         g.drawString(this.version, 0, 0);
-
     }
-
 }

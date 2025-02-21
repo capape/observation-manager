@@ -1,5 +1,12 @@
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.IEquipment;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.i18n.TextManager;
+import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -13,7 +20,6 @@ import java.awt.event.MouseListener;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -27,14 +33,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
-
-import de.lehmannet.om.IEquipment;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.i18n.TextManager;
-import de.lehmannet.om.ui.image.ImageResolver;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
 
 public class UnavailableEquipmentDialog extends OMDialog implements ActionListener {
 
@@ -54,8 +52,8 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
     private final ObservationManagerModel model;
     private final TextManager textManager;
 
-    public UnavailableEquipmentDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
-            ImageResolver resolver) {
+    public UnavailableEquipmentDialog(
+            ObservationManager om, ObservationManagerModel model, TextManager textManager, ImageResolver resolver) {
 
         super(om);
 
@@ -72,7 +70,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         this.initDialog();
         this.setVisible(true);
-
     }
 
     @Override
@@ -85,19 +82,16 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         // Close window
         this.dispose();
-
     }
 
     public JTree getTree() {
 
         return this.tree;
-
     }
 
     public boolean changedElements() {
 
         return this.changedElements;
-
     }
 
     private void markEquipmentUnavailable() {
@@ -112,7 +106,7 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
             if (node instanceof DefaultMutableTreeNode) {
                 if (((DefaultMutableTreeNode) node).getUserObject() instanceof CheckBoxEquipmentNode) { // Node is
-                                                                                                        // selected?
+                    // selected?
                     for (int j = 0; j < model.getChildCount(node); j++) { // Iterate over all children
                         leaf = model.getChild(node, j);
                         if (leaf instanceof DefaultMutableTreeNode) {
@@ -138,7 +132,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
                 }
             }
         }
-
     }
 
     private void initDialog() {
@@ -150,8 +143,8 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         this.tree.setEnabled(true);
         this.tree.setToolTipText(this.textManager.getString("dialog.unavailableEquipment.tooltip.tree"));
         JScrollPane scrollPanel = new JScrollPane(this.tree);
-        scrollPanel.setBorder(BorderFactory
-                .createTitledBorder(this.textManager.getString("dialog.unavailableEquipment.border.tree")));
+        scrollPanel.setBorder(BorderFactory.createTitledBorder(
+                this.textManager.getString("dialog.unavailableEquipment.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 1, 50, 92);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
@@ -172,7 +165,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(cancel, constraints);
         this.getContentPane().add(cancel);
-
     }
 
     private void initTree() {
@@ -181,38 +173,40 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
         Icon collapsed = null;
 
         // The root node
-        CheckBoxEquipmentNode root = new CheckBoxEquipmentNode(this, this.textManager.getString("treeRoot"), null, null,
-                null);
+        CheckBoxEquipmentNode root =
+                new CheckBoxEquipmentNode(this, this.textManager.getString("treeRoot"), null, null, null);
 
         // Create all schema element nodes
         expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null));
-        CheckBoxEquipmentNode scopes = new CheckBoxEquipmentNode(this, this.textManager.getString("scopes"),
-                this.model.getScopes(), expanded, collapsed);
+        CheckBoxEquipmentNode scopes = new CheckBoxEquipmentNode(
+                this, this.textManager.getString("scopes"), this.model.getScopes(), expanded, collapsed);
         root.add(scopes);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null));
-        CheckBoxEquipmentNode imagers = new CheckBoxEquipmentNode(this, this.textManager.getString("imagers"),
-                this.model.getImagers(), expanded, collapsed);
+        CheckBoxEquipmentNode imagers = new CheckBoxEquipmentNode(
+                this, this.textManager.getString("imagers"), this.model.getImagers(), expanded, collapsed);
         root.add(imagers);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null));
-        CheckBoxEquipmentNode filters = new CheckBoxEquipmentNode(this, this.textManager.getString("filters"),
-                this.model.getFilters(), expanded, collapsed);
+        CheckBoxEquipmentNode filters = new CheckBoxEquipmentNode(
+                this, this.textManager.getString("filters"), this.model.getFilters(), expanded, collapsed);
         root.add(filters);
 
-        expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null));
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null));
-        CheckBoxEquipmentNode eyepieces = new CheckBoxEquipmentNode(this, this.textManager.getString("eyepieces"),
-                this.model.getEyepieces(), expanded, collapsed);
+        expanded =
+                new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null));
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null));
+        CheckBoxEquipmentNode eyepieces = new CheckBoxEquipmentNode(
+                this, this.textManager.getString("eyepieces"), this.model.getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null));
         collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null));
-        CheckBoxEquipmentNode lenses = new CheckBoxEquipmentNode(this, this.textManager.getString("lenses"),
-                this.model.getLenses(), expanded, collapsed);
+        CheckBoxEquipmentNode lenses = new CheckBoxEquipmentNode(
+                this, this.textManager.getString("lenses"), this.model.getLenses(), expanded, collapsed);
         root.add(lenses);
 
         this.tree = new JTree(root);
@@ -222,7 +216,6 @@ public class UnavailableEquipmentDialog extends OMDialog implements ActionListen
 
         tree.setCellEditor(new CheckBoxNodeEquipmentEditor(tree, renderer));
         tree.setEditable(true);
-
     }
 
     /*
@@ -246,6 +239,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private final Color selectionForeground;
     private final Color selectionBackground;
     private final Color textForeground;
@@ -266,12 +260,11 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
         selectionBackground = UIManager.getColor("Tree.selectionBackground");
         textForeground = UIManager.getColor("Tree.textForeground");
         textBackground = UIManager.getColor("Tree.textBackground");
-
     }
 
     @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-            boolean leaf, int row, boolean hasFocus) {
+    public Component getTreeCellRendererComponent(
+            JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         Component returnValue = null;
         if (leaf) {
@@ -316,8 +309,8 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
             }
 
             DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
-            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row,
-                    hasFocus);
+            returnValue =
+                    nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row, hasFocus);
 
             // Set folder icon
             DefaultTreeCellRenderer dtcr = null;
@@ -335,9 +328,7 @@ class CheckBoxNodeEquipmentRenderer extends DefaultTreeCellRenderer {
         }
 
         return returnValue;
-
     }
-
 }
 
 class CheckBoxNodeEquipmentRendererMouseListener implements MouseListener {
@@ -347,7 +338,6 @@ class CheckBoxNodeEquipmentRendererMouseListener implements MouseListener {
     public CheckBoxNodeEquipmentRendererMouseListener(CheckBoxEquipmentNode checkBoxNode) {
 
         this.node = checkBoxNode;
-
     }
 
     @Override
@@ -359,29 +349,19 @@ class CheckBoxNodeEquipmentRendererMouseListener implements MouseListener {
         } else {
             this.node.setSelected(true);
         }
-
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
+    public void mouseReleased(MouseEvent e) {}
 }
 
 class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
@@ -389,29 +369,23 @@ class CheckBoxNodeEquipmentEditor extends DefaultTreeCellEditor {
     public CheckBoxNodeEquipmentEditor(JTree tree, DefaultTreeCellRenderer renderer) {
 
         super(tree, renderer);
-
     }
 
     @Override
     public boolean isCellEditable(EventObject event) {
 
         return true;
-
     }
 
     @Override
-    public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
-            boolean leaf, int row) {
+    public Component getTreeCellEditorComponent(
+            final JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row) {
 
         return this.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
-
     }
-
 }
 
-interface EquipmentNode {
-
-}
+interface EquipmentNode {}
 
 class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNode {
 
@@ -419,6 +393,7 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
      *
      */
     private static final long serialVersionUID = 1L;
+
     private String text = null;
     private boolean selected = false;
 
@@ -429,8 +404,8 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
 
     private int selectedChildren = 0;
 
-    public CheckBoxEquipmentNode(UnavailableEquipmentDialog dialog, String text, ISchemaElement[] elements,
-            Icon expanded, Icon collapsed) {
+    public CheckBoxEquipmentNode(
+            UnavailableEquipmentDialog dialog, String text, ISchemaElement[] elements, Icon expanded, Icon collapsed) {
 
         this.dialog = dialog;
         this.text = text;
@@ -454,13 +429,11 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
                 }
             }
         }
-
     }
 
     public boolean isSelected() {
 
         return selected;
-
     }
 
     public void setSelected(boolean newValue) {
@@ -482,38 +455,32 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
         if (tree != null) {
             EventQueue.invokeLater(tree::updateUI);
         }
-
     }
 
     public String getText() {
 
         return text;
-
     }
 
     public void setText(String newValue) {
 
         text = newValue;
-
     }
 
     @Override
     public String toString() {
 
         return this.text;
-
     }
 
     public Icon getExpandedIcon() {
 
         return this.expandedIcon;
-
     }
 
     public Icon getCollapsedIcon() {
 
         return this.collapsedIcon;
-
     }
 
     public void childChangedToSelected() {
@@ -521,7 +488,6 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
         this.selectedChildren++;
 
         this.selected = this.selectedChildren != 0;
-
     }
 
     public void childChangedToUnselected() {
@@ -529,9 +495,7 @@ class CheckBoxEquipmentNode extends Vector<EquipmentNode> implements EquipmentNo
         this.selectedChildren--;
 
         this.selected = this.selectedChildren != 0;
-
     }
-
 }
 
 class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
@@ -540,6 +504,7 @@ class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
      *
      */
     private static final long serialVersionUID = -8497892001962915732L;
+
     private ISchemaElement se = null;
     private UnavailableEquipmentDialog dialog = null;
     private CheckBoxEquipmentNode parentNode = null;
@@ -552,7 +517,6 @@ class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
         this.setSelected(((IEquipment) se).isAvailable());
 
         this.addActionListener(this);
-
     }
 
     @Override
@@ -563,20 +527,17 @@ class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
         }
 
         return se.getDisplayName();
-
     }
 
     @Override
     public String getText() {
 
         return this.toString();
-
     }
 
     public ISchemaElement getSchemaElement() {
 
         return this.se;
-
     }
 
     @Override
@@ -597,7 +558,5 @@ class EquipmentLeaf extends JCheckBox implements ActionListener, EquipmentNode {
         if (tree != null) {
             EventQueue.invokeLater(tree::updateUI);
         }
-
     }
-
 }

@@ -7,20 +7,18 @@
 
 package de.lehmannet.om.ui.preferences;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
-
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 public class PreferencesDialog extends OMDialog implements ActionListener {
 
@@ -35,7 +33,10 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
     private final ObservationManagerModel model;
     private final TextManager textManager;
 
-    public PreferencesDialog(ObservationManager om, ObservationManagerModel model, TextManager textManager,
+    public PreferencesDialog(
+            ObservationManager om,
+            ObservationManagerModel model,
+            TextManager textManager,
             PreferencesPanel[] additionalPanels) {
 
         super(om);
@@ -59,7 +60,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         }
 
         this.setVisible(true);
-
     }
 
     // --------------
@@ -78,7 +78,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
                 this.dispose();
             }
         }
-
     }
 
     private void addPreferencesTab(PreferencesPanel panel) {
@@ -86,7 +85,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         if (panel != null) {
             this.tabbedPane.addTab(panel.getTabTitle(), panel);
         }
-
     }
 
     private void applySettings() {
@@ -94,7 +92,6 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
             ((PreferencesPanel) this.tabbedPane.getComponentAt(i)).writeConfig();
         }
-
     }
 
     private void initDialog() {
@@ -106,8 +103,8 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         this.tabbedPane = new JTabbedPane();
 
         PreferencesPanel genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
-        PreferencesPanel behaviourPanel = new BehaviourPanel(this.om.getConfiguration(), this.om, this.model,
-                this.textManager);
+        PreferencesPanel behaviourPanel =
+                new BehaviourPanel(this.om.getConfiguration(), this.om, this.model, this.textManager);
         this.tabbedPane.addTab(genericPanel.getTabTitle(), genericPanel);
         this.tabbedPane.addTab(behaviourPanel.getTabTitle(), behaviourPanel);
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 4, 33, 33);
@@ -129,7 +126,5 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
-
 }

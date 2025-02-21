@@ -7,13 +7,11 @@
 
 package de.lehmannet.om;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
-
 import java.util.Objects;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Surface Brightness represents the value and the unit of a celestial objects surface brightness
@@ -77,7 +75,6 @@ public class SurfaceBrightness {
         } else {
             throw new SchemaException("Surface Brightness unit is unknown. ");
         }
-
     }
 
     /*
@@ -109,7 +106,6 @@ public class SurfaceBrightness {
         }
 
         this.value = value;
-
     }
 
     // ------
@@ -129,7 +125,6 @@ public class SurfaceBrightness {
     public String toString() {
 
         return value + " " + unit;
-
     }
 
     /**
@@ -160,7 +155,6 @@ public class SurfaceBrightness {
         }
 
         return thisMagsPerSqrArcSec == foreignMagsPerSqrArcSec;
-
     }
 
     @Override
@@ -200,7 +194,6 @@ public class SurfaceBrightness {
         element.appendChild(n_ValueText);
 
         return element;
-
     }
 
     /**
@@ -212,7 +205,6 @@ public class SurfaceBrightness {
     public String getUnit() {
 
         return unit;
-
     }
 
     /**
@@ -224,7 +216,6 @@ public class SurfaceBrightness {
     public float getValue() {
 
         return value;
-
     }
 
     /**
@@ -254,7 +245,6 @@ public class SurfaceBrightness {
         }
 
         return result;
-
     }
 
     /**
@@ -268,7 +258,5 @@ public class SurfaceBrightness {
     public static boolean isValidUnit(String unit) {
 
         return (SurfaceBrightness.MAGS_SQR_ARC_MIN.equals(unit)) || (SurfaceBrightness.MAGS_SQR_ARC_SEC.equals(unit));
-
     }
-
 }

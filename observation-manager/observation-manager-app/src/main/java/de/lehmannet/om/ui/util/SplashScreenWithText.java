@@ -7,7 +7,6 @@ import java.awt.RenderingHints;
 import java.awt.SplashScreen;
 import java.io.IOException;
 import java.net.URL;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,6 @@ public class SplashScreenWithText {
         this.nightMode = builder.nightMode;
         this.image = builder.image;
         this.millisecondsToWait = builder.millisecondsToWait;
-
     }
 
     public void showSplash() {
@@ -58,8 +56,8 @@ public class SplashScreenWithText {
 
             splashGraphics = splash.createGraphics();
             splashGraphics.setColor(Color.BLACK);
-            splashGraphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+            splashGraphics.setRenderingHint(
+                    RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
             splashGraphics.setFont(font);
 
@@ -83,7 +81,6 @@ public class SplashScreenWithText {
             splashGraphics.drawString(text, TEXT_POSITION_X, TEXT_POSITION_Y);
 
             splash.update();
-
         }
     }
 
@@ -101,7 +98,6 @@ public class SplashScreenWithText {
             splashGraphics.drawString(text, VERSION_TEXT_POSITION_X, VERSION_TEXT_POSITION_Y);
 
             splash.update();
-
         }
     }
 
@@ -112,8 +108,8 @@ public class SplashScreenWithText {
             splashGraphics = splash.createGraphics();
         }
         splashGraphics.setBackground(Color.WHITE);
-        splashGraphics.clearRect(x, y - (height / 2), Double.valueOf(splash.getSize().getWidth()).intValue() - x,
-                height);
+        splashGraphics.clearRect(
+                x, y - (height / 2), Double.valueOf(splash.getSize().getWidth()).intValue() - x, height);
         splashGraphics.setColor(Color.BLACK);
         splashGraphics.setFont(font);
         waitForNextMessage();

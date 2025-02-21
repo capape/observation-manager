@@ -1,18 +1,15 @@
 package de.lehmannet.om.ui.navigation;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ObservationManagerMenuHelp {
 
@@ -25,8 +22,11 @@ public final class ObservationManagerMenuHelp {
     private final TextManager textManager;
     private final TextManager versionTextManager;
 
-    public ObservationManagerMenuHelp(IConfiguration configuration, TextManager textManager,
-            TextManager versionTextManager, ObservationManager om) {
+    public ObservationManagerMenuHelp(
+            IConfiguration configuration,
+            TextManager textManager,
+            TextManager versionTextManager,
+            ObservationManager om) {
 
         // Load configuration
         this.configuration = configuration;
@@ -35,7 +35,6 @@ public final class ObservationManagerMenuHelp {
         this.versionTextManager = versionTextManager;
 
         this.aboutMenu = this.createMenuAboutItems();
-
     }
 
     public JMenu getMenu() {
@@ -47,8 +46,14 @@ public final class ObservationManagerMenuHelp {
         final JMenu aboutMenu = new JMenu(this.textManager.getString("menu.about"));
         aboutMenu.setMnemonic('a');
 
-        final JMenuItem aboutInfo = new JMenuItem(this.textManager.getString("menu.aboutOM"),
-                new ImageIcon(this.observationManager.getImageResolver().getImageURL("about.png").orElse(null), ""));
+        final JMenuItem aboutInfo = new JMenuItem(
+                this.textManager.getString("menu.aboutOM"),
+                new ImageIcon(
+                        this.observationManager
+                                .getImageResolver()
+                                .getImageURL("about.png")
+                                .orElse(null),
+                        ""));
         aboutInfo.setMnemonic('i');
         aboutInfo.addActionListener(new AboutInfoListener());
         aboutMenu.add(aboutInfo);
@@ -59,8 +64,10 @@ public final class ObservationManagerMenuHelp {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new AboutDialog(ObservationManagerMenuHelp.this.observationManager,
-                    ObservationManagerMenuHelp.this.textManager, ObservationManagerMenuHelp.this.versionTextManager);
+            new AboutDialog(
+                    ObservationManagerMenuHelp.this.observationManager,
+                    ObservationManagerMenuHelp.this.textManager,
+                    ObservationManagerMenuHelp.this.versionTextManager);
         }
     }
 }

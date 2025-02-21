@@ -11,7 +11,6 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
 
         this.catalog = catalog;
         this.createPanel();
-
     }
 
     @Override
@@ -54,7 +53,5 @@ public class GenericListableCatalogSearchPanel extends AbstractSearchPanel {
                 }
             }
         }
-
     }
-
 }

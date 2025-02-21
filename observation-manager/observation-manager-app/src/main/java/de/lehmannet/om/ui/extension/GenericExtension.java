@@ -1,22 +1,5 @@
 package de.lehmannet.om.ui.extension;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-
-import org.w3c.dom.Element;
-
 import de.lehmannet.om.GenericFinding;
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.IFinding;
@@ -33,14 +16,28 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.io.File;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import org.w3c.dom.Element;
 
 // Build-In extension for ObservationManager
 public class GenericExtension extends AbstractExtension {
 
     public static final String NAME = "Built-In extension";
 
-    private ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("genericTargetDisplayNames",
-            Locale.getDefault());
+    private ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("genericTargetDisplayNames", Locale.getDefault());
 
     private final Map<String, String> findingPanels = new HashMap<>();
     private final Map<String, String> targetPanels = new HashMap<>();
@@ -63,19 +60,23 @@ public class GenericExtension extends AbstractExtension {
         this.initTargetPanels();
 
         this.initExtensionTypes();
-
     }
 
     private void initExtensionTypes() {
 
-        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.GenericTarget")
-                .targetType(GenericTarget.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
-                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.GenericTarget")
+                .targetType(GenericTarget.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE)
+                .build());
 
-        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder().targetClassName("de.lehmannet.om.TargetStar")
-                .targetType(TargetStar.XML_XSI_TYPE_VALUE).findingClassName("de.lehmannet.om.GenericFinding")
-                .findingType(GenericFinding.XML_XSI_TYPE_VALUE).build());
-
+        this.extensionOalTypes.add(new SchemaOalTypeInfo.Builder()
+                .targetClassName("de.lehmannet.om.TargetStar")
+                .targetType(TargetStar.XML_XSI_TYPE_VALUE)
+                .findingClassName("de.lehmannet.om.GenericFinding")
+                .findingType(GenericFinding.XML_XSI_TYPE_VALUE)
+                .build());
     }
 
     @Override
@@ -89,42 +90,36 @@ public class GenericExtension extends AbstractExtension {
 
         // We don't have something to add to the schema
         return true;
-
     }
 
     @Override
     public String getName() {
 
         return GenericExtension.NAME;
-
     }
 
     @Override
     public void reloadLanguage() {
 
         this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
-
     }
 
     @Override
     public JMenu getMenu() {
 
         return null;
-
     }
 
     @Override
     public PreferencesPanel getPreferencesPanel() {
 
         return null;
-
     }
 
     @Override
     public ICatalog[] getCatalogs(File catalogDir) {
 
         return null;
-
     }
 
     private void initAllSupportedXSITypes() {
@@ -134,14 +129,12 @@ public class GenericExtension extends AbstractExtension {
 
         allSupportedXSITypes.addAll(this.supportedFinfingXSITypes);
         allSupportedXSITypes.addAll(this.supportedTargetXSITypes);
-
     }
 
     private void initSupportedTargetXSITypes() {
 
         supportedTargetXSITypes.add(GenericTarget.XML_XSI_TYPE_VALUE);
         supportedTargetXSITypes.add(TargetStar.XML_XSI_TYPE_VALUE);
-
     }
 
     private void initSupportedFindingXSITypes() {
@@ -153,7 +146,6 @@ public class GenericExtension extends AbstractExtension {
     public Set<String> getAllSupportedXSITypes() {
 
         return Collections.unmodifiableSet(this.allSupportedXSITypes);
-
     }
 
     @Override
@@ -167,7 +159,6 @@ public class GenericExtension extends AbstractExtension {
         } else {
             return Collections.emptySet();
         }
-
     }
 
     @Override
@@ -180,7 +171,6 @@ public class GenericExtension extends AbstractExtension {
         }
 
         return null;
-
     }
 
     @Override
@@ -191,14 +181,12 @@ public class GenericExtension extends AbstractExtension {
         }
 
         return null;
-
     }
 
     @Override
     public boolean isCreationAllowed(String xsiType) {
 
         return true;
-
     }
 
     @Override
@@ -209,7 +197,6 @@ public class GenericExtension extends AbstractExtension {
         } catch (MissingResourceException mre) { // XSIType not found
             return null;
         }
-
     }
 
     private void initFindingPanels() {
@@ -217,28 +204,24 @@ public class GenericExtension extends AbstractExtension {
         this.findingPanels.put(GenericTarget.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         this.findingPanels.put(GenericFinding.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
         this.findingPanels.put(TargetStar.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericFindingPanel");
-
     }
 
     private void initTargetPanels() {
 
         this.targetPanels.put(TargetStar.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.TargetStarPanel");
         this.targetPanels.put(GenericTarget.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.panel.GenericTargetPanel");
-
     }
 
     private void initTargetDialogs() {
 
         this.targetDialogs.put(GenericTarget.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.dialog.GenericTargetDialog");
         this.targetDialogs.put(TargetStar.XML_XSI_TYPE_VALUE, "de.lehmannet.om.ui.dialog.TargetStarDialog");
-
     }
 
     @Override
     public PopupMenuExtension getPopupMenu() {
 
         return null;
-
     }
 
     // No specific updates available. GenericExtension is part of ObservationManager
@@ -247,24 +230,23 @@ public class GenericExtension extends AbstractExtension {
     public Optional<URL> getUpdateInformationURL() {
 
         return Optional.empty();
-
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
-            boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(
+            String xsiType, IFinding finding, ISession session, ITarget target, boolean editable) {
         return FindingPanelFactory.newInstance(this.context, xsiType, finding, session, editable);
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
-            boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(
+            String xsiType, ITarget target, IObservation observation, boolean editable) {
         return TargetPanelFactory.newInstance(this.context, xsiType, target, editable);
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
-            IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(
+            String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
         return TargetDialogFactory.newInstance(this.context, xsiType, parent, target, editable);
     }
 
@@ -281,5 +263,4 @@ public class GenericExtension extends AbstractExtension {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

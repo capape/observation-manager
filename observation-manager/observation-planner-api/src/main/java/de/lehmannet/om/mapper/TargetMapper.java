@@ -1,17 +1,15 @@
 package de.lehmannet.om.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.EquPosition;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.util.SchemaException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class TargetMapper {
 
@@ -194,5 +192,4 @@ public class TargetMapper {
         }
         return null;
     }
-
 }

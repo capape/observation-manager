@@ -2,7 +2,6 @@ package de.lehmannet.om.ui.util;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -26,7 +25,6 @@ public final class DebugUI {
 
                 jcomponent.setBorder(redline);
                 jcomponent.setBackground(Color.yellow);
-
             }
 
             /*

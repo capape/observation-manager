@@ -7,20 +7,17 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetNA;
 import de.lehmannet.om.model.ObservationManagerModel;
-
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 
 public class DeepSkyTargetNAPanel extends AbstractPanel {
 
@@ -32,8 +29,9 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
 
-    public DeepSkyTargetNAPanel(UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target,
-            Boolean editable) throws IllegalArgumentException {
+    public DeepSkyTargetNAPanel(
+            UserInterfaceHelper uiHelper, ObservationManagerModel model, ITarget target, Boolean editable)
+            throws IllegalArgumentException {
 
         super(editable);
 
@@ -47,14 +45,12 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
         this.model = model;
 
         this.createPanel();
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -72,7 +68,6 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     @Override
@@ -102,7 +97,6 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     private void createPanel() {
@@ -114,8 +108,8 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.uiHelper, this.model, this.target,
-                this.isEditable());
+        this.deepSkyTargetContainer =
+                new DeepSkyTargetContainer(this.uiHelper, this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -124,7 +118,5 @@ public class DeepSkyTargetNAPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

@@ -24,8 +24,8 @@ public class SchemaException extends OALException {
     // ------------
 
     /**
-    	 *
-    	 */
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,7 +37,6 @@ public class SchemaException extends OALException {
     public SchemaException(String message) {
 
         super(message);
-
     }
 
     /**
@@ -51,7 +50,5 @@ public class SchemaException extends OALException {
     public SchemaException(String message, Throwable cause) {
 
         super(message, cause);
-
     }
-
 }

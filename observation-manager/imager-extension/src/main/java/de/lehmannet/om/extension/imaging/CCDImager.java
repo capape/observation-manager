@@ -7,14 +7,13 @@
 
 package de.lehmannet.om.extension.imaging;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.Imager;
 import de.lehmannet.om.mapper.CCDImagerMapper;
 import de.lehmannet.om.util.SchemaException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * Describes a CCD camera.
@@ -104,7 +103,6 @@ public class CCDImager extends Imager {
         this.setXPixelSize(CCDImagerMapper.getXPixelSize(imager));
         this.setYPixelSize(CCDImagerMapper.getYPixelSize(imager));
         this.setBinning(CCDImagerMapper.getBinningValue(imager));
-
     }
 
     /**
@@ -125,7 +123,6 @@ public class CCDImager extends Imager {
 
         this.setXPixels(xPixels);
         this.setYPixels(yPixels);
-
     }
 
     // ------------------------
@@ -144,7 +141,6 @@ public class CCDImager extends Imager {
     public String getXSIType() {
 
         return CCDImager.XML_ATTRIBUTE_CCDIMAGER;
-
     }
 
     // ------
@@ -195,7 +191,6 @@ public class CCDImager extends Imager {
         Node n_BinningText = ownerDoc.createTextNode("" + this.binning);
         e_Binning.appendChild(n_BinningText);
         e_Imager.appendChild(e_Binning);
-
     }
 
     // --------------
@@ -210,7 +205,6 @@ public class CCDImager extends Imager {
     public int getXPixels() {
 
         return xPixels;
-
     }
 
     /**
@@ -228,7 +222,6 @@ public class CCDImager extends Imager {
         }
 
         xPixels = pixels;
-
     }
 
     /**
@@ -239,7 +232,6 @@ public class CCDImager extends Imager {
     public int getYPixels() {
 
         return yPixels;
-
     }
 
     /**
@@ -257,7 +249,6 @@ public class CCDImager extends Imager {
         }
 
         yPixels = pixels;
-
     }
 
     /**
@@ -269,7 +260,6 @@ public class CCDImager extends Imager {
     public float getXPixelSize() {
 
         return xPixelSize;
-
     }
 
     /**
@@ -293,7 +283,6 @@ public class CCDImager extends Imager {
         }
 
         xPixelSize = pixelSize;
-
     }
 
     /**
@@ -305,7 +294,6 @@ public class CCDImager extends Imager {
     public float getYPixelSize() {
 
         return yPixelSize;
-
     }
 
     /**
@@ -329,7 +317,6 @@ public class CCDImager extends Imager {
         }
 
         yPixelSize = pixelSize;
-
     }
 
     /**
@@ -341,7 +328,6 @@ public class CCDImager extends Imager {
     public byte getBinning() {
 
         return this.binning;
-
     }
 
     /**
@@ -360,7 +346,5 @@ public class CCDImager extends Imager {
         }
 
         this.binning = binning;
-
     }
-
 }

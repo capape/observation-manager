@@ -7,10 +7,9 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog.test;
 
-import java.io.File;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.extension.deepSky.catalog.MessierCatalog;
+import java.io.File;
 
 class MessierCatalogTester {
 
@@ -28,7 +27,5 @@ class MessierCatalogTester {
             System.out.println(t);
             System.out.println("----");
         }
-
     }
-
 }

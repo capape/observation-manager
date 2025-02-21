@@ -7,21 +7,6 @@
 
 package de.lehmannet.om.ui.extension.imaging.panel;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.extension.imaging.CCDImager;
@@ -31,13 +16,26 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.EditPopupHandler;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class CCDImagerPanel extends AbstractPanel implements MouseListener, IImagerPanel {
 
     private static final long serialVersionUID = 6535037526525557736L;
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.imaging.Imaging", Locale.getDefault());
 
     private CCDImager imager = null;
 
@@ -68,7 +66,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         if (imager != null) {
             this.loadSchemaElement();
         }
-
     }
 
     @Override
@@ -128,14 +125,12 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return this.imager;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.imager;
-
     }
 
     @Override
@@ -199,7 +194,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return this.imager;
-
     }
 
     @Override
@@ -210,7 +204,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         if (e.getButton() == MouseEvent.BUTTON3) {
             new EditPopupHandler(e.getX(), e.getY(), this.remarks);
         }
-
     }
 
     @Override
@@ -242,7 +235,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return modelName;
-
     }
 
     private int getXPixels() {
@@ -266,7 +258,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return x;
-
     }
 
     private int getYPixels() {
@@ -290,7 +281,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return y;
-
     }
 
     private float getXPixelSize() throws NumberFormatException {
@@ -314,7 +304,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return x;
-
     }
 
     private float getYPixelSize() throws NumberFormatException {
@@ -338,7 +327,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         }
 
         return y;
-
     }
 
     private void loadSchemaElement() {
@@ -378,7 +366,6 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
 
         this.binning.setText("" + this.imager.getBinning());
         this.binning.setEditable(this.isEditable());
-
     }
 
     private void createPanel() {
@@ -489,7 +476,5 @@ public class CCDImagerPanel extends AbstractPanel implements MouseListener, IIma
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

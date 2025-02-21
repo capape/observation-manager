@@ -7,10 +7,9 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * The class GenericFinding provides a generic implementation of de.lehmannet.om.IFinding.<br>
@@ -36,19 +35,16 @@ public class GenericFinding extends Finding {
     public GenericFinding(Node findingElement) throws SchemaException {
 
         super(findingElement);
-
     }
 
     public GenericFinding(String description) {
 
         super(description);
-
     }
 
     public GenericFinding(String ID, String description) {
 
         super(ID, description);
-
     }
 
     // -------------
@@ -68,7 +64,6 @@ public class GenericFinding extends Finding {
     public String getDisplayName() {
 
         return this.getDescription().substring(0, 7);
-
     }
 
     // ------
@@ -86,7 +81,6 @@ public class GenericFinding extends Finding {
     public String toString() {
 
         return "GenericFinding: Description=" + this.getDescription();
-
     }
 
     /**
@@ -109,7 +103,6 @@ public class GenericFinding extends Finding {
         }
 
         return (this.toString().equals(obj.toString())) && (this.getXSIType().equals(((IFinding) obj).getXSIType()));
-
     }
 
     @Override
@@ -136,7 +129,6 @@ public class GenericFinding extends Finding {
     public String getXSIType() {
 
         return GenericFinding.XML_XSI_TYPE_VALUE;
-
     }
 
     // -------
@@ -169,7 +161,5 @@ public class GenericFinding extends Finding {
         parent.appendChild(eFinding);
 
         return parent;
-
     }
-
 }

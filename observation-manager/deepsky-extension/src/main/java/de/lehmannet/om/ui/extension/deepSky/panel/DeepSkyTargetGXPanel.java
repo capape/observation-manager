@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
@@ -26,13 +16,21 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class DeepSkyTargetGXPanel extends AbstractPanel {
 
     private static final long serialVersionUID = -3778934999845455902L;
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.deepSky.DeepSky", Locale.getDefault());
 
     private DeepSkyTargetGX target = null;
 
@@ -61,14 +59,12 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         if (this.target != null) {
             this.loadSchemaElement();
         }
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.target;
-
     }
 
     @Override
@@ -113,7 +109,6 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     @Override
@@ -143,7 +138,6 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         }
 
         return this.target;
-
     }
 
     private void loadSchemaElement() {
@@ -157,7 +151,6 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
             this.positionAngle.setText("" + this.target.getPositionAngle());
         }
         this.positionAngle.setEditable(this.isEditable());
-
     }
 
     private void createPanel() {
@@ -169,8 +162,8 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         this.setLayout(gridbag);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 4, 1, 45, 1);
-        this.deepSkyTargetContainer = new DeepSkyTargetContainer(this.uiHelper, this.model, this.target,
-                this.isEditable());
+        this.deepSkyTargetContainer =
+                new DeepSkyTargetContainer(this.uiHelper, this.model, this.target, this.isEditable());
         gridbag.setConstraints(this.deepSkyTargetContainer, constraints);
         this.add(this.deepSkyTargetContainer);
 
@@ -192,8 +185,8 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         this.add(this.hubbleType);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        OMLabel LpositionAngle = new OMLabel(this.bundle.getString("panel.gx.label.posAngle"), SwingConstants.RIGHT,
-                false);
+        OMLabel LpositionAngle =
+                new OMLabel(this.bundle.getString("panel.gx.label.posAngle"), SwingConstants.RIGHT, false);
         LpositionAngle.setToolTipText(this.bundle.getString("panel.gx.tooltip.posAngle"));
         gridbag.setConstraints(LpositionAngle, constraints);
         this.add(LpositionAngle);
@@ -208,7 +201,5 @@ public class DeepSkyTargetGXPanel extends AbstractPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

@@ -7,16 +7,6 @@
 
 package de.lehmannet.om.ui.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Eyepiece;
 import de.lehmannet.om.IEyepiece;
@@ -25,6 +15,14 @@ import de.lehmannet.om.ui.container.AngleContainer;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.util.FloatUtil;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class EyepiecePanel extends AbstractPanel implements ItemListener {
 
@@ -52,14 +50,12 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         if (eyepiece != null) {
             this.loadSchemaElement();
         }
-
     }
 
     // Constructor only to be used in show mode
     public EyepiecePanel(IEyepiece eyepiece) {
 
         this(eyepiece, false);
-
     }
 
     @Override
@@ -74,27 +70,25 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
                 this.LmaxFocalLengthName.setVisible(false);
                 // Change focal length label text
                 this.LfocalLengthName.setText(AbstractPanel.bundle.getString("panel.eyepiece.label.focalLength"));
-                this.LfocalLengthName
-                        .setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.focalLength"));
+                this.LfocalLengthName.setToolTipText(
+                        AbstractPanel.bundle.getString("panel.eyepiece.tooltip.focalLength"));
             } else if (e.getStateChange() == ItemEvent.SELECTED) {
                 // Show max focal length label and textbox
                 this.maxFocalLength.setVisible(true);
                 this.LmaxFocalLengthName.setVisible(true);
                 // Change focal length label text
                 this.LfocalLengthName.setText(AbstractPanel.bundle.getString("panel.eyepiece.label.minFocalLength"));
-                this.LfocalLengthName
-                        .setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.minFocalLength"));
+                this.LfocalLengthName.setToolTipText(
+                        AbstractPanel.bundle.getString("panel.eyepiece.tooltip.minFocalLength"));
             }
             this.updateUI(); // Refresh UI
         }
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.eyepiece;
-
     }
 
     @Override
@@ -156,7 +150,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.eyepiece.setMaxFocalLength(maxFL);
 
         return this.eyepiece;
-
     }
 
     @Override
@@ -220,7 +213,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.eyepiece.setMaxFocalLength(maxFL);
 
         return this.eyepiece;
-
     }
 
     private String getModelName() {
@@ -232,7 +224,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         }
 
         return modelName;
-
     }
 
     private float getFocalLength() {
@@ -251,7 +242,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         }
 
         return fl;
-
     }
 
     private float getMaxFocalLength() {
@@ -270,7 +260,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         }
 
         return fl;
-
     }
 
     private void loadSchemaElement() {
@@ -295,7 +284,6 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
             this.apparentFOV.setAngle(afov);
         }
         this.apparentFOV.setEditable(this.isEditable());
-
     }
 
     private void createPanel() {
@@ -318,8 +306,8 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.add(this.model);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 5, 1);
-        OMLabel LvendorName = new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.vendor"),
-                SwingConstants.RIGHT, false);
+        OMLabel LvendorName =
+                new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.vendor"), SwingConstants.RIGHT, false);
         LvendorName.setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.vendor"));
         gridbag.setConstraints(LvendorName, constraints);
         this.add(LvendorName);
@@ -352,8 +340,8 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.add(this.focalLength);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 2, 1, 1, 5, 1);
-        this.LmaxFocalLengthName = new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.maxFocalLength"),
-                SwingConstants.RIGHT, true);
+        this.LmaxFocalLengthName = new OMLabel(
+                AbstractPanel.bundle.getString("panel.eyepiece.label.maxFocalLength"), SwingConstants.RIGHT, true);
         LmaxFocalLengthName.setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.maxFocalLength"));
         gridbag.setConstraints(LmaxFocalLengthName, constraints);
         this.add(LmaxFocalLengthName);
@@ -366,8 +354,8 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         this.maxFocalLength.setVisible(false); // Show when zoomEyepiece checkbox gets selected
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 5, 1);
-        JLabel LapparentFOVName = new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.appearendFoV"),
-                false);
+        JLabel LapparentFOVName =
+                new OMLabel(AbstractPanel.bundle.getString("panel.eyepiece.label.appearendFoV"), false);
         LapparentFOVName.setToolTipText(AbstractPanel.bundle.getString("panel.eyepiece.tooltip.apparentFoV"));
         gridbag.setConstraints(LapparentFOVName, constraints);
         this.add(LapparentFOVName);
@@ -382,7 +370,5 @@ public class EyepiecePanel extends AbstractPanel implements ItemListener {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
-
 }

@@ -60,7 +60,5 @@ public class SchemaOalTypeInfo {
         public SchemaOalTypeInfo build() {
             return new SchemaOalTypeInfo(this);
         }
-
     }
-
 }

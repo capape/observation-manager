@@ -21,5 +21,4 @@ interface ISerializer {
      * @return int value with the number of exported observations
      */
     int serialize(OutputStream stream) throws Exception;
-
 }

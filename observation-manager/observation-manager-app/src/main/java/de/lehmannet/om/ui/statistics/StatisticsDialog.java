@@ -7,6 +7,20 @@
 
 package de.lehmannet.om.ui.statistics;
 
+import de.lehmannet.om.IFinding;
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.catalog.IListableCatalog;
+import de.lehmannet.om.ui.dialog.OMDialog;
+import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -24,36 +38,19 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.IFinding;
-import de.lehmannet.om.IObservation;
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.catalog.IListableCatalog;
-import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.SchemaElementConstants;
 
 public class StatisticsDialog extends OMDialog implements ActionListener, ComponentListener {
 
     private static final long serialVersionUID = 6609511333362846103L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     // The observers for which the statistics will be shown
     private List<IObserver> observers = null;
@@ -115,12 +112,19 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 }
             }
             // Show popup
-            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(this.om, StatisticsDialog.this.model,
-                    this.bundle.getString("dialog.statistics.observerPopup.title"), null, preselectedObserver, true,
+            SchemaElementSelectorPopup popup = new SchemaElementSelectorPopup(
+                    this.om,
+                    StatisticsDialog.this.model,
+                    this.bundle.getString("dialog.statistics.observerPopup.title"),
+                    null,
+                    preselectedObserver,
+                    true,
                     SchemaElementConstants.OBSERVER);
-            this.observers = popup.getAllSelectedElements().stream().map(x -> {
-                return (IObserver) x;
-            }).collect(Collectors.toList());
+            this.observers = popup.getAllSelectedElements().stream()
+                    .map(x -> {
+                        return (IObserver) x;
+                    })
+                    .collect(Collectors.toList());
             if ((this.observers == null) || (this.observers.isEmpty())) {
                 return;
             }
@@ -137,7 +141,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         this.createCatalogueStatistics();
 
         this.setVisible(true);
-
     }
 
     // --------------
@@ -182,7 +185,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 }
             }
         }
-
     }
 
     // ------
@@ -209,7 +211,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
 
             this.dispose();
         }
-
     }
 
     // -----------------
@@ -232,7 +233,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         if (resize) {
             setSize(width, this.getHeight());
         }
-
     }
 
     @Override
@@ -257,8 +257,8 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         IObservation[] observations = this.model.getObservations();
 
         // Get config
-        boolean useCoObservers = Boolean
-                .parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
+        boolean useCoObservers =
+                Boolean.parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_STATISTICS_USE_COOBSERVERS));
 
         // Iterate over all selected catalogs, create CatalogCheckers and start threads
         this.checkers = new CatalogChecker[this.selectedCatalogs.size()];
@@ -267,12 +267,11 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         while (iterator.hasNext()) {
             current = (IListableCatalog) iterator.next();
 
-            checkers[i] = new CatalogChecker(current, observations, this.observers, useCoObservers,
-                    this.catProgress[i]);
+            checkers[i] =
+                    new CatalogChecker(current, observations, this.observers, useCoObservers, this.catProgress[i]);
             checkersThreads[i] = new Thread(checkers[i], current.getName());
             // checkersThreads[i].setPriority(Thread.MAX_PRIORITY);
             checkersThreads[i++].start();
-
         }
 
         // Start monitor thread...
@@ -280,7 +279,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         this.updateUIRunnable = new UpdateRunnable(this);
         Thread updateUI = new Thread(this.updateUIRunnable, "Update Statistics UI");
         updateUI.start();
-
     }
 
     boolean showButton(int index) {
@@ -318,7 +316,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
         this.repaint();
 
         return true;
-
     }
 
     private void getObservationsForCatalog(IListableCatalog cat) {
@@ -332,7 +329,6 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
                 }
             }
         }
-
     }
 
     private void initDialog() {
@@ -405,16 +401,13 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             this.getContentPane().add(this.catProgress[i]);
 
             i++;
-
         }
 
         ConstraintsBuilder.buildConstraints(constraints, 0, i + 2, 4, 1, 100, 1);
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
-
 }
 
 class CatalogChecker implements Runnable {
@@ -429,8 +422,12 @@ class CatalogChecker implements Runnable {
 
     private JProgressBar progressBar = null;
 
-    public CatalogChecker(IListableCatalog catalog, IObservation[] observations, List<IObserver> observers,
-            boolean useCoObservers, JProgressBar progress) {
+    public CatalogChecker(
+            IListableCatalog catalog,
+            IObservation[] observations,
+            List<IObserver> observers,
+            boolean useCoObservers,
+            JProgressBar progress) {
 
         this.catalog = catalog;
         this.observations = observations;
@@ -438,31 +435,26 @@ class CatalogChecker implements Runnable {
         this.useCoObservers = useCoObservers;
 
         this.progressBar = progress;
-
     }
 
     public CatalogTargets getCatalogTargets() {
 
         return this.catalogTargets;
-
     }
 
     public IListableCatalog getCatalog() {
 
         return this.catalog;
-
     }
 
     public void stop() {
 
         this.run = false;
-
     }
 
     public boolean isRunning() {
 
         return this.run;
-
     }
 
     // Runnable
@@ -492,8 +484,12 @@ class CatalogChecker implements Runnable {
                         // Check via coObservers
                         if (this.observations[i].getSession() != null) {
                             if ((this.observations[i].getSession().getCoObservers() != null)
-                                    && !(this.observations[i].getSession().getCoObservers().isEmpty())) {
-                                List<IObserver> coObservers = this.observations[i].getSession().getCoObservers();
+                                    && !(this.observations[i]
+                                            .getSession()
+                                            .getCoObservers()
+                                            .isEmpty())) {
+                                List<IObserver> coObservers =
+                                        this.observations[i].getSession().getCoObservers();
                                 ListIterator<IObserver> iterator = coObservers.listIterator();
                                 IObserver current = null;
                                 boolean found = false;
@@ -516,11 +512,11 @@ class CatalogChecker implements Runnable {
                     } else {
                         continue; // Continue for loop as coObservers shouldn't be considered
                     }
-
                 }
 
                 // Iterate over all findings to findout whether the target was seen at all
-                ListIterator<IFinding> findingIterator = this.observations[i].getResults().listIterator();
+                ListIterator<IFinding> findingIterator =
+                        this.observations[i].getResults().listIterator();
                 boolean findingSeen = false;
                 while (findingIterator.hasNext()) {
                     if (findingIterator.next().wasSeen()) {
@@ -541,13 +537,10 @@ class CatalogChecker implements Runnable {
             } else {
                 break; // Stop loop -> stop thread
             }
-
         }
 
         this.run = false; // Indicate we're done
-
     }
-
 }
 
 class UpdateRunnable implements Runnable {
@@ -560,19 +553,16 @@ class UpdateRunnable implements Runnable {
     public UpdateRunnable(StatisticsDialog dialog) {
 
         this.dialog = dialog;
-
     }
 
     public void stop() {
 
         this.running = false;
-
     }
 
     public boolean isRunning() {
 
         return this.running;
-
     }
 
     @Override
@@ -598,7 +588,5 @@ class UpdateRunnable implements Runnable {
             }
             this.running = false;
         }
-
     }
-
 }

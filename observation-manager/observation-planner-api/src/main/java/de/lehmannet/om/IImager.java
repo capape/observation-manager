@@ -179,5 +179,4 @@ public interface IImager extends ISchemaElement, IExtendableSchemaElement, IEqui
      *            The new remarks.
      */
     void setRemarks(String remarks);
-
 }

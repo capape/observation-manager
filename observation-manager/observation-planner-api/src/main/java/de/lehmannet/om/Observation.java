@@ -7,6 +7,10 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.ObservationMapper;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
+import de.lehmannet.om.util.SchemaException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -14,18 +18,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import de.lehmannet.om.mapper.ObservationMapper;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * An IObservation describes an astronomical oberservation of exactly one celestial object (target).<br>
@@ -147,9 +145,19 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      * @throws SchemaException
      *             if the given Node does not match the XML Schema specifications
      */
-    public Observation(Node observation, boolean fixNodeErrors, ITarget[] targets, IObserver[] observers, ISite[] sites,
-            IScope[] scopes, ISession[] sessions, IEyepiece[] eyepieces, IFilter[] filters, IImager[] imagers,
-            ILens... lenses) throws SchemaException, IllegalArgumentException {
+    public Observation(
+            Node observation,
+            boolean fixNodeErrors,
+            ITarget[] targets,
+            IObserver[] observers,
+            ISite[] sites,
+            IScope[] scopes,
+            ISession[] sessions,
+            IEyepiece[] eyepieces,
+            IFilter[] filters,
+            IImager[] imagers,
+            ILens... lenses)
+            throws SchemaException, IllegalArgumentException {
 
         if (observation == null) {
             LOGGER.error("Parameter observation node cannot be NULL.");
@@ -194,7 +202,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setFilter(ObservationMapper.getOptionalFilter(filters, observationElement));
 
         this.setImager(ObservationMapper.getOptionalImager(imagers, observationElement));
-
     }
 
     /**
@@ -237,7 +244,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.target = target;
         this.observer = observer;
         this.addResult(result);
-
     }
 
     /**
@@ -281,7 +287,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.observer = observer;
 
         this.addResults(results);
-
     }
 
     /**
@@ -300,13 +305,14 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      * @throws IllegalArgumentException
      *             if one of the parameters, except end date, is <code>null</code>, or the result list is empty
      */
-    public Observation(ZonedDateTime begin, ZonedDateTime end, ITarget target, IObserver observer,
-            List<IFinding> results) throws IllegalArgumentException {
+    public Observation(
+            ZonedDateTime begin, ZonedDateTime end, ITarget target, IObserver observer, List<IFinding> results)
+            throws IllegalArgumentException {
 
         this(begin, target, observer, results);
 
-        this.end = end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
-
+        this.end =
+                end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
     }
 
     /**
@@ -330,8 +336,8 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this(begin, target, observer, result);
 
-        this.end = end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
-
+        this.end =
+                end == null ? null : end.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime();
     }
 
     /**
@@ -373,9 +379,24 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, result or
      *             seeing is < 1 or > 5
      */
-    public Observation(ZonedDateTime begin, ZonedDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
-            float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
-            IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, IFinding result)
+    public Observation(
+            ZonedDateTime begin,
+            ZonedDateTime end,
+            float faintestStar,
+            SurfaceBrightness sq,
+            int seeing,
+            float magnification,
+            ITarget target,
+            IObserver observer,
+            ISite site,
+            IScope scope,
+            String accessories,
+            IEyepiece eyepiece,
+            IFilter filter,
+            IImager imager,
+            ILens lens,
+            ISession session,
+            IFinding result)
             throws IllegalArgumentException {
 
         this(begin, end, target, observer, result);
@@ -392,7 +413,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setImager(imager);
         this.setLens(lens);
         this.setSkyQuality(sq);
-
     }
 
     /**
@@ -434,9 +454,24 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
      *             if one of the follwing parameters, is <code>null</code>: begin, target, observer, site, results or
      *             result list is empty. Also if seeing is < 1 or > 5
      */
-    public Observation(ZonedDateTime begin, ZonedDateTime end, float faintestStar, SurfaceBrightness sq, int seeing,
-            float magnification, ITarget target, IObserver observer, ISite site, IScope scope, String accessories,
-            IEyepiece eyepiece, IFilter filter, IImager imager, ILens lens, ISession session, List<IFinding> results)
+    public Observation(
+            ZonedDateTime begin,
+            ZonedDateTime end,
+            float faintestStar,
+            SurfaceBrightness sq,
+            int seeing,
+            float magnification,
+            ITarget target,
+            IObserver observer,
+            ISite site,
+            IScope scope,
+            String accessories,
+            IEyepiece eyepiece,
+            IFilter filter,
+            IImager imager,
+            ILens lens,
+            ISession session,
+            List<IFinding> results)
             throws IllegalArgumentException {
 
         this(begin, end, target, observer, results);
@@ -453,7 +488,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setImager(imager);
         this.setLens(lens);
         this.setSkyQuality(sq);
-
     }
 
     // -------------
@@ -473,7 +507,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         return this.dateManager.zonedDateTimeToStringWithHour(this.begin.toZonedDateTime()) + " - "
                 + this.target.getDisplayName();
-
     }
 
     // ------
@@ -586,7 +619,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         return buffer.toString();
-
     }
 
     // ------------
@@ -675,7 +707,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         // Add element here so that XML sequence fits forward references
         parent.appendChild(eObservation);
-
     }
 
     private void addImages(Document ownerDoc, Element eObservation) {
@@ -770,7 +801,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public OffsetDateTime getBegin() {
 
         return begin;
-
     }
 
     /**
@@ -783,7 +813,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public String getAccessories() {
 
         return this.accessories;
-
     }
 
     /**
@@ -795,7 +824,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     @Override
     public OffsetDateTime getEnd() {
         return end;
-
     }
 
     /**
@@ -808,7 +836,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public IEyepiece getEyepiece() {
 
         return eyepiece;
-
     }
 
     /**
@@ -821,7 +848,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public ILens getLens() {
 
         return lens;
-
     }
 
     /**
@@ -835,7 +861,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public IFilter getFilter() {
 
         return this.filter;
-
     }
 
     /**
@@ -847,7 +872,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public IImager getImager() {
 
         return this.imager;
-
     }
 
     /**
@@ -860,7 +884,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public float getMagnification() {
 
         return magnification;
-
     }
 
     /**
@@ -873,7 +896,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public float getFaintestStar() {
 
         return faintestStar;
-
     }
 
     /**
@@ -885,7 +907,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public SurfaceBrightness getSkyQuality() {
 
         return sqmValue;
-
     }
 
     /**
@@ -902,7 +923,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         return this.images;
-
     }
 
     /**
@@ -916,7 +936,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public int getSeeing() {
 
         return seeing;
-
     }
 
     /**
@@ -928,7 +947,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public IObserver getObserver() {
 
         return observer;
-
     }
 
     /**
@@ -957,7 +975,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this.results = new LinkedList<IFinding>();
         this.results.add(result);
-
     }
 
     /**
@@ -988,7 +1005,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this.results = results;
         return true;
-
     }
 
     /**
@@ -1008,7 +1024,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.accessories = accessories;
-
     }
 
     /**
@@ -1041,7 +1056,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.images = imagesList;
-
     }
 
     /**
@@ -1054,7 +1068,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setImager(IImager imager) {
 
         this.imager = imager;
-
     }
 
     /**
@@ -1079,7 +1092,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this.results.addAll(results);
         return true;
-
     }
 
     /**
@@ -1096,7 +1108,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.results.add(result);
-
     }
 
     /**
@@ -1121,7 +1132,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
         this.images.addAll(images);
         return true;
-
     }
 
     /**
@@ -1138,7 +1148,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.images.add(imagePath);
-
     }
 
     /**
@@ -1151,7 +1160,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public List<IFinding> getResults() {
 
         return this.results;
-
     }
 
     /**
@@ -1164,7 +1172,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public IScope getScope() {
 
         return scope;
-
     }
 
     /**
@@ -1178,7 +1185,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public ISession getSession() {
 
         return session;
-
     }
 
     /**
@@ -1190,7 +1196,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public ISite getSite() {
 
         return site;
-
     }
 
     /**
@@ -1202,7 +1207,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public ITarget getTarget() {
 
         return target;
-
     }
 
     /**
@@ -1223,7 +1227,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.begin = begin;
-
     }
 
     /**
@@ -1237,7 +1240,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setEnd(OffsetDateTime end) {
 
         this.end = end;
-
     }
 
     /**
@@ -1251,7 +1253,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setEyepiece(IEyepiece eyepiece) {
 
         this.eyepiece = eyepiece;
-
     }
 
     /**
@@ -1265,7 +1266,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setLens(ILens lens) {
 
         this.lens = lens;
-
     }
 
     /**
@@ -1280,7 +1280,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setFilter(IFilter filter) {
 
         this.filter = filter;
-
     }
 
     /**
@@ -1295,7 +1294,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setFaintestStar(float faintestStar) {
 
         this.faintestStar = faintestStar;
-
     }
 
     /**
@@ -1317,7 +1315,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setMagnification(float magnification) {
 
         this.magnification = magnification;
-
     }
 
     /**
@@ -1331,7 +1328,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setSkyQuality(SurfaceBrightness sq) {
 
         this.sqmValue = sq;
-
     }
 
     /**
@@ -1358,7 +1354,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.seeing = seeing;
-
     }
 
     /**
@@ -1379,7 +1374,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.observer = observer;
-
     }
 
     /**
@@ -1393,7 +1387,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setScope(IScope scope) {
 
         this.scope = scope;
-
     }
 
     /**
@@ -1417,7 +1410,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         checkSessionDatesBeforeSetting(session);
 
         this.session = session;
-
     }
 
     private void fixSessionDatesOnLoad(ISession session) {
@@ -1433,9 +1425,9 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         // Check if start date of observation is equal or later then session start
         if (sessionStart.isAfter(this.begin)) {
             session.setBegin(this.begin);
-            LOGGER.warn("Session start date is after observation start date  for:  {}. Fixed to load",
+            LOGGER.warn(
+                    "Session start date is after observation start date  for:  {}. Fixed to load",
                     this.getDisplayName());
-
         }
 
         // Check if also end date is correct (if set)
@@ -1460,7 +1452,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             LOGGER.error("Session start date is after observation start date  for:  {}.", this.getDisplayName());
             throw new IllegalArgumentException(
                     "Session start date is after observation start date for: " + this.getDisplayName());
-
         }
 
         // Check if also end date is correct (if set)
@@ -1482,7 +1473,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
     public void setSite(ISite site) {
 
         this.site = site;
-
     }
 
     private String toMillisString(OffsetDateTime date) {
@@ -1510,7 +1500,6 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.target = target;
-
     }
 
     @Override
@@ -1523,5 +1512,4 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
             return new Observation(begin.atZoneSameInstant(ZoneId.systemDefault()), target, observer, results);
         }
     }
-
 }

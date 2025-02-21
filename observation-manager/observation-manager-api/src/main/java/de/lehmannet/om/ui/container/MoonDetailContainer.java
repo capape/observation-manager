@@ -7,6 +7,12 @@
 
 package de.lehmannet.om.ui.container;
 
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISite;
+import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
+import de.lehmannet.om.ui.image.ImageResolver;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.util.Ephemerides;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -15,17 +21,9 @@ import java.text.DecimalFormatSymbols;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
-import de.lehmannet.om.IObservation;
-import de.lehmannet.om.ISite;
-import de.lehmannet.om.ui.image.ImageClassLoaderResolverImpl;
-import de.lehmannet.om.ui.image.ImageResolver;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.Ephemerides;
 
 public class MoonDetailContainer extends JLabel {
 
@@ -34,8 +32,8 @@ public class MoonDetailContainer extends JLabel {
      */
     private static final long serialVersionUID = -8924593147222865850L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private static final String BELOW_HORIZON = "below.png";
 
@@ -44,21 +42,19 @@ public class MoonDetailContainer extends JLabel {
 
     private IObservation observation = null;
 
-    private transient final ImageResolver moonImages = new ImageClassLoaderResolverImpl("images/moon");
+    private final transient ImageResolver moonImages = new ImageClassLoaderResolverImpl("images/moon");
 
     public MoonDetailContainer(IObservation obs) {
 
         this.observation = obs;
 
         this.setImage();
-
     }
 
     public void setObservation(IObservation obs) {
 
         this.observation = obs;
         this.setImage();
-
     }
 
     private void setImage() {
@@ -71,7 +67,8 @@ public class MoonDetailContainer extends JLabel {
         ZonedDateTime date = this.observation.getBegin().toZonedDateTime();
 
         String path = "";
-        if (Ephemerides.isMoonAboveHorizon(date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {
+        if (Ephemerides.isMoonAboveHorizon(
+                date, site.getLongitude().toDegree(), site.getLatitude().toDegree())) {
 
             double phase = Ephemerides.getMoonPhase(date) * 100;
             double absPhase = Math.abs(phase);
@@ -132,7 +129,5 @@ public class MoonDetailContainer extends JLabel {
 
         this.setHorizontalAlignment(SwingConstants.LEFT);
         this.setIcon(icon);
-
     }
-
 }

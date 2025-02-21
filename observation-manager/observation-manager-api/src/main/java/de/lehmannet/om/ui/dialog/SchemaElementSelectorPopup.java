@@ -7,25 +7,23 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
-
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.util.SchemaElementConstants;
 
 public class SchemaElementSelectorPopup extends OMDialog implements ActionListener {
 
@@ -38,9 +36,15 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
 
     private final ObservationManagerModel model;
 
-    public SchemaElementSelectorPopup(JFrame om, ObservationManagerModel omModel, String title, String xsiType,
-            List<? extends ISchemaElement> preSelectedElements, boolean multipleSelection,
-            SchemaElementConstants schemaElement) throws IllegalArgumentException, NoSuchElementException { // See
+    public SchemaElementSelectorPopup(
+            JFrame om,
+            ObservationManagerModel omModel,
+            String title,
+            String xsiType,
+            List<? extends ISchemaElement> preSelectedElements,
+            boolean multipleSelection,
+            SchemaElementConstants schemaElement)
+            throws IllegalArgumentException, NoSuchElementException { // See
         // SchemaElementConstants
 
         super(om);
@@ -96,7 +100,7 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
             default: {
                 throw new IllegalArgumentException(
                         "Passed schemaElement ID was wrong. Use SchemaElementConstants for retriving ID."); // SchemaElementID
-                                                                                                            // was wrong
+                // was wrong
             }
         }
 
@@ -104,13 +108,12 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
             throw new NoSuchElementException("No element of type: " + schemaElement + " found in XML cache");
         }
 
-        this.tableModel = new ExtendedSchemaTableModel(elements, schemaElement, xsiType, multipleSelection,
-                preSelectedElements);
+        this.tableModel =
+                new ExtendedSchemaTableModel(elements, schemaElement, xsiType, multipleSelection, preSelectedElements);
 
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -126,7 +129,6 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
                 this.tableModel = null; // Set TableModel = null to indicate canceled UI
             }
         }
-
     }
 
     public List<ISchemaElement> getAllSelectedElements() {
@@ -136,7 +138,6 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
         }
 
         return this.tableModel.getAllSelectedElements();
-
     }
 
     private void initDialog() {
@@ -173,7 +174,5 @@ public class SchemaElementSelectorPopup extends OMDialog implements ActionListen
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
-
 }

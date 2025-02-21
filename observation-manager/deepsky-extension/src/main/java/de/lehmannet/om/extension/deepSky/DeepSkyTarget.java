@@ -7,13 +7,6 @@
 
 package de.lehmannet.om.extension.deepSky;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -23,6 +16,12 @@ import de.lehmannet.om.SurfaceBrightness;
 import de.lehmannet.om.Target;
 import de.lehmannet.om.util.FloatUtil;
 import de.lehmannet.om.util.SchemaException;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * DeepSkyTarget extends the de.lehmannet.om.Target class. Its specialised for DeepSky targets. A DeepSky target can be
@@ -140,13 +139,12 @@ public abstract class DeepSkyTarget extends Target {
             String unit = child.getAttribute(SurfaceBrightness.XML_ATTRIBUTE_UNIT);
             if (StringUtils.isBlank(unit)) {
                 unit = SurfaceBrightness.MAGS_SQR_ARC_MIN; // Prio to 2.0 the value was always giben in mags per sqr
-                                                           // args min
+                // args min
             }
             this.setSurfaceBrightness(new SurfaceBrightness(FloatUtil.parseFloat(surBright), unit));
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTarget can only have one surface brightness entry. ");
         }
-
     }
 
     /**
@@ -160,7 +158,6 @@ public abstract class DeepSkyTarget extends Target {
     DeepSkyTarget(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -174,7 +171,6 @@ public abstract class DeepSkyTarget extends Target {
     DeepSkyTarget(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -232,7 +228,6 @@ public abstract class DeepSkyTarget extends Target {
         }
 
         return buffer.toString();
-
     }
 
     // ------------------------
@@ -323,7 +318,10 @@ public abstract class DeepSkyTarget extends Target {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     // Not sure if this is good!? Maybe we should return currentNode and make
                     // doublicity check in caller
                     // class!?
@@ -379,7 +377,6 @@ public abstract class DeepSkyTarget extends Target {
         }
 
         return e_Target;
-
     }
 
     // --------------
@@ -396,7 +393,6 @@ public abstract class DeepSkyTarget extends Target {
     public Angle getLargeDiameter() {
 
         return largeDiameter;
-
     }
 
     /**
@@ -409,7 +405,6 @@ public abstract class DeepSkyTarget extends Target {
     public Angle getSmallDiameter() {
 
         return smallDiameter;
-
     }
 
     /**
@@ -421,7 +416,6 @@ public abstract class DeepSkyTarget extends Target {
     public SurfaceBrightness getSurfaceBrightness() {
 
         return surfaceBrightness;
-
     }
 
     /**
@@ -433,7 +427,6 @@ public abstract class DeepSkyTarget extends Target {
     public float getVisibleMagnitude() {
 
         return visibleMagnitude;
-
     }
 
     /**
@@ -451,7 +444,6 @@ public abstract class DeepSkyTarget extends Target {
         }
 
         this.largeDiameter = largeDiameter;
-
     }
 
     /**
@@ -469,7 +461,6 @@ public abstract class DeepSkyTarget extends Target {
         }
 
         this.smallDiameter = smallDiameter;
-
     }
 
     /**
@@ -481,7 +472,6 @@ public abstract class DeepSkyTarget extends Target {
     public void setSurfaceBrightness(SurfaceBrightness surfaceBrightness) {
 
         this.surfaceBrightness = surfaceBrightness;
-
     }
 
     /**
@@ -493,7 +483,5 @@ public abstract class DeepSkyTarget extends Target {
     public void setVisibleMagnitude(float visibleMagnitude) {
 
         this.visibleMagnitude = visibleMagnitude;
-
     }
-
 }

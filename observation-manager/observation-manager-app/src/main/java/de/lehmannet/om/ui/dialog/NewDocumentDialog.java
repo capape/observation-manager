@@ -1,39 +1,5 @@
 package de.lehmannet.om.ui.dialog;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellEditor;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeModel;
-
 import de.lehmannet.om.IEyepiece;
 import de.lehmannet.om.IFilter;
 import de.lehmannet.om.IImager;
@@ -51,6 +17,38 @@ import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeModel;
 
 // That's one nasty dialog with nasty helper classes
 // Better way then forwarding parent object references would be to use events, but anyway...it works :-)
@@ -94,8 +92,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
     private final ObservationManagerModel model;
     private final TextManager textManager;
 
-    public NewDocumentDialog(JFrame om, ObservationManagerModel model, TextManager textManager,
-            ImageResolver resolver) {
+    public NewDocumentDialog(
+            JFrame om, ObservationManagerModel model, TextManager textManager, ImageResolver resolver) {
 
         super((ObservationManager) om, true);
 
@@ -115,7 +113,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     @Override
@@ -138,7 +135,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
             // Close window
             this.dispose();
         }
-
     }
 
     public int getResult() {
@@ -152,7 +148,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                 return NewDocumentDialog.OK_COPY; // OK was pressed and create new document was selected
             }
         }
-
     }
 
     public ISchemaElement[] getSchemaElements(SchemaElementConstants schemaElementCode) {
@@ -197,13 +192,11 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
             default:
                 return null;
         }
-
     }
 
     JTree getTree() {
 
         return this.tree;
-
     }
 
     private boolean prepareResult() {
@@ -266,7 +259,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         boolean solvedDependencyProblem = false;
 
         if ((this.observations != null) && (this.observations.length > 0)) { // Check dependencies of selected
-                                                                             // observations
+            // observations
             for (IObservation observation : this.observations) {
                 // --- Eyepiece
                 IEyepiece eyepiece = observation.getEyepiece();
@@ -285,7 +278,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.eyepieces = new IEyepiece[] { eyepiece };
+                        this.eyepieces = new IEyepiece[] {eyepiece};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -306,7 +299,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.filters = new IFilter[] { filter };
+                        this.filters = new IFilter[] {filter};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -327,7 +320,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.imagers = new IImager[] { imager };
+                        this.imagers = new IImager[] {imager};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -348,7 +341,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.lenses = new ILens[] { lens };
+                        this.lenses = new ILens[] {lens};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -369,7 +362,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.observers = new IObserver[] { observer };
+                        this.observers = new IObserver[] {observer};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -390,7 +383,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.scopes = new IScope[] { scope };
+                        this.scopes = new IScope[] {scope};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -410,7 +403,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.sessions = new ISession[] { session };
+                        this.sessions = new ISession[] {session};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -430,7 +423,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.sites = new ISite[] { site };
+                        this.sites = new ISite[] {site};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -450,7 +443,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.targets = new ITarget[] { target };
+                        this.targets = new ITarget[] {target};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -476,7 +469,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.sites = new ISite[] { site };
+                        this.sites = new ISite[] {site};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -496,13 +489,13 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                                 }
                             }
                             if (!found) { // Element was not found, add it to array
-                                this.observers = (IObserver[]) this.resizeArray(this.observers,
-                                        this.observers.length + 1);
+                                this.observers =
+                                        (IObserver[]) this.resizeArray(this.observers, this.observers.length + 1);
                                 this.observers[this.observers.length - 1] = observer;
                                 solvedDependencyProblem = true;
                             }
                         } else {
-                            this.observers = new IObserver[] { observer };
+                            this.observers = new IObserver[] {observer};
                             solvedDependencyProblem = true;
                         }
                     }
@@ -529,7 +522,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
                             solvedDependencyProblem = true;
                         }
                     } else {
-                        this.observers = new IObserver[] { observer };
+                        this.observers = new IObserver[] {observer};
                         solvedDependencyProblem = true;
                     }
                 }
@@ -541,7 +534,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         return true;
-
     }
 
     private void initDialog() {
@@ -576,8 +568,8 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         this.tree.setEnabled(false); // Disable as we've preselected new blank document
         this.tree.setToolTipText(this.textManager.getString("dialog.newDoc.tooltip.tree"));
         JScrollPane scrollPanel = new JScrollPane(this.tree);
-        scrollPanel
-                .setBorder(BorderFactory.createTitledBorder(this.textManager.getString("dialog.newDoc.border.tree")));
+        scrollPanel.setBorder(
+                BorderFactory.createTitledBorder(this.textManager.getString("dialog.newDoc.border.tree")));
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 2, 1, 50, 88);
         constraints.fill = GridBagConstraints.BOTH;
         gridbag.setConstraints(scrollPanel, constraints);
@@ -598,7 +590,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         gridbag.setConstraints(cancel, constraints);
         this.getContentPane().add(cancel);
-
     }
 
     private void initTree() {
@@ -610,73 +601,81 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         CheckBoxNode root = new CheckBoxNode(this, this.textManager.getString("treeRoot"), false, null, null, null);
 
         // Create all schema element nodes
-        expanded = new ImageIcon(this.imageResolver.getImageURL(OBSERVATION_EXPANDED_ICON).orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("observation_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode observations = new CheckBoxNode(this, this.textManager.getString("observations"), false,
-                this.model.getObservations(), expanded, collapsed);
+        expanded = new ImageIcon(
+                this.imageResolver.getImageURL(OBSERVATION_EXPANDED_ICON).orElse(null), DESCRIPTION);
+        collapsed = new ImageIcon(
+                this.imageResolver.getImageURL("observation_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode observations = new CheckBoxNode(
+                this,
+                this.textManager.getString("observations"),
+                false,
+                this.model.getObservations(),
+                expanded,
+                collapsed);
         root.add(observations);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("target_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode targets = new CheckBoxNode(this, this.textManager.getString("targets"), false,
-                this.model.getTargets(), expanded, collapsed);
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("target_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode targets = new CheckBoxNode(
+                this, this.textManager.getString("targets"), false, this.model.getTargets(), expanded, collapsed);
         root.add(targets);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("scope_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode scopes = new CheckBoxNode(this, this.textManager.getString("scopes"), true, this.model.getScopes(),
-                expanded, collapsed);
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("scope_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode scopes = new CheckBoxNode(
+                this, this.textManager.getString("scopes"), true, this.model.getScopes(), expanded, collapsed);
         root.add(scopes);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("imager_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode imagers = new CheckBoxNode(this, this.textManager.getString("imagers"), true,
-                this.model.getImagers(), expanded, collapsed);
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("imager_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode imagers = new CheckBoxNode(
+                this, this.textManager.getString("imagers"), true, this.model.getImagers(), expanded, collapsed);
         root.add(imagers);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("filter_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode filters = new CheckBoxNode(this, this.textManager.getString("filters"), true,
-                this.model.getFilters(), expanded, collapsed);
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("filter_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode filters = new CheckBoxNode(
+                this, this.textManager.getString("filters"), true, this.model.getFilters(), expanded, collapsed);
         root.add(filters);
 
-        expanded = new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("eyepiece_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode eyepieces = new CheckBoxNode(this, this.textManager.getString("eyepieces"), true,
-                this.model.getEyepieces(), expanded, collapsed);
+        expanded =
+                new ImageIcon(this.imageResolver.getImageURL("eyepiece_e.png").orElse(null), DESCRIPTION);
+        collapsed = new ImageIcon(
+                this.imageResolver.getImageURL("eyepiece_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode eyepieces = new CheckBoxNode(
+                this, this.textManager.getString("eyepieces"), true, this.model.getEyepieces(), expanded, collapsed);
         root.add(eyepieces);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("lens_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode lenses = new CheckBoxNode(this, this.textManager.getString("lenses"), true, this.model.getLenses(),
-                expanded, collapsed);
+        collapsed =
+                new ImageIcon(this.imageResolver.getImageURL("lens_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode lenses = new CheckBoxNode(
+                this, this.textManager.getString("lenses"), true, this.model.getLenses(), expanded, collapsed);
         root.add(lenses);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("site_e.png").orElse(null), DESCRIPTION);
         collapsed = new ImageIcon(this.imageResolver.getImageURL("site_c.png").orElse(null), DESCRIPTION);
-        CheckBoxNode sites = new CheckBoxNode(this, this.textManager.getString("sites"), true, this.model.getSites(),
-                expanded, collapsed);
+        CheckBoxNode sites = new CheckBoxNode(
+                this, this.textManager.getString("sites"), true, this.model.getSites(), expanded, collapsed);
         root.add(sites);
 
         expanded = new ImageIcon(this.imageResolver.getImageURL("session_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("session_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode sessions = new CheckBoxNode(this, this.textManager.getString("sessions"), false,
-                this.model.getSessions(), expanded, collapsed);
+        collapsed = new ImageIcon(
+                this.imageResolver.getImageURL("session_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode sessions = new CheckBoxNode(
+                this, this.textManager.getString("sessions"), false, this.model.getSessions(), expanded, collapsed);
         root.add(sessions);
 
-        expanded = new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null), DESCRIPTION);
-        collapsed = new ImageIcon(this.imageResolver.getImageURL("observer_c.png").orElse(null),
-                DEFAULT_COLLAPSED_ICON_TEXT);
-        CheckBoxNode observers = new CheckBoxNode(this, this.textManager.getString("observers"), true,
-                this.model.getObservers(), expanded, collapsed);
+        expanded =
+                new ImageIcon(this.imageResolver.getImageURL("observer_e.png").orElse(null), DESCRIPTION);
+        collapsed = new ImageIcon(
+                this.imageResolver.getImageURL("observer_c.png").orElse(null), DEFAULT_COLLAPSED_ICON_TEXT);
+        CheckBoxNode observers = new CheckBoxNode(
+                this, this.textManager.getString("observers"), true, this.model.getObservers(), expanded, collapsed);
         root.add(observers);
 
         this.tree = new JTree(root);
@@ -686,7 +685,6 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
 
         tree.setCellEditor(new CheckBoxNodeEditor(tree, renderer));
         tree.setEditable(true);
-
     }
 
     private ISchemaElement[] resizeArray(ISchemaElement[] oldArray, int newSize) {
@@ -697,9 +695,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
 
         return newArray;
-
     }
-
 }
 
 class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
@@ -724,12 +720,11 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
         selectionBackground = UIManager.getColor("Tree.selectionBackground");
         textForeground = UIManager.getColor("Tree.textForeground");
         textBackground = UIManager.getColor("Tree.textBackground");
-
     }
 
     @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-            boolean leaf, int row, boolean hasFocus) {
+    public Component getTreeCellRendererComponent(
+            JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         Component returnValue = null;
         if (leaf) {
@@ -774,8 +769,8 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
             }
 
             DefaultTreeCellRenderer nonLeafRenderer = new DefaultTreeCellRenderer();
-            returnValue = nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row,
-                    hasFocus);
+            returnValue =
+                    nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, false, row, hasFocus);
 
             // Set folder icon
             DefaultTreeCellRenderer dtcr = null;
@@ -793,9 +788,7 @@ class CheckBoxNodeRenderer extends DefaultTreeCellRenderer {
         }
 
         return returnValue;
-
     }
-
 }
 
 class CheckBoxNodeRendererMouseListener implements MouseListener {
@@ -805,7 +798,6 @@ class CheckBoxNodeRendererMouseListener implements MouseListener {
     public CheckBoxNodeRendererMouseListener(CheckBoxNode checkBoxNode) {
 
         this.node = checkBoxNode;
-
     }
 
     @Override
@@ -816,29 +808,19 @@ class CheckBoxNodeRendererMouseListener implements MouseListener {
         } else {
             this.node.setSelected(true);
         }
-
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
+    public void mouseReleased(MouseEvent e) {}
 }
 
 class CheckBoxNodeEditor extends DefaultTreeCellEditor {
@@ -846,29 +828,23 @@ class CheckBoxNodeEditor extends DefaultTreeCellEditor {
     public CheckBoxNodeEditor(JTree tree, DefaultTreeCellRenderer renderer) {
 
         super(tree, renderer);
-
     }
 
     @Override
     public boolean isCellEditable(EventObject event) {
 
         return true;
-
     }
 
     @Override
-    public Component getTreeCellEditorComponent(final JTree tree, Object value, boolean selected, boolean expanded,
-            boolean leaf, int row) {
+    public Component getTreeCellEditorComponent(
+            final JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row) {
 
         return this.renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true);
-
     }
-
 }
 
-interface SchemaNode {
-
-}
+interface SchemaNode {}
 
 class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
 
@@ -876,6 +852,7 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
      *
      */
     private static final long serialVersionUID = 1L;
+
     private String text = null;
     private boolean selected = false;
 
@@ -886,8 +863,13 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
 
     private int selectedChildren = 0;
 
-    public CheckBoxNode(NewDocumentDialog dialog, String text, boolean selected, ISchemaElement[] elements,
-            Icon expanded, Icon collapsed) {
+    public CheckBoxNode(
+            NewDocumentDialog dialog,
+            String text,
+            boolean selected,
+            ISchemaElement[] elements,
+            Icon expanded,
+            Icon collapsed) {
 
         this.dialog = dialog;
         this.text = text;
@@ -903,13 +885,11 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
                 this.selectedChildren = elements.length;
             }
         }
-
     }
 
     public boolean isSelected() {
 
         return selected;
-
     }
 
     public void setSelected(boolean newValue) {
@@ -931,38 +911,32 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
         if (tree != null) {
             EventQueue.invokeLater(tree::updateUI);
         }
-
     }
 
     public String getText() {
 
         return text;
-
     }
 
     public void setText(String newValue) {
 
         text = newValue;
-
     }
 
     @Override
     public String toString() {
 
         return this.text;
-
     }
 
     public Icon getExpandedIcon() {
 
         return this.expandedIcon;
-
     }
 
     public Icon getCollapsedIcon() {
 
         return this.collapsedIcon;
-
     }
 
     public void childChangedToSelected() {
@@ -970,7 +944,6 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
         this.selectedChildren++;
 
         this.selected = this.selectedChildren != 0;
-
     }
 
     public void childChangedToUnselected() {
@@ -978,9 +951,7 @@ class CheckBoxNode extends Vector<SchemaNode> implements SchemaNode {
         this.selectedChildren--;
 
         this.selected = this.selectedChildren != 0;
-
     }
-
 }
 
 class SchemaElementLeaf extends JCheckBox implements SchemaNode, ActionListener {
@@ -997,7 +968,6 @@ class SchemaElementLeaf extends JCheckBox implements SchemaNode, ActionListener 
         this.setSelected(selected);
 
         this.addActionListener(this);
-
     }
 
     @Override
@@ -1008,20 +978,17 @@ class SchemaElementLeaf extends JCheckBox implements SchemaNode, ActionListener 
         }
 
         return se.getDisplayName();
-
     }
 
     @Override
     public String getText() {
 
         return this.toString();
-
     }
 
     public ISchemaElement getSchemaElement() {
 
         return this.se;
-
     }
 
     @Override
@@ -1042,7 +1009,5 @@ class SchemaElementLeaf extends JCheckBox implements SchemaNode, ActionListener 
         if (tree != null) {
             EventQueue.invokeLater(tree::updateUI);
         }
-
     }
-
 }

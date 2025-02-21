@@ -1,11 +1,10 @@
 package de.lehmannet.om.ui.extension.variableStars.catalog;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsConfigKey;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class GCVS4SearchPanel extends AbstractSearchPanel {
 
@@ -19,8 +18,8 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
 
         this.catalog = catalog;
         this.configuration = configuration;
-        ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar",
-                Locale.getDefault());
+        ResourceBundle bundle = ResourceBundle.getBundle(
+                "de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
         this.setGeneralInfoText(bundle.getString("panel.search.label.searchInfo"));
         this.createPanel();
 
@@ -31,7 +30,6 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
                 this.searchText.setText(cachedSearchTerm);
             }
         }
-
     }
 
     @Override
@@ -46,7 +44,5 @@ public class GCVS4SearchPanel extends AbstractSearchPanel {
         }
 
         this.searchResult = this.catalog.getTarget(searchString);
-
     }
-
 }

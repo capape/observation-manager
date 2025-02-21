@@ -7,19 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.panel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
@@ -31,6 +18,17 @@ import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.OMLabel;
 import de.lehmannet.om.ui.util.TristateCheckbox;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements ActionListener {
 
@@ -45,8 +43,9 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     private final String imagePath;
     private final InstallDir installDir;
 
-    public DeepSkyFindingOCPanel(IConfiguration configuration, InstallDir installDir, IFinding paramFinding, ISession s,
-            Boolean editable) throws IllegalArgumentException {
+    public DeepSkyFindingOCPanel(
+            IConfiguration configuration, InstallDir installDir, IFinding paramFinding, ISession s, Boolean editable)
+            throws IllegalArgumentException {
 
         super(configuration, paramFinding, s, editable);
 
@@ -59,10 +58,10 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
                 try { // Might be old (< 1.5) DeepSkyFinding
                     if (paramFinding != null) {
-                        this.finding = new DeepSkyFindingOC(paramFinding.getDescription(),
-                                ((DeepSkyFinding) paramFinding).getRating());
+                        this.finding = new DeepSkyFindingOC(
+                                paramFinding.getDescription(), ((DeepSkyFinding) paramFinding).getRating());
                     } else { // Finding was something else. So recycle description and use 99 as default
-                             // rating
+                        // rating
                         this.finding = new DeepSkyFindingOC("", 99);
                     }
                 } catch (ClassCastException cce) {
@@ -81,7 +80,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         if (this.finding != null) {
             this.loadSchemaElementOC();
         }
-
     }
 
     // ------
@@ -92,7 +90,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
     public String getName() {
 
         return this.bundle.getString("panel.findingOC.name");
-
     }
 
     // -------------
@@ -104,7 +101,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
 
         String XSI_TYPE = "oal:findingsDeepSkyOCType";
         return XSI_TYPE;
-
     }
 
     // --------------
@@ -117,8 +113,8 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         Object source = e.getSource();
         if (source instanceof JButton) {
             if (source.equals(this.characterButton)) {
-                DeepSkyFindingOCTraitDialog traitDialog = new DeepSkyFindingOCTraitDialog(null, this.imagePath,
-                        this.character);
+                DeepSkyFindingOCTraitDialog traitDialog =
+                        new DeepSkyFindingOCTraitDialog(null, this.imagePath, this.character);
                 this.character = traitDialog.getCharacter();
                 if (this.character != null) {
                     Image image = Toolkit.getDefaultToolkit()
@@ -126,15 +122,14 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
                     image = image.getScaledInstance(90, 90, Image.SCALE_FAST);
                     this.characterButton.setIcon(new ImageIcon(image));
                     this.characterButton.setText("   " + this.character + "   ");
-                    this.characterButton.setToolTipText(this.bundle
-                            .getString("dialog.oc.trait.explanation." + this.character.toString().toLowerCase()));
+                    this.characterButton.setToolTipText(this.bundle.getString("dialog.oc.trait.explanation."
+                            + this.character.toString().toLowerCase()));
                 } else {
                     this.characterButton.setText(this.bundle.getString("panel.findingOC.button.character"));
                     this.characterButton.setIcon(null);
                 }
             }
         }
-
     }
 
     // -------------
@@ -191,7 +186,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         this.finding = finding;
 
         return this.finding;
-
     }
 
     @Override
@@ -216,7 +210,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         }
 
         return this.finding;
-
     }
 
     // Do not call this createPanel! Otherwise contructor of super call will call
@@ -286,7 +279,10 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             this.characterButton.setDisabledIcon(icon);
             this.characterButton.setText("   " + ((DeepSkyFindingOC) this.finding).getCharacter() + "   ");
             this.characterButton.setToolTipText(this.bundle.getString("dialog.oc.trait.explanation."
-                    + ((DeepSkyFindingOC) this.finding).getCharacter().toString().toLowerCase()));
+                    + ((DeepSkyFindingOC) this.finding)
+                            .getCharacter()
+                            .toString()
+                            .toLowerCase()));
         } else {
             this.characterButton.setText(this.bundle.getString("panel.findingOC.button.character"));
             this.characterButton.setToolTipText(this.bundle.getString("panel.findingOC.tooltip.character"));
@@ -300,7 +296,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     private void loadSchemaElementOC() {
@@ -347,7 +342,6 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
             this.partlyUnresolved.setNASelected();
         }
         this.partlyUnresolved.setEditable(this.isEditable());
-
     }
 
     // -------------------
@@ -371,7 +365,5 @@ public class DeepSkyFindingOCPanel extends DeepSkyFindingPanel implements Action
         box.addItem(this.bundle.getString("panel.finding.dropdown.rating.99"));
 
         return box;
-
     }
-
 }

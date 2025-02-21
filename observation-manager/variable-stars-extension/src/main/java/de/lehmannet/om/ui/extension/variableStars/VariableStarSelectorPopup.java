@@ -1,5 +1,18 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
+import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ITarget;
+import de.lehmannet.om.extension.variableStars.TargetVariableStar;
+import de.lehmannet.om.model.ObservationManagerModel;
+import de.lehmannet.om.ui.comparator.ObservationComparator;
+import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.DatePicker;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import de.lehmannet.om.util.DateManager;
+import de.lehmannet.om.util.DateManagerImpl;
+import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -14,7 +27,6 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -27,26 +39,13 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import de.lehmannet.om.IObservation;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ITarget;
-import de.lehmannet.om.extension.variableStars.TargetVariableStar;
-import de.lehmannet.om.model.ObservationManagerModel;
-import de.lehmannet.om.ui.comparator.ObservationComparator;
-import de.lehmannet.om.ui.navigation.tableModel.ExtendedSchemaTableModel;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.DatePicker;
-import de.lehmannet.om.ui.util.UserInterfaceHelper;
-import de.lehmannet.om.util.DateManager;
-import de.lehmannet.om.util.DateManagerImpl;
-import de.lehmannet.om.util.SchemaElementConstants;
-
 public class VariableStarSelectorPopup extends JDialog implements ActionListener, TableModelListener {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+
     private JButton ok = null;
     private JButton cancel = null;
 
@@ -57,8 +56,8 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
     private ZonedDateTime endDate = null;
     private JButton endPicker = null;
 
-    private final ResourceBundle uiBundle = ResourceBundle
-            .getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
+    private final ResourceBundle uiBundle =
+            ResourceBundle.getBundle("de.lehmannet.om.ui.extension.variableStars.VariableStar", Locale.getDefault());
 
     private ExtendedSchemaTableModel tableModel = null;
     private final ObservationManagerModel model;
@@ -87,15 +86,14 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
 
         ITarget[] elements = this.model.getTargets();
 
-        this.tableModel = new ExtendedSchemaTableModel(elements, SchemaElementConstants.TARGET,
-                TargetVariableStar.XML_XSI_TYPE_VALUE, false, null);
+        this.tableModel = new ExtendedSchemaTableModel(
+                elements, SchemaElementConstants.TARGET, TargetVariableStar.XML_XSI_TYPE_VALUE, false, null);
 
         checkVariableStarObservationExist();
 
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     private void checkVariableStarObservationExist() {
@@ -139,20 +137,18 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                 this.endField.setText(this.formatDate(this.endDate));
             }
         }
-
     }
 
     private SortedSet<IObservation> getObservationsSorted(ZonedDateTime start, ZonedDateTime end) {
         IObservation[] observations = this.getAllSelectedObservations(this.beginDate, this.endDate);
         if ((observations == null) || (observations.length == 0)) {
-            return Collections.<IObservation> emptySortedSet();
+            return Collections.<IObservation>emptySortedSet();
         }
 
         ObservationComparator comparator = new ObservationComparator(true);
         TreeSet<IObservation> set = new TreeSet<>(comparator);
         set.addAll(Arrays.asList(observations));
         return set;
-
     }
 
     @Override
@@ -169,11 +165,14 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
             } else if (sourceButton.equals(this.beginPicker)) {
                 DatePicker dp = null;
                 if (this.beginDate != null) {
-                    dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"), this.beginDate,
+                    dp = new DatePicker(
+                            this.parent,
+                            this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"),
+                            this.beginDate,
                             this.dateManager);
                 } else {
-                    dp = new DatePicker(this.parent,
+                    dp = new DatePicker(
+                            this.parent,
                             this.uiBundle.getString("popup.selectVariableStar.start.datePicker.title"),
                             this.dateManager);
                 }
@@ -199,16 +198,22 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
             } else if (sourceButton.equals(this.endPicker)) {
                 DatePicker dp = null;
                 if (this.endDate != null) {
-                    dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.endDate,
+                    dp = new DatePicker(
+                            this.parent,
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"),
+                            this.endDate,
                             this.dateManager);
                 } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
-                    dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.beginDate,
+                    dp = new DatePicker(
+                            this.parent,
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"),
+                            this.beginDate,
                             this.dateManager);
                 } else {
-                    dp = new DatePicker(this.parent,
-                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"), this.dateManager);
+                    dp = new DatePicker(
+                            this.parent,
+                            this.uiBundle.getString("popup.selectVariableStar.end.datePicker.title"),
+                            this.dateManager);
                 }
 
                 // Set selected date
@@ -228,16 +233,13 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
                         return;
                     }
                 }
-
             }
         }
-
     }
 
     public IObservation[] getAllSelectedObservations() {
 
         return this.getAllSelectedObservations(this.beginDate, this.endDate);
-
     }
 
     private IObservation[] getAllSelectedObservations(ZonedDateTime start, ZonedDateTime end) {
@@ -263,7 +265,6 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         }
 
         return (IObservation[]) result.toArray(new IObservation[] {});
-
     }
 
     private boolean isObservationInRangeDate(IObservation observation, ZonedDateTime start, ZonedDateTime end) {
@@ -362,11 +363,9 @@ public class VariableStarSelectorPopup extends JDialog implements ActionListener
         this.cancel.addActionListener(this);
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
-
     }
 
     private String formatDate(ZonedDateTime cal) {
         return this.dateManager.zonedDateTimeToStringWithHour(cal);
     }
-
 }

@@ -1,5 +1,7 @@
 package de.lehmannet.om.ui.extension;
 
+import de.lehmannet.om.util.ConfigLoader;
+import de.lehmannet.om.util.SchemaLoader;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +22,9 @@ import java.util.ListIterator;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -32,9 +32,6 @@ import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
-
-import de.lehmannet.om.util.ConfigLoader;
-import de.lehmannet.om.util.SchemaLoader;
 
 public class ExternalExtensionLoader {
 
@@ -51,8 +48,8 @@ public class ExternalExtensionLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExternalExtensionLoader.class);
 
-    private URLClassLoader extensionClassLoader = URLClassLoader.newInstance(new URL[0],
-            ClassLoader.getSystemClassLoader());
+    private URLClassLoader extensionClassLoader =
+            URLClassLoader.newInstance(new URL[0], ClassLoader.getSystemClassLoader());
 
     private final IExtensionContext context;
 
@@ -77,12 +74,11 @@ public class ExternalExtensionLoader {
         while (iterator.hasNext()) {
             tempResult = this.scanJarFile((File) iterator.next(), true);
             result = tempResult == null ? result : tempResult; // At least one jar contained a extension description
-                                                               // file
+            // file
             loadExtensionTypes(tempResult);
         }
 
         return result;
-
     }
 
     private void loadExtensionTypes(IExtension extension) {
@@ -98,7 +94,8 @@ public class ExternalExtensionLoader {
 
     private void logSupported(IExtension extension) {
         if (LOGGER.isDebugEnabled()) {
-            extension.getAllSupportedXSITypes()
+            extension
+                    .getAllSupportedXSITypes()
                     .forEach(type -> LOGGER.debug("Extension: {} supports type: {}", extension.getName(), type));
         }
     }
@@ -152,7 +149,6 @@ public class ExternalExtensionLoader {
             }
         } catch (MalformedURLException urle) {
             LOGGER.error("Unable to add jar file to classloader: {} ", current.getAbsolutePath());
-
         }
         return urlArray;
     }
@@ -161,10 +157,9 @@ public class ExternalExtensionLoader {
         if (this.extensionClassLoader != null) { // Add already loaded extensions as well
             URL[] oldURLs = this.extensionClassLoader.getURLs();
             urlArray.addAll(Arrays.asList(oldURLs));
-
         }
-        this.extensionClassLoader = URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}),
-                ClassLoader.getSystemClassLoader());
+        this.extensionClassLoader =
+                URLClassLoader.newInstance((URL[]) urlArray.toArray(new URL[] {}), ClassLoader.getSystemClassLoader());
     }
 
     private IExtension scanJarFile(File jar, boolean update) {
@@ -201,7 +196,6 @@ public class ExternalExtensionLoader {
             LOGGER.error("Error while accessing JAR file.\n", zipEx);
             return null;
         }
-
     }
 
     private IExtension loadExtension(Properties properties, boolean update) {
@@ -231,7 +225,7 @@ public class ExternalExtensionLoader {
                 for (Constructor<?> constructor : constructors) {
                     parameters = constructor.getParameterTypes();
                     if ((parameters.length == 1) && (parameters[0].isInstance(this.context))) {
-                        extension = (IExtension) constructor.newInstance(new Object[] { this.context });
+                        extension = (IExtension) constructor.newInstance(new Object[] {this.context});
                         break;
                     }
                 }
@@ -260,7 +254,6 @@ public class ExternalExtensionLoader {
         }
 
         return extension;
-
     }
 
     private File unpack(ZipFile zf, ZipEntry ze) {
@@ -325,7 +318,6 @@ public class ExternalExtensionLoader {
                 }
             }
         }
-
     }
 
     private boolean addOALExtenstionElement(IExtension extension) {
@@ -385,6 +377,5 @@ public class ExternalExtensionLoader {
             LOGGER.error("Could not add extension: {} ", schema.getAbsolutePath(), e);
             return false;
         }
-
     }
 }

@@ -13,6 +13,5 @@ public final class SystemInfo {
         mem = mem + "\n\t- Max. Heap Size: " + Runtime.getRuntime().maxMemory();
 
         return mem;
-
     }
 }

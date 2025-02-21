@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetOC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -117,7 +116,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetOC can only have one value for brightest star. ");
         }
-
     }
 
     /**
@@ -131,7 +129,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public DeepSkyTargetOC(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -145,7 +142,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public DeepSkyTargetOC(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -199,7 +195,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_Classification);
         }
-
     }
 
     // ------------------------
@@ -218,7 +213,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetOC.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -234,7 +228,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public int getAmountOfStars() {
 
         return this.stars;
-
     }
 
     /**
@@ -246,7 +239,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public String getClusterClassification() {
 
         return this.clusterClassification;
-
     }
 
     /**
@@ -258,7 +250,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public double getBrightestStar() {
 
         return this.brightestStar;
-
     }
 
     /**
@@ -276,7 +267,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
 
             this.stars = newAmountOfStars;
         }
-
     }
 
     /**
@@ -288,7 +278,6 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
     public void setBrightestStar(double newBrightestStar) {
 
         this.brightestStar = newBrightestStar;
-
     }
 
     /**
@@ -305,7 +294,5 @@ public class DeepSkyTargetOC extends DeepSkyTarget {
         }
 
         this.clusterClassification = newClassification;
-
     }
-
 }

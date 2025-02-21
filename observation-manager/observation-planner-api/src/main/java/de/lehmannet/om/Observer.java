@@ -7,6 +7,8 @@
 
 package de.lehmannet.om;
 
+import de.lehmannet.om.mapper.ObserverMapper;
+import de.lehmannet.om.util.SchemaException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,7 +17,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.mapper.ObserverMapper;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * An Observer describes person, who does astronomical observations.<br>
@@ -109,7 +107,6 @@ public class Observer extends SchemaElement implements IObserver {
 
         this.setFSTOffset(ObserverMapper.getOptionalFstOffset(observerElement));
         this.accounts.putAll(ObserverMapper.getOptionalAccounts(observerElement));
-
     }
 
     /**
@@ -133,7 +130,6 @@ public class Observer extends SchemaElement implements IObserver {
             throw new IllegalArgumentException("Surname cannot be null. ");
         }
         this.surname = surname;
-
     }
 
     // -------------
@@ -152,7 +148,6 @@ public class Observer extends SchemaElement implements IObserver {
     public String getDisplayName() {
 
         return this.getSurname() + ", " + this.getName();
-
     }
 
     // ------
@@ -200,14 +195,12 @@ public class Observer extends SchemaElement implements IObserver {
                     buffer.append(" --- ");
                 }
             }
-
         }
 
         buffer.append(" fstOffset=");
         buffer.append(this.fstOffset);
 
         return buffer.toString();
-
     }
 
     // ---------
@@ -241,7 +234,10 @@ public class Observer extends SchemaElement implements IObserver {
                 attributes = currentNode.getAttributes();
                 Node idAttribute = attributes.getNamedItem(ISchemaElement.XML_ELEMENT_ATTRIBUTE_ID);
                 if ((idAttribute != null) // if ID attribute is set and equals this objects ID, return existing element
-                        && (idAttribute.getNodeValue().trim().equals(this.getID().trim()))) {
+                        && (idAttribute
+                                .getNodeValue()
+                                .trim()
+                                .equals(this.getID().trim()))) {
                     return;
                 }
             }
@@ -274,7 +270,6 @@ public class Observer extends SchemaElement implements IObserver {
                 Node n_ContactText = ownerDoc.createCDATASection(contact);
                 e_Contact.appendChild(n_ContactText);
                 e_Observer.appendChild(e_Contact);
-
             }
         }
 
@@ -292,7 +287,6 @@ public class Observer extends SchemaElement implements IObserver {
                 e_Account.appendChild(n_AccountText);
                 e_Observer.appendChild(e_Account);
             }
-
         }
 
         if (!Float.isNaN(this.fstOffset)) {
@@ -301,7 +295,6 @@ public class Observer extends SchemaElement implements IObserver {
             e_fstOffset.appendChild(n_fstOffset);
             e_Observer.appendChild(e_fstOffset);
         }
-
     }
 
     /**
@@ -367,7 +360,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         return element;
-
     }
 
     /**
@@ -390,7 +382,6 @@ public class Observer extends SchemaElement implements IObserver {
     public Element addAsLinkToXmlElement(Element element, String nameOfLinkElement) {
 
         return this.addAsLinkToXmlElement(element, nameOfLinkElement, false);
-
     }
 
     /**
@@ -405,7 +396,6 @@ public class Observer extends SchemaElement implements IObserver {
     public List<String> getContacts() {
 
         return contacts;
-
     }
 
     /**
@@ -422,7 +412,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         this.contacts.add(newContact);
-
     }
 
     /**
@@ -441,7 +430,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         this.contacts = new LinkedList<>(newContacts);
-
     }
 
     /**
@@ -454,7 +442,6 @@ public class Observer extends SchemaElement implements IObserver {
     public String getName() {
 
         return name;
-
     }
 
     /**
@@ -469,7 +456,6 @@ public class Observer extends SchemaElement implements IObserver {
     public String getDSLCode() {
 
         return this.getUsernameForAccount(Observer.ACCOUNT_DSL);
-
     }
 
     /**
@@ -482,7 +468,6 @@ public class Observer extends SchemaElement implements IObserver {
     public String getSurname() {
 
         return surname;
-
     }
 
     /**
@@ -497,7 +482,6 @@ public class Observer extends SchemaElement implements IObserver {
     public void setDSLCode(String DSLCode) {
 
         this.addAccount(Observer.ACCOUNT_DSL, DSLCode);
-
     }
 
     /**
@@ -517,7 +501,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         this.name = name;
-
     }
 
     /**
@@ -537,7 +520,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         this.surname = surname;
-
     }
 
     /**
@@ -555,7 +537,6 @@ public class Observer extends SchemaElement implements IObserver {
     public Map<String, String> getAccounts() {
 
         return Collections.unmodifiableMap(this.accounts);
-
     }
 
     /**
@@ -573,7 +554,9 @@ public class Observer extends SchemaElement implements IObserver {
     @Override
     public boolean addAccount(String accountName, String username) {
 
-        if ((accountName == null) || ("".equals(accountName.trim())) || (username == null)
+        if ((accountName == null)
+                || ("".equals(accountName.trim()))
+                || (username == null)
                 || ("".equals(username.trim()))) {
             return false;
         }
@@ -581,7 +564,6 @@ public class Observer extends SchemaElement implements IObserver {
         this.accounts.put(accountName, username);
 
         return true;
-
     }
 
     /**
@@ -598,7 +580,6 @@ public class Observer extends SchemaElement implements IObserver {
 
         this.accounts.remove(accountName);
         return true;
-
     }
 
     /**
@@ -619,7 +600,6 @@ public class Observer extends SchemaElement implements IObserver {
         } else {
             this.accounts = new HashMap<>(newAccounts);
         }
-
     }
 
     /**
@@ -636,7 +616,6 @@ public class Observer extends SchemaElement implements IObserver {
     public String getUsernameForAccount(String accountName) {
 
         return (String) this.accounts.get(accountName);
-
     }
 
     /**
@@ -655,7 +634,6 @@ public class Observer extends SchemaElement implements IObserver {
         }
 
         this.fstOffset = fstOffset;
-
     }
 
     /**
@@ -674,7 +652,6 @@ public class Observer extends SchemaElement implements IObserver {
     public float getFSTOffset() {
 
         return this.fstOffset;
-
     }
 
     @Override
@@ -689,29 +666,19 @@ public class Observer extends SchemaElement implements IObserver {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         Observer other = (Observer) obj;
         if (accounts == null) {
-            if (other.accounts != null)
-                return false;
-        } else if (!accounts.equals(other.accounts))
-            return false;
+            if (other.accounts != null) return false;
+        } else if (!accounts.equals(other.accounts)) return false;
         if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
+            if (other.name != null) return false;
+        } else if (!name.equals(other.name)) return false;
         if (surname == null) {
-            if (other.surname != null)
-                return false;
-        } else if (!surname.equals(other.surname))
-            return false;
+            if (other.surname != null) return false;
+        } else if (!surname.equals(other.surname)) return false;
         return true;
     }
-
 }

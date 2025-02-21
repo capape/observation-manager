@@ -32,7 +32,6 @@ public class ConfigException extends OALException {
     public ConfigException(String message) {
 
         super(message);
-
     }
 
     /**
@@ -46,7 +45,5 @@ public class ConfigException extends OALException {
     public ConfigException(String message, Throwable cause) {
 
         super(message, cause);
-
     }
-
 }

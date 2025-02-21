@@ -7,6 +7,11 @@
 
 package de.lehmannet.om.ui.statistics;
 
+import de.lehmannet.om.ui.catalog.ICatalog;
+import de.lehmannet.om.ui.dialog.OMDialog;
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,24 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
-import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.OMDialog;
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-
 class StatisticsQueryDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -3368366919141412617L;
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private ICatalog[] catalogs = null;
 
@@ -92,7 +90,6 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     // --------------
@@ -115,13 +112,11 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
                 this.dispose();
             }
         }
-
     }
 
     public List<ICatalog> getSelectedCatalogs() {
 
         return this.result;
-
     }
 
     private void initDialog() {
@@ -147,7 +142,6 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
             this.catalogCheckBoxes[i].setFont(new Font("Arial", Font.ITALIC + Font.BOLD, 12));
             gridbag.setConstraints(this.catalogCheckBoxes[i], constraints);
             this.getContentPane().add(this.catalogCheckBoxes[i]);
-
         }
 
         i++;
@@ -171,7 +165,5 @@ class StatisticsQueryDialog extends OMDialog implements ActionListener {
         gridbag.setConstraints(this.cancel, constraints);
         this.cancel.addActionListener(this);
         this.getContentPane().add(this.cancel);
-
     }
-
 }

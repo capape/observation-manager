@@ -1,13 +1,10 @@
 package de.lehmannet.om.ui.preferences;
 
-import java.util.Optional;
-
-import javax.swing.JPanel;
-
-import org.apache.commons.lang3.StringUtils;
-
 import de.lehmannet.om.ui.util.IConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
+import java.util.Optional;
+import javax.swing.JPanel;
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class PreferencesPanel extends JPanel {
 
@@ -16,7 +13,6 @@ public abstract class PreferencesPanel extends JPanel {
     protected PreferencesPanel(IConfiguration config) {
 
         this.configuration = config;
-
     }
 
     public abstract void writeConfig();
@@ -36,5 +32,4 @@ public abstract class PreferencesPanel extends JPanel {
         }
         return Optional.of(value);
     }
-
 }

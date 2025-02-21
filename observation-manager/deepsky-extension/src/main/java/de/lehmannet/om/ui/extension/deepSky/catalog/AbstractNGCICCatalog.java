@@ -7,21 +7,6 @@
 
 package de.lehmannet.om.ui.extension.deepSky.catalog;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lehmannet.om.Angle;
 import de.lehmannet.om.Constellation;
 import de.lehmannet.om.EquPosition;
@@ -43,6 +28,19 @@ import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractSearchPanel;
 import de.lehmannet.om.ui.panel.GenericListableCatalogSearchPanel;
 import de.lehmannet.om.util.FloatUtil;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
@@ -66,42 +64,36 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
         // Do this after the targets are loaded
         this.tableModel = new DeepSkyTableModel(this);
-
     }
 
     @Override
     public AbstractSchemaTableModel getTableModel() {
 
         return this.tableModel;
-
     }
 
     @Override
     public AbstractSearchPanel getSearchPanel() {
 
         return new GenericListableCatalogSearchPanel(this);
-
     }
 
     @Override
     public ITarget getTarget(String objectName) {
 
         return (ITarget) this.map.get(objectName);
-
     }
 
     @Override
     public ITarget[] getTargets() {
 
         return (ITarget[]) this.map.values().toArray(new ITarget[] {});
-
     }
 
     @Override
     public String[] getCatalogIndex() {
 
         return (String[]) this.map.keySet().toArray(new String[] {});
-
     }
 
     @Override
@@ -122,7 +114,7 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
             return false;
         }
 
-        try (BufferedReader bufferedReader = new BufferedReader(reader);) {
+        try (BufferedReader bufferedReader = new BufferedReader(reader); ) {
 
             // Line Data
             String catalogPrefix = null;
@@ -201,13 +193,22 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 con = Constellation.getConstellationByAbbOrName(constellation);
 
                 // Right ascension
-                ra = tokens[index++] + EquPosition.RA_HOUR + tokens[index++] + EquPosition.RA_MIN + tokens[index++]
+                ra = tokens[index++]
+                        + EquPosition.RA_HOUR
+                        + tokens[index++]
+                        + EquPosition.RA_MIN
+                        + tokens[index++]
                         + EquPosition.RA_SEC;
                 ra = ra.replace(',', '.'); // Second value can contain , a decimal separator
 
                 // Declination
-                dec = tokens[index++] + tokens[index++] + EquPosition.DEC_DEG + tokens[index++] + EquPosition.DEC_MIN
-                        + tokens[index++] + EquPosition.DEC_SEC;
+                dec = tokens[index++]
+                        + tokens[index++]
+                        + EquPosition.DEC_DEG
+                        + tokens[index++]
+                        + EquPosition.DEC_MIN
+                        + tokens[index++]
+                        + EquPosition.DEC_SEC;
 
                 position = new EquPosition(ra, dec);
 
@@ -270,42 +271,74 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                         }
 
                     } else { // Asterism (Multiple star system cannot be created
-                             // due to insufficient information from catalog)
-                             // therefore everything after double star is an asterism
+                        // due to insufficient information from catalog)
+                        // therefore everything after double star is an asterism
 
                         target = new DeepSkyTargetAS(catalogNumber, this.getName());
                         if (!"".equals(positionAngle)) {
                             ((DeepSkyTargetAS) target).setPositionAngle(Integer.parseInt(positionAngle));
                         }
-
                     }
                 } else if (type.startsWith("OCL") // Open Cluster (check with startsWith as sometimes it's OCL+EN (NGC
-                                                  // 361)
-                                                  // )
-                        || type.startsWith("I1") || type.startsWith("I2") || type.startsWith("I3")
-                        || type.startsWith("II1") || type.startsWith("II2") || type.startsWith("II3")
-                        || type.startsWith("III1") || type.startsWith("III2") || type.startsWith("III3")
-                        || type.startsWith("IV1") || type.startsWith("IV2") || type.startsWith("IV3")) {
+                        // 361)
+                        // )
+                        || type.startsWith("I1")
+                        || type.startsWith("I2")
+                        || type.startsWith("I3")
+                        || type.startsWith("II1")
+                        || type.startsWith("II2")
+                        || type.startsWith("II3")
+                        || type.startsWith("III1")
+                        || type.startsWith("III2")
+                        || type.startsWith("III3")
+                        || type.startsWith("IV1")
+                        || type.startsWith("IV2")
+                        || type.startsWith("IV3")) {
 
                     target = new DeepSkyTargetOC(catalogNumber, this.getName());
                     if (type.startsWith("I1") // Truempler classification
-                            || type.startsWith("I2") || type.startsWith("I3") || type.startsWith("II1")
-                            || type.startsWith("II2") || type.startsWith("II3") || type.startsWith("III1")
-                            || type.startsWith("III2") || type.startsWith("III3") || type.startsWith("IV1")
-                            || type.startsWith("IV2") || type.startsWith("IV3") || type.startsWith("OCL")) {
+                            || type.startsWith("I2")
+                            || type.startsWith("I3")
+                            || type.startsWith("II1")
+                            || type.startsWith("II2")
+                            || type.startsWith("II3")
+                            || type.startsWith("III1")
+                            || type.startsWith("III2")
+                            || type.startsWith("III3")
+                            || type.startsWith("IV1")
+                            || type.startsWith("IV2")
+                            || type.startsWith("IV3")
+                            || type.startsWith("OCL")) {
                         ((DeepSkyTargetOC) target).setClusterClassification(type);
                     }
 
                 } else if ("GCL".equals(type) // Globular Cluster
-                        || "I".equals(type) || "II".equals(type) || "III".equals(type) || "IV".equals(type)
-                        || "V".equals(type) || "VI".equals(type) || "VII".equals(type) || "VIII".equals(type)
-                        || "IX".equals(type) || "X".equals(type) || "XI".equals(type) || "XII".equals(type)) {
+                        || "I".equals(type)
+                        || "II".equals(type)
+                        || "III".equals(type)
+                        || "IV".equals(type)
+                        || "V".equals(type)
+                        || "VI".equals(type)
+                        || "VII".equals(type)
+                        || "VIII".equals(type)
+                        || "IX".equals(type)
+                        || "X".equals(type)
+                        || "XI".equals(type)
+                        || "XII".equals(type)) {
 
                     target = new DeepSkyTargetGC(catalogNumber, this.getName());
                     if ("I".equals(type) // Shapley Sawyer Globular Cluster Concentration
-                            || "II".equals(type) || "III".equals(type) || "IV".equals(type) || "V".equals(type)
-                            || "VI".equals(type) || "VII".equals(type) || "VIII".equals(type) || "IX".equals(type)
-                            || "X".equals(type) || "XI".equals(type) || "XII".equals(type)) {
+                            || "II".equals(type)
+                            || "III".equals(type)
+                            || "IV".equals(type)
+                            || "V".equals(type)
+                            || "VI".equals(type)
+                            || "VII".equals(type)
+                            || "VIII".equals(type)
+                            || "IX".equals(type)
+                            || "X".equals(type)
+                            || "XI".equals(type)
+                            || "XII".equals(type)) {
                         ((DeepSkyTargetGC) target).setConcentration(type);
                     }
 
@@ -317,8 +350,10 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                     }
 
                 } else if ("EM".equals(type) // Emission & reflection nebulae / Supernova remnant
-                        || "EN".equals(type) || "RN".equals(type) || "SNR".equals(type) // Make sure to check SNR before
-                                                                                        // galaxies!
+                        || "EN".equals(type)
+                        || "RN".equals(type)
+                        || "SNR".equals(type) // Make sure to check SNR before
+                // galaxies!
                 ) {
 
                     target = new DeepSkyTargetGN(catalogNumber, this.getName());
@@ -351,9 +386,15 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 } else if ((type.startsWith("C")) // All kinds of Galaxies
                         || (type.startsWith("D")) // As we check with startWith()...
                         || (type.startsWith("E")) // make sure we call this as last option
-                        || (type.startsWith("I")) || (type.startsWith("P")) || (type.startsWith("R"))
-                        || (type.startsWith("PRG")) || (type.startsWith("S")) || (type.startsWith("c"))
-                        || (type.startsWith("d")) || (type.startsWith("5C")) || (type.startsWith("4S"))
+                        || (type.startsWith("I"))
+                        || (type.startsWith("P"))
+                        || (type.startsWith("R"))
+                        || (type.startsWith("PRG"))
+                        || (type.startsWith("S"))
+                        || (type.startsWith("c"))
+                        || (type.startsWith("d"))
+                        || (type.startsWith("5C"))
+                        || (type.startsWith("4S"))
                         || (type.startsWith("3S"))) {
 
                     target = new DeepSkyTargetGX(catalogNumber, this.getName());
@@ -365,7 +406,6 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 } else { // Should never get here!
 
                     target = new DeepSkyTargetNA(catalogNumber, this.getName());
-
                 }
 
                 // --------------- Set all common target values
@@ -381,8 +421,8 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
 
                     // Surface brightness
                     if (!"".equals(surfaceBrightness)) {
-                        SurfaceBrightness sb = new SurfaceBrightness(Float.parseFloat(surfaceBrightness),
-                                SurfaceBrightness.MAGS_SQR_ARC_MIN);
+                        SurfaceBrightness sb = new SurfaceBrightness(
+                                Float.parseFloat(surfaceBrightness), SurfaceBrightness.MAGS_SQR_ARC_MIN);
                         ((DeepSkyTarget) target).setSurfaceBrightness(sb);
                     }
 
@@ -397,7 +437,6 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                         ((DeepSkyTarget) target)
                                 .setSmallDiameter(new Angle(Float.parseFloat(diameterSmall), Angle.ARCMINUTE));
                     }
-
                 }
 
                 // Alias names
@@ -416,8 +455,10 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 try {
                     line = bufferedReader.readLine();
                 } catch (IOException ioe) {
-                    LOGGER.error("Error reading line from: {} . Catalog cannot be loaded. Last successful line was: {}",
-                            file, catalogNumber);
+                    LOGGER.error(
+                            "Error reading line from: {} . Catalog cannot be loaded. Last successful line was: {}",
+                            file,
+                            catalogNumber);
                     return false;
                 }
 
@@ -440,7 +481,6 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
                 type = null;
                 pgcNumber = null;
                 aliasNames.clear();
-
             }
 
             return true;
@@ -450,5 +490,4 @@ public abstract class AbstractNGCICCatalog implements IListableCatalog {
             return false;
         }
     }
-
 }

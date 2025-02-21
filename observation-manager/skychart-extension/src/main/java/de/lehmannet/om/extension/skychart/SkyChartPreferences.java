@@ -7,17 +7,15 @@
 
 package de.lehmannet.om.extension.skychart;
 
+import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.IConfiguration;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import de.lehmannet.om.ui.preferences.PreferencesPanel;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
 
 public class SkyChartPreferences extends PreferencesPanel {
 
@@ -27,8 +25,8 @@ public class SkyChartPreferences extends PreferencesPanel {
     public static final String SERVER_DEFAULT_IP = "127.0.0.1";
     public static final int SERVER_DEFAULT_PORT = 3292;
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            ResourceBundle.getBundle("de.lehmannet.om.extension.skychart.Skychart", Locale.getDefault());
 
     private JTextField serverIP = null;
     private JTextField serverPort = null;
@@ -39,7 +37,6 @@ public class SkyChartPreferences extends PreferencesPanel {
         super(config);
 
         this.createPanel();
-
     }
 
     @Override
@@ -48,14 +45,12 @@ public class SkyChartPreferences extends PreferencesPanel {
         this.setConfig(SkyChartConfigKey.CONFIG_SERVER_IP_KEY, "" + this.getServerIP());
         this.setConfig(SkyChartConfigKey.CONFIG_SERVER_PORT_KEY, "" + this.getServerPort());
         this.setConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH, "" + this.getApplicationPath());
-
     }
 
     @Override
     public String getTabTitle() {
 
         return this.bundle.getString("preferences.title");
-
     }
 
     private void createPanel() {
@@ -73,7 +68,8 @@ public class SkyChartPreferences extends PreferencesPanel {
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 20, 15);
-        this.applicationPath = new JTextField(this.getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH).orElse(""));
+        this.applicationPath = new JTextField(
+                this.getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH).orElse(""));
         this.applicationPath.setToolTipText(this.bundle.getString("preferences.tooltip.path"));
         gridbag.setConstraints(this.applicationPath, constraints);
         this.add(this.applicationPath);
@@ -115,7 +111,6 @@ public class SkyChartPreferences extends PreferencesPanel {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     private String getServerIP() {
@@ -132,7 +127,6 @@ public class SkyChartPreferences extends PreferencesPanel {
         }
 
         return ip;
-
     }
 
     private int getServerPort() {
@@ -150,7 +144,6 @@ public class SkyChartPreferences extends PreferencesPanel {
         }
 
         return p;
-
     }
 
     private String getApplicationPath() {
@@ -163,7 +156,5 @@ public class SkyChartPreferences extends PreferencesPanel {
         path = path.replace('\\', '/');
 
         return path;
-
     }
-
 }

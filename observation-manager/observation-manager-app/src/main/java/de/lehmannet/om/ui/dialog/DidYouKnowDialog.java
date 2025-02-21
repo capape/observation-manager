@@ -7,6 +7,10 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.util.ConfigKey;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,14 +31,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.ConfigKey;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 
 public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
@@ -43,8 +40,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private static final String TEXT_PATH = "help" + File.separatorChar + "hints";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private ObservationManager om = null;
 
@@ -69,7 +66,6 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         this.initDialog();
 
         this.setVisible(true);
-
     }
 
     // --------------
@@ -94,7 +90,6 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
                 this.text.setText(this.getText());
             }
         }
-
     }
 
     private void initDialog() {
@@ -119,7 +114,9 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         this.text.setWrapStyleWord(true);
         this.text.setEditable(false);
         this.text.setText(this.getText());
-        JScrollPane scrollPane = new JScrollPane(this.text, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane scrollPane = new JScrollPane(
+                this.text,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         gridbag.setConstraints(scrollPane, constraints);
         this.getContentPane().add(scrollPane);
@@ -127,8 +124,8 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 2, 1, 10, 5);
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.showOnStartup.setSelected(Boolean
-                .parseBoolean(this.om.getConfiguration().getConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, "true")));
+        this.showOnStartup.setSelected(Boolean.parseBoolean(
+                this.om.getConfiguration().getConfig(ConfigKey.CONFIG_HELP_HINTS_STARTUP, "true")));
         gridbag.setConstraints(this.showOnStartup, constraints);
         this.getContentPane().add(this.showOnStartup);
 
@@ -145,13 +142,13 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         this.close.addActionListener(this);
         gridbag.setConstraints(this.close, constraints);
         this.getContentPane().add(this.close);
-
     }
 
     private String getText() {
 
         String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH)
-                + Locale.getDefault().getLanguage().toLowerCase() + File.separatorChar;
+                + Locale.getDefault().getLanguage().toLowerCase()
+                + File.separatorChar;
         File textDir = new File(path);
 
         LOGGER.info("Hints folder: {}", path);
@@ -167,13 +164,13 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
             // Select random text
             double dNumber = Math.random(); // Between 0.1 and 1.0
             iNumber = (int) Math.round(dNumber * (files.length - 1)); // Expand random number to max length (number of
-                                                                      // files found -1 as array start with 0)
+            // files found -1 as array start with 0)
         } while (!files[iNumber].isFile()); // Make sure we've found a file...this might be dangerous if there's no file
-                                            // at all!
+        // at all!
 
         String current = null;
         StringBuilder text = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber]));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(files[iNumber])); ) {
 
             current = br.readLine();
             while (current != null) {
@@ -188,7 +185,6 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         }
 
         return text.toString();
-
     }
 
     private String loadConvert(String theString) {
@@ -197,7 +193,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
         int len = theString.length();
         StringBuilder outBuffer = new StringBuilder(len);
 
-        for (int x = 0; x < len;) {
+        for (int x = 0; x < len; ) {
             aChar = theString.charAt(x++);
             if (aChar == '\\') {
                 aChar = theString.charAt(x++);
@@ -241,22 +237,15 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
                     }
                     outBuffer.append((char) value);
                 } else {
-                    if (aChar == 't')
-                        aChar = '\t';
-                    else if (aChar == 'r')
-                        aChar = '\r';
-                    else if (aChar == 'n')
-                        aChar = '\n';
-                    else if (aChar == 'f')
-                        aChar = '\f';
+                    if (aChar == 't') aChar = '\t';
+                    else if (aChar == 'r') aChar = '\r';
+                    else if (aChar == 'n') aChar = '\n';
+                    else if (aChar == 'f') aChar = '\f';
                     outBuffer.append(aChar);
                 }
-            } else
-                outBuffer.append(aChar);
+            } else outBuffer.append(aChar);
         }
 
         return outBuffer.toString();
-
     }
-
 }

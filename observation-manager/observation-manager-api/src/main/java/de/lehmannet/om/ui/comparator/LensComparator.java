@@ -7,9 +7,8 @@
 
 package de.lehmannet.om.ui.comparator;
 
-import java.util.Comparator;
-
 import de.lehmannet.om.ILens;
+import java.util.Comparator;
 
 public class LensComparator implements Comparator<ILens> {
 
@@ -24,11 +23,8 @@ public class LensComparator implements Comparator<ILens> {
             float l2a = l2.getFactor();
 
             return Math.round((float) Math.ceil(l1a - l2a));
-
         }
 
         return 0;
-
     }
-
 }

@@ -24,7 +24,6 @@ class CatalogTargets {
         for (int i = 0; i < t.length; i++) {
             this.targets[i] = new TargetObservations(t[i]);
         }
-
     }
 
     public void checkTarget(IObservation observation) {
@@ -40,29 +39,25 @@ class CatalogTargets {
                 }
             }
         }
-
     }
 
     public int numberOfObservations() {
 
         return observations;
-
     }
 
     public IListableCatalog getCatalog() {
 
         return this.catalog;
-
     }
 
     public TargetObservations[] getTargetObservations() {
 
         return this.targets;
-
     }
 
     private boolean areEqual(ITarget catalogTarget, ITarget observedTarget) { // Don't use equal() from ITarget, as it
-                                                                              // doesn't check aliasnames
+        // doesn't check aliasnames
 
         // All names of the catalog target are now filled into an array. Mind that names
         // are not formated!
@@ -98,21 +93,21 @@ class CatalogTargets {
         for (int x = allCatalogTargetNames.length - 1; x >= 0; x--) {
             for (int y = allObservedTargetNames.length - 1; y >= 0; y--) {
                 if (allCatalogTargetNames[x].equals(allObservedTargetNames[y])) { // Try without formatting names
-                                                                                  // (formatName call takes most of CPU
-                                                                                  // time in whole calculation)
+                    // (formatName call takes most of CPU
+                    // time in whole calculation)
                     return true;
                 }
-                if (this.formatName(allCatalogTargetNames[x]).equals(this.formatName(allObservedTargetNames[y]))) { // Try
-                                                                                                                    // with
-                                                                                                                    // formated
-                                                                                                                    // names
+                if (this.formatName(allCatalogTargetNames[x])
+                        .equals(this.formatName(allObservedTargetNames[y]))) { // Try
+                    // with
+                    // formated
+                    // names
                     return true;
                 }
             }
         }
 
         return false;
-
     }
 
     private String formatName(String name) {
@@ -122,7 +117,5 @@ class CatalogTargets {
         name = name.replaceAll(" ", "");
 
         return name;
-
     }
-
 }

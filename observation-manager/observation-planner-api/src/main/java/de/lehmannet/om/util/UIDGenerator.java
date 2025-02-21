@@ -41,7 +41,5 @@ public class UIDGenerator implements IIDGenerator {
         // As XML Schema requires an ID not to start with a number,
         // we put a 'OM' before each ID
         return "OM" + uid;
-
     }
-
 }

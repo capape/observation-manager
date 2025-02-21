@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetGN extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -100,7 +99,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetGN can only have one nebula type. ");
         }
-
     }
 
     /**
@@ -114,7 +112,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     public DeepSkyTargetGN(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -128,7 +125,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     public DeepSkyTargetGN(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -174,7 +170,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_PositionAngle);
         }
-
     }
 
     // ------------------------
@@ -193,7 +188,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetGN.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -209,7 +203,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     public int getPositionAngle() {
 
         return this.positionAngle;
-
     }
 
     /**
@@ -220,7 +213,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
     public String getNebulaType() {
 
         return this.nebulaType;
-
     }
 
     /**
@@ -238,7 +230,6 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
         }
 
         this.positionAngle = newPosAngle;
-
     }
 
     /**
@@ -255,7 +246,5 @@ public class DeepSkyTargetGN extends DeepSkyTarget {
         }
 
         this.nebulaType = newNebulaType;
-
     }
-
 }

@@ -7,6 +7,12 @@
 
 package de.lehmannet.om.ui.panel;
 
+import de.lehmannet.om.Filter;
+import de.lehmannet.om.IFilter;
+import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ui.util.ConstraintsBuilder;
+import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.util.OMLabel;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,18 +21,10 @@ import java.awt.event.ItemListener;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import de.lehmannet.om.Filter;
-import de.lehmannet.om.IFilter;
-import de.lehmannet.om.ISchemaElement;
-import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.ui.util.OMLabel;
 
 public class FilterPanel extends AbstractPanel implements ItemListener {
 
@@ -58,7 +56,6 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         if (filter != null) {
             this.loadSchemaElement();
         }
-
     }
 
     // ------------
@@ -71,7 +68,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         Object source = e.getSource();
         if (source.equals(this.type)) {
             if (e.getStateChange() == ItemEvent.SELECTED) { // If type color gets selected enabled additional boxes and
-                                                            // fields
+                // fields
                 BoxItem typeItem = (BoxItem) getEditableTypeComponent().getSelectedItem();
                 if ((typeItem != null) && (typeItem.getKey().equals(IFilter.FILTER_TYPE_COLOR))) {
                     this.colorType.setEnabled(true);
@@ -105,7 +102,6 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.schott.setEnabled(false);
         this.schott.setText("");
         LcolorType.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-
     }
 
     @Override
@@ -137,14 +133,12 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.filter.setVendor(this.vendor.getText());
 
         return this.filter;
-
     }
 
     @Override
     public ISchemaElement getSchemaElement() {
 
         return this.filter;
-
     }
 
     @Override
@@ -181,19 +175,16 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         this.filter.setVendor(this.vendor.getText());
 
         return this.filter;
-
     }
 
     public static String getI18Ntype(String type) {
 
         return BoxItem.getI18NString(type);
-
     }
 
     public static String getI18Ncolor(String type) {
 
         return BoxItem.getI18NString(type);
-
     }
 
     private String getType() {
@@ -211,7 +202,6 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
             t = getNoEditableTypeComponent().getText();
             return (String) t;
         }
-
     }
 
     private String getColorType() {
@@ -229,7 +219,6 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
             t = getNoEditableColorTypeComponent().getText();
             return (String) t;
         }
-
     }
 
     private void loadSchemaElement() {
@@ -274,9 +263,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
                 this.schott.setText(this.filter.getSchott());
             }
             this.schott.setEditable(this.isEditable());
-
         }
-
     }
 
     private JTextField getNoEditableTypeComponent() {
@@ -385,7 +372,6 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         JLabel Lfill = new JLabel("");
         gridbag.setConstraints(Lfill, constraints);
         this.add(Lfill);
-
     }
 
     private void fillBoxes() {
@@ -440,9 +426,7 @@ public class FilterPanel extends AbstractPanel implements ItemListener {
         c.addItem(new BoxItem(IFilter.FILTER_COLOR_VIOLET));
 
         c.setSelectedItem(colorEmptyItem); // Try to...if empty item was set
-
     }
-
 }
 
 // Helper class for I18N of type and color
@@ -450,22 +434,20 @@ class BoxItem {
 
     public static final String EMPTY_ITEM = "----";
 
-    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
-            Locale.getDefault());
+    private final ResourceBundle bundle =
+            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
 
     private String key = null;
 
     public BoxItem(String key) {
 
         this.key = key;
-
     }
 
     @Override
     public String toString() {
 
         return BoxItem.getI18NString(this.key);
-
     }
 
     @Override
@@ -477,19 +459,16 @@ class BoxItem {
         }
 
         return false;
-
     }
 
     public String getKey() {
 
         return this.key;
-
     }
 
     public boolean isEmptyItem() {
 
         return key.equals(BoxItem.EMPTY_ITEM);
-
     }
 
     public static String getI18NString(String s) {
@@ -554,7 +533,5 @@ class BoxItem {
         }
 
         return "Filter string not found";
-
     }
-
 }

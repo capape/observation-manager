@@ -7,13 +7,12 @@
 
 package de.lehmannet.om.extension.deepSky;
 
+import de.lehmannet.om.IObserver;
+import de.lehmannet.om.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import de.lehmannet.om.IObserver;
-import de.lehmannet.om.util.SchemaException;
 
 /**
  * DeepSkyTargetGC extends the de.lehmannet.om.extension.deepSky.DeepSkyTarget class.<br>
@@ -99,7 +98,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
         } else if (children.getLength() > 1) {
             throw new SchemaException("DeepSkyTargetGC can only have one concentration. ");
         }
-
     }
 
     /**
@@ -113,7 +111,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public DeepSkyTargetGC(String name, String datasource) {
 
         super(name, datasource);
-
     }
 
     /**
@@ -127,7 +124,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public DeepSkyTargetGC(String name, IObserver observer) {
 
         super(name, observer);
-
     }
 
     // ------
@@ -173,7 +169,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
 
             e_DSTarget.appendChild(e_Concentration);
         }
-
     }
 
     // ------------------------
@@ -192,7 +187,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public String getXSIType() {
 
         return DeepSkyTargetGC.XML_XSI_TYPE_VALUE;
-
     }
 
     // --------------
@@ -207,7 +201,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public String getConcentration() {
 
         return this.concentration;
-
     }
 
     /**
@@ -219,7 +212,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public double getMagnitude() {
 
         return this.magnitude;
-
     }
 
     /**
@@ -236,7 +228,6 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
         }
 
         this.concentration = newConcentration;
-
     }
 
     /**
@@ -248,7 +239,5 @@ public class DeepSkyTargetGC extends DeepSkyTarget {
     public void setMagnitude(double newMagnitude) {
 
         this.magnitude = newMagnitude;
-
     }
-
 }
