@@ -8,6 +8,7 @@
 package de.lehmannet.om;
 
 import de.lehmannet.om.mapper.ObservationMapper;
+import de.lehmannet.om.util.ConstellationCalculator;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.DateManagerImpl;
 import de.lehmannet.om.util.SchemaException;
@@ -175,6 +176,11 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         this.setID(ObservationMapper.getMandatoryID(observationElement));
         this.setBegin(ObservationMapper.getMandatoryBeginDate(observationElement));
         this.setTarget(ObservationMapper.getMandatoryTarget(targets, observationElement));
+
+        if (fixNodeErrors) {
+            this.fixConstellation(this.target);
+        }
+
         this.setObserver(ObservationMapper.getMandatoryObserver(observers, observationElement));
         this.setResults(ObservationMapper.getOptionalResults(this.getTarget(), observationElement));
         this.setEnd(ObservationMapper.getOptionalEndDate(observationElement));
@@ -1500,6 +1506,16 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
         }
 
         this.target = target;
+    }
+
+    private void fixConstellation(ITarget target) {
+
+        if (target.getPosition() != null && target.getConstellation() == null) {
+
+            var constellationCalculator = ConstellationCalculator.getInstance();
+            var constellation = constellationCalculator.getConstellation(target.getPosition(), 2000);
+            target.setConstellation(constellation);
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.XMLFileLoader;
 import java.io.File;
@@ -173,7 +174,7 @@ public class ObservationManagerModelImpl implements ObservationManagerModel {
     @Override
     public boolean loadObservations(final String filePath) {
         this.clear();
-        boolean fixErrors = configuration.getBooleanConfig("om.fix.xml.errors.on.load");
+        boolean fixErrors = configuration.getBooleanConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD);
         return this.xmlCache.loadObservations(filePath, fixErrors);
     }
 

@@ -9,6 +9,7 @@ import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.OMLabel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,13 +41,15 @@ public class GeneralPanel extends PreferencesPanel {
 
     private JCheckBox loadLastFile = null;
     private JCheckBox checkForUpdates = null;
+    private JCheckBox fixXmlOnLoad = null;
     private LanguageBox uiLanguage = null;
     private JComboBox<String> xslTemplate = null;
+    private final IConfiguration configuration;
 
     public GeneralPanel(IConfiguration config, ObservationManager om) {
 
         super(config);
-
+        this.configuration = config;
         this.om = om;
         this.createPanel();
     }
@@ -64,6 +67,9 @@ public class GeneralPanel extends PreferencesPanel {
         this.setConfig(ConfigKey.CONFIG_OPENONSTARTUP, String.valueOf(this.loadLastFile.isSelected()));
         this.setConfig(ConfigKey.CONFIG_UPDATECHECK_STARTUP, String.valueOf(this.checkForUpdates.isSelected()));
         this.setConfig(ConfigKey.CONFIG_UILANGUAGE, String.valueOf(this.uiLanguage.getSelectedISOLanguage()));
+        this.setConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD, String.valueOf(this.fixXmlOnLoad.isSelected()));
+        this.configuration.saveConfiguration();
+
         this.om.reloadLanguage();
         if (this.xslTemplate.getSelectedItem() != null) {
             this.setConfig(ConfigKey.CONFIG_XSL_TEMPLATE, String.valueOf(this.xslTemplate.getSelectedItem()));
@@ -81,45 +87,50 @@ public class GeneralPanel extends PreferencesPanel {
         addUILanguagePreference(gridbag, constraints);
         addXslTemplatePreference(gridbag, constraints);
         addResetWindowsSizePreference(gridbag, constraints);
+        addFixXmlErrosOnLoadPreference(gridbag, constraints);
 
-        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 2, 1, 100, 40);
+        ConstraintsBuilder.buildConstraints(constraints, 0, 6, 2, 1, 100, 40);
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel Lfill = new JLabel("");
-        gridbag.setConstraints(Lfill, constraints);
-        this.add(Lfill);
+        JLabel labelFill = new JLabel("");
+        gridbag.setConstraints(labelFill, constraints);
+        this.add(labelFill);
     }
 
     private void addResetWindowsSizePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LresetWindowsSizes =
+        OMLabel labelResetWindowsSizes =
                 new OMLabel(this.bundle.getString("dialog.preferences.label.resetWindowSizes"), true);
-        LresetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
-        gridbag.setConstraints(LresetWindowsSizes, constraints);
-        this.add(LresetWindowsSizes);
+        labelResetWindowsSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
+        gridbag.setConstraints(labelResetWindowsSizes, constraints);
+        this.add(labelResetWindowsSizes);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
         JButton resetWindowSizes = new JButton(this.bundle.getString("dialog.preferences.button.resetWindowSizes"));
         resetWindowSizes.setActionCommand("ResetWindowSizes");
-        resetWindowSizes.addActionListener(e -> {
-            if ("ResetWindowSizes".equals(e.getActionCommand())) {
-                GeneralPanel.this.om.resetWindowSizes();
-            }
-        });
+        resetWindowSizes.addActionListener(resetWindowSizesListener());
         resetWindowSizes.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.resetWindowSizes"));
         gridbag.setConstraints(resetWindowSizes, constraints);
         this.add(resetWindowSizes);
     }
 
+    private ActionListener resetWindowSizesListener() {
+        return e -> {
+            if ("ResetWindowSizes".equals(e.getActionCommand())) {
+                GeneralPanel.this.om.resetWindowSizes();
+            }
+        };
+    }
+
     private void addXslTemplatePreference(GridBagLayout gridbag, GridBagConstraints constraints) {
         ConstraintsBuilder.buildConstraints(constraints, 0, 3, 1, 1, 10, 15);
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel LxslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
-        LxslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
-        gridbag.setConstraints(LxslTemplate, constraints);
-        this.add(LxslTemplate);
+        OMLabel labelXslTemplate = new OMLabel(this.bundle.getString("dialog.preferences.label.xslTemplate"), true);
+        labelXslTemplate.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.xslTemplate"));
+        gridbag.setConstraints(labelXslTemplate, constraints);
+        this.add(labelXslTemplate);
 
         ConstraintsBuilder.buildConstraints(constraints, 1, 3, 1, 1, 40, 15);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -148,6 +159,27 @@ public class GeneralPanel extends PreferencesPanel {
         this.uiLanguage.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.uiLanguage"));
         gridbag.setConstraints(this.uiLanguage, constraints);
         this.add(this.uiLanguage);
+    }
+
+    private void addFixXmlErrosOnLoadPreference(GridBagLayout gridbag, GridBagConstraints constraints) {
+        ConstraintsBuilder.buildConstraints(constraints, 0, 5, 1, 1, 10, 15);
+        constraints.anchor = GridBagConstraints.WEST;
+        OMLabel labelFixXmlOnLoad =
+                new OMLabel(this.bundle.getString("dialog.preferences.label.fix.xml.on.load"), true);
+        labelFixXmlOnLoad.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.fix.xml.on.load"));
+        gridbag.setConstraints(labelFixXmlOnLoad, constraints);
+        this.add(labelFixXmlOnLoad);
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = GridBagConstraints.WEST;
+        ConstraintsBuilder.buildConstraints(constraints, 1, 5, 1, 1, 40, 15);
+        this.fixXmlOnLoad = new JCheckBox();
+        var configValue = Boolean.parseBoolean(
+                this.getConfig(ConfigKey.CONFIG_FIX_XML_ERRORS_ON_LOAD).orElse("false"));
+        this.fixXmlOnLoad.setSelected(configValue);
+        this.fixXmlOnLoad.setToolTipText(this.bundle.getString("dialog.preferences.tooltip.fix.xml.on.load"));
+        gridbag.setConstraints(this.fixXmlOnLoad, constraints);
+        this.add(this.fixXmlOnLoad);
     }
 
     private void addCheckForUpdatesPreference(GridBagLayout gridbag, GridBagConstraints constraints) {

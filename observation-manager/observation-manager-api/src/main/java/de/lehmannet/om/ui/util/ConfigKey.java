@@ -22,12 +22,13 @@ public enum ConfigKey implements IConfigKey {
     CONFIG_MAINWINDOW_DIVIDER_HORIZONTAL("om.mainwindow.divider.horizontal"),
     CONFIG_CONSTELLATION_USEI18N("om.constellation.useI18N"),
     CONFIG_UPDATECHECK_STARTUP("om.update.checkForUpdates"),
-    CONFIG_NIGHTVISION_ENABLED("om.nightvision.enable");
+    CONFIG_NIGHTVISION_ENABLED("om.nightvision.enable"),
+    CONFIG_FIX_XML_ERRORS_ON_LOAD("om.fix.xml.errors.on.load");
     // @formatter:on
 
     private final String key;
 
-    private ConfigKey(String key) {
+    ConfigKey(String key) {
         this.key = key;
     }
 
