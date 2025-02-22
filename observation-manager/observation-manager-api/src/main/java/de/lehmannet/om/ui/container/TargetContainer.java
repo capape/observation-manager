@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,8 +52,8 @@ public class TargetContainer extends Container implements MouseListener {
 
     private static final long serialVersionUID = -9052717626196198395L;
 
-    private final ResourceBundle bundle =
-            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
+    private final ResourceBundle bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager",
+            Locale.getDefault());
 
     private ITarget target = null;
 
@@ -270,8 +271,8 @@ public class TargetContainer extends Container implements MouseListener {
         if (c != null) {
             this.constellationBox.setSelectedConstellation(c);
             String cName = null;
-            boolean i18N =
-                    Boolean.parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
+            boolean i18N = Boolean
+                    .parseBoolean(this.configuration.getConfig(ConfigKey.CONFIG_CONSTELLATION_USEI18N, "true"));
             if (i18N) {
                 cName = c.getDisplayName();
             } else {
@@ -500,7 +501,7 @@ public class TargetContainer extends Container implements MouseListener {
             gridbag.setConstraints(this.constellationBox, constraints);
 
             ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 10, 1);
-            var constellationButton = new JButton("+");
+            var constellationButton = new JButton("Eq -> Const");
             constellationButton.setToolTipText(this.bundle.getString("target.tooltip.constellation"));
             constellationButton.addActionListener(addConstellationListener());
 
