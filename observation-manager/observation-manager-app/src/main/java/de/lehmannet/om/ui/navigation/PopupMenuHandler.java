@@ -396,7 +396,7 @@ class PopupMenuHandler implements ActionListener {
             IImagerDialog dialog = (IImagerDialog) this.observationManager
                     .getExtensionLoader()
                     .getSchemaUILoader()
-                    .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
+                    .getSchemaElementDialog(imager.getXSIType(), imager, true);
         } else if (element instanceof ISite) {
             SiteDialog dialog = new SiteDialog(this.observationManager, this.model, (ISite) this.element);
         } else if (element instanceof IFilter) {

@@ -3,16 +3,17 @@ package de.lehmannet.om.ui.extension;
 import de.lehmannet.om.GenericFinding;
 import de.lehmannet.om.GenericTarget;
 import de.lehmannet.om.IFinding;
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.TargetStar;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.IImagerDialog;
+import de.lehmannet.om.ui.dialog.IDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -162,28 +163,6 @@ public class GenericExtension extends AbstractExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
-
-        if (SchemaElementConstants.FINDING == schemaElementConstants) {
-            return (String) this.findingPanels.get(xsiType);
-        } else if (SchemaElementConstants.TARGET == schemaElementConstants) {
-            return (String) this.targetPanels.get(xsiType);
-        }
-
-        return null;
-    }
-
-    @Override
-    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
-
-        if (SchemaElementConstants.TARGET == schemaElementConstants) {
-            return (String) this.targetDialogs.get(xsiType);
-        }
-
-        return null;
-    }
-
-    @Override
     public boolean isCreationAllowed(String xsiType) {
 
         return true;
@@ -259,8 +238,14 @@ public class GenericExtension extends AbstractExtension {
     }
 
     @Override
-    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+    public IDialog getGenericDialogForXSIType(String xsiType, JFrame parent, ISchemaElement element, boolean editable) {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericDialogForXSIType'");
+    }
+
+    @Override
+    public IPanel getGenericPanelForXSIType(String xsiType, ISchemaElement element, boolean editable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericPanelForXSIType'");
     }
 }

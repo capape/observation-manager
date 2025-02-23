@@ -3,18 +3,21 @@ package de.lehmannet.om.ui.extension.imaging;
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.extension.imaging.CCDImager;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.IImagerDialog;
+import de.lehmannet.om.ui.dialog.IDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.imaging.dialog.CCDImagerDialog;
+import de.lehmannet.om.ui.extension.imaging.panel.CCDImagerPanel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
 import java.io.File;
@@ -194,7 +197,7 @@ public class ImagerExtension extends AbstractExtension {
     public AbstractPanel getTargetPanelForXSIType(
             String xsiType, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
-        return null;
+        return null; // CCDImagerPanel(IImager imager, Boolean editable);
     }
 
     @Override
@@ -214,8 +217,15 @@ public class ImagerExtension extends AbstractExtension {
     }
 
     @Override
-    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+    public IDialog getGenericDialogForXSIType(String xsiType, JFrame parent, ISchemaElement element, boolean editable) {
 
-        return new CCDImagerDialog(parent, this.context.getUserInterfaceHelper(), this.context.getModel(), imager);
+        return new CCDImagerDialog(
+                parent, this.context.getUserInterfaceHelper(), this.context.getModel(), (IImager) element, editable);
+    }
+
+    @Override
+    public IPanel getGenericPanelForXSIType(String xsiType, ISchemaElement element, boolean editable) {
+        // TODO Auto-generated method stub
+        return new CCDImagerPanel((IImager) element, editable);
     }
 }

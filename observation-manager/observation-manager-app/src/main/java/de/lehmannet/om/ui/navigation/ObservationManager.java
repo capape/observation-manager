@@ -50,7 +50,6 @@ import de.lehmannet.om.ui.util.UserInterfaceHelperImpl;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.DateManager;
 import de.lehmannet.om.util.FloatUtil;
-import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -797,7 +796,7 @@ public class ObservationManager extends JFrame implements IObservationManagerJFr
                     ObservationManager.this
                             .getExtensionLoader()
                             .getSchemaUILoader()
-                            .getSchemaElementDialog(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, true);
+                            .getSchemaElementDialog(imager.getXSIType(), imager, true);
                 } else if (element instanceof ISite) {
                     new SiteDialog(ObservationManager.this, ObservationManager.this.model, (ISite) element);
                 } else if (element instanceof IFilter) {

@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public abstract class AbstractPanel extends JPanel {
+public abstract class AbstractPanel extends JPanel implements IPanel {
 
     static ResourceBundle bundle =
             LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());

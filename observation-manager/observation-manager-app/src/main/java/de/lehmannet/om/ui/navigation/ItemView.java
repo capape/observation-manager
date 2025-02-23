@@ -33,7 +33,6 @@ import de.lehmannet.om.ui.panel.ScopePanel;
 import de.lehmannet.om.ui.panel.SessionPanel;
 import de.lehmannet.om.ui.panel.SitePanel;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
-import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Locale;
@@ -862,7 +861,7 @@ public class ItemView extends JPanel implements ChangeListener {
         this.imagerPanel = this.main
                 .getExtensionLoader()
                 .getSchemaUILoader()
-                .getSchemaElementPanel(imager.getXSIType(), SchemaElementConstants.IMAGER, imager, false);
+                .getSchemaElementPanel(imager.getXSIType(), imager, false);
         if (this.imagerPanel != null) {
             if (index <= 0) {
                 this.tabbedPane.addTab(

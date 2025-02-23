@@ -1,8 +1,8 @@
 package de.lehmannet.om.ui.extension.deepSky;
 
 import de.lehmannet.om.IFinding;
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaOalTypeInfo;
@@ -24,7 +24,7 @@ import de.lehmannet.om.extension.deepSky.DeepSkyTargetQS;
 import de.lehmannet.om.extension.deepSky.DeepSkyTargetSC;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
-import de.lehmannet.om.ui.dialog.IImagerDialog;
+import de.lehmannet.om.ui.dialog.IDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.extension.AbstractExtension;
 import de.lehmannet.om.ui.extension.IExtensionContext;
@@ -35,6 +35,7 @@ import de.lehmannet.om.ui.extension.deepSky.catalog.ICCatalog;
 import de.lehmannet.om.ui.extension.deepSky.catalog.MessierCatalog;
 import de.lehmannet.om.ui.extension.deepSky.catalog.NGCCatalog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
 import java.io.File;
@@ -500,28 +501,6 @@ public class DeepSkyExtension extends AbstractExtension {
     }
 
     @Override
-    public String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
-
-        if (SchemaElementConstants.FINDING == schemaElementConstants) {
-            return (String) this.findingPanels.get(xsiType);
-        } else if (SchemaElementConstants.TARGET == schemaElementConstants) {
-            return (String) this.targetPanels.get(xsiType);
-        }
-
-        return null;
-    }
-
-    @Override
-    public String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstants) {
-
-        if (SchemaElementConstants.TARGET == schemaElementConstants) {
-            return (String) this.targetDialogs.get(xsiType);
-        }
-
-        return null;
-    }
-
-    @Override
     public boolean supports(String xsiType) {
         if (xsiType == null) {
             return false;
@@ -530,8 +509,14 @@ public class DeepSkyExtension extends AbstractExtension {
     }
 
     @Override
-    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
+    public IDialog getGenericDialogForXSIType(String xsiType, JFrame parent, ISchemaElement element, boolean editable) {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericDialogForXSIType'");
+    }
+
+    @Override
+    public IPanel getGenericPanelForXSIType(String xsiType, ISchemaElement element, boolean editable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericPanelForXSIType'");
     }
 }
