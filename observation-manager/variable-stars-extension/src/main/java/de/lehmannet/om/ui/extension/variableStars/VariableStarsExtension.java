@@ -8,7 +8,6 @@
 package de.lehmannet.om.ui.extension.variableStars;
 
 import de.lehmannet.om.IFinding;
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
@@ -19,7 +18,7 @@ import de.lehmannet.om.extension.variableStars.FindingVariableStar;
 import de.lehmannet.om.extension.variableStars.TargetVariableStar;
 import de.lehmannet.om.extension.variableStars.export.AAVSOVisualSerializer;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.IImagerDialog;
+import de.lehmannet.om.ui.dialog.IDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.dialog.SchemaElementSelectorPopup;
 import de.lehmannet.om.ui.extension.AbstractExtension;
@@ -28,6 +27,7 @@ import de.lehmannet.om.ui.extension.PopupMenuExtension;
 import de.lehmannet.om.ui.extension.variableStars.catalog.GCVS4Catalog;
 import de.lehmannet.om.ui.extension.variableStars.dialog.VariableStarChartDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.Color;
@@ -291,12 +291,6 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
     }
 
     @Override
-    public IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() instanceof JMenuItem) { // Should always be the case
@@ -472,5 +466,17 @@ public class VariableStarsExtension extends AbstractExtension implements ActionL
                 }
             }
         }
+    }
+
+    @Override
+    public IDialog getGenericDialogForXSIType(String xsiType, JFrame parent, ISchemaElement element, boolean editable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericDialogForXSIType'");
+    }
+
+    @Override
+    public IPanel getGenericPanelForXSIType(String xsiType, ISchemaElement element, boolean editable) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGenericPanelForXSIType'");
     }
 }

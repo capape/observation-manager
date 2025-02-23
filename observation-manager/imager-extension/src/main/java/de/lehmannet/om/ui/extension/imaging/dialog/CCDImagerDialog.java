@@ -22,8 +22,12 @@ public class CCDImagerDialog extends AbstractDialog implements IImagerDialog {
 
     private static final long serialVersionUID = 8966093381064556604L;
 
-    public CCDImagerDialog(JFrame om, UserInterfaceHelper uiHelper, ObservationManagerModel model,
-            IImager editableImager, boolean editable) {
+    public CCDImagerDialog(
+            JFrame om,
+            UserInterfaceHelper uiHelper,
+            ObservationManagerModel model,
+            IImager editableImager,
+            boolean editable) {
 
         super(om, model, uiHelper, new CCDImagerPanel(editableImager, editable));
 

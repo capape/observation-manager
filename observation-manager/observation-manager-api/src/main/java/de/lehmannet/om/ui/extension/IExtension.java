@@ -8,15 +8,16 @@
 package de.lehmannet.om.ui.extension;
 
 import de.lehmannet.om.IFinding;
-import de.lehmannet.om.IImager;
 import de.lehmannet.om.IObservation;
+import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.SchemaOalTypeInfo;
 import de.lehmannet.om.ui.catalog.ICatalog;
-import de.lehmannet.om.ui.dialog.IImagerDialog;
+import de.lehmannet.om.ui.dialog.IDialog;
 import de.lehmannet.om.ui.dialog.ITargetDialog;
 import de.lehmannet.om.ui.panel.AbstractPanel;
+import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
 import java.io.File;
@@ -43,10 +44,6 @@ public interface IExtension {
 
     Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant);
 
-    String getPanelForXSIType(String xsiType, SchemaElementConstants schemaElementConstant);
-
-    String getDialogForXSIType(String xsiType, SchemaElementConstants schemaElementConstant);
-
     boolean isCreationAllowed(String xsiType);
 
     String getDisplayNameForXSIType(String xsiType);
@@ -67,7 +64,9 @@ public interface IExtension {
     ITargetDialog getTargetDialogForXSIType(
             String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable);
 
-    IImagerDialog getImagerDialogForXSIType(String xsiType, JFrame parent, IImager imager, boolean editable);
+    IDialog getGenericDialogForXSIType(String xsiType, JFrame parent, ISchemaElement element, boolean editable);
+
+    IPanel getGenericPanelForXSIType(String xsiType, ISchemaElement element, boolean editable);
 
     boolean supports(String xsiType);
 

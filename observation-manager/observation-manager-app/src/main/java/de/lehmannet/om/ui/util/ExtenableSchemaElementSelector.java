@@ -172,7 +172,7 @@ public class ExtenableSchemaElementSelector extends JDialog implements ActionLis
         if (SchemaElementConstants.TARGET == this.schemaElementConstant) {
             return this.loader.getTargetDialog(type, null, null);
         } else {
-            return this.loader.getSchemaElementDialog(type, this.schemaElementConstant, null, true);
+            return this.loader.getSchemaElementDialog(type, null, true);
         }
     }
 }
