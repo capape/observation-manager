@@ -1,12 +1,12 @@
 package de.lehmannet.om.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DateManagerImplTest {
 

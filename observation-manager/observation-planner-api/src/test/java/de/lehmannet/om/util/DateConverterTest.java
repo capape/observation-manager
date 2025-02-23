@@ -1,6 +1,6 @@
 package de.lehmannet.om.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -9,8 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class DateConverterTest {
 
     private static Logger log = LoggerFactory.getLogger(DateConverterTest.class);
 
-    @Before
+    @BeforeEach
     public void setup() {}
 
     @Test
@@ -83,6 +83,6 @@ public class DateConverterTest {
         String iso8601 = DateConverter.toISO8601(calendar);
 
         log.info("ISO8601 Date = {} ", iso8601);
-        assertEquals("Calendar to string iso8601:", expected, iso8601);
+        assertEquals(expected, iso8601, "Calendar to string iso8601:");
     }
 }
