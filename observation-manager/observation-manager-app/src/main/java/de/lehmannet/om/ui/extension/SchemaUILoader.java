@@ -19,10 +19,10 @@ import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,81 +94,49 @@ public class SchemaUILoader {
 
     public String[] getAllXSIDisplayNames(SchemaElementConstants schemaElementConstants) {
 
-        String[] types = this.getAllXSITypes(schemaElementConstants);
-        List<String> result = new ArrayList<>();
-        String dispName = null;
+        var types = getAllXSITypes(schemaElementConstants);
 
-        for (var extension : this.extensions) {
-            for (String type : types) {
-                dispName = extension.getDisplayNameForXSIType(type);
-                LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
-                if (dispName != null) {
-                    result.add(dispName);
-                }
-            }
-        }
-
-        return (String[]) result.toArray(new String[] {});
+        return Arrays.stream(types)
+                .map(this::getDisplayNameForType)
+                .filter(Objects::nonNull)
+                .toArray(String[]::new);
     }
 
     public String[] getAllXSIDisplayNamesForCreation(SchemaElementConstants schemaElementConstants) {
 
-        String[] types = this.getAllXSITypes(schemaElementConstants);
-        List<String> result = new ArrayList<>();
-        String dispName = null;
+        var types = this.getAllXSITypes(schemaElementConstants);
 
-        for (var extension : this.extensions) {
-            for (String type : types) {
-                if (extension.isCreationAllowed(type)) {
-                    dispName = extension.getDisplayNameForXSIType(type);
-                    LOGGER.debug("Extension: {}, type: {}, dispName: {}", extension.getName(), type, dispName);
-                    if (dispName != null) {
-                        result.add(dispName);
-                    }
-                }
-            }
-        }
-        Collections.sort(result);
-
-        return (String[]) result.toArray(new String[] {});
+        return Arrays.stream(types)
+                .filter(type -> extensions.stream().anyMatch(extension -> extension.isCreationAllowed(type)))
+                .map(this::getDisplayNameForType)
+                .filter(Objects::nonNull)
+                .sorted()
+                .toArray(String[]::new);
     }
 
     public String getDisplayNameForType(String type) {
 
-        for (var currentExtension : this.extensions) {
-            var result = currentExtension.getDisplayNameForXSIType(type);
-            LOGGER.debug("extension: {}, type: {}, dispName: {}", currentExtension.getName(), type, result);
-            if (result != null) {
-                return result;
-            }
-        }
-
-        return "";
+        return extensions.stream()
+                .map(extension -> extension.getDisplayNameForXSIType(type))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse("");
     }
 
-    public String getTypeForDisplayName(String name) {
+    public String getTypeForDisplayName(String displayName) {
 
-        if (name == null) {
+        if (displayName == null) {
             return null;
         }
 
         // Get all known types
-        String[] types = this.getAllXSITypes();
+        var types = getAllXSITypes();
 
-        String dispName = null;
-        for (var extension : this.extensions) {
-            for (String type : types) { // Iterate over all types
-                dispName = extension.getDisplayNameForXSIType(type); // Check if extension knows a displayname for
-                LOGGER.debug(
-                        "extension: {}, type: {}, name: {}, dispName: {}", extension.getName(), type, name, dispName);
-                // this type
-                if (name.equals(dispName)) {
-                    return type; // Displayname found for this type
-                }
-            }
-        }
-
-        return null;
+        return Arrays.stream(types)
+                .filter(type -> extensions.stream()
+                        .anyMatch(extension -> displayName.equals(extension.getDisplayNameForXSIType(type))))
+                .findFirst()
+                .orElse(null);
     }
 
     // ---------------
