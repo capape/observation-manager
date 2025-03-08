@@ -8,6 +8,7 @@
 package de.lehmannet.om.ui.catalog;
 
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
@@ -32,9 +33,6 @@ public class CatalogLoader {
 
     private static final String CATALOG_DIR = "catalog";
 
-    private ObservationManager observationManager = null;
-    private List<IExtension> extensions = null;
-
     // Key: Catalog name (String)
     // Value: Catalog (ICatalog)
     private final Map<String, ICatalog> catalogMap = new HashMap<>();
@@ -43,10 +41,15 @@ public class CatalogLoader {
     // Value: Extension version (Semver string)
     private final Map<String, String> knownExtensions = new HashMap<>();
 
-    public CatalogLoader(ObservationManager om, List<IExtension> extensions) {
+    private final ObservationManager observationManager;
+    private final ObservationManagerContext context;
+    private final List<IExtension> extensions;
+
+    public CatalogLoader(ObservationManagerContext context, ObservationManager om, List<IExtension> extensions) {
 
         this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
         this.observationManager = om;
+        this.context = context;
         this.extensions = extensions;
 
         this.loadCatalogues();
@@ -107,7 +110,7 @@ public class CatalogLoader {
 
     private void loadCatalogues() {
 
-        File catalogDir = new File(this.observationManager.getInstallDir().getPathForFolder(CATALOG_DIR));
+        File catalogDir = new File(this.context.getInstallDir().getPathForFolder(CATALOG_DIR));
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {

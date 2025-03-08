@@ -9,9 +9,9 @@ package de.lehmannet.om.ui.dialog;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
-import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.panel.ObservationDialogPanel;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -26,33 +26,26 @@ public class ObservationDialog extends AbstractDialog {
 
     private JButton next = new JButton("Next");
     private boolean createAdditionalObservation = false;
-    private final UIDataCache uiCache;
 
     public ObservationDialog(
+            ObservationManagerContext context,
             ObservationManager om,
             ObservationManagerModel model,
-            TextManager textManager,
             IObservation observation,
             UIDataCache uiCache) {
 
-        this(om, model, textManager, observation, null, uiCache);
+        this(context, om, model, observation, null, uiCache);
     }
 
     public ObservationDialog(
+            ObservationManagerContext context,
             ObservationManager om,
             ObservationManagerModel model,
-            TextManager textManager,
             IObservation observation,
             ISchemaElement se,
             UIDataCache uiCache) {
 
-        super(
-                om,
-                model,
-                om.getUiHelper(),
-                new ObservationDialogPanel(om, model, textManager, observation, se, om.getImageResolver(), uiCache));
-
-        this.uiCache = uiCache;
+        super(om, model, om.getUiHelper(), new ObservationDialogPanel(context, om, model, observation, se, uiCache));
 
         if (observation == null) {
             this.setTitle(AbstractDialog.bundle.getString("dialog.observation.title"));
@@ -82,7 +75,7 @@ public class ObservationDialog extends AbstractDialog {
         gridbag.setConstraints(this.cancel, constraints);
         this.getContentPane().add(this.cancel);
 
-        this.setSize(ObservationDialog.serialVersionUID, om.getSize().width - 200, 620);
+        this.setSize(serialVersionUID, om.getSize().width - 200, 620);
         this.setLocationRelativeTo(om);
 
         this.setVisible(true);

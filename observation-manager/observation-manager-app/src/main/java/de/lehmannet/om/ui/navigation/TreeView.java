@@ -19,6 +19,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.i18n.TextManager;
@@ -87,18 +88,19 @@ public class TreeView extends JPanel implements TreeSelectionListener {
     private final ObservationManager observationManager;
     private final TextManager textManager;
     private final UIDataCache cache;
+    private final ObservationManagerContext context;
 
     public TreeView(
+            ObservationManagerContext context,
             ObservationManager om,
             ObservationManagerModel omModel,
-            TextManager textManager,
-            ImageResolver resolver,
             UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
-        this.textManager = textManager;
-        this.imageResolver = resolver;
+        this.context = context;
+        this.textManager = this.context.getTextManager();
+        this.imageResolver = this.context.getImageResolver();
         this.cache = cache;
 
         this.root = new DefaultMutableTreeNode(this.textManager.getString("treeRoot"));
@@ -159,9 +161,9 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                         + PopupMenuHandler.CREATE_NEW_OBSERVATION
                                         + PopupMenuHandler.EXTENSIONS);
                                 new PopupMenuHandler(
+                                        TreeView.this.context,
                                         TreeView.this.observationManager,
                                         TreeView.this.model,
-                                        TreeView.this.textManager,
                                         element,
                                         p.x,
                                         p.y,
@@ -199,9 +201,9 @@ public class TreeView extends JPanel implements TreeSelectionListener {
                                 }
 
                                 new PopupMenuHandler(
+                                        TreeView.this.context,
                                         TreeView.this.observationManager,
                                         TreeView.this.model,
-                                        TreeView.this.textManager,
                                         null,
                                         p.x,
                                         p.y,

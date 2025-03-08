@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.project;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
@@ -16,12 +17,12 @@ public class CatalogManagerImpl implements CatalogManager {
     private ProjectLoader projectLoader;
 
     public CatalogManagerImpl(
-            final ObservationManagerModel model,
-            InstallDir installDir,
+            ObservationManagerContext context,
+            ObservationManagerModel model,
             ExtensionLoader extensionLoader,
             UserInterfaceHelper uiHelper) {
         this.model = model;
-        this.installDir = installDir;
+        this.installDir = context.getInstallDir();
         this.uiHelper = uiHelper;
         this.extensionLoader = extensionLoader;
         this.loadProjectFiles();

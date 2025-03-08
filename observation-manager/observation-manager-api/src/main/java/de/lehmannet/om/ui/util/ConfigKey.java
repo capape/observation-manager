@@ -1,8 +1,6 @@
 package de.lehmannet.om.ui.util;
 
 public enum ConfigKey implements IConfigKey {
-
-    // @formatter:off
     CONFIG_LASTDIR("om.lastOpenedDir"),
     CONFIG_LASTXML("om.lastOpenedXML"),
     CONFIG_OPENONSTARTUP("om.lastOpenedXML.onStartup"),
@@ -24,7 +22,6 @@ public enum ConfigKey implements IConfigKey {
     CONFIG_UPDATECHECK_STARTUP("om.update.checkForUpdates"),
     CONFIG_NIGHTVISION_ENABLED("om.nightvision.enable"),
     CONFIG_FIX_XML_ERRORS_ON_LOAD("om.fix.xml.errors.on.load");
-    // @formatter:on
 
     private final String key;
 

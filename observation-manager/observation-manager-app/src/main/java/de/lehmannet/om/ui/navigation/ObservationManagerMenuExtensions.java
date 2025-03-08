@@ -1,10 +1,10 @@
 package de.lehmannet.om.ui.navigation;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.dialog.ExtensionInfoDialog;
 import de.lehmannet.om.ui.extension.ExtensionLoader;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,6 @@ public final class ObservationManagerMenuExtensions {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtensions.class);
 
-    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private final JMenu menu;
     private final ExtensionLoader extensionLoader;
@@ -27,19 +26,16 @@ public final class ObservationManagerMenuExtensions {
     private final UserInterfaceHelper uiHelper;
 
     public ObservationManagerMenuExtensions(
-            IConfiguration configuration,
+            ObservationManagerContext context,
             ExtensionLoader extLoader,
-            ImageResolver imageResolver,
-            TextManager textManager,
             UserInterfaceHelper uiHelper,
             ObservationManager om) {
 
-        // Load configuration
-        this.configuration = configuration;
+        this.imageResolver = context.getImageResolver();
+        this.textManager = context.getTextManager();
+
         this.observationManager = om;
         this.extensionLoader = extLoader;
-        this.imageResolver = imageResolver;
-        this.textManager = textManager;
         this.uiHelper = uiHelper;
         this.menu = this.createMenuExtensionItems();
     }

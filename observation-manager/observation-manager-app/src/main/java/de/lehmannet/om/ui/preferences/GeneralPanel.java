@@ -1,7 +1,9 @@
 package de.lehmannet.om.ui.preferences;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.box.LanguageBox;
 import de.lehmannet.om.ui.navigation.ObservationManager;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
 import de.lehmannet.om.ui.util.IConfiguration;
@@ -45,11 +47,13 @@ public class GeneralPanel extends PreferencesPanel {
     private LanguageBox uiLanguage = null;
     private JComboBox<String> xslTemplate = null;
     private final IConfiguration configuration;
+    private final InstallDir installDir;
 
-    public GeneralPanel(IConfiguration config, ObservationManager om) {
+    public GeneralPanel(ObservationManagerContext context, ObservationManager om) {
 
-        super(config);
-        this.configuration = config;
+        super(context.getConfiguration());
+        this.configuration = context.getConfiguration();
+        this.installDir = context.getInstallDir();
         this.om = om;
         this.createPanel();
     }
@@ -227,7 +231,7 @@ public class GeneralPanel extends PreferencesPanel {
 
         this.xslTemplate = new JComboBox<>();
 
-        File path = new File(this.om.getInstallDir().getPathForFolder("xsl"));
+        File path = new File(this.installDir.getPathForFolder("xsl"));
         if (!path.exists()) { // Should never happen in a correct installation
             return;
         }

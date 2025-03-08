@@ -1,8 +1,8 @@
 package de.lehmannet.om.ui.navigation;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.dialog.AboutDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
-import de.lehmannet.om.ui.util.IConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -15,24 +15,17 @@ public final class ObservationManagerMenuHelp {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuHelp.class);
 
-    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private JMenu aboutMenu;
 
     private final TextManager textManager;
     private final TextManager versionTextManager;
 
-    public ObservationManagerMenuHelp(
-            IConfiguration configuration,
-            TextManager textManager,
-            TextManager versionTextManager,
-            ObservationManager om) {
+    public ObservationManagerMenuHelp(ObservationManagerContext context, ObservationManager om) {
 
-        // Load configuration
-        this.configuration = configuration;
+        this.textManager = context.getTextManager();
+        this.versionTextManager = context.getVersionTextManager();
         this.observationManager = om;
-        this.textManager = textManager;
-        this.versionTextManager = versionTextManager;
 
         this.aboutMenu = this.createMenuAboutItems();
     }

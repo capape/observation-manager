@@ -12,6 +12,7 @@ import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.OALException;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.NewDocumentDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
@@ -65,25 +66,22 @@ public final class ObservationManagerMenuFile {
     private JMenu menu;
 
     public ObservationManagerMenuFile(
-            IConfiguration configuration,
+            ObservationManagerContext context,
             ObservationManagerModel model,
             ObservationManagerHtmlHelper htmlHelper,
-            ImageResolver imageResolver,
-            TextManager textManager,
             UserInterfaceHelper uiHelper,
-            InstallDir installDir,
             ObservationManager om) {
 
         // Load configuration
-        this.configuration = configuration;
+        this.configuration = context.getConfiguration();
+        this.imageResolver = context.getImageResolver();
+        this.textManager = context.getTextManager();
+        this.installDir = context.getInstallDir();
+
         this.model = model;
         this.observationManager = om;
         this.htmlHelper = htmlHelper;
-        this.imageResolver = imageResolver;
         this.uiHelper = uiHelper;
-        this.textManager = textManager;
-        this.installDir = installDir;
-
         this.menu = this.createMenuFileItems();
     }
 

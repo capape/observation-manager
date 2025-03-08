@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public enum Constellation {
 
     // Each constellation is created once in a static manner
-    // @formatter:off
+
     ANDROMEDA("And", "Andromeda"),
     ANTLIA("Ant", "Antlia"),
     APUS("Aps", "Apus"),
@@ -113,7 +113,6 @@ public enum Constellation {
     VIRGO("Vir", "Virgo"),
     VOLANS("Vol", "Volans"),
     VULPECULA("Vul", "Vulpecula");
-    // @formatter:on
 
     private ResourceBundle bundle = ResourceBundle.getBundle("Constellations", Locale.getDefault());
 

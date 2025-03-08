@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.preferences;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
@@ -31,19 +32,21 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
     private final ObservationManager om;
     private final ObservationManagerModel model;
+    private final ObservationManagerContext context;
     private final TextManager textManager;
 
     public PreferencesDialog(
+            ObservationManagerContext context,
             ObservationManager om,
             ObservationManagerModel model,
-            TextManager textManager,
             PreferencesPanel[] additionalPanels) {
 
         super(om);
 
         this.om = om;
         this.model = model;
-        this.textManager = textManager;
+        this.context = context;
+        this.textManager = context.getTextManager();
 
         this.ok = new JButton(this.textManager.getString("dialog.button.ok"));
         this.cancel = new JButton(this.textManager.getString("dialog.button.cancel"));
@@ -102,7 +105,7 @@ public class PreferencesDialog extends OMDialog implements ActionListener {
 
         this.tabbedPane = new JTabbedPane();
 
-        PreferencesPanel genericPanel = new GeneralPanel(this.om.getConfiguration(), this.om);
+        PreferencesPanel genericPanel = new GeneralPanel(this.context, this.om);
         PreferencesPanel behaviourPanel =
                 new BehaviourPanel(this.om.getConfiguration(), this.om, this.model, this.textManager);
         this.tabbedPane.addTab(genericPanel.getTabTitle(), genericPanel);

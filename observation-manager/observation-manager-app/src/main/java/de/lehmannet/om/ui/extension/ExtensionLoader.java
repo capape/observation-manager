@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.extension;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.extension.skychart.SkyChartClient;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.CatalogLoader;
@@ -15,7 +16,6 @@ import de.lehmannet.om.ui.extension.imaging.ImagerExtension;
 import de.lehmannet.om.ui.extension.solarSystem.SolarSystemExtension;
 import de.lehmannet.om.ui.extension.variableStars.VariableStarsExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.ConfigLoader;
 import java.util.ArrayList;
@@ -49,37 +49,33 @@ public class ExtensionLoader {
 
     private JMenu[] cachedMenus = null;
 
-    private final InstallDir installDir;
-
     @Deprecated
     private final ObservationManager om;
 
     private final ObservationManagerModel model;
 
-    private final IExtensionContext context;
+    private final IExtensionContext extensionContext;
+    private final ObservationManagerContext context;
     private final ExternalExtensionLoader loader;
     // ------------
     // Constructors ------------------------------------------------------
     // ------------
 
-    public ExtensionLoader(ObservationManager om, ObservationManagerModel model, InstallDir installDir) {
+    public ExtensionLoader(ObservationManagerContext context, ObservationManager om, ObservationManagerModel model) {
 
-        this.installDir = installDir;
+        this.context = context;
         this.om = om;
         this.model = model;
-        this.context = new ExtensionContext.Builder()
-                .configuration(this.om.getConfiguration())
-                .installDir(this.installDir)
+        this.extensionContext = new ExtensionContext.Builder()
+                .configuration(this.context.getConfiguration())
+                .installDir(this.context.getInstallDir())
                 .uiHelper(this.om.getUiHelper())
                 .model(this.model)
                 .build();
 
-        // TODO inject
-        this.loader = new ExternalExtensionLoader(context);
-
+        this.loader = new ExternalExtensionLoader(extensionContext);
         this.loadExtensions();
-
-        this.catalogLoader = new CatalogLoader(om, this.extensions);
+        this.catalogLoader = new CatalogLoader(context, om, this.extensions);
         this.schemaUILoader = new SchemaUILoader(om, this.extensions);
     }
 
@@ -197,12 +193,12 @@ public class ExtensionLoader {
 
     private void loadExtensions() {
 
-        this.addInternalExtension(new GenericExtension(context));
-        this.addInternalExtension(new SkyChartClient(context));
-        this.addInternalExtension(new DeepSkyExtension(context));
-        this.addInternalExtension(new ImagerExtension(context));
-        this.addInternalExtension(new SolarSystemExtension(context));
-        this.addInternalExtension(new VariableStarsExtension(context));
+        this.addInternalExtension(new GenericExtension(extensionContext));
+        this.addInternalExtension(new SkyChartClient(extensionContext));
+        this.addInternalExtension(new DeepSkyExtension(extensionContext));
+        this.addInternalExtension(new ImagerExtension(extensionContext));
+        this.addInternalExtension(new SolarSystemExtension(extensionContext));
+        this.addInternalExtension(new VariableStarsExtension(extensionContext));
     }
 
     private void addInternalExtension(IExtension extension) {

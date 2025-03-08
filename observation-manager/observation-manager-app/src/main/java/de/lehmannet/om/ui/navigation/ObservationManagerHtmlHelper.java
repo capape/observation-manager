@@ -2,6 +2,7 @@ package de.lehmannet.om.ui.navigation;
 
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
@@ -44,15 +45,11 @@ public class ObservationManagerHtmlHelper {
     private final ObservationManagerModel model;
 
     public ObservationManagerHtmlHelper(
-            UserInterfaceHelper uiHelper,
-            TextManager textManager,
-            IConfiguration configuration,
-            InstallDir installDir,
-            ObservationManagerModel model) {
+            ObservationManagerContext context, UserInterfaceHelper uiHelper, ObservationManagerModel model) {
         this.uiHelper = uiHelper;
-        this.textManager = textManager;
-        this.configuration = configuration;
-        this.installDir = installDir;
+        this.textManager = context.getTextManager();
+        this.configuration = context.getConfiguration();
+        this.installDir = context.getInstallDir();
         this.model = model;
     }
 

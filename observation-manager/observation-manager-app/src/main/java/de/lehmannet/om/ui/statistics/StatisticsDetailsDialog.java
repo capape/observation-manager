@@ -10,16 +10,15 @@ package de.lehmannet.om.ui.statistics;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.AbstractDialog;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.ObservationManagerHtmlHelper;
-import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.ui.util.XMLFileLoader;
@@ -47,6 +46,8 @@ import org.w3c.dom.Document;
 
 public class StatisticsDetailsDialog extends AbstractDialog {
 
+    private static final String XSLFILENAME = "targetsOnly";
+
     private static final long serialVersionUID = -9088082984657164772L;
     private TargetObservations[] targetObservations = null;
     private String catalogName = null;
@@ -59,19 +60,18 @@ public class StatisticsDetailsDialog extends AbstractDialog {
     private final ObservationManagerModel model;
     private final UserInterfaceHelper uiHelper;
     private final ObservationManagerHtmlHelper htmlHelper;
-    private final InstallDir installDir;
-    private final IConfiguration configuration;
+    private final ObservationManagerContext context;
 
     public StatisticsDetailsDialog(
+            final ObservationManagerContext context,
             final ObservationManager om,
             final ObservationManagerModel omModel,
             final ObservationStatisticsTableModel tableModel) {
 
-        super(om, omModel, om.getUiHelper(), new DetailPanel(om, tableModel), true);
+        super(om, omModel, om.getUiHelper(), new DetailPanel(context, om, tableModel), true);
+        this.context = context;
         this.uiHelper = om.getUiHelper();
         this.htmlHelper = om.getHtmlHelper();
-        this.configuration = om.getConfiguration();
-        this.installDir = om.getInstallDir();
         this.model = omModel;
         this.targetObservations = tableModel.getTargetObservations();
         this.catalogName = tableModel.getCatalogName();
@@ -402,18 +402,15 @@ public class StatisticsDetailsDialog extends AbstractDialog {
 
     private File getXSLFile() {
 
-        final String XSLFILENAME = "targetsOnly";
-
-        String selectedTemplate = this.configuration.getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
-        if ((selectedTemplate == null) // No config given, so take default one.
-                // (Usefull for migrations)
-                || ("".equals(selectedTemplate.trim()))) {
+        String selectedTemplate = this.context.getConfiguration().getConfig(ConfigKey.CONFIG_XSL_TEMPLATE);
+        if ((selectedTemplate == null) // No config given, so take default one. (Usefull for migrations)
+                || "".equals(selectedTemplate.trim())) {
             selectedTemplate = "oal2html";
         }
 
         // Check if XSL directory exists
-        final File path =
-                new File(this.installDir.getPathForFolder("xsl") + selectedTemplate + File.separator + "targetOnly");
+        final File path = new File(this.context.getInstallDir().getPathForFolder("xsl") + selectedTemplate
+                + File.separator + "targetOnly");
         if (!path.exists()) {
             this.uiHelper.showWarning(AbstractDialog.bundle.getString("warning.xslTemplate.dirDoesNotExist") + "\n"
                     + path.getAbsolutePath());
@@ -445,16 +442,18 @@ class DetailPanel extends AbstractPanel implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
 
-    private AbstractSchemaTableModel model = null;
     private JScrollPane scrollTable = null;
-    private ObservationManager om = null;
+    private final AbstractSchemaTableModel model;
+    private final ObservationManager om;
+    private final ObservationManagerContext context;
 
-    public DetailPanel(final ObservationManager om, final AbstractSchemaTableModel model) {
+    public DetailPanel(ObservationManagerContext context, ObservationManager om, AbstractSchemaTableModel model) {
 
         super(true);
 
         this.model = model;
         this.om = om;
+        this.context = context;
 
         final JTable table = new JTable();
         table.setModel(this.model);
@@ -472,11 +471,6 @@ class DetailPanel extends AbstractPanel implements ActionListener {
                 final int selectedRow = lsm1.getMinSelectionIndex();
                 final IObservation obs = (IObservation) DetailPanel.this.model.getValueAt(selectedRow, 1);
                 DetailPanel.this.om.updateUI(obs);
-                /*
-                 * List l = (List)DetailPanel.this.model.getValueAt(selectedRow, 1); if( (l != null) && !(l.isEmpty()) )
-                 * { IObservation obs = (IObservation)l.get(0); // Always show first observation
-                 * DetailPanel.this.om.updateUI(obs); }
-                 */
             }
         });
 
@@ -507,7 +501,7 @@ class DetailPanel extends AbstractPanel implements ActionListener {
             cr.setHorizontalAlignment(SwingConstants.CENTER);
             if (value != null) {
                 final IObservation o = (IObservation) value;
-                cr.setText(this.om
+                cr.setText(this.context
                         .getDateManager()
                         .zonedDateTimeToStringWithHour(o.getBegin().toZonedDateTime()));
             }

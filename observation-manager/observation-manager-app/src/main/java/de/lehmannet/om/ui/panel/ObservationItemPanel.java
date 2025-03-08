@@ -21,6 +21,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.SurfaceBrightness;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.container.AngleContainer;
@@ -86,16 +87,22 @@ public class ObservationItemPanel extends AbstractPanel {
     private IObservation observation = null;
 
     private final ObservationManager om;
+    private final ObservationManagerContext context;
     private final ObservationManagerModel model;
 
     // Only used to display all observation own values plus some values from other
     // elementso
     // For Create/Edit use ObservationDialogPanel
-    public ObservationItemPanel(ObservationManager om, ObservationManagerModel model, IObservation observation) {
+    public ObservationItemPanel(
+            ObservationManagerContext context,
+            ObservationManager om,
+            ObservationManagerModel model,
+            IObservation observation) {
 
         super(false);
 
         this.om = om;
+        this.context = context;
         this.model = model;
 
         this.observation = observation;
@@ -116,11 +123,11 @@ public class ObservationItemPanel extends AbstractPanel {
 
         // Load mandatory stuff
         ZonedDateTime begin = observation.getBegin().toZonedDateTime();
-        this.begin.setText(this.om.getDateManager().zonedDateTimeToStringWithSeconds(begin));
+        this.begin.setText(this.context.getDateManager().zonedDateTimeToStringWithSeconds(begin));
         this.begin.setCaretPosition(0);
         String toolTipDate = String.format(
                 "JD: %s \nUTC: %s",
-                this.om.getDateManager().formatAsAstronomicalJulianDate(begin), observation.getBegin());
+                this.context.getDateManager().formatAsAstronomicalJulianDate(begin), observation.getBegin());
         this.begin.setToolTipText(toolTipDate);
 
         ITarget target = observation.getTarget();
@@ -136,7 +143,7 @@ public class ObservationItemPanel extends AbstractPanel {
         // Load optional stuff
 
         if (observation.getEnd() != null) {
-            this.end.setText(this.om
+            this.end.setText(this.context
                     .getDateManager()
                     .zonedDateTimeToStringWithSeconds(observation.getEnd().toZonedDateTime()));
             this.end.setCaretPosition(0);
@@ -241,7 +248,7 @@ public class ObservationItemPanel extends AbstractPanel {
                     // No need to check lense...it can be null
                     float afl = OpticsUtil.getActualFocalLength(sc, le, mag);
 
-                    int afl_i = Math.round(afl);
+                    int aflI = Math.round(afl);
 
                     // Do some checks that should never be true...hopefully
                     // Comment this out, as by using a lens those checks have a good chance to fail
@@ -253,7 +260,7 @@ public class ObservationItemPanel extends AbstractPanel {
                      */
 
                     // Set text with additional info on actual focal length
-                    actualFocalLength = " @" + afl_i + "mm";
+                    actualFocalLength = " @" + aflI + "mm";
                 }
             }
 
@@ -308,10 +315,10 @@ public class ObservationItemPanel extends AbstractPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 1, 1, 8, 1);
-        OMLabel Lbegin = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.begin"), true);
-        Lbegin.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.begin"));
-        gridbag.setConstraints(Lbegin, constraints);
-        this.add(Lbegin);
+        OMLabel labelBegin = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.begin"), true);
+        labelBegin.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.begin"));
+        gridbag.setConstraints(labelBegin, constraints);
+        this.add(labelBegin);
         ConstraintsBuilder.buildConstraints(constraints, 1, 0, 1, 1, 25, 1);
         this.begin.setEditable(false);
         this.begin.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.begin"));
@@ -319,11 +326,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.begin);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 0, 1, 1, 8, 1);
-        OMLabel Lend = new OMLabel(
+        OMLabel labelEnd = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.end"), SwingConstants.RIGHT, false);
-        Lend.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.end"));
-        gridbag.setConstraints(Lend, constraints);
-        this.add(Lend);
+        labelEnd.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.end"));
+        gridbag.setConstraints(labelEnd, constraints);
+        this.add(labelEnd);
         ConstraintsBuilder.buildConstraints(constraints, 3, 0, 1, 1, 25, 1);
         this.end.setEditable(false);
         this.end.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.end"));
@@ -331,13 +338,13 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.end);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 0, 1, 1, 8, 1);
-        OMLabel LfaintestStar = new OMLabel(
+        OMLabel labelFaintestStar = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.faintestStar"),
                 SwingConstants.RIGHT,
                 false);
-        LfaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.faintestStar"));
-        gridbag.setConstraints(LfaintestStar, constraints);
-        this.add(LfaintestStar);
+        labelFaintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.faintestStar"));
+        gridbag.setConstraints(labelFaintestStar, constraints);
+        this.add(labelFaintestStar);
         ConstraintsBuilder.buildConstraints(constraints, 5, 0, 3, 1, 25, 1);
         this.faintestStar.setEditable(false);
         this.faintestStar.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.faintestStar"));
@@ -345,10 +352,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.faintestStar);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 1, 1, 1, 8, 1);
-        OMLabel Lmag = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.magnification"), false);
-        Lmag.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.magnification"));
-        gridbag.setConstraints(Lmag, constraints);
-        this.add(Lmag);
+        OMLabel labelMag =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.magnification"), false);
+        labelMag.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.magnification"));
+        gridbag.setConstraints(labelMag, constraints);
+        this.add(labelMag);
         ConstraintsBuilder.buildConstraints(constraints, 1, 1, 1, 1, 25, 1);
         this.magnification.setEditable(false);
         this.magnification.setToolTipText(
@@ -357,11 +365,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.magnification);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 1, 1, 1, 8, 1);
-        OMLabel Lseeing = new OMLabel(
+        OMLabel labelSeeing = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.seeing"), SwingConstants.RIGHT, false);
-        Lseeing.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.seeing"));
-        gridbag.setConstraints(Lseeing, constraints);
-        this.add(Lseeing);
+        labelSeeing.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.seeing"));
+        gridbag.setConstraints(labelSeeing, constraints);
+        this.add(labelSeeing);
         ConstraintsBuilder.buildConstraints(constraints, 3, 1, 1, 1, 25, 1);
         this.seeing.setEditable(false);
         this.seeing.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.seeing"));
@@ -369,11 +377,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.seeing);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 1, 1, 1, 8, 1);
-        OMLabel Lsqm = new OMLabel(
+        OMLabel labelSqm = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.sqm"), SwingConstants.RIGHT, false);
-        Lsqm.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.sqm"));
-        gridbag.setConstraints(Lsqm, constraints);
-        this.add(Lsqm);
+        labelSqm.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.sqm"));
+        gridbag.setConstraints(labelSqm, constraints);
+        this.add(labelSqm);
         ConstraintsBuilder.buildConstraints(constraints, 5, 1, 3, 1, 25, 1);
         this.sqm.setEditable(false);
         this.sqm.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.sqm"));
@@ -381,11 +389,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.sqm);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 2, 1, 1, 8, 1);
-        OMLabel Laccessories =
+        OMLabel labelAccessories =
                 new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.accessories"), false);
-        Laccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.accessories"));
-        gridbag.setConstraints(Laccessories, constraints);
-        this.add(Laccessories);
+        labelAccessories.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.accessories"));
+        gridbag.setConstraints(labelAccessories, constraints);
+        this.add(labelAccessories);
         ConstraintsBuilder.buildConstraints(constraints, 1, 2, 7, 1, 91, 1);
         this.accessories.setEditable(false);
         this.accessories.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.accessories"));
@@ -398,10 +406,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(seperator1);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 4, 1, 1, 8, 1);
-        OMLabel Lsession = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.session"), false);
-        Lsession.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.session"));
-        gridbag.setConstraints(Lsession, constraints);
-        this.add(Lsession);
+        OMLabel labelSession =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.session"), false);
+        labelSession.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.session"));
+        gridbag.setConstraints(labelSession, constraints);
+        this.add(labelSession);
         ConstraintsBuilder.buildConstraints(constraints, 1, 4, 1, 1, 25, 1);
         this.session.setEditable(false);
         this.session.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.session"));
@@ -409,11 +418,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.session);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 4, 1, 1, 8, 1);
-        OMLabel Lsite = new OMLabel(
+        OMLabel labelSite = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.site"), SwingConstants.RIGHT, false);
-        Lsite.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.site"));
-        gridbag.setConstraints(Lsite, constraints);
-        this.add(Lsite);
+        labelSite.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.site"));
+        gridbag.setConstraints(labelSite, constraints);
+        this.add(labelSite);
         ConstraintsBuilder.buildConstraints(constraints, 3, 4, 1, 1, 25, 1);
         this.site.setEditable(false);
         this.site.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.site"));
@@ -421,11 +430,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.site);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 4, 1, 1, 8, 1);
-        OMLabel Lobserver = new OMLabel(
+        OMLabel labelObserver = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.observer"), SwingConstants.RIGHT, true);
-        Lobserver.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.observer"));
-        gridbag.setConstraints(Lobserver, constraints);
-        this.add(Lobserver);
+        labelObserver.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.observer"));
+        gridbag.setConstraints(labelObserver, constraints);
+        this.add(labelObserver);
         ConstraintsBuilder.buildConstraints(constraints, 5, 4, 3, 1, 25, 1);
         this.observer.setEditable(false);
         this.observer.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.observer"));
@@ -438,10 +447,10 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(seperator2);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 6, 1, 1, 8, 1);
-        OMLabel Lscope = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.scope"), false);
-        Lscope.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.scope"));
-        gridbag.setConstraints(Lscope, constraints);
-        this.add(Lscope);
+        OMLabel labelScope = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.scope"), false);
+        labelScope.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.scope"));
+        gridbag.setConstraints(labelScope, constraints);
+        this.add(labelScope);
         ConstraintsBuilder.buildConstraints(constraints, 1, 6, 1, 1, 25, 1);
         this.scope.setEditable(false);
         this.scope.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.scope"));
@@ -449,11 +458,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.scope);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 6, 1, 1, 8, 1);
-        OMLabel Leyepiece = new OMLabel(
+        OMLabel labelEyepiece = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.eyepiece"), SwingConstants.RIGHT, false);
-        Leyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.eyepiece"));
-        gridbag.setConstraints(Leyepiece, constraints);
-        this.add(Leyepiece);
+        labelEyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.eyepiece"));
+        gridbag.setConstraints(labelEyepiece, constraints);
+        this.add(labelEyepiece);
         ConstraintsBuilder.buildConstraints(constraints, 3, 6, 1, 1, 25, 1);
         this.eyepiece.setEditable(false);
         this.eyepiece.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.eyepiece"));
@@ -461,11 +470,11 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.eyepiece);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 6, 1, 1, 8, 1);
-        OMLabel Lfilter = new OMLabel(
+        OMLabel labelFilter = new OMLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.filter"), SwingConstants.RIGHT, false);
-        Lfilter.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.filter"));
-        gridbag.setConstraints(Lfilter, constraints);
-        this.add(Lfilter);
+        labelFilter.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.filter"));
+        gridbag.setConstraints(labelFilter, constraints);
+        this.add(labelFilter);
         ConstraintsBuilder.buildConstraints(constraints, 5, 6, 2, 1, 25, 1);
         this.filter.setEditable(false);
         this.filter.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.filter"));
@@ -483,10 +492,10 @@ public class ObservationItemPanel extends AbstractPanel {
                 labelText = AbstractPanel.bundle.getString("panel.observationItem.label.lens");
             }
         }
-        OMLabel Llens = new OMLabel(labelText, false);
-        Llens.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.lens"));
-        gridbag.setConstraints(Llens, constraints);
-        this.add(Llens);
+        OMLabel labelLens = new OMLabel(labelText, false);
+        labelLens.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.lens"));
+        gridbag.setConstraints(labelLens, constraints);
+        this.add(labelLens);
         ConstraintsBuilder.buildConstraints(constraints, 1, 7, 1, 1, 25, 1);
         this.lens.setEditable(false);
         this.lens.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.lens"));
@@ -494,12 +503,12 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.lens);
 
         ConstraintsBuilder.buildConstraints(constraints, 2, 7, 1, 1, 8, 1);
-        JLabel LtrueFoV =
+        JLabel labelTrueFoV =
                 new JLabel(AbstractPanel.bundle.getString("panel.observationItem.label.trueFoV"), SwingConstants.RIGHT);
-        LtrueFoV.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.trueFoV"));
-        gridbag.setConstraints(LtrueFoV, constraints);
-        LtrueFoV.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-        this.add(LtrueFoV);
+        labelTrueFoV.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.trueFoV"));
+        gridbag.setConstraints(labelTrueFoV, constraints);
+        labelTrueFoV.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
+        this.add(labelTrueFoV);
         ConstraintsBuilder.buildConstraints(constraints, 3, 7, 1, 1, 25, 1);
         this.trueFoV.setEditable(false);
         this.trueFoV.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.trueFoV"));
@@ -507,12 +516,12 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.trueFoV);
 
         ConstraintsBuilder.buildConstraints(constraints, 4, 7, 1, 1, 8, 1);
-        JLabel LexitPupil = new JLabel(
+        JLabel labelExitPupil = new JLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.exitPupil"), SwingConstants.RIGHT);
-        LexitPupil.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
-        gridbag.setConstraints(LexitPupil, constraints);
-        LexitPupil.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
-        this.add(LexitPupil);
+        labelExitPupil.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
+        gridbag.setConstraints(labelExitPupil, constraints);
+        labelExitPupil.setFont(new Font("sansserif", Font.ITALIC + Font.BOLD, 12));
+        this.add(labelExitPupil);
         ConstraintsBuilder.buildConstraints(constraints, 5, 7, 1, 1, 25, 1);
         this.exitPupil.setEditable(false);
         this.exitPupil.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
@@ -520,13 +529,13 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(this.exitPupil);
 
         ConstraintsBuilder.buildConstraints(constraints, 6, 7, 1, 1, 1, 1);
-        JLabel LexitPupilUnit = new JLabel(
+        JLabel labelExitPupilUnit = new JLabel(
                 AbstractPanel.bundle.getString("panel.observationItem.label.exitPupilUnit"), SwingConstants.RIGHT);
-        LexitPupilUnit.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
-        gridbag.setConstraints(LexitPupilUnit, constraints);
-        LexitPupilUnit.setFont(new Font("sansserif", Font.BOLD, 12));
-        LexitPupilUnit.setHorizontalAlignment(SwingConstants.LEFT);
-        this.add(LexitPupilUnit);
+        labelExitPupilUnit.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.exitPupil"));
+        gridbag.setConstraints(labelExitPupilUnit, constraints);
+        labelExitPupilUnit.setFont(new Font("sansserif", Font.BOLD, 12));
+        labelExitPupilUnit.setHorizontalAlignment(SwingConstants.LEFT);
+        this.add(labelExitPupilUnit);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 8, 8, 1, 99, 1);
         JSeparator seperator3 = new JSeparator(SwingConstants.HORIZONTAL);
@@ -534,10 +543,10 @@ public class ObservationItemPanel extends AbstractPanel {
         this.add(seperator3);
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 9, 1, 1, 10, 1);
-        OMLabel Ltarget = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.target"), true);
-        Ltarget.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.target"));
-        gridbag.setConstraints(Ltarget, constraints);
-        this.add(Ltarget);
+        OMLabel labelTarget = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.target"), true);
+        labelTarget.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.target"));
+        gridbag.setConstraints(labelTarget, constraints);
+        this.add(labelTarget);
         ConstraintsBuilder.buildConstraints(constraints, 1, 9, 6, 1, 50, 1);
         this.target.setEditable(false);
         this.target.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.target"));
@@ -574,10 +583,11 @@ public class ObservationItemPanel extends AbstractPanel {
         ConstraintsBuilder.buildConstraints(constraints, 0, 10, 6, 1, 8, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
-        OMLabel Lfinding = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.description"), true);
-        Lfinding.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.description"));
-        gridbag.setConstraints(Lfinding, constraints);
-        this.add(Lfinding);
+        OMLabel labelFinding =
+                new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.description"), true);
+        labelFinding.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.description"));
+        gridbag.setConstraints(labelFinding, constraints);
+        this.add(labelFinding);
         ConstraintsBuilder.buildConstraints(constraints, 0, 11, 8, 3, 99, 40);
         constraints.fill = GridBagConstraints.BOTH;
         this.finding.setEditable(false);
@@ -599,10 +609,10 @@ public class ObservationItemPanel extends AbstractPanel {
 
         ConstraintsBuilder.buildConstraints(constraints, 0, 15, 1, 1, 9, 1);
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        OMLabel Limager = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.imager"), false);
-        Limager.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.imager"));
-        gridbag.setConstraints(Limager, constraints);
-        this.add(Limager);
+        OMLabel labelImager = new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.imager"), false);
+        labelImager.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.imager"));
+        gridbag.setConstraints(labelImager, constraints);
+        this.add(labelImager);
         ConstraintsBuilder.buildConstraints(constraints, 1, 15, 7, 1, 90, 1);
         this.imager.setEditable(false);
         this.imager.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.imager"));
@@ -621,20 +631,20 @@ public class ObservationItemPanel extends AbstractPanel {
 
         if (this.observation != null && this.observation.getImages() != null) {
             ConstraintsBuilder.buildConstraints(constraints, 0, 16, 1, 1, 99, 1);
-            OMLabel LimageContainer =
+            OMLabel labelImageContainer =
                     new OMLabel(AbstractPanel.bundle.getString("panel.observationItem.label.images"), false);
-            LimageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
-            gridbag.setConstraints(LimageContainer, constraints);
-            this.add(LimageContainer);
+            labelImageContainer.setToolTipText(AbstractPanel.bundle.getString("panel.observationItem.tooltip.images"));
+            gridbag.setConstraints(labelImageContainer, constraints);
+            this.add(labelImageContainer);
             ConstraintsBuilder.buildConstraints(constraints, 0, 17, 8, 1, 99, 1);
             constraints.fill = GridBagConstraints.BOTH;
             ImageContainer imageContainer = new ImageContainer(
                     this.model.getFilesFromPath(this.observation.getImages()),
                     this.om,
-                    this.om.getConfiguration(),
+                    this.context.getConfiguration(),
                     this.model,
                     false,
-                    this.om.getImageResolver());
+                    this.context.getImageResolver());
             JScrollPane imageContainerScroll = new JScrollPane(
                     imageContainer,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,

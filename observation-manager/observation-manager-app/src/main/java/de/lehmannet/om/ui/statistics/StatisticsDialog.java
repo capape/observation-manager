@@ -11,6 +11,7 @@ import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.catalog.ICatalog;
 import de.lehmannet.om.ui.catalog.IListableCatalog;
@@ -72,11 +73,13 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
     private final JButton close = new JButton(this.bundle.getString("dialog.button.ok"));
 
     private final ObservationManagerModel model;
+    private final ObservationManagerContext context;
 
-    public StatisticsDialog(ObservationManager om, ObservationManagerModel model) {
+    public StatisticsDialog(ObservationManagerContext context, ObservationManager om, ObservationManagerModel model) {
 
         super(om);
         this.model = model;
+        this.context = context;
 
         StatisticsQueryDialog queryDialog = new StatisticsQueryDialog(om);
         this.selectedCatalogs = queryDialog.getSelectedCatalogs();
@@ -324,7 +327,7 @@ public class StatisticsDialog extends OMDialog implements ActionListener, Compon
             if (catalogTarget != null) {
                 if (catalogTarget.getCatalog().equals(cat)) {
                     ObservationStatisticsTableModel tableModel = new ObservationStatisticsTableModel(catalogTarget);
-                    new StatisticsDetailsDialog(om, this.model, tableModel); // Show Details dialog
+                    new StatisticsDetailsDialog(context, om, this.model, tableModel); // Show Details dialog
                     break;
                 }
             }

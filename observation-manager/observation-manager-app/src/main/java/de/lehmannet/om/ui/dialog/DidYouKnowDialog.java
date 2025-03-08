@@ -7,6 +7,7 @@
 
 package de.lehmannet.om.ui.dialog;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
@@ -51,12 +52,14 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
     private JTextArea text = null;
 
     private final Logger LOGGER = LoggerFactory.getLogger(DidYouKnowDialog.class);
+    private final ObservationManagerContext context;
 
-    public DidYouKnowDialog(ObservationManager om) {
+    public DidYouKnowDialog(ObservationManagerContext context, ObservationManager om) {
 
         super(om);
 
         this.om = om;
+        this.context = context;
 
         this.setTitle(this.bundle.getString("didyouknow.title"));
         this.setSize(DidYouKnowDialog.serialVersionUID, 440, 211);
@@ -146,7 +149,7 @@ public class DidYouKnowDialog extends OMDialog implements ActionListener {
 
     private String getText() {
 
-        String path = this.om.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH)
+        String path = this.context.getInstallDir().getPathForFolder(DidYouKnowDialog.TEXT_PATH)
                 + Locale.getDefault().getLanguage().toLowerCase()
                 + File.separatorChar;
         File textDir = new File(path);

@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.navigation;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.dialog.EyepieceDialog;
@@ -38,19 +39,20 @@ public final class ObservationManagerMenuData {
     private final ObservationManager observationManager;
     private final JMenu menu;
     private final UIDataCache uiCache;
+    private final ObservationManagerContext context;
 
     public ObservationManagerMenuData(
+            ObservationManagerContext context,
             ObservationManagerModel model,
-            ImageResolver imageResolver,
-            TextManager textManager,
             ObservationManager om,
             UIDataCache cache) {
 
         // Load configuration
         this.model = model;
         this.observationManager = om;
-        this.imageResolver = imageResolver;
-        this.textManager = textManager;
+        this.context = context;
+        this.imageResolver = context.getImageResolver();
+        this.textManager = context.getTextManager();
         this.uiCache = cache;
 
         this.menu = this.createMenuDataItems();
@@ -159,7 +161,7 @@ public final class ObservationManagerMenuData {
 
         ObservationDialog dialog = null;
         while (dialog == null || dialog.isCreateAdditionalObservation()) {
-            dialog = new ObservationDialog(this.observationManager, this.model, this.textManager, null, this.uiCache);
+            dialog = new ObservationDialog(context, this.observationManager, this.model, null, this.uiCache);
             this.model.add(dialog.getObservation());
             this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
             // won't appear on UI)
@@ -182,7 +184,7 @@ public final class ObservationManagerMenuData {
 
     public void createNewSession() {
 
-        SessionDialog dialog = new SessionDialog(this.observationManager, this.model, null, this.uiCache);
+        SessionDialog dialog = new SessionDialog(this.context, this.observationManager, this.model, null, this.uiCache);
         this.model.add(dialog.getSession());
         this.observationManager.updateLeft(); // Refreshes tree (without that, the new element
         // won't appear on UI)

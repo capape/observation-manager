@@ -100,19 +100,21 @@ public class ObservationManagerApp {
 
         splash.updateText("Launching app...");
         LOGGER.info("Creating observation manager app...");
-        // @formatter:off
-        new ObservationManager.Builder(model)
+
+        var observationManagerContext = new ObservationManagerContext.Builder()
+                .configuration(configuration)
+                .dateManager(dateManager)
+                .imageResolver(imageResolver)
+                .installDir(installDir)
                 .locale(isoKey)
                 .nightVision(nightVision)
-                .installDir(installDir)
-                .configuration(configuration)
-                .imageResolver(imageResolver)
                 .textManager(textManager)
                 .versionTextManager(versionTextManager)
-                .uiCache(cache)
-                .dateManager(dateManager)
                 .build();
-        // @formatter:on
 
+        new ObservationManager.Builder(model)
+                .context(observationManagerContext)
+                .uiCache(cache)
+                .build();
     }
 }

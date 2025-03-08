@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.util;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;
@@ -17,9 +18,9 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
     private final ObservationManager parent;
     private final TextManager textManager;
 
-    public UserInterfaceHelperImpl(ObservationManager parent, TextManager textManager) {
+    public UserInterfaceHelperImpl(ObservationManagerContext context, ObservationManager parent) {
         this.parent = parent;
-        this.textManager = textManager;
+        this.textManager = context.getTextManager();
     }
 
     @Override

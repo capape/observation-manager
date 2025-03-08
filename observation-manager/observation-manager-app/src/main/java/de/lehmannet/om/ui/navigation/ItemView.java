@@ -18,6 +18,7 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
 import de.lehmannet.om.ui.image.ImageResolver;
@@ -94,13 +95,18 @@ public class ItemView extends JPanel implements ChangeListener {
     private final ImageResolver imageResolver;
     private final ObservationManagerModel model;
     private final UIDataCache uiCache;
+    private final ObservationManagerContext context;
 
     public ItemView(
-            ObservationManager main, ObservationManagerModel model, ImageResolver resolver, UIDataCache uiCache) {
+            ObservationManagerContext context,
+            ObservationManager main,
+            ObservationManagerModel model,
+            UIDataCache uiCache) {
 
         this.main = main;
         this.model = model;
-        this.imageResolver = resolver;
+        this.context = context;
+        this.imageResolver = this.context.getImageResolver();
         this.uiCache = uiCache;
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addChangeListener(this);
@@ -422,7 +428,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
     private void addObservationTab(IObservation observation) {
 
-        this.overviewPanel = new ObservationItemPanel(this.main, this.model, observation);
+        this.overviewPanel = new ObservationItemPanel(this.context, this.main, this.model, observation);
         this.tabbedPane.addTab(
                 this.bundle.getString("observation"),
                 new ImageIcon(
@@ -648,7 +654,7 @@ public class ItemView extends JPanel implements ChangeListener {
 
     private void loadSessionPanel(ISession session, int index) {
 
-        this.sessionPanel = new SessionPanel(this.main, this.model, session, false, this.uiCache);
+        this.sessionPanel = new SessionPanel(this.context, this.main, this.model, session, false, this.uiCache);
         if (index <= 0) {
             this.tabbedPane.addTab(
                     this.bundle.getString("session"),

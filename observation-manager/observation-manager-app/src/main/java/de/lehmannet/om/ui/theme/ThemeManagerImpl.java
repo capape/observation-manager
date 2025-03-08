@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.theme;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConfigKey;
@@ -28,10 +29,10 @@ public class ThemeManagerImpl implements ThemeManager {
 
     private static NightVisionTheme NIGHT_THEME = new NightVisionTheme();
 
-    public ThemeManagerImpl(IConfiguration config, TextManager textManager, ObservationManager om) {
+    public ThemeManagerImpl(ObservationManagerContext context, ObservationManager om) {
         this.observationManager = om;
-        this.configuration = config;
-        this.textManager = textManager;
+        this.configuration = context.getConfiguration();
+        this.textManager = context.getTextManager();
     }
 
     @Override

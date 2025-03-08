@@ -1,5 +1,6 @@
 package de.lehmannet.om.ui.navigation;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.dialog.DidYouKnowDialog;
 import de.lehmannet.om.ui.dialog.LogDialog;
@@ -11,7 +12,6 @@ import de.lehmannet.om.ui.statistics.StatisticsDialog;
 import de.lehmannet.om.ui.theme.ThemeManager;
 import de.lehmannet.om.ui.update.UpdateChecker;
 import de.lehmannet.om.ui.update.UpdateInfoDialog;
-import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +29,6 @@ public final class ObservationManagerMenuExtras {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ObservationManagerMenuExtras.class);
 
-    private final IConfiguration configuration;
     private final ObservationManager observationManager;
     private final JMenu menu;
     private final ImageResolver imageResolver;
@@ -39,26 +38,24 @@ public final class ObservationManagerMenuExtras {
     private final TextManager textManager;
     private final InstallDir installDir;
     private final File logFile;
+    private final ObservationManagerContext context;
 
     public ObservationManagerMenuExtras(
-            IConfiguration configuration,
-            ImageResolver imageResolver,
+            ObservationManagerContext context,
             ThemeManager themeManager,
-            TextManager textManager,
             UserInterfaceHelper uiHelper,
             ObservationManagerModel model,
-            InstallDir installDir,
             ObservationManager om) {
 
         // Load configuration
-        this.configuration = configuration;
+        this.context = context;
+        this.imageResolver = context.getImageResolver();
+        this.textManager = context.getTextManager();
+        this.installDir = context.getInstallDir();
         this.observationManager = om;
-        this.imageResolver = imageResolver;
         this.themeManager = themeManager;
         this.uiHelper = uiHelper;
         this.model = model;
-        this.textManager = textManager;
-        this.installDir = installDir;
         this.menu = this.createMenuExtraItems();
         this.logFile =
                 new File(this.installDir.getInstallDir() + File.separator + ".logs" + File.separator + "obs.log");
@@ -91,21 +88,21 @@ public final class ObservationManagerMenuExtras {
             return;
         }
 
-        new StatisticsDialog(this.observationManager, this.model);
+        new StatisticsDialog(this.context, this.observationManager, this.model);
     }
 
     public void showPreferencesDialog() {
 
         new PreferencesDialog(
+                this.context,
                 this.observationManager,
                 this.model,
-                this.textManager,
                 observationManager.getExtensionLoader().getPreferencesTabs());
     }
 
     public void showDidYouKnow() {
 
-        new DidYouKnowDialog(this.observationManager);
+        new DidYouKnowDialog(this.context, this.observationManager);
     }
 
     public void showLogDialog() {

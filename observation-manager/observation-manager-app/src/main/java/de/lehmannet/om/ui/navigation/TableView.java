@@ -19,10 +19,10 @@ import de.lehmannet.om.IScope;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
 import de.lehmannet.om.ITarget;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.SchemaElement;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.cache.UIDataCache;
-import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.tableModel.AbstractSchemaTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.EyepieceTableModel;
 import de.lehmannet.om.ui.navigation.tableModel.FilterTableModel;
@@ -92,16 +92,19 @@ public class TableView extends JPanel {
     private ISchemaElement parentElement = null;
 
     private final ObservationManagerModel model;
-    private final TextManager textManager;
 
     private final UIDataCache cache;
+    private final ObservationManagerContext context;
 
     public TableView(
-            ObservationManager om, ObservationManagerModel omModel, TextManager textManager, UIDataCache cache) {
+            ObservationManagerContext context,
+            ObservationManager om,
+            ObservationManagerModel omModel,
+            UIDataCache cache) {
 
         this.observationManager = om;
         this.model = omModel;
-        this.textManager = textManager;
+        this.context = context;
         this.cache = cache;
 
         // this.observationManager = om;
@@ -162,9 +165,9 @@ public class TableView extends JPanel {
                                 + PopupMenuHandler.EXTENSIONS);
 
                         new PopupMenuHandler(
+                                TableView.this.context,
                                 TableView.this.observationManager,
                                 TableView.this.model,
-                                TableView.this.textManager,
                                 element,
                                 p.x,
                                 p.y,
@@ -263,9 +266,7 @@ public class TableView extends JPanel {
 
                 if (value instanceof OffsetDateTime) {
                     final OffsetDateTime cal = (OffsetDateTime) value;
-                    cr.setText(this.observationManager
-                            .getDateManager()
-                            .zonedDateTimeToStringWithHour(cal.toZonedDateTime()));
+                    cr.setText(this.context.getDateManager().zonedDateTimeToStringWithHour(cal.toZonedDateTime()));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -286,7 +287,7 @@ public class TableView extends JPanel {
 
                 if (value instanceof ZonedDateTime) {
                     final ZonedDateTime cal = (ZonedDateTime) value;
-                    cr.setText(this.observationManager.getDateManager().zonedDateTimeToStringWithHour(cal));
+                    cr.setText(this.context.getDateManager().zonedDateTimeToStringWithHour(cal));
                 } else {
                     LOGGER.warn("Bad data {}", value.getClass(), value);
                 }
@@ -307,7 +308,7 @@ public class TableView extends JPanel {
 
                 if (value instanceof LocalDateTime) {
                     final LocalDateTime cal = (LocalDateTime) value;
-                    cr.setText(this.observationManager
+                    cr.setText(this.context
                             .getDateManager()
                             .zonedDateTimeToStringWithHour(
                                     ZonedDateTime.of(cal, ZonedDateTime.now().getOffset())));

@@ -1,39 +1,38 @@
 package de.lehmannet.om;
 
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.image.ImageResolver;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
-import de.lehmannet.om.ui.theme.ThemeManager;
-import de.lehmannet.om.ui.util.Configuration;
 import de.lehmannet.om.ui.util.IConfiguration;
-import de.lehmannet.om.ui.util.UserInterfaceHelper;
+import de.lehmannet.om.util.DateManager;
 
 public final class ObservationManagerContext {
 
-    private final String locale;
-    private final String nightVision;
-    private final InstallDir installDir;
     private final IConfiguration configuration;
-    private final UserInterfaceHelper uiHelper;
-    private final ThemeManager themeManager;
+    private final DateManager dateManager;
     private final ImageResolver imageResolver;
-    
+    private final InstallDir installDir;
+    private final String locale;
+    private final boolean nightVision;
+    private final TextManager textManager;
+    private final TextManager versionTextManager;
+
     private ObservationManagerContext(Builder builder) {
-        this.locale = builder.locale;
-        this.nightVision = builder.nightVision;
-        this.installDir = builder.installDir;
         this.configuration = builder.configuration;
-        this.uiHelper = builder.uiHelper;
-        this.themeManager = builder.themeManager;
+        this.dateManager = builder.dateManager;
         this.imageResolver = builder.imageResolver;
-       
+        this.installDir = builder.installDir;
+        this.locale = builder.locale;
+        this.nightVision = Boolean.valueOf(builder.nightVision);
+        this.textManager = builder.textManager;
+        this.versionTextManager = builder.versionTextManager;
     }
-  
 
     public String getLocale() {
         return locale;
     }
 
-    public String getNightVision() {
+    public Boolean getNightVision() {
         return nightVision;
     }
 
@@ -45,50 +44,45 @@ public final class ObservationManagerContext {
         return configuration;
     }
 
-    public UserInterfaceHelper getUiHelper() {
-        return uiHelper;
-    }
-
-    public ThemeManager getThemeManager() {
-        return themeManager;
-    }
-
     public ImageResolver getImageResolver() {
         return imageResolver;
     }
 
+    public TextManager getTextManager() {
+        return textManager;
+    }
+
+    public TextManager getVersionTextManager() {
+        return versionTextManager;
+    }
+
+    public DateManager getDateManager() {
+        return dateManager;
+    }
+
     public static class Builder {
 
-        private String locale;
-        private String nightVision;
-        private InstallDir installDir;
         private IConfiguration configuration;
+        private DateManager dateManager;
         private ImageResolver imageResolver;
-        private UserInterfaceHelper uiHelper;
-        private ThemeManager themeManager;
+        private InstallDir installDir;
+        private String locale;
+        private boolean nightVision;
+        private TextManager textManager;
+        private TextManager versionTextManager;
 
         public Builder locale(String locale) {
             this.locale = locale;
             return this;
         }
 
-        public Builder nightVision(String nightVision) {
+        public Builder nightVision(boolean nightVision) {
             this.nightVision = nightVision;
             return this;
         }
 
         public Builder installDir(InstallDir installDir) {
             this.installDir = installDir;
-            return this;
-        }
-
-        public Builder uiHelper(UserInterfaceHelper uiHelper) {
-            this.uiHelper = uiHelper;
-            return this;
-        }
-
-        public Builder themeManager(ThemeManager themeManager) {
-            this.themeManager = themeManager;
             return this;
         }
 
@@ -99,6 +93,21 @@ public final class ObservationManagerContext {
 
         public Builder imageResolver(ImageResolver imageResolver) {
             this.imageResolver = imageResolver;
+            return this;
+        }
+
+        public Builder textManager(TextManager textManager) {
+            this.textManager = textManager;
+            return this;
+        }
+
+        public Builder versionTextManager(TextManager versionTextManager) {
+            this.versionTextManager = versionTextManager;
+            return this;
+        }
+
+        public Builder dateManager(DateManager dateManager) {
+            this.dateManager = dateManager;
             return this;
         }
 

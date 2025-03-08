@@ -12,6 +12,7 @@ import de.lehmannet.om.IObserver;
 import de.lehmannet.om.ISchemaElement;
 import de.lehmannet.om.ISession;
 import de.lehmannet.om.ISite;
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.Session;
 import de.lehmannet.om.model.ObservationManagerModel;
 import de.lehmannet.om.ui.box.LanguageBox;
@@ -94,9 +95,11 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private final ObservationManagerModel model;
 
     private final UIDataCache cache;
+    private final ObservationManagerContext context;
 
     // Requires ObservationManager to load Observers
     public SessionPanel(
+            ObservationManagerContext context,
             ObservationManager manager,
             ObservationManagerModel model,
             ISession session,
@@ -105,6 +108,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         super(editable);
 
+        this.context = context;
         this.observationManager = manager;
         this.session = session;
         this.model = model;
@@ -227,13 +231,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
     private void setBeginDateToNow() {
         this.beginDate = ZonedDateTime.now();
         this.beginTime.setTime(beginDate.getHour(), beginDate.getMinute(), beginDate.getSecond());
-        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+        this.begin.setText(this.context.getDateManager().zonedDateTimeToString(this.beginDate));
     }
 
     private void setEndDateToNow() {
         this.endDate = ZonedDateTime.now();
         this.endTime.setTime(endDate.getHour(), endDate.getMinute(), endDate.getSecond());
-        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+        this.end.setText(this.context.getDateManager().zonedDateTimeToString(this.endDate));
     }
 
     private void selectEndDate() {
@@ -243,22 +247,22 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                     this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.end"),
                     this.endDate,
-                    this.observationManager.getDateManager());
+                    this.context.getDateManager());
         } else if (this.beginDate != null) { // Try to initialize endDate Picker with startdate
             dp = new DatePicker(
                     this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.end"),
                     this.beginDate,
-                    this.observationManager.getDateManager());
+                    this.context.getDateManager());
         } else {
             dp = new DatePicker(
                     this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.end"),
-                    this.observationManager.getDateManager());
+                    this.context.getDateManager());
         }
         this.endDate = dp.getDate();
         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
-        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+        this.end.setText(this.context.getDateManager().zonedDateTimeToString(this.endDate));
     }
 
     private void selectBeginDate() {
@@ -268,16 +272,16 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
                     this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.start"),
                     this.beginDate,
-                    this.observationManager.getDateManager());
+                    this.context.getDateManager());
         } else {
             dp = new DatePicker(
                     this.observationManager,
                     AbstractPanel.bundle.getString("panel.session.datePicker.start"),
-                    this.observationManager.getDateManager());
+                    this.context.getDateManager());
         }
         this.beginDate = dp.getDate();
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
-        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+        this.begin.setText(this.context.getDateManager().zonedDateTimeToString(this.beginDate));
     }
 
     @Override
@@ -290,13 +294,13 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         this.beginDate = this.session.getBegin().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
-        this.begin.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.beginDate));
+        this.begin.setText(this.context.getDateManager().zonedDateTimeToString(this.beginDate));
         this.beginTime.setTime(this.beginDate.getHour(), this.beginDate.getMinute(), this.beginDate.getSecond());
         this.beginTime.setEditable(this.isEditable());
 
         this.endDate = this.session.getEnd().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault());
 
-        this.end.setText(this.observationManager.getDateManager().zonedDateTimeToString(this.endDate));
+        this.end.setText(this.context.getDateManager().zonedDateTimeToString(this.endDate));
         this.end.setEditable(this.isEditable());
         this.endTime.setTime(this.endDate.getHour(), this.endDate.getMinute(), this.endDate.getSecond());
         this.endTime.setEditable(this.isEditable());
@@ -467,7 +471,7 @@ public class SessionPanel extends AbstractPanel implements ActionListener, Mouse
 
         // Create session
         this.session = new Session(
-                this.observationManager.getDateManager(),
+                this.context.getDateManager(),
                 this.beginDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
                 this.endDate.withZoneSameInstant(ZoneId.of("UTC")).toOffsetDateTime(),
                 site);
