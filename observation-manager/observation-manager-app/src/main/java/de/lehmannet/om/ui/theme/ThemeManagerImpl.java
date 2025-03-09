@@ -23,14 +23,12 @@ public class ThemeManagerImpl implements ThemeManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThemeManagerImpl.class);
 
     private boolean nightVision = false;
-    private final ObservationManager observationManager;
     private final IConfiguration configuration;
     private final TextManager textManager;
 
     private static NightVisionTheme NIGHT_THEME = new NightVisionTheme();
 
     public ThemeManagerImpl(ObservationManagerContext context, ObservationManager om) {
-        this.observationManager = om;
         this.configuration = context.getConfiguration();
         this.textManager = context.getTextManager();
     }
@@ -48,7 +46,7 @@ public class ThemeManagerImpl implements ThemeManager {
     }
 
     @Override
-    public void enableNightVision() {
+    public void enableNightVision(ObservationManager observationManager) {
         this.nightVision = true;
         try {
             // Check for Metal LAF
@@ -63,36 +61,36 @@ public class ThemeManagerImpl implements ThemeManager {
 
             if (!found) {
                 LOGGER.error(this.textManager.getString("error.noMetalLAF"));
-                this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
+                observationManager.getUiHelper().showWarning(this.textManager.getString("error.noNightVision"));
                 return;
             }
 
             // Try to load MetalLookAndFeel
             MetalLookAndFeel.setCurrentTheme(NIGHT_THEME);
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(this.observationManager);
+            SwingUtilities.updateComponentTreeUI(observationManager);
 
             // Make all frames and dialogs use the LookAndFeel
 
             JFrame.setDefaultLookAndFeelDecorated(true);
             JDialog.setDefaultLookAndFeelDecorated(true);
-            this.observationManager.dispose();
-            this.observationManager.setUndecorated(true);
-            this.observationManager.addNotify();
-            this.observationManager.createBufferStrategy(2);
-            this.observationManager.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-            this.observationManager.update(this.observationManager.getGraphics());
+            observationManager.dispose();
+            observationManager.setUndecorated(true);
+            observationManager.addNotify();
+            observationManager.createBufferStrategy(2);
+            observationManager.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+            observationManager.update(observationManager.getGraphics());
             this.configuration.setConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(true));
-            this.observationManager.setVisible(true);
+            observationManager.setVisible(true);
 
         } catch (Exception e) {
             LOGGER.error("Error in theme", e);
-            this.observationManager.createWarning(this.textManager.getString("error.noNightVision"));
+            observationManager.getUiHelper().showWarning(this.textManager.getString("error.noNightVision"));
         }
     }
 
     @Override
-    public void disableNightVision() {
+    public void disableNightVision(ObservationManager observationManager) {
         this.nightVision = false;
         try {
 
@@ -131,19 +129,19 @@ public class ThemeManagerImpl implements ThemeManager {
             }
 
             UIManager.setLookAndFeel(new MetalLookAndFeel());
-            SwingUtilities.updateComponentTreeUI(this.observationManager);
+            SwingUtilities.updateComponentTreeUI(observationManager);
 
             // Make all frames and dialogs use the LookAndFeel
             JFrame.setDefaultLookAndFeelDecorated(false);
             JDialog.setDefaultLookAndFeelDecorated(false);
-            this.observationManager.dispose();
-            this.observationManager.setUndecorated(false);
-            this.observationManager.addNotify();
-            this.observationManager.createBufferStrategy(2);
-            this.observationManager.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-            this.observationManager.update(this.observationManager.getGraphics());
-            this.configuration.setConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(false));
-            this.observationManager.setVisible(true);
+            observationManager.dispose();
+            observationManager.setUndecorated(false);
+            observationManager.addNotify();
+            observationManager.createBufferStrategy(2);
+            observationManager.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+            observationManager.update(observationManager.getGraphics());
+            configuration.setConfig(ConfigKey.CONFIG_NIGHTVISION_ENABLED, Boolean.toString(false));
+            observationManager.setVisible(true);
 
         } catch (Exception e) {
             LOGGER.error("Error in theme", e);

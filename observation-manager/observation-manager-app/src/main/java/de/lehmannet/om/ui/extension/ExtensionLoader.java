@@ -75,7 +75,7 @@ public class ExtensionLoader {
 
         this.loader = new ExternalExtensionLoader(extensionContext);
         this.loadExtensions();
-        this.catalogLoader = new CatalogLoader(context, om, this.extensions);
+        this.catalogLoader = new CatalogLoader(context, this.om.getUiHelper(), this.extensions);
         this.schemaUILoader = new SchemaUILoader(om, this.extensions);
     }
 

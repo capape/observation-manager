@@ -18,9 +18,9 @@ public class UserInterfaceHelperImpl implements UserInterfaceHelper {
     private final ObservationManager parent;
     private final TextManager textManager;
 
-    public UserInterfaceHelperImpl(ObservationManagerContext context, ObservationManager parent) {
+    public UserInterfaceHelperImpl(ObservationManager parent, TextManager textManager) {
         this.parent = parent;
-        this.textManager = context.getTextManager();
+        this.textManager = textManager;
     }
 
     @Override

@@ -33,7 +33,6 @@ import de.lehmannet.om.ui.dialog.ScopeDialog;
 import de.lehmannet.om.ui.dialog.SessionDialog;
 import de.lehmannet.om.ui.dialog.SiteDialog;
 import de.lehmannet.om.ui.extension.PopupMenuExtension;
-import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.util.ExtenableSchemaElementSelector;
 import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.util.SchemaElementConstants;
@@ -68,12 +67,10 @@ class PopupMenuHandler implements ActionListener {
     private JMenuItem createNewObservation = null;
     private JMenuItem createXML = null;
 
-    private SchemaElementConstants createType = SchemaElementConstants.NONE; // In case of create, this indicates which
-    // type of
-    // SchemaElement needs to be created
-
-    private final ObservationManagerModel model;
-    private final TextManager textManager;
+    // In case of create, this indicates which type of SchemaElement needs to be created
+    private SchemaElementConstants createType = SchemaElementConstants.NONE; 
+    
+    private final ObservationManagerModel model;    
     private final UIDataCache cache;
     private final ObservationManagerContext context;
 
@@ -95,7 +92,6 @@ class PopupMenuHandler implements ActionListener {
         int entries = 1;
 
         this.context = context;
-        this.textManager = context.getTextManager();
         this.observationManager = om;
         this.cache = cache;
         this.element = se;

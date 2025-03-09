@@ -14,6 +14,8 @@ public abstract class OMDialog extends JDialog {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OMDialog.class);
 
+    private long dialogID = -1;
+
     protected OMDialog(JFrame om) {
 
         super(om, true);
@@ -58,16 +60,16 @@ public abstract class OMDialog extends JDialog {
 
     private void saveWindowSize() {
 
-        // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
-
         // Save current size
         Dimension size = this.getSize();
 
         LOGGER.debug(
                 "Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
-        // this.observationManager.getConfiguration().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
-        // size.width + "x" + size.height);
 
+        
+        // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size                
+        //     this.observationManager.getContext().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
+        //          size.width + "x" + size.height);        
         // }
 
     }

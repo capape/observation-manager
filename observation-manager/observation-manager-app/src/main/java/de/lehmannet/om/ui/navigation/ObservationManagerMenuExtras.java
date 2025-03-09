@@ -70,9 +70,9 @@ public final class ObservationManagerMenuExtras {
         LOGGER.debug("Night vision enabled: {}", enable);
 
         if (enable) { // Turn on night vision theme
-            this.themeManager.enableNightVision();
+            this.themeManager.enableNightVision(this.observationManager);
         } else { // Turn off night vision theme
-            this.themeManager.disableNightVision();
+            this.themeManager.disableNightVision(this.observationManager);
         }
     }
 
@@ -113,7 +113,7 @@ public final class ObservationManagerMenuExtras {
     public void checkUpdates() {
         UpdateChecker checker = this.checkForUpdates();
         if (checker.isUpdateAvailable()) {
-            new UpdateInfoDialog(this.observationManager, checker);
+            new UpdateInfoDialog(this.context, this.observationManager, checker);
         }
     }
 

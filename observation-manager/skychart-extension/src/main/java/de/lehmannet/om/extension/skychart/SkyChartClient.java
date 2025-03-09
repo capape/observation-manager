@@ -26,6 +26,7 @@ import de.lehmannet.om.ui.navigation.IObservationManagerJFrame;
 import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
 import de.lehmannet.om.ui.util.Worker;
 import de.lehmannet.om.util.SchemaElementConstants;
 import java.awt.event.ActionEvent;
@@ -69,10 +70,12 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
     private JMenuItem popupMoveTo = null;
     private IExtensionContext context;
     private final Set<SchemaOalTypeInfo> extensionTypes = new HashSet<>();
+    private final UserInterfaceHelper uiHelper;
 
     public SkyChartClient(IExtensionContext context) {
 
         this.context = context;
+        this.uiHelper = context.getUserInterfaceHelper();
         this.initLanguage();
         this.initMenus();
     }
@@ -108,9 +111,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 } else if (se instanceof ITarget) {
                     this.moveSkychart((ITarget) se);
                 } else {
-                    this.context
-                            .getUserInterfaceHelper()
-                            .showWarning(this.bundle.getString("skychart.move.wrongSchemaElementType"));
+                    this.uiHelper.showWarning(this.bundle.getString("skychart.move.wrongSchemaElementType"));
                 }
             }
         }
@@ -134,16 +135,14 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 // cancel here.
             } else if (response) {
                 // Inform user
-                this.context
-                        .getUserInterfaceHelper()
-                        .showInfo(this.bundle.getString("skychart.move.ok") + target.getDisplayName());
+                this.uiHelper.showInfo(this.bundle.getString("skychart.move.ok") + target.getDisplayName());
             } else {
                 // Inform user
-                this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
+                this.uiHelper.showInfo(this.bundle.getString("skychart.move.failed"));
             }
         } else {
             // Inform user
-            this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
+            this.uiHelper.showInfo(this.bundle.getString("skychart.move.failed"));
         }
 
         // Close socket
@@ -202,17 +201,16 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 // cancel here.
             } else if (response) {
                 // Inform user
-                this.context
-                        .getUserInterfaceHelper()
-                        .showInfo(this.bundle.getString("skychart.move.ok")
+                this.uiHelper
+                    .showInfo(this.bundle.getString("skychart.move.ok")
                                 + observation.getTarget().getDisplayName());
             } else {
                 // Inform user
-                this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
+                this.uiHelper.showInfo(this.bundle.getString("skychart.move.failed"));
             }
         } else {
             // Inform user
-            this.context.getUserInterfaceHelper().showInfo(this.bundle.getString("skychart.move.failed"));
+            this.uiHelper.showInfo(this.bundle.getString("skychart.move.failed"));
         }
 
         // Close socket
@@ -361,7 +359,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             }
 
         } catch (IOException ioe) {
-            om.createWarning(this.bundle.getString("skychart.communication.failed"));
+            uiHelper.showWarning(this.bundle.getString("skychart.communication.failed"));
             LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
@@ -375,7 +373,7 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
             return socket.send(command);
 
         } catch (IOException ioe) {
-            om.createWarning(this.bundle.getString("skychart.communication.failed"));
+            uiHelper.showWarning(this.bundle.getString("skychart.communication.failed"));
             LOGGER.error("Unable to send data to Skychart application.", ioe);
             return null; // Indicate something went wrong
         }
@@ -401,14 +399,14 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
         try {
             socket = new StarchartSocket(ip, port);
         } catch (UnknownHostException uhe) {
-            om.createWarning(this.bundle.getString("skychart.communication.failed.host"));
+            uiHelper.showWarning(this.bundle.getString("skychart.communication.failed.host"));
             LOGGER.error("Unable to reach Skychart application. Host unknown.", uhe);
         } catch (ConnectException ce) {
             // SkyChart is most probably not open. So try to start it
             final String applicationPath =
                     this.context.getConfiguration().getConfig(SkyChartConfigKey.CONFIG_APPLICATION_PATH);
             if (StringUtils.isBlank(applicationPath)) {
-                om.createWarning(this.bundle.getString("skychart.application.start.nopath"));
+                uiHelper.showWarning(this.bundle.getString("skychart.application.start.nopath"));
                 LOGGER.error(
                         "Unable to reach Skychart application and unable to start it as no application path is provided.",
                         ce);
@@ -428,10 +426,10 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                             // startup
 
                         } catch (IOException ioe) {
-                            om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
+                            uiHelper.showWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
                             LOGGER.error("Unable to start Skychart application ({})", applicationPath, ioe);
                         } catch (Exception e) {
-                            om.createWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
+                            uiHelper.showWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
                             LOGGER.error("Failed to start Skychart application ({})", applicationPath, e.toString());
                         }
                     }
@@ -462,14 +460,14 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 try {
                     socket = new StarchartSocket(ip, port);
                 } catch (IOException ioe) {
-                    om.createWarning(this.bundle.getString("skychart.communication.failed"));
+                    uiHelper.showWarning(this.bundle.getString("skychart.communication.failed"));
                     LOGGER.error("Unable to reach Skychart application.", ioe);
                 }
 
                 return socket;
             }
         } catch (IOException ioe) {
-            om.createWarning(this.bundle.getString("skychart.communication.failed"));
+            uiHelper.showWarning(this.bundle.getString("skychart.communication.failed"));
             LOGGER.error("Unable to reach Skychart application.", ioe);
         }
 

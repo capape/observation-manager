@@ -115,6 +115,7 @@ public final class ObservationManager extends JFrame implements IObservationMana
         return this.htmlHelper;
     }
 
+    @Deprecated
     public UserInterfaceHelper getUiHelper() {
         return this.uiHelper;
     }
@@ -130,7 +131,7 @@ public final class ObservationManager extends JFrame implements IObservationMana
         this.context = builder.context;
         this.textManager = this.context.getTextManager();
         this.themeManager = new ThemeManagerImpl(context, this);
-        this.uiHelper = new UserInterfaceHelperImpl(context, this);
+        this.uiHelper = new UserInterfaceHelperImpl(this, this.textManager);
         this.model = builder.model;
         this.uiCache = builder.uiCache;
 
@@ -351,7 +352,7 @@ public final class ObservationManager extends JFrame implements IObservationMana
         final List<ISchemaElement> result = this.model.remove(element);
         if (result == null) { // Deletion failed
             if (element instanceof ITarget) {
-                this.createWarning(this.textManager.getString("error.deleteTargetFromCatalog"));
+                this.uiHelper.showWarning(this.textManager.getString("error.deleteTargetFromCatalog"));
                 return;
             }
             LOGGER.error("Error during deletion of element: {}", element);
@@ -493,19 +494,8 @@ public final class ObservationManager extends JFrame implements IObservationMana
 
         return this.vSplitPane;
     }
-
-    public void createWarning(final String message) {
-
-        JOptionPane.showMessageDialog(
-                this, message, this.textManager.getString("title.warning"), JOptionPane.WARNING_MESSAGE);
-    }
-
-    public void createInfo(final String message) {
-
-        JOptionPane.showMessageDialog(
-                this, message, this.textManager.getString("title.info"), JOptionPane.INFORMATION_MESSAGE);
-    }
-
+    
+    
     public IConfiguration getConfiguration() {
 
         return this.context.getConfiguration();

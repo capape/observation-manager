@@ -10,16 +10,17 @@ package de.lehmannet.om.ui.catalog;
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.extension.IExtension;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
+import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
+import de.lehmannet.om.ui.util.UserInterfaceHelper;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import org.semver4j.Semver;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public class CatalogLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CatalogLoader.class);
 
-    private final ResourceBundle bundle;
+    
 
     private static final String CATALOG_DIR = "catalog";
 
@@ -41,15 +42,17 @@ public class CatalogLoader {
     // Value: Extension version (Semver string)
     private final Map<String, String> knownExtensions = new HashMap<>();
 
-    private final ObservationManager observationManager;
-    private final ObservationManagerContext context;
+    private final UserInterfaceHelper uiHelper;
     private final List<IExtension> extensions;
+    private final TextManager textManager;
+    private final InstallDir installDir;
 
-    public CatalogLoader(ObservationManagerContext context, ObservationManager om, List<IExtension> extensions) {
+    public CatalogLoader(ObservationManagerContext context, UserInterfaceHelper uiHelper, List<IExtension> extensions) {
 
-        this.bundle = LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
-        this.observationManager = om;
-        this.context = context;
+        
+        this.uiHelper = uiHelper;
+        this.installDir = context.getInstallDir();
+        this.textManager = context.getTextManager();
         this.extensions = extensions;
 
         this.loadCatalogues();
@@ -110,12 +113,12 @@ public class CatalogLoader {
 
     private void loadCatalogues() {
 
-        File catalogDir = new File(this.context.getInstallDir().getPathForFolder(CATALOG_DIR));
+        File catalogDir = new File(this.installDir.getPathForFolder(CATALOG_DIR));
         if (!catalogDir.exists()) {
             boolean makeCatDir = catalogDir.mkdir();
             if (!makeCatDir) {
                 LOGGER.error("Catalog directory not found: {}", catalogDir);
-                this.observationManager.createWarning(this.bundle.getString("catalogLoader.warning.noCatalogDir"));
+                this.uiHelper.showWarning(this.textManager.getString("catalogLoader.warning.noCatalogDir"));
                 return;
             }
         }

@@ -530,7 +530,7 @@ public class NewDocumentDialog extends JDialog implements ActionListener {
         }
 
         if (solvedDependencyProblem) {
-            this.om.createInfo(this.textManager.getString("dialog.newDoc.info.solvedDependencyProblem"));
+            this.om.getUiHelper().showInfo(this.textManager.getString("dialog.newDoc.info.solvedDependencyProblem"));
         }
 
         return true;

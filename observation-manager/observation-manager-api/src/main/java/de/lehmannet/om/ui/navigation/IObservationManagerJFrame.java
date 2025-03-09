@@ -7,11 +7,7 @@ import de.lehmannet.om.ui.util.Worker;
 public interface IObservationManagerJFrame {
 
     ISchemaElement getSelectedTableElement();
-
-    void createWarning(String message);
-
-    void createInfo(String message);
-
+    
     void createProgressDialog(Worker worker, String title, String loadingMessage);
 
     IConfiguration getConfiguration();

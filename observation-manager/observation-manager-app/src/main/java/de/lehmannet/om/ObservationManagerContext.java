@@ -7,6 +7,7 @@ import de.lehmannet.om.ui.util.IConfiguration;
 import de.lehmannet.om.util.DateManager;
 
 public final class ObservationManagerContext {
+   
 
     private final IConfiguration configuration;
     private final DateManager dateManager;
@@ -61,7 +62,7 @@ public final class ObservationManagerContext {
     }
 
     public static class Builder {
-
+        
         private IConfiguration configuration;
         private DateManager dateManager;
         private ImageResolver imageResolver;

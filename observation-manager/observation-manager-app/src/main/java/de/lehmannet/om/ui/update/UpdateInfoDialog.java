@@ -7,11 +7,12 @@
 
 package de.lehmannet.om.ui.update;
 
+import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
+import de.lehmannet.om.ui.i18n.TextManager;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.util.ConstraintsBuilder;
-import de.lehmannet.om.ui.util.LocaleToolsFactory;
 import de.lehmannet.om.ui.util.Worker;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,25 +39,27 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
     private static final long serialVersionUID = -6681965343558223755L;
 
-    private final ResourceBundle bundle =
-            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
-
-    private final JButton close = new JButton(this.bundle.getString("dialog.button.cancel"));
-    private final JButton download = new JButton(this.bundle.getString("updateInfo.button.download"));
+    private final JButton close;
+    private final JButton download;
     private JTable infoTable = null;
 
     private ObservationManager om = null;
     private List<UpdateEntry> updateEntries = null;
+    private final TextManager textManager;
 
-    public UpdateInfoDialog(ObservationManager om, UpdateChecker updateChecker) {
+    public UpdateInfoDialog(ObservationManagerContext context, ObservationManager om, UpdateChecker updateChecker) {
 
         super(om);
 
         this.om = om;
         this.updateEntries = updateChecker.getResult();
+        this.textManager = context.getTextManager();
 
-        this.setTitle(this.bundle.getString("updateInfo.title"));
-        this.setSize(UpdateInfoDialog.serialVersionUID, 390, 180);
+        this.close = new JButton(this.textManager.getString("dialog.button.cancel"));
+        this.download = new JButton(this.textManager.getString("updateInfo.button.download"));
+
+        this.setTitle(this.textManager.getString("updateInfo.title"));
+        this.setSize(serialVersionUID, 390, 180);
         this.setModal(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(om);
@@ -78,7 +81,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                 this.dispose();
             } else if (source.equals(this.download)) {
                 List<UpdateEntry> downloadList = ((UpdateTableModel) this.infoTable.getModel()).getSelected();
-                if ((downloadList != null) && !(downloadList.isEmpty())) {
+                if ((downloadList != null) && !downloadList.isEmpty()) {
 
                     // ---------- Where to save the files?
                     JFileChooser chooser = new JFileChooser();
@@ -93,10 +96,10 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
                         boolean result = this.downloadFiles(downloadList, directory);
 
                         if (result) {
-                            this.om.createInfo(this.bundle.getString("updateInfo.download.success"));
+                            this.om.getUiHelper().showInfo(this.textManager.getString("updateInfo.download.success"));
                             this.dispose();
                         } else {
-                            this.om.createWarning(this.bundle.getString("updateInfo.download.error"));
+                            this.om.getUiHelper().showWarning(this.textManager.getString("updateInfo.download.error"));
                         }
 
                     } else {
@@ -115,7 +118,7 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
         ConstraintsBuilder.buildConstraints(constraints, 0, 0, 2, 5, 20, 98);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-        this.infoTable = new JTable(new UpdateTableModel(this.updateEntries, this.download));
+        this.infoTable = new JTable(new UpdateTableModel(this.updateEntries, this.download, this.textManager));
         this.infoTable.setRowSelectionAllowed(false);
         this.infoTable.setDefaultRenderer(String.class, (table, value, isSelected, hasFocus, row, column) -> {
             DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
@@ -158,8 +161,8 @@ public class UpdateInfoDialog extends OMDialog implements ActionListener {
 
         new ProgressDialog(
                 this.om,
-                this.bundle.getString("updateInfo.downloadProgress.title"),
-                this.bundle.getString("updateInfo.downloadProgress.information"),
+                this.textManager.getString("updateInfo.downloadProgress.title"),
+                this.textManager.getString("updateInfo.downloadProgress.information"),
                 downloadTask);
 
         return downloadTask.getReturnType() == Worker.RETURN_TYPE_OK;
@@ -245,17 +248,17 @@ class UpdateTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 3059700226953902438L;
 
-    private final ResourceBundle bundle =
-            LocaleToolsFactory.appInstance().getBundle("ObservationManager", Locale.getDefault());
+    private final TextManager textManager;
 
     private List<UpdateEntry> updateEntries = null;
     private boolean[] checkBoxes = null;
     private JButton download = null;
     private int activeCounter = 0;
 
-    public UpdateTableModel(List<UpdateEntry> updateEntries, JButton download) {
+    public UpdateTableModel(List<UpdateEntry> updateEntries, JButton download, TextManager textManager) {
 
         this.updateEntries = updateEntries;
+        this.textManager = textManager;
 
         // Initialize checkboxes
         this.checkBoxes = new boolean[this.updateEntries.size()];
@@ -274,7 +277,7 @@ class UpdateTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
 
-        if ((this.updateEntries == null) || (this.updateEntries.isEmpty())) {
+        if ((this.updateEntries == null) || this.updateEntries.isEmpty()) {
             return 5;
         }
 
@@ -322,9 +325,10 @@ class UpdateTableModel extends AbstractTableModel {
             case 3: {
                 return "" + ((UpdateEntry) this.updateEntries.get(rowIndex)).getNewVersion();
             }
+            default:
+                return "";
         }
-
-        return "";
+       
     }
 
     @Override
@@ -354,19 +358,23 @@ class UpdateTableModel extends AbstractTableModel {
 
         switch (column) {
             case 0: {
-                name = this.bundle.getString("updateInfo.column.download");
+                name = this.textManager.getString("updateInfo.column.download");
                 break;
             }
             case 1: {
-                name = this.bundle.getString("updateInfo.column.name");
+                name = this.textManager.getString("updateInfo.column.name");
                 break;
             }
             case 2: {
-                name = this.bundle.getString("updateInfo.column.oldVersion");
+                name = this.textManager.getString("updateInfo.column.oldVersion");
                 break;
             }
             case 3: {
-                name = this.bundle.getString("updateInfo.column.newVersion");
+                name = this.textManager.getString("updateInfo.column.newVersion");
+                break;
+            }
+            default: {
+                name = "";
                 break;
             }
         }
