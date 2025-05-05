@@ -66,10 +66,9 @@ public abstract class OMDialog extends JDialog {
         LOGGER.debug(
                 "Closing dialog {} with size: {},{}", this.getClass().getName(), this.getWidth(), this.getHeight());
 
-        
-        // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size                
+        // if (this.dialogID != -1) { // Check if child unique ID is known -> required for saving dialog size
         //     this.observationManager.getContext().setConfig(OMDialog.DIALOG_SIZE_KEY + this.dialogID,
-        //          size.width + "x" + size.height);        
+        //          size.width + "x" + size.height);
         // }
 
     }

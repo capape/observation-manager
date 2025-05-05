@@ -11,10 +11,8 @@ import de.lehmannet.om.ITarget;
 import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.extension.IExtension;
 import de.lehmannet.om.ui.i18n.TextManager;
-import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.UserInterfaceHelper;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +27,6 @@ import org.slf4j.LoggerFactory;
 public class CatalogLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CatalogLoader.class);
-
-    
 
     private static final String CATALOG_DIR = "catalog";
 
@@ -49,7 +45,6 @@ public class CatalogLoader {
 
     public CatalogLoader(ObservationManagerContext context, UserInterfaceHelper uiHelper, List<IExtension> extensions) {
 
-        
         this.uiHelper = uiHelper;
         this.installDir = context.getInstallDir();
         this.textManager = context.getTextManager();

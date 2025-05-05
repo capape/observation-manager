@@ -1,6 +1,5 @@
 package de.lehmannet.om.ui.util;
 
-import de.lehmannet.om.ObservationManagerContext;
 import de.lehmannet.om.ui.dialog.OMDialog;
 import de.lehmannet.om.ui.dialog.ProgressDialog;
 import de.lehmannet.om.ui.i18n.TextManager;

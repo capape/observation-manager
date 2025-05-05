@@ -106,7 +106,6 @@ public class TableView extends JPanel {
         this.model = omModel;
         this.context = context;
         this.cache = cache;
-       
 
         this.abstractSchemaTableModel = new ObservationTableModel(null, this.observationManager);
         this.sorter = new TableSorter(null);

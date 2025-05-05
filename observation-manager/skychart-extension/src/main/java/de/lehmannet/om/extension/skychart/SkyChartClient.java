@@ -201,9 +201,8 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                 // cancel here.
             } else if (response) {
                 // Inform user
-                this.uiHelper
-                    .showInfo(this.bundle.getString("skychart.move.ok")
-                                + observation.getTarget().getDisplayName());
+                this.uiHelper.showInfo(this.bundle.getString("skychart.move.ok")
+                        + observation.getTarget().getDisplayName());
             } else {
                 // Inform user
                 this.uiHelper.showInfo(this.bundle.getString("skychart.move.failed"));
@@ -426,10 +425,12 @@ public class SkyChartClient extends AbstractExtension implements ActionListener 
                             // startup
 
                         } catch (IOException ioe) {
-                            uiHelper.showWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
+                            uiHelper.showWarning(
+                                    SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
                             LOGGER.error("Unable to start Skychart application ({})", applicationPath, ioe);
                         } catch (Exception e) {
-                            uiHelper.showWarning(SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
+                            uiHelper.showWarning(
+                                    SkyChartClient.this.bundle.getString("skychart.application.start.failed"));
                             LOGGER.error("Failed to start Skychart application ({})", applicationPath, e.toString());
                         }
                     }

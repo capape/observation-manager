@@ -328,7 +328,6 @@ class UpdateTableModel extends AbstractTableModel {
             default:
                 return "";
         }
-       
     }
 
     @Override

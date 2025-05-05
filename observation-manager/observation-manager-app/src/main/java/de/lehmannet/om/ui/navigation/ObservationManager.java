@@ -494,8 +494,7 @@ public final class ObservationManager extends JFrame implements IObservationMana
 
         return this.vSplitPane;
     }
-    
-    
+
     public IConfiguration getConfiguration() {
 
         return this.context.getConfiguration();

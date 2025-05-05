@@ -68,9 +68,9 @@ class PopupMenuHandler implements ActionListener {
     private JMenuItem createXML = null;
 
     // In case of create, this indicates which type of SchemaElement needs to be created
-    private SchemaElementConstants createType = SchemaElementConstants.NONE; 
-    
-    private final ObservationManagerModel model;    
+    private SchemaElementConstants createType = SchemaElementConstants.NONE;
+
+    private final ObservationManagerModel model;
     private final UIDataCache cache;
     private final ObservationManagerContext context;
 
