@@ -8,9 +8,8 @@
     </description>
 
 
-  <!--  <rule ref="category/java/bestpractices.xml/AvoidUsingHardCodedIP" /> -->
-  <!--  <rule ref="category/java/design.xml/CyclomaticComplexity"/> -->
-  <!--  <rule ref="category/java/design.xml/ExcessiveClassLength"/> -->
-    <rule ref="category/java/design.xml/ExcessiveMethodLength"/> 
-  <!--  <rule ref="category/java/design.xml/GodClass"/> -->
+
+    <rule ref="category/java/bestpractices.xml" />
+    <rule ref="category/java/design.xml"/>
+  
 </ruleset>
