@@ -39,23 +39,23 @@
 
         <!-- dependency versions -->
         <commons.lang3.version>3.17.0</commons.lang3.version>
-        <commons.text.version>1.13.0</commons.text.version>
+        <commons.text.version>1.13.1</commons.text.version>
 
-        <checkstyle.version>10.21.2</checkstyle.version>
+        <checkstyle.version>10.23.1</checkstyle.version>
         <checkstyle-rules.version>7.0.1</checkstyle-rules.version>
 
         <disruptor.version>4.0.0</disruptor.version>
         <junit.version>5.12.0</junit.version>
         <log4j2.version>2.20.0</log4j2.version>
-        <mockito.version>5.15.2</mockito.version>
+        <mockito.version>5.17.0</mockito.version>
 
         <!-- maven plugin versions -->
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
         <maven-formatter-plugin.version>2.24.1</maven-formatter-plugin.version>
-        <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
+        <maven-jacoco-plugin.version>0.8.13</maven-jacoco-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
@@ -63,8 +63,8 @@
         <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
         <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
         <maven-spotbugs-plugin.version>4.0.0</maven-spotbugs-plugin.version>
-        <maven-spotless-plugin.version>2.44.3</maven-spotless-plugin.version>
-        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <maven-spotless-plugin.version>2.44.4</maven-spotless-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
 
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm </maven.build.timestamp.format>
@@ -300,7 +300,7 @@
                             <configuration>
                                 <rules>
                                     <requireMavenVersion>
-                                        <version>&gt;=3.6.3</version>
+                                        <version>[3.6.3,)</version>
                                     </requireMavenVersion>
                                 </rules>
                             </configuration>
