@@ -1,15 +1,5 @@
 package de.lehmannet.om.ui.extension;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-
-import org.w3c.dom.Element;
-
 import de.lehmannet.om.IFinding;
 import de.lehmannet.om.IObservation;
 import de.lehmannet.om.ISchemaElement;
@@ -23,13 +13,19 @@ import de.lehmannet.om.ui.panel.AbstractPanel;
 import de.lehmannet.om.ui.panel.IPanel;
 import de.lehmannet.om.ui.preferences.PreferencesPanel;
 import de.lehmannet.om.util.SchemaElementConstants;
+import java.io.File;
+import java.net.URL;
+import java.util.Optional;
+import java.util.Set;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import org.w3c.dom.Element;
 
 public class TestExtension implements IExtension {
 
     private final String name;
     private final String version;
     private final ICatalog[] catalogs;
-
 
     public TestExtension(String name, String version, ICatalog[] catalogs) {
         this.name = name;
@@ -61,7 +57,7 @@ public class TestExtension implements IExtension {
     public PreferencesPanel getPreferencesPanel() {
         return null; // Mock implementation
     }
-    
+
     @Override
     public Set<String> getAllSupportedXSITypes() {
         return Set.of(); // Mock implementation
@@ -92,7 +88,6 @@ public class TestExtension implements IExtension {
         return Optional.empty(); // Mock implementation
     }
 
-    
     @Override
     public Set<String> getSupportedXSITypes(SchemaElementConstants schemaElementConstant) {
         // TODO Auto-generated method stub
@@ -106,22 +101,22 @@ public class TestExtension implements IExtension {
     }
 
     @Override
-    public AbstractPanel getFindingPanelForXSIType(String xsiType, IFinding finding, ISession session, ITarget target,
-            boolean editable) {
+    public AbstractPanel getFindingPanelForXSIType(
+            String xsiType, IFinding finding, ISession session, ITarget target, boolean editable) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getFindingPanelForXSIType'");
     }
 
     @Override
-    public AbstractPanel getTargetPanelForXSIType(String xsiType, ITarget target, IObservation observation,
-            boolean editable) {
+    public AbstractPanel getTargetPanelForXSIType(
+            String xsiType, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getTargetPanelForXSIType'");
     }
 
     @Override
-    public ITargetDialog getTargetDialogForXSIType(String xsiType, JFrame parent, ITarget target,
-            IObservation observation, boolean editable) {
+    public ITargetDialog getTargetDialogForXSIType(
+            String xsiType, JFrame parent, ITarget target, IObservation observation, boolean editable) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getTargetDialogForXSIType'");
     }
@@ -148,6 +143,5 @@ public class TestExtension implements IExtension {
     public Set<SchemaOalTypeInfo> getExtensionTypes() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getExtensionTypes'");
-    }   
-    
+    }
 }

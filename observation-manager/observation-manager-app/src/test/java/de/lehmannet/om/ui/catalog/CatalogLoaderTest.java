@@ -8,39 +8,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import de.lehmannet.om.ITarget;
 import de.lehmannet.om.TestTarget;
 import de.lehmannet.om.ui.extension.TestExtension;
 import de.lehmannet.om.ui.navigation.ObservationManager;
 import de.lehmannet.om.ui.navigation.observation.utils.InstallDir;
 import de.lehmannet.om.ui.util.IConfiguration;
-
-
-
+import java.io.File;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 class CatalogLoaderTest {
 
     @Mock
     private ObservationManager observationManager;
-    
-    @Mock     
+
+    @Mock
     private IConfiguration configuration;
 
-    @Mock 
+    @Mock
     private InstallDir installDir;
 
     @Mock
     private ICatalog catalog;
-
 
     @Mock
     private IListableCatalog listableCatalog;
@@ -60,14 +54,13 @@ class CatalogLoaderTest {
         when(catalog.getAbbreviation()).thenReturn("TC");
         when(catalog.getTarget("TestTarget")).thenReturn(new TestTarget("TestTarget", "TestDatasource"));
         when(catalog.getSearchPanel()).thenReturn(null);
-      
+
         when(listableCatalog.getName()).thenReturn("TestListableCatalog");
         when(listableCatalog.getAbbreviation()).thenReturn("TLC");
         when(listableCatalog.getTarget("TestTarget")).thenReturn(new TestTarget("TestTarget", "TestDatasource"));
         when(listableCatalog.getSearchPanel()).thenReturn(null);
-      
 
-        var extension = new TestExtension("TestExtension1", "1.0.0", new ICatalog[]{catalog, listableCatalog});
+        var extension = new TestExtension("TestExtension1", "1.0.0", new ICatalog[] {catalog, listableCatalog});
         catalogLoader = new CatalogLoader(observationManager, List.of(extension));
     }
 
@@ -81,7 +74,7 @@ class CatalogLoaderTest {
     @Test
     void testGetCatalogNames_WithCatalogs() {
         String[] names = catalogLoader.getCatalogNames();
-        
+
         assertEquals(2, names.length);
         assertTrue(List.of(names).contains("TestCatalog"));
         assertTrue(List.of(names).contains("TestListableCatalog"));
@@ -90,17 +83,16 @@ class CatalogLoaderTest {
     @Test
     void testGetListableCatalogNames() {
         String[] names = catalogLoader.getListableCatalogNames();
-        
+
         assertEquals(1, names.length);
         assertTrue(List.of(names).contains("TestListableCatalog"));
-
     }
 
     @Test
     void testGetTarget_ExistingCatalog() {
-       
+
         ITarget result = catalogLoader.getTarget("TestCatalog", "TestTarget");
-        
+
         assertSame("TestTarget", result.getName());
     }
 
@@ -112,42 +104,37 @@ class CatalogLoaderTest {
 
     @Test
     void testGetCatalog_ByAbbreviation() {
-        
+
         ICatalog result = catalogLoader.getCatalog("TC");
-        
+
         assertSame("TC", result.getAbbreviation());
     }
 
     @Test
     void testIsFromCatalog_ExistingTarget() {
-        
+
         boolean result = catalogLoader.isFromCatalog("TestTarget");
-        
+
         assertTrue(result);
     }
 
     @Test
     void testIsFromCatalog_NonExistingTarget() {
         boolean result = catalogLoader.isFromCatalog("nonexisting");
-        
+
         assertFalse(result);
     }
-    
+
     @Test
     void testLoadCatalogues_VersionHandling() {
 
-        var extensionVersion2 = new TestExtension("TestExt", "2.0.0", new ICatalog[]{catalog});
-        var extensionVersion1 = new TestExtension("TestExt", "1.0.0", new ICatalog[]{catalog});        
-        
-        
+        var extensionVersion2 = new TestExtension("TestExt", "2.0.0", new ICatalog[] {catalog});
+        var extensionVersion1 = new TestExtension("TestExt", "1.0.0", new ICatalog[] {catalog});
+
         // First load with version 2.0.0
         catalogLoader = new CatalogLoader(observationManager, List.of(extensionVersion1, extensionVersion2));
         String[] names = catalogLoader.getCatalogNames();
         assertEquals(1, names.length);
         assertEquals("TestCatalog", names[0]);
-        
-        
     }
 }
-
- 
