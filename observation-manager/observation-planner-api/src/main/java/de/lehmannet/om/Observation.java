@@ -1420,6 +1420,10 @@ public class Observation extends SchemaElement implements IObservation, Cloneabl
 
     private void fixSessionDatesOnLoad(ISession session) {
 
+        if (session==null) {
+            LOGGER.warn("Trying to fix dates without session");
+            return;
+        }
         OffsetDateTime sessionStart = session.getBegin();
         OffsetDateTime sessionEnd = session.getEnd();
 
