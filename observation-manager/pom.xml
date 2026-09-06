@@ -46,7 +46,7 @@
 
         <disruptor.version>4.0.0</disruptor.version>
         <junit.version>6.1.1</junit.version>
-        <log4j2.version>2.25.4</log4j2.version>
+        <log4j2.version>2.25.5</log4j2.version>
         <mockito.version>5.23.0</mockito.version>
 
         <!-- maven plugin versions -->
